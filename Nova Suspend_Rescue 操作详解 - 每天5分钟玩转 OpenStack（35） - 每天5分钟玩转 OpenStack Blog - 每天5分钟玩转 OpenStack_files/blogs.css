@@ -1,0 +1,628 @@
+h2.min-blogtitle {
+font-size:24px !important;
+color:#000000 !important;
+}
+.lotusui30 .lotusPlaceBar .lotusInner .min-lotusInner {
+border-bottom:none;
+}
+.min-allposts {
+font-size:14px;
+float:left;
+color:#000000;
+font-family:Arial,Helvetica Neue,Helvetica,sans-serif;
+font-weight:bold;
+}
+.min-sortlinks {
+float:right;
+font-family:Georgia,Arial,sans-serif !important;
+font-weight:bold;
+font-size:12px;
+font-style:italic;
+}
+div.min-entry-title {
+font-size:24px !important;
+font-weight:normal;
+}
+.min-entry-title {
+font-size:24px !important;
+font-weight:normal;
+}
+.min-name {
+font-family:Georgia,Arial,san-serif;
+font-style: italic;
+}
+div.min-black-rule {
+border-top: 2px solid black;
+}
+span.cnxnsType.lotusMeta {
+font-size:11px;
+font-weight:normal;
+padding-left:5px;
+}
+.blog .entryContentContainer {
+margin-top: 5px !important;
+max-width: 600px !important;
+}
+.lotusui30 pre code.jive-code {
+white-space: pre-wrap !important;
+max-width: 600px !important;
+overflow:hidden !important;
+}
+.lotusui30 pre  {
+white-space: pre-wrap !important;
+max-width: 600px !important;
+overflow:hidden !important;
+}
+.lotusui30 img {
+max-width:100%; max-height:100%;
+}
+.lotusui30 div.Section0 span {
+word-wrap: break-word !important;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+.lotusui30 .lotusTable td p:first-child, .lotusui30 p.lotusFirst {
+padding-top: 0px !important;display:block !important;
+}
+}
+@-moz-document url-prefix() {
+div.entryContentContainer p:first-child  {
+padding-top: 0px !important;display:block !important;
+}
+}
+.lotusui30 .lotusPlaceBar .lotusInlinelist li {
+box-shadow: 0 0 0 #fbfbfb inset;
+}
+.lotusui30 .lotusPlaceBar .lotusBtn {
+background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+border-width: 0px;
+}
+.lotusui30 .lotusPlaceBar .lotusBtn:hover, .lotusui30 .lotusPlaceBar .lotusBtn:focus, .lotusui30 .lotusPlaceBar .lotusBtn:active {
+background: none;
+}
+.lotusui30 a.lotusF1 {
+color: #1970b0;
+}
+.lotusui30 a.lotusF1:visited {
+color: #008abf;
+}
+.lotusui30 a.lotusF1:hover, .lotusui30 a.lotusF1:focus, .lotusui30 a.lotusF1:active {
+color: #05386b;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+.dw-mast-col-2-1 ul.jp {
+margin-left: 0px !important;
+}
+}
+@-moz-document url-prefix() {
+.dw-mast-col-2-1 ul.jp {
+margin-left: 0px !important;
+}
+}
+.dijitPopup {
+width:auto;
+}
+.lotusTags.lotusTiny.lotusMeta span a.blogsRemoveIcon {
+display:inline-block;
+height:8px !important;
+width:8px !important;
+}
+.lotusui30 img.lotusDelete {
+height: 8px !important;
+width: 8px !important;
+}
+.lotusColLeft #shareThisWidget , .lotusColLeft #sharethis_0 , .lotusColLeft .addthis_toolbox{
+margin-left:20px;
+}
+.lotusColLeft #shareThisWidget  #sharethis_0{
+margin-left:0px;
+}
+#lotusContent #videoBar-bar {
+width:430px;
+}
+#ietran_top_banner {
+position:fixed !important;
+z-index:10000 !important;
+bottom:0px;
+}
+.lotusMenuSubsection li a {
+display:inline-block;
+width:220px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.blog .blogPaging h4{font-weight:normal;font-size:.9em;background-color:#f3f3f3;border:1px solid #e0e0e0;padding:1px 15px;margin-bottom:0;text-align:left;}
+.blog .blogPaging .disabled {color:#666;}
+#lotusColRight .lotusSection {overflow:hidden;}
+table.lotusHeader {width:100%;}
+.comments-head {font-weight:normal;font-size:1.1em;background-color:#f3f3f3;border:1px solid #e0e0e0;padding:3px 14px;margin-bottom:7px;text-align:left;}
+span.commentLogin {display:block;padding-left:15px;}
+.comments-form {margin:0;}
+.comment-details {margin-bottom:25px;}
+.comment-details-head {display:block;border-bottom:1px solid #e0e0e0;margin-bottom:5px;padding-left:4px;}
+.comment-details-head .action {font-size:0.9em;}
+.comment-count {padding:1px 2px;margin-right:4px;}
+.comment-count-author {color:#fff;background-color:#43a0f6;padding:1px 4px;margin-right:4px;}
+.lotusImagesOff .comment-count-author{border: 1px solid }
+.comment-content {padding:0 4px;display:block;}
+div.yourWeblogBox{border-top: 1px solid #DBDBDB; margin: 5px }
+.admin .actions{margin:0;}
+.admin .actions ul li {
+font: normal 1.1em/2.8em Helvetica, Arial, Verdana, sans-serif;
+border-left-width:0;
+background: transparent url("/developerworks/community/connections/resources/web/../roller-ui/images/menuBarDivider.gif?etag=20150310.220517") 0 center no-repeat;
+padding:0 8px;
+}
+.admin .actions ul.inlinelist li.first{background:transparent}
+.admin .actions a {padding:2px;}
+.admin a.menuItemSelected{font-weight:bold;}
+.calendar, .hCalendarTable{}
+.calendar caption, .hCalendarMonthYearRow{font-weight:bold;font-size:1.1em;text-align:center;padding:2px 2px 11px 2px}
+.calendar th, .hCalendarTable th{ text-align:right;font-weight:normal;padding:2px 2px 2px 14px}
+.calendar td, .hCalendarTable td{text-align:right;padding-bottom:2px}
+.calendar td a, .hCalendarTable td a{color:#000;padding:1px}
+.calendar td a:hover, .hCalendarTable td a:hover, .calendar td.today a:hover, .hCalendarTable td.today a:hover{color:#fff;border:1px solid #0063dc;background-color:#0063dc}
+.calendar td.today a, .hCalendarTable td.today a{background-color:#dceafd;border:1px solid #dceafd;color:#0063dc;}
+.calendar td.selected a, .calendar td.selected a:visited, td.hCalendarDayCurrent a, td.hCalendarDayCurrent a:visited, td.hCalendarDayLinked a, td.hCalendarDayLinked a:hover{background-color:#dceafd;color:#000;border:1px solid #0063dc;padding-right:2px;margin-right:-1px;}
+.calendar tfoot td, .hCalendarNextPrev td{text-align:center;font-size:.9em;color:#333;padding-top:9px}
+.calendar tfoot td a, .hCalendarNextPrev td a{color:#0063dc}
+.calendar a, .hCalendarTable a{text-decoration:none;}
+.calendar .arrow{background-position:left center;background-repeat:no-repeat;}
+.calendar .arrow img{height:16px;width:16px}
+.calendar #next{background-image:url("/developerworks/community/connections/resources/web/../roller-ui/images/calNext.gif?etag=20150310.220517")}
+.calendar #prev{background-image:url("/developerworks/community/connections/resources/web/../roller-ui/images/calPrevious.gif?etag=20150310.220517")}
+.calendar #next:hover{background-color:transparent;background-image:url("/developerworks/community/connections/resources/web/../roller-ui/images/calNextHover.gif?etag=20150310.220517")}
+.calendar #prev:hover{background-color:transparent;background-image:url("/developerworks/community/connections/resources/web/../roller-ui/images/calPreviousHover.gif?etag=20150310.220517")}
+.calendarContainer {font-size:1.4em;}
+.selectedYear {color:#105cb6 !important;}
+.previousYear, .nextYear {color:#fff !important;}
+table.rollertable th, table.rollertable th {background: #F4F5F6;text-align:left;padding: 3px;border: 1px solid #dbdbdb;border-bottom:0;}
+table.rollertable td, table.rollertable tbody td {border: 1px solid #dbdbdb;}
+table.rollertable {border-collapse: collapse; width: 100%;}
+table.rollertable td, table.rollertable tbody td {vertical-align: top;}
+table.rollertable tbody td {padding: 3px;}
+table.rollertable td.center {text-align: center;}
+table.rollertable td.details {word-wrap:break-word;}
+/ *#frame #colRight {width:250px;}*/
+#colRight .list li {margin:2px 1px;}
+div.menu-tl {margin: 0px;padding: 0px;height: 100%;width: 100%;vertical-align: middle;display: table;}
+div.menu-tr {margin: 0px;padding: 0px;height: 100%;width: 100%;}
+td.pendingentry, tr.pendingentry {background: #ffffcc !important;}
+td.draftentry, tr.draftentry {background: #ffcccc !important;}
+td.needsapprovalentry, tr.needsapprovalentry {background: #ccccff !important;}
+.draftEntryBox {background: #ffcccc !important;border: 1px grey solid;}
+.pendingEntryBox {background: #ffffcc !important;border: 1px grey solid;}
+.needsApprovalEntryBox {background: #ccccff !important;border: 1px grey solid;}
+.formtable, .formtableNoDesc {border-collapse: collapse; }
+.formtable td.label, .formtable td.field, .formtable td.description,
+.formtableNoDesc td.label, .formtableNoDesc td.field, .formtableNoDesc  {vertical-align: top;border-style: solid;border-width: 0px 0px 1px 0px;border-color: #dbdbdb;padding: 4px 10px 4px 10px;}
+.formtable td.label {text-align: right;width: 20%;}
+.formtable td.field {width: 30%;}
+.formtable td.description {width: 50%;line-height: 140%;}
+.formtableNoDesc td.label {text-align: right;width: 40%;}
+.formtableNoDesc td.field {width: 40%;}
+.formtableNoDesc td.description {width: 0%;}
+div.autocomplete {position:absolute;width:250px;background-color:white;border:1px solid #888;margin:0px;padding:0px;}
+div.autocomplete ul {list-style-type:none;margin:0px;padding:0px;}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {list-style-type:none;display:block;margin:0;padding:2px;cursor:pointer;}
+p.toplabel {margin:10px 0 0 0;}
+.tablenav {margin:0;padding:0;}
+.mm_subtable_label {padding-right:25px;}
+.mm_weblog_name {font-size:1.2em;font-weight:bold;color:#AA399A;}
+.mm_weblog_name img {vertical-align:top;padding-bottom:5px;}
+.mm_table_actions img {margin:2px;}
+.miscControl {padding-top:5px;}
+a.controlToggle {cursor:pointer;font-weight:bold;}
+.entryEditTable td {padding:1px 10px 1px 0;}
+.entryActions {padding:3px 5px}
+#searchAgain {border-bottom:1px solid #e0e0e0;padding:5px 0px 5px 3px;}
+#searchAgain h2 {font-weight:normal;}
+#searchAgain input {padding-left:-2px;}
+div.messages, div.errors {background-color:#FEF89A;padding:7px 5px 5px 5px;border:1px solid #e0e0e0;margin-bottom:5px;}
+.messages img {vertical-align:top;}
+.entryField { width: 90% }
+.tabSection .tabContainer{border-bottom-width:0;margin:5px 5px 0 5px}
+.tabSection .tabcontent{margin-top:0;z-index:-100;-moz-border-radius:0 2px 2px 2px; }
+div.auto_complete {
+background: #fff;
+position: absolute;
+z-index: 100;
+border:1px solid #888;
+}
+* html div.auto_complete {  }
+div.auto_complete ul {
+border:1px solid #888;
+margin:0;
+padding:0;
+width:100%;
+list-style-type:none;
+display: block;
+}
+div.auto_complete ul li {
+margin:0;
+padding:1px;
+white-space: nowrap;
+display: block;
+}
+div.auto_complete ul li.selected {
+background-color: #ffb;
+}
+div.auto_complete ul strong.highlight {
+color: #800;
+margin:0;
+padding:0;
+}
+#memberAddDialog {
+background-color: white;
+border: 1px solid gray;
+width: 35em;
+height: auto;
+padding: 0 10px 10px 10px;
+}
+#memberAddDialog .tabcontent,  #memberAddDialog .tabContainer { margin: 0; }
+#memberAddDialog .section {background-color:#fff;}
+#memberAddDialog .tabs a, #memberAddDialog .tabs a:visited {margin-bottom:-6px;}
+#memberAddDialog .tabPanes {
+margin: 0;
+padding: 0;
+width: 100%;
+height: 100%;
+}
+#memberAddDialog .submitArea, #publicMemberAddDialog .submitArea { margin-top: 5px; }
+#memberAddDialog form, #publicMemberAddDialog form { padding: 0; margin: 0; }
+#memberAddDialog form ul {border:0 !important; background-color:#fff !important;}
+#memberAddDialog .tabPanes p span { font-weight: bold; }
+#memberAddDialog .tabPanes input { width: 100%; }
+.popup {position: absolute;top: -9999px;z-index: 200;background-color: #fff;width: 20em;float: none;text-align: left;}
+div.dogearlink {margin-bottom:5px;}
+.dogearlink a, .dogearlink a:focus, .dogearlink a:active, .dogearlink a:hover {text-decoration:underline;}
+.dogearlink img, .dogearperson, .dogeartags {display:none;}
+#header .hidden { position: absolute; top: -9000px; left: -9000px; }
+.RichTextEditable #EditorToolbarTable td {vertical-align:middle}
+p.loose {margin-top: 10px; margin-bottom: 10px;}
+h2.loose {margin-top: 12px; margin-bottom: 12px;}
+table.loose td {padding: 5px;}
+iframe.preview {border: 2px inset;}
+td.mm_table_actions {vertical-align:middle}
+#cache_stat_tlb{border-style: outset;  border-width:1px; border-color:#d4d0c8}
+#cache_stat_tlb th{border-style: inset; border-width:1px; border-color:#d4d0c8; text-align:center; font-weight:bold}
+#cache_stat_tlb td{border-style: inset; border-width:1px; border-color:#d4d0c8}
+.tabSection .tabContainer{border-bottom-width:0;margin:5px 5px 0 10px}
+.tabSection .tabcontent{margin-top:0;z-index:-100;-moz-border-radius:0 7px 7px 7px; }
+.tabContainer{position:relative;height:3em;border-bottom:1px solid #e0e0e0; z-index: 1;}
+.tagCloud ul{margin:0;padding:0}
+.tagCloud li{display:inline}
+.tagCloud a{text-decoration:none;font-weight:bold}
+.tagCloud a:hover, .tagCloud a:focus{color:#05386b;text-decoration:underline;}
+a.f5, a.f5:visited { font-size: 115%; color: #1c3052}
+a.f4, a.f4:visited { font-size: 108%; color: #2b588e}
+a.f3, a.f3:visited { font-size: 100%; color: #4477bb}
+a.f2, a.f2:visited { font-size: 95%; color: #649cd8}
+a.f1, a.f1:visited { font-size: 90%; color: #8bbce8}
+#tagSliderTrack {float:left;width:76px;background-image: url("/developerworks/community/connections/resources/web/../roller-ui/images/sliderTrack.gif?etag=20150310.220517");background-repeat: repeat-x;background-position: center left;height:17px;}
+#tagSliderGradient .less {float:left;padding-right:4px;padding-left:8px;padding-bottom: 1px;}
+#tagSliderGradient .more {float:left;padding-left:1px;padding-bottom: 1px;padding-right:8px;}
+#tagSliderGradient {width:171px;color: black;font-family: Arial, Helvetica, Verdana, sans-serif;height:18px;}
+#tagSliderHandle {padding-top:3px;width:5px;height:10px;cursor:hand;cursor:pointer;}
+.ratingPopup {background-color:#E0E8F8;padding:7px;}
+.ratingPopup h3{margin-bottom:3px;}
+.ratingPopup textarea{color:#7098C0;background-color:#fff;font-family:Arial, Helvetica, sans-serif;font-size:1.0em; size:auto;}
+.ratingPopup {border:1px solid #649DE0;}
+.entry_moreactions_menu {margin-top:12px;background-color:#F0F0F0;padding:3px 10px 3px 10px;border:1px solid #649DE0;z-index:200;position:absolute;left:-9999px;float:none;}
+.disabledLink, a.disabledLink:hover, a.disabledLink:focus {color:#666 !important;text-decoration:none;}
+.table tr#detail-open td {border-top-width:0px}
+.inlinelist li.last, .lotusInlinelist li.lotusLast {border-left-style:solid; border-left-width:1px; padding-left: 6px}
+.paging .inlinelist li.last {padding-left: 6px}
+.tagStatDetailPopup{border:1px solid #649DE0;padding:5px;width:auto;margin-top:10px}
+.lotusActionMenu li.lotusSelected a{background-color:#CFECFF;}
+#lotusFooter, .lotusFooter {overflow:visible;}
+.typeAheadHome {padding:2px!important;width:11em!important;}
+.typeAheadEntry {padding:2px!important;width:32em!important;}
+.typeAheadBlog {padding:0 1px !important;width:99%;}
+.lotusui_ie .typeAheadBlog {width: expression(this.parentNode.offsetWidth*0.99)!important;}
+.typeAheadTagFilter {padding:2px!important;width:10em!important;height:18px;}
+.typeAheadAuthor {padding:2px!important;width:24em!important;}
+.completedIcon        { background: transparent url("/developerworks/community/connections/resources/web/../roller-ui/images/checkmark.gif?etag=20150310.220517") no-repeat scroll center left; }
+.lotusBlue .dropDownButtonSearchScope button { padding:3px 0; margin:0px; border:0px; background: transparent url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/base/applications/images/btnSpecialBkgd.png?etag=20150310.220517") repeat-x center; }
+.lotusBlue .dropDownButtonSearchScope { padding:0px; margin:0px; border:0px;     border: 1px solid #86b8f3;  }
+.lotusBlue .dropDownButtonSearchScope button .dijitButtonText { display:none; border:0px; margin:0px; padding:0px; }
+.lotusBlue .dropDownButtonSearchScope button .dijitA11yDownArrow { color:#FFFFFF; padding:0px; margin:0px; border:0px; font-size:.7em;}
+.lotusSearch .lotusSearchButton{border-color:#2f76b9;}
+.lotusSearch .lotusSearchButton:hover, .lotusSearch .lotusSearchButton:focus{border-color:#10395f;}
+.lotusSearch .lotusText{border-color:#5581b7;}
+#lotusMain .lotusSearch .lotusText, .lotusMain .lotusSearch .lotusText{border-color:#a7a9bb;}
+.lotusSearch .lotusInactive{color:#666}
+.lotusSearch a:hover, .lotusSearch a:focus{background-color:transparent}
+.dijitMenu {margin-left:0px;}
+.lotusViewControl td {vertical-align:top}
+.tabbedpage #lotusMain {background-image:none}
+.simplepage #lotusMain {background-image:none}
+.mainmenupage #lotusMain {background-image:none}
+#previewArea blockquote{margin: 1em 40px!important;}
+.entryContentContainer blockquote{margin: 1em 40px!important;}
+#previewArea {width:100%;overflow-x:auto;overflow-y:visible;}
+.entryContentContainer{width:100%;overflow-x:auto;overflow-y:visible;}
+html.* #previewArea {display:inline-block;width:100%;}
+html.* .entryContentContainer{display:inline-block;width:100%;}
+.entryContentContainer ol, .entryContentContainer ul {padding-left:40px;margin:0pt;}
+#previewArea ol, #previewArea ul {padding-left:40px;margin:0pt;}
+.entryContentContainer sub, #previewArea sub {font-size:smaller;line-height:normal;vertical-align:sub;}
+.entryContentContainer sup, #previewArea sup {font-size:smaller;line-height:normal;vertical-align:super;}
+.blog #frame #content {padding: 15px 10px 20px 13px;}
+.entry p{margin:5px 0 0 0px}
+.entry ul.actions{margin: 5px 0 0 0px;}
+#footer {margin-left:30px;}
+.blog #colLeft .tabContainer, .blog #colLeft .tabSection {padding-top:0;margin-top:0;}
+.blog #colLeft .list {margin-left:10px;}
+.blog #frame #colRight {padding-left:10px;}
+.blog .tagCloud {padding:5px;overflow:hidden;}
+.blog .entryBody {margin:0 0 0 14px;}
+.blog .indent7 {padding-left:7px;}
+.blog .indent12 {padding-left:12px;}
+.blog .header img {padding-top:5px;}
+.blog .pivotForm {padding-left:5px;}
+.blog .infoText {color:#666;font-size:.9em;}
+#frame .comments-head {font-weight:normal;font-size:1.1em;background-color:#f3f3f3;border:1px solid #e0e0e0;border-top:0;padding:3px 14px;margin-bottom:0;text-align:left;}
+#frame .comment {padding:0px 15px; }
+.startButtonTop {width:190px; background: url("/developerworks/community/connections/resources/web/../roller-ui/images/startBlogButtonTop.gif?etag=20150310.220517") no-repeat top left;margin:auto;}
+.startButtonTop span, .startButtonTop span:hover, .startButtonTop span:focus { display:block; color:#515151; text-decoration:none; }
+.startButtonTop:hover {background: url("/developerworks/community/connections/resources/web/../roller-ui/images/startBlogButtonTopHover.gif?etag=20150310.220517") no-repeat top left;}
+.startButtonTextTop {margin:0 0 0 55px; padding:5px 0 0 0; font-size:1.5em; font-weight:bold; cursor:hand;}
+.startButtonTextBottom {margin:-4px 0 0px 55px; padding:0 0 5px 0px;  font-size:1.1em; cursor:hand;}
+.startButtonText {padding:14px 10px 13px 65px; font-size:1.2em; cursor:hand;}
+.startButtonBottom {width:190px; background:url("/developerworks/community/connections/resources/web/../roller-ui/images/startBlogButtonBottom.gif?etag=20150310.220517") no-repeat top left;margin:auto;padding:0;line-height:5px;}
+.comments-form form ul{  list-style: none; margin:10px 0;padding:0 15px;background-color:#f3f3f3;border:1px solid #e0e0e0;}
+.comments-form form li{ line-height: 2em; margin: 0; padding: 1px 1px 6px 0px; }
+.comments-form form li.focused{ background-color: #fff7c0 !important; }
+.comments-form form li p{ font-size: 9px; line-height: 13px; color: #444; }
+.comments-form form li{ display: inline-block; }
+.comments-form form[id] li{ display: block; }
+.comments-form form li div{ display: inline-block; }
+.comments-form form[id] li div{ display: inline; }
+form .left{ float: left !important; margin: 0; }
+form .right{ float: right !important; margin: 0; }
+form .clear{ clear: both; }
+form li div p{ margin: 0 0 5px 0; }
+form div.left{ margin-right: 2px !important; }
+form div.left[class]{ margin-right: 4px !important; }
+form div.left img{ margin: 0 0 -2px 0; }
+form .info{ display: inline-block; margin: 0 0 10px 0; padding: 0 0 4px 0; border-bottom: 1px dotted #ccc !important;}
+form .info[class]{ display: block; }
+form .info p{ font-size: 1em; line-height: 1.3em; margin: 0 0 8px 0; }
+textarea.textarea{margin-bottom: 1px;}
+textarea.textarea[class]{font-family: Helvetica, Arial, Verdana, sans-serif;}
+select.select{ padding: 1px 0 0 0; margin: 1px 0 3px 0; }
+select.select[class]{ margin: 0; padding: 1px 0 1px 0; }
+form .small{ width: 70px; }
+form .medium{ width: 170px; }
+form .large, form textarea.textarea{ width: 340px; }
+form .tags{ width: 320px; }
+form textarea.small{ height: 5.5em; }
+form textarea.medium{ height: 10em; }
+form textarea.large{ height: 20em; }
+label.desc{margin: 4px 0 3px 0;border: 0;font-size: 1.1em;line-height: 1.3em;display: block;}
+div.row {padding: 2px;}
+div.formrow {float: left;width: 80%;}
+label.formrow {float: left;text-align: right;width: 20%;padding-right: 1em;}
+div.sideformrow {float: left;width: 100%;padding-bottom:5px;}
+label.sideformrow {float: left;text-align: left;padding-right: .5em;}
+* html .entry table, * html .entry img, * html .entry div {width:auto !important;}
+#header .hidden { position: absolute; top: -9000px; left: -9000px; }
+#header .lotusInlinelist{margin:0 0 0 0;padding:0}
+#header .lotusInlinelist li{display:inline;margin:0 0 0 -4px;padding:0 10px;border-left:1px solid #ccc;}
+#header .lotusInlinelist li.lotusFirst{margin-left:0;padding-left:0;border-left-width:0;}
+#header .lotusInlinelist li.lotusFirst {margin-left:-5px;padding-left:0;border-left-width:0;}
+.AddMembers .memberList {
+border: 1px solid #9a9a9a;
+border-bottom: none;
+background-color: white;
+}
+.AddMembers .scroll {
+border-bottom: 1px solid #9a9a9a;
+}
+.AddMembers .memberList .member {
+border-bottom: 1px solid #9a9a9a;
+}
+.AddMembers .memberList .member .P {
+height: 16px;
+width: 16px;
+background: transparent url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blogs/personIcon.gif?etag=20150310.220517") no-repeat scroll center center;
+}
+.AddMembers .memberList .member .type {
+color: #afafaf;
+font-style: italic;
+}
+.AddMembers .memberList .member .fieldDel {
+}
+.AddMembers .typeAhead {
+font-size: 1.1em;
+border: 1px solid #9a9a9a;
+}
+.field .fieldDel {
+height: 16px;
+width: 16px;
+background: transparent url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blogs/remove_icon.gif?etag=20150310.220517") no-repeat scroll center center;
+border: none;
+}
+.dijit_a11y .field .fieldDel {
+border: none;
+display: none;
+}
+.field .fieldDelText {
+height: 16px;
+width: 16px;
+border: none;
+display: none;
+}
+.dijit_a11y  .field .fieldDelText {
+height: 16px;
+width: 16px;
+border: none;
+cursor: pointer;
+display: inline;
+}
+.field .fieldAdd {
+height: 16px;
+width: 16px;
+background: transparent url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blogs/add_icon.gif?etag=20150310.220517") no-repeat scroll center center;
+border: none;
+vertical-align: top;
+}
+.dijit_a11y .field .fieldAdd {
+border: none;
+display: none;
+}
+.field .fieldAddText {
+height: 16px;
+width: 16px;
+border: none;
+display: none;
+}
+.dijit_a11y  .field .fieldAddText {
+height: 16px;
+width: 16px;
+border: none;
+cursor: pointer;
+display: inline;
+}
+.AddMembers .memberList {
+visibility: hidden;
+}
+.AddMembers .scroll {
+overflow: auto;
+}
+.AddMembers .memberList .member {
+padding: 3px;
+}
+.AddMembers .memberList .member .P {
+float: left;
+}
+.AddMembers .memberList .member .nameContent {
+padding-left: 20px;
+}
+.AddMembers .memberList .member .fieldDel {
+}
+.AddMembers .typeAhead {
+width: 310px;
+}
+.AddMembers .field {
+padding:5px 5px 5px 5px;
+}
+.yourWeblogBox .cnxnsType { font-size:0.75em; font-weight:normal; margin-left:5px;}
+.yourWeblogBox .cnxnsType img { vertical-align: top; margin-right:5px; }
+.lotusInlineVCard {
+margin:0 0 10px !important;
+}
+.X-community-display-inline {
+height: 50px;
+display: table;
+width: 100%;
+}
+#NotificationForm .lotusFormFieldRow TD{PADDING-LEFT:30px; PADDING-RIGHT:25px}
+#NotificationForm .fieldAdd{background:transparent url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blogs/add_icon.gif?etag=20150310.220517") no-repeat scroll center center;border:medium none;height:16px;width:16px;}
+.dijit_a11y #NotificationForm .fieldAdd{border: none;display: none;}
+#NotificationFormEx .lotusFormFieldRow TD{PADDING-LEFT:30px; PADDING-RIGHT:25px}
+#NotificationFormEx .lotusTabContainer UL {BORDER-WIDTH: 0px;}
+#NotificationFormEx .lotusTabContainer UL DIV {display:inline;}
+#NotificationFormEx .lotusTabContent {BORDER: #d8d8d8 1px solid; BORDER-TOP: 0px; PADDING: 1px 0px 0px; MARGIN: -10px 0px 12px;  background-color: #ffffff; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;}
+#NotificationFormEx .fieldborder {PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 10px; PADDING-TOP: 0px;}
+#NotificationFormEx .fieldborder .fieldcontent {margin: 4px; padding:4px 8px; overflow:hidden; BACKGROUND-COLOR: #e8e8f0;}
+#NotificationFormEx .fieldborder .fieldcontent .typeAheadPeople{width:100% !important; margin:4px 0px; padding:4px 0px;}
+#NotificationFormEx .notifyList .lotusSearch {margin-left: 4px; margin-right: 4px; padding-right: 4px;}
+#NotificationFormEx .notifyList .lotusSearch input{border: #b8c0d8 1px solid; padding: 4px 0px; margin:4px 0px; DISPLAY: inline; WIDTH:100%;}
+#NotificationFormEx .notifyList div.peopleList {display:block; margin: 4px; padding: 4px; border: #b8c0d8 1px solid; overflow: auto; height: 120px}
+#NotificationFormEx .notifyList div.peopleList .notifyPerson {width:170px; height:20px; font-size:.9em; }
+#NotificationFormEx .notifyList div.peopleList .notifyPerson input {display:block; margin-right:5px;}
+.lotusui_ie #NotificationFormEx .notifyList div.peopleList .notifyPerson input {margin-right:0px;}
+#NotificationFormEx .notifyList div.peopleList .notifyPerson label {height:20px; line-height:18px; overflow:hidden; white-space:nowrap; width:145px; display:block;}
+#NotificationFormEx .notifyList div.lotusTiny {margin: 4px; }
+#NotificationFormEx .notifyList  div.lotusTiny ul {border: 0px; background-color:#FFFFFF;}
+#NotificationFormEx .peopleList.disabled {background-color: threedface;}
+#NotificationFormEx .lotusTabContent label {font-weight:normal !important;}
+#NotificationForm .filterList .member, #NotificationFormEx .filterList .member {padding:1px 5px;background-color:#EBEFFA;border:1px solid #90CAFF;margin-right:8px;margin-bottom:5px;float:left;}
+#NotificationForm .filterList .member .nameContent .lotusPerson, #NotificationFormEx .filterList .member .nameContent .lotusPerson {color: #105CB6;}
+#NotificationForm .filterList .member .nameContent .fieldDel, #NotificationFormEx .filterList .member .nameContent .fieldDel {background:transparent url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blogs/remove_icon.gif?etag=20150310.220517") no-repeat scroll center center;border:medium none;height:16px;width:16px;}
+.dijit_a11y #NotificationForm .filterList .member .nameContent .fieldDel, .dijit_a11y #NotificationFormEx .member .nameContent .fieldDel {border: none;display: none;}
+.lotusMessage span span, .lotusMessage span img {display:inline; margin-left:auto; float:none;}
+.lotusWidget2 .lotusWidgetBody {padding:3px 5px}
+.lotusui_ie div#widget_typeahead_bloguser input {margin:2px !important}
+.blogsUntag {background:transparent url("/developerworks/community/connections/resources/web/../roller-ui/images/iconDeleteHover.gif?etag=20150310.220517") no-repeat scroll right center; padding-right:17px;width:85%;}
+.lotusImagesOff .lotusTabContainer .lotusSelected a {border:3px solid;}
+.lotusImagesOff .lotusViewControl .lotusSummaryOff span {text-decoration:underline;}
+.lotusImagesOff .lotusViewControl .lotusDetailsOff span {text-decoration:underline;}
+.dijitCalendarContainer .dijitCalendarIncrease {padding-right:0px}
+.dijitCalendarContainer .dijitCalendarDecrease {padding-left:0px}
+.dijitCalendarContainer .dijitCalendarIncrementControl{margin:0px 0px}
+.blogsPadding { padding: 0pt 5px; }
+.blogsPaddingLeft { padding-left: 5px; }
+.blogsPaddingRight { padding-right: 5px; }
+.blogsTabContainer .lotusTabs li {margin-top:2px !important}
+.lotusTable td.entryContentContainerTD [dir="rtl"]{text-align:right;}
+.lotusTable td.entryContentContainerTD [dir="ltr"]{text-align:left;}
+.lotusTable td.entryContentContainerTD * {text-align:expression( this.getAttribute("dir")=="ltr"?"left":this.getAttribute("dir")=="rtl"?"right":"left" +";")}
+.lotusTable td.entryContentContainerTD th {font-weight:bold!important; text-align:center!important;}
+.ideaVotingDiv {background-color: #FFFFFF; border: 1px solid #AAAAAA; text-align: center; min-height: 58px; height: auto !important; color: #848484; padding: 10px 10px 5px; width: 58px;}
+.ideaVotingDivDisabled {background-color: #EEEEEE; border: 1px solid #AAAAAA; text-align: center; min-height: 58px; height: auto !important; color: #848484; padding: 10px 10px 5px; width: 58px;}
+.ideaVotingNumber {padding: 7px; font-size: 2em;}
+.ideaVotingButtonDiv {width: 100%; display: inline-block; font-size: 0.9em; background-color:#FFFFFF;}
+.ideaVotingButtonDivDisabled {width: 100%; display: inline-block; font-size: 0.9em; background-color:#EEEEEE;}
+.ideaVotingButton {width: 100%; color: #1070B0!important; text-decoration:none!important;}
+.ideaVotingButtonDisabled {width: 100%; color: #1070B0!important; text-decoration:none!important; cursor:default!important;}
+.ideaGraduated {padding: 3px 5px; border: 1px solid #8AC4FF; display:inline-block; background-color:#C5E2FF; color:#105CB6;}
+.ideaVotingLite{padding: 3px 5px; border: 1px solid #CCCCCC; display: inline-block;}
+.blogsVotingTooltip .dijitTooltipContainer { background-color:#FEF89A!important; padding:2px 3px!important;}
+.blogsBoard .lotusPost .lotusPerson {font-weight: normal!important;}
+.lotusPost .cnxnsType{ font-size:0.75em; font-weight:normal; margin-left:5px;}
+#previewArea h1,.entryContentContainer h1,
+#previewArea h2,.entryContentContainer h2,
+#previewArea h3,.entryContentContainer h3,
+#previewArea h4,.entryContentContainer h4,
+#previewArea h5,.entryContentContainer h5,
+#previewArea h6,.entryContentContainer h6{color: #000000 !important; padding:2px !important;font-weight:bold !important;border:none !important; margin:0!important;}
+#previewArea h1,.entryContentContainer h1{font-size:1.8em}
+#previewArea h2,.entryContentContainer h2{font-size:1.6em}
+#previewArea h3,.entryContentContainer h3{font-size:1.4em}
+#previewArea h4,.entryContentContainer h4{font-size:1.2em}
+#previewArea h5,.entryContentContainer h5{font-size:1.1em}
+#previewArea h6,.entryContentContainer h6{font-size:1em}
+.blogsWrapText{
+word-wrap:break-word;
+}
+.blogsFixedTable{
+table-layout: fixed;
+}
+.blogsFixedTable td{
+overflow:hidden;
+word-wrap:break-word;
+}
+.lotusui30 .lotusMessage .blogsDateTime{
+display:inline;
+margin:0!important;
+}
+.blogsUpdatedTimeInfo{
+display:block;
+font-style: italic;
+font-size: 0.9em;
+color: #666;
+}
+.lotusui30.lotusImagesOff .lotusLike .lotusNoLikes, .lotusImagesOff .lotusui30 .lotusLike .lotusNoLikes {display:inline!important;}
+.blogsRatingTD {width:90px;}
+.lotusui30.lotusImagesOff .blogsRatingTD {width:120px;}
+.lotusui30 .lotusContent .lotusForm .lotusFormTable td.lotusFormFooter {
+padding: 10px;
+}
+.lotusui30 .lotusMeta .lotusLike {font-size:1em !important;}
+.blog .entryContentContainer { margin-top:10px; }
+.blogsHiddenBorder{border:0}
+.lotusui_ie .lotusui30 #createDirBtn.lotusBtn{
+margin-bottom:0px
+}
+.lotusui_ie .lotusui30.tabbedpage  .lotusMenu .lotusMenuSubsection li a {position: static}
+.lotusui30 .lotusMenu .lotusBottomCorner .lotusInner .lotusIndent10 td {
+word-break: break-word;
+-ms-word-break: break-word;
+}
+#login_participate_link a {color: #1970B0;}
+.lotusui30 .lotusTable .entryContentContainer td {border-top: 0}
+.lotusui30 .lotusBoard .lotusPost .lotusPostContent .lotusMentionsDiv .lotusPerson { font-weight: normal;}

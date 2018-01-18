@@ -1,0 +1,1970 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0227)https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en -->
+<html xml:lang="en" lang="en" class="dj_webkit dj_chrome dj_contentbox"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>
+  	 	     	       Nova Suspend/Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack
+	            </title>
+<meta name="DC.Date" scheme="iso8601" content="2016-02-28">	
+
+
+					<!-- Copyright IBM Corp. 2015  All Rights Reserved.                    -->
+
+<!--[if IE 6]><script>document.getElementsByTagName("html")[0].className+=" lotusui_ie lotusui_ie6";</script><![endif]-->
+<!--[if IE 7]><script>document.getElementsByTagName("html")[0].className+=" lotusui_ie lotusui_ie7";</script><![endif]-->
+<!--[if IE 8]><script>document.getElementsByTagName("html")[0].className+=" lotusui_ie8";</script><![endif]-->
+<!--[if IE 9]><script>document.getElementsByTagName("html")[0].className+=" lotusui_ie9";</script><![endif]-->
+<link rel="stylesheet" type="text/css" id="lotusBaseStylesheet" href="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/_style" appname="blogs" base="https://www.ibm.com/developerworks/community/connections/resources/web/" query="?version=oneui3&amp;rtl=false&amp;etag=20150310.220517" theme="gen4" defaulttheme="gen4" oneui="3">
+<link rel="stylesheet" type="text/css" id="lotusSpritesStylesheet" href="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/_style(1)">
+<link rel="stylesheet" type="text/css" id="lotusThemeStylesheet" href="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/gen4.css">
+<!-- Copyright IBM Corp. 2015  All Rights Reserved.                    -->
+
+<link rel="stylesheet" type="text/css" id="lotusAppStylesheet" href="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blogs.css">
+<!-- Copyright IBM Corp. 2015  All Rights Reserved.                    -->
+
+<!-- IBM Connections Mobile App for iOS -->
+<meta content="app-id=450533489" name="apple-itunes-app">
+<!-- IBM Connections Mobile App for Android -->
+<meta content="app-id=com.ibm.lotus.connections.mobile" name="google-play-app">
+
+	  	
+  		  			
+  		  	<script type="text/javascript" async="" charset="utf-8" id="utag_53" src="https://pixel.mathtag.com/event/js?mt_pp=1"></script><script type="text/javascript" async="" charset="utf-8" id="tealium_cormetrics2" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/eluminate.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="dle_api_4e762df0ef2b3cbc9d6f13f67dbc2fca1ea5ea3f07efa36a7b537060a1cc6980" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/p_4e762df0ef2b3cbc9d6f13f67dbc2fca1ea5ea3f07efa36a7b537060a1cc6980.js.下载"></script><script src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/reveal" type="application/javascript" async=""></script><script type="text/javascript" async="" defer="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/piwik.js.下载"></script><script src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/utag.js.下载" type="text/javascript" async=""></script><script type="text/javascript">
+		window.currentLogin={};
+		window.__security_nonce='';
+		
+		var http;
+		if(typeof XMLHttpRequest == 'undefined') http=new ActiveXObject("Microsoft.XMLHTTP");
+		else http=new XMLHttpRequest();
+		http.open('GET', '/developerworks/community/blogs/roller-services/json/authcheck?entry=a15fcc65-a61d-4890-98b8-d795f65489a0', false);
+		http.send(null);
+		var t=http.responseText;
+		if(http.status == 200 && t && t.length>4 && t.substring(0,5)=='nonce'){
+			eval('window.currentLogin={'+t+'}');
+			window.__security_nonce=window.currentLogin.nonce;
+		}
+	</script>
+
+<script type="text/javascript">
+	var appName = "blogs";	// valid values: profile, communities, blogs, bookmarks, activities
+	var microfmtTagScope = "span,h5";
+	
+		   var bidir = "ltr";
+		
+	function getLoginRedirectURL(url) {
+	    return 'https://www.ibm.com/developerworks/community/blogs/roller-ui/login-redirect.jsp?redirect=%2Fdeveloperworks%2Fcommunity%2Fblogs%2F132cfa78-44b0-4376-85d0-d3096cd30d3f%2Fentry%2FNova_Suspend_Rescue_%25E6%2593%258D%25E4%25BD%259C%25E8%25AF%25A6%25E8%25A7%25A3_%25E6%25AF%258F%25E5%25A4%25A95%25E5%2588%2586%25E9%2592%259F%25E7%258E%25A9%25E8%25BD%25AC_OpenStack_35%3Flang%3Den';
+    }
+</script>
+
+  <script type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/feedMarklet.js.下载"></script>	
+  
+<script type="text/javascript">
+    var BlogsBaseUrl = "/developerworks/community/blogs";
+    var langParaValue = "en";
+    var ratings = {};
+</script>
+    		
+
+
+  <style type="text/css">
+   
+    
+        
+    
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------------------------------------------------------
+   CSS
+---------------------------------------------------------------------- */
+
+
+
+/***************************** CSS *************************************/
+
+    
+  </style> 
+  
+              <link rel="alternate" type="application/atom+xml" title="Atom Entries" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/feed/entries/atom?lang=en">
+    <link rel="alternate" type="application/atom+xml" title="Atom Comments" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/feed/comments/atom?lang=en">
+            <link rel="replies" type="application/atom+xml" title="Atom Entry Comments" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en">
+              <link rel="service" class="preferred" type="application/atomsvc+xml" title="Atom Publishing Protocol" href="https://www.ibm.com/developerworks/community/blogs/api">
+            <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/rsd">
+       
+      
+        
+                                                                            
+         
+    
+    <meta name="IBM.WTMCategory" scheme="IBM_WTMCategory" content="SOFDCBLGZZ">
+	
+		<link rel="stylesheet" href="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/dw-mf-lc.css" type="text/css" title="www">
+	<link rel="stylesheet" href="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/dw-ic-global.css" type="text/css">
+		
+
+        <meta name="title" content="Nova Suspend/Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） (每天5分钟玩转 OpenStack)">
+     <meta name="abstract" content="本节我们讨论 Suspend/Resume 和 Rescue/Unrescue 这两组操作。 Suspend/Resume 有时需要长时间暂停 instance，可以通过 Suspend 操作将 instance 的状态保存到宿主机的磁盘上。当需要恢复的时候，执行 Resume 操作，从磁盘读回 instance 的状态，使之继续运行。 这里需要对 Suspend 和 Pause 操作做个比较： 相同点 两者都是暂停 instance 的运行，并保存当前状态，之后可以通过 Resume 操作恢复 不同点 1. Suspend 将 instance 的状态保存在磁盘上；Pause 是保存在内存中，所以 Resume 被 Pause 的 instance 要比 Suspend 快。 2. Suspend 之后的 instance，其状态是 Shut Down；而被 Pause 的 instance 状态是Paused。 3. 虽然都是通过 Resume 操作恢复，Pause 对应的 Resume 在 OpenStack 内部被叫作 “Unpause”；Suspend 对应的 Resume 才是真正的 “Resume”。这个在日志中能体现出来。 Suspend/Resume 的日志分析留给大家做练习。 Rescue/Unrescue 从这节开始，我们将讨论几种 instance 故障恢复的方法，不同方法适用于不同的场景。..."> 
+     <meta name="description" content="本节我们讨论 Suspend/Resume 和 Rescue/Unrescue 这两组操作。 Suspend/Resume 有时需要长时间暂停 instance，可以通过 Suspend 操作将 instance 的状态保存到宿主机的磁盘上。当需要恢复的时候，执行 Resume 操作，从磁盘读回 instance 的状态，使之继续运行。 这里需要对 Suspend 和 Pause 操作做个比较： 相同点 两者都是暂停 instance 的运行，并保存当前状态，之后可以通过 Resume 操作恢复 不同点 1. Suspend 将 instance 的状态保存在磁盘上；Pause 是保存在内存中，所以 Resume 被 Pause 的 instance 要比 Suspend 快。 2. Suspend 之后的 instance，其状态是 Shut Down；而被 Pause 的 instance 状态是Paused。 3. 虽然都是通过 Resume 操作恢复，Pause 对应的 Resume 在 OpenStack 内部被叫作 “Unpause”；Suspend 对应的 Resume 才是真正的 “Resume”。这个在日志中能体现出来。 Suspend/Resume 的日志分析留给大家做练习。 Rescue/Unrescue 从这节开始，我们将讨论几种 instance 故障恢复的方法，不同方法适用于不同的场景。..."> 
+     <meta name="keywords" content=""> 
+     <meta name="DC.Date" scheme="iso8601" content="2016-05-17">
+     <meta name="DC.Type" scheme="IBM_ContentClassTaxonomy" content="CT915">
+	 <meta name="DC.Publisher" content="CloudMan6">
+     <link rel="canonical" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35"> 
+    
+
+
+<meta name="Owner" content="dW Information/Raleigh/IBM">
+<meta name="DC.Language" scheme="rfc1766" content="en">
+<meta name="IBM.Country" content="ZZ">
+<meta name="Security" content="Public">
+<meta name="IBM.SpecialPurpose" content="SP001">
+<meta name="Source" content="Blog Template v5.0"> 
+<meta name="robots" content="index,follow,archive,snippet,noodp"> 
+<meta name="Revisit-After" content="5 days">  
+<meta name="DC.Subject" scheme="IBM_SubjectTaxonomy" content="ZZ999">
+<meta name="DC.Rights" content="Copyright IBM Corporation 2012">
+<meta scheme="IBM_WTMSite" name="IBM.WTMSite" content="devwrkscon">
+
+
+	
+			<script src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/ida_production.js.下载" type="text/javascript">//</script>
+	
+<script type="text/javascript">
+var _paq = _paq || []; 
+ _paq.push(["setDomains", ["*.www.ibm.com/developerworks/community"]]); 
+ _paq.push(['trackPageView']); 
+ _paq.push(['enableLinkTracking']);_paq.push(['setCustomVariable',1,"connection_app_name","blogs","visit"]); 
+ (function() {var u="//developer.ibm.com/piwik/";_paq.push(['setTrackerUrl', u+'piwik.php']);_paq.push(['setSiteId', 5]);var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);})(); 
+</script>
+<noscript>&lt;p&gt;&lt;img src="//developer.ibm.com/piwik/piwik.php?idsite=5&amp;connection_app_name=blogs" style="border:0;" alt="" /&gt;&lt;/p&gt;</noscript>
+
+<meta name="author" content="132cfa78-44b0-4376-85d0-d3096cd30d3f"> 
+<meta name="IBM.Effective" scheme="W3CDTF" content="2012-01-31">
+<meta name="gwt:property" content="locale=en">
+	
+     
+<script type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/usen-utf8.js.下载" id="dojoIoScript1" charset="utf-8"></script><script type="text/javascript" charset="utf-8" data-requirecontext="_" data-requiremodule="https://www.ibm.com/developerworks/community/connections/opensocial/gadgets/js/cre.iruntime:cre.iwidget.event:cre.wire:cre.iwidget:cre.iwidget.itemset:cre.util.stringify:cre.service.event:cre.osgadget:cre.messages.en:core:container:rpc:pubsub-2:views:embedded-experiences:open-views:selection:actions:viewenhancements:shared-script-frame:cre.service.people:ibm.connections.sharedialog:com.ibm.connections.sharedialog:com.ibm.connections.ee:ibm.connections.ee:container.nongadget:shindig.sha1:open-views.js?c=1&amp;_ic_versionStamp=20150310.220517" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/cre.iruntime-cre.iwidget.event-cre.wire-cre.iwidget-cre.iwidget.itemset-cre.util.stringify-cre.service.event-cre.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_53" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/utag.53.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_44" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/utag.44.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_46" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/utag.46.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_45" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/utag.45.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_94" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/utag.94.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="tiqapp" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/utag.v.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="LOTCC_10026" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/cc.js.下载"></script><script language="javascript" type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/50200000.js.下载"></script><img width="1" height="1" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/b=48350156"><script language="javascript" type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/cookie-id.js.下载"></script><script language="javascript" type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/rules_50200000.js.下载"></script><script language="javascript" type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/dispatcher-v3.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="tealium_visitor_service_45main" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/015f68a36508001bec11af850c2704072003806a0086e"></script><script src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/yahoo-min.js.下载" type="text/javascript"></script><script src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/cp-v3.js.下载" type="text/javascript"></script><script src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/json-min.js.下载" type="text/javascript"></script><script type="text/javascript" async="" charset="utf-8" id="tealium_visitor_service_45main" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/015f68a36508001bec11af850c2704072003806a0086e(1)"></script></head>
+<body class="blog  lotusui 
+ lotusui30dojo lotusui30_body lotusui30_fonts lotusui30 lotusSpritesOn"><script src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/feedMarkletActions.js.下载"></script><script src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/feedMarkletMenu.js.下载"></script><span id="semtagmenu" role="tooltip" style="position: absolute; display: none;"></span>
+<label id="TemplateVersion" style="display:none">2.5</label>
+<a id="REFRESH_URL" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en" style="display:none"></a>
+<div id="lotusFrame" class="lotusFrame lotusui30_layout">
+<div role="banner">
+<div id="lotusBanner" class="lotusBanner">
+<script type="text/javascript">
+if (self != top) {
+   try {
+      // Reset location if in different host.
+      // per Same Origin Policy, try to get top location attributes,
+      // will get permission denied if in different origin.
+      if (self.location.hostname != top.location.hostname)
+         top.location=self.location;
+   }catch(e){
+      // reset location if in different origin
+      top.location=self.location;
+   }
+}
+</script>
+
+
+<div id="ibm-masthead">
+	<!-- TOP ROW -->    
+	<div id="dw-masthead-top-row">
+		<ul id="ibm-mast-options-dw" role="toolbar" aria-label="Masthead navigation">
+			<li id="dw-mast-top-4" role="presentation">
+				<a href="https://www.ibm.com/developerworks/" tabindex="0"><img src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/dwn-dw-badge.png" width="43" height="22" alt="dW" aria-label="dW"></a>
+			</li>
+			<li id="dw-mast-top-0" role="presentation">
+				<div id="dw-mast-signin">
+					<a id="dw-mf-signin-link" class="" href="https://www.ibm.com/developerworks/dwwi/jsp/ssologin.jsp?d=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcommunity%2Fblogs%2F132cfa78-44b0-4376-85d0-d3096cd30d3f%2Fentry%2FNova_Suspend_Rescue_%25E6%2593%258D%25E4%25BD%259C%25E8%25AF%25A6%25E8%25A7%25A3_%25E6%25AF%258F%25E5%25A4%25A95%25E5%2588%2586%25E9%2592%259F%25E7%258E%25A9%25E8%25BD%25AC_OpenStack_35%3Flang%3Den&amp;lang=en_US&amp;a=dwcomm" title="" tabindex="2">Sign in</a>
+					<span class="dw-mf-signin-spacer">|</span>
+					<a id="dw-mf-reg-link" class="" href="https://www.ibm.com/developerworks/dwwi/jsp/ssoregister.jsp?d=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcommunity%2Fblogs%2F132cfa78-44b0-4376-85d0-d3096cd30d3f%2Fentry%2FNova_Suspend_Rescue_%25E6%2593%258D%25E4%25BD%259C%25E8%25AF%25A6%25E8%25A7%25A3_%25E6%25AF%258F%25E5%25A4%25A95%25E5%2588%2586%25E9%2592%259F%25E7%258E%25A9%25E8%25BD%25AC_OpenStack_35%3Flang%3Den&amp;lang=en_US&amp;a=dwcomm" title="" tabindex="3">Register</a>
+				</div>        
+				<div id="dw-mast-auth-link" class="dw-mf-hide">
+					<a class="authenticated ibm-active" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en#" role="button" tabindex="2"></a>
+					<ul id="dw-mast-auth-menu" class="dw-mf-hide">
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a id="dw-mast-subscription-link" href="https://developer.ibm.com/mydeveloperworks/" tabindex="3">My developerWorks</a>
+						</li>
+						<li class="dw-mast-auth-menu-divider"><hr></li>
+						<li class="dw-mast-auth-menu-title" aria-hidden="true">developerWorks Community</li>
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a href="https://www.ibm.com/developerworks/community/profiles/html/myProfileView.do?lang=en" tabindex="4">My profile</a>
+						</li>
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a href="https://www.ibm.com/developerworks/community/groups/service/html/mycommunities?lang=en" tabindex="5">My communities</a>
+						</li>
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a href="https://www.ibm.com/developerworks/community/news/?lang=en" tabindex="6">Settings</a>
+						</li>
+						<li class="dw-mast-auth-menu-divider"><hr></li>
+						<li>
+							<span class="dw-mast-auth-menu-arrow" aria-hidden="true">›</span><a id="dw-mast-signout-link" href="https://www.ibm.com/developerworks/dwwi/jsp/ssologout.jsp?d=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcommunity%2Fblogs%2Froller-ui%2Fhomepage%3Flang%3Den&amp;a=dwcomm" tabindex="7">Sign out</a>
+						</li>		                
+					</ul>
+					
+				</div>
+			</li>
+			<li id="dw-mast-top-1">
+				<div></div>
+			</li>
+			<li id="dw-mast-top-3" role="presentation">
+				<a href="http://www.ibm.com/" tabindex="1">IBM</a>
+			</li>
+		</ul>
+	</div>
+
+    <!-- BOTTOM ROW -->
+	<div id="ibm-universal-nav-dw" aria-label="Site map">
+		<ul id="ibm-unav-links-dw">
+			<li id="ibm-unav-home-dwlogo">
+				<a href="http://www.ibm.com/developerworks/"><img src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/dwn-dw-wordmark.png" width="225" height="28" alt="developerWorks®"></a>
+			</li>
+		</ul>
+		<ul id="ibm-menu-links-dw" role="toolbar" aria-label="Site map">
+			<li id="dw-mast-nav-0" role="presentation"><a href="https://www.ibm.com/developerworks/learn/" tabindex="0">Technical topics</a></li>
+			<li id="dw-mast-nav-1" role="presentation"><a href="https://www.ibm.com/developerworks/develop/" tabindex="0">Evaluation software</a></li>
+			<li id="dw-mast-nav-2" role="presentation"><a href="http://www.ibm.com/developerworks/community/index.html" tabindex="0">Community</a></li>
+			<li id="dw-mast-nav-3" role="presentation"><a href="https://developer.ibm.com/events/" tabindex="0">Events</a></li>
+		</ul>
+		<form id="ibm-search-form" action="https://www.ibm.com/search/csass/search/" method="get" name="form1" aria-label="IBM developerWorks Search" role="search">
+			<p>
+				<label for="q"><span class="ibm-access">Search developerWorks</span></label>
+				<input id="q" type="text" name="q" value="Search developerWorks" maxlength="100">
+				<input type="hidden" name="sn" value="dw">
+				<input type="hidden" name="lang" value="en">
+				<input type="hidden" name="cc" value="US">
+				<input type="hidden" name="en" value="utf">
+				<input type="hidden" name="hpp" value="20">
+				<input type="hidden" name="dws" value="dw">
+				<input id="ibm-search" class="ibm-btn-search" type="submit" value="Submit">
+			</p>
+		</form>
+	</div>	
+  
+
+<div id="fdiv" class="ibm-access"></div></div>
+			<!-- SITE MON : START (DO NOT DELETE) -->
+			<!-- developerWorks monitoring token -->
+			<!-- SITE MON : END (DO NOT DELETE) -->	
+									
+<div class="lotusRightCorner" style="display: inline;">
+   <div class="lotusInner"><ul class="lotusInlinelist lotusUtility lotusNowrap" id="headerMenuContainer"><li class="shareboxLi" id="headerSharebox" style="display:none"><a class="lotusBannerBtn" href="javascript:;" onclick="dojo.stopEvent(event);dojo.require(&#39;net.jazz.ajax.xdloader&#39;);net.jazz.ajax.xdloader.load_async(&#39;com.ibm.social.sharebox.dialog&#39;, dojo.hitch(this, function() {com.ibm.social.sharebox.show();}));" role="button">Share</a></li><li id="languageSelectorText" style=""><a id="headerLanguageSelectorMenu" href="javascript:;" role="button" aria-haspopup="true">English<span class="lotusAccess">Language Selector</span> <img alt="" role="presentation" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lotusArrow lotusDropDownSprite"><span class="lotusAltText">▼</span></a></li><li id="headerHelpLi"><a role="button" aria-label="Open help window" href="javascript:lconn.blogs.utils.openHelpWindow();" id="headerHelpLink"><img role="presentation" alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="iconsOther16 iconsOther16-bannerHelpNormal16"><span class="lotusAltText">?</span></a></li></ul><ul class="lotusInlinelist lotusLinks" role="navigation" aria-label="Connections"><li id="lotusBannerProfiles" class="lotusFirst "><a onmouseover="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuMouseover(this);" onclick="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuClick(this);" onfocus="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuFocus(this);" role="button" _lconn_menuid="lconnheadermenu-people" aria-label="Profiles" src="/developerworks/community/blogs/static/20150310.220517!en/nav/templates/menu/people.jsp" href="https://www.ibm.com/developerworks/community/profiles/" errormessage="Profiles is not available"><img alt="" role="presentation" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lconnBannerIcon lconnSprite lconnSprite-iconProfilesBlue16">Profiles <img role="presentation" alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lotusArrow lotusDropDownSprite"><span class="lotusAltText">▼</span></a></li><li id="lotusBannerCommunities" class=" "><a id="lotusBannerCommunitiesLink" onmouseover="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuMouseover(this);" onclick="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuClick(this);" onfocus="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuFocus(this);" role="button" _lconn_menuid="lconnheadermenu-communities" aria-label="Communities" src="/developerworks/community/blogs/static/20150310.220517!en/nav/templates/menu/communities.jsp" href="https://www.ibm.com/developerworks/community/groups/" errormessage="Communities is not available"><img alt="" role="presentation" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lconnBannerIcon lconnSprite lconnSprite-iconCommunitiesBlue16">Communities <img role="presentation" alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lotusArrow lotusDropDownSprite"><span class="lotusAltText">▼</span></a></li><li id="lotusBannerApps" class=" lotusSelected"><a onmouseover="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuMouseover(this);" onclick="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuClick(this);" onfocus="dojo.require(&#39;lconn.core.header&#39;);lconn.core.header.menuFocus(this);" role="button" _lconn_menuid="lconnheadermenu-apps" aria-label="Apps" src="/developerworks/community/blogs/static/20150310.220517!en/nav/templates/menu/apps.jsp" href="javascript:;" errormessage="Blogs is not available">Apps <img role="presentation" alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lotusArrow lotusDropDownSprite"><span class="lotusAltText">▼</span></a></li><!--<li>
+            <a href="/developerworks/community/podcasts/?lang=en">Podcasts</a>
+         </li>-->
+         <!--<li>
+            <a href="/developerworks/champion/">IBM Champion program</a>
+         </li>--></ul><div class="lotusClear"><!-- IE --></div></div></div>
+
+
+ 
+</div><!--end pageHeader-->
+<script type="text/javascript" language="Javascript">
+var refresh_url = document.getElementById('REFRESH_URL');
+var this_url = window.location.toString();
+var this_url_anchor_idx = this_url.lastIndexOf('#');
+if(this_url_anchor_idx == -1) {
+    refresh_url.href = this_url;
+}
+else {
+	refresh_url.href = this_url.substring(0, this_url_anchor_idx);
+}
+
+var blogsUser = currentLogin.name ? currentLogin.name : null;
+</script>
+
+
+
+    
+
+
+
+
+
+        
+<script>
+	function showFeedTip(focusId) {
+   		lconn.blogs.utils.alert('Right-click and select Copy Shortcut to get the URL to this feed.', focusId);//alert
+	}
+
+	function jumpToPage(to, max) {
+		if(to > max) {
+			to = max;
+		}
+
+		if(to < 1) {
+			to = 1;
+		}
+
+		to = to - 1;
+		var base = "https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f?sortby=0&maxresults=15&lang=en";
+		window.location = base + "&page=" +  to;
+	}
+
+	function jumpToPageForComment(to, max) {
+		if(to > max) {
+			to = max;
+		}
+
+		if(to < 1) {
+			to = 1;
+		}
+
+		to = to - 1;
+		var base = "https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?maxresults=15&lang=en";
+		window.location = base + "&page=" +  to;
+	}
+</script>
+<div id="lotusTitleBar" class="lotusTitleBar2 lotusTitleBar2Tabs"><div class="lotusWrapper"><div class="lotusInner">
+		    <span style="position: absolute;">
+	<div class="ibm-anchor-pointer"><a name="tabNavigation"></a></div><a id="tabNavigation"> </a>
+</span>
+<div class="lotusTitleBarContent">
+	<h2 class="lotusHeading">
+		<img alt="" class="lotusIcon iconsComponentsBlue24 iconsComponentsBlue24-BlogsBlue24" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif"><span class="lotusText">Blogs</span>
+	</h2>
+	<div role="navigation" aria-label="Blogs Views">
+		<ul class="lotusNavTabs aria_toolbar" id="pageTabs" role="toolbar" aria-label="Blogs Views" aria-controls="lotusMain">
+		    <li role="presentation">
+		          <div class="lotusTabWrapper"><a class="lotusTab" role="button" aria-pressed="false" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/myblogs/edit?lang=en"><span class="lotusTabInner">My Blogs</span></a></div>
+		    </li>
+		    <li role="presentation">
+		          <div class="lotusTabWrapper"><a class="lotusTab" role="button" aria-pressed="false" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/homepage?lang=en" tabindex="-1"><span class="lotusTabInner">Public Blogs</span></a></div>
+		    </li>
+		    <li role="presentation">
+		          <div class="lotusTabWrapper"><a class="lotusTab" role="button" aria-pressed="false" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/myupdates?lang=en" tabindex="-1"><span class="lotusTabInner">My Updates</span></a></div>
+		    </li>
+			<script language="javascript">
+			 if(currentLogin.globalAdmin) {
+			     document.write('<li role="presentation"><div class="lotusTabWrapper"><a class="lotusTab" role="button" aria-pressed="false" href="/developerworks/community/blogs/roller-ui/admin/rollerConfig.do?method=edit&lang=en"><span class="lotusTabInner">Administration</span></a></div></li>');
+			 }
+			</script>
+		</ul>
+		<div class="lotusClear"></div>
+	</div>
+</div>
+	
+					
+	<div class="lotusGlobalSearch" role="search" id="global_search_container" widgetid="global_search_container"> <div class="lotusSearch"> <form dojoattachpoint="formNode" method="POST" dojoattachevent="onsubmit:formSubmitted" action="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en"> <input name="scope" value="this_blog" dojoattachpoint="scopeInputNode" type="hidden"> <input name="component" value="" dojoattachpoint="featureInputNode" type="hidden"> <table class="lotusLayout" cellspacing="0" role="presentation" summary=""> <tbody> <tr> <td> <div class="lotusHidden" id="global_search_container-searchOptionLabel">Refine search options</div> <div> <a href="javascript:;" title="Refine search options" class="lotusScope" dojoattachpoint="scopeNode" dojoattachevent="onclick:openMenu,onkeypress:openMenuA11y" aria-haspopup="true" role="button" aria-labelledby="global_search_container-searchOptionLabel global_search_containersearchOpt"> <img class="lotusIcon lconnSprite lconnSprite-iconBlogs16" alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" dojoattachpoint="currScopeIconNode" role="presentation"> <span id="global_search_containersearchOpt" dojoattachpoint="currScopeLabelNode">This Blog</span> <span class="lotusAltText" role="presentation">▼</span> </a> </div> </td> <td> <span id="global_search_containersearchInput" title="Search" widgetid="global_search_containersearchInput" role="combobox" popupactive="true" aria-expanded="false"><input type="text" class="lotusText lotusInactive" dojoattachpoint="textbox" name="global_search_containersearchInput_textbox" title="Search" id="global_search_container_PFtextField" role="textbox" aria-invalid="false" aria-label="Start typing to get Directory suggestions" autocomplete="off"><input type="hidden" value="" dojoattachpoint="hiddenbox" name="query"></span> </td> <td> <span class="lotusBtnImg"> <input dojoattachpoint="onclick:submitForm" class="lotusSearchButton" type="image" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" alt="Search" title="Search" aria-label="Search"> <a href="javascript:;" alt="Search" dojoattachevent="onclick:submitForm" class="lotusAltText">Search</a> </span> </td> </tr> </tbody> </table> </form> </div></div>
+<script type="text/javascript">
+<!--
+function isExistInArray(array, value) {
+	for (var i=0; i < array.length; i++) {
+		if (array[i] == value) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+function initialSearchBar() {
+                                                    
+    var _localOptions = [];
+	                _localOptions.push({label: 'Public Blogs', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'public_blogs'  });
+        _localOptions.push({label: 'Public Blog Entries', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'public_entries'  });
+        	    		    		_localOptions.push({label: 'My Blog Entries', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'my_blogs'  });
+    			_localOptions.push({label: 'This Blog', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'this_blog' , defaultOption: true  });
+    	_localOptions.push({label: 'This Blog\'s Comments', iconClass: 'lconnSprite lconnSprite-iconBlogs16', scope: 'this_blog_comments'  });
+        //ideationblog
+    	    	
+    		        		        
+    var _globalOptions = [];
+	         _globalOptions.push({label: 'Activities', feature: 'activities'});     	    	 _globalOptions.push({label: 'Communities', feature: 'communities'});          _globalOptions.push({label: 'Files', feature: 'files'});     	 _globalOptions.push({label: 'Forums', feature: 'forums'});     	 _globalOptions.push({label: 'Profiles', feature: 'profiles'});     	 _globalOptions.push({label: 'Wikis', feature: 'wikis'}); 	
+    var searchBar = new lconn.core.SearchBar({
+        localOptions: _localOptions,
+        globalOptions: [{}],
+        searchContextPath: 'https://www.ibm.com/developerworks/community/search',
+        lblSearch:         'Search',
+        lblSelectScope:    'Select Search Scope',
+        lblAllConnections: 'developerWorks community',
+        lblAdvanced:       'Advanced',
+        thirdPartySearchEngines: lconn_core_thirdPartySearchEngines,
+                onSubmit: function() {
+        	var str = this.getValue();
+    		str = dojo.string.trim(str); // trim it
+    		if (!str) {
+        		return false;
+    		}
+
+        	var selectedOption = this.selectedOption;
+        	if (selectedOption.feature || selectedOption.action) {
+        		return true;
+    		}
+        	else {
+        	    var t = ['public_blogs', 'public_entries', 'my_blogs', 'public_blog_comments', 'this_blog', 'this_blog_comments','public_ideationblogs', 'public_ideas', 'my_ideationblogs', 'public_ideationblog_comments', 'this_ideationblog', 'this_ideationblog_comments'];
+        	    if(!selectedOption.scope || isExistInArray(t, selectedOption.scope) == -1) {
+        	        selectedOption.scope = 'this_blog';
+        	    }
+        		switch( selectedOption.scope ){
+		            case "public_blogs":
+		                var loc = '/developerworks/community/blogs/newhome/search?lang=' + langParaValue + '&t=blog&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "public_entries":
+		            	var loc = '/developerworks/community/blogs/newhome/search?lang=' + langParaValue + '&t=entry&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "my_blogs":
+		            	var loc = '/developerworks/community/blogs/roller-ui/myblogs/edit?lang=' + langParaValue + '&q=' + encodeURIComponent(str) + '&search=true&t=entry';
+		            	window.location=loc;
+		                break;
+		            case "public_blog_comments":
+		            	var loc = '/developerworks/community/blogs/newhome/search?lang=' + langParaValue + '&t=entry&f=comment&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		            	break;
+		            case "this_blog":
+		            	var loc = '/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/search?lang=' + langParaValue + '&t=entry&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "this_blog_comments":
+		            	var loc = '/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/search?lang=' + langParaValue + '&t=entry&f=comment&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            //ideationblog support
+		            case "public_ideationblogs":
+		                var loc = '/developerworks/community/blogs/newhome/search?lang=' + langParaValue + '&t=ideationblog&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "public_ideas":
+		            	var loc = '/developerworks/community/blogs/newhome/search?lang=' + langParaValue + '&t=idea&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "my_ideationblogs":
+		            	var loc = '/developerworks/community/blogs/roller-ui/myblogs/edit?lang=' + langParaValue + '&q=' + encodeURIComponent(str) + '&search=true&t=idea';
+		            	window.location=loc;
+		                break;
+		            case "public_ideationblog_comments":
+		            	var loc = '/developerworks/community/blogs/newhome/search?lang=' + langParaValue + '&t=idea&f=comment&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		            	break;
+		            case "this_ideationblog":
+		            	var loc = '/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/search?lang=' + langParaValue + '&t=idea&f=all&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            case "this_ideationblog_comments":
+		            	var loc = '/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/search?lang=' + langParaValue + '&t=idea&f=comment&q=' + encodeURIComponent(str);
+		                window.location=loc;
+		                break;
+		            default:
+		                break;
+		        }
+		        return false;
+        	}
+        }
+    }, dojo.byId('global_search_container'));
+}
+//-->
+</script>
+</div></div></div><!--end titleBar-->
+
+
+
+
+<!-- DW Style dojoSetupRemote -->
+
+
+    		<link rel="stylesheet" href="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/dw-mf-lc.css" type="text/css" title="www">
+		<link rel="stylesheet" href="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/dw-ic-global.css" type="text/css">
+	<script type="text/javascript">
+var ibmConfig = {
+   serviceName: "blogs",
+   proxyURL: "/developerworks/community/blogs/ajaxProxy/",
+   contextRootEnabler: "/developerworks/community/blogs",
+   versionStamp: "20150310.220517"
+};
+var baseProtocol = "https";
+var baseHost = "www.ibm.com";
+var basePath = "/developerworks/community/connections/resources";
+var needProxy = (baseHost != window.location.host || baseProtocol+":" != window.location.protocol);
+var dojoConfig = djConfig = {
+   async: true,
+   isDebug: false,
+   baseUrl: (needProxy ? (ibmConfig.proxyURL + encodeURIComponent(baseProtocol) + "/" + encodeURIComponent(baseHost)) : (baseProtocol + "://" + baseHost)) + basePath + "/web/dojo/",
+   locale: "en",
+   dojoBlankHtmlUrl: "/developerworks/community/blogs/static/20150310.220517/nav/blankIE.html",
+   blankGif: "https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20150310.220517",
+   useCommentedJson: true,  
+   proxy: "/developerworks/community/blogs/ajaxProxy",
+   localizationComplete: true
+};
+</script>
+<script type="text/javascript">
+var netJazzAjaxConfig = {
+    base: "https://www.ibm.com/developerworks/community/connections/resources",
+    skipStyles: true,
+    params: "etag=20150310.220517&lang=en"
+};
+CKEDITOR_BASEPATH = window.CKEDITOR_BASEPATH || "https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.oneui.ckeditor/editor/"; 
+</script>
+<script type="text/javascript">djConfig.parseOnLoad=false;</script>
+<script type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/saved_resource"></script>
+<script type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/saved_resource(1)"></script>
+<script type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/saved_resource(2)"></script>
+
+<script type="text/javascript">
+	dojo.addOnLoad(function(){
+                /*// run the parser.
+                	                var p=dojo.parser; var d=document;
+	                	                if(d.getElementById('tagnavform')) {
+	                	p.parse(d.getElementById('tagnavform'));
+	                }
+	                	                if(d.getElementById('tagSliderGradient')) {
+	                	p.parse(d.getElementById('tagSliderGradient'));
+	                }
+	                	                if(d.getElementById('simpleSearchForm')) {
+	                	p.parse(d.getElementById('simpleSearchForm'));
+	                }
+	                	                if(d.getElementById('actionmenu_moreactions_container')) {
+	                	p.parse(d.getElementById('actionmenu_moreactions_container'));
+	                }
+	                	                if(d.getElementById('actionmenu_moreactions_container_anonymous')) {
+	                	p.parse(d.getElementById('actionmenu_moreactions_container_anonymous'));
+	                }
+	                	                if(d.getElementById('blogsActionBar')) {
+	                	p.parse(d.getElementById('blogsActionBar'));
+	                }
+	                                                */
+                lconn.core.globalization.bidiUtil.enforceTextDirectionOnPage(); // Enforce base text direction if Bidi is enabled
+                lconn.core.utilities.processUntilAvailable(function(){
+					try {
+				        if(!!lconn.communities.bizCard.core.community.externalAllowed) {
+				            dojo.addClass(dojo.byId("pagePlaceBar"), "lconnSharedExternalPlaceBar");
+				            dojo.byId("externalMemberAllowedIndicator").style.display = 'inline';
+				        }
+				    } catch(err){}
+				}, "dojo.getObject('lconn.communities.bizCard.core.community')", null, false);
+          });
+
+	document.onclick = function () {
+		if (dojo.isIE)
+			MenuPopup.returnFocusElement = false;
+		MenuPopup.hideMenu();
+	};
+	document.onkeyup = function ( event ) {
+		MenuPopup.hideOnKeypress( event );
+	};
+	
+	lconn.core.auth.setAuthCheck(function() {
+		if(!(typeof window.currentLogin.name == 'undefined' || window.currentLogin.name == null || window.currentLogin.name == '')) {
+			return true;
+		}
+		return false;
+	});
+</script>
+
+<div id="pagePlaceBar" class="lotusPlaceBar lotusTitleBarExt"><div class="lotusRightCorner"><div class="lotusInner">
+	<h2 class="blogsWrapText bidiAware">
+		<img id="externalMemberAllowedIndicator" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lotusui30 lconnIconListSharedExternal" title="This community can have members from outside your organization." alt="This community can have members from outside your organization." style="display: none; margin-top: -5px">
+		每天5分钟玩转 OpenStack
+	</h2>
+    <ul class="lotusRight lotusInlinelist lotusActions" id="login_participate_link" style="display: block;">
+    	<li class="lotusFirst">
+			<a href="javascript:lconn.blogs.utils.loginAction();">Log in</a> to participate
+    	</li>
+	</ul>
+	<ul aria-label="Action bar" role="toolbar" id="blogsActionBar" class="aria_toolbar lotusRight lotusInlinelist lotusActions">
+
+						
+			<script language="javascript">
+		if(currentLogin.auth){
+		document.write('<li class="lotusFirst">' +
+		   '<a id="followBtn" href="javascript:;" role="button" aria-haspopup="true" aria-owns="followDropDownMenu" style="display:none">' +
+		      'Following Actions ' +
+		      '<img class="lotusArrow lotusDropDownSprite" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20150310.220517" alt="" role="presentation" />' +
+		      '<span class="lotusAltText">&#x25bc;</span>' +
+		   '</a>' +
+		'</li>');
+		}
+		</script>
+
+		<script language="javascript">
+		var items = [];
+
+		dojo.addOnLoad(function() {
+			if(dojo.byId("followBtn")) {
+				var followMenu = new lconn.core.FollowMenu({items:items}, dojo.byId("followBtn"));
+				dojo.connect(dijit.byId('followBtn').menu, "addChild", null, function(){dojo.byId("followBtn").style.display = '';});
+			}
+		});
+
+		</script>
+	
+	<script language="javascript">
+		if(!currentLogin.auth)
+			dojo.byId("login_participate_link").style.display="block";
+			
+		function followAction(id, action) {
+			lconn.blogs.utils.clearMessage('messageContainer');
+			dojo.xhrPost({
+				url: '/developerworks/community/blogs/roller-services/json/following',
+				handleAs: 'json',
+				postData: 'version=300&uuid='+id+'&action='+action+'&dangerousurlnonce='+window.__security_nonce,
+				load: function (ret) {
+					if(!ret.success) {
+						if('session timeout' == ret.error) {
+							lconn.blogs.utils.refreshSecurityNonce(ret.nonce);
+							var errMsg = "We were unable to process your request due to a session timeout.  Please try again.";
+							lconn.blogs.utils.showMessage('messageContainer', errMsg, 'error', true);
+						} else {
+							var errMsg = "Following action failed.";
+							lconn.blogs.utils.showMessage('messageContainer', errMsg, 'error', true);
+						}
+					}
+					if(ret.success) {
+						var blogsFollowBtn = dojo.query("[class='blogsFollowBtn']", dojo.byId("blogsActionBar"))[0];
+						if(typeof (blogsFollowBtn) != "undefined"){
+							if(action == "follow"){
+								blogsFollowBtn.innerHTML = 'Stop Following this Blog';
+							    dojo.attr(blogsFollowBtn, {"aria-label": 'Stop Following this Blog'});
+								blogsFollowBtn.onclick= function(){followAction(id, 'unfollow');};
+							}
+							else{
+								blogsFollowBtn.innerHTML = 'Follow this Blog';
+							    dojo.attr(blogsFollowBtn, {"aria-label": 'Follow this Blog'});
+								blogsFollowBtn.onclick= function(){followAction(id, 'follow');};
+							}
+						}
+						if(typeof (blogsFollowItem) != "undefined"){
+							var blogsFollowItem = blogsFollowDropDownMenu.getChildren()[0];
+							var itemLabel;
+							var itemAction;
+							if(action == "follow"){
+								itemLabel = 'Stop Following this Blog';
+								itemAction = function() {followAction(id, 'unfollow');};
+							}
+							else{
+								itemLabel = 'Follow this Blog';
+								itemAction = function() {followAction(id, 'follow');};
+							}
+							dojo.attr(blogsFollowItem, {"label": itemLabel});
+							dojo.attr(blogsFollowItem, {"onClick": itemAction});
+						}
+						if(action == "follow")
+							lconn.blogs.utils.showMessage('messageContainer', 'You are following this blog and will receive updates about it.', 'success', true);
+						else
+							lconn.blogs.utils.showMessage('messageContainer', 'You stopped following this blog and will no longer receive updates about it.', 'success', true);
+					}
+				},
+				error: function () {
+					lconn.blogs.utils.showMessage('messageContainer', 'Following action failed.', 'error', true);
+				}
+			});
+		}
+	</script>
+
+			        <li id="communityActionBar" style="display: none;"></li>
+		</ul><!--end bntContainer-->
+</div></div></div><!--end placebar-->
+
+</div>
+<div id="lotusMain" class="lotusMain">
+	<div id="lotusColLeft" class="lotusColLeft">
+	    <!-- Community link -->
+	    		    		    <span class="vcomm X-community-display-inline">
+		        <span class="name" style="display:none;" aria-label="undefined"></span>
+		        <span class="uuid" style="display:none">132cfa78-44b0-4376-85d0-d3096cd30d3f</span>
+			    <span class="selectedWidgetId" style="display:none;">Blog</span>
+            <span class="personinlinemenu"><style>.lotusui30 img.lotusForceLineHeight { line-height: 1; }</style><div class="lotusMenu" role="navigation" aria-label="Community"><div class="lotusBottomCorner"><div class="lotusInner"><div class="lotusMenuSection"><h3 class=""><div class="lotusIndent10"><a id="132cfa78-44b0-4376-85d0-d3096cd30d3f_twisty" class="lotusSprite lotusArrow lotusTwistyOpen" href="javascript:lconn.communities.bizCard.core.toggleSection(&#39;132cfa78-44b0-4376-85d0-d3096cd30d3f_twisty&#39;,&#39;132cfa78-44b0-4376-85d0-d3096cd30d3f_comm_appLinks&#39;,&#39;132cfa78-44b0-4376-85d0-d3096cd30d3f_commAltText&#39;,&#39;community.inline.card.links&#39;);" title="Click to collapse section"><span id="132cfa78-44b0-4376-85d0-d3096cd30d3f_commAltText" class="lotusAltText">▼</span></a><table cellpadding="0" cellspacing="0" class="lotusLayout" role="presentation" width="155px"><tbody><tr><td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communitystart?communityUuid=132cfa78-44b0-4376-85d0-d3096cd30d3f" class="discussCommunityLink lotusBold" title="Click here to see the community&#39;s start page"><img class="lconnSprite lconnSprite-iconModeratedCommunity16" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/c.gif" alt="This is a moderated community" title="This is a moderated community"> 每天5分钟玩转 OpenStack</a></td></tr></tbody></table></div></h3><div id="132cfa78-44b0-4376-85d0-d3096cd30d3f_comm_appLinks" class="lotusMenuSubsection"><ul id="bizCardNav" role="toolbar" aria-label="Community"><li class="lconnCommLogo" role="presentation" tabindex="-1"><a title="Click here to see the community&#39;s start page" href="https://www.ibm.com/developerworks/community/groups/service/html/communitystart?communityUuid=132cfa78-44b0-4376-85d0-d3096cd30d3f" tabindex="-1"><img src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/image" width="155" height="155" alt="" class="discussCommunityLogo lotusForceLineHeight"></a></li><li role="button" tabindex="-1" itemidx_="0" aria-pressed="false"><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityoverview?communityUuid=132cfa78-44b0-4376-85d0-d3096cd30d3f" title="Click here to see the community&#39;s overview page" tabindex="-1">Overview</a></li><li role="button" tabindex="-1" itemidx_="1" aria-pressed="false"><a href="https://www.ibm.com/developerworks/community/groups/service/html/community/updates?communityUuid=132cfa78-44b0-4376-85d0-d3096cd30d3f&amp;filter=all" title="Recent Updates" tabindex="-1">Recent Updates</a></li><li role="button" tabindex="-1" itemidx_="2" aria-pressed="false"><a href="https://www.ibm.com/developerworks/community/groups/service/html/community/updates?communityUuid=132cfa78-44b0-4376-85d0-d3096cd30d3f&amp;filter=status" title="Status Updates" tabindex="-1">Status Updates</a></li><li role="button" tabindex="-1" itemidx_="3" aria-pressed="false"><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityoverview?communityUuid=132cfa78-44b0-4376-85d0-d3096cd30d3f#fullpageWidgetId=Members" title="Members" tabindex="-1">Members</a></li><li role="button" class="lotusSelected" tabindex="0" itemidx_="4" aria-pressed="true"><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f" title="Blog" tabindex="-1">Blog</a></li></ul></div><!--end subsection--></div><!--end section--></div></div></div><!--end menu--></span></span>
+					
+		<!-- Tags -->
+    	<div id="lconnTagCloudFilter" class="lotusSection" role="complementary" aria-label="Tags" aria-labelledby="section_tag_label" name="tags_section_mainpart" aria-expanded="true">
+			<label id="tags_section_hint_label" aria-live="polite" class="lotusOffScreen">Expanded section</label><h2>
+				<a id="tags" class="lotusSprite lotusArrow lotusTwistyOpen" href="javascript:;" role="button" aria-label="Click to collapse section" title="Click to collapse section" onclick="lconn.blogs.utils.toggleSection(this, &#39;Click to collapse section&#39;, &#39;Click to expand section&#39;);return false;">
+					<span class="lotusAltText">▼</span>
+				</a>
+				<span id="section_tag_label" class="lotusLeft">Tags</span>
+				<a href="javascript:;" id="tagsHelpLink" class="lotusRight" role="button" widgetid="tagsHelpLink"><img class="lconnSprite lconnSprite-iconHelp16" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" alt="Tags Help"><span class="lotusAltText">?</span></a>
+				<script>
+					lconn.core.HelpLauncher.createHelpLink(dojo.byId("tagsHelpLink"), 'Tags', 'A tag is a keyword that you assign to a blog to categorize it and make it easy to find. Type or click a tag to see the blogs associated with it. Popular tags appear in larger text in the tag cloud or list.', {HELP:'Tags Help',CLOSE:'Close Tags Help'});
+				</script>
+			</h2>
+		 	<div id="lconnTagCloudContent" name="section_tags" class="lotusSectionBody">
+				<div id="lconnTagWidget" widgetid="lconnTagWidget"> <div dojoattachpoint="_tagMenu,focusNode"> <div dojoattachpoint="_loadTags" class="lotusHidden"><img alt="Loading Content" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lotusLoading">Loading Content</div> <div dojoattachpoint="_noTags" class="lconnEmpty lotusHidden">No tags yet</div> <div class="" dojoattachpoint="_hasTags"> <div dojoattachpoint="_selectedTagsSection" class="lotusHidden"> <h3 style="border-bottom:0px;font-weight: bold;margin:0;padding:2px 0 0;">Selected Tags</h3> <ul class="lotusEditable lotusList lotusMeta" dojoattachpoint="_selectedTags" role="listbox" aria-label="Selected Tags"><li></li></ul> </div> </div> <div dojoattachpoint="_tagSearchText" class=""> <a href="javascript:void(0);" class="lotusBold" dojoattachevent="onclick: _showSearchForm" role="button" title="Find a Tag">Find a Tag</a> </div> <div dojoattachpoint="_tagSearchForm" class="lotusChunk lotusSearch lotusHidden"> <form dojoattachevent="onsubmit: _searchTag" style="margin:0;"> <input type="text" id="lconnTagWidgetcommonTagsTypeAhead" class="lotusText dijitTextBox dijitComboBox dijitValidationTextBox" autocomplete="off" name="lconnTagWidgetcommonTagsTypeAhead" dojoattachevent="onkeyup:_onKeyUp" dojoattachpoint="domNode,comboNode,textbox,focusNode" waistate="haspopup-true,autocomplete-list,expanded-false" role="combobox" tabindex="0" widgetid="lconnTagWidgetcommonTagsTypeAhead" aria-owns="lconnTagWidgetcommonTagsTypeAhead_dummypopup" value="" style="color: rgb(102, 102, 102);"><span class="lotusBtnImg" title="Search"><input type="image" class="lotusSearchButton" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" name="submit" alt="Search"><a href="javascript:;" dojoattachevent="onclick: _searchTag" class="lotusAltText" role="button">Search</a></span> <div style="display: none;"></div><div id="lconnTagWidgetcommonTagsTypeAhead_dummypopup" role="textbox" style="display: none;"></div></form> </div> <div dojoattachpoint="_relatedTagsSection" class="lotusHidden lotusChunk10"> <h3 style="border-bottom: 0px; font-weight: bold; margin:0; padding:2px 0 0;">Related Tags</h3> <div>Add a related tag to further refine your search</div> <ul class="lotusList lotusTags lotusRelatedTags" dojoattachpoint="_relatedTags" role="listbox" aria-label="Related Tags"><li></li></ul> </div> <div dojoattachpoint="_normalTagsSection" class="lotusChunk10" aria-label="Tags"> <div id="lconnTagWidget_tagCloudView" dojoattachpoint="_tagCloudView" class=""> <div dojoattachpoint="_tagCloudTable" class="lotusTagCloud"><ul role="listbox" aria-label="Tags" tabindex="-1" style="list-style-type: disc;"><li role="presentation"><a href="javascript:;" class="lotusF1" title="Add the tag cloud with count 1" aria-describedby="list_prompt" role="option">cloud</a> </li><li role="presentation"><a href="javascript:;" class="lotusF5" title="Add the tag docker with count 66" aria-describedby="list_prompt" role="option" tabindex="-1">docker</a> </li><li role="presentation"><a href="javascript:;" class="lotusF1" title="Add the tag kubernetes with count 1" aria-describedby="list_prompt" role="option" tabindex="-1">kubernetes</a> </li><li role="presentation"><a href="javascript:;" class="lotusF2" title="Add the tag kvm with count 5" aria-describedby="list_prompt" role="option" tabindex="-1">kvm</a> </li><li role="presentation"><a href="javascript:;" class="lotusF1" title="Add the tag openstack with count 3" aria-describedby="list_prompt" role="option" tabindex="-1">openstack</a> </li><li role="presentation"><a href="javascript:;" class="lotusF3" title="Add the tag swarm with count 14" aria-describedby="list_prompt" role="option" tabindex="-1">swarm</a> </li><li role="presentation"><a href="javascript:;" class="lotusF1" title="Add the tag 云计算 with count 2" aria-describedby="list_prompt" role="option" tabindex="-1">云计算</a> </li><li role="presentation"><a href="javascript:;" class="lotusF5" title="Add the tag 容器 with count 66" aria-describedby="list_prompt" role="option" tabindex="-1">容器</a> </li><li role="presentation"><a href="javascript:;" class="lotusF5" title="Add the tag 教程 with count 66" aria-describedby="list_prompt" role="option" tabindex="-1">教程</a> </li><li role="presentation"><a href="javascript:;" class="lotusF1" title="Add the tag 虚拟化 with count 1" aria-describedby="list_prompt" role="option" tabindex="-1">虚拟化</a> </li></ul></div> </div> <div id="lconnTagWidget_tagListView" dojoattachpoint="_tagListView" class="lotusHidden"> <ul id="lconnTagWidget_tagList" dojoattachpoint="_tagList" class="lotusList lotusEditable lotusMeta" role="listbox" aria-label="Tags"><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">66</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag docker with count 66" aria-describedby="list_prompt">docker</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">66</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag 容器 with count 66" aria-describedby="list_prompt" tabindex="-1">容器</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">66</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag 教程 with count 66" aria-describedby="list_prompt" tabindex="-1">教程</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">14</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag swarm with count 14" aria-describedby="list_prompt" tabindex="-1">swarm</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">5</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag kvm with count 5" aria-describedby="list_prompt" tabindex="-1">kvm</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">3</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag openstack with count 3" aria-describedby="list_prompt" tabindex="-1">openstack</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">2</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag 云计算 with count 2" aria-describedby="list_prompt" tabindex="-1">云计算</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">1</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag cloud with count 1" aria-describedby="list_prompt" tabindex="-1">cloud</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">1</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag kubernetes with count 1" aria-describedby="list_prompt" tabindex="-1">kubernetes</a> </li><li role="presentation" class="lotusAlignLeft"><span class="lotusRight">1</span><a role="option" class="lotusLeft" href="javascript:;" title="Add the tag 虚拟化 with count 1" aria-describedby="list_prompt" tabindex="-1">虚拟化</a> </li></ul> </div> <div class="lotusChunk lotusSubsection"> <div dojoattachpoint="_tagCloudLink" class=""> <ul class="lotusInlinelist lotusActions"> <li class="lotusFirst"><span class="lotusBold" dojoattachpoint="_showCloudSpan,focusNode" role="button" aria-controls="lconnTagWidget_tagCloudView" aria-disabled="true" aria-pressed="true" tabindex="0">Cloud</span></li> <li><a href="javascript:void(0);" title="List tags as a sequential list of tags" role="button" aria-controls="lconnTagWidget_tagListView" dojoattachpoint="_showListLink" dojoattachevent="onclick: _showList">List</a></li> <li dojoattachpoint="_tagCloudAll" class="lotusHidden"><a href="javascript:void(0);" title="Browse all tags" role="button" dojoattachevent="onclick:_showAllTags">Browse</a></li> </ul> </div> <div dojoattachpoint="_tagListLink" class="lotusHidden"> <ul class="lotusInlinelist lotusActions"> <li class="lotusFirst"><a href="javascript:void(0);" title="List tags as a tag cloud" role="button" aria-controls="lconnTagWidget_tagCloudView" dojoattachpoint="_showCloudLink" dojoattachevent="onclick: _showCloud">Cloud</a></li> <li><span class="lotusBold" dojoattachpoint="_showListSpan" role="button" aria-controls="lconnTagWidget_tagListView" aria-disabled="true" aria-pressed="true" tabindex="0">List</span></li> <li dojoattachpoint="_tagListAll" class="lotusHidden"><a href="javascript:void(0);" title="Browse all tags" role="button" dojoattachevent="onclick:_showAllTags">Browse</a></li> </ul> </div> </div> </div> </div></div>
+				
+				
+				
+				<script language="javascript">
+dojo.addOnLoad(function(){
+		var selectedTags = "";
+		
+		var urlParameters = {};
+					urlParameters['website'] = '822fa077-8a6c-402b-81d2-3fd9fb838ab3';
+				
+		var redirectUrlParameters = {};
+							
+		var blogsTagsArgs = {
+			contextPath: "/developerworks/community/blogs",
+			selectedTags: selectedTags,
+
+			tagUrl: '/developerworks/community/blogs/roller-services/json/tagcloud',
+			urlParameters:urlParameters,
+
+						typeAheadFeedUrl: '/developerworks/community/blogs/roller-services/json/typeahead?requestType=entry&limit=10&handle=132cfa78-44b0-4376-85d0-d3096cd30d3f',
+			
+    					
+							isAllBlogs: false,
+				redirectUrl: "/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f",
+						redirectUrlParameters:redirectUrlParameters,
+
+			multiSelected:true,
+			typeAheadTemplate:'tag',
+			tagTemplate:'tags',
+
+			disableRelated:false,
+			handleAs:'json',
+			redirectWhenClickTag:true,
+			tagDialogEnabled: false,
+			
+			ownedContentRegion: 'list_prompt'
+		};
+
+		new lconn.blogs.CommonTags.BlogsTagWidget(blogsTagsArgs, dojo.byId('lconnTagWidget'));
+	}
+);
+</script>
+			</div>
+		</div><!--end section-->
+	</div><!--end colLeft-->
+
+	<!-- colRight -->
+	<!-- colRight would go below content when using overall table layout -->
+	<div id="lotusColRight" class="lotusColRight">
+				
+					
+								
+		
+	   					    			<div class="lotusSection  lotusFirst " role="complementary" aria-label="Archive" aria-labelledby="section_archive_label" name="archive_section_mainpart" aria-expanded="true">
+		    	<label id="archive_section_hint_label" aria-live="polite" class="lotusOffScreen">Expanded section</label><h2 style="cursor:default">
+				<a id="archive" class="lotusSprite lotusArrow lotusTwistyOpen" href="javascript:;" onclick="lconn.blogs.utils.toggleSection(this, &#39;Click to collapse section&#39;, &#39;Click to expand section&#39;);" title="Click to collapse section" role="button" aria-label="Click to collapse section"><span class="lotusAltText">▼</span></a>
+				<span id="section_archive_label" class="lotusLeft">Archive</span>
+		    	</h2>
+		    	<div id="section_archive" class="lotusSectionBody">
+		    		<div>
+			    	
+<ul class="lotusList"><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201712">December 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201711">November 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201710">October 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201709">September 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201708">August 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201707">July 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201706">June 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201705">May 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201704">April 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201703">March 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201702">February 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201701">January 2017</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201612">December 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201611">November 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201610">October 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201609">September 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201608">August 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201607">July 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201606">June 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201605">May 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201604">April 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201603">March 2016</a></li><li><a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/date/201602">February 2016</a></li></ul>
+
+			    	</div>
+			    </div>
+		    </div>
+		    		    
+		    		
+		<div class="lotusSection " role="complementary" aria-label="Blog Authors" aria-labelledby="section_authors_label" name="authors_section_mainpart" aria-expanded="true">
+			<label id="authors_section_hint_label" aria-live="polite" class="lotusOffScreen">Expanded section</label><h2 style="cursor:default">
+				<a id="authors" class="lotusSprite lotusArrow lotusTwistyOpen" href="javascript:;" onclick="lconn.blogs.utils.toggleSection(this, &#39;Click to collapse section&#39;, &#39;Click to expand section&#39;);" title="Click to collapse section" role="button" aria-label="Click to collapse section"><span class="lotusAltText">▼</span></a>
+				<span id="section_authors_label" class="lotusLeft">Blog Authors<div id="authors_loading"></div></span>
+			</h2>
+			<div id="section_authors" class="lotusSectionBody">
+
+			<div id="blogAuthors" style="overflow:hidden"><table width="100%" style="border-style: solid; border-color: rgb(204, 203, 203); border-width: 1px 0px 0px;" role="presentation"><tbody><tr><td class="lotusAlignLeft" style="padding: 0px 5px; vertical-align: middle; width: 45px;"><img alt="" role="presentation" class="otherPeople48 otherPeople48-NoPhotoPerson48" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/photo.do"></td><td class="lotusAlignLeft" style="vertical-align: middle; height: 50px;"><span class="vcard"><a href="javascript:;" class="fn lotusPerson bidiAware" _bizcardprocessed_="true" role="button" href_bc_="https://www.ibm.com/developerworks/community/profiles/html/profileView.do?userid=310001SPJJ">CloudMan6<span class="x-lconn-userid" style="display: none;">310001SPJJ</span></a><span class="x-lconn-userid" style="display:none">310001SPJJ</span></span></td></tr></tbody></table><table width="100%" role="presentation"><tbody><tr><td class="lotusAlignLeft" style="padding: 0px 5px; vertical-align: middle; width: 50%;"><span>1 - 1 of 1 authors</span></td></tr></tbody></table></div>
+
+           <script language="javascript">
+				var blogAuthors = dojo.byId('blogAuthors');
+				var authorPageSize = 3;
+				blogAuthors.getUserPhotoURL = function(relative) {
+               	               	                              return 'https://www.ibm.com/developerworks/community/profiles' + relative;
+                          };
+				blogAuthors.render = function(data, reload) {
+               var i = 0, s = '';
+
+				var prevlink = undefined, nextlink = undefined, baselink = '/developerworks/community/blogs/roller-services/json/authors?weblog=822fa077-8a6c-402b-81d2-3fd9fb838ab3&ps='+authorPageSize+'&offset={0}&lang=en';
+				if(data.offset > 1)
+					prevlink = "javascript:dojo.byId('blogAuthors').load('" + baselink.replace("{0}", (data.offset - authorPageSize))  + "')";
+				if(data.end < data.total)
+					nextlink = "javascript:dojo.byId('blogAuthors').load('" + baselink.replace("{0}", (data.offset + authorPageSize)) + "')";
+				
+				if(data.offset > 1)
+					s+= '<table width="100%" role="presentation"><tr><td style="height:16px;text-align: center;"><a  role="button" aria-label="Previous" title="Previous" onclick="'+(prevlink ?prevlink : '')+ '" href="javascript:void(0);"><img class="lotusSprite lotusArrow lotusScrollUp" style="display: inline;" alt="Previous" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20150310.220517"/><span class="lotusAltText">Previous</span></a></td></tr></table>';
+
+               for(; i < data.authors.length; i++) {
+                   var o = data.authors[i];
+                   var fullName = lconn.blogs.utils.escapeHTML(o.fullName);
+                   var divTemp = dojo.create("div",{});
+				   var a;
+				   if(lconn.core.config.services.profiles)
+                      a = com.ibm.lconn.layout.people.createLink({userid:o.extid, name:o.fullName});
+				   else{
+				      a = dojo.create("a",{"class":"fn lotusPerson bidiAware", "href":"/developerworks/community/blogs/roller-ui/allblogs?userid="+encodeURIComponent(o.extid)+"&lang=en", "title":o.fullName, "innerHTML":fullName});
+				   }
+                   divTemp.appendChild(a);
+                      if (o.state=='0') {
+						s += ['<table width="100%" style="border-style: solid; border-color: rgb(204, 203, 203); border-width: 1px 0px 0px;" role="presentation">',
+								'<tr><td class="lotusAlignLeft" style="padding: 0px 5px; vertical-align: middle; width: 45px;">',
+								'<img alt="" role="presentation" class="otherPeople48 otherPeople48-NoPhotoPerson48" src="', this.getUserPhotoURL(o.photo), '"></td>',
+								'<td class="lotusAlignLeft" style="vertical-align: middle; height: 50px;"><span class="vcard">',
+                           divTemp.innerHTML,
+                           '<span class="x-lconn-userid" style="display:none">', o.extid, '</span>',
+                           o.emailAddress? ('<span class="email" style="display:none">' + o.emailAddress + '</span>') : '',
+								'</span></td></tr></tbody></table>'
+                        ].join('');
+                      }
+                      else {
+                      	dojo.addClass(a, "lotusPersonInactive");
+                      	a.innerHTML = fullName + ' (' + 'inactive' + ')';
+						if(!lconn.core.config.services.profiles)
+							dojo.attr(a, {"title": o.fullName + ' (' + 'inactive' + ')'});
+						s += ['<table width="100%" style="border-style: solid; border-color: rgb(204, 203, 203); border-width: 1px 0px 0px;" role="presentation">',
+								'<tr><td class="lotusAlignLeft lotusDim" style="padding: 0px 5px; vertical-align: middle; width: 45px;">',
+								'<img alt="" role="presentation" class="otherPeople48 otherPeople48-NoPhotoPerson48" src="', this.getUserPhotoURL(o.photo), '"></td>',
+								'<td class="lotusAlignLeft" style="vertical-align: middle; height: 50px;"><span class="vcard">',
+                           divTemp.innerHTML,
+                           '<span class="x-lconn-userid" style="display:none">', o.extid, '</span>',
+                           o.emailAddress? ('<span class="email" style="display:none">' + o.emailAddress + '</span>') : '',
+								'</span></td></tr></tbody></table>'
+                        ].join('');
+                      }
+               }
+
+				if(data.end < data.total)
+					s+= '<table width="100%" role="presentation"><tr><td style="height:16px;text-align: center;"><a role="button" aria-label="Next" title="Next" onclick="'+(nextlink ?nextlink : '')+ '" href="javascript:void(0);"><img class="lotusSprite lotusArrow lotusScrollDown" style="display: inline;" alt="Next" src="https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/blank.gif?etag=20150310.220517"/><span class="lotusAltText">Next</span></a></td></tr></table>';
+
+				s += ['<table width="100%" role="presentation"><tr>',
+						'<td class="lotusAlignLeft" style="padding: 0px 5px; vertical-align: middle; width: 50%;"><span>', dojo.string.substitute(	'${0} - ${1} of ${2} authors', [data.offset, data.end, data.total]), '</span></td>',
+						'</tr></tbody></table>'
+                        ].join('');
+
+				dojo.byId('blogAuthors').innerHTML = s;
+
+               dojo.removeClass(dojo.byId("authors_loading"), "lotusLoading");
+
+               if(typeof(SemTagSvc) != "undefined" && reload) {
+					SemTagSvc.parseDom(null, dojo.byId('blogAuthors'));
+               }
+           };
+				blogAuthors.load = function(url) {
+               dojo.addClass(dojo.byId("authors_loading"), "lotusLoading");
+					dojo.xhrGet({url: url, handleAs: 'json', load: function(data){dojo.byId('blogAuthors').render(data, true);}, error: function(err){dojo.removeClass(dojo.byId("authors_loading"), "lotusLoading");}});
+           };
+
+				           					blogAuthors.render({offset: 1, end: 1, total: 1, authors: [{id:'db85185a-cb9b-4ceb-ae77-1003398da240',extid:'310001SPJJ',name:'CloudMan6',fullName:'CloudMan6',state:'0',userState:'active',userIDForDisplay:'310001SPJJ',photo:'/photo.do?userid=310001SPJJ'}]});
+                      </script>
+				</div>
+			</div>
+	   </div> <!-- end colRight -->
+
+		<!-- content -->
+		<!-- <td valign="top"> -->
+         <div id="lotusContent" class="lotusContent" role="main">
+         <div id="messageContainer" aria-live="assertive"></div>
+         <div class="ibm-anchor-pointer"><a name="mainContent"></a></div><a id="mainContent"></a>
+           <script type="text/javascript">
+var renderMessagesOnLoad = function() {
+			}
+</script>
+		   				    
+           <div class="lotusLayout lotusHeader blogsWrapText">
+              	              	<h1 role="presentation"><a class="bidiAware" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f?lang=en">每天5分钟玩转 OpenStack</a></h1>
+                           </div>
+
+		   <div class="lotusActionBar lotusBtnContainer aria_toolbar" role="toolbar" style="float:none" aria-label="Blog Actions">
+	           			   			       <span class="lotusBtn lotusLeft"><a role="button" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f?lang=en">View All Entries</a></span>
+		       		   </div>
+           
+           
+		   		   
+		   		 	
+ 		    <div id="entries">
+
+		        
+		        			    <span id="list_prompt" style="display:none">Clicking the button causes a full page refresh. The user could go to the "Entry list" region to view the new content.)</span>
+			    <span id="list_labelledby" style="display:none">Entry list</span>
+				<div role="region" aria-label="Entry list" aria-labelledby="list_labelledby">
+					<!-- Dont show paging when there are no entries -->
+												            	
+	
+	
+					<!-- Dont show sort control when there are no entries -->
+						 		        				   	
+			       
+    
+        <div role="region" aria-label="Entry list">
+	    <table class="lotusTable blogsFixedTable" border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+		<tbody>
+	
+	
+	
+	        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+    <tr class="lotusFirst">
+	    <!-- Entry title and info -->
+		<td class="entryContentContainerTD blogsWrapText"><div class="ibm-anchor-pointer"><a name="Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35"></a></div><a id="Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35"></a>
+							<h4 class="bidiAware" id="entry_title" role="heading" aria-level="1" aria-labelledby="entry_title">
+					Nova Suspend/Rescue 操作详解 - 每天5分钟玩转 OpenStack（35）
+				</h4>
+						<!-- User name, date, meta info -->
+			<div class="lotusMeta lotusLeft" role="list">
+				<span class="vcard" role="listitem">
+					<a class="lotusPerson fn bidiAware" href="javascript:;" title="CloudMan6" _bizcardprocessed_="true" role="button" href_bc_="https://www.ibm.com/developerworks/community/profiles/html/profileView.do?userid=310001SPJJ">CloudMan6</a>
+				    <span class="x-lconn-userid" style="display: none;">310001SPJJ</span>
+				    				</span>
+								<span class="lotusDivider" role="img" aria-hidden="true">|</span>
+				<span role="listitem">
+				<script type="text/javascript"> document.write(blogsDate.date.localize (1463524471000));</script><span class="blogsDateTime" title="May 18 2016">May 18 2016</span>
+				</span>
+		        													  					‎
+  					                	<span class="lotusDivider" role="img" aria-hidden="true">|</span>
+                	<span role="listitem">
+                	                	5,112 Views
+                	                	</span>
+                	        </div>
+			<!-- Rating -->
+			        	<span class="lotusRight">
+<span class="rating lotusRating" id="entry_rating_a15fcc65-a61d-4890-98b8-d795f65489a0">
+<div class="lotusLike" role="presentation" id="entry_rating_a15fcc65-a61d-4890-98b8-d795f65489a0_widget" widgetid="entry_rating_a15fcc65-a61d-4890-98b8-d795f65489a0_widget"> <a class="lotusLikeCount lotusDisabled" dojoattachpoint="inlineLaunchPopup" title="0 people like this" href="javascript:;" role="button" aria-haspopup="true"> <img dojoattachpoint="inlineSmiley" class="lotusIconLike" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" alt="0 people like this"> <span class="lotusAltText" dojoattachpoint="likeAltAP">0 people like this</span> <div dojoattachpoint="inlineLikeCount" class="lotusLikeText" role="presentation">&nbsp;</div> <div class="lotusLikeConnector lotusHidden"></div> </a> <span role="presentation" aria-live="assertive" dojoattachpoint="inlineLikeActions"></span></div>
+<script language="javascript">
+	dojo.addOnLoad(function(){
+	var store_data = {
+	id: currentLogin.extid,
+	identifier: "userId",
+	items: [
+			]
+	};
+	var store = new lconn.blogs.recommend.RecommendDataStore({
+		data:store_data, 
+		type:'entry', 
+		itemId:'a15fcc65-a61d-4890-98b8-d795f65489a0', 
+		currentLogin: currentLogin,
+		recommendationsCount: 0
+	});
+	objRecommend = new lconn.blogs.recommend.Inline(
+			{
+				debug: false,
+				editable: true,
+				loadIndividualStyles: false,
+									currentUserId: currentLogin.extid,
+								dataStore: store			
+			},
+			dojo.byId('entry_rating_a15fcc65-a61d-4890-98b8-d795f65489a0_widget')
+	);
+	});
+</script>
+
+
+</span>
+</span>
+	        <!-- Entry content -->
+	        <div class="entryContentContainer blogsWrapText" user_content="true" role="article" aria-label="Nova Suspend/Rescue 操作详解 - 每天5分钟玩转 OpenStack（35）">
+	        						<p dir="ltr" style="margin: 0;"><span style="font-size: 16px;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495354216062994.jpg" style="float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945201028549.png"></span></p>
+
+<p dir="ltr"><span style="color: #333333; font-family: &#39;Microsoft YaHei&#39;; line-height: 28px; white-space: pre; font-size: 16px;">本节我们讨论 Suspend/Resume 和 Rescue/Unrescue 这两组操作。</span></p>
+
+<h1 dir="ltr" style="margin: 20px 0px 10px; padding: 0px; border: 0px; -webkit-font-smoothing: antialiased; color: #333333; font-family: 微软雅黑; line-height: 28px; white-space: normal;"><span style="font-size: 18pt; font-family: &#39;Microsoft YaHei&#39;;">Suspend/Resume </span></h1>
+
+<p dir="ltr" style="margin-top: 10px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">有时需要长时间暂停 instance，可以通过 Suspend 操作将 instance 的状态保存到宿主机的磁盘上。当需要恢复的时候，执行 Resume 操作，从磁盘读回 instance 的状态，使之继续运行。 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">这里需要对 Suspend 和 Pause 操作做个比较： </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><strong style="margin: 0px; padding: 0px; border: 0px;">相同点</strong><br>
+两者都是暂停 instance 的运行，并保存当前状态，之后可以通过 Resume 操作恢复 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><strong style="margin: 0px; padding: 0px; border: 0px;">不同点</strong><br>
+1. Suspend 将 instance 的状态保存在磁盘上；Pause 是保存在内存中，所以 Resume 被 Pause 的 instance 要比 Suspend 快。 2. Suspend 之后的 instance，其状态是 Shut Down；而被 Pause 的 instance 状态是Paused。 3. 虽然都是通过 Resume 操作恢复，Pause 对应的 Resume 在 OpenStack 内部被叫作 “Unpause”；Suspend 对应的 Resume 才是真正的 “Resume”。这个在日志中能体现出来。 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">Suspend/Resume 的日志分析留给大家做练习。 </span></p>
+
+<h1 dir="ltr" style="margin: 20px 0px 10px; padding: 0px; border: 0px; -webkit-font-smoothing: antialiased; color: #333333; font-family: 微软雅黑; line-height: 28px; white-space: normal;"><span style="font-size: 18pt; font-family: &#39;Microsoft YaHei&#39;;">Rescue/Unrescue </span></h1>
+
+<p dir="ltr" style="margin-top: 10px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">从这节开始，我们将讨论几种 instance 故障恢复的方法，不同方法适用于不同的场景。 首先我们考虑操作系统故障。 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">有时候由于误操作或者突然断电，操作系统重启后却起不来了。 为了最大限度挽救数据，我们通常会使用一张系统盘将系统引导起来，然后在尝试恢复。 问题如果不太严重，完全可以通过这种方式让系统重新正常工作。 比如某个系统文件意外删除， root 密码遗忘等 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">Nova 也提供了这种故障恢复机制，叫做 Rescue。 我们来看看 rescue 的说明： </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495354570072786.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945162068953.png"> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">Rescue 用指定的 image 作为启动盘引导 instance，将 instance 本身的系统盘作为第二个磁盘挂载到操作系统上。 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">下面是 rescue instance 的流程图 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="image180.png" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495354677099617.jpg" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463495012234087432.png"> </span></p>
+
+<ol class="list-paddingleft-2" dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px 0px 0px 30px; border: 0px; color: #333333; font-family: 微软雅黑; line-height: 28px; white-space: normal;">
+	<li>
+	<p><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">向 nova-api 发送请求 </span></p>
+	</li>
+	<li>
+	<p><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">nova-api 发送消息 </span></p>
+	</li>
+	<li>
+	<p><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">nova-compute 执行操作 </span></p>
+	</li>
+</ol>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">下面我们详细讨论每一个步骤。 </span></p>
+
+<h2 dir="ltr" style="margin: 20px 0px 10px; padding: 0px; border: 0px; -webkit-font-smoothing: antialiased; font-size: 14px; color: #333333; font-family: 微软雅黑; line-height: 28px; white-space: normal;"><span style="font-size: 14pt; font-family: &#39;Microsoft YaHei&#39;;">向 nova-api 发送请求 </span></h2>
+
+<p dir="ltr" style="margin-top: 10px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">目前 Rescue 操作只能通过 CLI 执行 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495354880060612.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945130024035.png"> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">这里我们没有指明用哪个 image 作为引导盘，nova 将使用 instance 部署时使用的 image </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">查看日志 /opt/stack/logs/n-api.log </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495355044074429.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945225072497.png"> </span></p>
+
+<h2 dir="ltr" style="margin: 20px 0px 10px; padding: 0px; border: 0px; -webkit-font-smoothing: antialiased; font-size: 14px; color: #333333; font-family: 微软雅黑; line-height: 28px; white-space: normal;"><span style="font-size: 14pt; font-family: &#39;Microsoft YaHei&#39;;">nova-api 发送消息 </span></h2>
+
+<p dir="ltr" style="margin-top: 10px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">nova-api 向 Messaging（RabbitMQ）发送了一条消息：“Rescue 这个 Instance” 源代码在 /opt/stack/nova/nova/compute/api.py，方法是 rescue。 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495355163065484.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945265075076.png"> </span></p>
+
+<h2 dir="ltr" style="margin: 20px 0px 10px; padding: 0px; border: 0px; -webkit-font-smoothing: antialiased; font-size: 14px; color: #333333; font-family: 微软雅黑; line-height: 28px; white-space: normal;"><span style="font-size: 14pt; font-family: &#39;Microsoft YaHei&#39;;">nova-compute执行操作 </span></h2>
+
+<p dir="ltr" style="margin-top: 10px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">查看日志 /opt/stack/logs/n-cpu.log </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><strong style="margin: 0px; padding: 0px; border: 0px;">关闭 instance</strong> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495355335044496.jpg" style="color: #333333; font-family: 微软雅黑; line-height: 28px; white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945288092190.png"></span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495355475094637.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945304097650.png"> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><strong style="margin: 0px; padding: 0px; border: 0px;">通过 image 创建新的引导盘，命名为 disk.rescue</strong></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495355590075702.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945350082029.png"> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><strong style="margin: 0px; padding: 0px; border: 0px;">启动 instance</strong> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495355712087523.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945383085330.png"> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">Rescue 执行成功后，可以通过 virsh edit &lt;instance_name&gt; 查看 instance 的 XML 定义，disk.rescue 作为启动盘 vda，真正的启动盘 disk 作为第二个磁盘 vdb。 </span><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495355876074902.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945394073785.png"></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">登录 instance，通过 fdisk 也可确认。 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495356074040030.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945431078873.png"> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">此时，instance 处于 Rescue 状态 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495356283049495.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945470030151.png"> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">Rescue 操作让我们有机会修复损坏的操作系统。 修好之后，使用 Unrescue 操作从原启动盘重新引导 instance。 </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495356406065102.jpg" style="white-space: normal; float: none;" title="http://7xo6kd.com1.z0.glb.clouddn.com/upload-ueditor-image-20160517-1463494945476033387.png"> </span></p>
+
+<p dir="ltr" style="margin-top: 15px; margin-bottom: 15px; padding: 0px; border: 0px; white-space: pre; color: #333333; font-family: 微软雅黑; line-height: 28px;"><span style="font-size: 16px; font-family: &#39;Microsoft YaHei&#39;;">Unrescue 的日志分析留给大家练习。 </span></p>
+
+<p dir="ltr"><br>
+<span style="font-family: &#39;Microsoft YaHei&#39;;"><img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/upload-ueditor-image-20160517-1463495356512088695.jpg" style="border: 0px; vertical-align: middle; color: #3f3f3f; font-family: &#39;microsoft yahei&#39;; font-size: 15px; line-height: 21.75px; text-align: justify; white-space: normal; outline: none !important; background-color: #f6f6f6;" title=""></span></p>
+	            	        </div>
+		    			<span class="lotusChunk lotusMeta lotusItalic blogsUpdatedTimeInfo">
+							    			    				    Modified on <script type="text/javascript"> document.write(blogsDate.date.localize (1463524471000, undefined, true));</script><span class="blogsDateTime" title="May 18 2016">May 18 2016</span> by <span class="vcard"><a class="lotusPerson fn bidiAware" href="javascript:;" title="CloudMan6" _bizcardprocessed_="true" role="button" href_bc_="https://www.ibm.com/developerworks/community/profiles/html/profileView.do?userid=310001SPJJ">CloudMan6</a> <span class="x-lconn-userid" style="display:none;">310001SPJJ</span> </span>
+			    				    		    </span>
+					</td>
+    </tr>
+	
+	
+	
+	    </tbody>
+	
+	    </table>
+    </div>
+
+				   
+				   				   	
+			       			        <script language="javascript">if(!currentLogin.auth) {document.write('<div style="display:none">');}</script><div style="display:none">
+			        <ul class="lotusInlinelist aria_toolbar" role="toolbar" aria-label="Entry Actions">
+				        <li class="lotusFirst">
+				        <nobr>
+					            		<a id="AddWeblogEntryCommentLink" class="lotusAction" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en#" role="button" title="" onclick="dijit.byId(&#39;blogCommentPanel&#39;).replyToEntry(); return false; ">Add a Comment</a>
+		<a id="AddWeblogEntryCommentDisableLink" class="disabledLink" style="display:none;" title="Comment is disallowed for this entry">Add a Comment</a>
+    					    </nobr>
+				        </li>
+	
+			        	<script language="javascript">if(!currentLogin.edit) document.write('<li style="display:none">'); else document.write('<li>');</script><li style="display:none">
+			        	<nobr>
+			        		<a class="lotusAction" role="button" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/authoring/weblog.do?method=edit&amp;weblog=132cfa78-44b0-4376-85d0-d3096cd30d3f&amp;entry=Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35&amp;lang=en" tabindex="-1">Edit</a>
+			        	</nobr>
+			        	</li>
+			        	<li>
+			        	<nobr>
+				        	<a id="focusMoreActionsLink" class="lotusAction" role="button" aria-haspopup="true" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en#" title="" onclick="if(!event){event=window.event;}menuUtility.openMenu(event, &#39;actionmenu_moreactions&#39;, this);return false;" tabindex="-1">More Actions 
+								<img alt="" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" class="lconnSprite lconnSprite-iconDropDown5x3" role="presentation"><span class="lotusAltText">v</span></a>
+			        	</nobr>
+			        	</li>
+			        	<script language="javascript">if(!currentLogin.globalModerator) document.write('<li style="display:none">'); else document.write('<li>');</script><li style="display:none">
+			        	<nobr>
+			        		<a id="quarantineThisEntryLink" role="button" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en#" onclick="WeblogEntryActionForms.toggle(&#39;quarantineForm&#39;, &#39;comment&#39;);return false;" class="lotusAction" style="color: #f00;" tabindex="-1">Quarantine this Entry</a>
+			        	</nobr>
+			        	</li>
+			        </ul>
+				   <script language="javascript">
+	                   function submitDeleteForm() {
+					   		lconn.blogs.utils.confirm("Are you sure you want to delete this entry?", function(){
+								postDelete();
+							}, {title:'Delete Entry'}, "focusMoreActionsLink");
+					   }
+	               </script>
+			        <div id="actionmenu_moreactions_container">
+				        <table class="dijit dijitMenu dijitMenuPassive dijitReset dijitMenuTable" role="menu" tabindex="0" cellspacing="0" lang="en" id="actionmenu_moreactions" widgetid="actionmenu_moreactions" style="display: none;">
+	<tbody class="dijitReset" data-dojo-attach-point="containerNode">
+						    <tr class="dijitReset dijitMenuItem" data-dojo-attach-point="focusNode" role="menuitem" tabindex="-1" aria-label="Notify Other People " lang="en" id="focusAddNotificationLink" widgetid="focusAddNotificationLink" style="user-select: none;">
+	<td class="dijitReset dijitMenuItemIconCell" role="presentation">
+		<span role="presentation" class="dijitInline dijitIcon dijitMenuItemIcon dijitNoIcon" data-dojo-attach-point="iconNode"></span>
+	</td>
+	<td class="dijitReset dijitMenuItemLabel" colspan="2" data-dojo-attach-point="containerNode,textDirNode" role="presentation" id="focusAddNotificationLink_text">Notify Other People</td>
+	<td class="dijitReset dijitMenuItemAccelKey" style="display: none" data-dojo-attach-point="accelKeyNode" id="focusAddNotificationLink_accel"></td>
+	<td class="dijitReset dijitMenuArrowCell" role="presentation">
+		<span data-dojo-attach-point="arrowWrapper" style="visibility: hidden">
+			<span class="dijitInline dijitIcon dijitMenuExpand"></span>
+			<span class="dijitMenuExpandA11y">+</span>
+		</span>
+	</td>
+</tr>
+						    						</tbody>
+</table>
+					</div>
+			        <script language="javascript">if(!currentLogin.auth) document.write('</div>');</script></div>
+					<script language="javascript">
+					dojo.addOnLoad(function() {
+						if(currentLogin.edit){
+							var more_menu = dijit.byId("actionmenu_moreactions");
+							var delete_item = new dijit.MenuItem({"id":"deleteEntryLink","label":'Delete Entry', "onClick":function(){submitDeleteForm();return false;}});
+							more_menu.addChild(delete_item);
+						}
+						lconn.core.globalization.bidiUtil.enforceTextDirectionOnPage(); // Enforce base text direction if Bidi is enabled
+					});
+					</script>
+					
+					<div style="margin-top:10px">
+<div id="actionforms_globalmsgs" style="display:none" aria-live="assertive">
+</div>
+<div id="actionforms_forms" aria-live="assertive">
+<form id="NotificationFormEx" name="notificationForm" aria-labelledby="notificationFormLabel" style="display:none" action="https://www.ibm.com/developerworks/community/blogs/roller-services/json/notify" class="lotusForm" dojoinit="false" role="application" onsubmit="return false;">
+	<span name="_type" style="display:none">notification_ex</span>
+	<div name="notificationForm_messages"></div>
+	<input type="hidden" name="entry" value="a15fcc65-a61d-4890-98b8-d795f65489a0">
+	<input type="hidden" name="dangerousurlnonce" value="">
+	<input type="hidden" name="lang" value="en">
+	<input type="hidden" name="version" value="250">
+	<fieldset>
+		<table class="lotusFormTable" cellspacing="0" role="presentation">
+		    <tbody>
+		    	<tr><td class="lotusFormTitle" colspan="2"><h2 id="notificationFormLabel">Send Email Notification</h2></td></tr>
+		    	<tr class="lotusFormFieldRow">
+		    		<td class="lotusFormField" colspan="2">
+		    			<div lang="en" id="notificationForm_tabContainer" widgetid="notificationForm_tabContainer"><div class="lotusTabContainer"><ul class="lotusTabs" dojoattachpoint="tabsNode" role="toolbar" aria-controls="notificationForm_tabContainer_containerNode"><li class="lotusTab lotusSelected" style="font-weight: bold;"><div><div class="ibm-anchor-pointer"><a name="Type_in_a_Name_LINK"></a></div><a title="Type in a Name" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en#" role="button" aria-pressed="true">Type in a Name</a></div></li><li class="lotusTab"><div><div class="ibm-anchor-pointer"><a name="Pick_from_Community_LINK"></a></div><a title="Pick Community Members" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en#" role="button" aria-pressed="false" tabindex="-1">Pick Community Members</a></div></li></ul></div><div dojoattachpoint="containerNode" style="height:auto !important" id="notificationForm_tabContainer_containerNode">
+		    			    		    				<div dojoattachpoint="containerNode" name="Type_in_a_Name" class="lotusTabContent" style="" id="lconn_blogs_TabContent_0" lang="en" title="Type in a Name" widgetid="lconn_blogs_TabContent_0">
+		    					<div class="fieldborder">
+		    						<div class="fieldcontent">
+		    							<span style="display:none" dojotype="lconn.core.PeopleDataStore" queryparam="name" url="/developerworks/community/blogs/roller-services/json/typeaheadpeople?website=822fa077-8a6c-402b-81d2-3fd9fb838ab3" jsid="peopleStore"></span>
+		    							<input type="text" autocomplete="off" id="notificationForm_typeahead" size="" dojoattachevent="onkeyup:_onKeyUp" dojoattachpoint="domNode,textbox,focusNode,comboNode,_popupStateNode" wairole="combobox" waistate="haspopup-true,autocomplete-list,expanded-false" tabindex="0" lang="en" class="typeAheadPeople lotusText" title="Enter a blog user" widgetid="notificationForm_typeahead" aria-owns="notificationForm_typeahead_dummypopup" value="" aria-describedby="notificationForm_typeahead_ariaDescribedBy" style="width: 50%; color: rgb(102, 102, 102);" aria-invalid="false"><div id="notificationForm_typeahead_ariaDescribedBy" style="display:none;">Type to find person</div>
+		    						<div style="display: none;"></div><div id="notificationForm_typeahead_dummypopup" role="textbox" style="display: none;"></div></div>
+		    					</div>
+		    				</div>
+		    						    				<div dojoattachpoint="containerNode" name="Pick_from_Community" class="lotusTabContent" style="display:none;" id="lconn_blogs_TabContent_1" lang="en" title="Pick Community Members" widgetid="lconn_blogs_TabContent_1">
+		    					<input type="checkbox" id="notify_all" onclick="selectAllMembers();" style="display:none;"><label for="notify_all" style="display:none;">All individual community members</label>
+		    					<script type="text/javascript">
+		    					function selectAllMembers(){
+										var checked=dojo.byId("notify_all").checked;
+										var filter_W = dijit.byId("notificationForm_filteringcheckbox");
+										var receivers_W = dijit.byId("notificationForm_receivers");
+										filter_W.setDisabled(checked);
+										if(checked){
+											receivers_W.add('All individual community members', -1);
+										}else{
+											receivers_W.remove(-1);
+										}
+		    					}
+		    					</script>
+		    					<div class="notifyList lotusHidden" lang="en" id="notificationForm_filteringcheckbox" widgetid="notificationForm_filteringcheckbox"> <fieldset> <legend dojoattachpoint="notifyControlsLegend_AP" style="display:none;"></legend> <div dojoattachpoint="filteringContainer_AP"> <div class="lotusSearch" dojoattachpoint="filterRow_AP"> <select style="display:none" dojoattachpoint="groupSelect_AP" dojoattachevent="onchange: _optionChanged" aria-label="Select Group"></select> <input class="lotusInactive" type="text" id="notificationForm_filteringcheckboxFilterTextbox" aria-label="Type to filter this list" dojoattachpoint="filterTextbox_AP" value="Type to filter this list" dojoattachevent="onfocus:readySearch, onkeypress:timedFilter, onchange:timedFilter,onblur:_onBlur"> </div> <div class="peopleList" dojoattachpoint="notifyList_AP" tabindex="-1"></div> <div dojoattachpoint="notifyPaging_AP" class="lotusTiny lotusHidden"></div> </div> <div class="lotusAccess" aria-relevant="all" aria-live="polite" dojoattachpoint="access_AP"></div> </fieldset></div>
+		    				</div>
+		    			</div></div>
+		    		</td>
+		    	</tr>
+		    	<tr class="lotusFormFieldRow" name="notifyLabelTR" style="display:none">
+		    		<td nowrap="" style="padding-bottom:0px;"><div><label class="" for="notify">Notify:</label></div></td>
+		    	</tr>
+		    	<tr class="lotusFormFieldRow" name="notifyFieldTR" style="display:none">
+		    		<td class="lotusFormField">
+		    		 	<div dojoattachpoint="receiversContainer" tabindex="0" role="list" lang="en" id="notificationForm_receivers_receiversContainer" widgetid="notificationForm_receivers"><div class="lotusFilters2" dojoattachpoint="receiverList_AP" aria-label="Notify:"></div><input type="hidden" name="receivers" dojoattachpoint="receivers_AP" value=""></div>
+		    		 </td>
+		    	</tr>
+		    	<tr class="lotusFormFieldRow">
+		    		<td nowrap="" style="padding-bottom:0px;"><label for="notification_message">Message:</label></td>
+		    	</tr>
+		    	<tr class="lotusFormFieldRow">
+		    		<td class="lotusFormField"><textarea id="notification_message" class="bidiAware" style="width: 100%" name="description" rows="10" title="Message:"></textarea></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="lotusFormFooter" colspan="2">
+		    			<div class="submitArea">
+		    				<input disabled="true" class="lotusFormButton lotusBtnDisabled blogsPaddingRight" name="sendBtn" type="button" onclick="return postNotificaton();" value="Send">
+		    				<input class="lotusFormButton blogsPaddingRight" name="cancelBtn" type="button" onclick="return WeblogEntryActionForms.cancel(&#39;notificationForm&#39;, &#39;focusMoreActionsLink&#39;);" value="Cancel">
+		    			</div>
+		    		</td>
+		    	</tr>
+		    </tbody>
+		</table>
+	</fieldset>
+</form>
+<form name="quarantineForm" style="display:none" action="https://www.ibm.com/developerworks/community/blogs/roller-services/json/quarantine_entry" class="lotusForm" role="application" aria-labelledby="quarantineFormLabel" onsubmit="return false;">
+	<div id="quarantineForm_messages">
+	</div>
+	<input type="hidden" name="entry" value="a15fcc65-a61d-4890-98b8-d795f65489a0">
+	<input type="hidden" name="dangerousurlnonce" value="">
+	<input type="hidden" name="lang" value="en">
+	<input type="hidden" name="version" value="250">
+	<table width="100%" class="lotusFormTable" role="presentation"><tbody>
+		<tr><td colspan="2" class="lotusFormTitle"><h2 id="quarantineFormLabel">Quarantine this entry</h2></td></tr>
+		<tr>
+			<td width="5%"> </td>
+			<td><label for="quarantine_comment">Provide a reason for quarantining this blog entry (optional):</label></td>
+		</tr>
+		<tr>
+			<td width="5%"> </td>
+			<td><textarea id="quarantine_comment" name="comment" rows="10" style="width:80%" title="Provide a reason for quarantining this blog entry (optional):"></textarea></td>
+		</tr>
+		<tr><td colspan="2" class="lotusFormFooter">
+			<div class="submitArea">
+				<input class="lotusFormButton" name="submitBtn" type="button" onclick="return postQuarantine();" value="Submit">
+				<input class="lotusFormButton" name="cancelBtn" type="button" onclick="return WeblogEntryActionForms.cancel(&#39;quarantineForm&#39;, &#39;quarantineThisEntryLink&#39;);" value="Cancel">
+			</div>
+		</td></tr>
+	</tbody></table>
+</form>
+<form name="deleteForm" style="display:none" action="https://www.ibm.com/developerworks/community/blogs/roller-services/json/delete_entry" class="lotusForm">
+	<span name="_type" style="display:none">deleteEntry</span>
+	<input type="hidden" name="entry" value="a15fcc65-a61d-4890-98b8-d795f65489a0">
+	<input type="hidden" name="dangerousurlnonce" value="">
+	<input type="hidden" name="lang" value="en">
+</form>
+<form aria-live="assertive" name="duplicateForm" class="lotusForm2" style="display:none" method="post" action="https://www.ibm.com/developerworks/community/blogs/roller-ui/rendering/idea/duplicate" role="application" aria-labelledby="duplicateFormTitle" aria-label="Mark as Duplicate">
+	<span name="_type" style="display:none">duplicateEntry</span>
+	<div id="duplicateForm_messages">
+	</div>
+	<input type="hidden" name="entryId" value="a15fcc65-a61d-4890-98b8-d795f65489a0">
+	<input type="hidden" name="oldEntryTitle" value="Nova Suspend/Rescue 操作详解 - 每天5分钟玩转 OpenStack（35）">
+	<input type="hidden" name="dangerousurlnonce" value="">
+	<div id="findDuplicate">
+		<div style="border-top: 2px solid black;"></div>
+		<div class="lotusFormTitle">
+			<h1 id="duplicateFormTitle" class="lotusHeading">Mark as Duplicate</h1>
+        </div>
+		<div class="lotusFormBody" id="findDupInput">
+    		<div class="lotusFormField">
+                <label for="ideasAsString" id="formDesc">Find the duplicate idea:</label>
+                <div class="lotusFieldWrapper">
+					<span dojotype="lconn.blogs.duplicateIdea.IdeasDataStore" jsid="ideasTypeAheadStore" queryparam="ideas" url="/developerworks/community/blogs/roller-services/json/typeaheadIdeas?handle=132cfa78-44b0-4376-85d0-d3096cd30d3f&amp;exclude=a15fcc65-a61d-4890-98b8-d795f65489a0"></span>
+            		<input type="text" id="ideasAsString" autocomplete="off" name="ideasAsString" size="40" dojoattachevent="onkeypress:_onKeyPress" dojoattachpoint="comboNode,textbox,focusNode" waistate="haspopup-true,autocomplete-list" role="combobox" class="dijitTextBox dijitComboBox dijitValidationTextBox dijitDownArrowButton" tabindex="0" lang="en" maxlength="255" widgetid="ideasAsString" aria-owns="ideasAsString_dummypopup" aria-labelledby="formDesc" value="" aria-invalid="false" style="width: 30em; color: rgb(102, 102, 102);">
+                <div style="display: none;"></div><div id="ideasAsString_dummypopup" role="textbox" style="display: none;"></div></div>
+            </div>
+		</div>
+		<div id="remainEntryContent">
+		</div>
+		<div class="lotusFormFooter" style="border: 0 none;">
+			<input class="lotusBtn lotusBtnDisabled" aria-disabled="true" id="dupIdeaSaveBtn" onclick="javascript:;" type="button" value="Save" name="saveDuplicate">
+			<input class="lotusBtn" type="button" onclick="return WeblogEntryActionForms.cancel(&#39;duplicateForm&#39;, &#39;focusMoreActionsLink&#39;);" value="Cancel" name="calcelDulicate">
+        </div>
+	</div>
+</form>
+</div>
+
+<script language="javascript">
+function keepSessionAlive(){dojo.xhrGet({url: '/developerworks/community/blogs/roller-services/json/authcheck'});}
+WeblogEntryActionForms = {
+    opened: {count:0},
+	type: function(form) {
+		t=dojo.query('[name="_type"]', form);
+		if(t.length>0){
+			return t[0].innerHTML;
+		}
+		else {
+			return '';
+		}
+	},
+	close: function(form) {
+		form.style.display='none';
+		this.reset(form);
+
+		if(this.opened[form.name]) {
+	    	this.opened[form.name] = false;
+	    	this.opened.count--;
+	    	if(this.opened.count == 0) {
+	    		if(this.keepAliveTimer.isRunning) {
+					this.keepAliveTimer.stop();
+				}
+	    	}
+	    }
+	},
+    reset: function(form) {
+    	form.reset();
+    	
+    	// clear action forms global msgs
+    	var t = dojo.byId('actionforms_globalmsgs');
+    	if(t) {
+    	    t.style.display = 'none';
+    	}
+
+    	// clear messages
+    	var mt = ['error', 'warning', 'info'];
+    	for(var i=0; i<mt.length; i++) {
+    	    var x=dojo.query('[name="' + mt[i] + '_messages"]', form);
+	    	if(x.length > 0) {
+	    	    x[0].style.display='none';
+	    	    x=dojo.query('[name="message"]', x[0]);
+	    	    if(x.length > 0) x[0].innerHTML='';
+	    	}
+    	}
+
+        var t=this.type(form);
+        if(t=='comment') {
+        	form.content.innerHTML='';
+        	var x = dojo.byId("commentspanel_preview");
+        	if(x) dojo.byId("commentspanel_preview").style.display = "none";
+        }
+        else if(t=='notification') {
+            form.receivers.clear();
+        }
+        else if(t=='notification_ex') {
+        	form.receivers.clear();
+
+        	var fcb = dijit.byId(form.name+'_filteringcheckbox');
+        	fcb.peopleSelected = new Object();
+        	if (fcb.currPage > 1) {
+        	    fcb.currPage = 1;
+        	    fcb.gotList = false;
+        	}
+        	fcb.clearSearch();
+        }
+    },
+    init: function(form) {
+        var t=this.type(form);
+        if(t=='notification') {
+            var dojoInit = form.getAttribute('dojoInit');
+            if(dojoInit == 'false') {
+                dojo.parser.parse(form);
+								form.setAttribute('dojoInit', 'true');
+            }
+            if(form.description.value == '') {
+                form.description.value = 'Hi-  I thought you might be interested in this blog entry.';
+            }
+    	}
+    	else if(t=='notification_ex') {
+    	    var dojoInit = form.getAttribute('dojoInit');
+            if(dojoInit == 'false') {
+            	dojo.parser.parse(form);
+            	            	form.setAttribute('dojoInit', 'true');
+            }
+
+        	var fcb = dijit.byId(form.name+'_filteringcheckbox');
+        	if(!fcb.gotList) fcb.getList();
+        	fcb.setDisabled(false);
+
+        	if(form.description.value == '') {
+                form.description.value = 'Hi-  I thought you might be interested in this blog entry.';
+            }
+        }else if(t='duplicateEntry') {
+			if(lconn.blogs.duplicateIdea.entrywidget)lconn.blogs.duplicateIdea.entrywidget.findAnother();
+		}
+    },
+    hideAll: function() {
+    	document.forms['notificationForm'].style.display='none';
+    	    	document.forms['quarantineForm'].style.display='none';
+		document.forms['duplicateForm'].style.display='none';
+
+    	var t = dojo.byId('actionforms_globalmsgs');
+    	if(t) {
+    	    t.style.display = 'none';
+    	}
+    },
+    toggle: function(name, fc) {
+    	var f = document.forms[name];
+    	if(f.style.display != 'none'){
+    	    return;
+    	}
+
+    	this.init(f);
+
+    	this.hideAll();
+	    f.style.display='';
+	    if(typeof fc != 'undefined') {
+		    var fcs = fc.split(",");
+			var bFocused = false;
+			for(var i = 0; i < fcs.length; i++) {
+			    var tfc = fcs[i];
+				var x = dojo.query('[name="'+tfc+'"]', f);
+	            if(x.length>0) {
+				    x[0].focus();
+					bFocused = true;
+					break;
+				}
+			}
+			for(var i = 0; i < fcs.length; i++) {
+			    var tfc = fcs[i];
+				var x = dojo.query('[id="'+tfc+'"]', f);
+	            if(x.length>0) {
+				    x[0].focus();
+					bFocused = true;
+					break;
+				}
+			}
+	    }
+
+	    if(!this.opened[name]) {
+	    	this.opened[name] = true;
+	    	this.opened.count++;
+	    }
+
+	    if(typeof this.keepAliveTimer == 'undefined') {
+			this.keepAliveTimer = new dojox.timing.Timer(180000);
+			this.keepAliveTimer.onTick = function() {keepSessionAlive();};
+		}
+		if(!this.keepAliveTimer.isRunning) {
+			this.keepAliveTimer.start();
+		}
+    },
+    cancel: function(name, fc) {
+    	WeblogEntryActionForms.close(document.forms[name]);
+    	if(typeof fc != 'undefined') dojo.byId(fc).focus();
+
+    	return false;
+    },
+    clearMessage: function(messageContainerId){
+    	lconn.blogs.utils.clearMessage(messageContainerId);
+    },
+    message: function(form, data, type) {
+		var messageContainer;
+		if(form && form.name){
+			messageContainer = dojo.byId(form.name+ '_messages');
+		}
+		if(!messageContainer) {
+			messageContainer = dojo.byId('actionforms_globalmsgs');
+		}
+		this.clearMessage(messageContainer.id);
+    	
+		lconn.blogs.utils.showMessage(messageContainer.id, data, type, true);
+		
+		messageContainer.style.display='';
+    },
+    showCommentMessage: function(data) {
+        var messageContainer = dojo.byId('actionforms_globalmsgs');
+		this.clearMessage(messageContainer.id);
+    	
+		lconn.blogs.utils.showMessage(messageContainer.id, data, type, true);
+		
+		messageContainer.style.display='';
+    },
+    disable: function(form, b) {
+        var t=dojo.query('[name$="Btn"]');
+        for(var i=0; i<t.length; i++) t[i].disabled=b;
+    },
+    ajaxPost: function(form, postExec, msgs) {
+    	form.dangerousurlnonce.value=window.__security_nonce;
+    	this.message(form, msgs.running + '<div class="lotusLoading lotusLeft"></div>', 'info');
+    	this.disable(form, true);
+    	dojo.xhrPost({
+	        url: form.action,
+	        form: form,
+	        handleAs: 'json-comment-optional',
+	        load: function (data, ioArgs) {
+	        	WeblogEntryActionForms.clearMessage(form.name+ '_messages');
+	            if(data.success) {
+	            	WeblogEntryActionForms.close(form);
+
+	            	var gm = dojo.byId('actionforms_globalmsgs');
+	            	gm.style.display='none';
+	            	lconn.blogs.utils.clearMessage(gm.id);
+
+	            	var t=WeblogEntryActionForms.type(form);
+	            	var msgText;
+	            	if(t=='notification' || t=='notification_ex') {
+	            		msgText = 'The notification has been sent.';
+	            	}
+	            	if(t=='flagInappropriateEntry') {
+					    msgText= 'The blog entry has been flagged and submitted for review.';
+
+	            	}
+					if(t=='deleteEntry') {
+					    msgText= 'The blog entry has been deleted.';
+	            	}
+	            	lconn.blogs.utils.showMessage(gm.id, msgText, 'confirm', true);
+				    gm.style.display='';
+	            }
+	            else {
+	                if(data.error) {
+	                    if('session timeout' == data.error) {
+	                        window.__security_nonce = data.nonce;
+	                        WeblogEntryActionForms.message(form, 'We were unable to process your request due to a session timeout.  Please try again.', 'error');
+	                    } else {
+	            			WeblogEntryActionForms.message(form, data.error, 'error');
+	            		}
+	            	}
+	            	else {
+	            		WeblogEntryActionForms.message(form, 'This function is only available to authenticated users. Please log in first.', 'error');
+	            	}
+	            }
+	            WeblogEntryActionForms.disable(form, false);
+	            if(data.success && typeof postExec != 'undefined') postExec(data);
+	        },
+	        error: function (error, ioArgs) {
+	            WeblogEntryActionForms.message(form, msgs.fail, 'error');
+	            WeblogEntryActionForms.disable(form, false);
+	        }
+	    });
+    }
+};
+function postNotificaton(){
+	WeblogEntryActionForms.ajaxPost(document.forms['notificationForm'], function(){dojo.byId('focusMoreActionsLink').focus();},
+		{fail: 'Failed to send the notification.',
+		 running: 'Sending Notification...:'});
+	return false;
+};
+function postQuarantine(){
+	 	WeblogEntryActionForms.ajaxPost(document.forms['quarantineForm'], function(){window.location = 'https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Snapshot_Instance_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_36?lang=en';},
+		{fail: 'Fail to submit the request. Server error.',
+		 running: 'Submitting...'});
+	return false;
+};
+
+function postDelete(){
+	 	WeblogEntryActionForms.ajaxPost(document.forms['deleteForm'], function(){window.location = 'https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Snapshot_Instance_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_36?lang=en';},
+		{fail: 'Fail to submit the request. Server error.',
+		 running: 'Submitting...'});
+	return false;
+};
+
+if(window.location.hash == '#action=send_notification') {
+    dojo.addOnLoad(function(){WeblogEntryActionForms.toggle('notificationForm', 'description');});
+}
+</script>
+</div>
+	
+					<p></p>
+					<div class="ibm-anchor-pointer"><a name="commentsTarget"></a></div><a></a>
+	
+					<!-- CommentPanel -->
+										
+						<div class="lotusBoard" dojoattachpoint="boardAP" aria-live="assertive" lang="en" id="blogCommentPanel" widgetid="blogCommentPanel">
+	<div style="border-top: 2px solid black;height:45px;">
+	<h4 style="margin-top:8px;" dojoattachpoint="commentCountAP" class="lotusLeft">Comments (0)</h4>
+	<ul style="margin-top: 8px; display: none;" dojoattachpoint="pageModeAP" class="lotusRight lotusInlinelist lotusActions" role="toolbar" aria-label="Mode">
+		<li class="lotusFirst" dojoattachpoint="modeThreadAP" style="display:none;">
+			<a title="Switch to threaded view" aria-label="Switch to threaded view" dojoattachevent="onclick:toThreaded" href="javascript:;">Threaded</a>
+		</li>
+		<li class="lotusFirst" dojoattachpoint="modeThreadTextAP">Threaded</li>
+		<li dojoattachpoint="modeByDateAP" style="">
+			<a title="Switch to by date view" aria-label="Switch to by date view" dojoattachevent="onclick:toByDate" href="javascript:;">By Date</a>
+		</li>
+		<li dojoattachpoint="modeByDateTextAP" style="display: none;">By Date</li>
+	</ul>
+</div>
+
+<div class="lotusPaging" style="display:none; background: none repeat scroll 0 0 transparent; padding-left: 0; padding-right: 0;" id="lconn_blogs_Paging_0" widgetid="lconn_blogs_Paging_0" aria-label="Primary paging" role="navigation"> <div dojoattachpoint="pageInfoAP" class="lotusLeft" style="display:none"></div> <ul dojoattachpoint="pagePSAP" class="lotusLeft lotusInlinelist" role="toolbar" aria-label="Show" style="display:none"> <li class="lotusFirst">Show</li> <li class="lotusFirst" dojoattachpoint="ps10AP"></li> <li dojoattachpoint="ps20AP"></li> <li dojoattachpoint="ps50AP"></li> <li class="lotusLast">items</li> </ul> <ul dojoattachpoint="pageNavAP" class="lotusRight lotusInlinelist" style="display:none"> <li class="lotusFirst" dojoattachpoint="previousLinkAP" style="display:none;"> <a title="Previous page" aria-label="Previous page" dojoattachevent="onclick:_previous" href="javascript:;">Previous</a> </li> <li class="lotusFirst" dojoattachpoint="previousTextAP">Previous</li> <li dojoattachpoint="nextLinkAP" style="display:none;"> <a title="Next page" aria-label="Next page" dojoattachevent="onclick:_next" href="javascript:;">Next</a> </li> <li dojoattachpoint="nextTextAP">Next</li> </ul> <div dojoattachpoint="pageListAP" style="display:none"><ul></ul></div> <div dojoattachpoint="pageJumpAP" style="display:none"> <form dojoattachpoint="pageJumpFormAP" dojoattachevent="onsubmit:_jump" method="get" action="javascript:;" role="application" aria-label="Changing the value will refresh page results"> </form> </div></div>
+<div id="sortByToolbar" class="lotusSort" style="display:none">
+	<ul class="lotusInlinelist aria_toolbar" role="toolbar">
+		<li class="lotusFirst">
+			<span id="sortbyToolbarLabel">Sort by:</span>
+		</li>
+		<li class="lotusFirst">
+			<a id="sortByButtonASC" style="display:none" role="button" aria-pressed="true" aria-label="Sort by Date in ascending order. Click to sort in descending order." class="lotusActiveSort lotusAscending" dojoattachevent="onclick:sortByDate" title="Sort by Date in ascending order. Click to sort in descending order." href="javascript:;">
+				Date<span class="lotusAltText">▲</span>
+			</a>
+			<a id="sortByButtonDESC" style="display:none" role="button" aria-pressed="true" aria-label="Sort by Date in descending order. Click to sort in ascending order." class="lotusActiveSort lotusDescending" dojoattachevent="onclick:sortByDate" title="Sort by Date in descending order. Click to sort in ascending order." href="javascript:;" tabindex="-1">
+				Date<span class="lotusAltText">▼</span>
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="lotusLoading" dojoattachpoint="commentLoadingAP" style="display: none;"></div>
+<div dojoattachpoint="commentsAP" style=""><div id="emptyDiv" style="border-top:0 none;" class="lotusPost"><span class="lconnEmpty">There are no comments to display</span></div></div>
+<div dojoattachpoint="threadContainerAP" style="display:none;">
+	<div class="lotusPost"><a class="lotusAction" dojoattachpoint="backToAllLinkAP" dojoattachevent="onclick:backToAll" href="javascript:;" aria-label="Back to all comments" title="Back to all comments">Back to all comments</a></div>
+	<div dojoattachpoint="threadAP"></div>
+</div>
+<div class="lotusPaging" style="display:none; background: none repeat scroll 0 0 transparent; padding-left: 0; padding-right: 0;" id="lconn_blogs_Paging_1" widgetid="lconn_blogs_Paging_1" aria-label="Secondary Paging" role="navigation"> <div dojoattachpoint="pageInfoAP" class="lotusLeft" style="display:none"></div> <ul dojoattachpoint="pagePSAP" class="lotusLeft lotusInlinelist" role="toolbar" aria-label="Show" style="display:none"> <li class="lotusFirst">Show</li> <li class="lotusFirst" dojoattachpoint="ps10AP"></li> <li dojoattachpoint="ps20AP"></li> <li dojoattachpoint="ps50AP"></li> <li class="lotusLast">items</li> </ul> <ul dojoattachpoint="pageNavAP" class="lotusRight lotusInlinelist" style="display:none"> <li class="lotusFirst" dojoattachpoint="previousLinkAP" style="display:none;"> <a title="Previous page" aria-label="Previous page" dojoattachevent="onclick:_previous" href="javascript:;">Previous</a> </li> <li class="lotusFirst" dojoattachpoint="previousTextAP">Previous</li> <li dojoattachpoint="nextLinkAP" style="display:none;"> <a title="Next page" aria-label="Next page" dojoattachevent="onclick:_next" href="javascript:;">Next</a> </li> <li dojoattachpoint="nextTextAP">Next</li> </ul> <div dojoattachpoint="pageListAP" style="display:none"><ul></ul></div> <div dojoattachpoint="pageJumpAP" style="display:none"> <form dojoattachpoint="pageJumpFormAP" dojoattachevent="onsubmit:_jump" method="get" action="javascript:;" role="application" aria-label="Changing the value will refresh page results"> </form> </div></div>
+	<div dojoattachpoint="addCommentAP" style="border-top: 0px none; display: none;" class="lotusPost">
+		<a dojoattachpoint="addCommentLinkAP" role="button" class="lotusAction" dojoattachevent="onclick:replyToEntry" href="javascript:;" aria-label="Add a comment to this entry" title="Add a comment to this entry">Add a Comment</a>
+	</div>
+</div>
+	<div id="addCommentFormContainer">
+	
+	</div>
+						
+			    			    </div> <!-- end entries -->
+	
+			<!-- Dont show paging when there are no entries -->
+											<div class="" role="navigation" style="font-size: 0.9em;" aria-label="Page navigation">
+				                        <ul class="inlinelist lotusInlinelist">
+    	<li class="lotusFirst">
+	    	        <a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Pause_Resume_Instance_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_34?lang=en" title="Previous Entry">Previous Entry</a>
+	 	    	</li>
+    	<li>
+        <a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f?maxresults=15&amp;lang=en">Main</a>
+        </li>
+        <li>
+	    	        <a href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Snapshot_Instance_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_36?lang=en" title="Next Entry">Next Entry</a>
+		        </li>
+    </ul>
+			    </div>
+									</div>
+
+		<div class="lotusFeeds" role="list">
+								<span role="listitem">
+				<a id="entryFeedLink" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/rendering/feed/132cfa78-44b0-4376-85d0-d3096cd30d3f/entries/atom?lang=en" title="Entries feed for this blog" class="lotusFeed lotusAction">Feed for Blog Entries</a>
+			</span>
+			<span class="lotusDivider" role="img" aria-hidden="true">|</span>
+			<span role="listitem">
+				<a id="commentFeedLink" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/rendering/feed/132cfa78-44b0-4376-85d0-d3096cd30d3f/comments/atom?lang=en" title="Comments feed for this blog" class="lotusFeed lotusAction" style="background: transparent; padding-left:7px;">Feed for Blog Comments</a>
+		    </span>
+		    		
+					<span class="lotusDivider" role="img" aria-hidden="true">|</span>
+			<span role="listitem">
+				<a id="entryCommentFeedLink" href="https://www.ibm.com/developerworks/community/blogs/roller-ui/rendering/feed/132cfa78-44b0-4376-85d0-d3096cd30d3f/entrycomments/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35/atom?contentFormat=html&amp;lang=en" title="Atom Entry Comments" class="lotusFeed lotusAction" style="background: transparent; padding-left:7px;">Feed for Comments for this Entry</a>
+			</span>
+				</div>
+
+       </div> <!-- end content -->
+</div><!-- end main -->
+
+ 	<script language="javascript">  
+		 var isEntry = true;
+		 
+		 dojo.addOnLoad(function(){
+			var t = document.getElementById('TOGGLE_comment_rating_${item.id}_widget');
+			if(t) {
+				var p = t.parentNode;
+				p.removeAttribute('aria-live');
+				var h = t.innerHTML;
+				p.innerHTML = '<a class="lotusLikeAction" aria-disabled="true" href="javascript:;" onclick="return false" title="' + 'Like is disabled in comment preview.' + '">' + h + '</a>';
+			}
+		});
+ 	</script>
+
+	<script language="javascript">  
+		 var isComm = true;
+ 	</script>
+
+<script language="javascript">  
+if(isEntry){
+	readTrackerMetrics = {};
+	readTrackerMetrics.contentId = "a15fcc65-a61d-4890-98b8-d795f65489a0";
+	readTrackerMetrics.contentTitle = "Nova Suspend/Rescue 操作详解 - 每天5分钟玩转 OpenStack（35）";
+	readTrackerMetrics.contentContainerId = "822fa077-8a6c-402b-81d2-3fd9fb838ab3";
+	readTrackerMetrics.contentContainerTitle = "每天5分钟玩转 OpenStack";
+	readTrackerMetrics.itemType="ENTRY";
+
+}else{
+	// metrics variables, it will be used in footer
+	readTrackerMetrics = {};  
+	readTrackerMetrics.contentId="822fa077-8a6c-402b-81d2-3fd9fb838ab3";
+	readTrackerMetrics.contentTitle = "每天5分钟玩转 OpenStack";
+	readTrackerMetrics.itemType="BLOG";
+	}
+		
+if(isComm){
+	readTrackerMetrics.communityId = "132cfa78-44b0-4376-85d0-d3096cd30d3f";
+}
+</script>
+
+    
+        
+    
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="lotusFooter" class="lotusFooter" role="contentinfo">
+	
+
+						
+			<script type="text/javascript">
+(function() {
+   function handleHeaderInit(info) {
+      lconn.core.header.decorateUser( /*user*/ {
+         displayName: info.user,
+         id: info.userId
+      }, /*urls*/ {
+         logout: 'https:\/\/www.ibm.com\/developerworks\/community\/blogs\/roller-ui\/logout-redirect.jsp',
+         user_jsp: '/developerworks/community/blogs/static/20150310.220517!en/nav/templates/menu/user.jsp?appName=blogs&username=&userid=',
+         communities_jsp: '\/developerworks\/community\/blogs\/static\/20150310.220517!en\/nav\/templates\/menu\/communities.jsp?authenticated=true'
+      }, /*strings*/ {
+         logout: 'Log Out'
+      });
+   }
+   //dojo.subscribe("lconn/core/header/init", handleHeaderInit);
+})();
+</script><script type="text/javascript">
+(function(){
+   function loadConnectionsLanguageSelector() {
+      try {
+         dojo.require("lconn.core.header");
+         lconn.core.header.enableLanguageSelector("languageSelectorText", {"en":"English","zh":"\u4e2d\u6587 (\u200f\u7b80\u4f53)","ja":"\u65e5\u672c\u8a9e","es":"Espa\u00f1ol","pt_br":"Portugu\u00eas (\u200fBrasil)","ru":"\u0420\u0443\u0441\u0441\u043a\u0438\u0439","BD":"BD"},
+            "conxnsCookie", "", -1);
+      } catch (e) {
+         console.error(e);
+      }
+   }
+   if (dojo.exists("lconn.core.header") && !dojo.exists("_skipConnectionsLanguageSelector"))
+      dojo.addOnLoad(loadConnectionsLanguageSelector);
+})();
+</script><script type="text/javascript">
+      dojo.require("lconn.core.header.apps");
+      dojo.require("lconn.core.auth");
+
+    </script><script type="text/javascript">
+(function() {
+   function checkShareDisplay(info) {if (dojo.cookie("blogsUser")) {var node = dojo.byId("headerSharebox");
+		   dojo.removeClass(node,"lotusFirst");
+		   dojo.removeClass(node,"lotusHidden");
+		   dojo.style(node, "display", "block");
+	   }
+   }
+   dojo.addOnLoad(checkShareDisplay);
+})();
+</script>
+
+<div id="ibm-footer1"></div>
+<div id="footer_div"><div id="ibm-footer"><!-- IBM footer container; disabled --></div>
+
+<div id="ibm-footer-module-dwwrapper" role="contentinfo" aria-label="developerWorks Footer">
+
+<div id="ibm-footer-module-dw">
+	<div class="dw-footer-columns">
+		<div class="dw-footer-col-6-1">
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/aboutdw/">About</a></li>
+				<li><a href="https://www.ibm.com/developerworks/feedback">Help</a></li>
+				<li><a href="http://www.ibm.com/developerworks/aboutdw/contacts.html">Contact us</a></li>
+				<li><a href="https://www.ibm.com/developerworks/ideas">Submit content</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-2">
+			<ul>
+				<li><a href="http://www.ibm.com/developerworks/feeds/">Feeds</a></li>
+				<li><a href="http://www.ibm.com/developerworks/newsletter/">Newsletters</a></li>
+				<li><a class="ibm-twitter-link" href="http://twitter.com/developerWorks" target="_blank">Follow</a></li>
+				<li><a class="ibm-facebook-link" href="http://www.facebook.com/developerworks" target="_blank">Like</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-3">
+			<ul>
+				<li><a href="https://www.ibm.com/developerworks/community/report/">Report abuse</a></li>
+				<li><a href="https://www.ibm.com/developerworks/community/terms/">Terms of use</a></li>
+				<li><a href="https://www.ibm.com/developerworks/community/terms/thirdparty/">Third party notice</a></li>
+				<li><a href="http://www.ibm.com/privacy/">IBM privacy</a></li>
+				<li><a href="http://www.ibm.com/accessibility/">IBM accessibility</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-4">
+			<ul>
+				<li><a href="https://developer.ibm.com/academic/">Faculty</a></li>
+				<li><a href="https://developer.ibm.com/students/">Students</a></li>
+				<li><a href="http://www.ibm.com/isv/">Business Partners</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-5">
+			<ul>
+				<li class="dw-footer-lang-head">Select a language:</li>
+				<li><a href="http://www.ibm.com/developerworks/">English</a></li>
+				<li><a href="http://www.ibm.com/developerworks/cn/" lang="zh">中文</a></li>
+				<li><a href="http://www.ibm.com/developerworks/jp/" lang="ja">日本語</a></li>
+				<li><a href="http://www.ibm.com/developerworks/ru/" lang="ru">Русский</a></li>
+				<li><a href="http://www.ibm.com/developerworks/br/" lang="pt">Português (Brasil)</a></li>
+				<li><a href="http://www.ibm.com/developerworks/ssa/" lang="es">Español</a></li>
+				<li><a href="http://www.ibm.com/developerworks/vn/" lang="vi">Việt</a></li>
+			</ul>
+		</div>
+		<div class="dw-footer-col-6-6">
+			<img src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/dwn-ibm-logo-v17.png" alt="IBM®" width="223" height="46">
+			<img class="dw-preload" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/ibm_sprite_social_blue_ON.png" alt="" width="1" height="1">
+			<img class="dw-preload" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/arrow-down-active.gif" alt="" width="1" height="1">	
+		</div>
+		
+	</div>
+	<!-- Language selector no-script -->
+
+</div>
+
+</div></div>
+<div id="footer_scripts_div"></div>
+		
+<!--script type="text/javascript" src="//dw1.s81c.com/common/stats/stats.js"></script>
+<script id="stats" type="text/javascript"></script>
+<script>if (window.location.href.search(/\/(mydeveloperworks|community)\/(wikis)/i) == -1){ document.getElementById("stats").src="//dw1.s81c.com/common/stats/stats.js";}</script-->
+<noscript>&lt;img src="//stats.www.ibm.com/rc/images/uc.GIF?R=noscript" width="1" height="1" alt="" border="0" /&gt;</noscript>
+<!--<script type="text/javascript" src="/developerworks/community/connections/resources/web/_js/?include=dojo.io.script.js~&etag=W8wd1eA_en_US&lang=en&country=us">//</script> -->
+<!--<script type="text/javascript" src="/developerworks/js/dw-mf/viper-www.js">//</script>-->
+<script type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/viper-www-v2.js.下载">//</script>
+<script type="text/javascript" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/xmlc.js.下载">//</script>
+<script type="text/javascript">
+// turn social bookmarking on
+ibmweb.config.set({ sbs: { enabled: true }});
+ibmweb.config.sbs.print = true;
+ibmweb.config.sbs.email = true;
+ibmweb.config.noDojoLocaleOverride = true;
+</script>
+	
+</div><!--end footer-->
+
+<script language="javascript">
+if(!(typeof currentLogin.name == 'undefined' || currentLogin.name == null || currentLogin.name == '')) {
+	dojo.publish("lconn/core/header/init", [{
+		user: currentLogin.name, 
+		userId: currentLogin.extid, 
+		isModerator: currentLogin.globalModerator
+	}]);
+}
+
+lconn.core.auth.setAuthCheck(function() {
+	if(!(typeof window.currentLogin.name == 'undefined' || window.currentLogin.name == null || window.currentLogin.name == '')) {
+		return true;
+	}
+	return false;
+});
+</script>
+
+<!-- build 20150216040000 -->
+	
+<div id="datetagdiv" style="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;">
+</div>
+
+<script language="javascript">
+if(currentLogin.globalAdmin) activateFooterLinks();
+
+var metricsLinks = dojo.query('.lotusMetricsReaderLink');
+for(var i = 0; i < metricsLinks.length; i++) {
+    metricsLinks[i].style.display = currentLogin.metricsReader ? '' : 'none';
+}
+
+if(typeof openHelpWindow == 'undefined') {
+    var helpWindow;
+	window.openHelpWindow = function (url, width, height) {
+		 if (!width) {
+			 width = window.screen.width / 4;
+			 if (width < 950) width = 950;
+		 }
+		 if (!height) {
+			 height = window.screen.height / 4;
+			 if (height < 550) height = 550;
+		 }
+		 if (typeof(helpWindow) != "undefined") helpWindow.close();
+		 var options = 'height=' + height + ',width=' + width + ',status=yes,toolbar=yes,menubar=no,location=yes,scrollbars=yes,resizable=yes';
+		 helpWindow = window.open(BlogsBaseUrl + url, 'help', options);
+		 if (window.focus) helpWindow.focus();
+	};
+}
+
+// metrics read tracker
+if (!dojo.exists("com.ibm.lconn.layout.track"))
+{
+dojo.require("com.ibm.lconn.layout.track"); // load track js api, each application should already load the common js jar that include this api
+}
+
+	// metrics read tracker
+	var metrics = {};
+	var extra = {};
+	metrics.source=appName; // retrieve from the common header
+	extra.contentLink = window.location.href; 
+	
+	if(!(typeof readTrackerMetrics == "undefined")){
+		metrics.itemType = readTrackerMetrics.itemType;
+		metrics.communityId = readTrackerMetrics.communityId;
+		metrics.contentId = readTrackerMetrics.contentId;
+		extra.contentTitle = readTrackerMetrics.contentTitle;
+		extra.contentContainerId = readTrackerMetrics.contentContainerId;
+		extra.contentContainerTitle = readTrackerMetrics.contentContainerTitle;
+	}
+	
+	if(typeof metrics.itemType == "undefined"){
+		metrics.itemType="BLOGS"; // define for each web page
+	} 
+	
+	if(typeof metrics.contentId == "undefined"){
+		metrics.contentId="BLOGS"; // define for each web page
+	}
+	
+	if(typeof currentLogin.extid != "undefined"){
+		metrics.userId = currentLogin.extid;
+	}
+	
+	metrics.extra = extra;
+	
+	var track = com.ibm.lconn.layout.track;
+	track.read(metrics.contentId, metrics.itemType, metrics); // call tracker js to send read event
+</script>
+
+<script type="text/javascript">
+if(typeof dojo.getObject('com.ibm.ajax.auth.interceptDojoXhr') == 'function') {
+	dojo.addOnLoad(function() {
+    var ciaa = com.ibm.ajax.auth;
+    ciaa.interceptDojoXhr(function(){return true;});
+    ciaa.setAuthenticationHandler(function(response, ioArgs, onauthenticated){
+        var racp = window.location.href.replace(/,/g,"%2C");
+        window.location.replace(getLoginRedirectURL(racp));
+    });
+	});
+}
+</script>
+
+<script type="text/javascript">
+	var lconn_core_thirdPartySearchEngines = []
+</script>
+<script type="text/javascript">
+	/* 4.5 to 5.0 changes */
+	var dwBlogsUpdateTitleBarClassNameInterval = window.setInterval(function() {
+		if (!dojo) return;
+		var lotusTitleBar = dojo.byId("lotusTitleBar");
+		if (lotusTitleBar!=null) { 
+			dojo.addClass("lotusTitleBar", "lotusTitleBar2");
+			dojo.addClass("lotusTitleBar", "lotusTitleBar2Tabs");
+			window.clearInterval(dwBlogsUpdateTitleBarClassNameInterval);
+		}
+	},500);
+</script>
+
+    
+</div><!-- frame -->
+
+
+<script language="javascript">
+if(dojo.isIE && lconn.blogs.utils.applyDojoOnLoads) {lconn.blogs.utils.applyDojoOnLoads();}
+dojo.addOnLoad(function(){
+    if(dojo.byId("blogsWelcomeMsg")) {
+		dojo.connect(dojo.byId("blogsWelcomeMsg"),"onclick", function(){
+			lconn.blogs.utils.openHelpWindow("community_blog_frame.html"); 
+		});
+	}
+});
+
+</script>
+
+
+
+
+<div id="mentionsTypeaheadNode_0" style="top: -5px;"><input type="text" autocomplete="off" id="mentionsTypeaheadNode_0_PersonMentionsType" size="" dojoattachevent="onkeyup:_onKeyUp" dojoattachpoint="domNode,textbox,focusNode,comboNode,_popupStateNode" wairole="combobox" waistate="haspopup-true,autocomplete-list,expanded-false" tabindex="0" class="typeAhead lotusText lotusMentionsTypeaheadField" widgetid="mentionsTypeaheadNode_0_PersonMentionsType" aria-owns="mentionsTypeaheadNode_0_PersonMentionsType_dummypopup" value="" aria-describedby="mentionsTypeaheadNode_0_PersonMentionsType_ariaDescribedBy" style="color: rgb(102, 102, 102);"><div id="mentionsTypeaheadNode_0_PersonMentionsType_ariaDescribedBy" style="display:none;">Type to find person</div><div style="display: none;"></div><div id="mentionsTypeaheadNode_0_PersonMentionsType_dummypopup" role="textbox" style="display: none;"></div></div><div class="dijitPopup" style="display: none; z-index: 10000;" role="presentation" id="com_ibm_oneui_controls_internal__MasterPopup_0" widgetid="com_ibm_oneui_controls_internal__MasterPopup_0"> <div dojoattachpoint="wrapper" class="lotusPopup" role="dialog" aria-hidden="true"> <div dojoattachpoint="documentWrapper" role="document"> <a dojoattachpoint="closeNode" class="lotusPopupClose" href="https://www.ibm.com/developerworks/community/blogs/132cfa78-44b0-4376-85d0-d3096cd30d3f/entry/Nova_Suspend_Rescue_%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3_%E6%AF%8F%E5%A4%A95%E5%88%86%E9%92%9F%E7%8E%A9%E8%BD%AC_OpenStack_35?lang=en#" dojoattachevent="click:clickClose" role="button" title="Close" aria-describedby="com_ibm_oneui_controls_internal__MasterPopup_0_content" aria-label="Close"><img src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/blank.gif" alt="Close"><span class="lotusAltText">X</span></a> <div dojoattachpoint="contentWrapper" role="presentation"> <div dojoattachpoint="content" class="lotusPopupContent" id="com_ibm_oneui_controls_internal__MasterPopup_0_content"> </div> </div> </div> <div dojoattachpoint="arrow" class="lotusPopupConnector" role="presentation"></div> </div></div><div id="escapeBufferDiv" style="display: none;"></div><div id="fake_0" style="display: none;"><div id="gadget-site-87894260"><iframe id="__gadget_gadget-site-87894260" name="__gadget_gadget-site-87894260" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/ifr.html" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0" height="200" width="320" title="Connections" role="presentation" onload="window.__gadgetOnLoad(&#39;https://www.ibm.com/developerworks/community/connections/resources/web/com.ibm.social.ee/ConnectionsEE.xml&#39;, &#39;gadget-site-87894260&#39;);"></iframe></div></div><iframe id="LOTCCFrameTue Dec 19 2017 15:33:09 GMT+0800 (中国标准时间)" src="./Nova Suspend_Rescue 操作详解 - 每天5分钟玩转 OpenStack（35） - 每天5分钟玩转 OpenStack Blog - 每天5分钟玩转 OpenStack_files/rt=ifr.html" title="empty" tabindex="-1" role="presentation" style="border: 0px; width: 0px; height: 0px; display: block;"></iframe></body></html>

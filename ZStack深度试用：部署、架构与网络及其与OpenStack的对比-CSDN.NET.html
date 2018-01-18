@@ -1,0 +1,776 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)https://www.csdn.net/article/2015-05-18/2824690 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/hm.js.下载"></script><script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/hm.js(1).下载"></script><script type="text/javascript">Object.defineProperty(window.navigator, 'userAgent', { get: function(){ return 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A'; } });Object.defineProperty(window.navigator, 'vendor', { get: function(){ return 'Apple, Inc.'; } });Object.defineProperty(window.navigator, 'platform', { get: function(){ return 'MacIntel'; } });</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script async="" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/getUserStructList"></script>
+<link href="https://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+
+	
+<title>ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET </title>
+<meta name="description" content="本文是开源IaaS软件ZStack的深度试用报告，分别从部署、架构和网络三个层面分享作者的试用体验，并与OpenStack进行简单的对比，文章最后也对ZStack的改进方向提出了自己的思考。">
+<meta name="keywords" content="IaaS,ZStack,云计算平台,OpenStack">
+<meta name="author" content="CSDN.NET">
+<meta name="Copyright" content="CSDN.NET">
+<!-- toolbar start -->
+	<link rel="stylesheet" href="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/content_toolbar.css">
+<script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/jquery-1.9.1.min.js.下载" type="text/javascript"></script>
+<!-- toolbar end -->
+<link href="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/content.css" rel="stylesheet" type="text/css">
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?6275c7f2c7d9617f47b5ea3c72633374";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/tracking-1.0.0.js.下载" type="text/javascript"></script>
+<script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/share.js.下载"></script><script type="text/javascript" charset="utf-8" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/tracking-1.0.2.js.下载"></script><script type="text/javascript" charset="utf-8" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/main-1.0.2.js.下载"></script></head>
+<body><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="icon-xiajiantou" viewBox="0 0 1024 1024"><path d="M328.208 346.062h368.494c20.393 0 36.887 16.366 36.887 36.757 0 9.484-3.637 18.056-9.483 24.55L541.873 650.522c-12.211 16.105-35.2 19.484-51.438 7.275-2.859-2.08-5.324-4.547-7.274-7.275L298.853 404.772c-12.08-16.106-8.83-39.225 7.404-51.306 6.626-5.066 14.289-7.404 21.95-7.404z"></path></symbol><symbol id="icon-shouji" viewBox="0 0 1024 1024"><path d="M537.754 795.889c-26.41 0-47.893 21.478-47.893 47.892s21.484 47.893 47.893 47.893 47.892-21.479 47.892-47.893-21.483-47.892-47.892-47.892z"></path><path d="M774.697 42.071H300.815c-39.864 0-72.3 32.43-72.3 72.3v795.264c0 39.869 32.43 72.3 72.3 72.3h473.872c39.87 0 72.3-32.431 72.3-72.3v-795.27c0.004-39.864-32.426-72.294-72.29-72.294zM300.815 90.266h473.872a24.125 24.125 0 0 1 24.1 24.1v595.809H276.72v-595.81a24.125 24.125 0 0 1 24.094-24.1z m473.882 843.463H300.815a24.125 24.125 0 0 1-24.1-24.1V762.501h522.072V909.63a24.115 24.115 0 0 1-24.09 24.1z"></path></symbol><symbol id="icon-tianxie" viewBox="0 0 1024 1024"><path d="M121.905 780.19h780.19v97.524h-780.19V780.19zM823.296 298.496l-68.974-68.974-344.795 344.796-34.475 103.448 103.424-34.475zM875.008 246.76l17.237-17.238-68.949-68.949-17.262 17.237-17.237 17.238 68.974 68.973z"></path></symbol><symbol id="icon-sousuo" viewBox="0 0 1024 1024"><path d="M1023.972002 964.002812l-59.981188 59.981189-271.443276-271.459276c-166.600191 136.489602-412.812649 126.986048-568.309361-28.494664-165.624236-165.624236-165.624236-434.187647 0-599.859881 165.624236-165.592238 434.187647-165.592238 599.827883 0 155.52871 155.52871 164.984266 401.789166 28.462666 568.389356L1023.972002 964.002812zM663.364906 184.007375c-132.585785-132.585785-347.327719-132.761777-479.705514-0.43198-132.329797 132.345796-132.121807 347.119729 0.463978 479.705514s347.375717 132.793775 479.705514 0.41598c132.329797-132.281799 132.169805-347.10373-0.463978-479.689514z"></path></symbol><symbol id="icon-guanbi" viewBox="0 0 1024 1024"><path d="M1002.211316 933.90818c24.46369 24.46369 29.007633 59.583246 10.159871 78.447007-18.863761 18.863761-53.983317 14.303819-78.447007-10.159871L21.807724 90.09486C-2.655966 65.631169-7.199909 30.495614 11.647853 11.647853c18.863761-18.863761 53.983317-14.303819 78.447007 10.159871L1002.211316 933.90818z"></path><path d="M933.92418 21.807724C958.38787-2.655966 993.507426-7.199909 1012.371187 11.647853c18.863761 18.863761 14.303819 53.983317-10.159871 78.447007L90.09486 1002.211316c-24.46369 24.46369-59.583246 29.007633-78.447007 10.159871-18.847761-18.863761-14.303819-53.983317 10.159871-78.463007L933.92418 21.807724z"></path></symbol><symbol id="icon-caidan" viewBox="0 0 1024 1024"><path d="M0 132.8a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 132.8s0-26.784 0 0zM0 512.016a48.48 48.48 0 0 0 48.48 48.48h927.04a48.48 48.48 0 0 0 0-96.96H48.48A48.48 48.48 0 0 0 0 512.016s0-26.784 0 0zM0 891.2a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 891.2s0-26.784 0 0z"></path></symbol><symbol id="icon-yonghudenglu" viewBox="0 0 1024 1024"><path d="M1022.26704 962.432c-43.888-157.584-162.16-281.216-312.064-340.144 92.8-61.376 153.92-164.496 153.92-281.168C864.12304 153.04 706.04304 0 511.70704 0 317.35504 0 159.19504 153.04 159.19504 341.136c0 116.704 61.152 219.84 154.064 281.184C164.13904 681.024 46.18704 803.792 1.80304 960.16c-7.344 26.016 8.464 52.864 35.36 60.032a52.016 52.016 0 0 0 38.4-4.608 49.072 49.072 0 0 0 23.712-29.568c50.768-178.96 220.352-303.92 412.448-303.92 193.04 0 362.848 125.712 412.944 305.744 7.296 26.048 34.992 41.456 61.952 34.48 26.912-7.04 42.88-33.824 35.648-59.888zM260.25104 341.136c0-134.256 112.816-243.424 251.472-243.424 138.576 0 251.328 109.184 251.328 243.424 0 133.904-112.768 242.864-251.328 242.864-138.672 0-251.472-108.976-251.472-242.864z m0 0"></path></symbol><symbol id="toolbar-csdnlogo" viewBox="0 0 1024 1024"><path d="M533.941333 419.264c14.709333-1.621333 37.290667-3.264 68.352-3.264 51.872 0 93.802667 9.152 119.776 28.416 23.338667 17.952 38.858667 47.008 34.56 89.130667-3.978667 39.189333-24.042667 66.634667-53.312 83.594666C676.544 633.152 642.837333 640 592.106667 640c-29.888 0-58.421333-1.642667-80.106667-4.896l21.941333-215.84z m42.869334 172.938667c4.981333 0.992 11.562667 1.973333 24.533333 1.973333 51.882667 0 88.469333-25.877333 92.16-62.24 5.333333-52.554667-27.125333-70.944-81.802667-70.624-7.072 0-16.917333 0-22.133333 0.970667L576.8 592.213333h0.010667z m223.498666-164.704c210.954667-39.872 229.162667 31.776 222.645334 95.189333L1010.656 640h-66.944l11.210667-106.986667c2.421333-23.562667 17.504-69.653333-55.338667-67.914666-25.184 0.608-37.706667 4.064-37.706667 4.064s-2.186667 28.469333-4.832 49.514666L844.32 640H778.666667l13.024-119.573333" fill="#231916"></path><path d="M226.634667 632.682667c-12.373333 4.341333-38.037333 7.317333-73.909334 7.317333C49.6 640-6.048 590.933333 0.522667 526.090667 8.416 448.810667 90.858667 405.333333 181.141333 405.333333c34.976 0 55.552 2.858667 74.858667 7.637334l-6.208 52.064c-12.821333-4.384-42.890667-8.405333-67.232-8.405334-53.141333 0-98.250667 16.042667-103.424 66.762667-4.608 45.354667 27.061333 67.04 86.816 67.04 20.8 0 51.477333-3.018667 65.653333-7.370667l-4.992 49.6 0.021334 0.021334z" fill="#C92027"></path><path d="M272.714667 580.021333c19.285333 6.762667 59.488 13.504 92 13.504 35.029333 0 54.528-9.333333 56.096-23.797333 1.418667-13.205333-12.928-14.986667-52.490667-24.010667-54.666667-12.896-89.546667-32.842667-86.133333-64.704C286.176 443.989333 337.685333 416 416.725333 416c38.56 0 75.914667 2.613333 95.274667 8.714667l-6.656 46.666666c-12.565333-4.202667-60.672-10.037333-93.205333-10.037333-32.992 0-50.069333 9.973333-51.253334 20.917333-1.493333 13.845333 15.658667 14.485333 58.528 25.450667 58.026667 14.154667 83.402667 34.090667 80.085334 64.992C495.605333 609.109333 449.258667 640 356.714667 640c-38.528 0-71.744-6.762667-90.048-13.525333l6.048-46.453334z" fill="#231916"></path></symbol><symbol id="icon-morentouxiang" viewBox="0 0 1024 1024"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#A0C3FF"></path><path d="M691.2 887.466667c-55.466667-25.6-123.733333-51.2-123.733333-51.2v-38.4c68.266667-25.6 119.466667-89.6 132.266666-166.4 12.8-4.266667 38.4-17.066667 46.933334-55.466667l8.533333-46.933333s4.266667-59.733333-42.666667-46.933334c4.266667-38.4 4.266667-81.066667 4.266667-115.2-4.266667-64-89.6-98.133333-89.6-98.133333l12.8-17.066667s-42.666667-12.8-59.733333-4.266666l12.8-29.866667s-85.333333 0-132.266667 38.4h-4.266667v-17.066667s-145.066667 21.333333-140.8 243.2c-46.933333-12.8-42.666667 46.933333-42.666666 46.933334l8.533333 46.933333c4.266667 38.4 29.866667 51.2 46.933333 55.466667 12.8 81.066667 64 145.066667 132.266667 166.4v38.4s-68.266667 29.866667-123.733333 51.2c-29.866667 12.8-59.733333 34.133333-81.066667 59.733333 68.266667 51.2 157.866667 76.8 256 76.8s187.733333-25.6 264.533333-72.533333c-21.333333-29.866667-51.2-46.933333-85.333333-64z" fill="#4374E0"></path></symbol><symbol id="icon-icon_boke" viewBox="0 0 1024 1024"><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m298.667-256H213.333v42.667h597.334V768z m-21.334-448L704 234.667 341.333 597.333l-42.666 128 128-42.666L789.333 320z"></path></symbol><symbol id="icon-icon_gitchatx" viewBox="0 0 1024 1024"><path d="M810.667 533.333v-64h-384v85.334h298.666v128h85.334V533.333zM256 810.667h426.667v-85.334h-384V298.667h426.666V384h85.334V213.333H213.333v597.334H256zM512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m213.333-298.667v85.334h85.334v-85.334h-85.334z"></path></symbol><symbol id="icon-guanbi1" viewBox="0 0 1024 1024"><path d="M512 1024A512 512 0 1 1 512 0a512 512 0 0 1 0 1024z m160-768L512 416 352 256l-96 96 160 160-160 160 96 96 160-160 160 160 96-96-160-160 160-160-96-96z"></path></symbol></svg><div class="csdn-toolbar csdn-toolbar tb_disnone csdn-toolbar-skin-black ">        <div class="container row center-block ">          <ul class="pull-left left-menu clearfix">            <li>              <a href="https://www.csdn.net/?ref=toolbar" title="CSDN首页" target="_blank">              <svg class="icon" aria-hidden="true">                  <use xlink:href="#toolbar-csdnlogo"></use>              </svg>                </a>            </li>            <li><a href="http://blog.csdn.net/?ref=toolbar" class="toolbar_to_feed" title="博客" target="_blank">博客</a></li>            <li><a href="http://edu.csdn.net/?ref=toolbar" title="学院" target="_blank">学院</a></li>            <li><a href="http://download.csdn.net/?ref=toolbar" title="下载" target="_blank">下载</a></li>            <li><a href="http://gitbook.cn/?ref=csdn" title="GitChat" target="_blank">GitChat</a></li>            <li class="tb_is1150hide"><a href="http://bbs.csdn.net/?ref=toolbar" title="论坛" target="_blank">论坛</a></li>            <li class="tb_is1210hide"><a href="http://ask.csdn.net/?ref=toolbar" title="问答" target="_blank">问答</a></li>            <li class="tb_is1270hide"><a href="http://mall.csdn.net/?ref=toolbar" title="商城" target="_blank">商城</a></li>            <li class="show-more">            <a href="javascript:;" class="show-more-a"><svg width="22" height="4" xmlns="http://www.w3.org/2000/svg"><path d="M2 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#4F4F4F" fill-rule="evenodd"></path></svg></a>              <div class="more">                <div class="tb_is1150show"><a href="http://bbs.csdn.net/?ref=toolbar" target="_blank">论坛</a></div>                <div class="tb_is1210show"><a href="http://ask.csdn.net/?ref=toolbar" target="_blank">问答</a></div>                <div class="tb_is1270show"><a href="http://mall.csdn.net/?ref=toolbar" target="_blank">商城</a></div>                <div><a href="http://huiyi.csdn.net/?ref=toolbar" target="_blank">活动</a></div>                <div><a href="https://gitee.com/?utm_source=csdn_toolbar" target="_blank">码云</a></div>                <div><a href="http://www.iteye.com/?ref=toolbar" target="_blank">ITeye</a></div>                <div><a href="http://geek.csdn.net/?ref=toolbar" target="_blank">极客头条</a></div>              </div>            </li>          </ul>          <div class="pull-right login-wrap unlogin">            <ul class="btns">            <li class="toolbar-tracking csdn-tracking-statistics tracking-click" data-mod="popu_369"><a href="https://www.csdn.net/article/2015-05-18/2824690#" style="padding:0" target="_blank"></a></li>              <li>                <div class="search_bar csdn-tracking-statistics tracking-click" data-mod="popu_366">                  <input type="text" class="input_search" name="">                  <a href="https://so.csdn.net/so/" target="_blank" class="btn-nobg-noborder btn-search"><i class="iconfont-toolbar toolbar-sousuo"></i></a>                </div>              </li>              <li class="write-bolg-btn csdn-tracking-statistics tracking-click" data-mod="popu_370"><a class="" href="http://mp.blog.csdn.net/postedit?ref=toolbar" target="_blank"><i class="iconfont-toolbar toolbar-icon_boke"></i><span>写博客</span></a></li>              <li class="gitChat"><a class="" href="http://gitbook.cn/new/gitchat/activity?utm_source=csdnblog1" target="_blank"><i class="iconfont-toolbar toolbar-icon_gitchatx"></i><span>发Chat</span></a></li>              <li class="userinfo"><a href="https://passport.csdn.net/account/login?ref=toolbar">登录</a><span></span><a href="https://passport.csdn.net/account/mobileregister?ref=toolbar&amp;action=mobileRegister">注册</a></li>              <li class="userLogin">                <div class="loginCenter"><a href="http://my.csdn.net/?ref=toolbar" target="_blank"><img class="login_img" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/100x100.jpg"><div class="toolbar-circle"></div></a></div>                <div class="userControl">                  <div><a href="http://blog.csdn.net/?ref=toolbar" target="_blank">我的博客</a></div>                  <div><a class="xiaoxi" href="http://msg.csdn.net/?ref=toolbar" target="_blank">消息<span class="toolbar-newsL">(3)</span></a></div>                  <div><a href="http://my.csdn.net/my/account/changepwd?ref=toolbar" target="_blank">设置</a></div>                  <div><a href="http://bbs.csdn.net/forums/Service?ref=toolbar" target="_blank">反馈</a></div>                  <div><a href="http://oldblog.csdn.net/home/help.html" target="_blank">帮助</a></div>                  <div><a href="https://passport.csdn.net/account/logout?ref=toolbar">退出</a></div>                </div>              </li>            </ul>          </div>        </div>    </div><script class="toolbar-s" type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/iconfont.js.下载"></script>
+<script type="text/javascript" ads-src="https://csdnim.qtmojo.com/main/s?user=allyestest|allyestest|allyestest0410&amp;db=csdnim&amp;border=0&amp;local=yes&amp;js=ie" src="https://creatim.qtmojo.cn/td/AllyesDeliver.min.js" charset="gbk"></script>
+
+<script type="text/javascript">
+  var protocol = window.location.protocol;
+  //document.write('<script type="text/javascript" src="' +protocol+ '//c.csdnimg.cn/pubfooter/js/repoAddr2.js?v=' + Math.random() + '"></'+'script>');
+</script>
+<script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/content_toolbar.js.下载" type="text/javascript" id="toolbar-tpl-scriptId" prod="news" skin="black" domain="http://cloud.csdn.net"></script>
+<script type="text/javascript" src="https://cbjs.baidu.com/js/m.js"></script>
+<div class="wrap">
+	<!-- 间歇滚动 -->
+	<script language="javascript">function T(n){document.getElementById("ArticleCnt").style.fontSize=n+"px";}</script>
+	<script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/jquery.autoscroll.js.下载" type="text/javascript"></script><!--滚动js-->
+	<!-- //间歇滚动 -->
+	<script type="text/javascript">BAIDU_CLB_preloadSlots("421718","421717","421715","421714","421712","445821","421709","119835");</script>
+</div>
+	<!-- nav -->
+	<div id="xcx_tabmenu" class="nav">
+		<div id="cx_tabmenu" class="cx_tabmenu">
+			<!-- lev one -->
+			<div id="ddimagetabs" class="lev_1">
+				<ul>
+				<li><a href="http://news.csdn.net/" id="sclink1" target="_blank" onclick="LogClickCount(this, 392);">业界</a></li>
+				<li><a href="http://mobile.csdn.net/" id="sclink2" target="_blank" onclick="LogClickCount(this, 393);">移动开发</a></li>
+				<li><a href="http://cloud.csdn.net/" id="sclink3" target="_blank" onclick="LogClickCount(this, 394);">云计算</a></li>
+				<li><a href="http://sd.csdn.net/" id="sclink4" target="_blank" onclick="LogClickCount(this, 395);">软件研发</a></li>
+				<li><a href="http://programmer.csdn.net/" id="sclink6" target="_blank">程序员</a></li>
+				<li><a href="http://geek.csdn.net/" id="sclink7" target="_blank">极客头条</a></li>
+				<li><a href="http://special.csdn.net/newssubject/index.html" id="sclink5" target="_blank">专题</a></li>
+				<!--<li><a href="http://share.csdn.net" id="sclink8" target="_blank">CSDN Share</a></li>
+				<li><a href="http://read.csdn.net/" id="sclink9" target="_blank">我的Tag</a></li>-->
+				</ul>
+			</div>
+			<!-- lev two -->
+			<div id="tabcontentcontainer" class="lev_2">
+				<div class="tabcontent" id="sc1">
+					<ul>
+					 
+					<li><a href="http://www.csdn.net/tag/cto/news" target="_blank">CTO</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E4%BA%A7%E5%93%81/news" target="_blank">产品</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%88%9B%E4%B8%9A/news" target="_blank">创业</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E8%81%8C%E5%9C%BA/news" target="_blank">职场</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E4%BA%BA%E7%89%A9/news" target="_blank">人物</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%AF%B9%E8%AF%9Dcto/news" target="_blank">对话CTO</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E7%A4%BE%E5%8C%BA%E4%B9%8B%E6%98%9F/news" target="_blank">社区之星</a></li>
+										</ul>
+				</div>
+				<div class="tabcontent" id="sc2">
+					<ul>
+					 
+					<li><a href="http://www.csdn.net/tag/android/news" target="_blank">Android</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/ios/news" target="_blank">iOS</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E7%A7%BB%E5%8A%A8%E6%B8%B8%E6%88%8F/news" target="_blank">移动游戏</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/html5/news" target="_blank">HTML5</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E6%99%BA%E8%83%BD%E7%A1%AC%E4%BB%B6/news" target="_blank">智能硬件</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/swift/news" target="_blank">Swift</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E8%BF%91%E5%8C%A0/news" target="_blank">近匠</a></li>
+										</ul>
+				</div>
+				<div class="tabcontent" id="sc3">
+					<ul>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%A4%A7%E6%95%B0%E6%8D%AE/news" target="_blank">大数据</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83/news" target="_blank">数据中心</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E6%9C%8D%E5%8A%A1%E5%99%A8/news" target="_blank">服务器</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%AD%98%E5%82%A8/news" target="_blank">存储</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E8%99%9A%E6%8B%9F%E5%8C%96/news" target="_blank">虚拟化</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/nosql/news" target="_blank">NoSQL</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%AE%89%E5%85%A8/news" target="_blank">安全</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E4%BA%91%E5%85%88%E9%94%8B/news" target="_blank">云先锋</a></li>
+										</ul>
+				</div>
+				<div class="tabcontent" id="sc4">
+					<ul>
+					 
+					<li><a href="http://www.csdn.net/tag/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/news" target="_blank">编程语言</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/news" target="_blank">开放平台</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/html5/news" target="_blank">HTML5</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/news" target="_blank">前端开发</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95/news" target="_blank">智能算法</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E6%9E%B6%E6%9E%84/news" target="_blank">架构</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%BC%80%E6%BA%90/news" target="_blank">开源</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E6%95%B0%E6%8D%AE%E5%BA%93/news" target="_blank">数据库</a></li>
+										</ul>
+				</div>
+				<div class="tabcontent" id="sc5">
+					<ul>
+					 
+					<li><a href="http://www.csdn.net/tag/%E5%B0%81%E9%9D%A2%E7%A7%80/news" target="_blank">封面秀</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E7%89%B9%E5%88%AB%E7%AD%96%E5%88%92/news" target="_blank">特别策划</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E7%AE%A1%E7%90%86%E5%AE%9E%E8%B7%B5/news" target="_blank">管理实践</a></li>
+					 
+					<li><a href="http://www.csdn.net/tag/%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/news" target="_blank">技术架构</a></li>
+										</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	// The idea borrowed from dynamicDrive.com
+	
+	var initialtab = [1, "sc1"]
+	
+	var previoustab = "";
+	var intv;
+	function expandcontent(cid, aobject) {
+	    stopTimer();
+	    highlighttab(aobject);
+	    if (previoustab != ""){
+	         document.getElementById(previoustab).style.display = "none";
+	    }
+	    document.getElementById(cid).style.display = "block";
+	    previoustab = cid;
+	}
+	
+	function highlighttab(aobject) {
+	    stopTimer();
+	
+	   if (typeof tabobjlinks == "undefined"){
+	         collectddimagetabs();
+	    }
+	   for (i = 0; i < tabobjlinks.length; i++){
+	    	tabobjlinks[i].className = "";   
+	    }
+	    aobject.className = "current";
+	}
+	
+	function collectddimagetabs() {
+	    var tabobj = document.getElementById("ddimagetabs");
+	    tabobjlinks = tabobj.getElementsByTagName("A");
+	}
+	
+	function startTimer() {
+	    intv = setTimeout("expandcontent(initialtab[1], tabobjlinks[initialtab[0]-1])", 2000);
+	}
+	
+	function stopTimer() {
+	    clearTimeout(intv);
+	}
+	
+	$(document).ready(function(){ 
+		collectddimagetabs();
+		var domain = new Array('news.','mobile.','cloud.','sd.','programmer.');
+		for(var i=0;i<domain.length;i++){
+			if(window.location.href.indexOf(domain[i]) > 0){
+				expandcontent('sc'+(i+1), tabobjlinks[i]);
+			}
+		}
+		$('#button_both').click(function(){
+			var key=$('#queries_searchfield_query-new').val();
+			key = $.trim(key);
+			if(key==""){
+				alert("关键字不能为空！");
+			}
+			else{
+				key =  encodeURIComponent(key)
+				var url="http://so.csdn.net/search?sort=created_at&t=news&q="+key;
+				window.location.href=url;
+			}
+			return false;
+		});
+	});
+	
+	</script>
+ 
+<div class="wrap">
+	
+	
+		<div class="ad_960">
+		<ins data-revive-zoneid="94" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+	</div>
+		
+	<div class="brea_nav">
+				<span class="fr">
+		<a href="http://news.csdn.net/rss_cloud.html" class="rss" target="_blank">订阅云计算RSS</a>					
+		</span><a href="http://www.csdn.net/">CSDN首页</a><em>&gt;</em>
+		<a href="http://cloud.csdn.net/" target="_blank">云计算</a>	</div>
+	
+	<div class="content">
+		<div class="left">
+			<div class="detail">
+				<h1 class="title">ZStack深度试用：部署、架构与网络及其与OpenStack的对比</h1>
+				<h4>
+					<div class="tit_bar">
+						发表于<span class="ago">2015-05-18 07:17</span>|
+						<span class="view_time">次阅读</span>| 
+						来源<span class="ago">CSDN</span>|
+						<span class="num_recom"><font id="remark_count1" class="cmtcount" style="font-size:12px;color:#c00;">0</font> 条评论</span>| 
+						作者<span class="ago">沈志伟</span>
+					</div>
+				</h4>
+				<div class="tag"><a href="http://www.csdn.net/tag/iaas/news">IaaS</a><a href="http://www.csdn.net/tag/zstack/news">ZStack</a><a href="http://www.csdn.net/tag/%E4%BA%91%E8%AE%A1%E7%AE%97%E5%B9%B3%E5%8F%B0/news">云计算平台</a><a href="http://www.csdn.net/tag/openstack/news">OpenStack</a></div>
+				<div class="summary">
+					<input type="hidden" id="article_description" name="article_description" value="本文是开源IaaS软件ZStack的深度试用报告，分别从部署、架构和网络三个层面分享作者的试用体验，并与OpenStack进行简单的对比，文章最后也对ZStack的改进方向提出了自己的思考。">
+				<script type="text/javascript" charset="utf-8">
+(function(){
+  var _w = 22 , _h = 16;
+  var article_description=$("#article_description").val();
+  var param = {
+    url:location.href,
+    type:'3',
+    count:'', /**是否显示分享数，1显示(可选)*/
+    appkey:'', /**您申请的应用appkey,显示分享来源(可选)*/
+    title:article_description, /**分享的文字内容(可选，默认为所在页面的title)*/
+    pic:'', /**分享图片的路径(可选)*/
+    ralateUid:'', /**关联用户的UID，分享微博会@该用户(可选)*/
+	language:'zh_cn', /**设置语言，zh_cn|zh_tw(可选)*/
+    rnd:new Date().valueOf()
+  }
+  var temp = [];
+  for( var p in param ){
+    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+  }
+  document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+})()
+</script><iframe allowtransparency="true" frameborder="0" scrolling="no" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/weiboshare.html" width="22" height="16"></iframe><strong>摘要：</strong>本文是开源IaaS软件ZStack的深度试用报告，分别从部署、架构和网络三个层面分享作者的试用体验，并与OpenStack进行简单的对比，文章最后也对ZStack的改进方向提出了自己的思考。				</div>
+				<div class="con news_content">
+				<p><b>【编者按】</b>针对采用OpenStack部署云平台的复杂性，<a href="http://www.csdn.net/article/2015-04-10/2824443" target="_blank">CSDN此前介绍过的ZStack</a>是另外一种解决方案。本文是ZStack的深度试用报告，分别从部署、架构和网络三个层面介绍作者的试用体验，并与OpenStack进行简单对比，文章最后也对ZStack的改进方向提出了思考。以下为全文内容：</p><p>“这是最好的时代，也是最坏的时代”。这句名言也是当前云计算大环境的真实写照。云计算给企业带来极大的便利，不但能够充分利用现有的资源，而且能够把资源（计算、存储、网络）实现池化，像自来水一样便捷、精确地使用，形成了新的资源计费（商业）模式。但是，如何有效地、快速地把资源池化管理，这是摆在管理者和技术人员面前的一道难题。当前整个云生态，最成功的案例莫过于Amazon AWS 和开源的OpenStack。AWS可以说是云计算的鼻祖，它的成功毋庸置疑，不夸张地说，是它引领了云计算的时代；但它是闭源的，我们无法窥探它内部的实现逻辑。直到开源的OpenStack的出现，云计算才可以说“飞入寻常百姓家”了。OpenStack让整个云市场开始红火起来，各种云如雨后春笋般冒了出来。</p><p>随着对OpenStack的深度普及，它在某些方面的弊端也不断被管理层和技术人员所提及。整个OpenStack服务组件不断增加，新的功能陆续被扩展，各种厂商之间不断角逐，都想主导OpenStack的走向（使之符合自己的利益），而中小企业由于缺乏技术力量，越来越玩不转庞大的OpenStack，原来期待的易用性、稳定性似乎逐渐地变成了奢望（或者说过往）。作为OpenStack使用者的我，也蒙生了疑问：OpenStack是不是还依然适合我们的使用场景，是否有别的替代品？在一次不经意的瞬间，发现了一个叫ZStack的云平台，在其<a href="http://zstack.org/" target="_blank">官网</a>赫然写着 “We name our project as ZStack because we hope it's the last effort to make a simple, reliable, and flexible IaaS software.”抱着试一试的心态，开始了我的ZStack之旅。</p><h2><span style="background-color: initial;"><b><span style="color: #e36c09;">部署篇</span></b></span></h2><p>说到部署，吐嘈下OpenStack。对于一个初次体验者，看到OpenStack浩瀚的部署手册，估计会使部分体验者望而生畏。被强烈求知欲驱使着继续部署的人们，一步一步“复制”、“粘贴”手册里的命令（有些可能还不理解），硬着头皮继续前进。最后满心期待正常的DASH界面，被一个个“error"伤得体无完肤。最终能正常进入WEB界面的寥寥无几。虽然现在也出现了不少第三方的自动化部署工具（如RDO、fuel等），但也涉及到复杂的配置（主要是OpenStack融合很多知识），对初次体验者也不是很友好。</p><p>ZStack的部署引导就显得那么简洁明了。在”Installation"篇，总共只有三个页面，分别是”Quick Installation"、“Maunual Installation”、“Multi-node Installation"。 对初次体验者，使用“Quick Installation"即可。ZStack作者提供了一键安装的脚本，更为贴心地是，为国内“特殊”的网络环境，定制了相应的套餐方案。</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b5ed731a8_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>接下来开始我们一键安装部署之旅。</p><p></p><pre class="brush: shell" code_snippet_id="669006" snippet_file_name="ptcms_1431904620_0.sh">wget -O install-zstack.sh http://download.zstack.org/install.sh</pre><p></p><p></p><pre class="brush: shell" code_snippet_id="669006" snippet_file_name="ptcms_1431904620_1.sh">sudo bash install-zstack.sh -a -R http://pypi.douban.com/simple/ -f http://7xi3lj.com1.z0.glb.clouddn.com/zstack-all-in-one-0.6.2.tgz</pre><p></p><p>“人品”差点的话，可能会出现如下情景（还是拜我们“特殊”的网络环境所赐，(╯﹏╰)）</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b63044e88_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>解决的办法：把www.w3.org 解析到本机“骗”过脚本检测就行。</p><p></p><pre class="brush: shell" code_snippet_id="669006" snippet_file_name="ptcms_1431904620_2.sh">echo "127.0.0.1 www.w3.org" &gt;&gt; /etc/hosts</pre><p></p><p>再来一次继续我们的路程。（提示目录已存在，删除即可）</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b64c19a15_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>大约10-20分钟左右（网络质量良好），部署就完成，根据提示打开浏览器（通过验证）即可看到管理界面。</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b66b9c670_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>总体来说，ZStack整个部署过程还是很友好的，没有冗杂的配置（部分定制可以查看脚本的帮助，如IP指定等）。</p><h2><span style="background-color: initial;"><span style="color: #e36c09;">架构篇</span></span></h2><p>部署的简便性，只是ZStack的一个外在特性。ZStack真正核心价值还在于它的架构。（以下内容仅是本人个人观点，如有赞同，不胜荣幸。^_^)</p><h3>全异步架构</h3><p>传统的云管理平台在扩展方面有其特有的软肋--slow task。在并发不高的情况下，体现不是很明显，但批量的任务创建时（如创建虚拟机），就会出现任务失败或超时。想必许多OpenStack使用者都会有这样的经历，满心期待能够顺利创建虚拟机，却被一行行显眼的红色字体浇灭了热忱的心。其中的原因如下：<span style="background-color: initial;">&nbsp; &nbsp;</span></p><p></p><ol><li><span style="background-color: initial;">OpenStack里任务（或者说消息）传递的路径很长，比如以创建VM为例 ，一个任务要经历 " service --&gt; scheduler --&gt; image service --&gt; storage service --&gt; network service --&gt; hypervisor " &nbsp;这条传递路径，每一环节都要一定的耗时，大批量任务执行时，延迟效应就更明显，最后就出现任务失败。</span></li><li><span style="background-color: initial;">任务传递并非全异步。某些环节同步传递就会出现等待，进一步增加了任务时间。（关于同步与异步的区别，详见 &nbsp;http://avaj.iteye.com/blog/151724）。下图展示一个实例：</span></li></ol><p></p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b6be84ed2_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>ZStack在这方面做了改进，把<b>服务之间的消息调用（或者API请求），以及服务内部代码方法之间的调用全部实现异步架构</b> ，如下图所示：</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b6d773965_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>全异步架构带来了效率上的提升，本人没有系统地测试（与OpenStack对比），但仅从感官上讲，在ZStack上创建一台虚拟机，秒秒钟dash就显示创建成功了，那种享受，不言而喻。</p><h3>无状态服务&nbsp;</h3><p>在讲无状态服务之前，我先讲下有状态服务下的请求机制。 这里的状态是指在有多个管理节点时，每个管理节点都会有多个相同的微服务。那么微服务之间就要对自己管理资源的数量进行分配协商，向微服务发送请求的请求者也必须知道是哪个微服务在管理哪个资源。话多必失，还是上图看看（我大学老师说过，一图胜千言）：</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b6f78db33_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>而在无状态服务下，这些事情交给hash ring处理，微服务之间无需知道自己或别人管了哪些资源。在请求里只需含一个唯一的UUID，不再需要指出把请求提交给哪个微服务，集群内部会把请求“路由”到指定的微服务 。如下图所示：</p><p style="text-align: center;"><span style="background-color: initial;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b713721aa_middle.jpg" style="float: none; margin: 0px;" alt=""><br></span></p><p><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">里，管理节点之间形成一个强一致的hash ring，每个节点都有一份包含所有节点信息（如节点UUID）的副本。当新节点加入或者节点退出时，都会产生广播消息通知到其他节点，整个集群会重新动态平衡，形成新的强一致的hash ring 。</span></p><p>ZStack自身强一致性的特性是其他IaaS软件（包括OpenStack）不可比拟的。OpenStack要实现服务的HA特性，必须借助第三方高可用方案，比如keepalived+Haproxy或者pacemaker方案。诚然这些都承受了生产环境的考验，但无疑给整个平台增加了复杂度。</p><h3>微服务体系</h3><p>云平台是个复杂的系统，管理着各种子系统（如计算、存储、网络、认证等）。每一次的请求任务都需要在各个子系统之间来回协调。比如说创建虚拟机，需要在计算、存储、网络、认证各环节都走通，任何一换出问题，都将导致创建失败。如下图为OpenStack各个子系统的调度关系图：</p><p style="text-align: center;"><span style="background-color: initial;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/55591b7b9f905_middle.jpg" style="float: none; margin: 0px;" alt=""><br></span></p><p><span style="background-color: initial;">OpenStack服务之间不但有Http交互，也有RPC交互。整个系统错综复杂。另一方面，随着OpenStack的发展，修改代码有时候会变得不那么容易，甚至不得不重构整个子系统的代码，就像Neutron已经重构了。</span></p><p>反观ZStack，服务之间的交互就简单明了多了，所有交互统一走消息队列，整个拓扑结构不再紧密，实现星状的架构。如下图所示：</p><p style="text-align: center;"><span style="background-color: initial;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b7a64496d_middle.jpg" style="float: none; margin: 0px;" alt=""><br></span></p><p><span style="background-color: initial;">星状架构中，<b>各服务之间只有消息的交互，服务之间基本完成独立</b>，添加或者删除某个服务不会影响怎么个架构（只会失去某些功能）。</span></p><p>OpenStack与ZStack两者虽然都是微服务架构，但在实现上有本质的区别。</p><p>OpenStack的微服务是以独立进程分散到各个节点，这在一定程度实现了负载均衡的效果，但存在以下问题：</p><p></p><ol><li><span style="background-color: initial;">服务边界扩大</span></li><li><span style="background-color: initial;">给部署、升级、维护带来困难</span></li><li><span style="background-color: initial;">纷杂凌乱的配置</span></li><li><span style="background-color: initial;">增加额外的监控负担</span></li><li><span style="background-color: initial;">当扩展时，会生成更多的微服务</span></li></ol><p></p><p>鉴于以上原因，ZStack采取<b> all in one process</b> 的实现方式，这就带来下列特点：</p><p></p><ol><li><span style="background-color: initial;">更简洁的依赖关系；所有微服务都集中在一个进程中，相关代码都在一个包里，给部署、升级、维护、扩展带来了极大的便利。</span></li><li><span style="background-color: initial;">集中式的配置管理；OpenStack每个服务都有自己的配置，而且还分散在不同的主机上，维护成本较大；</span><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">就容易多了。</span></li><li><span style="background-color: initial;">微服务只需要关注自己的业务逻辑，高可用、负载均衡、监控都可以交管理节点来完成。</span></li><li><span style="background-color: initial;">进程级的应用扩展。从代码层讲，</span><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">的微服务都是一个个独立的JAR包，且有自己独立的API，错误代码，全局配置，全局属性和系统标签。开发人员可以直接导入包，来实现自己的需要的功能。</span></li></ol><p></p><p>综上所述，ZStack拥有一个清晰的、解耦的架构，这是实现健壮IaaS平台的基石。</p><h3>插件机制</h3><p>一个软件的扩展性是评价软件的重要指标之一。当前OpenStack主要支持两种插件扩展机制。</p><p></p><ul><li><b style="background-color: initial;">strategy pattern （策略模式）</b></li></ul><p></p><p>这是一种通用的扩展模式，通过API接口，实现功能扩展。比如OpenStack里Nova Hypervisor Driver 、Cinder Storage Driver等驱动都是通过这种形式实现的。这是一种通过已经定义好的协议来实现插制跟核心交互的。如下图所示：</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b7e351a69.jpg" style=""><br></p><p></p><ul><li><b style="background-color: initial;">The out-of-process service （进程外服务）</b></li></ul><p></p><p>这种模式的典型就是外部服务（监控）通过消息监听，获取平台的消息。在OpenStack里，Ceilometer 服务里有很多监控的实现机制就是如此，示意图如下：</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b7fa482af_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>以上两种插件机制是OpenStack和ZStack所共有的，下面要提的机制是ZStack独有的。</p><p></p><ul><li><span style="background-color: initial;"><b>Observer pattern (观察者模式)</b></span></li></ul><p></p><p>在这种模式下，插件会深入到监控应用内部的业务逻辑的事件。当应用内部发现事件时，插件会对此事件做出自己的响应，在插件自身的代码里执行相应的业务流。这种实现，对终端用户是完全透明的，是纯粹的内部实现。举个 Observer pattern 案例，在OpenStack里Security Group（安全组）功能是集成在Neutron里，不能单独剥离出来。而在ZStack里，Security Group是一种 Observer pattern &nbsp; plugin，你可以单独提取，而不影响整个网络功能的实现。这种插制的实现如下图所示：</p><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b810a2a65_middle.jpg" style="float: none; margin: 0px;" alt=""><br></p><p>独特的插件机制，给ZStack带来了更灵活的实现。开发者可以根据自己业务需求扩展功能，而ZStack 开发者只需维护核心代码。如此带来的好处就是，整个云平台可以快速更迭，功能逐步完善，而整个架构还是健壮的。</p><p>以上这些架构特点并非ZStack的全部，比如说ZStack还有回滚机制，一但超时或出错，整个任务流就会回滚（包括数据库的修改，比如VM创建失败，IP会被回收，VM不会停留在errror状态而是直接被删除；而OpenStack会出现僵尸VM）。更多ZStack的架构方面的信息，详见ZStack官网。</p><h2><span style="background-color: initial;"><span style="color: #e36c09;">网络篇</span></span></h2><p>在云时代，用户对网络提出了更高的要求。云中的网络不再是固定不变的，而应该可以随时根据业务进行调整，对网络的隔离性也有更进一步的要求。另外，传统网络的功能（如LB、VPN、FW等）也被引入到了云中，更高级的SDN网络、NFV功能现在也开始集成了到了云中。OpenStack是网络集大成者，各种传统设备厂商、新型SDN公司以及各大运营商都在极力向Neutron靠拢，OpenStack的网络功能可谓包罗万象。</p><p>ZStack从一开始就把自己定位是私有云解决方案，它没有像OpenStack那么强大的网络功能，但基本已经能够满足私有云对网络的需求。<b>ZStack 借鉴了CloudStack的网络解决方案，把网络功能都集成到Virtual Router来实现，实现计算、网络实现良好的隔离。</b>比如说，端口转发和SNAT功能，OpenStack利用iptables在宿主机上来实现的，这导致宿主机的iptables更加纷杂（即有宿主机自身的规则，也有VM的规则）。而ZStack把这些实现（也是iptables）转移到了VR，排错相对比较容易。ZStack把CloudStack的基础网各和高级网络融合在了一起，可谓 “打破这种无理的分割”——来自某CS资深用户（@Star华星_FreeBSD）的肺腑感慨。ZStack在网络方面更让人倾心的是，它提供了丰富网络应用场景向导，基本上囊括了私有云常见的应用声场景。下面列举几个场景应用：</p><h3><b>1. Amazon EC2 classic EIP</b></h3><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b83d60e24.jpg" style=""><br></p><p>EIP（弹性IP）是当前云环境中最常见的应用。创建虚拟机的时候会分配一个private IP，当虚拟机绑定EIP的时候，虚拟机就可以实现公网路由了——这是在公有云场景。对应于私有云时，单纯private IP无法访问公网，只有绑定EIP，才能实现公网访问。EIP是动态的，用户可以实现更变绑定到不同的虚拟机上。这是云特性之一，弹性！（操作详见 http://zstack.org/tutorials/ec2-cli.html）</p><h3>2.Flat network&nbsp;</h3><p style="text-align: center;"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/5558b8503da11.jpg" style=""><br></p><p>Flat network是一般企业内部很流行的应用场景。所有虚拟机共处一个广播域，虚拟机访问外网通过本地网关出去。如果L3子网在公网是可路由的，那虚拟机就可以直接分配公网IP。（操作详见 http://zstack.org/tutorials/flat-network-cli.html ）</p><p>更多场景详见 &nbsp;http://zstack.org/tutorials/ ，在此不再一一举例。</p><p>ZStack以上的各种网络场景是可以共存的，通过Zone设置，可以形成独立的网络环境，这大大增强了网络的灵活性。更多的功能，有待使用者挖掘。</p><h2><b><span style="color: #e36c09;">疑惑篇</span></b></h2><p>说了这么多ZStack优势，也得扒一扒ZStack相关薄弱或者说隐患的地方 。(个人鄙见，^_^)</p><p></p><ol><li><span style="background-color: initial;">融合的单进程架构，诚然存在很多优势，但也有隐患。本人看来，</span><b style="background-color: initial;">最大的隐患就是核心代码的处理逻辑，如果核心代码出现严重bug，直接导致进程挂掉，那整个集群就失控了</b><span style="background-color: initial;">（所有管理节点都是一致的）。</span><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">是JAVA编写的，bug修复与部署都得重来，整个耗时就长了。</span><span style="background-color: initial;">OpenStack</span><span style="background-color: initial;">是Python脚本语言，直接线上修改即可，而且</span><span style="background-color: initial;">OpenStack</span><span style="background-color: initial;">是分散式微服务架构， bug只会影响具体某项功能，不会对整个集群产生毁灭性打击。</span></li><li><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">当前的<b>认证体系是融合在核心代码里</b>的（至少我还没发现是否可以认证接口可以引入第三方认证），这对认证扩展带来了许多不便。比如说，不能集成现有的认证方式（比如AD、LDAP等），一般企业都有自己的认证体系。而</span><span style="background-color: initial;">OpenStack</span><span style="background-color: initial;">的Keystone在这方面做得不错，它可以无缝衔接第三方的认证（主要是AD、LDAP、Kerberos等）。统一的认证体系给企业在管理上带来不少的便利。</span></li><li><span style="background-color: initial;">当前</span><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">的版本（0.62）<b>对存储支持有限</b>，只支持NFS存储（最新的0.7 预览版支持iSCSI）。企业对存储的需求很大，从我目前观察来看，大部分企业还是挺看重本地存储。另外，当前的大数据时代，数据不再是线性增长，几乎可以说是指数增长曲线，所以企业对存储的扩展性要越来载高，</span><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">应该支持更多的存储插件，比如GlusterFS、Ceph等分布式存储。</span></li><li><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">的<b>VR网络机制</b>，满足中小型私有云那是没有问题，但<b>是否能承受规模化私云的网络需求，有待考证</b>。最好的方式就是引入SDN解决方案，彻底解决网络瓶颈。</span></li><li><span style="background-color: initial;">ZStack</span><span style="background-color: initial;">的<b>L2网络当前还只支持VLAN</b>，下一步可以考虑引下VXLAN、GRE等overlay的隔离，如此一来，网络功能就更加完善了。</span></li></ol><p></p><h2><span style="color: #e36c09;">外篇</span></h2><p>在我看来，ZStack未来的商业模式就是提供私有云咨询服务，深耕私有云市场，与厂商进行接恰合作，提供专业的存储、网络服务。当然前提是做好ZStack的生态圈，让更多的企业和开发者来参与ZStack的发展。</p><p>此文是本人近期对ZStack的体验一些感受与想法，期间特别感谢ZStack的作者 张鑫、尤永康的帮助，也感谢ZStack社区 （QQ群：410185063 ）的各位朋友的帮助。特别是群管理员 @Star华星_FreeBSD (网名 群小助）的鼎力协助。希望ZStack越来越好，受到市场的关注。</p><p><b>作者简介</b>：沈志伟，某游戏公司云计算负责人，OpenStack用户。<span style="background-color: initial;">QQ：1360848475，</span><span style="background-color: initial;">weibo: &nbsp;一页空纸，</span><span style="background-color: initial;">微信: &nbsp; jayway8023</span></p><hr>第七届中国云计算大会将于6月3日-5日在北京国家会议中心举办。目前主会演讲嘉宾名单和议题方向已经公布，众多中国科学院/中国工程院院士、BAT云技术领军人、三大运营商云计算负责人、中国银联执行副总裁、青云联合创始人等嘉宾届时都将带来精彩演讲。欢迎大家访问【&nbsp;<a href="http://www.ciecloud.org/2015">大会官网</a>】，了解更多详情。				
+				<p class="copyright">本文为CSDN原创文章，未经允许不得转载，如需转载请联系market#csdn.net(#换成@)</p>
+				</div>
+							
+		 
+		
+		 
+		 <div class="share"> 	 
+			  <div class="bdsharebuttonbox" style="float:right;">
+			  <!-- a href="#" class="bds_more" data-cmd="more"></a -->
+			  <a href="https://www.csdn.net/article/2015-05-18/2824690#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+			  <a href="https://www.csdn.net/article/2015-05-18/2824690#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+			  <a href="https://www.csdn.net/article/2015-05-18/2824690#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+			  <a href="https://www.csdn.net/article/2015-05-18/2824690#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+			  </div>
+			<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>  
+			
+ 		</div> 
+
+				<div class="detail">
+				<div class="digg">
+						<input type="hidden" id="digg_id" value="2824690">
+						<dl class="support">
+							<dt>顶</dt>
+							<dd>0</dd>
+						</dl>
+						<dl class="oppose">
+							<dt>踩</dt>
+							<dd>0</dd>
+						</dl>
+				</div>
+			</div>	
+ 	
+				<div class="ad_600_90">
+					<ins data-revive-zoneid="95" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+				</div>
+				<div class="related">推荐阅读相关主题：
+											<a href="http://www.csdn.net/tag/%E6%9E%B6%E6%9E%84/news" title="架构" target="_blank">架构</a>
+											<a href="http://www.csdn.net/tag/%E7%BD%91%E7%BB%9C/news" title="网络" target="_blank">网络</a>
+											<a href="http://www.csdn.net/tag/%E4%BA%91%E8%AE%A1%E7%AE%97%E5%A4%A7%E4%BC%9A/news" title="云计算大会" target="_blank">云计算大会</a>
+											<a href="http://www.csdn.net/tag/%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/news" title="分布式存储" target="_blank">分布式存储</a>
+											<a href="http://www.csdn.net/tag/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/news" title="解决方案" target="_blank">解决方案</a>
+											<a href="http://www.csdn.net/tag/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/news" title="负载均衡" target="_blank">负载均衡</a>
+									</div>
+				<!-- relational article and news -->
+				<div id="Tab3" class="relational">
+					<h2 class="tab_1 Menubox">
+						<ul>
+						<li id="three1" onclick="setTab(&#39;three&#39;,1,2)" class="hover">相关文章</li>
+						<li id="three2" onclick="setTab(&#39;three&#39;,2,2)">最新报道</li>
+						</ul>
+					</h2>
+					<div class="con Contentbox">
+						<div id="con_three_1" class="hover">
+							<ul class="list_1">								
+														<li><a href="http://www.csdn.net/article/1970-01-01/2820756" title="Pivotal刘伟光：颠覆行业 用互联网思维打造企业级基础平台" target="_blank">Pivotal刘伟光：颠覆行业 用互联网思维打造企业级基础平台</a></li>
+														<li><a href="http://www.csdn.net/article/1970-01-01/2824682" title="天云SkyForm云平台架构简析" target="_blank">天云SkyForm云平台架构简析</a></li>
+														<li><a href="http://www.csdn.net/article/1970-01-01/2821238" title="细数开源历史上的十个重大事件" target="_blank">细数开源历史上的十个重大事件</a></li>
+														<li><a href="http://www.csdn.net/article/1970-01-01/2824626" title="基于OpenPOWER的开发测试云—解读SuperVessel超能云应用实践" target="_blank">基于OpenPOWER的开发测试云—解读SuperVessel超能云应用实践</a></li>
+														<li><a href="http://www.csdn.net/article/1970-01-01/2823027" title="AWDC的五年：从探路到引领，推动中国云生态形成" target="_blank">AWDC的五年：从探路到引领，推动中国云生态形成</a></li>
+														<li><a href="http://www.csdn.net/article/1970-01-01/2820947" title="山东移动：集团样板工程是如何炼成的" target="_blank">山东移动：集团样板工程是如何炼成的</a></li>
+														</ul>
+						</div>
+						<div id="con_three_2" style="display:none">
+							<ul class="list_1 ">
+							 
+							<li><a href="http://www.csdn.net/article/2018-01-05/2826785" title="亚马逊AWS宣布推出Linux 2 那些卖服务器硬件和软件的公司惨了!" target="_blank">亚马逊AWS宣布推出Linux 2 那些卖服务器硬件和软件的公司惨了!</a></li>
+							 
+							<li><a href="http://www.csdn.net/article/2017-12-26/2826782" title="JFrog-杰蛙科技携手腾讯蓝鲸智云联合发布一站式 DevOps 平台" target="_blank">JFrog-杰蛙科技携手腾讯蓝鲸智云联合发布一站式 DevOps 平台</a></li>
+							 
+							<li><a href="http://www.csdn.net/article/2017-12-22/2826781" title="AWS发布最新云成本预算工具 助企业实现云成本控制" target="_blank">AWS发布最新云成本预算工具 助企业实现云成本控制</a></li>
+							 
+							<li><a href="http://www.csdn.net/article/2017-12-15/2826780" title="英特尔和亚马逊在AWS re：Invent 全球峰会上宣布推出AWS DeepLens" target="_blank">英特尔和亚马逊在AWS re：Invent 全球峰会上宣布推出AWS DeepLens</a></li>
+							 
+							<li><a href="http://www.csdn.net/article/2017-11-20/2826779" title="解密亚马逊Ironman计划：背靠AWS云服务发力AI，对抗谷歌微软" target="_blank">解密亚马逊Ironman计划：背靠AWS云服务发力AI，对抗谷歌微软</a></li>
+							 
+							<li><a href="http://www.csdn.net/article/2017-11-10/2826777" title="训练速度提升12倍  UAI-Train为数据分析公司解除困扰" target="_blank">训练速度提升12倍  UAI-Train为数据分析公司解除困扰</a></li>
+													
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- //relational article and news 广告 -->	
+
+				<!-- comments -->
+                
+									<div id="comments" class="csdn_comments"></div>
+                    <script type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/cnick.js.下载"></script>
+					<script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/comments.js.下载" type="text/javascript"></script>
+					<script src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/comment_atsuggest.js.下载" type="text/javascript"></script>
+					<!--script src="js/https://passport.csdn.net/scripts/login.js?v=1.2" type="text/javascript"></script-->
+					<script type="text/javascript">
+					    //var path = location.protocol +"//"+ location.host+"/comments/";                 //本地测试需要配置一个csdn.net的子域名，以便登录，例:http://comments.csdn.net
+					    var path = "http://ptcms.csdn.net/comment";
+					    csdn.comments = new csdn.comments({
+					        id:"comments",                                                                  //容器ID
+					        path:path,
+					        datapath:"http://ptcms.csdn.net",                                          //数据接口host
+					        cssUrl:path+"/css/comments.css",                                                 //css地址
+					        //loginUrl:path+"/js/login.js",                  //login.js地址
+					        loginUrl:"https://passport.csdn.net/content/loginbox/login.js",
+					        articleURL:"http://www.csdn.net/article/2015-05-18/2824690",
+					        title:"ZStack%E6%B7%B1%E5%BA%A6%E8%AF%95%E7%94%A8%EF%BC%9A%E9%83%A8%E7%BD%B2%E3%80%81%E6%9E%B6%E6%9E%84%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E4%B8%8EOpenStack%E7%9A%84%E5%AF%B9%E6%AF%94",
+					        md5:"http://static.blog.csdn.net/scripts/md5.js",                               //用于计算用户头像的md5.js地址
+					        componentsUrl:path+"/js/componet.js",              //CSDN通用组件地址
+					        toolkitUrl:path+"/js/toolkit.js",                  //CSDN工具包地址
+					        tab:{                                                                           //【通用组件】tab
+					            id:"csdnTab",                                                               //容器ID
+					            highlight:"hover"                                                           //表示当前选择的CSS样式名
+					        },
+					        pagination:{                                                                    //【通用组件】AJAX分页组件
+					            pagesize:50,                                                                //每页多少条数据
+					            showpages:10                                                                //显示多少页
+					        },
+                            oncountchange:function(count){                                                  //评论数chagnge回调
+                                var el = document.getElementById('remark_count1');
+                                if(el){el.innerHTML=count}
+                            }
+					    });
+					</script>
+								<!-- //comments -->
+			</div>
+			
+			
+		</div>
+		
+		<div class="right">	
+						
+			<div class="ad_300_250">
+				<ins data-revive-zoneid="97" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+			</div>
+			
+			
+			<div style="border: 1px #ccc solid; font-size:14px; padding:10px; margin-bottom:20px;">
+            	 <ul style=" float:right; width: 160px; padding:5px;">
+                    <li style="font-size:16px; font-weight:bold;">CSDN官方微信</li>
+                    <li style="float:left;">扫描二维码,向CSDN吐槽</li>
+                    <li>微信号：CSDNnews</li>
+                </ul>
+                <img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/28_121116100507_1.jpg" width="100" height="100">
+            </div>
+			
+			
+			<div style="border: 1px #ccc solid; font-size:14px; padding:3px; margin-bottom:20px; font-weight:bold;"><img style="vertical-align:middle; margin-right:10px;" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/icon_ipad.png"><a href="http://dingyue.programmer.com.cn/" target="_blank">程序员移动端订阅下载</a></div>
+			
+			<div class="sitemap"><a href="http://www.csdn.net/article/lastnews" target="_blank">每日资讯快速浏览 </a></div>	
+						<!-- 订阅和关注 -->
+			<div class="report">
+				<h2 class="tit_2"><p>微博关注</p></h2>
+								<iframe width="100%" height="300" class="share_self" frameborder="0" scrolling="no" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/index.html"></iframe>
+								
+			</div>
+ 	
+			
+			<div class="rtbrill" id="digestComment"></div>		
+			<div class="ad_300_250">
+				<ins data-revive-zoneid="98" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+			</div>
+			<!-- recommend and hot weekly -->			
+			<div id="Tab2" class="hot_weekly">
+				<h2 class="tit_2"><p>相关热门文章</p></h2>
+				<div class="con Contentbox">
+					<div id="con_two_2">
+						<ul class="list_1 ">
+													<li><a href="http://www.csdn.net/article/2018-01-05/2826785" title="亚马逊AWS宣布推出Linux 2 那些卖服务器硬件和软件的公司惨了!" target="_blank">亚马逊AWS宣布推出Linux 2 那些卖服务器硬件和软件的公司惨了!</a></li>
+												</ul>
+					</div>
+				</div>
+			</div>
+			  
+			  <!-- hot tag -->
+			<div class="hot_tag">
+				<h2 class="tit_2"><p><a href="http://www.csdn.net/tag">热门标签</a></p></h2>
+				<ul class="list_1">
+				 
+									 
+										<li><a href="http://www.csdn.net/tag/hadoop" title="Hadoop" target="_blank">Hadoop</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/aws" title="AWS" target="_blank">AWS</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/%E7%A7%BB%E5%8A%A8%E6%B8%B8%E6%88%8F" title="移动游戏" target="_blank">移动游戏</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/java" title="Java" target="_blank">Java</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/android" title="Android" target="_blank">Android</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/ios" title="iOS" target="_blank">iOS</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/swift" title="Swift" target="_blank">Swift</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/%E6%99%BA%E8%83%BD%E7%A1%AC%E4%BB%B6" title="智能硬件" target="_blank">智能硬件</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/docker" title="Docker" target="_blank">Docker</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/openstack" title="OpenStack" target="_blank">OpenStack</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/vpn" title="VPN" target="_blank">VPN</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/spark" title="Spark" target="_blank">Spark</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/erp" title="ERP" target="_blank">ERP</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/ie10" title="IE10" target="_blank">IE10</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/eclipse" title="Eclipse" target="_blank">Eclipse</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/crm" title="CRM" target="_blank">CRM</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/javascript" title="JavaScript" target="_blank">JavaScript</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/%E6%95%B0%E6%8D%AE%E5%BA%93" title="数据库" target="_blank">数据库</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/ubuntu" title="Ubuntu" target="_blank">Ubuntu</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/nfc" title="NFC" target="_blank">NFC</a></li>
+									 
+										<li><a href="http://www.csdn.net/tag/wap" title="WAP" target="_blank">WAP</a></li>
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+											
+				</ul>
+			</div>
+			<!-- //hot tag -->
+			
+			<!-- share -->
+			<style>
+.box{ margin-bottom:20px;}
+.box h2{ color:#c00;font:normal 18px/30px "Microsoft YaHei";border-bottom:2px #333 solid;margin-bottom:15px;}
+.box h2 a{ color:#c00;}
+</style>
+<div class="box share">
+      <h2><a target="_blank" href="http://download.csdn.net/album/list" onclick="LogClickCount(this,342);">下载专辑</a></h2>
+      <dl>
+                  <dt class="clearfix">
+                        <a title="微信小程序开发" href="http://download.csdn.net/album/detail/3518" target="_blank" onclick="LogClickCount(this,342);"><img style="height:75px;width:75px;" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/1701.jpg"></a>
+                        <a title="微信小程序开发" href="http://download.csdn.net/album/detail/3518" target="_blank" onclick="LogClickCount(this,342);">
+            微信小程序开发            </a></dt>
+                  <dt class="clearfix">
+                        <a title="【资源优选】第八期：20个最热门python源码" href="http://download.csdn.net/album/detail/3584" target="_blank" onclick="LogClickCount(this,342);"><img style="height:75px;width:75px;" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/16.jpg"></a>
+                        <a title="【资源优选】第八期：20个最热门python源码" href="http://download.csdn.net/album/detail/3584" target="_blank" onclick="LogClickCount(this,342);">
+            【资源优选】第八期：20个最热门python源码            </a></dt>
+                  <dt class="clearfix">
+                        <a title="devexpress控件常用方法总结九例" href="http://download.csdn.net/album/detail/2169" target="_blank" onclick="LogClickCount(this,342);"><img style="height:75px;width:75px;" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/10.jpg"></a>
+                        <a title="devexpress控件常用方法总结九例" href="http://download.csdn.net/album/detail/2169" target="_blank" onclick="LogClickCount(this,342);">
+            devexpress控件常用方法总结九例            </a></dt>
+                  <dt class="clearfix">
+                        <a title="2014中国大数据技术大会33位核心专家演讲PDF下载" href="http://download.csdn.net/album/detail/1367" target="_blank" onclick="LogClickCount(this,342);"><img style="height:75px;width:75px;" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/9.jpg"></a>
+                        <a title="2014中国大数据技术大会33位核心专家演讲PDF下载" href="http://download.csdn.net/album/detail/1367" target="_blank" onclick="LogClickCount(this,342);">
+            2014中国大数据技术大会33位核心专家演讲PDF下载            </a></dt>
+                  <dt class="clearfix">
+                        <a title="[资源优选]第二十二期：Redis优质源码合集" href="http://download.csdn.net/album/detail/3768" target="_blank" onclick="LogClickCount(this,342);"><img style="height:75px;width:75px;" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/8.jpg"></a>
+                        <a title="[资源优选]第二十二期：Redis优质源码合集" href="http://download.csdn.net/album/detail/3768" target="_blank" onclick="LogClickCount(this,342);">
+            [资源优选]第二十二期：Redis优质源码合集            </a></dt>
+              </dl>
+    </div>
+			<!-- //share -->
+			
+					</div>
+	</div>
+			<div class="hot_topic">
+			<ins data-revive-zoneid="96" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+		</div>
+		<script type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/like.js.下载"></script>
+	
+	<script>
+	/*
+  window.WebSocket = window.WebSocket || window.MozWebSocket;
+  if( window.WebSocket ) {
+    var  wsServer = 'ws://geektest.csdn.net/'; 
+    var websocket = new window.WebSocket(wsServer, 'cmslike');
+
+    websocket.onopen = function (evt) { onOpen(evt) }; 
+    websocket.onclose = function (evt) { onClose(evt) }; 
+    websocket.onmessage = function (evt) { onMessage(evt) }; 
+    websocket.onerror = function (evt) { onError(evt) }; 
+    function onOpen(evt) {
+    } 
+    function onClose(evt) { 
+    } 
+    function onMessage(evt) {
+      var data = JSON.parse(evt.data);
+      var ding = $('.support dd').text();
+      if(ding != '' && data.support > ding){
+        $('.support dd').text(data.support);
+      };
+      var cai = $('.oppose dd').text();
+      if (cai != '' && data.oppose > cai) {
+        $('.oppose dd').text(data.oppose);
+      };
+    } 
+    function onError(evt) { 
+    }
+  }
+  */
+		$(document).ready(function(){
+			var digg_id=$("#digg_id").val();
+			$('.digg').like({
+				article_id: digg_id, // 文章id
+				ding_class: 'support', // 顶的class
+				cai_class: 'oppose', // 踩的class
+        domain: 'news.csdn.net',
+				callback: function(data) //处理数据方法
+				{
+          if(data.succ == 1)
+          {
+            $('.support dd').text(data.info.ding);
+            $('.oppose dd').text(data.info.ding);
+          }
+					if(data.succ == -2)
+					{
+						if(confirm(data.msg)){
+							window.location.href = "https://passport.csdn.net/UserLogin.aspx?from=http://news.csdn.net%2Farticle%2F2015-05-18%2F2824690";
+							return false;
+						}
+					}
+					if(data.succ == -1)
+					{
+						alert(data.msg);
+					}
+				}
+			});
+		});
+	</script>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){ 
+			var href=document.location.href;	
+
+			if(href.split("/")[6] == undefined){
+				$("#click_"+1).addClass("on");
+			}else{
+				var hrefpageno=href.split("/")[6];		
+				$("#click_"+hrefpageno).addClass("on");
+			}	
+
+			new $.AutoScroll({
+				wrap:$('#job_ul'),scrollCount:1,interval:1500
+			});
+		expandcontent('sc3', tabobjlinks[2]);
+		$.getJSON('http://ptcms.csdn.net/article/service/article_count?preview=1&aid=2824690&jsonpcallback=?',function(data){
+				$('.view_time').html(data+'次阅读');
+			});
+
+		});
+		function linkfirst(arcid){
+			$("#linkfirst").attr("href","article.html?arcid="+arcid+"&pageno=1");			
+		}
+		function preclick(arcid){
+			var href=window.location.href;		
+			var hrefpageno=href.split("&")[1];		
+			var pageno=hrefpageno.split("=")[1];
+			var hrefno=pageno-1;
+			if(hrefno <1){
+				hrefno = 1;
+			}
+			$("#preclick").attr("href","article.html?arcid="+arcid+"&pageno="+hrefno);
+		}
+	
+		function nextclick(total,arcid){
+			var href=window.location.href;		
+			var hrefpageno=href.split("&")[1];		
+			var pageno=hrefpageno.split("=")[1];
+			var hrefno=parseInt(pageno)+1;
+			if(hrefno >total){
+				hrefno = total;
+			}
+			$("#nextclick").attr("href","article.html?arcid="+arcid+"&pageno="+hrefno);
+		}
+	
+		function firstclick(arcid){
+			$("#firstclick").attr("href","article.html?arcid="+arcid+"&pageno=1");	
+		}
+		
+		function lastclick(total,arcid){
+			$("#lastclick").attr("href","article.html?arcid="+arcid+"&pageno="+total);
+		}
+		function linktitle(num,arcid){
+			var numid=parseInt(num)+1;
+			$("#linktitle_"+num).attr("href","article.html?arcid="+arcid+"&pageno="+numid);
+		}
+	</script>
+
+
+	<script>
+	   $(function () {
+	    var wrap = function () {
+	        var elems = document.getElementsByClassName('syntaxhighlighter');
+	        for (var j = 0; j < elems.length; ++j) {
+	            var sh = elems[j];
+	            var gLines = sh.getElementsByClassName('gutter')[0].getElementsByClassName('line');
+	            var cLines = sh.getElementsByClassName('code')[0].getElementsByClassName('line');
+	            var stand = 15;
+	            for (var i = 0; i < gLines.length; ++i) {
+	                var h = $(cLines[i]).height();
+	                if (h != stand) {
+	                    //console.log(i);
+	                    gLines[i].setAttribute('style', 'height: ' + h + 'px !important;');
+	                }
+	            }
+	        }
+	     };
+	    var whenReady = function () {
+	        if ($('.syntaxhighlighter').length === 0) {
+	            setTimeout(whenReady, 0);
+	        } else {
+	            wrap();
+	        }
+	    };
+	    whenReady();
+	});
+	</script>
+
+	<script type="text/javascript">
+ 	 document.write('<script src="http' + (/^https/.test(location.href) ? 's' : '') + '://c.csdnimg.cn/public/highlighter/js/highlighter.js?' + (new Date()/300000|0) + '"></'+'script>');
+	</script><script src="https://c.csdnimg.cn/public/highlighter/js/highlighter.js?5050999"></script>
+	
+	<!-- 广告位：富媒体广告 -->
+	<script type="text/javascript">BAIDU_CLB_fillSlot("119835");</script>
+  <script language="javascript" type="text/javascript" src="http://ads.csdn.net/js/async_new.js"></script>
+	<!-- public footer -->
+      <script type="text/javascript">
+      document.write('<script type="text/javascript" src="//csdnimg.cn/pubfooter/js/publib_footer-1.0.2.js?' + Math.floor(new Date()/120000).toString(36) + '="></'+'script>');
+      </script><script type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/publib_footer-1.0.2.js.下载"></script><link rel="stylesheet" type="text/css" href="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="https://www.csdn.net/article/2015-05-18/2824690#" target="_blank" class="qq qqcustomer_s">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2251809102&amp;site=qq&amp;menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-660-0108</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏知之为计算机有限公司</span><span class="interval">|</span><span>江苏乐知网络技术有限公司</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2018, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/notify.js.下载"></script>
+	<!-- //public footer -->
+</div><input type="hidden" id="aa_g_data_ids">
+<!-- tab js -->
+<script type="text/javascript">
+<!--
+/*第一种形式 第二种形式 更换显示样式*/
+function setTab(name,cursel,n){
+	for(i=1;i<=n;i++){
+		var menu=document.getElementById(name+i);
+		var con=document.getElementById("con_"+name+"_"+i);
+		menu.className=i==cursel?"hover":"";
+		con.style.display=i==cursel?"block":"none";
+	}
+}
+//-->
+</script>
+<script type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/counter.js.下载"></script>
+<script id="csdn-toolbar-id" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/toolbar.js.下载"></script>
+
+<!-- ask 全局悬浮按钮  -->
+<link href="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/ask_float_block.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/wmd.js.下载"></script>
+<script type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/showdown.js.下载"></script>
+<script type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/prettify.js.下载"></script>
+<script type="text/javascript" src="./ZStack深度试用：部署、架构与网络及其与OpenStack的对比-CSDN.NET_files/ask_float_block.js.下载"></script>
+
+ 
+
+
+
+</body></html>

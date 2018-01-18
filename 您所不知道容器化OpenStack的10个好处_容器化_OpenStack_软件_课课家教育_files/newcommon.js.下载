@@ -1,0 +1,698 @@
+/**通用方法**/
+var koko = {
+	//跳转到登录页面
+	loginPage:function(){
+		var back = location.href;
+		if(back.indexOf('a=')<0){
+			arr = back.split("back");
+			if(arr.length > 1){
+				var result = arr[arr.length-1];
+				location.href = koko.urldecode('http://www.kokojia.com/login.html?back'+encodeURIComponent(result));
+			}else{
+				location.href = koko.urldecode('http://www.kokojia.com/login.html?back='+encodeURIComponent(back));
+			}
+		}else{
+			location.href = koko.urldecode('http://www.kokojia.com/login.html');
+		}
+	},
+	//登录弹窗
+	loginWindow:function(){
+		html = '<div class="login_popup">';
+		html += '<div class="lp_title">欢迎登录课课家教育</div>';
+		html += '<div class="lp_down">';
+		html += '<div class="lp_d_left">';
+		html += '<input id="loginWindow_mail" class="lp_in" type="text" placeholder="邮箱/手机号" />';
+		html += '<input id="loginWindow_pw" class="lp_in" type="password" placeholder="密码" />';
+		html += '<div style="color:#c5736b; background:url(/Public/images/icon.png) no-repeat center left; padding-left:16px; line-height:30px;display:none;" id="loginWindow_error">&nbsp;</div>';
+		html += '<p style=" width:292px;margin-top:5px;">';
+		html += '<label class="lp_label"><input type="checkbox" checked="checked"/><span>下次自动登录</span></label>';
+		html += '<a style="float:right; color:#00aeef" href="http://www.kokojia.com/?m=Index&a=findPassword">忘记密码?</a>';
+		html += '</p>';
+		html += '<button id="loginWindow">登录</button>';
+		html += '<p>还没账号?<a style="color:#00aeef" href="javascript:koko.regPage();">马上注册>></a></p>';
+		html += '</div>';
+		html += '<div class="lp_d_main"><div class="lp_m_w">或</div></div>';
+		html += '<div class="lp_d_right"><a title="QQ登录" class="lp_qq" href="javascript:koko.loginOther(\'qq\');"></a><a title="人人网登录" class="lp_rr" href="javascript:koko.loginOther(\'renren\');"></a><a title="百度登录" class="lp_bd" href="javascript:koko.loginOther(\'baidu\');"></a><a title="新浪微博登录" class="lp_xl" href="javascript:koko.loginOther(\'sina\');"></a></div>';
+		html += '<div style="clear:both"></div>';
+		html += '<div class="lp_corse" style="position:absolute; right:8px; top:5px; color:#000; font-weight:bold; cursor:pointer">X</div>';
+		html += '</div>';
+		html += '</div>';
+		html += '<div class="zhezhao"></div>';
+		var lw = ( $(document).width() - 540 ) / 2;
+		$(".login_popup").css("left",lw);
+		var bodyHeight = $(document).height();
+		$(".zhezhao").css("height",bodyHeight);	
+		$("body").after(html);
+		$("#loginWindow").click(function(){
+			var name = $("#loginWindow_mail").val();
+			var password = $("#loginWindow_pw").val();
+			if(name===''){ $("#loginWindow_error").show();$("#loginWindow_error").html('请填写邮箱');return false;};
+			if(password==''){ $("#loginWindow_error").show();$("#loginWindow_error").html('请填写密码');return false;};
+			$.ajax({
+				url:'/?m=User&a=userLogin',
+				data:'name='+encodeURIComponent(name)+'&password='+encodeURIComponent(password),
+				dataType:'JSON',
+				type:'POST',
+				success:function(ret){
+					if(ret.errno == 2){
+		                location.reload();
+		            }else if(ret.errno == 1){
+		            	$("#loginWindow_error").show();$("#loginWindow_error").html(ret.msg);
+		            	return false;
+		            }else {
+		            	alert('非法错误');return false;
+		            }
+				}
+			});
+		});
+		//关闭登录弹窗
+		$(".lp_corse").click(function(){
+			$(".login_popup").remove();
+			$(".zhezhao").remove();
+		});
+	},
+	//qq登录页面
+	loginOther:function(){
+		var back = location.href;
+		back = back.indexOf('a=')<0 ? back : '/';
+		var url;
+		switch(arguments[0])
+		{
+			default:
+			case 'qq':
+				url = 'http://www.kokojia.com/?m=User&a=login_other&type=qq&back='+encodeURIComponent(back);
+			break;
+			
+			case 'renren':
+				url = 'http://www.kokojia.com/?m=User&a=login_other&type=renren&back='+encodeURIComponent(back);
+			break;
+			
+			case 'baidu':
+				url = 'http://www.kokojia.com/?m=User&a=login_other&type=baidu&back='+encodeURIComponent(back);
+			break;
+			
+			case 'sina':
+				url = 'http://www.kokojia.com/?m=User&a=login_other&type=sina&back='+encodeURIComponent(back);
+			break;
+		}
+		location.href = url;
+	},
+	//登录
+	login:function(user,pass,yzma){
+		if(user==''){ 
+			//$("#user_error").html('<div class="l_name"></div>');
+			$("#mail").addClass('l_btn2');
+			return false;
+		}else{ 
+			$("#user_error").html('');
+		}
+		if(pass==''){ 
+			//$("#pass_error").html('<div class="l_pass"></div>');
+			$("#pw").addClass('l_btn2');
+			return false;
+		}else{ 
+			$("#pass_error").html('');
+		}
+		var back = location.href;
+		arr = back.split("back=");
+		if(arr.length > 1){
+			var result = arr[arr.length-1];
+			back = result;
+		}
+		var call_back = arguments[4]||'';
+		$.ajax({
+			url:'/?m=User&a=login',
+			data:'username='+encodeURIComponent(user)+'&password='+encodeURIComponent(pass)+'&yzma='+yzma,
+			dataType:'JSON',
+			type:'POST',
+			success:function(info){
+				if(typeof call_back=='function')
+					return call_back(info);
+				else if(info['errno']==0)
+				{
+					location.href = koko.urldecode(back);
+				}
+				else
+					koko.alert('错误:'+info['msg']);
+				//刷新验证码
+				reload_yzma();
+			}
+		});
+	},
+	//urldecode
+	urldecode:function(url){
+		url = decodeURIComponent(url);
+		url = url.replace('&amp;','&');
+		return url;
+	},
+	//退出
+	logout:function(){
+		var exp = new Date();
+		exp.setTime(exp.getTime() - 1);
+		document.cookie= "kkj_userid=kkj_userid;expires="+exp.toGMTString()+";path=/;domain=kokojia.com";
+		//cookie.flush();
+		location.reload();
+	},
+	//找回密码
+	findPassword:function(){
+		var r = Math.random();
+		$.artDialog(
+			{title:'找回密码',content:'<div>邮箱地址:<input id="find_for_mail" value="" /><br/>验 证 码: <input id="find_for_yzma" value="" maxlength=4 /><img style="margin-left:5px;" src="/?m=Index&a=captcha&w=80&h=30&r='+r+'" id="yzma_img" height=30 width=80 onclick="this.src+=\'?\';" /></div>'},
+			function(){
+				var mail = $('#find_for_mail').val();
+				var yzma = $('#find_for_yzma').val();
+				if(mail==''){ alert('请输入邮箱地址');return false;};
+				if(yzma==''){ alert('请输入验证码');return false;};
+				if(mail && yzma)
+				{
+					$.ajax({
+						url:'/?m=User&a=findFromEmail',
+						data:'mail='+encodeURIComponent(mail)+'&yzma='+encodeURIComponent(yzma),
+						dataType:'JSON',
+						type:'POST',
+						success:function(d){
+							if(d['errno']==0){
+								alert('邮件已发送,请注意查收');location.reload();
+							}else if(d['errno']==1)
+								alert('系统繁忙,请稍后再试');
+							else if(d['errno']==2)
+								alert('该用户不存在,请检查邮箱是否正确');
+							else if(d['errno']==3)
+								alert('非法的邮箱地址,请检查邮箱是否正确');
+							else if(d['errno']==4)
+								alert('验证码不正确');
+							//刷新验证码
+							reload_yzma();
+						}
+					});
+				}
+			}
+		);
+	},
+	//注册页面
+	regPage:function(){
+		var back = location.href;
+		if(back.indexOf('a=')<0){
+			arr = back.split("back");
+			if(arr.length > 1){
+				var result = arr[arr.length-1];
+				location.href = koko.urldecode('http://www.kokojia.com/register.html?back'+encodeURIComponent(result));
+			}else{
+				location.href = koko.urldecode('http://www.kokojia.com/register.html?back='+encodeURIComponent(back));
+			}
+		}else{
+			location.href = koko.urldecode('/register.html');
+		}	
+	},
+	//注册新用户
+	register:function(username,nickname,pw1,pw2,yzma){
+		if(username=='')
+			return this.alert('请输入账号');
+		//if(nickname=='')
+		//	return this.alert('请输入昵称');
+		if(pw1=='')
+			return this.alert('请输入密码');
+		if(pw1.length<6)
+			return this.alert('密码太短,请设置6位以上长度密码');
+		if(pw1!==pw2)
+			return this.alert('2次密码不一致');
+		if(yzma=='')
+			return this.alert('请输入验证码');
+		var call_back = arguments[6]||'';
+		$.ajax({
+			url:'/?m=User&a=register',
+			data:{username:username,nickname:nickname,yzma:yzma,password1:pw1,password2:pw2,back:arguments[5]||''},
+			dataType:'JSON',
+			type:'POST',
+			success:function(info){
+				if(typeof call_back=='function')
+					return call_back(info);
+				else if(info['errno']!=0)
+				{
+					koko.alert('错误:'+info['msg']);
+					//刷新验证码
+					reload_yzma();
+				}
+				else
+				{
+					//当前地址有的话跳到当前地址的back参数
+					var back = koko.get('back');
+					if(!back)
+						back = info['msg']||'/';
+					//添加参数以刷新页面
+					back += '?';
+					//弹出注册成功框
+//                                        koko.alert("去激活邮箱吧!");
+//					$.artDialog({title:'注册成功',content:'注册成功,请立即激活'+username+'邮箱!'},function(){window.location.href=koko.urldecode(back);});
+                                        window.location.href="http://www.kokojia.com/?m=User&a=activeAccount&email="+username;
+				}
+			}
+		});
+	},
+	//注册用户绑定
+	registerbind:function(username,nickname,pw1,pw2){
+		if(username=='')
+			return this.alert('请输入账号');
+		//if(nickname=='')
+		//	return this.alert('请输入昵称');
+		if(pw1=='')
+			return this.alert('请输入密码');
+		if(pw1.length<6)
+			return this.alert('密码太短,请设置6位以上长度密码');
+		if(pw1!==pw2)
+			return this.alert('2次密码不一致');
+		var call_back = arguments[6]||'';
+		$.ajax({
+			url:'/?m=User&a=registerBind',
+			data:{username:username,nickname:nickname,password1:pw1,password2:pw2,back:arguments[5]||''},
+			dataType:'JSON',
+			type:'POST',
+			success:function(info){
+				if(typeof call_back=='function')
+					return call_back(info);
+				else if(info['errno']!=0)
+				{
+					koko.alert('错误:'+info['msg']);
+				}
+				else
+				{
+					//当前地址有的话跳到当前地址的back参数
+					var back = koko.get('back');
+					if(!back)
+						back = info['msg']||'/';
+					//添加参数以刷新页面
+					back += '?';
+					//弹出注册成功框
+					//koko.alert("去激活邮箱吧!");
+					//$.artDialog({title:'注册成功',content:'注册成功,请立即激活'+username+'邮箱!'},function(){window.location.href=koko.urldecode(back);});
+					window.location.href="http://www.kokojia.com/?m=User&a=activeBind";
+				}
+			}
+		});
+	},
+	//获取当前登录用户的信息
+	getMe:function(){
+		var callback = arguments[0];
+		$.ajax({
+			url:'/?m=User&a=getMyInfo',
+			dataType:'JSON',
+			type:'POST',
+			success:function(d){
+				if(d['errno']==0 && (typeof callback)=='function')
+					callback(d);
+				else if(d['errno']==0 && typeof(d['data']['user']['nickname'])!='undefined')
+					cookie.set('nickname',d['data']['user']['nickname']||'');
+			}
+		});
+	},
+	//显示头部信息
+	showMe:function(){
+		this.getMe(function(d){
+			var nickname = d['data']['user']['nickname']||'';
+			if(nickname)
+			{
+				var cont = '<div class="top_menu"><div id="navbox" class="menu"><a class="tit" href="/?m=Student&a=detail">[NICKNAME]</a><ul class="subnav"><li><a href="/?m=Student&a=detail">设置中心</a></li><li><a href="javascript:koko.logout();">退出</a></li></ul></div><div id="navbox-two" class="menu2"><a class="tit" href="/?m=Student&a=message">消息中心</a></div><div id="navbox-three" class="menu2"><a class="tit" href="/?m=Student">学生中心</a></div><div id="navbox-four" class="menu2"><a class="tit" href="/?m=Teacher&a=detail">老师中心</a></div><div id="navbox-five" class="menu2"><a class="tit" href="/?m=Master&a=index">校长中心</a></div></div>';
+				$('#t_wrap').html( cont.replace('[NICKNAME]',nickname) );
+				//绑定事件
+				$("#navbox").hoverClass("current");
+				$("#navbox-two").hoverClass("current");
+				$("#navbox-three").hoverClass("current");
+				$("#navbox-four").hoverClass("current");
+				$("#navbox-five").hoverClass("current");
+			}
+		});
+	},
+	//提出信息提示
+	alert:function(msg){
+		if(typeof $.artDialog!='function'){
+			alert(msg);
+		}else{
+			$.artDialog({time:3000,content:msg,lock:true});
+		}	
+	},
+	//手机号码检查
+	isMobile:function(mobile){
+		return /^[(86)|0]?(13\d{9})|(15\d{9})|(18\d{9})$/i.test(mobile);
+	},
+	//邮箱地址检查
+	isMail:function(mail){
+		return  /^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/i.test(mail);
+	},
+	//获取当前地址get参数
+	get:function(name){
+		var url = location.href;
+		if(url.indexOf('?')>0)
+		{
+			var p = url.substr(url.indexOf('?')+1);
+			p = p.split('&');
+			for(var i=0;i<p.length;i++)
+			{
+				if(p[i].indexOf(name+'=')!=-1)
+				{
+					return p[i].replace(name+'=','');
+				}
+			}
+		}
+		return '';
+	}
+};
+//cookie操作
+var cookie={
+	_val:[],
+	parse:function(){
+		if(this._val.length==0)
+		{
+			var v = document.cookie.split("; "),t;
+			for(var i=0;i<v.length;i++)
+			{
+				t = v[i].split("=");
+				if(typeof t[1]!='undefined')
+					this._val[t[0]] = unescape(t[1]);
+			}
+			//加个标记
+			this._val['_load'] = true;
+		}
+	},
+	//获取cookie
+	get:function(name){
+		this.parse();
+		return typeof(this._val[name])=='undefined' ? null:this._val[name];
+	},
+	//设置cookie
+	set:function(name,val){
+		if(!val)
+			return;
+		this.parse();
+		//设置当前变量
+		this._val[name] = val;
+		//此cookie将被保存天数
+		var Days = 30;
+		var exp = new Date();
+		exp.setTime(exp.getTime() + Days*24*60*60*1000);
+		document.cookie= name + "="+ escape(val) + ";expires="+exp.toGMTString()+";path=/;domain=kokojia.com";
+	},
+	//删除
+	del:function(name){
+		var exp = new Date();
+		exp.setTime(exp.getTime() - 1);
+		var val=this.get(name);
+		if(val)
+		{
+			document.cookie= name + "="+";expires="+exp.toGMTString();
+			//清空
+			this._val[name] = null;
+		}
+	},
+	//flush
+	flush:function(){
+		this.parse();
+		for(var k in this._val)
+			this.del(k);
+	}
+};
+
+//为每一个叫做yzma的img标签绑定
+$('img[id="yzma_img"]').css('cursor','pointer').click(function(){
+	var src = $(this).attr('src')+'?'+Math.random();
+	$(this).attr('src',src);
+});
+//搜索
+/*$('#search_but').click(function(){
+	var key_word = $('#key_word').val();
+	if(key_word=='搜索你感兴趣的课程')
+		key_word = '';
+	var url = '/list/0.html?key_word='+encodeURIComponent(key_word);
+	window.location.href = koko.urldecode(url);
+});
+//回车搜索
+$("#key_word").keydown(function(event){
+			if(event.keyCode == 13)
+				$("#search_but").trigger('click');
+	});
+*/
+//去除所有a点击后的边框
+$('a').focus(function(){$(this).blur();});
+//显示用户信息
+//koko.showMe();
+
+//鼠标移到导航条效果
+(function(a){
+	a.fn.hoverClass=function(b){
+		var a=this;
+		a.each(function(c){
+			a.eq(c).hover(function(){
+				$(this).addClass(b)
+			},function(){
+				$(this).removeClass(b)
+			})
+		});
+		return a
+	};
+})(jQuery);
+
+//$(function(){
+//	$("#navbox").hoverClass("current");
+//	$("#navbox-two").hoverClass("current");
+//	$("#navbox-three").hoverClass("current");
+//	$("#navbox-four").hoverClass("current");
+//	$("#navbox-five").hoverClass("current");
+//});
+
+//收藏课程
+function collect_course(id){
+	$.post('/?m=Course&a=collectCourse', {'id':id}, function(data){
+			if(data=='1'){
+				alert('收藏课程成功');
+				$('#collect_course').hide();						
+				$('#del_collect_course').show();
+				var tempTxt = $('#favorite_num').text();
+				$('#favorite_num').text(tempTxt.replace(/\d+/g, function(args){
+					return (parseInt(args)+1);
+				}));
+			}
+			else if(data=='2')
+				LoginFrameOpen();
+	});
+}
+
+//取消收藏课程
+function del_collect_course(id){
+	$.post('/?m=Course&a=del_collectCourse', {'id':id}, function(data){
+		alert('取消收藏成功');
+				/*$.dialog({
+				    content: '取消收藏成功',
+				   	lock: true,
+			 		time: 1000
+				});*/
+				$('#del_collect_course').hide();
+				$('#collect_course').show();
+				tempTxt = $('#favorite_num').text();
+				$('#favorite_num').text(tempTxt.replace(/\d+/g, function(args){
+					return (parseInt(args)-1);
+				}));
+	});
+}
+
+//收藏课程
+function collect_school(id){
+	$.post('/?m=Course&a=collectSchool', {'id':id}, function(data){
+			if(data=='1'){
+				alert('收藏学校成功');
+				$('#collect_school').hide();
+				$('#del_collect_school').show();
+			}
+			else if(data=='2'){
+				LoginFrameOpen();
+			}
+	});
+}
+
+//取消收藏课程
+function del_collect_school(id){
+	$.post('/?m=Course&a=del_collectSchool', {'id':id}, function(data){
+				alert('取消收藏成功');
+				$('#del_collect_school').hide();
+				$('#collect_school').show();
+	});
+}
+
+//老师向学校申请为该学校老师
+function toSchoolTeacher(school_id,reason)
+{
+	if(school_id>0)
+	{
+		$.ajax({
+			url:'/?m=Index&a=toSchoolTeacher',
+			data:{school_id:school_id,reason:reason},
+			type:'POST',
+			dataType:'JSON',
+			success:function(d){
+				if(d['errno']==0){
+                    koko.alert('申请成功');
+                    location.reload();
+                }else{
+//                	$('.d-outer').hide();
+                    koko.alert(d['msg']);
+                }
+			}
+		});
+	}
+}
+//学校向老师申请加入学校
+function inviteTeacher(teacher_id)
+{
+	if(teacher_id>0)
+	{
+		$.ajax({
+			url:'/?m=Master&a=inviteTeacher',
+			data:'teacher_id='+teacher_id,
+			type:'POST',
+			dataType:'JSON',
+			success:function(d){
+				if(d['errno']==0)
+					koko.alert('申请成功');
+				else
+					koko.alert(d['msg']);
+			}
+		});
+	}
+}
+//删除收藏的课程
+function delFavCourse(id)
+{
+	$.artDialog(
+		{title:'删除收藏',content:'确定要删除该课程吗?'},
+		function(){
+			$.ajax({
+				url:'/?m=Student&a=delFav',
+				data:'id='+id+'&type=0',
+				dataType:'JSON',
+				type:'POST',
+				success:function(d){
+					if(d['errno']==0)
+					{
+						//成功
+						location.reload();
+					}
+					else
+						koko.alert('系统繁忙,请稍后再试');
+				}
+			});
+		},
+		function(){return true;});
+}
+//删除收藏的学校
+function delFavSchool(id)
+{
+	$.artDialog(
+		{title:'删除收藏',content:'确定要删除该学校吗?'},
+		function(){
+			$.ajax({
+				url:'/?m=Student&a=delFav',
+				data:'id='+id+'&type=1',
+				dataType:'JSON',
+				type:'POST',
+				success:function(d){
+					if(d['errno']==0)
+					{
+						//成功
+						location.reload();
+					}
+					else
+						koko.alert('系统繁忙,请稍后再试');
+				}
+			});
+		},
+		function(){return true;});
+}
+
+//qq群,2014年1月21日
+function write_qq()
+{
+	document.write("<style type=\"text/css\">");
+	document.write("* html,* html body{background-image:url(about:blank);background-attachment:fixed;}");
+	document.write("*html .right_pop{position:absolute;bottom:auto;top:expression(eval(document.documentElement.scrollTop-50+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));}");
+	document.write("*html .right_pop_ss{position:absolute;bottom:auto;top:expression(eval(document.documentElement.scrollTop-50+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));}");
+	document.write(".right_pop{position:fixed;top:220px;right:0;width:52px;height:158px;z-index:999;}");
+	document.write(".close_btn{position:absolute;top:50%;left:0;width:23px;height:113px;display:block;margin-top:-56px;text-indent:-9999px;}");
+	document.write(".right_pop p{text-align:center;color:#fff;font-size:14px;text-shadow:0 1px 1px rgba(0,0,0,0.5);line-height:1.8em;}");
+	document.write(".right_pop_ss{position:fixed;bottom:50px;right:0;display:none;width:59px;height:211px;text-indent:-9999px;}");
+	document.write("</style>");
+	document.write('<div class=\"right_pop\" id=\"right_pop\">');
+	document.write('<p><img src=\"\/Public\/images\/qqqun.png\" /><div style="position:relative;left:85px;top:-55px;">250595898</div><\/p>');
+	document.write('<\/div>');
+}
+//write_qq();
+//移动到分享交流展示全图
+$('#right_pop').mouseover(function(){
+	$('#right_pop').stop();
+	$('#right_pop').animate({width:'176px'},800);
+});
+$('#right_pop').mouseout(function(){
+	$('#right_pop').stop();
+	$('#right_pop').animate({width:'52px'},800);
+});
+//end qq群
+
+//head.html 开始
+$(function(){
+	var copyright2Left = ( $(document).width() - 360 ) / 2;
+	$(".copyright2").css("left",copyright2Left);
+	$(".loginset").mouseover(function(){
+		$(".x-hide").addClass("x-show");
+	}).mouseout(function(){
+		$(".x-hide").removeClass('x-show');
+	});
+	$('#search_but').click(function(){
+	     var search_word = $.trim($('#key_word').val());
+	     if(''==search_word||'请输入课程关键字或学校全名'==search_word){
+	         return false;
+	     }             
+	     searchUrl =  'http://www.kokojia.com/search/'+encodeURIComponent(search_word)+'?st=0';
+	     document.location.href = searchUrl;
+	 });
+	$('#key_word').keydown(function(event){
+	     if(13==event.keyCode){
+	         var search_word = $.trim($(this).val());
+	         if(''==search_word||'请输入课程关键字或学校全名'==search_word){
+	             return false;
+	         }
+	         document.location.href =  'http://www.kokojia.com/search/'+encodeURIComponent(search_word)+'?st=0';
+	     }
+	});
+	$("#close_now").click(function(){
+		$.ajax({
+			url:'/?m=User&a=signature',
+			dataType:'JSON',
+			success:function(d){
+				$(".top-sign").hide();
+			}
+		});
+	})
+	$(document).ready(function(){
+		$(".right_fix a").hover(function(){
+		$(this).addClass("aon").siblings().removeClass("aon");
+		},function(){
+			$(this).removeClass("aon");
+		})
+		$(window).scroll(function(){
+			var t = document.body.scrollTop || document.documentElement.scrollTop;
+			if(t<500){
+				$(".right_fix").css("display","none");
+			}else{
+				$(".right_fix").css("display","block");
+			}
+		});
+		$(".course_buttom").bind('mouseenter',function(){
+         $(".course-class").slideDown(500);
+         }).bind('mouseleave',function(){
+             $(".course-class").delay(100).hide();
+          });  
+           $(".course-class").bind('mouseenter',function(){
+           $(".course-class").show();
+         }).bind('mouseleave',function(){
+        $(".course-class").delay(100).hide();
+        }); 
+	});
+});
+//head.html 结束	

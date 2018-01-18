@@ -1,0 +1,3793 @@
+.lotusui30 .lotusIndent10 {
+padding-left: 10px !important;
+}
+.lotusui30_fonts {
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+-webkit-font-smoothing: antialiased;
+}
+.lotusui30 a,
+.lotusui30 a:visited {
+color: #1970b0;
+}
+.lotusui30 a:hover,
+.lotusui30 a:focus,
+.lotusui30 a:active {
+color: #05386b;
+}
+.lotusui30_layout .lotusColLeft a,
+.lotusui30_layout .lotusColLeft a:visited {
+color: #f1f1f1;
+}
+.lotusui30_layout .lotusColLeft a:hover,
+.lotusui30_layout .lotusColLeft a:focus,
+.lotusui30_layout .lotusColLeft a:active {
+color: #fff;
+}
+.lotusui30 .lotusColRight .lotusMeta {
+color: #6c6c6c;
+font-size: 1em;
+}
+.lotusui30 .lotusActionBar {
+height: 2.5em;
+}
+.lotusui30 .lotusActionBar2 {
+margin-top: -15px;
+}
+.lotusui30 .lotusActionMenu li {
+padding: 1px;
+}
+.lotusui30 .lotusActionMenu a:hover,
+.lotusui30 .lotusActionMenu a:focus,
+.lotusui30 .lotusActionMenu a:active {
+background-color: #e9f1f3;
+}
+.lotusui30 .lotusBtn {
+border: 0;
+margin: 0 4px 3px 1px;
+background-color: #d7d7d7;
+border-collapse: separate;
+color: #222;
+font-weight: bold;
+text-align: center;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+background-image: none;
+}
+.lotusui_ie .lotusui30 .lotusBtn,
+.lotusui_ie8 .lotusui30 .lotusBtn {
+border: 1px solid #ccc;
+}
+.lotusui_ie .lotusui30 .lotusBtn,
+.lotusui_ie8 .lotusui30 .lotusBtn,
+.lotusui_ie9 .lotusui30 .lotusBtn {
+margin-left: 0;
+margin-right: 5px;
+}
+.lotusui30 .lotusBtnImg {
+border: 0;
+background: none;
+color: #333;
+font-weight: bold;
+text-align: center;
+}
+.lotusui30 .lotusBtn {
+padding: 5px 15px;
+text-shadow: 0 1px 1px #fff;
+}
+.lotusui_ie .lotusui30 .lotusBtn {
+padding: 2px 3px;
+}
+.lotusui_ie8 .lotusui30 input.lotusBtn {
+padding: 6px 15px;
+}
+.lotusui_ie9 .lotusui30 input.lotusBtn {
+padding: 7px 15px;
+}
+.lotusui30 .lotusBtnImg {
+padding: 5px;
+}
+.lotusui30 .lotusBtnDisabled {
+color: #676767 !important;
+background-color: #e7e7e7 !important;
+border-width: 0;
+-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3) !important;
+-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3) !important;
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3) !important;
+background-image: none;
+}
+.lotusui30 span.lotusBtnDisabled {
+background-color: transparent !important;
+-moz-box-shadow: none !important;
+-webkit-box-shadow: none !important;
+box-shadow: none !important;
+}
+.lotusui_ie .lotusui30 input.lotusBtnDisabled,
+.lotusui_ie8 .lotusui30 input.lotusBtnDisabled,
+.lotusui_ie .lotusui30 button.lotusBtnDisabled,
+.lotusui_ie8 .lotusui30 button.lotusBtnDisabled {
+border-color: #ccc !important;
+}
+.lotusui_ie .lotusui30 .lotusBtnImg {
+padding: 5px 4px;
+}
+.lotusui30 .lotusBtn:hover,
+.lotusui30 .lotusBtn:focus,
+.lotusui30 .lotusBtn:active {
+color: #000;
+-moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+background-image: none;
+}
+.lotusui30 .lotusBtnImg:hover,
+.lotusui30 .lotusBtnImg:focus,
+.lotusui30 .lotusBtnImg:active {
+color: #000;
+}
+.lotusui30 .lotusButton a,
+.lotusui30 .lotusButton a:visited {
+color: #222;
+}
+.lotusui30 .lotusButton {
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+background-color: #d7d7d7;
+background-image: none;
+color: #222;
+text-decoration: none;
+border-width: 0;
+margin-left: 1px;
+margin-right: 1px;
+}
+.lotusui_ie .lotusui30 .lotusButton,
+.lotusui_ie8 .lotusui30 .lotusButton {
+border: 1px solid #ccc;
+}
+.lotusui_ie .lotusui30 .lotusButton,
+.lotusui_ie8 .lotusui30 .lotusButton,
+.lotusui_ie9 .lotusui30 .lotusButton {
+margin-left: 0;
+margin-right: 0;
+}
+.lotusui30 .lotusButton a,
+.lotusui30 .lotusButton a:visited {
+color: #222;
+}
+.lotusui30 .lotusButton:hover,
+.lotusui30 .lotusButton:focus,
+.lotusui30 .lotusButton:active {
+color: #000;
+border-width: 0;
+-moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+background-image: none;
+}
+.lotusui30 .lotusButton a:hover,
+.lotusui30 .lotusButton a:focus,
+.lotusui30 .lotusButton a:active {
+color: #000;
+}
+.lotusui_ie .lotusui30 .lotusButton:hover,
+.lotusui_ie .lotusui30 .lotusButton:focus,
+.lotusui_ie .lotusui30 .lotusButton:active,
+.lotusui_ie8 .lotusui30 .lotusButton:hover,
+.lotusui_ie8 .lotusui30 .lotusButton:focus,
+.lotusui_ie8 .lotusui30 .lotusButton:active {
+border: 1px solid #ccc;
+}
+.lotusui30 span.lotusBtn {
+padding: 0;
+border-width: 0;
+background-color: transparent;
+}
+.lotusui30 span.lotusBtnDisabled {
+background-color: transparent !important;
+}
+.lotusui_ie .lotusui30 span.lotusBtn,
+.lotusui_ie8 .lotusui30 span.lotusBtn {
+padding: 0;
+}
+.lotusui30 span.lotusBtn a {
+display: block;
+text-decoration: none;
+}
+.lotusui30 span.lotusBtn a:hover,
+.lotusui30 span.lotusBtn a:focus,
+.lotusui30 span.lotusBtn a:active {
+text-decoration: none;
+}
+.lotusui30 span.lotusBtn a {
+padding: 5px 15px;
+}
+.lotusui_ie .lotusui30 span.lotusBtn a {
+padding: 3px 15px;
+}
+.lotusui_ie .lotusui30 input.lotusFormButton {
+padding: 4px 3px;
+}
+.lotusui_ie .lotusui30 button.lotusFormButton {
+padding: 3px;
+}
+.lotusui_ie8 .lotusui30 input.lotusFormButton {
+padding: 6px 15px;
+}
+.lotusui_ie9 .lotusui30 input.lotusFormButton {
+padding: 7px 15px;
+}
+.lotusui_ie .lotusui30 span.lotusBtn,
+.lotusui_ie8 .lotusui30 span.lotusBtn {
+border-width: 0;
+}
+.lotusui_ie .lotusui30 span.lotusBtn a,
+.lotusui_ie8 .lotusui30 span.lotusBtn a {
+border: 1px solid #ccc;
+}
+.lotusui30 .lotusBtnImg {
+padding: 5px;
+}
+.lotusui_ie .lotusui30 .lotusBtnImg {
+padding: 5px 4px;
+}
+.lotusui30 span.lotusBtn {
+margin-right: 4px;
+}
+.lotusui_ie .lotusui30 span.lotusBtn,
+.lotusui_ie8 .lotusui30 span.lotusBtn,
+.lotusui_ie9 .lotusui30 span.lotusBtn {
+margin-right: 5px;
+}
+.lotusui30 span.lotusBtn,
+.lotusui30 span.lotusBtn:hover,
+.lotusui30 span.lotusBtn:focus,
+.lotusui30 span.lotusBtn:active {
+background: none;
+border-width: 0;
+-moz-box-shadow: none;
+-webkit-box-shadow: none;
+box-shadow: none;
+}
+.lotusui30 span.lotusBtn a,
+.lotusui30 span.lotusBtn a:visited,
+.lotusui30 span.lotusBtn a:hover,
+.lotusui30 span.lotusBtn a:focus,
+.lotusui30 span.lotusBtn a:active {
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+background-color: #d7d7d7;
+background-image: none;
+text-decoration: none;
+border-width: 0;
+color: #222;
+}
+.lotusui_ie .lotusui30 span.lotusBtn a,
+.lotusui_ie .lotusui30 span.lotusBtn a:visited,
+.lotusui_ie .lotusui30 span.lotusBtn a:hover,
+.lotusui_ie .lotusui30 span.lotusBtn a:focus,
+.lotusui_ie .lotusui30 span.lotusBtn a:active,
+.lotusui_ie8 .lotusui30 span.lotusBtn a,
+.lotusui_ie8 .lotusui30 span.lotusBtn a:visited,
+.lotusui_ie8 .lotusui30 span.lotusBtn a:hover,
+.lotusui_ie8 .lotusui30 span.lotusBtn a:focus,
+.lotusui_ie8 .lotusui30 span.lotusBtn a:active {
+border: 1px solid #ccc;
+}
+.lotusui30 button.lotusFormButton,
+.lotusui30 input.lotusFormButton {
+padding: 5px 15px;
+margin: 0 9px 3px 1px;
+text-shadow: 0 1px 1px #fff;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+background-color: #d7d7d7;
+background-image: none;
+color: #222;
+text-decoration: none;
+border-width: 0;
+}
+.lotusui_ie .lotusui30 .lotusFormButton,
+.lotusui_ie .lotusui30 .lotusFormButton:visited,
+.lotusui_ie8 .lotusui30 .lotusFormButton,
+.lotusui_ie8 .lotusui30 .lotusFormButton:visited {
+border: 1px solid #ccc;
+}
+.lotusui_ie .lotusui30 .lotusFormButton,
+.lotusui_ie8 .lotusui30 .lotusFormButton,
+.lotusui_ie9 .lotusui30 .lotusFormButton {
+margin: 0 10px 3px 0;
+}
+.lotusui30 span.lotusBtn a:hover,
+.lotusui30 span.lotusBtn a:focus,
+.lotusui30 span.lotusBtn a:active,
+.lotusui30 .lotusFormButton:hover,
+.lotusui30 .lotusFormButton:focus,
+.lotusui30 .lotusFormButton:active {
+color: #000;
+border-width: 0;
+-moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+.lotusui_ie .lotusui30 span.lotusBtn a:hover,
+.lotusui_ie .lotusui30 span.lotusBtn a:focus,
+.lotusui_ie .lotusui30 span.lotusBtn a:active,
+.lotusui_ie8 .lotusui30 span.lotusBtn a:hover,
+.lotusui_ie8 .lotusui30 span.lotusBtn a:focus,
+.lotusui_ie8 .lotusui30 span.lotusBtn a:active,
+.lotusui_ie .lotusui30 .lotusFormButton:hover,
+.lotusui_ie .lotusui30 .lotusFormButton:focus,
+.lotusui_ie .lotusui30 .lotusFormButton:active,
+.lotusui_ie8 .lotusui30 .lotusFormButton:hover,
+.lotusui_ie8 .lotusui30 .lotusFormButton:focus,
+.lotusui_ie8 .lotusui30 .lotusFormButton:active {
+border: 1px solid #ccc;
+}
+.lotusui30 span.lotusBtnDisabled {
+-moz-box-shadow: none;
+-webkit-box-shadow: none;
+box-shadow: none;
+}
+.lotusui30 span.lotusBtnDisabled a {
+color: #676767 !important;
+background-color: #e7e7e7 !important;
+}
+.lotusui30 span.lotusBtnDisabled a:hover,
+.lotusui30 span.lotusBtnDisabled a:focus,
+.lotusui30 span.lotusBtnDisabled a:active {
+background-color: #e7e7e7 !important;
+border-width: 0;
+-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+background-image: none;
+}
+.lotusui_ie .lotusui30 span.lotusBtnDisabled a:hover,
+.lotusui_ie .lotusui30 span.lotusBtnDisabled a:focus,
+.lotusui_ie .lotusui30 span.lotusBtnDisabled a:active,
+.lotusui_ie8 .lotusui30 span.lotusBtnDisabled a:hover,
+.lotusui_ie8 .lotusui30 span.lotusBtnDisabled a:focus,
+.lotusui_ie8 .lotusui30 span.lotusBtnDisabled a:active {
+border: 1px solid #ccc;
+}
+.lotusui30 .lotusDialogBorder {
+border: 3px solid #555;
+border: 3px solid rgba(2, 2, 2, 0.4);
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+-moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+.lotusui30 .lotusDialog .lotusDialogHeader {
+border-bottom: 0;
+background: #3c3c3c;
+background-image: -moz-linear-gradient(top, #3c3c3c 0%, #252525 100%);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c3c3c), color-stop(100%, #252525));
+background-image: -webkit-linear-gradient(top, #3c3c3c 0%, #252525 100%);
+background-image: linear-gradient(top, #3c3c3c 0%, #252525 100%);
+}
+.lotusui30 .lotusDialog .lotusHeading {
+margin-right: 0;
+display: block;
+color: #fff;
+font-size: 1.2em;
+}
+.lotusui30.lotusImagesOff .lotusDialog .lotusHeading,
+.lotusImagesOff .lotusui30 .lotusDialog .lotusHeading {
+margin-right: 15px;
+}
+.lotusui30 .lotusDialog .lotusDialogHeader .lotusDialogClose {
+position: absolute;
+top: -11px;
+right: -11px;
+padding: 0;
+border: 0;
+}
+.lotusui30.lotusImagesOff .lotusDialog .lotusDialogHeader .lotusDialogClose,
+.lotusImagesOff .lotusui30 .lotusDialog .lotusDialogHeader .lotusDialogClose {
+padding: 3px;
+border: 1px solid #000;
+top: 15px;
+right: 15px;
+}
+.lotusui30 .lotusDialog .lotusDialogHeader .lotusDialogClose img,
+.lotusui30 .lotusDialog .lotusClose img {
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/lotusHSprite-8bit.png?etag=20150310.220517");
+background-position: -150px 0;
+width: 32px;
+height: 32px;
+}
+.lotusui30 .lotusDialog .dijitDialogCloseIconHover {
+cursor: pointer;
+cursor: hand;
+}
+.lotusui30 .lotusDialog .lotusFormTable,
+.lotusui30 .lotusDialog .lotusFormTable td,
+.lotusui30 .lotusDialog .lotusDialogContent {
+border: 0;
+}
+.lotusui_ie8 .lotusui30 .lotusDialog .lotusFormTable td {
+overflow: visible;
+}
+.lotusui30 .lotusDialog .lotusDialogFooter {
+background-color: #fff;
+margin: 0 20px;
+padding: 15px 0;
+border-top: 1px solid #aaa;
+}
+.lotusui30 .lotusDialogFooter .lotusBtn {
+margin-left: 9px;
+margin-right: 1px;
+}
+.lotusui_ie .lotusui30 .lotusDialogFooter .lotusBtn,
+.lotusui_ie8 .lotusui30 .lotusDialogFooter .lotusBtn,
+.lotusui_ie9 .lotusui30 .lotusDialogFooter .lotusBtn {
+margin-left: 10px;
+margin-right: 0;
+}
+.lotusui30 .lotusOverlay {
+filter: alpha(opacity=40);
+opacity: 0.4;
+}
+.lotusui30 .lotusDialog .lotusHeading h1,
+.lotusui30 .lotusDialog .lotusHeading h2 {
+color: #fff;
+font-size: 1.2em;
+font-weight: bold;
+border-bottom: 0;
+background: #3c3c3c;
+background-image: -moz-linear-gradient(top, #3c3c3c 0%, #252525 100%);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c3c3c), color-stop(100%, #252525));
+background-image: -webkit-linear-gradient(top, #3c3c3c 0%, #252525 100%);
+background-image: linear-gradient(top, #3c3c3c 0%, #252525 100%);
+}
+.lotusui30 .lotusDialog h1 .lotusBtnImg,
+.lotusui30 .lotusDialog h2 .lotusBtnImg {
+top: 10px;
+}
+.lotusui30 .lotusViewControl div {
+padding: 2px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+.lotusui30 .lotusViewControl {
+font-size: 0.9em;
+}
+.lotusui30 .lotusViewControl td div {
+border: 0;
+margin: 0 1px;
+padding: 3px;
+background-color: #d7d7d7;
+border-collapse: separate;
+background-image: none;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+.lotusui_ie .lotusui30 .lotusViewControl td div,
+.lotusui_ie8 .lotusui30 .lotusViewControl td div {
+border: 1px solid #ccc;
+}
+.lotusui_ie .lotusui30 .lotusViewControl td div,
+.lotusui_ie8 .lotusui30 .lotusViewControl td div,
+.lotusui_ie9 .lotusui30 .lotusViewControl td div {
+margin-left: 0;
+margin-right: 0;
+}
+.lotusui30 .lotusDetailsOn,
+.lotusui30 .lotusSummaryOn,
+.lotusui30 .lotusTreeOn,
+.lotusui30 .lotusTileOn,
+.lotusui30 .lotusFolderOn {
+background-color: transparent;
+border-color: #666;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+.lotusui30 .lotusFeeds {
+margin: 5px 0;
+}
+.lotusui30 .lotusForm2 .lotusFormFooter {
+border-width: 1px 0 0;
+border-style: solid;
+border-color: #aaa;
+}
+.lotusui30 .lotusForm2 .lotusFormFooter {
+background: none;
+}
+.lotusui30 .lotusForm2 .lotusFormFooter .lotusBtn {
+margin-right: 9px;
+}
+.lotusui_ie .lotusui30 .lotusForm2 .lotusFormFooter .lotusBtn,
+.lotusui_ie8 .lotusui30 .lotusForm2 .lotusFormFooter .lotusBtn,
+.lotusui_ie9 .lotusui30 .lotusForm2 .lotusFormFooter .lotusBtn {
+margin-right: 10px;
+}
+.lotusui30 .lotusForm2 .lotusFieldEmphasis {
+-moz-box-shadow: 0 3px 3px #F3F3F3 inset;
+-webkit-box-shadow: 0 3px 3px #F3F3F3 inset;
+box-shadow: 0 3px 3px #F3F3F3 inset;
+}
+.lotusui30 .lotusForm .lotusFieldBorder {
+background-color: #eee;
+}
+.lotusui30 .lotusForm .lotusFormTable .lotusFormFooter {
+background-color: #eee;
+border-width: 1px 0 0;
+border-style: solid;
+border-color: #aaa;
+}
+.lotusui30 .lotusForm {
+background-color: #f4f5f6;
+}
+.lotusui30 .lotusFormPlain,
+.lotusui30 .lotusForm,
+.lotusui30 .lotusForm .lotusFormTable td.lotusFormFooter {
+background-color: transparent;
+border-width: 0;
+}
+.lotusui30 .lotusTable .lotusForm {
+border: 1px solid #f0f0f0;
+border-width: 5px 0;
+margin: 15px 0;
+}
+.lotusui30 .lotusTable .lotusForm .lotusFormTitle h2 {
+margin-top: 15px;
+}
+.lotusui30 .lotusTable .lotusForm .lotusFormTable td.lotusFormFooter {
+padding-top: 0;
+padding-bottom: 15px;
+border: 0;
+}
+.lotusui30 .lotusHeader {
+margin-top: 0;
+}
+.lotusui30 .lotusHeader .lotusHeading,
+.lotusui30 .lotusHeader h1 {
+font-size: 1.5em;
+font-weight: bold;
+line-height: 1.2;
+}
+.lotusui30 div.lotusHeader {
+margin-bottom: 15px;
+}
+.lotusui30 .lotusHeader .lotusFilters2 {
+margin: 5px 0 0;
+}
+.lotusui30 .lotusHelp {
+background-color: #fff;
+}
+.lotusui30 table.lotusLegal {
+margin: 5px auto 10px;
+}
+.lotusui30 .lotusIBMLogoFooter {
+display: none;
+}
+.lotusui30 .lotusLogin .lotusLegal {
+margin: 5px 25px 10px;
+}
+.lotusui30 .lotusLike .lotusLikeCount {
+background-color: #f4f4f4;
+}
+.lotusui30 .lotusLikeLightBox ul.lotusList li a:hover,
+.lotusui30 .lotusLikeLightBox ul.lotusList li a:focus,
+.lotusui30 .lotusLikeLightBox ul.lotusList li a:active {
+background-color: #e9f1f3;
+}
+.lotusui30 .lotusColLeft ul.lotusList {
+margin: 0 -20px;
+}
+.lotusui30 .lotusColLeft ul.lotusList li {
+padding: 3px 20px;
+}
+.lotusui30 .lotusColLeft ul.lotusList li.lotusSelected {
+background-color: #1f2123;
+}
+.lotusui30 .lotusColLeft ul.lotusList li.lotusSelected a,
+.lotusui30 .lotusColLeft ul.lotusList li.lotusSelected a:visited {
+color: #e8e8e8;
+}
+.lotusui30 .lotusMenu {
+width: 100%;
+margin: 0 0 25px;
+padding: 0;
+color: #ccc;
+font-size: 1.08333333333333em;
+background-color: transparent;
+border-width: 0;
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+}
+.lotusui30 .lotusColLeft li.lotusBorderBottom:before {
+background: none repeat scroll 0 0 #2B2D30;
+border-bottom: 1px solid #434B4D;
+content: '';
+height: 1px;
+left: 0;
+position: absolute;
+bottom: 2px;
+width: 155px;
+}
+.lotusui30 .lotusColLeft li.lotusBorderBottom.lotusLast:before {
+border: none;
+background: none;
+}
+.lotusui30 .lotusColLeft ul.lotusList li.lotusBorderBottom {
+padding: 3px 2px 10px 2px;
+}
+.lotusui30 .lotusColLeft ul.lotusList .lotusBorderBottom {
+border-bottom: none;
+position: relative;
+}
+.lotusui30 .lotusMenu div.lotusChunk {
+margin: 5px 5px 0 15px;
+}
+.lotusui30 .lotusMenu .lotusMenuSection {
+border-width: 0;
+position: relative;
+}
+.lotusui30 .lotusMenu li a,
+.lotusui30 .lotusMenu li a:visited {
+margin: 0;
+padding: 4px 20px;
+line-height: 1.5;
+border-width: 0;
+font-weight: bold;
+color: #bbb;
+text-shadow: 0 1px 1px #121212;
+background-color: transparent;
+outline: none;
+text-decoration: none;
+white-space: nowrap;
+}
+.dijit_a11y.lotusui30 .lotusMenu li a:focus {
+outline: 1px dotted
+}
+.lotusui30 .lotusMenu li a:hover,
+.lotusui30 .lotusMenu li a:focus,
+.lotusui30 .lotusMenu li:focus a,
+.lotusui_ie .lotusui30 .lotusMenu li a:active {
+text-decoration: none;
+color: #fff;
+background-color: #2a2c2f;
+-moz-box-shadow: 0 1px 0 #242628 inset, 0 -1px 0 #242628 inset;
+-webkit-box-shadow: 0 1px 0 #242628 inset, 0 -1px 0 #242628 inset;
+box-shadow: 0 1px 0 #242628 inset, 0 -1px 0 #242628 inset;
+}
+.lotusui30.lotusImagesOff .lotusMenu li a,
+.lotusui30.lotusImagesOff .lotusMenu li a:visited {
+font-weight: normal;
+}
+.lotusui30 .personinlinemenu .lotusMenu li.lconnCommLogo a:hover,
+.lotusui30 .personinlinemenu .lotusMenu li.lconnCommLogo a:focus,
+.lotusui30 .personinlinemenu .lotusMenu li.lconnCommLogo a:active {
+background-color: #2a2c2f;
+}
+.lotusui30 .communityImgLink,
+.lotusui30 .lotusMenu li.lconnCommLogo {
+text-align: center;
+}
+.lotusui30 .lotusMenu li .communityImgLink a,
+.lotusui30 .lotusMenu li.lconnCommLogo a {
+margin-top: -5px;
+padding-top: 10px;
+padding-bottom: 10px;
+}
+.lotusui30 .communityImgLink a img,
+.lotusui30 .lotusMenu li.lconnCommLogo a img {
+border: 1px solid #121212;
+}
+.lotusui30 .personinlinemenu .lotusMenu .lotusInner {
+width: auto;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader {
+margin: 20px 0 0 0;
+padding: 10px 10px 5px 35px;
+border-width: 0;
+font-weight: normal;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader .lotusHeading,
+.lotusui30 .lotusMenu h3 {
+margin: 15px 0 0 0;
+padding: 15px 10px 5px 18px;
+font-size: 1em;
+color: #f1f1f1;
+text-shadow: 0 1px 1px #121212;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader h3.lotusHeading {
+margin: 0;
+padding: 0;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader:before,
+.lotusui30 .lotusMenu .lotusMenuHeader .lotusHeading:before,
+.lotusui30 .lotusMenu h3:before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 175px;
+height: 1px;
+margin-left: 20px;
+background: #2b2d30;
+border-bottom: 1px solid #434b4d;
+}
+.lotusui30 .lotusCommunities .lotusMenu .lotusMenuHeader .lotusHeading,
+.lotusui30 .lotusCommunities .lotusMenu h3,
+.lotusui30 .vcomm .lotusMenu h3  {
+margin-top:0;
+padding-top: 0;
+}
+.lotusui30 .lotusMenu .lotusIndent10.communityLink,
+.lotusui30 .vcomm .lotusMenu h3 div.lotusIndent10  {
+padding-left: 0 !important;
+}
+.lotusui30 .lotusCommunities .lotusMenu h3:before,
+.lotusui30 .X-community-display-inline .lotusMenu h3:before {
+content: none;
+}
+.lotusui30 .lotusMenu .lotusHeading a,
+.lotusui30 .lotusMenu .lotusHeading a:visited,
+.lotusui30 .lotusMenu .lotusHeading a:hover,
+.lotusui30 .lotusMenu .lotusHeading a:focus,
+.lotusui30 .lotusMenu .lotusHeading a:active,
+.lotusui30 .lotusMenu h3 a,
+.lotusui30 .lotusMenu h3 a:visited,
+.lotusui30 .lotusMenu h3 a:hover,
+.lotusui30 .lotusMenu h3 a:focus,
+.lotusui30 .lotusMenu h3 a:active {
+color: #f1f1f1;
+text-shadow: 0 1px 1px #121212;
+text-decoration: none;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader a.lotusArrow {
+left: 14px;
+top: 12px;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader a.lotusArrow {
+z-index: 10;
+}
+.lotusui30 .lotusMenu .lotusTwistyOpenMenu {
+background-position: 4px -1256px;
+filter: alpha(opacity=100);
+opacity: 1;
+}
+.lotusui30 .lotusMenu .lotusTwistyClosedMenu {
+background-position: 4px -1352px;
+filter: alpha(opacity=100);
+opacity: 1;
+}
+.lotusui30 .lotusMenu .lotusHeaderSelected .lotusTwistyOpenMenu {
+background-position: 4px -1016px;
+filter: alpha(opacity=100);
+opacity: 1;
+}
+.lotusui30 .lotusMenu .lotusHeaderSelected .lotusTwistyClosedMenu {
+background-position: 4px -1160px;
+filter: alpha(opacity=100);
+opacity: 1;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader .lotusHeading a {
+margin: 0;
+display: block;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader.lotusSelected .lotusArrow .lotusAltText {
+color: #dd731c;
+}
+.lotusui30 .lotusMenu .lotusAction {
+margin-left: 20px;
+margin-bottom: 5px;
+}
+.lotusui30 .lotusMenu li.lotusSelected a,
+.lotusui30 .lotusMenu li.lotusSelected a:visited,
+.lotusui30 .lotusMenu li.lotusSelected a:hover,
+.lotusui30 .lotusMenu li.lotusSelected a:focus,
+.lotusui30 .lotusMenu li.lotusSelected a:active,
+.lotusui30 .lotusMenu .lotusHeaderSelected {
+position: relative;
+margin: 0;
+padding: 4px 20px;
+color: #fff;
+background-color: #1f7cae;
+border: 0;
+-moz-box-shadow: 0 1px 1px #52acdb inset, 0 -1px 0 #000 inset;
+-webkit-box-shadow: 0 1px 1px #52acdb inset, 0 -1px 0 #000 inset;
+box-shadow: 0 1px 1px #52acdb inset, 0 -1px 0 #000 inset;
+text-shadow: 0 -1px 0 #121212;
+border-right: 1px solid #222;
+}
+.lotusui30 .lotusMenu li.lotusSelected a:focus,
+.lotusui30 .lotusMenu li.lotusSelected:focus a {
+box-shadow: 4px 0 0 #2a2c2f inset, 0 1px 1px #52acdb inset, 0 -1px 0 #000 inset;
+}
+.lotusui30 .lotusMenu li:focus {
+outline: none
+}
+.lotusui30.lotusImagesOff .lotusMenu li.lotusSelected a,
+.lotusui30.lotusImagesOff .lotusMenu .lotusHeaderSelected {
+border-right: 0;
+font-weight: bold;
+}
+.lotusui30 .lotusMenu .lotusHeaderSelected {
+padding-top: 10px;
+}
+.lotusui30 .lotusMenu .lotusHeaderSelected .lotusHeading a {
+color: #222 !important;
+text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection {
+margin: 0;
+padding: 0;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection li a {
+font-weight: normal;
+padding-left: 34px;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection li a:before {
+content: "\25A0";
+color: #54575a;
+text-shadow: none;
+margin-right: 5px;
+position: relative;
+bottom: 2px;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection li.lotusSelected a {
+font-weight: bold;
+margin-left: 0;
+padding-left: 34px;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection li.lotusSelected a:before {
+color: #fff;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection ul[aria-labelledby="communityName"] li a,
+.lotusui30 .vcomm .lotusMenu .lotusMenuSubsection li a {
+padding-left: 20px;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection ul[aria-labelledby="communityName"] li a:before,
+.lotusui30 .vcomm .lotusMenu .lotusMenuSubsection li a:before,
+.lotusui30 .lotusMenu .lotusMenuSubsection ul.lotusIcons li a:before {
+content: none;
+}
+.lotusui30 .lotusMenu ul.lotusIcons img,
+.lotusui30 .lotusMenu ul.lotusIcons .lotusSelected img {
+top: 5px;
+left: 35px;
+}
+.lotusui30 .lotusMenu ul.lotusIcons a {
+padding-left: 60px;
+}
+.lotusui30 .lotusMenu ul.lotusIcons .lotusSelected a {
+padding-left: 60px;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection ul.lotusIcons a {
+padding-left: 60px;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection ul.lotusIcons .lotusSelected a {
+padding-left: 60px;
+}
+.lotusui30.lotusImagesOff .lotusMenu .lotusMenuSubsection ul.lotusIcons a,
+.lotusImagesOff .lotusui30 .lotusMenu .lotusMenuSubsection ul.lotusIcons a,
+.lotusui30.lotusImagesOff .lotusMenu .lotusMenuSubsection ul.lotusIcons .lotusSelected a,
+.lotusImagesOff .lotusui30 .lotusMenu .lotusMenuSubsection ul.lotusIcons .lotusSelected a {
+padding-left: 60px;
+}
+.lotusui30 .lotusMenu .lotusUnreadBadge {
+position: absolute;
+display: inline-block;
+right: 200px;
+margin-left: 14px;
+top: 7px;
+padding: 0px 3px;
+background-color: #c83912;
+border-radius: 2px;
+font-size: 0.71428571428571em;
+text-shadow: none;
+}
+.lotusui30 .lotusMessage2 {
+background-color: #ffe3e0;
+border-color: #efa6a5;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+.lotusui30 .lotusMessage2.lotusWarning {
+background-color: #ffffbc;
+border-color: #f6e692;
+}
+.lotusui30 .lotusMessage2.lotusInfo {
+background-color: #e6f1fe;
+border-color: #b9cfeb;
+}
+.lotusui30 .lotusMessage2.lotusSuccess {
+background-color: #ecf9df;
+border-color: #c8e2b8;
+}
+.lotusui30 .lotusMessage2 {
+padding: 10px;
+font-size: .9em;
+background-color: #ffebe6;
+border-color: #f08137;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+.lotusui30 .lotusMessage2.lotusWarning {
+background-color: #fdf4c8;
+border-color: #e48617;
+}
+.lotusui30 .lotusMessage2.lotusInfo {
+background-color: #d9f1fb;
+border-color: #00b0da;
+}
+.lotusui30 .lotusMessage2.lotusSuccess {
+background-color: #ecf9df;
+border-color: #108f53;
+}
+.lotusui30 .lotusMessage2 .lotusIcon {
+margin-top: 0;
+margin-right: 7px;
+}
+.lotusui30 .lotusMessage2 .lotusDelete {
+right: 10px;
+top: 10px;
+}
+.lotusMessage {
+background-color: #ffe3e0;
+border-color: #efa6a5;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+.lotusui30 .lotusWarning {
+background-color: #ffffbc;
+border-color: #f6e692;
+}
+.lotusui30 .lotusInfo {
+background-color: #e6f1fe;
+border-color: #b9cfeb;
+}
+.lotusui30 .lotusConfirm {
+background-color: #ecf9df;
+border-color: #c8e2b8;
+}
+.lotusui30 .lotusMessage {
+padding: 10px;
+font-size: .9em;
+font-weight: bold;
+background-color: #ffebe6;
+border-color: #f08137;
+}
+.lotusui30 .lotusWarning {
+background-color: #fdf4c8;
+border-color: #e48617;
+}
+.lotusui30 .lotusInfo {
+background-color: #d9f1fb;
+border-color: #00b0da;
+}
+.lotusui30 .lotusConfirm {
+background-color: #ecf9df;
+border-color: #108f53;
+}
+.lotusui30 .lotusMessage img {
+margin-top: 0;
+margin-right: 7px;
+}
+.lotusui30 .lotusMessage .lotusDelete {
+right: 5px;
+top: 10px;
+}
+.lotusui30 .lotusPaging {
+margin: 5px 0;
+border-top-width: 0;
+}
+.lotusui30 .lotusPaging,
+.lotusui30 .lotusPaging ul li,
+.lotusui30 .lotusPaging div,
+.lotusui30 .lotusPaging input {
+color: #222;
+}
+.lotusui30 .lotusPaging {
+background: none;
+border-width: 1px 0;
+border-color: #ddd;
+padding-left: 0;
+padding-right: 0;
+}
+.lotusui30 .lotusStream .lotusPagingTop.lotusPaging,
+.lotusui30 .lotusStream .lotusPaging {
+margin: 0;
+background: #f7f7f7;
+background: -moz-linear-gradient(top, #f7f7f7 0%, #e8e8e8 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f7f7), color-stop(100%, #e8e8e8));
+background: -webkit-linear-gradient(top, #f7f7f7 0%, #e8e8e8 100%);
+background: linear-gradient(top, #f7f7f7 0%, #e8e8e8 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#e8e8e8', GradientType=0);
+height: 2em;
+padding: 15px 10px 10px 15px;
+border: 1px solid #ccc !important;
+-moz-border-radius-topright: 5px;
+-moz-border-radius-bottomright: 0;
+-moz-border-radius-bottomleft: 0;
+-moz-border-radius-topleft: 5px;
+-webkit-border-top-right-radius: 5px;
+-webkit-border-bottom-right-radius: 0;
+-webkit-border-bottom-left-radius: 0;
+-webkit-border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+border-bottom-right-radius: 0;
+border-bottom-left-radius: 0;
+border-top-left-radius: 5px;
+}
+.lotusImagesOff .lotusui30 .lotusStream .lotusPaging {
+background: none;
+}
+.lotusui30 .lotusPaging a,
+.lotusui30 .lotusPaging a:visited {
+font-weight: normal;
+}
+.lotusui30 .lotusPaging .lotusInlinelist li {
+border-color: #ccc;
+}
+.lotusui30 .lotusPaging div,
+.lotusui30 .lotusPaging .lotusInlinelist li.lotusFirst {
+padding-left: 0;
+}
+.lotusui30 .lotusPaging .lotusRight li {
+padding: 0 0 0 6px;
+margin-left: 5px;
+}
+.lotusui30 #paletteWrapper {
+margin: 0 -5px;
+}
+.lotusui30 .lotusPalette {
+position: relative;
+z-index: 1;
+background-color: #f0f0f0;
+border: 1px solid #d2d2d2;
+border-width: 0 1px 1px;
+-moz-box-shadow: inset 0 -2px 4px #ccc;
+-webkit-box-shadow: inset 0 -2px 4px #ccc;
+box-shadow: inset 0 -2px 4px #ccc;
+}
+.lotusui30 .lotusPaletteHeader {
+overflow: visible;
+color: #222;
+background: none;
+border-top-width: 0;
+border-bottom: 1px solid #ccc;
+padding: 2px 10px 0;
+}
+.lotusui30 .lotusPaletteHeader span.lotusRight {
+float: none;
+position: absolute;
+top: 7px;
+right: 35px;
+margin-top: 0;
+background: #ecf9df;
+border: 1px solid #108f53;
+font-size: 0.9em;
+padding: 0 5px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+.lotusui30 .lotusPalette .lotusAdded,
+.lotusui30 .lotusPalette .lotusAdded a {
+color: #222;
+}
+.lotusui30 .lotusPaletteHeader .lotusPaletteClose {
+float: none;
+position: absolute;
+top: 9px;
+right: 7px;
+}
+.lotusui30 .lotusPalette .lotusPaletteHeader a,
+.lotusui30 .lotusPalette .lotusPaletteHeader a:visited,
+.lotusui30 .lotusPalette .lotusPaletteHeader a:hover,
+.lotusui30 .lotusPalette .lotusPaletteHeader a:focus,
+.lotusui30 .lotusPalette .lotusPaletteHeader a:active {
+color: #222;
+}
+.lotusui30 .lotusPaletteHeader ul.lotusTabs {
+float: none;
+margin-top: 5px;
+margin-left: 15px;
+}
+.lotusui30 .lotusPaletteHeader ul.lotusTabs li {
+border: 1px solid #ccc;
+background: none;
+}
+.lotusui30 .lotusPaletteHeader ul.lotusTabs li.lotusSelected {
+background: #f0f0f0;
+border-bottom-color: #f0f0f0;
+}
+.lotusui30 .lotusPaletteHeader ul.lotusTabs li a,
+.lotusui30 .lotusPaletteHeader ul.lotusTabs li a:visited {
+display: block;
+margin: 0;
+padding: 9px 10px;
+background: none;
+}
+.lotusui30 .lotusPaletteHeader ul.lotusTabs li.lotusSelected a,
+.lotusui30 .lotusPaletteHeader ul.lotusTabs li.lotusSelected a:visited {
+background: none;
+color: #000;
+}
+.lotusui30 .lotusPaletteNav {
+width: 215px;
+height: auto;
+margin: 20px -20px 0;
+padding: 0 20px;
+background: none;
+border: 0;
+}
+.lotusui30 .lotusPaletteNav h3,
+.lotusui30 .lotusPaletteNav .lotusPaletteNavHeader .lotusHeading2 {
+color: #444;
+font-size: 1em;
+padding-left: 20px;
+margin-bottom: 5px;
+font-weight: normal;
+}
+.lotusui30 .lotusPalette .lotusSearch input.lotusText {
+margin: 0 4px 0 0;
+width: 158px;
+border-color: #ccc;
+padding-left: 8px;
+width: 155px;
+background: -moz-linear-gradient(top, #f2f2f2 0%, #ffffff 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f2f2), color-stop(100%, #ffffff));
+background: -webkit-linear-gradient(top, #f2f2f2 0%, #ffffff 100%);
+background: linear-gradient(top, #f2f2f2 0%, #ffffff 100%);
+-moz-border-radius: 15px;
+-webkit-border-radius: 15px;
+border-radius: 15px;
+}
+.lotusui30 .lotusPalette .lotusChunk,
+.lotusui30 .lotusPalette .lotusPaletteNavHeader {
+margin: 10px 0;
+width: auto;
+}
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu {
+margin: 0;
+background: none;
+height: 16em;
+width: auto;
+}
+.lotusui_ie .lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu {
+height: 15em;
+}
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li a,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li a:visited,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li a:hover,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li a:focus,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li a:active {
+color: #444;
+background-image: none;
+box-shadow: none;
+text-shadow: none;
+padding-left: 20px;
+margin: 0;
+}
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected a {
+background: #1f7cae;
+}
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected a,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected a:visited,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected a:hover,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected a:focus,
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected a:active {
+color: #fff;
+}
+.lotusui30 .lotusPaletteBody {
+margin-bottom: 0;
+border: 0;
+background: none;
+}
+.lotusui30 .lotusPaletteContent {
+background: none;
+padding: 20px 25px;
+height: 19.2em;
+}
+.lotusui30 .lotusPaletteWidget {
+background: #fff;
+border-color: #ccc;
+color: #222;
+}
+.lotusui30 .lotusPaletteContent .lotusPaletteWidget a,
+.lotusui30 .lotusPaletteContent .lotusPaletteWidget a:visited,
+.lotusui30 .lotusPaletteContent .lotusPaletteWidget a:hover,
+.lotusui30 .lotusPaletteContent .lotusPaletteWidget a:focus,
+.lotusui30 .lotusPaletteContent .lotusPaletteWidget a:active {
+color: #222;
+}
+.lotusui30 .lotusPaletteWidget a.lotusIcon {
+background-position: 0 -4119px;
+filter: alpha(opacity=45);
+opacity: 0.45;
+}
+.lotusui30 .lotusPaletteWidget a.lotusIcon:hover,
+.lotusui30 .lotusPaletteWidget a.lotusIcon:focus,
+.lotusui30 .lotusPaletteWidget a.lotusIcon:active {
+filter: alpha(opacity=55);
+opacity: 0.55;
+}
+.lotusui30 .lotusPaletteWidgetHover {
+border-color: #00b0da;
+}
+.lotusui30 .lotusPaletteWidget .lotusWidgetTitle .lotusTitle span {
+color: #1f7cae;
+}
+.lotusui30 .lotusPaletteWidget.lotusPaletteDisabledBtn .lotusTitle a.homepageUnclickable span {
+color: #1f7cae !important;
+}
+.lotusui30 .lotusPaletteContent .lotusPaging[dojoattachpoint="noWidgetNode"] {
+font-size: 1em;
+margin: 0;
+padding: 0;
+}
+.lotusui30 .lotusPalette .lotusMeta[dojoattachpoint="loadingNode"] {
+margin: 0 20px !important;
+font-size: 1em;
+}
+.lotusui30 .lotusPaletteContent .lotusPaging {
+margin-bottom: 0;
+}
+.lotusui30 .lotusPaletteContent .lotusPaging ul li,
+.lotusui30 .lotusPaletteContent .lotusPaging div {
+color: #222;
+}
+.lotusui30 .lotusPalette .lotusPaging a,
+.lotusui30 .lotusPalette .lotusPaging a:visited {
+color: #1970b0;
+}
+.lotusui30 .lotusPalette .lotusPaging a:hover,
+.lotusui30 .lotusPalette .lotusPaging a:focus,
+.lotusui30 .lotusPalette .lotusPaging a:active {
+color: #05386b;
+}
+.lotusui30 .lotusSearch .lotusScope,
+.lotusui30 .lotusSearch .lotusText,
+.lotusui30 .lotusSearch .dijitTextBox {
+border-color: #aaa;
+}
+.lotusui30 .lotusSearch .lotusText {
+padding-top: 3px;
+padding-bottom: 4px;
+}
+.lotusui30 .lotusSearch .lotusScope {
+padding-top: 3px;
+padding-bottom: 3px;
+}
+.lotusui30 .lotusSearch .lotusSearchButton {
+color: #000;
+}
+.lotusui30 .lotusSearch .lotusText,
+.lotusui30 .lotusSearch .dijitTextBox {
+border-color: #ccc;
+}
+.lotusui30 .lotusSearch a.lotusScope:hover,
+.lotusui30 .lotusSearch a.lotusScope:focus,
+.lotusui30 .lotusSearch a.lotusScope:active {
+color: #000;
+background-color: #e9f1f3;
+background-position: 100% -1680px;
+}
+.lotusui30 .lotusSearchForm .lotusSearchButton {
+color: #000;
+}
+.lotusui30 .lotusSearchTab {
+padding: 2px 6px 4px 8px;
+border-color: #aaa;
+background-color: #f1f1f1;
+background-image: -moz-linear-gradient(top, #fff 0%, #ebebeb 100%);
+background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ebebeb));
+background-image: -webkit-linear-gradient(top, #fff 0%, #ebebeb 100%);
+background-image: linear-gradient(top, #fff 0%, #ebebeb 100%);
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+}
+.lotusui30 .lotusTabExpanded {
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+-moz-border-radius-topright: 2px;
+-moz-border-radius-topleft: 2px;
+-webkit-border-top-left-radius: 2px;
+-webkit-border-top-right-radius: 2px;
+border-top-right-radius: 2px;
+border-top-left-radius: 2px;
+}
+.lotusui30 .lotusSearchTab a,
+.lotusui30 .lotusSearchTab a:visited {
+padding-right: 12px;
+font-size: 0.9em;
+line-height: 1.7;
+}
+.lotusui30 .lotusSearchTab a,
+.lotusui30 .lotusSearchTab a:visited,
+.lotusui30 .lotusSearchTab a:hover,
+.lotusui30 .lotusSearchTab a:focus,
+.lotusui30 .lotusSearchTab a:active {
+text-decoration: none;
+}
+.lotusui30 form.lotusSearchForm {
+z-index: 1;
+-moz-border-radius: 0px;
+-webkit-border-radius: 0px;
+border-radius: 0px;
+-webkit-box-shadow: 0px 2px 5px #eee;
+-moz-box-shadow: 0px 2px 5px #eee;
+box-shadow: 0px 2px 5px #eee;
+}
+.lotusui30 .lotusSearchForm .lotusBtnImg {
+padding: 3px;
+}
+.lotusui30 .lotusSearchForm input.lotusText {
+padding-top: 3px;
+padding-bottom: 4px;
+}
+.lotusui30 .lotusSection2 {
+margin: 0 0 20px;
+padding: 0;
+border: 0;
+}
+.lotusui30 .lotusSection,
+.lotusui30 .lotusWidget,
+.lotusui30 .lotusWidget2 {
+margin: 0 0 20px;
+padding: 0;
+border-width: 0;
+width: auto;
+}
+.lotusui30 .lotusColLeft .lotusWidget2 h3 {
+margin: 0;
+border-bottom-color: #484848;
+padding: 7px 0 10px;
+}
+.lotusui30 .lotusPortlet .lotusSectionHeader {
+border-width: 0;
+margin: 0;
+background-image: none;
+background-color: transparent;
+}
+.lotusui30 .lotusSectionPlain .lotusSectionHeader {
+border-width: 0;
+background-image: none;
+}
+.lotusui30 .lotusSection2 .lotusSectionHeader {
+border-top: none;
+}
+.lotusui30 .lotusSection2 .lotusSectionHeader .lotusIcon {
+padding: 5px 0 5px 5px;
+width: 16px;
+}
+.lotusui30 .lotusSection h2 a.lotusIcon {
+height: 16px;
+margin-top: 2px;
+}
+.lotusui30 .lotusSection2 .lotusSectionHeader .lotusFirst {
+padding-left: 0;
+}
+.lotusui30 .lotusSection2 .lotusSectionHeader a.lotusArrow,
+.lotusui30 .lotusSection2 .lotusSectionHeader a.lotusArrow:visited,
+.lotusui30 .lotusSection2 .lotusSectionHeader a.lotusArrow:hover,
+.lotusui30 .lotusSection2 .lotusSectionHeader a.lotusArrow:focus,
+.lotusui30 .lotusSection2 .lotusSectionHeader a.lotusArrow:active {
+padding: 5px 0;
+}
+.lotusui30 .lotusSection2 .lotusDraggable a.lotusArrow,
+.lotusui30 .lotusSection2 .lotusDraggable a.lotusArrow:visited,
+.lotusui30 .lotusSection2 .lotusDraggable a.lotusArrow:hover,
+.lotusui30 .lotusSection2 .lotusDraggable a.lotusArrow:focus,
+.lotusui30 .lotusSection2 .lotusDraggable a.lotusArrow:active {
+padding: 5px 0 5px 5px;
+}
+.lotusui30 .lotusSection .lotusDraggable .lotusArrow {
+margin-left: 5px;
+}
+.lotusui30 .lotusSection2 .lotusDragHandle,
+.lotusui30 .lotusSection .lotusDragHandle {
+left: 0;
+top: 7px;
+}
+.lotusui30 .lotusSection h2.lotusDraggable span.lotusLeft,
+.lotusui30 .lotusSection h3.lotusDraggable span.lotusLeft {
+width: 75%;
+}
+.lotusui30 .lotusSection2 .lotusSubheader,
+.lotusui30 .lotusSection h3,
+.lotusui30 .lotusWidget h3,
+.lotusui30 .lotusWidget2 h3 {
+padding: 7px 0;
+}
+.lotusui30 .lotusSection2 .lotusSubheader .lotusIcon {
+padding-right: 0;
+}
+.lotusui30 .lotusSection2 .lotusHeading,
+.lotusui30 .lotusSection2 .lotusHeading2 {
+font-size: 1.16666666666667em;
+color: #484848;
+}
+.lotusui30 .lotusColRight .lotusSection2 .lotusHeading,
+.lotusui30 .lotusColRight .lotusSection2 .lotusHeading2 {
+font-size: 1.25em;
+}
+.lotusui30 .lotusSection h2,
+.lotusui30 .lotusWidget h2,
+.lotusui30 .lotusWidget2 h2,
+.lotusui30 .dijitTitlePaneTitle {
+margin: 0;
+padding: 5px 0;
+font-size: 1.16666666666667em;
+color: #484848;
+background: none;
+border-width: 0;
+}
+.lotusui30 .lotusColRight .lotusSection h2,
+.lotusui30 .lotusColRight .lotusWidget h2,
+.lotusui30 .lotusColRight .lotusWidget2 h2,
+.lotusui30 .lotusColRight .dijitTitlePaneTitle {
+font-size: 1.25em;
+}
+.lotusui30 .lotusSection2 .lotusHeading a,
+.lotusui30 .lotusSection h2 a,
+.lotusui30 .lotusWidget h2 a,
+.lotusui30 .lotusWidget2 h2 a {
+color: inherit !important;
+}
+.lotusui30 .lotusColLeft .lotusSection2 .lotusHeading,
+.lotusui30 .lotusColLeft .lotusSection h2,
+.lotusui30 .lotusColLeft .lotusWidget h2,
+.lotusui30 .lotusColLeft .lotusWidget2 h2,
+.lotusui30 .lotusColLeft .dijitTitlePaneTitle {
+font-size: 1.16666666666667em;
+color: #f1f1f1;
+text-shadow: 0 1px 1px #121212;
+}
+.lotusui30 .lotusColLeft .lotusSection2 .lotusHeading2,
+.lotusui30 .lotusColLeft .lotusSection h3,
+.lotusui30 .lotusColLeft .lotusWidget h3,
+.lotusui30 .lotusColLeft .lotusWidget2 h3 {
+color: #f1f1f1;
+text-shadow: 0 1px 1px #121212;
+}
+.lotusui30 .lotusColLeft .lotusSection2 .lotusHeading .lotusArrow,
+.lotusui30 .lotusColLeft .lotusSection h2 .lotusArrow,
+.lotusui30 .lotusColLeft .lotusWidget h2 .lotusArrow,
+.lotusui30 .lotusColLeft .lotusWidget2 h2 .lotusArrow {
+margin-left: -4px;
+}
+.lotusui30 .lotusSection div.lotusChunk h3 {
+margin-top: 5px;
+}
+.lotusui30 .lotusSectionBody,
+.lotusui30 .lotusSection2 .lotusSectionBody,
+.lotusui30 .lotusSection .lotusSectionBody,
+.lotusui30 .lotusWidget .lotusWidgetBody,
+.lotusui30 .lotusWidget2 .lotusWidgetBody,
+.lotusui30 .lotusWidgetPlain .lotusWidgetBody {
+margin: 0;
+padding: 5px 0;
+border-width: 0;
+background-color: transparent;
+clear: both;
+}
+.lotusui30 .lotusSectionBody[dojoattachpoint=tagCloudContent],
+.lotusui30 #socialTagsSubArea,
+.lotusui30 #lconnTagCloudContent,
+.lotusui30 .lotusSection .lconnTagCloudContent,
+.lotusui30 .lotusSectionBody.lconnFacet,
+.lotusui30 .lotusWidget2 .lconnTagCloudContent  {
+background: #2e3033;
+border-top: 1px solid #252525;
+border-bottom: 1px solid #404040;
+margin: 0 -20px;
+padding: 10px 20px;
+zoom: 1;
+}
+.lotusui30 .lotusSectionBody[dojoattachpoint=tagCloudContent] .lotusLoading {
+margin-right: 5px;
+}
+.lotusui30 .lotusSectionBody[dojoattachpoint=tagCloudContent] ul.lotusList,
+.lotusui30 .lotusSectionBody[dojoattachpoint=tagCloudContent] ul.lotusEditable li {
+overflow: visible;
+}
+.lotusui30 .lotusSectionBody[dojoattachpoint=tagCloudContent] div[dojoattachpoint=_tagListLink] {
+padding-top: 7px;
+}
+.lotusui30 .lotusSection2 .lotusSectionFooter,
+.lotusui30 .lotusSection .lotusSectionFooter,
+.lotusui30 .lotusWidget .lotusWidgetFooter,
+.lotusui30 .lotusWidget2 .lotusWidgetFooter {
+padding: 5px 0;
+border-top: 1px solid #ced2d4;
+}
+.lotusui30 .lotusSection2 .lotusSectionFooter .lotusPaging,
+.lotusui30 .lotusSection .lotusSectionFooter .lotusPaging,
+.lotusui30 .lotusWidget .lotusSectionFooter .lotusPaging,
+.lotusui30 .lotusWidget2 .lotusSectionFooter .lotusPaging {
+margin: 0;
+padding: 0;
+border-width: 0;
+}
+.lotusui30 .lotusPortlet .lotusTabs li.lotusSelected,
+.lotusui30 .lotusWidget2 .lotusTabs li.lotusSelected,
+.lotusui30 .lotusWidget .lotusTabs li.lotusSelected {
+border-color: #aaa #aaa #fff;
+background-color: #fff;
+}
+.lotusui30 .lotusPortlet,
+.lotusui30 .lotusContent .lotusWidget {
+padding: 10px;
+background-color: #fff;
+border: 1px solid #dadada;
+-moz-box-shadow: 0 1px 3px #eee;
+-webkit-box-shadow: 0 1px 3px #eee;
+box-shadow: 0 1px 3px #eee;
+}
+.lotusui30 .lotusWidget .widgetFooter {
+padding-top: 5px;
+}
+.lotusui30 .lotusContent .lotusWidget2 {
+border-top: 1px solid #d2d2d2;
+}
+.lotusui30 .lotusSection2 .lotusSectionHeader .lotusActionIcon img,
+.lotusui30 .lotusWidget h2 a.lotusActionMenu,
+.lotusui30 .lotusWidget2 h2 a.lotusActionMenu {
+margin-top: 2px;
+width: 16px;
+height: 16px;
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.social.gen4.theme/sprite/sprite16.png?etag=20150310.220517");
+background-position: -656px 0;
+background-repeat: no-repeat;
+filter: alpha(opacity=55);
+opacity: 0.55;
+}
+.lotusui30 .lotusSection2 .lotusSectionHeader .lotusActionIcon:hover img,
+.lotusui30 .lotusSection2 .lotusSectionHeader .lotusActionIcon:focus img,
+.lotusui30 .lotusWidget h2 a.lotusActionMenu:hover,
+.lotusui30 .lotusWidget2 h2 a.lotusActionMenu:hover {
+filter: alpha(opacity=75);
+opacity: .75;
+}
+.lotusui30 .lotusColLeft .lotusSection2 .lotusSectionHeader .lotusActionIcon img,
+.lotusui30 .lotusColLeft .lotusWidget h2 a.lotusActionMenu,
+.lotusui30 .lotusColLeft .lotusWidget2 h2 a.lotusActionMenu {
+background-position: -640px 0;
+}
+.lotusui30 .lotusWidgetTable td:first-child .lotusWidget {
+margin-right: 10px !important;
+}
+.lotusui30 .lotusWidgetTable td:last-child .lotusWidget {
+margin-left: 10px !important;
+}
+.lotusui30 .lotusSort {
+margin: 5px 0;
+color: #222;
+background-color: transparent;
+}
+.lotusui30 .lotusSort .lotusInlinelist li {
+padding: 0 5px;
+}
+.lotusui30 .lotusInfoTable {
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+background-color: #fff;
+-webkit-box-shadow: 0 2px 5px #eee;
+-moz-box-shadow: 0 2px 5px #eee;
+box-shadow: 0 2px 5px #eee;
+}
+.lotusui30 .lotusInfoTable td,
+.lotusui30 .lotusInfoTable th {
+border-width: 0;
+}
+.lotusui30 .lotusTable .lotusAltRow td,
+.lotusui30 .lotusTable .lotusAltRow th.lotusRowHeader {
+background-color: transparent;
+}
+.lotusui30 .lotusTable .lotusForm2 {
+background: none;
+margin-top: 15px;
+margin-bottom: 15px;
+border-width: 5px 0;
+border-color: #f0f0f0;
+border-style: solid;
+}
+.lotusui30 .lotusTable .lotusForm2 .lotusFormTitle .lotusHeading {
+margin-top: 0;
+}
+.lotusui30 .lotusTable .lotusForm2 .lotusFormFooter {
+border: 0;
+padding-top: 0;
+padding-bottom: 15px;
+}
+.lotusui30 .lotusTable .lotusForm2 .lotusMessage2 {
+top: 0;
+margin-bottom: 0;
+}
+.lotusui30 .lotusTabs li {
+padding: 0;
+background-color: transparent;
+border-color: #ccc;
+}
+.lotusui30 .lotusTabs li.lotusSelected {
+border-color: #aaa #aaa #fff;
+background-color: #fff;
+}
+.lotusui30 .lotusTabs a,
+.lotusui30 .lotusTabs a:visited {
+font-size: .9em;
+color: #444;
+}
+.lotusui30 .lotusTabs a:hover,
+.lotusui30 .lotusTabs a:focus {
+color: #000;
+}
+.lotusui30 .lotusTabCondensed .lotusTabs li.lotusSelected {
+background-color: transparent;
+}
+.lotusui30 .lotusTagCloud {
+margin-left: -15px;
+padding: 10px;
+}
+.lotusui30 a.lotusF5,
+.lotusui30 a.lotusF5:visited {
+color: #0498d2;
+}
+.lotusui30 a.lotusF4,
+.lotusui30 a.lotusF4:visited {
+color: #0498d2;
+}
+.lotusui30 a.lotusF3,
+.lotusui30 a.lotusF3:visited {
+color: #0498d2;
+}
+.lotusui30 a.lotusF2,
+.lotusui30 a.lotusF2:visited {
+color: #90c3d7;
+}
+.lotusui30 a.lotusF1,
+.lotusui30 a.lotusF1:visited {
+color: #90c3d7;
+}
+.lotusui30 .lotusTips {
+padding: 15px;
+color: #fff;
+background-color: #1D6784;
+border-color: #25586C;
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+border-radius: 8px;
+}
+.lotusui30 .lotusTips .lotusClose {
+right: 4px;
+}
+.lotusui30 .lotusTips .lotusClose input {
+filter: alpha(opacity=45);
+opacity: 0.45;
+}
+.lotusui30 .lotusTips .lotusClose input:hover,
+.lotusui30 .lotusTips .lotusClose input:focus,
+.lotusui30 .lotusTips .lotusClose input:active {
+filter: alpha(opacity=75);
+opacity: 0.75;
+}
+.lotusui30 .lotusVCard a:link,
+.lotusui30 .lotusVCard a:visited,
+.lotusui30 .lotusVCard a:hover,
+.lotusui30 .lotusVCard a:focus,
+.lotusui30 .lotusVCard a:active {
+color: #1970b0;
+}
+.lotusui30 .lotusVCard .lotusAppLinks td {
+background-color: #f1f1f1;
+background-image: -moz-linear-gradient(top, #fff 0%, #ebebeb 100%);
+background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ebebeb));
+background-image: -webkit-linear-gradient(top, #fff 0%, #ebebeb 100%);
+background-image: linear-gradient(top, #fff 0%, #ebebeb 100%);
+background-position: top left;
+}
+.lotusui30 .lotusVCard .lotusActionMenu a,
+.lotusui30 .lotusVCard .lotusActionMenu a:visited {
+color: #000;
+}
+.lotusui30 .lotusVCard .lotusPhoto {
+border-color: #ccc;
+background-color: #fff;
+}
+.lotusui30 .lotusVCard .lotusAppLinks td {
+border-color: #ccc;
+}
+.lotusui30 .lotusVCard .lotusDetails {
+background-color: #fafafa;
+border-top-width: 0;
+}
+.lotusui30 .lotusVCard .lotusActionMenu a:hover,
+.lotusui30 .lotusVCard .lotusActionMenu a:focus,
+.lotusui30 .lotusVCard .lotusActionMenu a:active {
+color: #000;
+background-color: #e9f1f3;
+}
+.lotusui30 .lotusVCardHover {
+padding: 6px 10px 6px 25px;
+border-width: 0;
+font-size: 0.9em;
+background-color: #0072a7;
+-moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+.lotusui30 a.lotusVCardHover,
+.lotusui30 a.lotusVCardHover:visited {
+color: #fff;
+}
+.lotusui30 .lotusIconLike,
+.lotusui30 .lotusIconMsgSuccess,
+.lotusui30 .lotusIconMsgError,
+.lotusui30 .lotusIconMsgInfo,
+.lotusui30 .lotusIconMsgWarning {
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/lotusHSprite-8bit.png?etag=20150310.220517");
+width: 16px;
+height: 16px;
+background-repeat: no-repeat;
+display: -moz-inline-box;
+display: inline-block;
+}
+.lotusui30 .lotusIconLike {
+background-position: -88px -8px;
+}
+.lotusui30 .lotusIconMsgSuccess {
+background-position: 0 -8px;
+}
+.lotusui30 .lotusIconMsgError {
+background-position: -22px -8px;
+}
+.lotusui30 .lotusIconMsgInfo {
+background-position: -44px -8px;
+}
+.lotusui30 .lotusIconMsgWarning {
+background-position: -66px -8px;
+}
+.lotusui30_body .lotusFrame {
+max-width: none;
+}
+.lotusui30_body {
+color: #222;
+background-color: #f0f0f0;
+}
+.lotusui30_layout .lotusMain .lotusContent {
+margin: 25px 0 0 0;
+padding: 20px;
+border: 1px solid #d2d2d2;
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+}
+.lotusui30 .lotusBanner .lotusInner,
+.lotusui30 .lotusBannerExt .lotusWrapper,
+.lotusui30 .lotusTitleBar2 .lotusWrapper,
+.lotusui30 .lotusTitleBarExt .lotusWrapper,
+.lotusui30 .lotusTitleBar .lotusRightCorner,
+.lotusui30 .lotusPlaceBar .lotusRightCorner {
+margin: 0 auto;
+min-width: 965px;
+max-width: 1575px;
+padding: 0 5px 0 20px;
+}
+.lotusui30 .lotusTitleBarExt .lotusWrapper {
+position: relative;
+}
+.lotusui30 .lotusPlaceBar .lotusRightCorner {
+min-width: 985px;
+max-width: 1595px;
+padding-left: 0;
+}
+.lotusui30_body .lotusMain {
+position: relative;
+min-width: 980px;
+max-width: 1590px;
+clear: none;
+margin: 0 auto;
+padding: 0 5px;
+border: 0;
+background: none;
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+}
+.lotusui30_layout.lotusFluid .lotusBanner .lotusInner,
+.lotusui30_layout.lotusFluid .lotusBannerExt .lotusWrapper,
+.lotusui30_layout.lotusFluid .lotusTitleBar2 .lotusWrapper,
+.lotusui30_layout.lotusFluid .lotusTitleBarExt .lotusWrapper,
+.lotusui30_body .lotusFluid .lotusMain,
+.lotusui30_layout.lotusFluid .lotusTitleBar .lotusRightCorner,
+.lotusui30_layout.lotusFluid .lotusPlaceBar .lotusRightCorner {
+max-width: none;
+}
+.lotusui30_layout.lotusFixed .lotusBanner .lotusInner,
+.lotusui30_layout.lotusFixed .lotusBannerExt .lotusWrapper,
+.lotusui30_layout.lotusFixed .lotusTitleBar2 .lotusWrapper,
+.lotusui30_layout.lotusFixed .lotusTitleBarExt .lotusWrapper,
+.lotusui30_layout.lotusFixed .lotusTitleBar .lotusRightCorner,
+.lotusui30_layout.lotusFixed .lotusPlaceBar .lotusRightCorner {
+width: 965px;
+max-width: none;
+}
+.lotusui30_body .lotusFixed .lotusMain {
+width: 980px;
+max-width: none;
+}
+.lotusui30_layout .lotusColLeft,
+.lotusui30_layout .lotusColRight {
+padding: 25px 0;
+}
+.lotusui30_layout .lotusColLeft {
+margin-right: 25px;
+margin-left: -5px;
+width: 215px;
+color: #fafafa;
+background: none;
+}
+.lotusui_ie .lotusui30_layout .lotusColLeft,
+.lotusui_ie8 .lotusui30_layout .lotusColLeft {
+background: #363a3e;
+}
+.lotusui30_layout .lotusColLeft .lconnEmpty,
+.lotusui30_layout .lotusColLeft .lotusMeta {
+color: inherit;
+}
+.lotusui_ie .lotusui30_layout .lotusColLeft .lconnEmpty,
+.lotusui_ie .lotusui30_layout .lotusColLeft .lotusMeta {
+color: #fafafa;
+}
+.lotusui30_layout .lotusColLeft .lotusSection2 .lotusPhoto {
+border: 1px solid #ccc;
+background-color: #fff;
+-webkit-box-shadow: #eee 0 3px 5px;
+-moz-box-shadow: #eee 0 3px 5px;
+box-shadow: #eee 0 3px 5px;
+}
+.lotusui30_layout .lotusColLeft .lotusPhoto {
+width: 146px;
+height: 146px;
+}
+.lotusui30_layout .lotusColLeft .lotusPhoto img {
+margin: 9px;
+}
+.lotusui30_layout .lotusColLeft .lotusForm2 .lotusFormFooter,
+.lotusui30_layout .lotusColRight .lotusForm2 .lotusFormFooter {
+background-color: transparent;
+border-width: 0;
+}
+.lotusui30_layout .lotusColRight {
+width: 250px;
+margin-left: 25px;
+-webkit-transition: width 500ms cubic-bezier(0.420, 0.000, 0.580, 1.000);
+-moz-transition: width 500ms cubic-bezier(0.420, 0.000, 0.580, 1.000);
+-ms-transition: width 500ms cubic-bezier(0.420, 0.000, 0.580, 1.000);
+-o-transition: width 500ms cubic-bezier(0.420, 0.000, 0.580, 1.000);
+transition: width 500ms cubic-bezier(0.420, 0.000, 0.580, 1.000);
+}
+.lotusui30_layout .lotusColLeft .lotusSection2,
+.lotusui30_layout .lotusColLeft .lotusSection,
+.lotusui30_layout .lotusColLeft .lotusWidget,
+.lotusui30_layout .lotusColLeft .lotusWidget2,
+.lotusui30_layout .lotusColLeft .lotusTips {
+margin: 0 20px 20px;
+}
+.lotusui30_layout .lotusColRight .lotusSection2,
+.lotusui30_layout .lotusColRight .lotusSection,
+.lotusui30_layout .lotusColRight .lotusWidget,
+.lotusui30_layout .lotusColRight .lotusWidget2,
+.lotusui30_layout .lotusColRight .lotusTips,
+.lotusui30_layout .lotusColRight .lotusInfoBox {
+margin: 0 0 15px 0;
+}
+.lotusui30_layout .lotusColLeft .lotusSection2 .lotusSearch .lotusText,
+.lotusui30_layout .lotusColRight .lotusSection2 .lotusSearch .lotusText {
+width: 76%;
+}
+.lotusui30_layout .lotusColRight .lotusTable td,
+.lotusui30_layout .lotusColRight .lotusTable th.lotusRowHeader,
+.lotusui30_layout .lotusColRight .lotusTable th.lotusSubHeader {
+border-top: none;
+}
+.lotusui30_layout .lotusColRight .lotusTable th, .lotusui30_layout .lotusColRight .lotusTable td>a {
+font-weight: bold;
+}
+.lotusui30_layout .lotusColLeft .lotusTwistyOpen {
+margin-top: 2px;
+background-position: 2px -518px;
+filter: alpha(opacity=100);
+opacity: 1;
+}
+.lotusui30_layout .lotusColLeft .lotusTwistyClosed {
+margin-top: 2px;
+background-position: 2px -622px;
+filter: alpha(opacity=100);
+opacity: 1;
+}
+.lotusui30_layout .lotusColLeft a.lotusDelete img {
+background-position: -575px -11px;
+filter: alpha(opacity=55);
+opacity: 0.55;
+vertical-align: middle;
+}
+.lotusui30_layout .lotusColLeft a.lotusDelete:hover img,
+.lotusui30_layout .lotusColLeft a.lotusDelete:focus img {
+filter: alpha(opacity=75);
+opacity: 0.75;
+}
+.lotusui30_layout .lotusColLeft .lotusSearch .lotusSearchButton {
+background-position: -609px -8px;
+filter: alpha(opacity=55);
+opacity: 0.55;
+}
+.lotusui30_layout .lotusColLeft .lotusSearch .lotusSearchButton:hover {
+filter: alpha(opacity=75);
+opacity: 0.75;
+}
+.lotusui30_layout .lotusColLeft .lotusAdd img {
+margin-left: 5px;
+background-position: -537px -8px;
+filter: alpha(opacity=55);
+opacity: 0.55;
+}
+.lotusui30_layout .lotusColLeft .lotusAdd:hover img {
+filter: alpha(opacity=75);
+opacity: 0.75;
+}
+.lotusui30_layout .lotusContent .lotusTable tr td:first-child {
+padding-left: 15px;
+}
+.lotusui30_layout .lotusContent .lotusTable tr td:last-child {
+padding-right: 10px;
+}
+.lotusui30_layout .lotusContent .lotusTable tr td.eventDiv {
+padding-left: 0px;
+}
+.lotusui30_layout .lotusContent .lotusTable .eventDiv a {
+font-weight: bold;
+}
+.lotusui30 .lotusColLeft .lotusTagCloud {
+margin: 5px 0 0;
+padding: 0;
+}
+.lotusui30 .lotusColLeft a.lotusF5,
+.lotusui30 .lotusColLeft a.lotusF5:visited {
+color: #fafafa;
+}
+.lotusui30 .lotusColLeft a.lotusF4,
+.lotusui30 .lotusColLeft a.lotusF4:visited {
+color: #dadada;
+}
+.lotusui30 .lotusColLeft a.lotusF3,
+.lotusui30 .lotusColLeft a.lotusF3:visited {
+color: #dadada;
+}
+.lotusui30 .lotusColLeft a.lotusF2,
+.lotusui30 .lotusColLeft a.lotusF2:visited {
+color: #9a9a9a;
+}
+.lotusui30 .lotusColLeft a.lotusF1,
+.lotusui30 .lotusColLeft a.lotusF1:visited {
+color: #9a9a9a;
+}
+.lotusui30 .lotusColLeft .lotusInlinelist li {
+border-left-color: #6e6e6e;
+}
+.lotusui30_layout .lotusColLeft .lotusSection .lotusSearch .lotusText,
+.lotusui30_layout .lotusColRight .lotusSection .lotusSearch .lotusText,
+.lotusui30_layout .lotusColLeft .lotusWidget2 .lotusSearch .lotusText,
+.lotusui30_layout .lotusColRight .lotusWidget2 .lotusSearch .lotusText {
+width: 76%;
+}
+.lotusui30_layout .lotusColLeft:after {
+border-left: 1000px solid #33363a;
+background: #282a2d;
+width: 2px;
+-moz-box-shadow: -1px 0 0 #404749 inset;
+-webkit-box-shadow: -1px 0 0 #404749 inset;
+box-shadow: -1px 0 0 #404749 inset;
+border-right: 214px solid #363a3e;
+content: "";
+margin-left: -1001px;
+position: fixed;
+bottom: 0;
+height: 100%;
+z-index: -2;
+}
+.lotusImagesOff .lotusui30_layout .lotusColLeft:after {
+border-right: 0;
+border-left: 0
+}
+.lotusui30_layout .lotusMain .lotusContent:before {
+background: #f0f0f0;
+content: "";
+height: 100%;
+left: 215px;
+position: absolute;
+top: 0;
+width: 770px;
+z-index: -1;
+}
+.lotusui30_layout .lotusMain .startContent .lotusContent:before {
+content: none;
+}
+.lotusui_ie8 .lotusui30_body .lotusMain {
+position: static;
+}
+.lotusui_ie8 .lotusui30_layout .lotusColLeft:after {
+width: 1px;
+border-right-width: 215px;
+}
+.lotusui_ie8 .lotusui30_layout .lotusMain .lotusContent:before {
+content: none;
+}
+.lotusui30 .lotusBanner {
+position: relative;
+z-index: 11;
+border-bottom: 1px solid #0075a3;
+background: #008abf;
+padding: 0 0 2px;
+}
+.lotusui30 div.lotusBanner .lotusRightCorner {
+border-bottom: 1px solid #1a96c6;
+overflow: hidden;
+background: #3c4044;
+background: -moz-linear-gradient(top, #3c4044 0%, #151718 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c4044), color-stop(100%, #151718));
+background: -webkit-linear-gradient(top, #3c4044 0%, #151718 100%);
+background: -ms-linear-gradient(top, #3c4044 0%, #151718 100%);
+background: linear-gradient(to bottom, #3c4044 0%, #151718 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c4044', endColorstr='#151718', GradientType=0);
+}
+.lotusui30 .lotusBanner .lotusLogo img {
+margin-top: 23px;
+margin-bottom: 21px;
+}
+.lotusui_ie .lotusui30 .lotusBanner .lotusLogo img {
+margin-top: 21px;
+}
+.lotusui30 div.lotusBanner .lotusLogo .lotusAltText {
+margin: 15px 20px 15px 0;
+padding: 0;
+color: #fff;
+text-shadow: 0 1px 2px #000;
+font-size: 1.083em;
+line-height: 1.385;
+font-weight: bold;
+}
+.lotusui30 .lotusBanner a.lotusLogo:hover,
+.lotusui30 .lotusBanner a.lotusLogo:focus,
+.lotusui30 .lotusBanner a.lotusLogo:active {
+color: #ccc;
+cursor: pointer;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li {
+display: block;
+float: left;
+margin: 0 -1px 0 0;
+position: relative;
+z-index: 0;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHidden {
+display: none;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a {
+padding: 15px;
+font-weight: bold;
+display: block;
+text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+border-left: 1px solid transparent;
+border-right: 1px solid transparent;
+}
+.lotusui30.lotusImagesOff .lotusBanner ul.lotusInlinelist li a,
+.lotusImagesOff .lotusui30 .lotusBanner ul.lotusInlinelist li a {
+border: 0;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotusSelected a {
+text-decoration: none;
+}
+.lotusui30 .lotusBanner .lotusDropDownSprite {
+margin-left: 3px;
+background-position: 0 -1260px;
+}
+.lotusui30 .lotusBanner .lotusUnreadBadge {
+background: #107bbb;
+color: #fff;
+position: relative;
+bottom: 0.7em;
+margin-left: 2px;
+line-height: 1.2;
+text-shadow: none;
+font-size: 0.9em;
+}
+.lotusui30 .lotusBanner .lotusBadgeIcon {
+line-height: 0.8;
+padding: 2px 3px 3px;
+margin-left: -5px;
+bottom: 7px;
+}
+.lotusui_ie .lotusui30 .lotusBanner .lotusBadgeIcon {
+padding-bottom: 0;
+}
+.lotusImagesOff .lotusui30 .lotusBanner .lotusBadgeIcon {
+margin-left: 0;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:hover,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:focus,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:active,
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a {
+border-color: #212121;
+border-color: rgba(0, 0, 0, 0.4);
+-moz-box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+-webkit-box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+background: #33393f;
+background: -moz-linear-gradient(top, #33393f 0%, #161618 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #33393f), color-stop(100%, #161618));
+background: -webkit-linear-gradient(top, #33393f 0%, #161618 100%);
+background: linear-gradient(to bottom, #33393f 0%, #161618 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#33393f', endColorstr='#161618', GradientType=0);
+zoom: 1;
+}
+.lotusui30 .lotusBanner ul.lotusLinks li a,
+.lotusui30 .lotusBanner ul.lotusLinks li a:hover,
+.lotusui30 .lotusBanner ul.lotusLinks li a:focus,
+.lotusui30 .lotusBanner ul.lotusLinks li a:active,
+.lotusui30 .lotusBanner ul.lotusLinks li.lotusHover a {
+color: #cfcfcf;
+text-decoration: none;
+}
+.lotusui30 .lotusBanner ul.lotusUtility li {
+font-size: 0.91666666666667em;
+line-height: 1.63636363636364;
+font-weight: bold;
+}
+.lotusui30 div.lotusBanner ul.lotusUtility li a {
+padding: 15px 12px;
+color: #cfcfcf;
+}
+.lotusui30 div.lotusBanner ul.lotusUtility li a.lotusUser {
+padding: 10px 12px;
+}
+.lotusui30 .lotusBanner ul.lotusUtility li a:hover,
+.lotusui30 .lotusBanner ul.lotusUtility li a:focus,
+.lotusui30 .lotusBanner ul.lotusUtility li.lotusHover a {
+color: #fafafa;
+text-decoration: none;
+}
+.lotusui30 .lotusBanner ul.lotusUtility li a:active {
+color: #fff;
+text-decoration: none;
+}
+.lotusui30 .lotusBanner .lotusUtility img.lotusArrow {
+filter: alpha(opacity=75);
+opacity: 0.75;
+}
+.lotusui30 div.lotusBanner ul.lotusUtility .lotusBranding {
+padding: 16px 0 16px 10px;
+display: block;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:hover,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:focus,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:active .lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a {
+color: #fafafa;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:active,
+.lotusui30 .lotusBanner ul.lotusLinks li.lotusSelected a {
+color: #fff;
+}
+.lotusui30 .lotusBanner ul.lotusLinks li.lotusSelected {
+z-index: 1;
+}
+.lotusui30 .lotusBanner ul.lotusLinks li.lotusSelected a {
+border-color: #0d0d0d;
+border-color: rgba(255, 255, 255, 0.05);
+background: #292b2c;
+background: -moz-linear-gradient(top, #292b2c 0%, #202223 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #292b2c), color-stop(100%, #202223));
+background: -webkit-linear-gradient(top, #292b2c 0%, #202223 100%);
+background: linear-gradient(to bottom, #292b2c 0%, #202223 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#292b2c', endColorstr='#202223', GradientType=0);
+zoom: 1;
+-moz-box-shadow: 0 0 6px #000 inset;
+-webkit-box-shadow: 0 0 6px #000 inset;
+box-shadow: 0 0 6px #000 inset;
+}
+.lotusui_ie9 .lotusui30 .lotusBanner ul.lotusLinks li.lotusSelected a {
+filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.lotusui30 .lotusBanner .lconnBannerIcon {
+margin-right: 5px;
+position: relative;
+top: -1px;
+display: inline-block;
+background: url("/developerworks/community/connections/resources/web/com.ibm.social.gen4.theme/sprite/sprite16.png?etag=20150310.220517") no-repeat;
+}
+.lotusui30.lotusImagesOff .lotusBanner .lconnBannerIcon {
+display: none;
+}
+.lotusui30 #lotusBannerHomepage .lconnBannerIcon {
+margin: 2px 0 0;
+background-position: -480px 0;
+}
+.lotusui30 #lotusBannerHomepage a:hover .lconnBannerIcon,
+.lotusui30 #lotusBannerHomepage a:focus .lconnBannerIcon,
+.lotusui30 #lotusBannerHomepage.lotusSelected .lconnBannerIcon {
+background-position: -496px 0;
+}
+.lotusui30 #lconnBannerHomepageLabel {
+display: none;
+}
+.lotusui30.lotusImagesOff #lconnBannerHomepageLabel {
+display: block;
+}
+.lotusui30 #lotusBannerProfiles .lconnBannerIcon {
+background-position: -512px 0;
+}
+.lotusui30 #lotusBannerProfiles a:hover .lconnBannerIcon,
+.lotusui30 #lotusBannerProfiles a:focus .lconnBannerIcon,
+.lotusui30 #lotusBannerProfiles.lotusSelected .lconnBannerIcon {
+background-position: -528px 0;
+}
+.lotusui30 #lotusBannerCommunities .lconnBannerIcon {
+background-position: -544px 0;
+}
+.lotusui30 #lotusBannerCommunities a:hover .lconnBannerIcon,
+.lotusui30 #lotusBannerCommunities a:focus .lconnBannerIcon,
+.lotusui30 #lotusBannerCommunities.lotusSelected .lconnBannerIcon {
+background-position: -560px 0;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist #headerSharebox {
+background: #33393f;
+background: -moz-linear-gradient(top, #33393f 0%, #161618 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #33393f), color-stop(100%, #161618));
+background: -webkit-linear-gradient(top, #33393f 0%, #161618 100%);
+background: linear-gradient(to bottom, #33393f 0%, #161618 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#33393f', endColorstr='#161618', GradientType=0);
+border: 1px solid #212121;
+border: 1px solid rgba(0, 0, 0, 0.4);
+border-width: 0 1px;
+-moz-box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+-webkit-box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn {
+color: #fff;
+font-size: 1.09090909090909em;
+padding: 5px 18px;
+border: 1px solid #212121;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+-moz-box-shadow: 0 0 4px rgba(204, 204, 204, 0.15) inset;
+-webkit-box-shadow: 0 0 4px rgba(204, 204, 204, 0.15) inset;
+box-shadow: 0 0 4px rgba(204, 204, 204, 0.15) inset;
+text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+margin: 8px 12px;
+background: #646464;
+background: -moz-linear-gradient(top, #7d7d7d 0%, #747474 26%, #646464 56%, #5b5b5b 59%, #515151 78%, #494949 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7d7d7d), color-stop(26%, #747474), color-stop(56%, #646464), color-stop(59%, #5b5b5b), color-stop(78%, #515151), color-stop(100%, #494949));
+background: -webkit-linear-gradient(top, #7d7d7d 0%, #747474 26%, #646464 56%, #5b5b5b 59%, #515151 78%, #494949 100%);
+background: linear-gradient(to bottom, #7d7d7d 0%, #747474 26%, #646464 56%, #5b5b5b 59%, #515151 78%, #494949 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d7d7d', endColorstr='#494949', GradientType=0);
+zoom: 1;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:hover,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:focus,
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a.lotusBannerBtn {
+border-color: #212121;
+background: #757575;
+background: -moz-linear-gradient(top, #7e7e7e 0%, #777777 48%, #757575 56%, #6e6d6d 59%, #676767 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7e7e7e), color-stop(48%, #777777), color-stop(56%, #757575), color-stop(59%, #6e6d6d), color-stop(100%, #676767));
+background: -webkit-linear-gradient(top, #7e7e7e 0%, #777777 48%, #757575 56%, #6e6d6d 59%, #676767 100%);
+background: linear-gradient(to bottom, #7e7e7e 0%, #777777 48%, #757575 56%, #6e6d6d 59%, #676767 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7e7e7e', endColorstr='#676767', GradientType=0);
+zoom: 1;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:active {
+background: #676767;
+padding-top: 6px;
+padding-bottom: 4px;
+}
+.lotusui_ie9 .lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn,
+.lotusui_ie9 .lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:hover,
+.lotusui_ie9 .lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:focus,
+.lotusui_ie9 .lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a.lotusBannerBtn {
+filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+#headerHelpLink img,
+#lotusBannerMail .lconnSprite-iconMailWhite16,
+#lotusBannerCalendar .iconsComponentsWhite16-CalendarWhite16 {
+margin: 1px 0;
+}
+.lconnSprite-iconMailWhite16 {
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.social.gen4.theme/sprite/sprite16.png?etag=20150310.220517");
+background-position: -576px 0;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover .lconnSprite-iconMailWhite16,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:hover .lconnSprite-iconMailWhite16,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:focus .lconnSprite-iconMailWhite16,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:active .lconnSprite-iconMailWhite16 {
+background-position: -592px 0;
+}
+.iconsComponentsWhite16-CalendarWhite16 {
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.social.gen4.theme/sprite/sprite16.png?etag=20150310.220517");
+background-position: -608px 0;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover .iconsComponentsWhite16-CalendarWhite16,
+.lotusui30 .lotusBanner ul.lotusInlinelist a:hover .iconsComponentsWhite16-CalendarWhite16,
+.lotusui30 .lotusBanner ul.lotusInlinelist a:focus .iconsComponentsWhite16-CalendarWhite16,
+.lotusui30 .lotusBanner ul.lotusInlinelist a:active .iconsComponentsWhite16-CalendarWhite16 {
+background-position: -624px 0;
+}
+.lotusui30 .lotusBannerExt {
+padding: 0;
+color: #30302f;
+}
+.lotusui30 .lotusBannerExt .lotusBreadcrumbs a,
+.lotusui30 .lotusBannerExt .lotusBreadcrumbs a:hover,
+.lotusui30 .lotusBannerExt .lotusBreadcrumbs a:focus,
+.lotusui30 .lotusBannerExt .lotusBreadcrumbs a:active {
+color: #4d6d83;
+}
+.lotusui30 .lotusBannerExt .lotusBreadcrumbMore {
+background: #4d6d83;
+}
+#lotusBannerHomepage:after,
+#languageSelectorText:after {
+background: #212121;
+background: rgba(243, 244, 245, 0.08);
+-moz-box-shadow: 1px 0 rgba(0, 0, 0, 0.5);
+-webkit-box-shadow: 1px 0 rgba(0, 0, 0, 0.5);
+box-shadow: 1px 0 rgba(0, 0, 0, 0.5);
+content: "";
+height: 20px;
+position: absolute;
+right: 0;
+top: 14px;
+width: 1px;
+z-index: -1;
+}
+#lotusBannerHomepage:hover:after,
+#lotusBannerHomepage:focus:after,
+#lotusBannerHomepage:active:after,
+#lotusBannerHomepage.lotusSelected:after,
+#languageSelectorText:hover:after,
+#languageSelectorText:focus:after,
+#languageSelectorText:active:after,
+#languageSelectorText.lotusSelected:after {
+content: none;
+}
+.lotusui30 .lotusBanner ul li span.lotusUser {
+font-weight: normal;
+color: #eee;
+display: block;
+}
+.lotusui_ie .lotusui30 .lotusBanner ul li span.lotusUser {
+line-height: 1.25em;
+}
+.lotusui30 .lotusBanner ul li span.lotusUser {
+margin: 5px 0 4px;
+padding: 2px 10px;
+text-shadow: 0 1px 2px #000;
+}
+.lotusui30 .lotusBanner ul li span.lotusUser {
+margin: 0;
+padding: 21px 18px;
+color: #ccc;
+}
+.lotusui30 .lotusNavMenu {
+border: 3px solid #454545;
+border: 3px solid rgba(23, 23, 23, 0.8);
+-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+}
+.lotusui30 .lotusNavMenu table,
+.lotusui30 .lotusNavMenu th,
+.lotusui30 .lotusNavMenu td,
+.lotusui30 .lotusNavMenu table td,
+.lotusui30 .lotusNavMenu tr.lotusMenuSeparator + tr th,
+.lotusui30 .lotusNavMenu tr.lotusMenuSeparator + tr td {
+padding: 0;
+}
+.lotusui30 .lotusNavMenu tr a {
+display: block;
+padding: 6px 10px;
+}
+.lotusui30 .lotusNavMenu tr a,
+.lotusui30 .lotusNavMenu tr a:visited {
+color: #222;
+}
+.lotusui30 .lotusNavMenu tr a:hover,
+.lotusui30 .lotusNavMenu tr a:focus,
+.lotusui30 .lotusNavMenu tr a:active,
+.lotusui30 .lotusNavMenu tr a.lotusHover {
+background-color: #e9f1f3;
+text-decoration: none;
+}
+.lotusui30.lotusImagesOff .lotusNavMenu tr a:hover,
+.lotusui30.lotusImagesOff .lotusNavMenu tr a:focus,
+.lotusui30.lotusImagesOff .lotusNavMenu tr a:active,
+.lotusui30.lotusImagesOff .lotusNavMenu tr a.lotusHover {
+text-decoration: underline;
+}
+.lotusui30 .lotusNavMenu .dijitTooltipContainer a:hover {
+text-decoration: none;
+}
+.lotusui30 .lotusNavMenu tr span {
+padding: 0;
+margin: 4px 3px 4px 8px;
+}
+.lotusui30 .lotusNavMenu tr.lotusMenuSeparator th,
+.lotusui30 .lotusNavMenu tr.lotusMenuSeparator td {
+padding-bottom: 0;
+border-bottom-color: #f0f0f0;
+}
+.lotusui30 .lotusNavMenu .lotusNavMenuConnector {
+display: none;
+}
+.lotusui30 #lconnheadermenu-apps tr th img {
+float: left;
+margin-left: 10px;
+margin-top: 7px;
+}
+.lotusui30 #lconnheadermenu-apps tr th a {
+padding-left: 36px;
+}
+.lotusui_ie .lotusui30 #lconnheadermenu-apps tr th a,
+.lotusui30.lotusImagesOff #lconnheadermenu-apps tr th a  {
+padding-left: 10px;
+}
+.lotusui30 .lotusNavMenu tr .lotusInlinelist {
+padding: 10px;
+white-space: normal;
+}
+.lotusui30 .lotusNavMenu tr .lotusInlinelist a {
+margin: 0;
+padding: 0;
+display: inline;
+font-weight: normal;
+color: #222;
+}
+.lotusui30 .lotusNavMenu .lotusMenuFooter .lotusInlinelist {
+color: #222;
+}
+.lotusui30 .lotusNavMenu .lotusMenuFooter .lotusInlinelist a,
+.lotusui30 .lotusNavMenu .lotusMenuFooter .lotusInlinelist a:visited {
+color: #1970B0;
+}
+.lotusui30 .lotusNavMenu .lotusMenuFooter .lotusInlinelist a:hover,
+.lotusui30 .lotusNavMenu .lotusMenuFooter .lotusInlinelist a:focus,
+.lotusui30 .lotusNavMenu .lotusMenuFooter .lotusInlinelist a:active {
+color: #05386b;
+}
+.lotusui30 .lotusNavMenu tr .lotusInlinelist a:hover,
+.lotusui30 .lotusNavMenu tr .lotusInlinelist a:focus,
+.lotusui30 .lotusNavMenu tr .lotusInlinelist a:active {
+background-color: #fff;
+text-decoration: underline;
+}
+.lotusui30 .lotusNavMenu .lotusSearch {
+position: relative;
+clear: both;
+padding: 0 10px 10px;
+}
+.lotusui30 .lotusNavMenu .lotusSearch .lotusText {
+padding: 4px 25px 4px 8px;
+margin: 0;
+border: 1px solid #ececec;
+width: 480px;
+font-size: 0.9em;
+color: #666;
+background: #f1f1f1;
+background: -moz-linear-gradient(center top, #f4f4f4 25%, #f1f1f1 100%);
+background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), color-stop(25%, #f4f4f4), to(#f1f1f1));
+-moz-border-radius: 15px;
+-webkit-border-radius: 15px;
+border-radius: 15px;
+}
+.lotusui30 .lotusNavMenu .lotusSearch .lotusSearchButton {
+color: #fff;
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/lotusHSprite-8bit.png?etag=20150310.220517");
+background-position: -591px -8px;
+height: 16px;
+width: 16px;
+position: absolute;
+right: 16px;
+top: 4px;
+}
+.lotusui30 .lotusNavMenu .lotusSearch .lotusAltText {
+display: none;
+}
+.lotusui30 .lotusNavMenu tr img.lotusLoading {
+margin: 0 5px 0 0;
+}
+.lotusui30 .lotusFooter {
+margin: 0 auto;
+padding: 0 5px;
+background: none;
+border-width: 0;
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+min-width: 980px;
+max-width: 1290px;
+}
+.lotusui30 .lotusFooter ul {
+margin: 0 210px;
+padding: 15px 0;
+background: #f0f0f0;
+}
+.lotusui30 .lotusFooter a {
+display: inline-block;
+color: #666;
+}
+.lotusui30 .lotusFooter a:hover,
+.lotusui30 .lotusFooter a:focus,
+.lotusui30 .lotusFooter a:active {
+color: #05386b;
+}
+.lotusui30 .lotusTitleBar2,
+.lotusui30 .lotusTitleBar {
+margin: 0;
+padding: 0px;
+background: #fff;
+border-bottom: 1px solid #e0e0e0;
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+}
+.lotusui30 div.lotusTitleBar2 .lotusInner {
+padding: 11px 0 10px;
+}
+.lotusui30 div.lotusTitleBar .lotusInner {
+position: relative;
+height: 4em;
+}
+.lotusui30 .lotusTitleBar2 .lotusTitleBarContent {
+margin-right: 370px;
+}
+@media screen and (max-width: 1084px) {
+.lotusui30 .lotusTitleBar2 .lotusTitleBarContent {
+margin-right: 276px;
+}
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading,
+.lotusui30 div.lotusTitleBar h2 {
+font-size: 1.5em;
+font-weight: bold;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading,
+.lotusui30 div.lotusTitleBar h2,
+.lotusui30 .lotusTitleBar .lotusHeading a {
+color: #484848;
+}
+.lotusui30 div.lotusTitleBar h2 {
+padding: 14px 0 0 0;
+}
+.lotusui30 .lotusTitleBar h2.lotusEllipsis {
+width: 220px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .lotusIcon,
+.lotusui30 .lotusTitleBar h2.lotusHeading img {
+margin-right: 10px;
+float: none;
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.oneui3.styles/css/images/Icons/ComponentsBlue/iconsComponentsBlue16-8bit.png?etag=20150310.220517");
+height: 16px;
+width: 16px;
+background-position: 0 0;
+vertical-align: baseline;
+position: relative;
+top: -2px;
+}
+.lotusui_ie .lotusui30 .lotusTitleBar2 .lotusHeading .lotusIcon,
+.lotusui_ie .lotusui30 .lotusTitleBar h2.lotusHeading img {
+margin-bottom: -3px;
+}
+.lotusui30 .lotusTitleBar h2.lotusHeading img {
+vertical-align: middle;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-ActivitiesBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-ActivitiesBlue24 {
+background-position: 0 0;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-BlogsBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-BlogsBlue24 {
+background-position: 0 -24px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-BookmarksBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-BookmarksBlue24 {
+background-position: 0 -48px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-CalendarBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-CalendarBlue24 {
+background-position: 0 -72px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-CommunitiesBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-CommunitiesBlue24 {
+background-position: 0 -96px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-FilesBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-FilesBlue24 {
+background-position: 0 -120px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-ForumsBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-ForumsBlue24 {
+background-position: 0 -144px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-HomeBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-HomeBlue24 {
+background-position: 0 -168px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-MailBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-MailBlue24 {
+background-position: 0 -192px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-MetricsBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-MetricsBlue24 {
+background-position: 0 -216px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-NewsFeedBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-NewsFeedBlue24 {
+background-position: 0 -240px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-ProfilesBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-ProfilesBlue24 {
+background-position: 0 -264px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-StatusUpdateBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-StatusUpdateBlue24 {
+background-position: 0 -288px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-TodoBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-TodoBlue24 {
+background-position: 0 -312px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-WikisBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-WikisBlue24 {
+background-position: 0 -336px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .iconsComponentsBlue24-ModerationBlue24,
+.lotusui30 .lotusTitleBar .lotusHeading .iconsComponentsBlue24-ModerationBlue24 {
+background-position: 0 -360px;
+}
+.lotusui30 .lotusTitleBar2 .lotusHeading .lotusText,
+.lotusui30 .lotusTitleBar2 .lotusHeading .lotusText:visited,
+.lotusui30 .lotusTitleBar2 .lotusHeading .lotusText:hover,
+.lotusui30 .lotusTitleBar2 .lotusHeading .lotusText:focus,
+.lotusui30 .lotusTitleBar2 .lotusHeading .lotusText:active {
+color: #484848;
+}
+.lotusui30 .lotusTitleBar2.lotusTitleBar2Tabs .lotusInner {
+border: 0;
+padding: 0;
+}
+.lotusui30 .lotusTitleBar2.lotusTitleBar2Tabs .lotusHeading {
+font-size: 1.5em;
+padding-top: 9px;
+}
+.lotusui30 .lotusTitleBar2.lotusTitleBar2Tabs .lotusHeading .lotusIcon {
+vertical-align: baseline;
+}
+.lotusui30 .lotusTitleBar2.lotusTitleBar2Tabs .lotusSearch {
+margin: 0;
+}
+.lotusui30 .lotusTitleBar2.lotusTitleBar2Tabs .lotusSearch .lotusLayout {
+border-color: #e3e3e3;
+background: #f3f3f3;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs {
+padding-top: 11px;
+bottom: -3px;
+margin-left: 220px;
+}
+.lotusui_ie .lotusui30 .lotusTitleBar2 ul.lotusNavTabs {
+padding-top: 13px;
+bottom: -1px;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li {
+margin-right: -1px;
+border: 0;
+background: none;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab:visited {
+border: 1px solid transparent;
+font-weight: bold;
+padding: 5px 0;
+zoom: 1;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs .lotusTabInner {
+padding: 0 20px;
+margin: 0 -1px ;
+border-right: 1px solid #e5e5e5;
+border-left: 1px solid #e5e5e5;
+zoom: 1;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab:visited {
+color: #484848;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab:hover,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab:focus,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab:active,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusHover a.lotusTab {
+border-color: #dfdfdf #dfdfdf transparent;
+color: #222;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:hover,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:focus,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:active {
+color: #222;
+border-color: #d2d2d2 #d2d2d2 #f0f0f0;
+background: #ffffff;
+background: -moz-linear-gradient(top, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(3%, #f8f8f8), color-stop(100%, #f0f0f0));
+background: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+background: -o-linear-gradient(top, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+background: -ms-linear-gradient(top, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0', GradientType=0);
+}
+.lotusui_ie .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab,
+.lotusui_ie .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:visited,
+.lotusui_ie .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:hover,
+.lotusui_ie .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:focus,
+.lotusui_ie .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:active,
+.lotusui_ie .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected .lotusTabInner,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected .lotusTabInner {
+color: #222;
+border-color: #d2d2d2 #d2d2d2 #f0f0f0;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected + li > div > a.lotusTab,
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected + li > div > a.lotusTab > .lotusTabInner {
+border-left-color: #d2d2d2;
+}
+.lotusui30.lotusImagesOff .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab,
+.lotusImagesOff .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab {
+border-bottom-width: 0;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusTabClosable .lotusTabInner {
+padding-right: 32px;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs .lotusTabClose {
+top: 0.75em;
+right: 13px;
+}
+.lotusui30 .lotusTitleBar2 .lotusTabClose:hover,
+.lotusui30 .lotusTitleBar2 .lotusTabClose:focus,
+.lotusui30 .lotusTitleBar2 .lotusTabClose:active {
+outline: none;
+}
+.lotusui30 .lotusTitleBar2 .lotusTabClose:hover img,
+.lotusui30 .lotusTitleBar2 .lotusTabClose:focus img,
+.lotusui30 .lotusTitleBar2 .lotusTabClose:active img {
+background-position: -130px -9px;
+}
+.lotusui30 div.lotusTitleBar2 .lotusSearch,
+.lotusui30 div.lotusTitleBar .lotusSearch {
+margin-top: 0;
+top: 10px;
+right: 0;
+}
+.lotusui30 .lotusTitleBar2 .lotusSearch .lotusLayout,
+.lotusui30 .lotusTitleBar .lotusSearch .lotusLayout {
+padding: 2px;
+border: 1px solid #d6d6d6;
+background: #f1f1f1;
+background: -moz-linear-gradient(center top, #f4f4f4 25%, #f1f1f1 100%);
+background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), color-stop(25%, #f4f4f4), to(#f1f1f1));
+-moz-border-radius: 18px;
+-webkit-border-radius: 18px;
+border-radius: 18px;
+}
+.lotusui30 .lotusTitleBar2 .lotusInner .lotusSearch .lotusScope,
+.lotusui30 .lotusTitleBar .lotusSearch .lotusScope {
+border-width: 0 1px 0 0;
+border-color: #e3e3e3;
+padding-right: 14px;
+margin: 0 0 0 4px;
+background-color: transparent;
+}
+.lotusui_ie .lotusui30 .lotusTitleBar2 .lotusSearch .lotusScope,
+.lotusui_ie .lotusui30 .lotusTitleBar .lotusSearch .lotusScope,
+.lotusui_ie8 .lotusui30 .lotusTitleBar2 .lotusSearch .lotusScope,
+.lotusui_ie8 .lotusui30 .lotusTitleBar .lotusSearch .lotusScope {
+margin: 0;
+}
+.lotusui30 .lotusTitleBar2 .lotusSearch a.lotusScope:hover,
+.lotusui30 .lotusTitleBar .lotusSearch a.lotusScope:hover,
+.lotusui30 .lotusTitleBar2 .lotusSearch a.lotusScope:focus,
+.lotusui30 .lotusTitleBar .lotusSearch a.lotusScope:focus,
+.lotusui30 .lotusTitleBar2 .lotusSearch a.lotusScope:active,
+.lotusui30 .lotusTitleBar .lotusSearch a.lotusScope:active {
+background-color: transparent;
+background-position: 100% -1680px;
+}
+.lotusui30 .lotusTitleBar2 .lotusSearch .lotusScope .lotusAltText,
+.lotusui30 .lotusTitleBar .lotusSearch .lotusScope .lotusAltText {
+top: -5px;
+}
+.lotusui30 .lotusTitleBar2 .lotusSearch .lotusText,
+.lotusui30 .lotusTitleBar .lotusSearch .lotusText {
+border: 0;
+padding: 4px 0 3px 4px;
+background: none;
+color: #666;
+width: 175px;
+}
+@media screen and (max-width: 1084px) {
+.lotusui30 .lotusTitleBar2 .lotusSearch .lotusText,
+.lotusui30 .lotusTitleBar .lotusSearch .lotusText {
+width: 80px;
+}
+}
+.lotusui30 .lotusTitleBar2 .lotusSearch .lotusText:focus,
+.lotusui30 .lotusTitleBar .lotusSearch .lotusText:focus,
+.lotusui30 .lotusTitleBar2 .lotusSearch .lotusText:active,
+.lotusui30 .lotusTitleBar .lotusSearch .lotusText:active {
+color: #222;
+}
+.lotusui30 .lotusTitleBar2 .lotusSearch .lotusBtnImg,
+.lotusui30 .lotusTitleBar .lotusSearch .lotusBtnImg {
+border: 0;
+margin: 1px 4px 1px 2px;
+background: none;
+padding: 2px;
+}
+.lotusui30 .lotusTitleBarExt {
+margin: 0;
+padding: 0;
+border: 0;
+}
+.lotusui30 .lotusTitleBarExt .lotusInlinelist {
+position: absolute;
+right: 5px;
+z-index: 1;
+}
+.lotusui30.lotusImagesOff .lotusTitleBar .lotusBtnImg .lotusAltText,
+.lotusImagesOff .lotusui30 .lotusTitleBar .lotusBtnImg .lotusAltText {
+color: #fff;
+}
+.lotusui30 .lotusTitleBar .lotusTabs {
+overflow: visible;
+left: 220px;
+bottom: -1px;
+}
+.lotusui30.lotusImagesOff .lotusTitleBar ul.lotusTabs,
+.lotusImagesOff .lotusui30 .lotusTitleBar ul.lotusTabs {
+bottom: -2px;
+}
+.lotusui30 .lotusTitleBar .lotusTabsIndented {
+left: 220px;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li {
+border: 0;
+background: none;
+margin: 0 -1px 0 0;
+position: relative;
+z-index: 0;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected {
+border: 0;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li a {
+border-color: transparent #e5e5e5 #e0e0e0;
+border-style: solid;
+border-width: 1px;
+font-weight: bold;
+padding: 10px 20px;
+zoom: 1;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li a,
+.lotusui30 .lotusTitleBar .lotusTabs li a:visited {
+color: #444;
+font-size: 1em;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li a:hover,
+.lotusui30 .lotusTitleBar .lotusTabs li a:focus,
+.lotusui30 .lotusTitleBar .lotusTabs li a:active {
+color: #222;
+border-color: #d2d2d2 #d2d2d2 #d6d6d6;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a,
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:visited,
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:hover,
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:focus,
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:active {
+color: #222;
+border-color: #d2d2d2 #d2d2d2 #f0f0f0;
+background: #ffffff;
+background: -moz-linear-gradient(top, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(3%, #f8f8f8), color-stop(100%, #f0f0f0));
+background: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+background: -o-linear-gradient(top, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+background: -ms-linear-gradient(top, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 3%, #f0f0f0 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0', GradientType=0);
+}
+.lotusui30.lotusImagesOff .lotusTitleBar .lotusTabs li.lotusSelected a,
+.lotusImagesOff .lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a {
+border-bottom-width: 0;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected + li > div > a {
+border-left-color: #d2d2d2;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li:after {
+background: #fff;
+bottom: 1px;
+content: "";
+height: 10px;
+position: absolute;
+width: 1px;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li:before {
+background: #fff;
+content: "";
+height: 10px;
+position: absolute;
+width: 1px;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li a:after {
+background: #fff;
+bottom: 1px;
+content: "";
+height: 10px;
+position: absolute;
+right: 0;
+width: 1px;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li a:before {
+background: #fff;
+content: "";
+height: 10px;
+position: absolute;
+right: 0;
+top: 0;
+width: 1px;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected,
+.lotusui30 .lotusTitleBar .lotusTabs li:hover,
+.lotusui30 .lotusTitleBar .lotusTabs li:focus,
+.lotusui30 .lotusTitleBar .lotusTabs li:active,
+.lotusui30 .lotusTitleBar .lotusTabs li a:hover,
+.lotusui30 .lotusTitleBar .lotusTabs li a:focus,
+.lotusui30 .lotusTitleBar .lotusTabs li a:active {
+z-index: 1;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected:before,
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected:after,
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:before,
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:after,
+.lotusui30 .lotusTitleBar .lotusTabs li:hover:before,
+.lotusui30 .lotusTitleBar .lotusTabs li:hover:after,
+.lotusui30 .lotusTitleBar .lotusTabs li:focus:before,
+.lotusui30 .lotusTitleBar .lotusTabs li:focus:after,
+.lotusui30 .lotusTitleBar .lotusTabs li:active:before,
+.lotusui30 .lotusTitleBar .lotusTabs li:active:after,
+.lotusui30 .lotusTitleBar .lotusTabs li a:hover:before,
+.lotusui30 .lotusTitleBar .lotusTabs li a:hover:after,
+.lotusui30 .lotusTitleBar .lotusTabs li a:focus:before,
+.lotusui30 .lotusTitleBar .lotusTabs li a:focus:after,
+.lotusui30 .lotusTitleBar .lotusTabs li a:active:before,
+.lotusui30 .lotusTitleBar .lotusTabs li a:active:after {
+content: none;
+}
+.lotusui30 .lotusAboutBox {
+background-color: #057bb0;
+background-image: -moz-linear-gradient(top, #096da3 0%, #0189be 100%);
+background-image: -webkit-gradient(linear, left top, left bottom, from(#096da3), to(#0189be));
+background-image: linear-gradient(top, #096da3, #0189be);
+border: 0;
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+border-radius: 8px;
+}
+.lotusui30 .lotusAboutBox p,
+.lotusui30 .lotusAboutBox li,
+.lotusui30 .lotusAboutBox a,
+.lotusui30 .lotusAboutBox a:visited,
+.lotusui30 .lotusAboutBox a:hover,
+.lotusui30 .lotusAboutBox a:focus,
+.lotusui30 .lotusAboutBox a:active {
+color: #fff;
+}
+.lotusui30 .lotusAboutBox .lotusHeading,
+.lotusui30 .lotusAboutBox .lotusHeading2 {
+color: #fff;
+}
+.lotusAbout .lotusui30_layout .lotusLegal {
+margin: 5px 25px 10px;
+}
+.lotusAbout .lotusui30_layout .lotusAboutBox h1,
+.lotusAbout .lotusui30_layout .lotusAboutBox h3 {
+color: #fff;
+}
+.lotusui30 .lotusBoard .lotusStream {
+background: #fff;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}
+.lotusui30 .lotusBoard ul.lotusStream {
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+border-left: 1px solid #d6d6d6;
+border-right: 1px solid #d6d6d6;
+}
+.lotusui30 .lotusBoard .loaderMain {
+border-left: 1px solid #d6d6d6;
+border-right: 1px solid #d6d6d6;
+}
+.lotusui30 .lotusBoard .lotusStreamUpdate .lotusTextCollapsed.lotusText {
+border: 1px solid #ccc;
+height: 3em;
+}
+.lotusui_ie .lotusui30 .lotusBoard .lotusStreamUpdate .lotusTextCollapsed.lotusText {
+border: 0;
+}
+.lotusui30 .lotusBoard .lotusStreamUpdate .lotusText {
+padding: 8px 10px;
+}
+.lotusui30 .lotusBoard .lotusStream .lotusPost {
+position: relative;
+padding: 10px;
+border-width: 1px 0;
+}
+.lotusui30 .lotusBoard .lotusStream .lotusPostContent {
+max-width: 700px;
+position: static;
+}
+.lotusui30 .lotusBoard .lotusStream .lotusPostContent .lotusPostContent {
+margin-right: 0;
+padding-right: 0;
+}
+.lotusui30 .lotusBoard .lotusStream .lotusPostHover,
+.lotusui30 .lotusBoard .lotusStream .lotusPostSelected {
+background-color: #e9f1f3;
+border-color: #cad9e1;
+}
+.lotusui30 .lotusBoard .lotusCommentList {
+position: relative;
+margin: 3px 0 0 65px;
+padding: 0;
+border-top: 1px solid #DDD;
+}
+.lotusui30 .lotusFlyoutInner {
+background-color: #fff;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusCommentList {
+margin-left: 0;
+}
+.lotusui30 .lotusBoard .lotusCommentItem > a.lotusMeta {
+color: #1970B0;
+}
+.lotusui30 .lotusBoard .lotusStream#activityStream .noContentItem {
+padding: 10px;
+border-bottom-width: 0;
+}
+.lotusui30 .lotusBoard .lotusStream .lotusPost .lotusPostIndicator a {
+right: 10px;
+}
+.lotusui30 .lotusBoard .lotusStream .lotusPost .lotusDelete {
+right: 10px;
+top: 10px;
+}
+.lotusui30 .activityStreamImageUpload {
+max-height: 250px;
+max-width: 100%;
+}
+.lotusui30 .lotusForum .lotusPostDetails blockquote {
+background-color: #eee;
+border-color: #DFE4E9;
+}
+.lotusui30 .lotusForum .lotusPaging {
+margin: 0;
+padding-left: 0;
+background-color: transparent;
+border-width: 1px 0;
+border-style: solid;
+border-color: #ccc;
+}
+.lotusui30 .lotusForum .lotusPostContent {
+border-width: 0;
+}
+.lotusui30 .lotusForum .lotusPostDetails blockquote {
+width: auto;
+}
+.lotusui30 .lotusForum .lotusPostAuthorInfo {
+padding: 5px 10px 10px 15px;
+background-position: 100% -1373px;
+background-repeat: no-repeat;
+}
+.lotusui30 .lotusForum .lotusCaption {
+margin-top: 0;
+background-color: transparent;
+border-width: 0;
+float: left;
+}
+.lotusui30 .lotusForum .lotusFeeds {
+float: right;
+}
+.lotusui30 .lotusForum .lotusPost {
+margin-top: 0;
+margin-bottom: 10px;
+padding-top: 4px;
+padding-bottom: 4px;
+background-color: #fff;
+border: 1px solid #ccc;
+-webkit-box-shadow: 0 2px 5px #eee;
+-moz-box-shadow: 0 2px 5px #eee;
+box-shadow: 0px 2px 5px #eee;
+}
+.lotusui30 .lotusForum ul.lotusCommentList .lotusPost {
+background-color: #fff;
+}
+.lotusui30 .lotusForum .lotusPostForm {
+background-color: transparent !important;
+border-width: 0 !important;
+box-shadow: none;
+}
+.lotusui30 .lotusForum ul.lotusCommentList .lotusChild {
+background-color: transparent;
+border-top-width: 0;
+}
+.lotusui30 .lotusForum ul.lotusCommentList .lotusChild li {
+margin-left: 0;
+padding: 0 0 0 5px;
+background-color: transparent;
+background-image: none;
+background-repeat: repeat-y;
+}
+.lotusui30 .lotusForum ul.lotusCommentList .lotusChild .lotusActions li {
+padding: 0 7px;
+border-width: 0 0 0 1px;
+}
+.lotusui30 .lotusForum ul.lotusCommentList .lotusChild .lotusActions li.lotusFirst {
+padding-left: 0;
+border-left-width: 0;
+}
+.lotusui30 .lotusForum ul.lotusCommentList li.lotusCommentItem,
+.lotusui30 .lotusForum ul.lotusCommentList > li {
+border-width: 0;
+}
+.lotusui30 .lotusForum .lotusPostAuthorInfo {
+text-align: left;
+}
+.lotusLogin2 .lotusui30_layout .lotusForm2 {
+background-color: transparent;
+}
+.lotusui30_layout .lotusLoginBox,
+.lotusui30_layout .lotusErrorBox {
+-webkit-box-shadow: #eee 0 2px 10px;
+-moz-box-shadow: #eee 0 2px 10px;
+box-shadow: #eee 0 2px 10px;
+}
+.lotusui30_layout .lotusError h1 {
+margin: 0 0 10px 0;
+padding: 0;
+font-size: 2.2em;
+font-weight: normal;
+line-height: 1.2;
+color: #444;
+}
+.lotusui30_layout .lotusErrorContent img {
+position: absolute;
+left: 30px;
+top: 20px;
+}
+.lotusui30_layout .lotusLogin2 .lotusLoginBox h1 {
+margin: 0 0 25px 0;
+padding: 0;
+font-size: 1.83333em;
+font-weight: normal;
+line-height: 1.2;
+color: #444;
+}
+.lotusui30_layout .lotusLogin2 .lotusLoginBox h2 {
+margin: 20px 0 5px 0;
+padding: 0;
+font-size: 1.1em;
+font-weight: bold;
+line-height: 1.3;
+color: #444;
+}
+.lotusui30_layout .lotusLogin2 .lotusLoginBox h2:first-child {
+margin-top: 0;
+}
+.lotusui30 .lotusAboutBox {
+background: #1f7cae;
+border: 1px solid #00619b;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+-moz-box-shadow: 0 1px 2px #52acdb inset, 0 2px 2px #b2b2b2;
+-webkit-box-shadow: 0 1px 2px #52acdb inset, 0 2px 2px #b2b2b2;
+box-shadow: 0 1px 2px #52acdb inset, 0 2px 2px #b2b2b2;
+}
+.lotusui30 .lotusWelcomeBox {
+padding: 10px 20px 10px;
+margin-left: 0;
+background: #1f7cae;
+border: 1px solid #00619b;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+-moz-box-shadow: 0 1px 2px #52acdb inset, 0 2px 2px #b2b2b2;
+-webkit-box-shadow: 0 1px 2px #52acdb inset, 0 2px 2px #b2b2b2;
+box-shadow: 0 1px 2px #52acdb inset, 0 2px 2px #b2b2b2;
+}
+.lotusui30 .lotusWelcomeBox p,
+.lotusui30 .lotusWelcomeBox li,
+.lotusui30 .lotusWelcomeBox a,
+.lotusui30 .lotusWelcomeBox a:visited,
+.lotusui30 .lotusWelcomeBox a:hover,
+.lotusui30 .lotusWelcomeBox a:focus,
+.lotusui30 .lotusWelcomeBox a:active {
+color: #fff;
+}
+.lotusui30 .lotusWelcomeBox .lotusHeading,
+.lotusui30_layout .lotusWelcomeBox h2 {
+margin: -10px -20px 10px;
+padding: 10px 40px 10px 20px;
+color: #fff;
+font-size: 1.66666666666667em;
+font-weight: normal;
+line-height: 1;
+background: #0072a7;
+border-bottom: 1px solid #00597e;
+-moz-box-shadow: 0 1px 0 #58a3c0, 0 1px 2px #52acdb inset;
+-webkit-box-shadow: 0 1px 0 #58a3c0, 0 1px 2px #52acdb inset;
+box-shadow: 0 1px 0 #58a3c0, 0 1px 2px #52acdb inset;
+}
+.lotusui30 .lotusWelcomeBox ul {
+padding-left: 20px;
+}
+.lotusui30 .lotusWelcomeBox a,
+.lotusui30 .lotusAboutBox a {
+text-decoration: underline;
+}
+.lotusui30 .lotusWelcomeBox .lotusClose {
+padding: 0;
+top: 12px;
+right: 20px;
+}
+.lotusui30 .lotusAboutBox .lotusClose input,
+.lotusui30 .lotusWelcomeBox .lotusClose input {
+width: 16px;
+height: 16px;
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/lotusHSprite-8bit.png?etag=20150310.220517");
+background-position: -573px -8px;
+filter: alpha(opacity=75);
+opacity: 0.75;
+}
+.lotusui30 .lotusWelcomeBox .lotusClose input:hover,
+.lotusui30 .lotusWelcomeBox .lotusClose input:focus,
+.lotusui30 .lotusWelcomeBox .lotusClose input:active {
+filter: alpha(opacity=100);
+opacity: 1;
+}
+.lotusui30 .lotusWelcomeBox a.lotusClose img,
+.lotusui30_layout .lotusWelcomeBox a.lotusClose img {
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/lotusHSprite-8bit.png?etag=20150310.220517");
+background-position: -573px -8px;
+filter: alpha(opacity=90);
+opacity: 0.9;
+}
+.lotusui30 .lotusWelcomeBox a.lotusClose:hover img,
+.lotusui30 .lotusWelcomeBox a.lotusClose:focus img,
+.lotusui30 .lotusWelcomeBox a.lotusClose:active img,
+.lotusui30_layout .lotusWelcomeBox a.lotusClose:hover img,
+.lotusui30_layout .lotusWelcomeBox a.lotusClose:focus img,
+.lotusui30_layout .lotusWelcomeBox a.lotusClose:active img {
+filter: alpha(opacity=100);
+opacity: 1;
+}
+.lotusui30 .lotusInfoBox {
+padding: 10px;
+background-color: #1D6784;
+border-color: #25586C;
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+border-radius: 8px;
+}
+.lotusui30 .lotusHelp .lotusInfoBox {
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+background-color: #fff;
+border-width: 0;
+}
+.lotusui30 .lotusColLeft .lotusInfoBox,
+.lotusui30 .lotusColRight .lotusInfoBox {
+background: #fff;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+color: #444444;
+}
+.lotusui30 .lotusColLeft .lotusInfoBox {
+border: 0;
+-moz-box-shadow: 0 2px 2px #1b1b1b;
+-webkit-box-shadow: 0 2px 2px #1b1b1b;
+box-shadow: 0 2px 2px #1b1b1b;
+margin: 0 12px 20px;
+}
+.lotusui30 .lotusColRight .lotusInfoBox {
+border: 1px solid #ccc;
+}
+.lotusui30 .lotusColLeft .lotusInfoBox h3,
+.lotusui30 .lotusColRight .lotusInfoBox h3 {
+background: #e8e8e8;
+border-bottom: 1px solid #dadada;
+color: #444;
+margin: -10px -10px 5px;
+padding: 10px;
+}
+.lotusui30 .lotusColLeft .lotusInfoBox h4 {
+margin: 2px 0;
+color: #444;
+}
+.lotusui30 .lotusHelp .lotusInfoBox h3 {
+color: #222;
+}
+.lotusui30 .lotusInfoBox h3 img {
+margin: 0;
+filter: alpha(opacity=45);
+opacity: 0.45;
+}
+.lotusui30 .lotusInfoBox h3 a:hover img,
+.lotusui30 .lotusInfoBox h3 a:focus img,
+.lotusui30 .lotusInfoBox h3 a:active img {
+margin: 0;
+filter: alpha(opacity=75);
+opacity: 0.75;
+}
+.lotusui30 .lotusInfoBox a,
+.lotusui30 .lotusInfoBox a:visited {
+color: #1970b0;
+}
+.lotusui30 .lotusInfoBox a:hover,
+.lotusui30 .lotusInfoBox a:focus,
+.lotusui30 .lotusInfoBox a:active {
+color: #05386b;
+}
+.lotusui30 .lotusInfoBox p {
+margin: 5px 0 0;
+padding: 0;
+}
+.lotusui30 .lotusInfoBox ul {
+margin: 5px 0 0;
+}
+.lotusui30 .lotusHelp a,
+.lotusui30 .lotusHelp a:visited {
+color: #1970B0;
+text-decoration: none;
+}
+.lotusui30 .lotusHelp a:hover,
+.lotusui30 .lotusHelp a:focus,
+.lotusui30 .lotusHelp a:active {
+color: #05386B;
+text-decoration: underline;
+}
+.lotusui30 .lotusPlaceBar {
+margin: 0;
+padding: 0;
+border-width: 0;
+border-bottom: 1px solid #d2d2d2;
+background: #f7f7f7;
+background: -moz-linear-gradient(top, #f7f7f7 0%, #e8e8e8 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f7f7), color-stop(100%, #e8e8e8));
+background: -webkit-linear-gradient(top, #f7f7f7 0%, #e8e8e8 100%);
+background: linear-gradient(top, #f7f7f7 0%, #e8e8e8 100%);
+}
+.lotusui30 div.lotusPlaceBar .lotusInner {
+padding: 3px 0;
+background-color: transparent;
+overflow: hidden;
+zoom: 1;
+border: 0;
+position: relative;
+}
+.lotusui30 div.lotusPlaceBar h2 {
+padding: 0;
+color: #2c2c2c;
+font-weight: bold;
+text-shadow: 0 1px 0 #fff;
+font-size: 1em;
+margin-left: 20px;
+float: left;
+}
+.lotusui30 div.lotusPlaceBar h2 a {
+color: inherit;
+}
+.lotusui30 .lotusPlaceBar .lotusBtnContainer {
+padding: 0;
+margin-right: -3px;
+}
+.lotusui_ie .lotusui30 .lotusPlaceBar .lotusBtnContainer,
+.lotusui_ie8 .lotusui30 .lotusPlaceBar .lotusBtnContainer,
+.lotusui_ie9 .lotusui30 .lotusui30.lotusPlaceBar .lotusBtnContainer {
+margin-right: -5px;
+}
+.lotusui30 .lotusPlaceBar .lotusBtnContainer {
+overflow: visible;
+margin: 0 0 0 1px;
+}
+.lotusui30 .lotusPlaceBar .lotusBtn {
+margin: -3px 0 -3px -1px;
+padding: 8px 18px;
+background: #fff;
+background: -moz-linear-gradient(top, #fff 0%, #f2f2f2 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, #f2f2f2));
+background: -webkit-linear-gradient(top, #fff 0%, #f2f2f2 100%);
+background: linear-gradient(top, #fff 0%, #f2f2f2 100%);
+-moz-border-radius: 0;
+-webkit-border-radius: 0;
+border-radius: 0;
+border: 0;
+border-left: 1px solid #d2d2d2;
+border-right: 1px solid #d2d2d2;
+-moz-box-shadow: none;
+-webkit-box-shadow: none;
+box-shadow: none;
+text-shadow: 0 1px 0 #fff;
+color: #484848;
+font-size: 1em;
+}
+.lotusui30 .lotusPlaceBar .lotusBtn:hover,
+.lotusui30 .lotusPlaceBar .lotusBtn:focus,
+.lotusui30 .lotusPlaceBar .lotusBtn:active {
+color: #222;
+background: #f7f7f7;
+background: -moz-linear-gradient(top, #f7f7f7 0%, #e4e4e4 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f7f7), color-stop(100%, #e4e4e4));
+background: -webkit-linear-gradient(top, #f7f7f7 0%, #e4e4e4 100%);
+background: linear-gradient(top, #f7f7f7 0%, #e4e4e4 100%);
+}
+.lotusui30 .lotusPlaceBar .lotusBtn:active {
+-moz-box-shadow: 0 0 1px 1px #adadad inset, 0 0 7px #c8c8c8 inset;
+-webkit-box-shadow: 0 0 1px 1px #adadad inset, 0 0 7px #c8c8c8 inset;
+box-shadow: 0 0 1px 1px #adadad inset, 0 0 7px #c8c8c8 inset;
+}
+.lotusui30 .lotusPlaceBar .lotusInlinelist {
+top: 7px;
+}
+.lotusui30 .lotusPlaceBar .lotusInlinelist.lotusRight {
+font-size: 0.91666666666667em;
+color: #484848;
+font-weight: bold;
+text-shadow: 0 1px 0 #fff;
+margin: 0;
+top: -1px;
+right: 0;
+}
+.lotusui30 .lotusPlaceBar .lotusInlinelist li {
+margin-left: 18px;
+padding: 0 0 0 18px;
+border-left-color: #d2d2d2;
+-moz-box-shadow: 1px 0 0 #fbfbfb inset;
+-webkit-box-shadow: 1px 0 0 #fbfbfb inset;
+box-shadow: 1px 0 0 #fbfbfb inset;
+}
+.lotusui30 .lotusPlaceBar .lotusInlinelist li.lotusFirst {
+-moz-box-shadow: none;
+-webkit-box-shadow: none;
+box-shadow: none;
+}
+#loginLinkToParticipate {
+color: #1970b0;
+}
+.lotusui30 .lotusPlaceBar .lotusInlinelist li a,
+.lotusui30 .lotusPlaceBar .lotusInlinelist li a:visited {
+color: #666;
+margin-left: 0 !important;
+margin-right: 0 !important;
+}
+.lotusui30 .lotusMenu h3.lotusSelected {
+background: #1F7CAE;
+border-right: 1px solid #222;
+box-shadow: 0 1px 1px #52ACDB inset, 0 -1px 0 #000 inset;
+margin-top: 26px;
+padding-top: 4px;
+}
+.lotusui30 .lotusMenu h3.lotusSelected:before {
+top: -11px;
+}
+#bizCardNav a[style*="background-color"],
+.lotusui30 .lotusMenu h3 a {
+background-color: transparent !important;
+}
+.lotusui30 .lotusSection .lotusSectionBody .topContainer > div[dojoattachpoint="recommendContainer"] {
+padding: 0 !important;
+}
+.lotusui30 #gadgetDiv {
+margin: 0 !important;
+}
+.lotusui30_body.cke_show_borders {
+background-color: #fff;
+padding-top: 1px;
+margin: -1px 6px 0 6px;
+}
+.lotusui30 .personinlinemenu .lotusMenu .lotusMenuSubsection li a {
+font-weight: bold;
+text-shadow: 0 1px 1px #121212;
+}
+.lotusui30 .personinlinemenu .lotusMenu li a:active,
+.lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a,
+.lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a:visited,
+.lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a:hover,
+.lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a:focus,
+.lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a:active,
+.lotusui30 .personinlinemenu .lotusMenu .lotusHeaderSelected {
+text-shadow: 0 -1px 0 #121212;
+}
+.lotusui30 .lotusColLeft .lotusCommentBubbleBody {
+background: #f2f2f2;
+color: #222;
+padding: 5px 10px;
+}
+.lotusui30 .lotusColLeft .lotusCommentBubble a,
+.lotusui30 .lotusColLeft .lotusCommentBubble a:visited {
+color: #1970b0;
+}
+.lotusui30 .lotusColLeft .lotusCommentBubble a:hover,
+.lotusui30 .lotusColLeft .lotusCommentBubble a:focus,
+.lotusui30 .lotusColLeft .lotusCommentBubble a:active, {
+color: #05386b;
+}
+.lotusui_ie .lotusui30 .lotusColLeft .lotusCommentBubble .lotusMeta {
+color: #222;
+}
+@media screen and (min-width:1250px) {
+.lotusui30 .lotusBanner .lotusInner,
+.lotusui30 .lotusBannerExt .lotusWrapper,
+.lotusui30 .lotusTitleBar2 .lotusWrapper,
+.lotusui30 .lotusTitleBarExt .lotusWrapper,
+.lotusui30 .lotusTitleBar .lotusRightCorner,
+.lotusui30 .lotusPlaceBar .lotusRightCorner,
+.lotusui30_body .lotusMain {
+max-width: 1560px;
+min-width: 950px;
+padding: 0 20px;
+clear: both;
+}
+.lotusui30 .lotusTitleBarExt .lotusInlinelist {
+right: 20px;
+}
+.lotusui30 .lotusPlaceBar .lotusRightCorner {
+max-width: 1580px;
+padding-left: 0;
+}
+.lotusui30 #paletteWrapper {
+margin: 0 -20px;
+}
+.lotusui30_layout .lotusColLeft {
+margin-left: -20px;
+}
+.lotusui30 .lotusFlyout {
+position: relative;
+left: -15px;
+}
+.lotusui30 .lotusFlyoutConnector {
+left: -15px;
+}
+.lotusui30 .lotusSection2 .section2Content {
+width: 232px;
+}
+}
+@media screen and (min-width:1433px) {
+.lotusui30_layout .lotusColRight {
+width: 312.5px;
+}
+.lotusui30 .lotusSection2 .section2Content {
+width: 298px;
+}
+}
+@media screen and (min-width:1600px) {
+.lotusui30_layout .lotusColRight {
+width: 375px;
+}
+.lotusui30 .lotusSection2 .section2Content {
+width: 360px;
+}
+}
+@media only screen and (max-width : 1250px) {
+.lotusui30 .lotusFlyout .lotusFlyoutConnector {
+left: 2px;
+}
+}
+.lotusui_ie8 .lotusui30 .lotusBreakWord,
+.lotusui_ie9 .lotusui30 .lotusBreakWord {
+word-break: break-all;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader {
+padding: 10px 15px;
+font-size: 0.91666666666667em;
+color: #444;
+box-shadow: 0 0 5px rgba(218,218,218,0.5);
+border-bottom: 1px solid #ececec;
+margin-bottom: 2px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .lotusMeta {
+color: #444;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .lotusInlinelist li {
+border-left-color: #444;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .vcard > a {
+font-size: 1.09090909090909em;
+color: #1f7cae;
+font-weight: bold;
+}
+.lotusui30 .lotusFlyout .lotusClose {
+top: 7px;
+right: 7px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutContentArea {
+padding: 0;
+margin-top: 10px;
+}
+.lotusui30 .lotusFlyoutContentArea > .lotusFlyoutInner {
+padding: 0;
+}
+.lotusui30 .lotusFlyoutConnector {
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.social.gen4.theme/css/images/eeLeftSharkFin.png?etag=20150310.220517");
+background-position: 0 0;
+height: 24px;
+width: 15px;
+left: -13px;
+z-index: 949;
+}
+.lotusui_ie8 .lotusui30 .lotusFlyout .lotusFlyoutConnector {
+left: 2px;
+}
+.lotusui30 .lotusBoard .lotusCommentItem > a.lotusMeta {
+font-size: 0.91666666666667em;
+padding: 10px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleContainer {
+width: 95%;
+display: inline-block;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleContainer td {
+vertical-align: top;
+padding: 0;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleContainer .flyoutTitle {
+width: 100%;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleOuter {
+position: relative;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleInner {
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+position: absolute;
+width: 100%;
+line-height: 13px;
+padding: 2px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleContainer td.flyoutTime {
+white-space: nowrap;
+line-height: 14px;
+color: #6e6e6e;
+border-left: 1px solid #CCCCCC;
+padding-left: 7px;
+padding-top: 2px;
+}
+.lotusui30 div.lotusPlaceBar h2 {
+white-space: normal;
+}
+.lotusui30 .lotusTitleBarExt .lotusInlinelist {
+position: relative;
+float: right;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutContent {
+border-radius: 0 0 13px 13px;
+margin-bottom: 0;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection li.lotusSelected a:before {
+color: #FFFFFF;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection li.lotusSelected a {
+font-weight: bold;
+}
+.lotusui_ie8 .lotusui30 .lotusForm .lotusFormField {
+margin-left: 3px;
+}
+.lotusui_ie8 .lotusui30 .lotusDialog .lotusFormTable .lotusFormFieldRow td {
+padding-left: 3px;
+}
+.lotusui30_layout .lotusColLeft #lconnTagWidget_tagList a {
+width: 92%;
+}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRow {
+margin: 0;
+padding: 4px 20px;
+color: #bbb !important;
+font-weight: bold;
+line-height: 1.5;
+text-shadow: 0 1px 1px #121212;
+outline: none;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRow.lotusSelected {
+position: relative;
+margin: 0;
+padding: 4px 20px 4px 35px;
+color: #fff;
+background-color: #1f7cae;
+border: 0;
+border-right: 1px solid #222;
+text-shadow: 0 -1px 0 #121212;
+-moz-box-shadow:0 1px 1px #52acdB inset, 0 -1px 0 #000 inset;
+-webkit-box-shadow:0 1px 1px #52acdB inset, 0 -1px 0 #000 inset;
+box-shadow:0 1px 1px #52acdB inset, 0 -1px 0 #000 inset;}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRow a.dijitTreeLabel {color:#bbb !important;}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRow.lotusSelected a {color:#fff !important; text-decoration:none;}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeExpando,
+.lotusui30 .lotusMenu .lotusTree .lotusSelected .dijitTreeExpando {margin-left:0; position:relative; right:-2px;}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeExpandoOpened {background-position:4px -1256px; filter:alpha(opacity=75); opacity:0.75;}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeExpandoClosed {background-position:4px -1352px; filter:alpha(opacity=75); opacity:0.75;}
+.lotusui30 .lotusMenu .lotusTree .lotusSelected .dijitTreeExpandoOpened {background-position: 4px -1256px; filter:alpha(opacity=100); opacity:1;}
+.lotusui30 .lotusMenu .lotusTree .lotusSelected .dijitTreeExpandoClosed {background-position: 4px -1352px; filter:alpha(opacity=100); opacity:1;}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRowUnselected.dijitTreeNodeHover .dijitTreeExpandoOpened {filter:alpha(opacity=100); opacity:1;}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRowUnselected.dijitTreeNodeHover .dijitTreeExpandoClosed {filter:alpha(opacity=100); opacity:1;}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRowUnselected.dijitTreeNodeHover {
+background-color: #2a2c2f !important;
+-moz-box-shadow: 0 1px 0 #242628 inset, 0 -1px 0 #242628 inset;
+-webkit-box-shadow: 0 1px 0 #242628 inset, 0 -1px 0 #242628 inset;
+box-shadow: 0 1px 0 #242628 inset, 0 -1px 0 #242628 inset;
+}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRowUnselected.dijitTreeNodeHover a.dijitTreeLabel {color:#fff !important; text-decoration:none;}
+.lotusui30dojo .dijitTooltipContainer {
+-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.lotusui30dojo .dijitMenuActive .dijitMenuItemHover,
+.lotusui30dojo .dijitMenuActive .dijitMenuItemSelected {
+background-color: #e9f1f3 !important;
+}
+.lotusui30dojo .lotusColLeft .lotusSection .dijitInputField input{
+color: #000000;
+}

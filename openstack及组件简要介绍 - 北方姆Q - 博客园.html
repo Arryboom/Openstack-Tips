@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)http://www.cnblogs.com/bfmq/p/5889460.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="same-origin">
+<title>openstack及组件简要介绍 - 北方姆Q - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/bundle-LessIsMoreRight.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/bundle-LessIsMoreRight-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/bfmq/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/bfmq/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/bfmq/wlwmanifest.xml">
+<script async="" src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/analytics.js.下载"></script><script src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/jquery.js.下载" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'bfmq', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/bfmq/">北方姆Q</a></div>
+<div class="subtitle">北方超可爱，北方最厉害！</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/bfmq/">首页</a></li>
+<li id="nav_newpost"><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%8C%97%E6%96%B9%E5%A7%86Q">联系</a></li>
+<li id="nav_rss"><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/bfmq/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/bfmq/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-7&nbsp;
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/bfmq/p/5889460.html">openstack及组件简要介绍</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>为什要用云？</p>
+<p>一.简单的说就是对资源更加合理的分配，使用，比如硬件的数量，带宽等等这些，因为你不能机器买来不需要了再卖掉（当然也可以），带宽跟机房签合同得来一年的，中间不够了也不能加，超了也不退钱</p>
+<p>二.还有就是可以有一个可以统一管理的操作平台，可以快速的对基础设施进行建设配置等等，方便了许多</p>
+<p>&nbsp;</p>
+<p>云计算是个什么鬼？</p>
+<p>资源可以循环利用的一个过程（PS：没有虚拟化就没有云，因此这两者没什么可比性）</p>
+<p>&nbsp;</p>
+<p>现有云模式（复制大神的）：</p>
+<p>一、IaaS：基础设施即服务（个人比较习惯的）：用户通过网络获取虚机、存储、网络，然后用户根据自己的需求操作获取的资源</p>
+<p>二、PaaS：平台即服务：将软件研发平台作为一种服务，&nbsp;如Eclipse/Java编程平台，服务商提供编程接口/运行平台等</p>
+<p>三、SaaS：软件即服务 &nbsp;：将软件作为一种服务通过网络提供给用户，如web的电子邮件、HR系统、订单管理系统、客户关系系统等。用户无需购买软件，而是向提供商租用基于web的软件，来管理企业经营活动</p>
+<p>&nbsp;吃货链接https://www.youyong.top/article/11597a1d644db?yyfr=cnblogs</p>
+<p>&nbsp;</p>
+<p>openstack的核心组件介绍（openstack就不多说， redhat推动的，很多云都是基于其开发的，6个月一更新，现在是M版）</p>
+<p>重要的：</p>
+<p>一.Horizon（控制台），又名Dashboard</p>
+<p>就是web展示界面操作平台，方便用户交互的</p>
+<p>二.Nova（计算）</p>
+<p>负责创建，调度，销毁云主机</p>
+<p>三.Neutron（网络）</p>
+<p>负责实现SDN</p>
+<p>四.Swift（对象存储）</p>
+<p>目录结构存储数据</p>
+<p>五.Cinder（块存储）</p>
+<p>提供持久化块存储，即为云主机提供附加云盘</p>
+<p>六.Glance（镜像）</p>
+<p>提供镜像服务，装机使用</p>
+<p>七.Keystone（认证）</p>
+<p>为访问openstack各组件提供认证和授权功能，认证通过后，提供一个服务列表（存放你有权访问的服务），可以通过该列表访问各个组件</p>
+<p>不重要的：</p>
+<p>八.Ceilometer（计费），很明显自用的根本不需要这功能，而且所谓的监控其实根本也算不上什么监控</p>
+<p>监控性能，计费</p>
+<p>九.Heat（编排），这个太高大上了，就目前阶段正常企业还搞不定</p>
+<p>自动化部署应用，自动化管理应用的整个生命周期.主要用于Paas （本来以为青云现在的资源编排就是啊，用了以后看来还不是，只是方便了点）</p>
+<p>&nbsp;</p>
+<p>好，直接开大，先来个整体的流程（图中有错误）</p>
+<p><img src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/996591-20160920161927137-606288004.png" alt=""></p>
+<p>从这个图我们可以明白每一个组件为创建一台vm都提供了什么，其实就是上面各组件的功能的一个整合图，这里需要注意的就是每一步都需要去keystone去进行验证,下图有详细的流程（每一步完成后去验证的过程省略了）</p>
+<p><img src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/996591-20160920162014574-1136113660.png" alt="" width="968" height="715"></p>
+<ol class="list-paddingleft-2">
+<li>
+<p>登录界面或命令行通过RESTful API向keystone获取认证信息。</p>
+</li>
+<li>
+<p>keystone通过用户请求认证信息，并生成auth-token返回给对应的认证请求。</p>
+</li>
+<li>
+<p>界面或命令行通过RESTful API向nova-api发送一个boot instance的请求（携带auth-token）。</p>
+</li>
+<li>
+<p>nova-api接受请求后向keystone发送认证请求，查看token是否为有效用户和token。</p>
+</li>
+<li>
+<p>keystone验证token是否有效，如有效则返回有效的认证和对应的角色（注：有些操作需要有角色权限才能操作）。</p>
+</li>
+<li>
+<p>通过认证后nova-api和数据库通讯。</p>
+</li>
+<li>
+<p>初始化新建虚拟机的数据库记录。</p>
+</li>
+<li>
+<p>nova-api通过rpc.call向nova-scheduler请求是否有创建虚拟机的资源(Host ID)。</p>
+</li>
+<li>
+<p>nova-scheduler进程侦听消息队列，获取nova-api的请求。</p>
+</li>
+<li>
+<p>nova-scheduler通过查询nova数据库中计算资源的情况，并通过调度算法计算符合虚拟机创建需要的主机。</p>
+</li>
+<li>
+<p>对于有符合虚拟机创建的主机，nova-scheduler更新数据库中虚拟机对应的物理主机信息。</p>
+</li>
+<li>
+<p>nova-scheduler通过rpc.cast向nova-compute发送对应的创建虚拟机请求的消息。</p>
+</li>
+<li>
+<p>nova-compute会从对应的消息队列中获取创建虚拟机请求的消息。</p>
+</li>
+<li>
+<p>nova-compute通过rpc.call向nova-conductor请求获取虚拟机消息。（Flavor）</p>
+</li>
+<li>
+<p>nova-conductor从消息队队列中拿到nova-compute请求消息。</p>
+</li>
+<li>
+<p>nova-conductor根据消息查询虚拟机对应的信息。</p>
+</li>
+<li>
+<p>nova-conductor从数据库中获得虚拟机对应信息。</p>
+</li>
+<li>
+<p>nova-conductor把虚拟机信息通过消息的方式发送到消息队列中。</p>
+</li>
+<li>
+<p>nova-compute从对应的消息队列中获取虚拟机信息消息。</p>
+</li>
+<li>
+<p>nova-compute通过keystone的RESTfull API拿到认证的token，并通过HTTP请求glance-api获取创建虚拟机所需要镜像。</p>
+</li>
+<li>
+<p>glance-api向keystone认证token是否有效，并返回验证结果。</p>
+</li>
+<li>
+<p>token验证通过，nova-compute获得虚拟机镜像信息(URL)。</p>
+</li>
+<li>
+<p>nova-compute通过keystone的RESTfull API拿到认证k的token，并通过HTTP请求neutron-server获取创建虚拟机所需要的网络信息。</p>
+</li>
+<li>
+<p>neutron-server向keystone认证token是否有效，并返回验证结果。</p>
+</li>
+<li>
+<p>token验证通过，nova-compute获得虚拟机网络信息。</p>
+</li>
+<li>
+<p>nova-compute通过keystone的RESTfull API拿到认证的token，并通过HTTP请求cinder-api获取创建虚拟机所需要的持久化存储信息。</p>
+</li>
+<li>
+<p>cinder-api向keystone认证token是否有效，并返回验证结果。</p>
+</li>
+<li>
+<p>token验证通过，nova-compute获得虚拟机持久化存储信息。</p>
+</li>
+<li>
+<p>nova-compute根据instance的信息调用配置的虚拟化驱动来创建虚拟机。</p>
+</li>
+</ol>
+<p>这里面可以看出组件之间的通讯都是通过restapi实现的</p>
+<p>&nbsp;</p>
+<p>害怕不...但是了解了这些你就可以出去装逼了，然后细分每个组件的细节（说好的自己写变成复制粘贴了....主要人家些太好了）</p>
+<p>1.keystone</p>
+<p>User：指使用Openstack service的用户，可以是人、服务、系统，但凡使用了Openstack service的对象都可以称为User。</p>
+<p>Project(Tenant)：可以理解为一个人、或服务所拥有的&nbsp;资源集合&nbsp;。在一个Project(Tenant)中可以包含多个User，每一个User都会根据权限的划分来使用Project(Tenant)中的资源。比如通过Nova创建虚拟机时要指定到某个Project中，在Cinder创建卷也要指定到某个Project中。User访问Project的资源前，必须要与该Project关联，并且指定User在Project下的Role。</p>
+<p>Role：用于划分权限。可以通过给User指定Role，使User获得Role对应的操作权限。Keystone返回给User的Token包含了Role列表，被访问的Services会判断访问它的User和User提供的Token中所包含的Role。系统默认使用管理Role admin和成员Role _member_ 。</p>
+<p>Policy：OpenStack对User的验证除了OpenStack的身份验证以外，还需要鉴别User对某个Service是否有访问权限。Policy机制就是用来控制User对Tenant中资源(包括Services)的操作权限。对于Keystone service来说，Policy就是一个JSON文件，默认是<code>/etc/keystone/policy.json</code>。通过配置这个文件，Keystone Service实现了对User基于Role的权限管理。</p>
+<p>Token：是一个字符串表示，作为访问资源的令牌。Token包含了在&nbsp;指定范围和有效时间内&nbsp;可以被访问的资源。EG. 在Nova中一个tenant可以是一些虚拟机，在Swift和Glance中一个tenant可以是一些镜像存储，在Network中一个tenant可以是一些网络资源。Token一般被User持有。</p>
+<p>Credentials：用于确认用户身份的凭证</p>
+<p>Authentication：确定用户身份的过程</p>
+<p>Service：Openstack service，即Openstack中运行的组件服务。</p>
+<p>Endpoint：一个可以通过网络来访问和定位某个Openstack service的地址，通常是一个URL。比如，当Nova需要访问Glance服务去获取image 时，Nova通过访问Keystone拿到Glance的endpoint，然后通过访问该endpoint去获取Glance服务。我们可以通过Endpoint的region属性去定义多个region。Endpoint 该使用对象分为三类：</p>
+<ul class="list-paddingleft-2">
+<li>
+<p>admin url –&gt; 给admin用户使用，Post：35357</p>
+</li>
+<li>
+<p>internal url –&gt; OpenStack内部服务使用来跟别的服务通信，Port：5000</p>
+</li>
+<li>
+<p>public url –&gt; 其它用户可以访问的地址，Post：5000</p>
+</li>
+</ul>
+<p>创建完service后创建API EndPoint. 在openstack中，每一个service都有三种end points. Admin, public, internal。 Admin是用作管理用途的，如它能够修改user/tenant(project)。 public 是让客户调用的，比如可以部署在外网上让客户可以管理自己的云。internal是openstack内部调用的。三种endpoints 在网络上开放的权限一般也不同。Admin通常只能对内网开放，public通常可以对外网开放internal通常只能对安装有openstack对服务的机器开放。</p>
+<p>一个实例：</p>
+<p><a href="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/wKioL1fH_9Tz46AGAANXnjXPEPA500.png" target="_blank"><img title="keystone_workflow.png" src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/wKioL1fH_9Tz46AGAANXnjXPEPA500.png" alt="wKioL1fH_9Tz46AGAANXnjXPEPA500.png" width="650"></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ol class="list-paddingleft-2">
+<li>
+<p>用户alice登录keystone系统（password或者token的方式），获取一个临时的token和catalog服务目录（v3版本登录时，如果没有指定scope，project或者domain，获取的临时token没有任何权限，不能查询project或者catalog）。</p>
+</li>
+<li>
+<p>alice通过临时token获取自己的所有的project列表。</p>
+</li>
+<li>
+<p>alice选定一个project，然后指定project重新登录，获取一个正式的token，同时获得服务列表的endpoint，用户选定一个endpoint，在HTTP消息头中携带token，然后发送请求（如果用户知道project name或者project id可以直接第3步登录）。</p>
+</li>
+<li>
+<p>消息到达endpoint之后，由服务端（nova）的keystone中间件（pipeline中的filter：authtoken）向keystone发送一个验证token的请求。（token类型：uuid需要在keystone验证token，pki类型的token本身是包含用户详细信息的加密串，可以在服务端完成验证）</p>
+</li>
+<li>
+<p>keystone验证token成功之后，将token对应用户的详细信息，例如：role，username，userid等，返回给服务端（nova）。</p>
+</li>
+<li>
+<p>服务端（nova）完成请求，例如：创建虚拟机。</p>
+</li>
+<li>
+<p>服务端返回请求结果给alice。</p>
+</li>
+</ol>
+<p>2.glance</p>
+<p><a href="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/wKiom1fIAnjAm_CuAACAQxnuKgE283.png" target="_blank"><img title="v1.png" src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/wKiom1fIAnjAm_CuAACAQxnuKgE283.png" alt="wKiom1fIAnjAm_CuAACAQxnuKgE283.png"></a></p>
+<p>&nbsp;</p>
+<p>3.nova与cinder</p>
+<p>nova主要组成:</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;nova-api</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;nova-scheduler</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;nova-compute</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;nova-conductor</p>
+<p>cinder主要组成:</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;cinder-api</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;cinder-scheduler</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;cinder-volume</p>
+<p>&nbsp;</p>
+<p>cinder各组件功能：</p>
+<p>Cinder-api 是 cinder 服务的 endpoint，提供 rest 接口，负责处理 client 请求，并将 RPC 请求发送至 cinder-scheduler 组件。</p>
+<p>Cinder-scheduler 负责 cinder 请求调度，其核心部分就是 scheduler_driver, 作为 scheduler manager 的 driver，负责 cinder-volume 具体的调度处理，发送 cinder RPC 请求到选择的 cinder-volume。</p>
+<p>Cinder-volume 负责具体的 volume 请求处理，由不同后端存储提供 volume 存储空间。</p>
+<p>4.neutron</p>
+<p>&nbsp;</p>
+<p>neutron包含组件：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;neutron-server</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;neutron-plugin</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;neutron-agent</p>
+<p>neutron各组件功能介绍：</p>
+<p>&nbsp;</p>
+<p>1.Neutron-server可以理解为一个专门用来接收Neutron REST API调用的服务器，然后负责将不同的rest api分发到不同的neutron-plugin上。</p>
+<p>2.Neutron-plugin可以理解为不同网络功能实现的入口，各个厂商可以开发自己的plugin。Neutron-plugin接收neutron-server分发过来的REST API，向neutron database完成一些信息的注册，然后将具体要执行的业务操作和参数通知给自身对应的neutron agent。</p>
+<p>3.Neutron-agent可以直观地理解为neutron-plugin在设备上的代理，接收相应的neutron-plugin通知的业务操作和参数，并转换为具体的设备级操作，以指导设备的动作。当设备本地发生问题时，neutron-agent会将情况通知给neutron-plugin。</p>
+<p>4.Neutron database，顾名思义就是Neutron的数据库，一些业务相关的参数都存在这里。</p>
+<p>5.Network provider，即为实际执行功能的网络设备，一般为虚拟交换机（OVS或者Linux Bridge）</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/bfmq/category/884089.html" target="_blank">openstack</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5889460,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;624aee40-b04f-e611-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/bfmq/" target="_blank"><img src="./openstack及组件简要介绍 - 北方姆Q - 博客园_files/20170401154053.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/bfmq/">北方姆Q</a><br>
+            <a href="http://home.cnblogs.com/u/bfmq/followees">关注 - 9</a><br>
+            <a href="http://home.cnblogs.com/u/bfmq/followers">粉丝 - 10</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;624aee40-b04f-e611-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5889460,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(5889460,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/bfmq/p/5886935.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/bfmq/p/5886935.html" title="发布于2016-09-19 22:18">python第十天</a><br><a href="http://www.cnblogs.com/bfmq/p/5894185.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/bfmq/p/5894185.html" title="发布于2016-09-21 21:13">openstackM版本安装</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-09-20 16:51</span> <a href="http://www.cnblogs.com/bfmq/">北方姆Q</a> 阅读(<span id="post_view_count">5513</span>) 评论(<span id="post_comment_count">1</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5889460" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/bfmq/p/5889460.html#" onclick="AddToWz(5889460);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=295477,cb_entryId=5889460,cb_blogApp=currentBlogApp,cb_blogUserGuid='624aee40-b04f-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/9/20 16:51:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/bfmq/p/5889460.html#3698448" class="layer">#1楼</a><a name="3698448" id="comment_anchor_3698448"></a><span id="comment-maxId" style="display:none;">3698448</span><span id="comment-maxDate" style="display:none;">2017/5/23 0:58:27</span>  <span class="comment_date">2017-05-23 00:58</span> <a id="a_comment_author_3698448" href="http://home.cnblogs.com/u/1100635/" target="_blank">军啊军</a> <a href="http://msg.cnblogs.com/send/%E5%86%9B%E5%95%8A%E5%86%9B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3698448" class="blog_comment_body">谢谢</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3698448,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3698448,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/bfmq/p/5889460.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/bfmq/p/5889460.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/584829/" target="_blank">NASA探测器发现土星环并非一直存在 年龄才几亿年</a><br> ·  <a href="https://news.cnblogs.com/n/584826/" target="_blank">消费者诉百度先行赔付 因在糯米网团购购物卡未兑现</a><br> ·  <a href="https://news.cnblogs.com/n/584824/" target="_blank">“人肉臂”黄士杰离开，AlphaGo死了？</a><br> ·  <a href="https://news.cnblogs.com/n/584823/" target="_blank">中断试飞一年后，蓝色起源再次发射并回收火箭</a><br> ·  <a href="https://news.cnblogs.com/n/584822/" target="_blank">谷歌圣诞追踪有新任务“快手画图”：帮忙圣诞老人训练AI小精灵</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br> ·  <a href="http://kb.cnblogs.com/page/112506/" target="_blank">大道至简，职场上做人做事做管理</a><br> ·  <a href="http://kb.cnblogs.com/page/563790/" target="_blank">关于编程，你的练习是不是有效的？</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/bfmq/">北方姆Q</a><br>园龄：<a href="http://home.cnblogs.com/u/bfmq/" title="入园时间：2016-07-22">1年4个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/bfmq/followers/">10</a><br>关注：<a href="http://home.cnblogs.com/u/bfmq/followees/">9</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;624aee40-b04f-e611-9fc1-ac853d9f53cc&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/11/01&#39;);return false;">&lt;</a></td><td align="center">2017年12月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/01/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalTodayDay" align="center"><a href="http://www.cnblogs.com/bfmq/archive/2017/12/13.html"><u>13</u></a></td><td align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/bfmq/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/bfmq/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/bfmq/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/bfmq/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/bfmq/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/bfmq/category/1115882.html">hadoop(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/bfmq/category/884089.html">openstack(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/bfmq/category/948230.html">python(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/bfmq/category/884088.html">python学习过程(22)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/bfmq/category/1070196.html">架构(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/bfmq/category/904208.html">其他(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/bfmq/category/1068700.html">前端(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/bfmq/category/898360.html">前端学习过程(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/bfmq/category/904176.html">运维(8)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/bfmq/archive/2017/12.html">2017年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/bfmq/archive/2017/11.html">2017年11月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/bfmq/archive/2017/09.html">2017年9月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/bfmq/archive/2017/08.html">2017年8月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/bfmq/archive/2017/07.html">2017年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/bfmq/archive/2017/05.html">2017年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/bfmq/archive/2017/04.html">2017年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/bfmq/archive/2017/03.html">2017年3月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/bfmq/archive/2017/01.html">2017年1月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/bfmq/archive/2016/12.html">2016年12月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/bfmq/archive/2016/11.html">2016年11月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/bfmq/archive/2016/10.html">2016年10月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/bfmq/archive/2016/09.html">2016年9月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/bfmq/archive/2016/08.html">2016年8月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/bfmq/archive/2016/07.html">2016年7月 (3)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/bfmq/p/7910212.html#3852512">1. Re:北方爆照</a></li>
+        <li class="recent_comment_body">正如旁边石头上刻的字。看上去楼主有恢宏之志，治国平天下</li>
+        <li class="recent_comment_author">--会长</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/bfmq/p/7461204.html#3774376">2. Re:html格式</a></li>
+        <li class="recent_comment_body">啊。还可以这样写..北方表示学到了</li>
+        <li class="recent_comment_author">--子瓜01</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/bfmq/p/5699922.html#3732035">3. Re:python第二天</a></li>
+        <li class="recent_comment_body">@子瓜01加油~...</li>
+        <li class="recent_comment_author">--北方姆Q</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/bfmq/p/5699922.html#3731962">4. Re:python第二天</a></li>
+        <li class="recent_comment_body">看了姆Q的博客，我决定了，我也要去申请博客，开个php的坑，从日更到周更到.....</li>
+        <li class="recent_comment_author">--子瓜01</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/bfmq/p/5889460.html#3698448">5. Re:openstack及组件简要介绍</a></li>
+        <li class="recent_comment_body">谢谢</li>
+        <li class="recent_comment_author">--军啊军</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/bfmq/p/5889460.html">1. openstack及组件简要介绍(5513)</a></li><li><a href="http://www.cnblogs.com/bfmq/p/5894185.html">2. openstackM版本安装(2300)</a></li><li><a href="http://www.cnblogs.com/bfmq/p/6073334.html">3. ceph与openstack对接（cinder、glance、nova）(206)</a></li><li><a href="http://www.cnblogs.com/bfmq/p/6001233.html">4. openstack常见问题汇总(150)</a></li><li><a href="http://www.cnblogs.com/bfmq/p/5694633.html">5. python第一天(126)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/bfmq/p/5699922.html">1. python第二天(2)</a></li><li><a href="http://www.cnblogs.com/bfmq/p/5985400.html">2. html(2)</a></li><li><a href="http://www.cnblogs.com/bfmq/p/7461204.html">3. html格式(1)</a></li><li><a href="http://www.cnblogs.com/bfmq/p/7910212.html">4. 北方爆照(1)</a></li><li><a href="http://www.cnblogs.com/bfmq/p/5889460.html">5. openstack及组件简要介绍(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/bfmq/p/5793791.html">1. python第六天(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2017 北方姆Q
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

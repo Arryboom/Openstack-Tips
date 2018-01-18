@@ -1,0 +1,976 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0043)http://f.dataguru.cn/thread-522592-1-1.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=GBK">
+
+<title>OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区</title>
+<link href="http://f.dataguru.cn/thread-522592-1-1.html" rel="canonical">   
+<meta name="description" content=" OpenStack的架构详解 ">
+    <meta name="viewport" content="width=1100">
+<meta name="generator" content="Discuz! X3.2">
+<meta name="author" content="Discuz! Team and Comsenz UI Team">
+<meta name="copyright" content="2001-2013 Comsenz Inc.">
+<meta name="MSSmartTagsPreventParsing" content="True">
+<meta http-equiv="MSThemeCompatible" content="Yes">
+<!--<base href="http://f.dataguru.cn/">--><base href="."><link rel="stylesheet" type="text/css" href="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/style_4_common.css"><link rel="stylesheet" type="text/css" href="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/style_4_forum_viewthread.css"><script charset="utf-8" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/v.js.下载"></script><script type="text/javascript">var STYLEID = '4', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'N8l', charset = 'gbk', discuz_uid = '0', cookiepre = 'HgVf_9281_', cookiedomain = '.dataguru.cn', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'login|newthread', creditnotice = '2|金子|,7|钱包|,8|提现金额|', defaultstyle = '', REPORTURL = 'aHR0cDovL2YuZGF0YWd1cnUuY24vdGhyZWFkLTUyMjU5Mi0xLTEuaHRtbA==', SITEURL = 'http://f.dataguru.cn/', JSPATH = 'data/cache/', CSSPATH = 'data/cache/style_', DYNAMICURL = '';</script>
+    <script src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/jquery-1.8.3.min.js.下载" type="text/javascript"></script>
+<script src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/common.js.下载" type="text/javascript"></script>
+<meta name="application-name" content="炼数成金">
+<meta name="msapplication-tooltip" content="炼数成金">
+<meta name="msapplication-task" content="name=门户;action-uri=http://www.dataguru.cn;icon-uri=http://f.dataguru.cn/static/image/common/portal.ico"><meta name="msapplication-task" content="name=论坛;action-uri=http://f.dataguru.cn;icon-uri=http://f.dataguru.cn/static/image/common/bbs.ico">
+<meta name="msapplication-task" content="name=竞赛;action-uri=http://f.dataguru.cn/group.php;icon-uri=http://f.dataguru.cn/static/image/common/group.ico"><meta name="msapplication-task" content="name=社交;action-uri=http://f.dataguru.cn/home.php;icon-uri=http://f.dataguru.cn/static/image/common/home.ico"><link rel="archives" title="炼数成金" href="http://f.dataguru.cn/archiver/">
+<script src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/forum.js.下载" type="text/javascript"></script>
+
+<!--<script src="http://apps.bdimg.com/cloudaapi/lightapp.js#813752623370ac8fb2085fdb4586b8e2" type="text/javascript"></script><script type="text/javascript">window.bd && bd._qdc && bd._qdc.init({app_id: 'ab402754d9550bc37bdf7cd1'});</script>-->
+<script type="text/javascript">  
+  function myerror(_message,_url,_line){   
+     return true; 
+  }  
+  //绑定错误事件  
+  window.onerror = myerror;  
+</script></head>
+
+ 
+<body id="nv_forum" class="pg_viewthread" onkeydown="if(event.keyCode==27) return false;">
+<div style="height:24px;"></div>
+<div class="header">
+<div class="dg_logo">
+<a href="http://www.dataguru.cn/">
+<img width="200" height="63" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/logo.png">
+</a>
+</div>
+<div class="dg_search">
+
+<div id="hd">
+              <div class="wp" style="width:810px">
+                <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                  <tbody><tr>
+                    <td style=" margin-bottom:5px; float:right;">                      <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                        <tbody>
+                          <tr>
+                            <td height="18" align="right"><input type="submit" value="" style="width: 56px; height: 17px; border: 0pt none; background: url(&quot;http://f.dataguru.cn/static/image/common/login.gif&quot;) repeat scroll 0% 0% transparent; line-height: 22px; color: rgb(21, 66, 139);" onclick="location.href=&#39;http://www.dataguru.cn/member.php?mod=logging&amp;action=login&#39;">
+                              <a onclick="showWindow(&#39;login&#39;, &#39;member.php?mod=logging&amp;action=login&amp;viewlostpw=1&#39;)" href="javascript:;">忘记密码</a> <a target="_blank" href="http://f.dataguru.cn/member.php?mod=register"><font color="red">免费注册</font></a></td>
+                            <td nowrap="" align="center" class="smalltxt"></td>
+                            <td nowrap="" align="right" class="smalltxt"></td>
+                          </tr>
+                         
+                        </tbody>
+                      </table>
+                      </td>
+                  </tr>
+                  
+                </tbody></table> 
+                              </div>
+            </div>
+
+<div>
+  <form name="scbar_form" id="scbar_form" action="http://f.dataguru.cn/search.php?searchsubmit=yes" method="get" autocomplete="off">
+<input name="mod" id="mod" type="hidden" value="course">
+<input name="searchsubmit" type="hidden" value="yes">
+<div class="form">
+<div class="select_list" onmouseover="showYcssnr()" onmouseout="hideYcssnr()">
+<p>
+<a id="select_mod" href="javascript:;" target="_self">全部</a>
+</p>
+<div id="ycssnr" style="display: none;">
+<p>
+<a onclick="select_menu(&#39;course&#39;, &#39;课程&#39;)" href="javascript:;" target="_self">课程</a>
+</p>
+<p>
+<a onclick="select_menu(&#39;portal&#39;, &#39;文章&#39;)" href="javascript:;" target="_self">文章</a>
+</p>
+<p>
+<a onclick="select_menu(&#39;forum&#39;, &#39;帖子&#39;)" href="javascript:;" target="_self">帖子</a>
+</p>
+<p>
+<a onclick="select_menu(&#39;user&#39;, &#39;用户&#39;)" href="javascript:;" target="_self">用户</a>
+</p>
+</div>
+</div>
+<div class="input_box">
+<input name="srchtxt" id="scbar_txt" onclick="javascript:if(this.value.substring(0,3)==&#39;输入关键词&#39;) this.value=&#39;&#39;;" onfocus="if (value ==&#39;输入关键词&#39;){value =&#39;&#39;}" onblur="if (value ==&#39;&#39;){value=&#39;输入关键词&#39;}" type="text" value="输入关键词" style=" width: 308px; border: 1px solid rgb(199, 199, 199); border-image: none; ">
+<img width="65" height="27" onclick="scbar_form.submit();" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/button_search.jpg">
+</div>
+<a class="kjnav" id="kjnav">&nbsp;&nbsp;&nbsp;&nbsp;快捷导航</a>
+<div class="kjnav_box" id="kjnav_box" style="display: none;">
+<ul class="dl">
+<li>
+<a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=plugin&amp;id=itpub_medal:medal_manage_personal">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_hz.jpg">
+<br>徽章</a>
+</li>
+<li>
+<a href="http://f.dataguru.cn/home.php?mod=space&amp;do=friend">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_hy.jpg">
+<br>好友</a>
+</li>
+<li>
+<a href="http://f.dataguru.cn/home.php?mod=space&amp;do=thread&amp;view=me">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_tz.jpg">
+<br>帖子</a>
+</li>
+<li>
+<a href="http://f.dataguru.cn/home.php?mod=space&amp;do=favorite&amp;view=me">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_sc.jpg">
+<br>收藏</a>
+</li>
+<li>
+<a href="http://f.dataguru.cn/home.php?mod=magic">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_dj.jpg">
+<br>道具</a>
+</li>
+<li>
+<a href="http://f.dataguru.cn/home.php?mod=task">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_task.jpg">
+<br>任务</a>
+</li>
+                        <li>
+<a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=credit&amp;op=buy">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_chongzhi.jpg">
+<br>充值</a>
+</li>
+                        <li>
+<a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=credit&amp;op=back">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_tixian.jpg">
+<br>提现</a>
+</li>
+                        <li>
+<a href="http://www.dataguru.cn/my/">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_myclass.jpg">
+<br>课程</a>
+</li>
+                        <li>
+<a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=plugin&amp;id=award_plan:award_plan">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_awardplan.jpg">
+<br>奖学金</a>
+</li>
+                        <li>
+<a href="http://f.dataguru.cn/home.php?mod=ticket">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_convert.jpg">
+<br>抵价券</a>
+</li>
+                        <li>
+<a href="http://f.dataguru.cn/epservice/">
+<img width="40" height="40" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_enterprise.jpg">
+<br>企业</a>
+</li>
+</ul>
+</div>
+</div>
+</form>
+        </div>
+</div>
+</div>
+<style>
+#dg_nav li {
+    float: left;
+    padding-right: 1px;
+    height: 33px;
+    line-height: 33px;
+    font-size: 14px;
+}
+
+.childnav .p_pop{ width:200px; background-color:#F8F8F8}
+.childnav .p_pop li{width:200px; float:left; border-bottom:none}
+.childnav .p_pop a{border-bottom:none; font-size:14px;}
+.childnav .p_pop a:hover{ background-color:#E4E4E4; font-size:14px; color:#585858}
+.hover{ background-color:#F8F8F8; border:1px solid #ccc; border-bottom:none}
+
+</style>
+<div class="nav">
+<div class="dg_nav">
+    
+        <ul id="dg_nav">
+            
+                                                                                                <li id="mn_Nc97e"><a href="http://www.dataguru.cn/" hidefocus="true" target="_blank">门户</a></li>
+                
+                                                            <li id="mn_N0f6f" onmouseover="showMenu({&#39;ctrlid&#39;:this.id,&#39;ctrlclass&#39;:&#39;hover&#39;,&#39;duration&#39;:2})"><a href="http://club.dataguru.cn/" hidefocus="true" target="_blank">数据·中国</a></li>
+                
+                                                            <li id="mn_Nd713" onmouseover="showMenu({&#39;ctrlid&#39;:this.id,&#39;ctrlclass&#39;:&#39;hover&#39;,&#39;duration&#39;:2})"><a href="http://ie.dataguru.cn/" hidefocus="true" style="color: red">专才计划</a></li>
+                
+                                                            <li id="mn_N7436"><a href="http://camp.dataguru.cn/" hidefocus="true">特训营</a></li>
+                
+                                                            <li id="mn_P4"><a href="http://edu.dataguru.cn/" hidefocus="true" target="_blank">培训</a></li>
+                
+                                                            <li id="mn_N5da5"><a href="http://www.dataguru.cn/myclassnew.php" hidefocus="true">课程</a></li>
+                
+                                                            <li id="mn_N1a3a" onmouseover="showMenu({&#39;ctrlid&#39;:this.id,&#39;ctrlclass&#39;:&#39;hover&#39;,&#39;duration&#39;:2})"><a href="http://f.dataguru.cn/thread-537083-1-1.html" hidefocus="true" target="_blank" style="color: red">专业</a></li>
+                
+                                                                                        <li id="mn_Nb4a7" onmouseover="showMenu({&#39;ctrlid&#39;:this.id,&#39;ctrlclass&#39;:&#39;hover&#39;,&#39;duration&#39;:2})"><a href="http://www.dataguru.cn/epservice/" hidefocus="true">企业服务</a></li>
+                
+                                                            <li id="mn_N7840"><a href="http://f.dataguru.cn/" hidefocus="true" target="_blank">论坛</a></li>
+                
+                                                                                        <li id="mn_N2fec"><a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=plugin&amp;id=award_plan:award_plan" hidefocus="true">奖学金</a></li>
+                
+                                                                                        <li id="mn_P3"><a href="http://it.dataguru.cn/" hidefocus="true" target="_blank">大数据</a></li>
+                
+                                                            <li id="mn_P2"><a href="http://bi.dataguru.cn/" hidefocus="true" target="_blank">商业智能</a></li>
+                
+                                                            <li id="mn_P9"><a href="http://quant.dataguru.cn/" hidefocus="true">量化投资</a></li>
+                
+                                                                                                                    <li id="mn_P8"><a href="http://www.dataguru.cn/portal.php?mod=list&amp;catid=8" hidefocus="true">创业</a></li>
+                
+                                                                                        <li id="mn_Nc894"><a href="http://f.dataguru.cn/topic-specialist.html" hidefocus="true" target="_blank">专家团</a></li>
+                
+                                                                                        <li id="mn_N3f19"><a href="http://f.dataguru.cn/topic-contactus.html" hidefocus="true" target="_blank">关于我们</a></li>
+                
+                                                                                                                        </ul> 
+</div>
+</div>
+<div class="childnav">
+<ul class="p_pop h_pop" id="mn_N0f6f_menu" style="display: none"><li><a href="http://club.dataguru.cn/activity-list.html" hidefocus="true">网络沙龙</a></li><li><a href="http://www.dataguru.cn/translate.php" hidefocus="true">翻译小组</a></li></ul><ul class="p_pop h_pop" id="mn_Nd713_menu" style="display: none"><li><a href="http://ie.dataguru.cn/ieplan-19.html" hidefocus="true">黄校长前沿人才培养计划</a></li><li><a href="http://ie.dataguru.cn/ieplan-22.html" hidefocus="true">郭一军“新DBA”精英培养计划</a></li><li><a href="http://ie.dataguru.cn/ieplan-21.html" hidefocus="true">葛一鸣JAVA精英培养计划</a></li><li><a href="http://ie.dataguru.cn/ieplan-20.html" hidefocus="true">企业菁英团队培养计划</a></li></ul><ul class="p_pop h_pop" id="mn_N1a3a_menu" style="display: none"><li><a href="http://www.dataguru.cn/major-9.html" hidefocus="true">人工智能专业</a></li><li><a href="http://www.dataguru.cn/major-10.html" hidefocus="true">数据分析师专业</a></li><li><a href="http://www.dataguru.cn/major-1.html" hidefocus="true">大数据攻城狮专业</a></li><li><a href="http://www.dataguru.cn/major-8.html" hidefocus="true">Hadoop大数据攻城狮专业</a></li><li><a href="http://www.dataguru.cn/major-7.html" hidefocus="true">Python数据分析师专业</a></li><li><a href="http://www.dataguru.cn/major-5.html" hidefocus="true">全栈程序猿专业</a></li><li><a href="http://www.dataguru.cn/major-3.html" hidefocus="true">DBA专业</a></li></ul><div class="p_pop h_pop" id="mn_userapp_menu" style="display: none"></div><ul class="p_pop h_pop" id="mn_Nb4a7_menu" style="display: none"><li><a href="http://ie.dataguru.cn/ieplan-20.html" hidefocus="true">企业菁英计划</a></li><li><a href="http://www.dataguru.cn/epservice/" hidefocus="true">企业内训</a></li></ul></div>
+<div class="wrap_top">
+</div>
+<div class="wrap_main">
+<div class="wrap">
+<style>
+#an dt {
+display: none;
+}
+
+.fl_tb {
+background: rgb(255, 255, 255); width: 100%; border-collapse: separate;
+}
+.fl_tb td {
+background: rgb(255, 255, 255); padding: 5px;
+}
+.fl_tb td h2 {
+font-size:20px;
+}
+.fl_tb td .xg2 {
+font-size:12px;
+color:#999;
+}
+
+.fl_i {
+background: #EEE; width: 75px; text-align: center;
+}
+.fl_tb td.fl_i {
+background: #EEE;
+}
+.fl_tb td.fl_by {
+background: #EEE;
+}
+
+.hdc, .xu_bg1108,#ft,#nv{
+display:none;
+}
+</style>
+<script>
+jQuery(document).ready(function(){
+jQuery("#kjnav").hover(function(){
+jQuery("#kjnav_box").show();			   
+},function(){
+jQuery("#kjnav_box").hide();		
+}
+);
+
+jQuery("#kjnav_box").hover(function(){
+jQuery("#kjnav_box").show();			   
+},function(){
+jQuery("#kjnav_box").hide();		
+}
+);
+});
+
+var ycssnr=document.getElementById("ycssnr");
+var mod = document.getElementById("mod");
+var select_mod = document.getElementById("select_mod");
+function hideYcssnr(){
+ycssnr.style.display = "none";
+}
+function showYcssnr(){
+ycssnr.style.display = "";
+}
+
+function select_menu(value, txt){
+mod.value = value;
+select_mod.innerHTML = txt;
+}
+</script>
+
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+      
+
+<div id="qmenu_menu" class="p_pop blk" style="display: none;">
+<div class="ptm pbw hm">
+请 <a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>登录</strong></a> 后使用快捷导航<br>没有帐号？<a href="http://f.dataguru.cn/member.php?mod=register" class="xi2 xw1">立即注册</a>
+</div>
+</div>
+        
+        
+        <!--// 原登录bar-->
+        
+    	        
+        
+   
+    
+<div id="wp" class="wp">
+<script type="text/javascript">var fid = parseInt('145'), tid = parseInt('522592');</script>
+
+<script src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/forum_viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1);var imagemaxwidth = '600';var aimgcount = new Array();</script>
+
+<style id="diy_style" type="text/css"></style>
+<!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
+<div id="pt" class="bm cl">
+<div class="z">
+<a href="http://f.dataguru.cn/" class="nvhm" title="首页">炼数成金</a><em>&#187;</em><a href="http://f.dataguru.cn/forum.php">论坛</a> <em>&#8250;</em> <a href="http://f.dataguru.cn/forum.php?gid=38">大数据与云计算</a> <em>&#8250;</em> <a href="http://f.dataguru.cn/forum-145-1.html">分布式系统架构</a> <em>&#8250;</em> <a href="http://f.dataguru.cn/thread-522592-1-1.html">OpenStack的架构详解</a>
+</div>
+</div>
+
+<div style="margin:0 auto; width:960px"><script src="http://www.dataguru.cn/js_ads.php?alid=18&amp;tid=522592" type="text/javascript"></script></div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+<div id="pgt" class="pgs mbm cl ">
+<div class="pgt"></div>
+<span class="y pgb" id="visitedforums" onmouseover="$(&#39;visitedforums&#39;).id = &#39;visitedforumstmp&#39;;this.id = &#39;visitedforums&#39;;showMenu({&#39;ctrlid&#39;:this.id,&#39;pos&#39;:&#39;34&#39;})"><a href="http://f.dataguru.cn/forum-145-1.html">返回列表</a></span>
+<a id="newspecial" onmouseover="$(&#39;newspecial&#39;).id = &#39;newspecialtmp&#39;;this.id = &#39;newspecial&#39;;showMenu({&#39;ctrlid&#39;:this.id})" onclick="showWindow(&#39;newthread&#39;, &#39;forum.php?mod=post&amp;action=newthread&amp;fid=145&#39;)" href="javascript:;" title="发新帖"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/pn_post.png" alt="发新帖"></a></div>
+
+
+
+<div id="postlist" class="pl bm">
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td class="pls ptn pbn" style="background-color:#abc5cb;">
+<div class="hm ptn">
+<span class="xg1">查看:</span> <span class="xi1">553</span><span class="pipe">|</span><span class="xg1">回复:</span> <span class="xi1">0</span>
+</div>
+</td>
+<td class="plc ptm pbn vwthd" style="background-color:#abc5cb;">
+<div class="y">
+<a href="http://f.dataguru.cn/forum.php?mod=viewthread&amp;action=printable&amp;tid=522592" title="打印" target="_blank"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/print.png" alt="打印" class="vm"></a>
+<a href="http://f.dataguru.cn/forum.php?mod=redirect&amp;goto=nextoldset&amp;tid=522592" title="上一主题"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/thread-prev.png" alt="上一主题" class="vm"></a>
+<a href="http://f.dataguru.cn/forum.php?mod=redirect&amp;goto=nextnewset&amp;tid=522592" title="下一主题"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/thread-next.png" alt="下一主题" class="vm"></a>
+</div>
+<h1 class="ts">
+<span id="thread_subject">OpenStack的架构详解</span>
+</h1>
+<span class="xg1">
+<a href="http://f.dataguru.cn/thread-522592-1-1.html" onclick="return copyThreadUrl(this, &#39;炼数成金&#39;)">[复制链接]</a>
+</span>
+</td>
+</tr>
+</tbody></table>
+
+
+<table cellspacing="0" cellpadding="0" class="ad">
+<tbody><tr>
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+</tbody></table><div id="post_1489713"><table id="pid1489713" class="plhin" summary="pid1489713" cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td class="pls" rowspan="2">
+<div id="favatar1489713" class="pls favatar" style="top: 0px; position: fixed;">
+ <a name="lastpost"></a><div class="pi">
+<div class="authi">
+                        <a href="http://f.dataguru.cn/plugin.php?id=sina_login:index&amp;operation=init" style="display:inline-block; vertical-align:middle; float:right; margin-right:20px; margin-top:0px;"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_off.gif" alt="新浪微博达人勋" title="未绑定新浪微博用户"></a>                        <a href="http://f.dataguru.cn/space-uid-276218.html" target="_blank" class="xw1">zhangtianshun</a>&nbsp;<a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=profile&amp;op=verify" target="_blank"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/common_6_unverify_icon.png" alt="未实名认证" title="未完成实名认证"></a></div>
+</div>
+<div class="p_pop blk bui card_gender_" id="userinfo1489713" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo1489713_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="http://f.dataguru.cn/space-uid-276218.html" target="_blank" class="xi2">zhangtianshun</a></strong>
+<em>当前离线</em>
+</div><dl class="cl">
+<p><em><a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=10" target="_blank">新手上路</a></em></p>
+<p><span class="pbg2" id="upgradeprogress_1489713" onmouseover="showMenu({&#39;ctrlid&#39;:this.id, &#39;pos&#39;:&#39;12!&#39;, &#39;menuid&#39;:&#39;g_up1489713_menu&#39;});"><span class="pbr2" style="width:26%;"></span></span></p>
+<div id="g_up1489713_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c">新手上路, 积分 13, 距离下一级还需 37 积分</div></div>
+
+<dt>帖子</dt><dd><a href="http://f.dataguru.cn/home.php?mod=space&amp;uid=276218&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space" target="_blank" class="xi2"></a></dd>
+<dt>积分</dt><dd><a href="http://f.dataguru.cn/home.php?mod=space&amp;uid=276218&amp;do=profile" target="_blank" class="xi2">13</a></dd>
+<dt>主题</dt><dd><a href="http://f.dataguru.cn/home.php?mod=space&amp;uid=276218&amp;do=thread&amp;type=thread&amp;view=me&amp;from=space" target="_blank" class="xi2"></a></dd>
+<dt>好友</dt><dd><a href="http://f.dataguru.cn/home.php?mod=space&amp;uid=276218&amp;do=friend&amp;view=me&amp;from=space" target="_blank" class="xi2"></a></dd>
+<dt>精华</dt><dd></dd>
+<dt>注册时间</dt><dd>2015-6-1</dd>
+
+</dl><div class="imicn">
+<a href="http://f.dataguru.cn/home.php?mod=space&amp;uid=276218&amp;do=profile" target="_blank" title="查看详细资料"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/userinfo.gif" alt="查看详细资料"></a>
+<img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_off(1).gif" title="未绑定新浪微博用户"></div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar"><a href="http://f.dataguru.cn/space-uid-276218.html" class="avtm" target="_blank"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/avatar.php"></a></div>
+</div>
+<dl class="pil cl"><dt>论坛徽章:</dt><dd>3</dd></dl><div style="padding:3px; margin-left:5px; margin-right:5px;"><img id="92" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/xianjing_small.png" width="24px" style="margin:2px;cursor: hand;" alt="数据陷阱解读徽章
+日期:2015-08-13 15:21:46" title="数据陷阱解读徽章
+日期:2015-08-13 15:21:46"><img id="95" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/fbs_small.png" width="24px" style="margin:2px;cursor: hand;" alt="大型分布式徽章
+日期:2015-10-15 11:54:41" title="大型分布式徽章
+日期:2015-10-15 11:54:41"><img id="62" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/db2_small.png" width="24px" style="margin:2px;cursor: hand;" alt="DB2徽章
+日期:2016-04-07 10:58:04" title="DB2徽章
+日期:2016-04-07 10:58:04"></div></div>
+</td>
+<td class="plc">
+<div class="pi">
+<div id="fj" class="y">
+<label class="z">电梯直达</label>
+<input type="text" class="px p_fre z" size="2" onkeyup="$(&#39;fj_btn&#39;).href=&#39;forum.php?mod=redirect&amp;ptid=522592&amp;authorid=0&amp;postno=&#39;+this.value" onkeydown="if(event.keyCode==13) {window.location=$(&#39;fj_btn&#39;).href;return false;}" title="跳转到指定楼层">
+<a href="javascript:;" id="fj_btn" class="z" title="跳转到指定楼层"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/fj_btn.png" alt="跳转到指定楼层" class="vm"></a>
+</div>
+<strong>
+<a href="http://f.dataguru.cn/thread-522592-1-1.html" id="postnum1489713" onclick="setCopy(this.href, &#39;帖子地址复制成功&#39;);return false;">
+<em>1</em><sup>#</sup></a>
+</strong>
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon1489713" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/online_green.gif">
+<em id="authorposton1489713">发表于 2015-7-6 17:00</em>
+<span class="pipe">|</span>
+<a href="http://f.dataguru.cn/forum.php?mod=viewthread&amp;tid=522592&amp;page=1&amp;authorid=276218" rel="nofollow">只看该作者</a>
+<span class="none"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/arw_r.gif" class="vm" alt="回帖奖励"></span>
+<span class="pipe show">|</span><a href="http://f.dataguru.cn/forum.php?mod=viewthread&amp;tid=522592&amp;extra=page%3D1&amp;ordertype=1" class="show">倒序浏览</a>
+<span class="pipe show">|</span><a href="javascript:;" onclick="readmode($(&#39;thread_subject&#39;).innerHTML, 1489713);" class="show">阅读模式</a>
+</div>
+</div>
+</div><div class="pct"><style type="text/css">.pcb{margin-right:0}</style><div class="pcb">
+ 
+<div class="t_fsz">
+<table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f" id="postmessage_1489713">
+<table cellspacing="0" class="t_table" style="width:95%"><tbody><tr><td><div align="left"><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack既是一个社区，也是一个项目和一个开源软件，它提供了一个部署云的操作平台或工具集。其宗旨在于，帮助组织运行为虚拟计算或存储服务的云，为公有云、私有云，也为大云、小云提供可扩展的、灵活的云计算。</font></font></font></p><p style="line-height:20px;text-indent:nullem;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:18px"><strong>1. OpenStack是什么</strong></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack既是一个社区，也是一个项目和一个开源软件，它提供了一个部署云的操作平台或工具集。其宗旨在于，帮助组织运行为虚拟计算或存储服务的云，为公有云、私有云，也为大云、小云提供可扩展的、灵活的云计算。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack旗下包含了一组由社区维护的开源项目，他们分别是OpenStackCompute(Nova)，OpenStackObjectStorage(Swift)，以及OpenStackImageService(Glance)。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStackCompute[1]，为云组织的控制器，它提供一个工具来部署云，包括运行实例、管理网络以及控制用户和其他项目对云的访问(thecloudthroughusersandprojects)。它底层的开源项目名称是Nova，其提供的软件能控制IaaS云计算平台，类似于AmazonEC2和RackspaceCloudServers。实际上它定义的是，与运行在主机操作系统上潜在的虚拟化机制交互的驱动，暴露基于WebAPI的功能。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStackObjectStorage[2]，是一个可扩展的对象存储系统。对象存储支持多种应用，比如复制和存档数据，图像或视频服务，存储次级静态数据，开发数据存储整合的新应用，存储容量难以估计的数据，为Web应用创建基于云的弹性存储。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStackImageService[1]，是一个虚拟机镜像的存储、查询和检索系统，服务包括的RESTfulAPI允许用户通过HTTP请求查询VM镜像元数据，以及检索实际的镜像。VM镜像有四种配置方式：简单的文件系统，类似OpenStackObjectStorage的对象存储系统，直接用Amazon'sSimpleStorageSolution(S3)存储，用带有ObjectStore的S3间接访问S3。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">三个项目的基本关系如下图1-1所示：</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px"><img id="aimg_R5WZ2" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="http://www.uml.org.cn/yunjisuan/images/2013040931.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/2013040931.jpg" lazyloaded="true" width="600" height="434" style="cursor: pointer;"></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">1-1 OpenStack三个组件的关系</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">2. 云服务提供商的概念架构OpenStack能帮我们建立自己的IaaS，提供类似AmazonWebService的服务给客户。为实现这一点，我们需要提供几个高级特性：</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a)允许应用拥有者注册云服务，查看运用和计费情况;</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b)允许Developers/DevOpsfolks创建和存储他们应用的自定义镜像;</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">c)允许他们启动、监控和终止实例;</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">d)允许CloudOperator配置和操作基础架构</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">这四点都直击提供IaaS的核心，现在假设你同意了这四个特性，现在就可以将它们放进如下所示的概念架构2-1中。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px"><img id="aimg_YE7yU" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="http://www.uml.org.cn/yunjisuan/images/2013040932.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/2013040932.jpg" lazyloaded="true" width="600" height="426" style="cursor: pointer;"></font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>2-1 OpenStack 概念架构</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">在此模型中，作者假设了需要与云交互的四个用户集：developers,devops,ownersandoperators，并为每类用户划分了他们所需要的功能。该架构采用的是非常普通的分层方法(presentation,logicandresources)，它带有两个正交区域。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">展示层，组件与用户交互，接受和呈现信息。Webportals为非开发者提供图形界面，为开发者提供API端点。如果是更复杂的结构，负载均衡，控制代理，安全和名称服务也都会在这层。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">逻辑层为云提供逻辑(intelligence)和控制功能。这层包括部署(复杂任务的工作流)，调度(作业到资源的映射)，策略(配额等等)，镜像注册imageregistry(实例镜像的元数据)，日志(事件和计量)。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">假设绝大多数服务提供者已经有客户身份和计费系统。任何云架构都需要整合这些系统。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">在任何复杂的环境下，我们都将需要一个management层来操作这个环境。它应该包括一个API访问云管理特性以及一些监控形式(forms)。很可能，监控功能将以整合的形式加入一个已存在的工具中。当前的架构中已经为我们虚拟的服务提供商加入了monitoring和adminAPI，在更完全的架构中，你将见到一系列的支持功能，比如provisioning和configurationmanagement。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">最后，资源层。既然这是一个compute云，我们就需要实际的compute、network和storage资源，以供应给我们的客户。该层提供这些服务，无论他们是服务器，网络交换机，NAS(networkattachedstorage)还是其他的一些资源。</font></font></font></p><p style="line-height:20px;text-indent:nullem;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:18px"><strong>3. OpenStack Compute架构</strong></font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>3.1 OpenStack Compute逻辑架构</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Compute逻辑架构中，组件中的绝大多数可分为两种自定义编写的Python守护进程(custom written python daemons)。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a) 接收和协调API调用的WSGI应用(nova-api, glance-api, etc)</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b) 执行部署任务的Worker守护进程(nova-compute, nova-network, nova-schedule, etc.)</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">然而，逻辑架构中有两个重要的部分，既不是自定义编写，也不是基于Python，它们是消息队列和数据库。二者简化了复杂任务(通过消息传递和信息共享的任务)的异步部署。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">逻辑架构图3-1如下所示：</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px"><img id="aimg_JxQZp" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="http://www.uml.org.cn/yunjisuan/images/2013040933.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/2013040933.jpg" lazyloaded="true" style="cursor: pointer;" _load="1" width="600" height="417"></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">3-1 OpenStack Compute逻辑架构</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">从图中，我们可以总结出三点：</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a) 终端用户(DevOps, Developers 和其他的 OpenStack 组件)通过和nova-api对话来与OpenStack Compute交互。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b) OpenStack Compute守护进程之间通过队列(行为)和数据库(信息)来交换信息，以执行API请求。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">c) OpenStack Glance基本上是独立的基础架构，OpenStack Compute通过Glance API来和它交互</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">其各个组件的情况如下：</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a) nova-api守护进程是OpenStack Compute的中心。它为所有API查询(OpenStack API 或 EC2 API)提供端点，初始化绝大多数部署活动(比如运行实例)，以及实施一些策略(绝大多数的配额检查)。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b) nova-compute进程主要是一个创建和终止虚拟机实例的Worker守护进程。其过程相当复杂，但是基本原理很简单：从队列中接收行为，然后在更新数据库的状态时，执行一系列的系统命令执行他们。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">c) nova-volume管理映射到计算机实例的卷的创建、附加和取消。这些卷可以来自很多提供商，比如，ISCSI和AoE。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">d) Nova-network worker守护进程类似于nova-compute和nova-volume。它从队列中接收网络任务，然后执行任务以操控网络，比如创建bridging interfaces或改变iptables rules。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">e) Queue提供中心hub，为守护进程传递消息。当前用RabbitMQ实现。但是理论上能是python ampqlib支持的任何AMPQ消息队列。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">f) <a href="http://www.dataguru.cn/article-8711-1.html?union_site=innerlink" target="_blank" class="relatedlink">SQL</a> database存储云基础架构中的绝大多数编译时和运行时状态。这包括了可用的实例类型，在用的实例，可用的网络和项目。理论上，OpenStack Compute能支持SQL-Alchemy支持的任何数据库，但是当前广泛使用的数据库是sqlite3(仅适合测试和开发工作)，MySQL和<a href="http://www.dataguru.cn/article-4942-1.html?union_site=innerlink" target="_blank" class="relatedlink">PostgreSQL</a>。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">g) OpenStack Glance，是一个单独的项目，它是一个compute架构中可选的部分，分为三个部分：glance-api, glance-registry and the image store. 其中，glance-api接受API调用，glance-registry负责存储和检索镜像的元数据，实际的Image Blob存储在Image Store中。Image Store可以是多种不同的Object Store，包括OpenStack Object Storage (Swift)</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">h) 最后，user dashboard是另一个可选的项目。OpenStack Dashboard提供了一个OpenStack Compute界面来给应用开发者和devops staff类似API的功能。当前它是作为Django web Application来实现的。当然，也有其他可用的Web前端。</font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>3.2 概念映射</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">将逻辑架构映射到概念架构中(如3-2所示)，可以看见我们还缺少什么。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px"><img id="aimg_H3ivJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="http://www.uml.org.cn/yunjisuan/images/2013040934.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/2013040934.jpg" lazyloaded="true" style="cursor: pointer;" _load="1" width="600" height="398"></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">3-2 逻辑架构到概念架构的映射</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">这种覆盖方式并不是的，这里的只是作者的理解。通过覆盖OpenStack Compute 逻辑组件，Glance和Dashboard，来表示功能范围。对于每一个覆盖，都有相应的提供该功能的逻辑组件的名称。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a) 在这种覆盖范围中，较大的差距是logging和billing。此刻，OpenStack Compute没有能协调logging事件、记录日志以及创建/呈现bills的Billing组件。真正的焦点是logging和Billing的整合。这能通过以下方式来补救。比如代码扩充，商业产品或者服务或者自定义日志解析的整合。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b) Identity也是未来可能要补充的一点。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">c) customer portal也是一个整合点。user dashboard(见运行的实例，启动新的实例)没有提供一个界面，来允许应用拥有者签署服务，跟踪它们的费用以及声明有问题的票据(lodge trouble tickets)。而且，这很可能对我们设想的服务提供商来说是合适的。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">d) 理想的情况是，Admin API会复制我们能通过命令行接口做的所有功能。在带有Admin API work的Diablo 发布中会更好。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">e) 云监控和操作将是服务提供商关注的重点。好操作方法的关键是好的工具。当前，OpenStack Compute 提供 nova-instancemonitor，它跟踪计算结点使用情况。未来我们还需要三方工具来监控。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">f) Policy是极其重要的方面，但是会与供应商很相关。从quotas到QoS，到隐私控制都在其管辖内。当前图上有部分覆盖，但是这取决于供应商的复杂需求。为准确起见，OpenStack Compute 为实例，浮点IP地址以及元数据提供配额。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">g) 当前，OpenStack Compute内的Scheduling对于大的安装来说是相当初步的。调度器是以插件的方式设计的，目前支持chance(随机主机分配)，simple(最少负载)和zone(在一个可用区域里的随机结点。)分布式的调度器和理解异构主机的调度器正在开发之中。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">如你所见，OpenStack Compute为我们想象的服务提供商，提供了一个不错的基础，只要服务提供商愿意做一些整合。</font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>3.3 OpenStack Compute系统架构</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Compute由一些主要组件组成。“Cloud controller”包含很多组件，它表示全局状态，以及与其他组件交互。实际上，它提供的是Nova-api服务。它的功能是：为所有API查询提供一个端点，初始化绝大多数的部署活动，以及实施一些策略。API 服务器起cloud controller web Service前端的作用。Compute controller 提供compute服务资源，典型包含compute service，Object Store component可选地提供存储服务。Auth manager提供认证和授权服务，Volume controller为compute servers提供快速和持久的块级别存储。Network controller提供虚拟网络使compute servers彼此交互以及与公网进行交互。Scheduler选择最合适的compute controller来管理(host)一个实例。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Compute建立在无共享、基于消息的架构上。Cloud controller通过HTTP与internal object store交互，通过AMQP和scheduler、network controller、 和volume controller 来进行通信。为了避免在等待接收时阻塞每个组件，OpenStack Compute用异步调用的方式。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">为了获得带有一个组件多个备份的无共享属性，OpenStack Compute将所有的云系统状态保持在分布式的数据存储中。对系统状态的更新会写到这个存储中，必要时用质子事务。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">对系统状态的请求会从store中读出。在少数情况下，控制器也会短时间缓存读取结果。</font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>3.4 OpenStack Compute物理架构</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Compute采用无共享、基于消息的架构，非常灵活，我们能安装每个nova- service在单独的服务器上，这意味着安装OpenStack Compute有多种可能的方法。可能多结点部署的联合依赖性，是Dashboard必须被安装在nova-api服务器。几种部署架构如下：</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a) 单结点：一台服务器运行所有的nova- services，同时也驱动虚拟实例。这种配置只为尝试OpenStack Compute，或者为了开发目的;</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b) 双结点：一个cloud controller 结点运行除nova-compute外的所有nova-services，compute结点运行nova-compute。一台客户计算机很可能需要打包镜像，以及和服务器进行交互，但是并不是必要的。这种配置主要用于概念和开发环境的证明。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">c) 多结点：通过简单部署nova-compute在一台额外的服务器以及拷贝nova.conf文件到这个新增的结点，你能在两结点的基础上，添加更多的compute结点，形成多结点部署。在较为复杂的多结点部署中，还能增加一个volume controller 和一个network controller作为额外的结点。对于运行多个需要大量处理能力的虚拟机实例，至少是4个结点是较好的。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">一个可能的Openstack Compute多服务器部署(集群中联网的虚拟服务器可能会改变)如下3-3所示：</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px"><img id="aimg_f200R" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="http://www.uml.org.cn/yunjisuan/images/2013040935.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/2013040935.jpg" lazyloaded="true" style="cursor: pointer;" _load="1" width="600" height="346"></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">3-3 OpenStack Compute物理架构一</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">如果你注意到消息队列中大量的复制引发了性能问题，一种可选的架构是增加更多的Messaging服务器。在这种情形下，除了可以扩展数据库服务器外，还可以增加一台额外的RabbitMQ服务器。部署中可以在任意服务器上运行任意nova-service，只要nova.conf中配置为指向RabbitMQ服务器，并且这些服务器能发送消息到它</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px"><img id="aimg_EFilY" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="http://www.uml.org.cn/yunjisuan/images/2013040936.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/2013040936.jpg" lazyloaded="true" style="cursor: pointer;" _load="1" width="600" height="407"></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">图3-4是另外一种多结点的部署架构。</font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>3.5 OpenStack Compute服务架构</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">因为Compute有多个服务，也可能有多种配置，下图3-5显示了总体的服务架构，以及服务之间的通信系统。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px"><img id="aimg_PQLQJ" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="http://www.uml.org.cn/yunjisuan/images/2013040937.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/2013040937.jpg" lazyloaded="true" style="cursor: pointer;" _load="1" width="600" height="524"></font></font></font></p><p style="line-height:20px;text-indent:nullem;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:18px"><strong>4. OpenStack Image Service</strong></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Image Service包括两个主要的部分，分别是API server和Registry server(s)。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Image Service的设计，尽可能适合各种后端仓储和注册数据库方案。API Server(运行“glance api”程序)起通信hub的作用。比如各种各样的客户程序，镜像元数据的注册，实际包含虚拟机镜像数据的存储系统，都是通过它来进行通信的。API server转发客户端的请求到镜像元数据注册处和它的后端仓储。OpenStack Image Service就是通过这些机制来实际保存进来的虚拟机镜像的。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Image Service支持的后端仓储有：</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a) OpenStack Object Storage。它是OpenStack中高可用的对象存储项目。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b) FileSystem。OpenStack Image Service存储虚拟机镜像的默认后端是后端文件系统。这个简单的后端会把镜像文件写到本地文件系统。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">c) S3。该后端允许OpenStack Image Service存储虚拟机镜像在Amazon S3服务中。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">d) HTTP。OpenStack Image Service能通过HTTP在Internet上读取可用的虚拟机镜像。这种存储方式是只读的。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Image Service registry servers是遵守OpenStack Image Service Registry API的服务器。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">根据安装手册，这两个服务安装在同一个服务器上。镜像本身则可存储在OpenStack Object Storage， Amazon's S3 infrastructure，fileSystem。如果你只需要只读访问，可以存储在一台Web服务器上。</font></font></font></p><p style="line-height:20px;text-indent:nullem;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:18px"><strong>5. OpenStack Object Storage</strong></font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>5.1 关键概念</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a) Accounts和 Account Servers</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">OpenStack Object Storage系统被设计来供许多不同的存储消费者或客户使用。每个用户必须通过认证系统来识别自己。为此，OpenStack Object Storage提供了一个授权系统(swauth)。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">运行Account服务的结点与个体账户是不同的概念。Account服务器是存储系统的部分，必须和Container服务器和Object服务器配置在一起。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b) Authentication 和 Access Permissions</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">你必须通过认证服务来认证，以接收OpenStack Object Storage连接参数和认证令牌。令牌必须为所有后面的container/object操作而传递。典型的，特定语言的API处理认证，令牌传递和HTTPS request/response 通信。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">通过运用X-Container-Read: accountname和 X-Container-Write: accountname:username，你能为用户或者账户对对象执行访问控制。比如，这个设置就允许来自accountname账户的的任意用户来读，但是只允许accountname账户里的用户username来写。你也能给OpenStack Object Storage中存储的对象授予公共访问的权限，而且可以通过Referer头部阻止像热链接这种基于站点的内容盗窃，来限制公共访问。公共的container设置被用作访问控制列表之上的默认授权。比如，X-Container-Read: referer: any 这个设置，允许任何人能从container中读，而不管其他的授权设置。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">一般来说，每个用户能完全访问自己的存储账户。用户必须用他们的证书来认证，一旦被认证，他们就能创建或删除container，以及账户之类的对象。一个用户能访问另一个账户的内容的方式是，他们享有一个API访问key或你的认证系统提供的会话令牌。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">c) Containers and Objects</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">一个Container是一个存储隔间，为你提供一种组织属于属于你的数据的方式。它比较类似于文件夹或目录。Container和其他文件系统概念的主要差异是containers不能嵌套。然而，你可以在你的账户内创建无数的containers。但是你必须在你的账户上有一个container，因为数据必须存在Container中。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Container取名上的限制是，它们不能包含“/”，而且长度上少于256字节。长度的限制也适用于经过URL编码后的名字。比如，Course Docs的Container名经过URL编码后是“Course%20Docs”，因此此时的长度是13字节而非11字节。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">一个对象是基本的存储实体，和表示你存储在OpenStack Object Storage系统中文件的任何可选的元数据。当你上传数据到OpenStack Object Storage，它原样存储，由一个位置(container)，对象名，以及key/value对组成的任何元数据。比如，你可选择存储你数字照片的副本，把它们组织为一个影集。在这种情况下，每个对象可以用元数据Album :</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Caribbean Cruise 或Album : Aspen Ski Trip来标记。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">对象名上的限制是，在经过URL编码后，它们的长度要少于1024个字节。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">上传的存储对象的允许的较大大小5GB，最小是0字节。你能用内嵌的大对象支持和St工具来检索5GB以上的对象。对于元数据，每个对象不应该超过90个key/value对，所有key/value对的总字节长度不应该超过4KB。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">d) Operations</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Operations是你在OpenStack Object Storage系统上执行的行为，比如创建或删除containers，上传或下载objects等等。Operations的完全清单可以在开发文档上找到。Operations能通过ReST web service API或特定语言的API来执行。值得强调的是，所有操作必须包括一个来自你授权系统的有效的授权令牌。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">e) 特定语言的API绑定</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">一些流行语言支持的API 绑定，在RackSpace云文件产品中是可用的。这些绑定在基础ReST API上提供了一层抽象，允许变成人员直接与container和object模型打交道，而不是HTTP请求和响应。这些绑定可免费下载，使用和修改。它们遵循MIT许可协议。对于OpenStack Object Storage，当前支持的API绑定是：PHP，Python，<a href="http://www.dataguru.cn/article-9246-1.html?union_site=innerlink" target="_blank" class="relatedlink">Java</a>，C#/.NET 和Ruby。</font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>5.2 Object Storage如何工作</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">a) Ring</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Ring 代表磁盘上存储的实体的名称和它们的物理位置的映射。accounts, containers, and objects都有单独的Ring。其他组件要在这三者之一进行任何操作，他们都需要合相应的Ring进行交互以确定它在集群中的位置。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Ring用zones，devices，partitions，和replicas来维护映射，在Ring中的每个分区都会在集群中默认有三个副本。分区的位置存储在Ring维护的映射中。Ring也负责确定失败场景中接替的设备。(这点类似HDFS副本的复制)。分区的副本要保证存储在不同的zone。Ring的分区分布在OpenStack Object Storage installation所有设备中。分区需要移动的时候，Ring确保一次移动最少的分区，一次仅有一个分区的副本被移动。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">权重能用来平衡分区在磁盘驱动上的分布。Ring在代理服务器和一些背景进程中使用。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">b) Proxy Server</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">代理服务器负责将OpenStack Object Storage架构中其他部分结合在一起。对于每次请求，它都查询在Ring中查询account, container, or object的位置，并以此转发请求。公有APIs也是通过代理服务器来暴露的。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">大量的失败也是由代理服务器来进行处理。比如一个服务器不可用，它就会要求Ring来为它找下一个接替的服务器，并把请求转发到那里。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">当对象流进或流出object server时，它们都通过代理服务器来流给用户，或者通过它从用户获取。代理服务器不会缓冲它们。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Proxy服务器的功能可以总结为：查询位置，处理失败，中转对象。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">c) Object Server</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Object Server，是非常简单的blob存储服务器，能存储、检索和删除本地磁盘上的对象，它以二进制文件形式存放在文件系统中，元数据以文件的扩展属性存放。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">对象以源于对象名的hash和操作的时间戳的路径来存放。上一次写总会成功，确保的版本将被使用。删除也视作文件的一个版本：这确保删除的文件也被正确复制，更旧的把本不会因为失败情形离奇消失。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">d) Container Server</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">其主要工作是处理对象列表，它不知道对象在哪里，只是知道哪些对象在一个特定的container。列表被存储为sqlite 数据库文件，类似对象的方式在集群中复制。也进行了跟踪统计，包括对象的总数，以及container中使用的总存储量。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">e) Account Server</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">它是类似于Container Server，除了它是负责containers的列表而非对象。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">f) Replication</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">设计副本的目的是，在面临网络中断或驱动失败等临时错误条件时，保持系统在一致的状态。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">副本进程会比较本地的数据和每个远处的副本，以确保他们所有都包含的版本。对象副本用一个Hash列表来快速比较每个分区的片段，而containe和 account replication 用的是Hash和共享的高水印结合的方法。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">副本的更新，是基于推送的。对于对象副本，更新是远程同步文件到Peer。Account和container replication通过HTTP or rsync把整个数据库文件推送遗失的记录。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">副本也通过tombstone设置版本的方式，确保数据从系统中清除。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">g) 更新器(Updaters)</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">有时，container 或 account数据不能被立即更新，这通常是发生在失败的情形或高负载时期。如果一个更新失败，该更新会在文件系统上本地排队，更新器将处理这些失败的更新。事件一致性窗口(eventual consistency window)最可能来起作用。比如，假设一个container服务器正处于载入之中，一个新对象正被放进系统，代理服务器一响应客户端成功，该对象就立即可读了。然而，container服务器没有更新Object列表，所以更新就进入队列，以等待稍后的更新。Container列表，因此可能还不会立即包含这个对象。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">实际上，一致性窗口只是与updater运行的频率一样大，当代理服务器将转发清单请求到响应的第一个container服务器中，也许甚至还不会被注意。在载入之下的服务器可能还不是服务后续清单请求的那个。另外两个副本中的一个可能处理这个清单。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">h) Auditors</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Auditors会检查objects, containers, 和 accounts的完整性。如果发先损坏的文件，它将被隔离，好的副本将会取代这个坏的文件。如果发现其他的错误，它们会记入到日志中。</font></font></font></p><p style="line-height:18px;text-indent:nullem;text-align:left"><font face="宋体"><font style="font-size:14px"><strong>5.3 OpenStack Object Storage物理架构</strong></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">Proxy Services 偏向于CPU和network I/O 密集型，而 Object Services， Container Services， Account Services 偏向于disk and networkI/O 密集型。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">可以在每一服务器上安装所有的服务，在Rackspace内部， 他们将Proxy Services放在他们自己的服务器上，而所有存储服务则放在同一服务器上。这允许我们发送10G的网络给代理，1G给存储服务器，从而保持对代理服务器的负载平衡更好管理。我们能通过增加更多代理来扩展整个API吞吐量。如果需要获得Account或 Container Services更大的吞吐量，它们也可以部署到自己的服务器上。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">在部署OpenStack Object Storage时，可以单结点安装，但是它只适用于开发和测试目的。也可以多服务器的安装，它能获得分布式对象存储系统需要的高可用性和冗余。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">有这样一个样本部署架构，如图5-1所示。一个Proxy 结点，运行代理服务，一个Auth 结点，运行认证服务，五个Storage结点，运行Account，Container和Object服务。</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:center"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px"><img id="aimg_Y9V3a" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="http://www.uml.org.cn/yunjisuan/images/2013040938.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/2013040938.jpg" lazyloaded="true" style="cursor: pointer;" _load="1" width="600" height="368"></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">5-1 五个Storage结点的OpenStack Object Storage物理架构</font></font></font></p><p style="line-height:20px;text-indent:nullem;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:18px"><strong>参考文献</strong></font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">[1] OpenStack Compute Administration Manual.</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">http://docs.openstack.org/cactus/openstack-compute/admin/content.</font></font></font></p><p style="line-height:20px;text-indent:2em;text-align:left"><font style="color:rgb(0, 0, 0)"><font face="宋体"><font style="font-size:13px">[2] OpenStack Object Storage Developer Guide.http://docs.openstack.org/.</font></font></font></p></div></td></tr></tbody></table><br>
+<br>
+</td></tr></tbody></table>
+
+
+</div>
+<div id="comment_1489713" class="cm">
+</div>
+
+<div id="post_rate_div_1489713"></div>
+<script type="text/javascript">var auc_list_tmp = $('auc_list_tmp');if(auc_list_tmp !== null){document.write(auc_list_tmp.innerHTML);auc_list_tmp.innerHTML='';}
+function lalala(){
+	ajaxget('plugin.php?id=auction:involve&operation=view&tid=522592&page=1', 'list_ajax');
+	$('list_ajax').style.display = 'block';
+}
+if($('list_ajax')){setTimeout('lalala()', 1000);}
+</script></div>
+</div>
+
+</td></tr>
+<tr><td class="plc plm">
+<div id="p_btn" class="mtw mbm hm cl">
+<div class="tshare cl">
+<b>分享到:&nbsp;</b>
+
+
+<a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=plugin&amp;id=qqconnect:spacecp&amp;pluginop=share&amp;sh_type=4&amp;thread_id=522592" id="k_share_to_qq" title="QQ好友和群" target="_blank"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/qq_share.png" alt="QQ好友和群">QQ好友和群</i></a>
+<a href="javascript:void(0);" id="k_qqshare" onclick="postToQzone();" title="QQ空间"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/qzone.gif" alt="QQ空间">QQ空间</i></a>
+<a href="javascript:void(0)" onclick="postToWb();" id="k_weiboshare" title="腾讯微博"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/weibo.png" alt="腾讯微博">腾讯微博</i></a>
+<a href="javascript:void(0);" onclick="postToPengyou();" id="k_pengyoushare" title="腾讯朋友"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/pengyou.png" alt="腾讯朋友">腾讯朋友</i></a>
+<script type="text/javascript">
+function postToWb(){
+var _t = encodeURI(document.title);
+var _url = encodeURIComponent(document.location);
+var _appkey = encodeURI("ce7fb946290e4109bdc9175108b6db3a");
+var _pic = "";
+var _site = encodeURIComponent("炼数成金");
+var _from = 'discuz';
+var _u = 'http://v.t.qq.com/share/share.php?url='+_url+'&appkey='+_appkey+'&site='+_site+'&pic='+_pic+'&title='+_t+'&from='+_from;
+window.open( _u,'', 'width=700, height=680, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, location=yes, resizable=no, status=no' );
+}
+function postToPengyou(){
+var _url = encodeURIComponent(document.location.href);
+var _site = encodeURIComponent("炼数成金");
+var _title = encodeURIComponent("OpenStack的架构详解");
+var _pics = "";
+var _from = 'discuz';
+var _u = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?to=pengyou&url='+_url+'&site='+_site+'&title='+_title+'&pics='+_pics+'&from='+_from;
+window.open(_u);
+}
+</script>
+	
+
+
+<a href="javascript:;" onclick="showWindow(&#39;wechat_share&#39;, &#39;plugin.php?id=wechat:qrcode&amp;threadqr=522592&amp;access=yes&amp;share=yes&#39;)"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/share.png" alt="微信">微信</i></a>
+
+
+
+</div>
+
+<a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=favorite&amp;type=thread&amp;id=522592&amp;formhash=66005408" id="k_favorite" onclick="showWindow(this.id, this.href, &#39;get&#39;, 0);" onmouseover="this.title = $(&#39;favoritenumber&#39;).innerHTML + &#39; 人收藏&#39;" title="收藏本帖"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/fav.gif" alt="收藏">收藏<span id="favoritenumber" style="display:none">0</span></i></a>
+<a class="sharep" href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=share&amp;type=thread&amp;id=522592" onclick="showWindow(&#39;sharethread&#39;, this.href, &#39;get&#39;, 0);" title="分享推精华"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/oshr.png" alt="分享">分享</i></a>
+<a id="recommend_add" href="http://f.dataguru.cn/forum.php?mod=misc&amp;action=recommend&amp;do=add&amp;tid=522592&amp;hash=66005408" onclick="showWindow(&#39;login&#39;, this.href)" onmouseover="this.title = $(&#39;recommendv_add&#39;).innerHTML + &#39; 人支持&#39;" title="顶一下"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/rec_add.gif" alt="支持">支持<span id="recommendv_add" style="display:none">0</span></i></a>
+<a id="recommend_subtract" href="http://f.dataguru.cn/forum.php?mod=misc&amp;action=recommend&amp;do=subtract&amp;tid=522592&amp;hash=66005408" onclick="showWindow(&#39;login&#39;, this.href)" onmouseover="this.title = $(&#39;recommendv_subtract&#39;).innerHTML + &#39; 人反对&#39;" title="踩一下"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/rec_subtract.gif" alt="反对">反对<span id="recommendv_subtract" style="display:none">0</span></i></a>
+
+
+<a href="javascript:void((function(s,d,e,r,l,p,t,z,c,o) {var f=&#39;http://service.weibo.com/share/share.php?appkey=2459371622&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;ralateUid=&#39;,o||&#39;&#39;,&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gbk&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;, [&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width- 440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);}; if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0);}else{a();}}) (screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;,&#39;OpenStack的架构详解 - 分布式系统架构,  OpenStack的架构详解&#39;,&#39;&#39;,&#39;gbk&#39;, &#39;&#39;));" onclick="setTimeout(&#39;forstat()&#39;, 0);"><i><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_logo.png">分享到新浪微博</i></a>
+
+</div>
+</td>
+</tr>
+<tr id="_postposition1489713"></tr>
+<tr>
+<td class="pls"></td>
+<td class="plc" style="overflow:visible;">
+<div class="po hin">
+<div class="pob cl">
+<em>
+<a class="fastre" href="http://f.dataguru.cn/forum.php?mod=post&amp;action=reply&amp;fid=145&amp;tid=522592&amp;reppost=1489713&amp;extra=page%3D1&amp;page=1" onclick="showWindow(&#39;reply&#39;, this.href)">回复</a>
+</em>
+
+<p>
+<a href="javascript:;" id="mgc_post_1489713" onmouseover="showMenu(this.id)" class="showmenu" style="display: none;"></a>
+<a href="javascript:;" onclick="showWindow(&#39;miscreport1489713&#39;, &#39;misc.php?mod=report&amp;rtype=post&amp;rid=1489713&amp;tid=522592&amp;fid=145&#39;, &#39;get&#39;, -1);return false;">举报</a>
+</p>
+
+<ul id="mgc_post_1489713_menu" class="p_pop mgcmn" style="display: none;">
+</ul>
+<script type="text/javascript" reload="1">checkmgcmn('post_1489713')</script>
+</div>
+</div>
+</td>
+</tr>
+<tr class="ad">
+<td class="pls" style="background:#dfdfdf">
+</td>
+<td class="plc" style="background:#f1f1f1; border-top:1px solid #FFF; padding:5px">
+                <div style="margin:0 auto; width:760px"><script src="http://www.dataguru.cn/js_ads.php?alid=19&amp;tid=522592" type="text/javascript"></script></div>
+        </td>
+</tr>
+<tr class="ad">
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+
+</tbody></table>
+<script type="text/javascript" reload="1">
+aimgcount[1489713] = ['R5WZ2','YE7yU','JxQZp','H3ivJ','f200R','EFilY','PQLQJ','Y9V3a'];
+attachimggroup(1489713);
+var aimgfid = 0;
+</script>
+</div><div id="postlistreply" class="pl"><div id="post_new" class="viewthread_table" style="display: none"></div></div>
+</div>
+
+
+<form method="post" autocomplete="off" name="modactions" id="modactions">
+<input type="hidden" name="formhash" value="66005408">
+<input type="hidden" name="optgroup">
+<input type="hidden" name="operation">
+<input type="hidden" name="listextra" value="page%3D1">
+<input type="hidden" name="page" value="1">
+</form>
+
+
+
+<div class="pgs mtm mbm cl">
+<span class="pgb y" id="visitedforumstmp" onmouseover="$(&#39;visitedforums&#39;).id = &#39;visitedforumstmp&#39;;this.id = &#39;visitedforums&#39;;showMenu({&#39;ctrlid&#39;:this.id,&#39;pos&#39;:&#39;21&#39;})"><a href="http://f.dataguru.cn/forum-145-1.html">返回列表</a></span>
+<a id="newspecialtmp" onmouseover="$(&#39;newspecial&#39;).id = &#39;newspecialtmp&#39;;this.id = &#39;newspecial&#39;;showMenu({&#39;ctrlid&#39;:this.id})" onclick="showWindow(&#39;newthread&#39;, &#39;forum.php?mod=post&amp;action=newthread&amp;fid=145&#39;)" href="javascript:;" title="发新帖"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/pn_post.png" alt="发新帖"></a>
+</div>
+
+<!--[diy=diyfastposttop]--><div id="diyfastposttop" class="area"></div><!--[/diy]-->
+<script type="text/javascript">
+var postminchars = parseInt('20');
+var postmaxchars = parseInt('100000');
+var disablepostctrl = parseInt('0');
+</script>
+
+<div id="f_pst" class="pl bm bmw">
+<form method="post" autocomplete="off" id="fastpostform" action="http://f.dataguru.cn/forum.php?mod=post&amp;action=reply&amp;fid=145&amp;tid=522592&amp;extra=page%3D1&amp;replysubmit=yes&amp;infloat=yes&amp;handlekey=fastpost" onsubmit="return fastpostvalidate(this)">
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td class="pls">
+</td>
+<td class="plc">
+
+<span id="fastpostreturn"></span>
+
+
+<div class="cl">
+<div id="fastsmiliesdiv" class="y"><div id="fastsmiliesdiv_data"><div id="fastsmilies"></div></div></div><div class="hasfsl" id="fastposteditor">
+<div class="tedt mtn">
+<div class="bar">
+<span class="y">
+<a href="http://f.dataguru.cn/forum.php?mod=post&amp;action=reply&amp;fid=145&amp;tid=522592" onclick="return switchAdvanceMode(this.href)">高级模式</a>
+</span><script src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/seditor.js.下载" type="text/javascript"></script>
+<div class="fpd">
+<a href="javascript:;" title="文字加粗" class="fbld">B</a>
+<a href="javascript:;" title="设置文字颜色" class="fclr" id="fastpostforecolor">Color</a>
+<a id="fastpostimg" href="javascript:;" title="图片" class="fmg">Image</a>
+<a id="fastposturl" href="javascript:;" title="添加链接" class="flnk">Link</a>
+<a id="fastpostquote" href="javascript:;" title="引用" class="fqt">Quote</a>
+<a id="fastpostcode" href="javascript:;" title="代码" class="fcd">Code</a>
+<a href="javascript:;" class="fsml" id="fastpostsml">Smilies</a>
+</div></div>
+<div class="area">
+<div class="pt hm">
+您需要登录后才可以回帖 <a href="http://f.dataguru.cn/member.php?mod=logging&amp;action=login" onclick="showWindow(&#39;login&#39;, this.href)" class="xi2">登录</a> | <a href="http://f.dataguru.cn/member.php?mod=register" class="xi2">立即注册</a>
+
+
+<a href="http://www.dataguru.cn/connect.php?mod=login&amp;op=init&amp;referer=forum.php%3Fmod%3Dviewthread%26tid%3D522592%26extra%3Dpage%3D1%26page%3D1&amp;statfrom=login" target="_top" rel="nofollow"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/qq_login.gif" class="vm"></a>
+
+
+<a href="http://f.dataguru.cn/plugin.php?id=wechat:login"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/wechat_login.png" class="vm"></a>
+
+
+<a href="http://f.dataguru.cn/plugin.php?id=sina_login:index&amp;operation=init">
+<img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/weibo_login.png" alt="新浪微博登陆" class="vm">
+</a>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="seccheck_fastpost">
+</div>
+
+
+<input type="hidden" name="formhash" value="66005408">
+<input type="hidden" name="usesig" value="">
+<input type="hidden" name="subject" value="  ">
+<p class="ptm pnpost">
+<a href="http://f.dataguru.cn/home.php?mod=spacecp&amp;ac=credit&amp;op=rule&amp;fid=145" class="y" target="_blank">本版积分规则</a>
+<button type="button" onclick="showWindow(&#39;login&#39;, &#39;member.php?mod=logging&amp;action=login&amp;guestmessage=yes&#39;)" onmouseover="checkpostrule(&#39;seccheck_fastpost&#39;, &#39;ac=reply&#39;);this.onmouseover=null" name="replysubmit" id="fastpostsubmit" class="pn pnc vm" value="replysubmit" tabindex="5"><strong>发表回复</strong></button>
+<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc">回帖后跳转到最后一页</label>
+<script type="text/javascript">if(getcookie('fastpostrefresh') == 1) {$('fastpostrefresh').checked=true;}</script>
+</p>
+</td>
+</tr>
+</tbody></table>
+</form>
+</div>
+
+<script type="text/javascript">
+var connect_qzone_share_url = '';
+var connect_weibo_share_url = '';
+var connect_thread_info = {
+thread_url: 'http://f.dataguru.cn/thread-522592-1-1.html',
+thread_id: '522592',
+post_id: '',
+forum_id: '145',
+author_id: '',
+author: ''
+};
+
+connect_autoshare = '';
+connect_isbind = '';
+if(connect_autoshare == 1 && connect_isbind) {
+_attachEvent(window, 'load', function(){
+connect_share(connect_weibo_share_url, connect_openid);
+});
+}
+</script>
+
+
+
+
+<div id="visitedforums_menu" class="p_pop blk cl" style="display: none;">
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td id="v_forums">
+<h3 class="mbn pbn bbda xg1">浏览过的版块</h3>
+<ul class="xl xl1">
+<li><a href="http://f.dataguru.cn/forum-110-1.html">Openstack云平台</a></li></ul>
+</td>
+</tr>
+</tbody></table>
+</div>
+<script type="text/javascript">
+new lazyload();
+</script>
+</div>
+
+<div class="wp mtn">
+<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<script type="text/javascript">
+function succeedhandle_followmod(url, msg, values) {
+var fObj = $('followmod_'+values['fuid']);
+if(values['type'] == 'add') {
+fObj.innerHTML = '不收听';
+fObj.href = 'home.php?mod=spacecp&ac=follow&op=del&fuid='+values['fuid'];
+} else if(values['type'] == 'del') {
+fObj.innerHTML = '收听TA';
+fObj.href = 'home.php?mod=spacecp&ac=follow&op=add&hash=66005408&fuid='+values['fuid'];
+}
+}
+fixed_avatar([1489713], 1);
+</script>	<div style="clear:both"></div>    </div>
+
+
+<script type="text/javascript">var cookieLogin = Ajax("TEXT");cookieLogin.get("connect.php?mod=check&op=cookie", function() {});</script>
+
+<div id="ft" class="wp cl">
+<div id="flk" class="y">
+<p>
+&nbsp;<a href="http://discuz.qq.com/service/security" target="_blank" title="防水墙保卫网站远离侵害"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/security.png"></a><script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F422bdfc7165816719df174ae819d76e1' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/h.js.下载" type="text/javascript"></script>
+</p>
+<p class="xs0">
+GMT+8, 2017-12-13 16:10<span id="debuginfo">
+, Processed in 0.108979 second(s), 26 queries
+.
+</span>
+</p>
+</div></div>
+<script src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/home.php" type="text/javascript"></script>
+
+<!--//删除桌面短消息提醒--><div id="scrolltop" style="left: -40px; visibility: visible;">
+<span><a href="http://f.dataguru.cn/forum.php?mod=post&amp;action=reply&amp;fid=145&amp;tid=522592&amp;extra=page%3D1&amp;page=1" onclick="showWindow(&#39;reply&#39;, this.href)" class="replyfast" title="快速回复"><b>快速回复</b></a></span>
+<!--<span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo('0','0')" class="scrolltopa" ><b>返回顶部</b></a></span>-->
+<span>
+<a href="http://f.dataguru.cn/forum-145-1.html" hidefocus="true" class="returnlist" title="返回列表"><b>返回列表</b></a>
+</span>
+</div>
+<script type="text/javascript">_attachEvent(window, 'scroll', function () { showTopLink(); });checkBlind();</script>
+
+</div>
+  </div>
+
+<div class="blank10 wrap_end"></div>
+
+<!--footer copyright S-->
+
+<div style="clear: both"></div>
+<div class="friendlink" id="friendlink" style="width:100%; height:auto; background-color:#EEEEEE">
+<table width="1024px" style="margin:0 auto;">
+    	<tbody><tr>
+        	<td width="18%" align="left"><a style="font-weight:bold" href="javascript:;">关于我们</a></td>
+            <td width="18%" align="left"><a style="font-weight:bold" href="javascript:;">新手指南</a></td>
+            <td width="18%" align="left"><a style="font-weight:bold" href="javascript:;">企业合作</a></td>
+            <td align="left"><a style="font-weight:bold" href="javascript:;">联系我们</a></td>
+            <td width="20%" rowspan="5">
+            	<table width="100%">
+                	<tbody><tr>
+                    	<td align="center"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/1.jpg" width="95px"></td>
+                        <td align="center"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/3.jpg" width="95px"></td>
+                    </tr>
+                    <tr>
+                    	<td align="center">订阅号</td>
+                        <td align="center">小程序</td>
+                    </tr>
+                </tbody></table>
+           
+            </td>
+        </tr>
+        <tr>
+        	<td align="left"><a href="http://f.dataguru.cn/thread-52-1-1.html" target="_blank">关于我们</a></td>
+            <td align="left"><a href="http://edu.dataguru.cn/article-1543-1.html" target="_blank">教育模式</a></td>
+            <td align="left"><a href="http://www.dataguru.cn/epservice/" target="_blank">企业会员</a></td>
+            <td align="left"><a href="http://f.dataguru.cn/">电话：4008-010-006</a></td>
+            
+        </tr>
+        <tr>
+        	<td align="left"><a href="http://www.dataguru.cn/article-7348-1.html" target="_blank">讲师招募</a></td>
+            <td align="left"><a href="http://f.dataguru.cn/thread-184839-1-1.html" target="_blank">选课流程</a></td>
+            <td align="left"><a href="http://www.dataguru.cn/article-52-1.html" target="_blank">内训合作</a></td>
+            <td align="left"><a href="mailto:kefu@dataguru.cn">邮箱：kefu@dataguru.cn</a></td>
+        </tr>
+        <tr>
+        	<td align="left"><a href="http://www.dataguru.cn/article-7345-1.html" target="_blank">校园大使</a></td>
+            <td align="left"><a href="http://www.dataguru.cn/article-3157-1.html" target="_blank">学费返还</a></td>
+            <td align="left"><a href="http://www.dataguru.cn/epservice/" target="_blank">媒体合作</a></td>
+            <td align="left"><a href="http://f.dataguru.cn/">客服QQ:</a><a href="tencent://message/?uin=2222010006&amp;Site=edu.dataguru.cn&amp;Menu=yes" target="blank"><img border="0" alt="点击这里给我发消息" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/pa"></a><a href="tencent://message/?uin=2222010060&amp;Site=edu.dataguru.cn&amp;Menu=yes" target="blank"><img border="0" alt="点击这里给我发消息" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/pa(1)"></a></td>
+        </tr>
+        <tr>
+        	<td align="left"><a href="http://www.dataguru.cn/article-7346-1.html" target="_blank">版权声明</a></td>
+            <td align="left"><a href="http://www.dataguru.cn/article-4645-1.html" target="_blank">奖学金激励</a></td>
+            <td align="left"><a href="http://www.dataguru.cn/article-7351-1.html" target="_blank">代理合作</a></td>
+            <td align="left"><a href="http://f.dataguru.cn/">售后QQ:</a><a href="tencent://message/?uin=2222010090&amp;Site=edu.dataguru.cn&amp;Menu=yes" target="blank"><img border="0" alt="点击这里给我发消息" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/pa(2)"></a></td>
+        </tr>
+    </tbody></table>
+</div>
+<div id="friendlink" class="friendlink">
+<a href="http://f.dataguru.cn/topic-contactus.html" rel="nofollow">关于我们</a><a rel="nofollow" href="http://m.dataguru.cn/misc.php?mod=mobile">手机版</a><a rel="nofollow" href="http://f.dataguru.cn/topic-partners.html">友情链接</a><a rel="nofollow" href="http://www.dataguru.cn/misc.php?mod=stat">站点统计</a><a href="http://www.dataguru.cn/archiver/">文本模式</a><a href="http://f.dataguru.cn/game.php?mod=list">小游戏</a>
+</div>
+<div class="footer" style="padding-top:5px; height:45px">
+<div class="copyright" style="width:100%; margin-bottom:20px">版权所有 广州市皓岚信息技术有限公司 合作伙伴 中山大学海量数据与云计算研究中心 <a href="http://www.miibeian.gov.cn/">粤ICP备08028958号</a>
+<br>
+CopyRight 2011-2015 dataguru.cn All Right Reserved.
+</div>
+</div>
+<!--左侧 开始-->
+    <div id="float_l" style="display:none">
+      <div id="zk_b" style="display: block;">
+        <div id="float_l_b"></div> 
+        <div id="float_l_an" class="left_float"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/left_gb_an.gif" width="27" height="297"></div>
+      </div>
+      <div id="gb_b" class="left_float" style="display: none;"> <img id="left_bar" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/left_zk_zn.gif" width="27" height="297"> <img id="close_bar" width="27" height="27" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_close.png"></div>
+    </div>
+    <!--左侧 结束-->
+    <!--右侧 开始-->
+    <div id="float_r" style="display:none">
+      <div id="zk_b_r" style="display: block;">
+        <div id="float_r_an"><img src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/right_gb_an.gif" width="28" height="315"></div>
+        <div id="float_r_b"></div>
+      </div>
+      <div id="gb_b_r" style="display: none;"> <img id="right_bar" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/right_zk_zn.gif" width="28 " height="315"> <img id="close_bar_r" width="27" height="27" src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/icon_close.png"></div>
+    </div>
+    <!--右侧 结束-->
+    <script src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/jquery.cookie.js.下载" type="text/javascript"></script>
+    <script type="text/javascript">
+    jQuery(document).ready(function(){
+        
+        var phpself = "/forum.php";
+    
+        var httphost = "f.dataguru.cn";
+        
+        //论坛
+        var gid = 0;
+        var fid = 0;
+        var tid = 522592;
+        
+        //门户
+        var aid = 0;
+    
+        //获得当前课程id
+        var lessonid = 0;
+    
+                                        
+        var myDate = new Date();
+        var y = myDate.getFullYear().toString();    //获取完整的年份(4位,1970-????)
+        var m = myDate.getMonth().toString();       //获取当前月份(0-11,0代表1月)
+        var d = myDate.getDate().toString();        //获取当前日(1-31)
+                                    
+        var today = y + m + d;
+                                    
+        var left_status = jQuery.cookie(today + '_left');
+        if(left_status == 'close'){
+            jQuery('#gb_b').css('display', 'block');
+            jQuery("#zk_b").css('display', 'none');		
+        } else if(left_status == 'closeall'){
+            jQuery('#gb_b').css('display', 'none');
+            jQuery("#zk_b").css('display', 'none');		
+        } else {
+            jQuery("#gb_b").css('display', 'none');
+            jQuery('#zk_b').css('display', 'block');	
+        }
+        
+        var right_status = jQuery.cookie(today + '_right');
+        if(right_status == 'close'){
+            jQuery('#gb_b_r').css('display', 'block');
+            jQuery("#zk_b_r").css('display', 'none');
+        } else if(right_status == 'closeall'){
+            jQuery('#gb_b_r').css('display', 'none');
+            jQuery("#zk_b_r").css('display', 'none');	
+        } else {
+            jQuery("#gb_b_r").css('display', 'none');
+            jQuery('#zk_b_r').css('display', 'block');
+        }
+
+        
+        //左侧展开
+        jQuery("#left_bar").click(function(){
+            jQuery.cookie(today + '_left', 'open', {expires: 1, path: '/', domain: 'dataguru.cn', secure: false});
+            jQuery("#gb_b").css('display', 'none');
+            jQuery('#zk_b').css('display', 'block');
+        });
+        
+        //左侧闭合
+        jQuery('#float_l_an').click(function(){
+            jQuery.cookie(today + '_left', 'close', {expires: 1, path: '/', domain: 'dataguru.cn', secure: false});
+            jQuery('#gb_b').css('display', 'block');
+            jQuery("#zk_b").css('display', 'none');								 
+        });
+        
+        //右侧展开
+        jQuery("#right_bar").click(function(){
+            jQuery.cookie(today + '_right', 'open', {expires: 1, path: '/', domain: 'dataguru.cn', secure: false});
+            jQuery("#gb_b_r").css('display', 'none');
+            jQuery('#zk_b_r').css('display', 'block');
+        });
+        
+        //右侧闭合
+        jQuery('#float_r_an').click(function(){
+            jQuery.cookie(today + '_right', 'close', {expires: 1, path: '/', domain: 'dataguru.cn', secure: false});
+            jQuery('#gb_b_r').css('display', 'block');
+            jQuery("#zk_b_r").css('display', 'none');								 
+        });
+    
+        //左侧关闭
+        jQuery('#close_bar').click(function(){
+            jQuery.cookie(today + '_left', 'closeall', {expires: 0.1, path: '/', domain: 'dataguru.cn', secure: false});
+            jQuery('#gb_b').css('display', 'none');
+            jQuery("#zk_b").css('display', 'none');	
+        });
+    
+        //右侧关闭
+        jQuery('#close_bar_r').click(function(){
+            jQuery.cookie(today + '_right', 'closeall', {expires: 0.1, path: '/', domain: 'dataguru.cn', secure: false});
+            jQuery('#gb_b_r').css('display', 'none');
+            jQuery("#zk_b_r").css('display', 'none');	
+        });
+    
+    
+        //ajax 获得左侧推荐内容
+        jQuery.ajax({
+            type : "POST",
+            url : '/site_left.php',
+            data : {'httphost' : httphost, 'phpself' : phpself,'lessonid' : lessonid, 'gid' : gid, 'fid' :fid, 'tid' : tid, 'aid' : aid},
+            success : function(data){	
+                //var dataObj = eval("("+data+")");//转换为json对象 
+                jQuery('#float_l_b').html(data);	
+                jQuery('#float_l').show();
+            }
+        });
+    
+        // ajax 获得右侧推荐内容
+        jQuery.ajax({
+            type : "POST",
+            url : '/site_right.php',
+            success : function(data){	
+                //var dataObj = eval("("+data+")");//转换为json对象 
+                jQuery('#float_r_b').html(data);
+                jQuery('#float_r').show();
+            }
+        });	
+    });
+    
+    </script>
+
+<iframe src="./OpenStack的架构详解 - 分布式系统架构-炼数成金-Dataguru专业数据分析社区_files/user_visited.html" width="0" height="0" frameborder="0" scrolling="0"></iframe>
+
+<script language="JavaScript">
+    var phpself = "forum";
+    var httphost = "f.dataguru.cn";
+
+    if(phpself == 'forum'){
+        var fid = parseInt('145');
+        var tid = parseInt('522592');
+    } else if (phpself == 'portal'){
+        var catid = parseInt('');
+        var aid = parseInt('');
+    } else if (phpself == 'myclass'){
+var lessonid = parseInt('');
+}
+
+//来源
+var union_site = "";
+
+/**
+ * 弹窗
+ */
+    jQuery.ajax({
+        type : "POST",
+        data : {'phpself' : phpself, httphost: httphost, union_site: union_site, 'fid' : fid, 'tid' : tid, catid : catid, aid : aid, lessonid: lessonid, 'random': Math.random()},
+        url: 'layer.php',
+        success : function(data){
+            jQuery(data).appendTo('body');
+        }
+    });
+ 
+</script>
+
+			<div id="discuz_tips" style="display:none;"></div>
+			<script type="text/javascript">
+				var tipsinfo = '8655826|X3.2|0.6||0||0|7|1513152653|211aed88c775390b6d7ab5d927d5a813|2';
+			</script>
+			<script src="http://discuz.gtimg.cn/cloud/scripts/discuz_tips.js?v=1" type="text/javascript" charset="UTF-8"></script>
+
+<style>.mydiv{background-color:#EFEFEF;border:5px solid #ABC5CB;text-align:center;line-height:40px;font-size:12px;font-weight:bold;z-index:10001;left:45%;top:45%;margin-left:-200px!important;margin-top:-60px!important;margin-top:0px;position:fixed!important;position:absolute;_top:expression(eval(document.compatMode &&  document.compatMode=='CSS1Compat') ?  documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2:document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);}.bg,.popIframe{background-color:#666;display:none;width:100%;height:100%;left:0;top:0;filter:alpha(opacity=50);opacity:0.2;z-index:10000;position:fixed!important;position:absolute;_top:expression(eval(document.compatMode &&  document.compatMode=='CSS1Compat') ?  documentElement.scrollTop + (document.documentElement.clientHeight-this.offsetHeight)/2:document.body.scrollTop + (document.body.clientHeight - this.clientHeight)/2);}.popIframe{filter:alpha(opacity=0);opacity:0;}</style><div id="popDiv" class="mydiv" style="display: none; width: 500px;"><div style="height:30px; line-height:30px; width:100%; text-align:right; "><a href="javascript:closeDiv()" target="_self" style=" padding-right:20px">X</a></div><div style="height:auto; width:100%;"><p style="line-height:25px;  text-align:left; padding: 10px; font-size:14px;color:#333;">&nbsp;&nbsp;&nbsp;&nbsp;双十二狂欢开始啦！充值1212领取双十二大礼包还有100元返现！名额仅限20个！不要错过哦！</p></div><div style="height:30px; line-height:30px; width:100%; text-align:center; padding-bottom:20px"><a href="http://f.dataguru.cn/thread-877754-1-1.html?union_site=float_layer" style="color:#09F">点击此处查看详情</a></div></div><div id="bg" class="bg" style="display: none;"></div></body></html>

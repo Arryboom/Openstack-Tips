@@ -1,0 +1,119 @@
+$(function(){
+	var uid = parseInt($('#uid').val());
+	function getComment(){
+		var obj = $('#comment_ajax');
+		var id = $('input[name="article_id"]').val();
+		var count = $('#comment_count').text();
+		var url = '/?m=Article&a=detailAjax';
+		obj.find('li>a').bind('click',function(){
+			var page = $(this).attr('attr');
+			$.ajax({
+				url:url,
+				dataType:'json',
+				type:'GET',
+				data:{id:id,page:page,count:count},
+				success:function(msg){
+					$('#comment_ajax').html(msg.purl);
+					var body = $('#comment_body');
+					var data = msg.comment;
+					var length = data.length;
+					var str = '';
+					for(var i=0;i<length;i++){
+						str += '<div class="mainbodycu_left2cen clear article_comment">';
+						str += '<p class="fl"><img src="'+data[i]['avatar']+'" width="100" height="100" /></p>';
+						str += '<div class="mainbodycu_left2cenri fr">';
+						str += '<span><img src="/Public/images/xuesheng/xuesheng2_03.png" /></span>';
+						str	+= '<div class="mainbodycu_left2cenri1">';
+						str	+= '<samp class="fl">'+data[i]['name']+'</samp><samp class="fr">'+data[i]['create_time']+'</samp>';
+						str	+= '</div>';
+						str	+= '<div class="mainbodycu_left2cenri2 clear">';
+						str	+= data[i]['comment'];
+						str	+= '</div>';
+						str	+= '<div class="mainbodycu_left2cenri3 clear"><span><input type="button" attr="'+data[i]['id']+'" name="vote" value="赞同" /></span><span>['+data[i]['vote']+']</span></div>';
+						str += '</div>';
+						str += '</div>';
+					}
+					body.html(str);
+					getComment();
+					vote();
+				}
+			});
+		});
+	}
+	function vote(){
+		$('input[name="vote"]').bind('click',function(){
+			var url = '/?m=Article&a=commentVote';
+			var id = $(this).attr('attr');
+			var self = $(this);
+			$.ajax({
+				url:url,
+				dataType:'json',
+				type:'GET',
+				data:{id:id},
+				success:function(msg){
+					if(msg.status){
+						alert('谢谢你的评价');
+					}else{
+						alert('你已评价过此留言');
+					}
+				}
+			});
+		});
+	}
+	getComment();
+	vote();
+	$('#search_button').click(function(){
+	    var obj = $('#search2');
+	    var word = obj.val();
+	    if((word=='请输入您要搜索的新闻标题……')|| ''==word){
+	        return false;
+	    }
+	    document.location.href = '/article/?word='+encodeURIComponent(word);
+    });
+	$('#search2').keydown(function(event){
+	    if(13==event.keyCode){
+	        $('#search_button').click();
+	    }
+	});
+	
+//	$(document).keydown(function(e) {
+//		if(0==uid){
+//		    if(e.ctrlKey && (e.keyCode == 65 || e.keyCode == 67)) {
+//		    	alert('请先登录再进行复制分享');
+//		        return false;
+//		    }
+//	   }
+//    });
+//    $(document).bind("copy", function() {
+//    	if(0==uid){
+//    		alert('请先登录再进行复制分享');
+//            return false;
+//       }
+//    });
+});
+function ArticleVote(vo,id){
+    var url = '/?m=Article&a=Vote';
+    $.ajax({
+            url:url,
+            dataType:'json',
+            type:'GET',
+            data:{id:id,vo:vo},
+            success:function(msg){
+                    if(msg.status==1){
+                        if(msg.vote==1){
+                            $("#cai").html(msg.value);
+                        }else{
+                            $("#zan").html(msg.value); 
+                        }
+                    }else if(msg.status==2){
+                        if(msg.vote==1){
+                            alert('您已经踩过了');
+                        }else{
+                            alert('您已经赞过了');
+                        }
+                    }else {
+                        alert('非法操作!');
+                    }
+            }
+    });
+}

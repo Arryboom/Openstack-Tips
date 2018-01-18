@@ -1,0 +1,83 @@
+.btn-list{height: 30px;padding-top:3px;}
+.btn-list a{
+  background: #ff3131;
+  padding: 3px 5px;
+  border-radius: 3px;
+  margin-left: 10px;
+  color: #fff;
+  font-size:14px;
+}
+.btn-list a:hover{
+  background:#00aeff;
+  color:#fff!important;
+}
+.btn-list .fa{
+  margin-right:3px
+}
+.btn-list .a-zhekou{background: #ff0057;}
+.btn-list .a-taocan{background: #eab000;}
+.btn-list .a-xianlutu{
+  background: #00c9dc;
+}
+.course-class{width: 850px; height: auto; border:1px solid #ddd; border-radius:4px; background:#fff;/* z-index: 99999; *//* position: relative; */padding: 5px;}
+.course-class a:hover{
+   color:#00aeff!important; 
+}
+.btn-list a:hover{
+  background:#00aeff;
+  color:#fff!important;
+}
+.class-list{ /* border-bottom: 1px solid #EFEFEF; */ line-height: 25px; padding: 1px 0px; position:relative; border-left:3px solid rgba(0,0,0,0); display: inline-block;}
+.class1st{
+    float:left;
+    display: inline-block;
+    text-align: right;
+    width: 72px;
+    font-size:14px;
+    color:#00aeef;
+    margin: 0;
+    margin-right: 3px;
+    padding-right: 5px;
+    font-weight: bold;
+    background-color: #F1FAFF;
+}
+.class2nd{
+  width: 765px;
+  float: left;
+  font-size: 12px;
+  background: #F1FAFF;
+}
+.class2nd:hover{
+  font-size:12px;
+  background: #8BC34A;
+  color:#fff!important;
+}
+.class2nd a{
+    margin: 0 5px;
+}
+.class2nd:hover a{
+  color:#fff!important;
+}
+.class2nd i{
+    margin: 0 5px;
+    font-style: normal;
+    color: #DFDFDF;
+}
+.color1,.color2,.color3,.color4{
+font-weight: bold;
+}
+.class2nd .color0{
+  color: #333!important;
+}
+.class2nd .color1{
+  color: red;
+}
+.class2nd .color2{
+  color: #00AB02;
+}
+.class2nd .color3{
+  color:#00aeef;
+}
+.class2nd .color4{
+  color: #E7B322;
+}

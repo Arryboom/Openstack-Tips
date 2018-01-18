@@ -1,0 +1,1158 @@
+.lotusui30 .lconnMobileAppBanner {
+position: relative;
+left: 0;
+border-bottom: 1px solid;
+width: 100%;
+height: 78px;
+font-family: 'Helvetica Neue', sans-serif;
+z-index: 9998;
+-webkit-font-smoothing: antialiased;
+overflow: hidden;
+-webkit-text-size-adjust: none;
+}
+.lotusui30 .lconnMobileAppBanner .lotusInfo {
+position: absolute;
+left: 98px;
+top: 18px;
+width: 44%;
+font-size: 11px;
+line-height: 1.2em;
+font-weight: bold;
+background-color: transparent;
+border: none;
+}
+.lotusui30 .lconnMobileAppBanner .lotusInfo strong {
+display: block;
+font-size: 13px;
+line-height: 18px;
+}
+.lotusui30 .lconnMobileAppBanner .lotusInfo>span {
+display: block;
+}
+.lotusui30 .lconnMobileAppBanner a.lotusBtn {
+position: absolute;
+right: 20px;
+top: 24px;
+min-width: 10%;
+height: 24px;
+font-size: 14px;
+line-height: 24px;
+text-align: center;
+font-weight: bold;
+text-transform: uppercase;
+text-decoration: none;
+}
+.lotusui30 .lconnMobileAppBanner .lotusIcon {
+position: absolute;
+left: 30px;
+top: 10px;
+display: block;
+width: 57px;
+height: 57px;
+background: rgba(0, 0, 0, 0.6);
+background-size: cover;
+border-radius: 10px;
+-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+.lotusui30 .lconnMobileAppBanner .lotusIcon:after {
+content: '';
+position: absolute;
+left: 0;
+top: -1px;
+border-top: 1px solid rgba(255, 255, 255, 0.8);
+width: 100%;
+height: 50%;
+background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.7) 0%,
+rgba(255, 255, 255, 0.2) 100% );
+border-radius: 10px 10px 12px 12px;
+}
+.lotusui30 .lconnMobileAppBanner a.lotusClose {
+position: absolute;
+left: 5px;
+top: 5px;
+display: block;
+text-transform: lowercase;
+}
+.lotusui30 .lconnMobileAppBanner.ios {
+background: #f7f7f7;
+background: -moz-linear-gradient(center top, #f7f7f7 0%, #c3c3c3 100%);
+background: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7),
+to(#c3c3c3) );
+border-bottom: 1px solid #e5e5e5;
+}
+.lotusui30 .lconnMobileAppBanner.ios a.lotusClose {
+border: 2px solid #fff;
+width: 14px;
+height: 14px;
+font-family: 'ArialRoundedMTBold', Arial;
+font-size: 15px;
+line-height: 15px;
+text-align: center;
+color: #fff;
+background: #070707;
+text-decoration: none;
+text-shadow: none;
+border-radius: 14px;
+-moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+-webkit-font-smoothing: subpixel-antialiased;
+}
+.lotusui30 .lconnMobileAppBanner.ios .lotusInfo {
+color: #6a6a6a;
+text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.lotusui30 .lconnMobileAppBanner.ios a.lotusBtn {
+border: 1px solid #bfbfbf;
+padding: 0 10px;
+color: #6a6a6a;
+background: -moz-linear-gradient(center top, #efefef 0%, #dcdcdc 100%);
+background: -webkit-linear-gradient(top, #efefef 0%, #dcdcdc 100%);
+text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+border-radius: 3px;
+box-shadow: 0 2px 0 rgba(255, 255, 255, 0.6), 0 1px 0
+rgba(255, 255, 255, 0.7) inset;
+}
+.lotusui30 .lconnMobileAppBanner.ios a.lotusBtn:active,.lotusui30 .lconnMobileAppBanner.ios a.lotusBtn:hover
+{
+background: -moz-linear-gradient(center top, #dcdcdc 0%, #efefef 100%);
+background: -webkit-linear-gradient(top, #dcdcdc 0%, #efefef 100%);
+}
+.lotusui30 .lconnMobileAppBanner.android {
+border-color: #212228;
+background: #2b3034;
+}
+.lotusui30 .lconnMobileAppBanner.android a.lotusClose {
+border: 0;
+width: 17px;
+height: 17px;
+line-height: 17px;
+color: #b1b1b3;
+text-align: center;
+background: #1c1e21;
+text-shadow: 0 1px 1px #000;
+border-radius: 14px;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) inset, 0 1px 1px
+rgba(255, 255, 255, 0.3);
+background: #1c1e21;
+}
+.lotusui30 .lconnMobileAppBanner.android .lotusInfo strong {
+color: #fff;
+}
+.lotusui30 .lconnMobileAppBanner.android a.lotusBtn span {
+color: #333;
+display: block;
+padding: 0 10px;
+background-color: #e6e6e6;
+text-transform: none;
+text-shadow: none;
+box-shadow: none;
+}
+.lotusui30 .lconnMobileAppBanner.android .lotusInfo {
+color: #ccc;
+}.filePreviewParentNode {
+display: block !important;
+position: relative !important;
+}
+.filePreviewParentNode img {
+display: block !important;
+line-height: 100%;
+color: #333;
+margin: auto;
+position: absolute;
+left: 0;
+right: 0;
+top: 0;
+bottom: 0;
+overflow: hidden;
+border: 0 none;
+vertical-align: middle;
+}
+.filePreviewParentNode span {
+position: absolute;
+bottom: 0;
+right: 0;
+color: #666666;
+background-color: #E6F1FE;
+border: 1px solid #B9CFEB;
+display: block;
+font-size: 0.935em;
+line-height: 1.3em;
+padding: 3px 5px;
+}
+.lotusui30.lotusImagesOff .filePreviewParentNode img, .lotusui30 .lotusImagesOff .filePreviewParentNode img {
+display: none !important;
+}
+.filePreviewParentNode .hcModeText, .filePreviewParentNode .hcModeText {
+display: none;
+}
+.lotusui30.lotusImagesOff .filePreviewParentNode span.hcModeText, .lotusui30 .lotusImagesOff .filePreviewParentNode span.hcModeText {
+display: inline-block;
+font-size: 1em;
+font-weight: bold;
+border: none;
+position: static;
+padding: 0;
+}
+.ic-thumb-widget {
+margin: 10px auto 0;
+width: 888px;
+float: left;
+}
+.ic-thumb-widget-flip-card {
+display: block;
+position: relative;
+float: left;
+}
+.ic-thumb-widget-flip-card .card-front,
+.ic-thumb-widget-flip-card .card-back {
+-webkit-transition: all 200ms ease-in;
+-moz-transition: all 200ms ease-in;
+-ms-transition: all 200ms ease-in;
+-o-transition: all 200ms ease-in;
+transition: all 200ms ease-in;
+display: block;
+height: 100%;
+position: absolute;
+width: 100%;
+}
+.ic-thumb-widget-flip-card .card-back {
+display: none\0/;
+-webkit-opacity: 0;
+-moz-opacity: 0;
+opacity: 0;
+}
+.ic-thumb-widget-flip-card:hover .card-back, .ic-thumb-widget-flip-card-a11y-h .card-back {
+display: block\0/;
+-webkit-opacity: 1;
+-moz-opacity: 1;
+opacity: 1;
+background-color: #626262 !important;
+background-color: rgba(0,0,0,0.6) !important;
+}
+.ic-thumb-widget-flip-card * {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.ic-thumb-widget-flip-card a, .ic-thumb-widget-flip-card a:visited {
+text-decoration: none;
+}
+.ic-thumb-widget-flip-card a:hover {
+text-decoration: underline;
+}
+.ic-thumb-widget-flip-card {
+color: #fff;
+width: 202px;
+height: 164px;
+margin: 10px 18px 10px 2px;
+}
+.ic-thumb-widget-flip-card .card-front,
+.ic-thumb-widget-flip-card .card-back {
+border: 1px solid #E8E8E8;
+background-color: #F6F6F6;
+}
+.ic-thumb-widget-flip-card .card-front {
+overflow: hidden;
+}
+.ic-thumb-widget-flip-card .card-front .check, .ic-thumb-widget-flip-card .card-front .pin {
+visibility: hidden;
+position: absolute;
+}
+.ic-thumb-widget-flip-card .trianglePin {
+position:absolute;
+top:0;
+right:0;
+visibility: hidden;
+}
+.ic-thumb-widget-flip-card-is-pinned .card-front .trianglePin, .ic-thumb-widget-flip-card .card-back .trianglePin {
+visibility: visible;
+}
+.ic-thumb-widget-flip-card-is-checked .card-front .check {
+visibility: visible;
+top: 8px;
+left: 10px;
+}
+.ic-thumb-widget-flip-card-is-pinned .card-front .pin {
+visibility: visible;
+top: 3px;
+right: 3px;
+}
+.ic-thumb-widget-flip-card .card-front .summary {
+background-color: #F0F0F0;
+border-top: 1px solid #FFFFFF;
+bottom: 0;
+height: 30px;
+left: 0;
+overflow: hidden;
+position: absolute;
+right: 0;
+text-overflow: ellipsis;
+white-space: nowrap;
+width: 100%;
+}
+.ic-thumb-widget-flip-card .card-front .summary span.text {
+color: #333333;
+display: block;
+overflow: hidden;
+padding: 5px 28px 5px 10px;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+.ic-thumb-widget-flip-card .card-front .summary span.text.sync {
+padding-right: 48px;
+}
+.ic-thumb-widget-flip-card .card-front .summary .icon {
+bottom: 7px;
+display: block;
+position: absolute;
+right: 8px;
+white-space: nowrap;
+}
+.ic-thumb-widget-flip-card .card-front .summary .icon.sync {
+right: 28px;
+}
+.ic-thumb-widget-flip-card .card-back {
+padding: 10px;
+top: 0;
+left: 0;
+overflow: hidden;
+cursor: pointer;
+text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+.ic-thumb-widget-flip-card .card-back .check {
+position: absolute;
+top: 8px;
+left: 10px;
+font-size: 0.1em;
+}
+.ic-thumb-widget-flip-card .card-back .pin {
+position: absolute;
+top: 3px;
+right: 3px;
+font-size: 0.1em;
+}
+.ic-thumb-widget-flip-card .card-back a, .ic-thumb-widget-flip-card .card-back a:hover, .ic-thumb-widget-flip-card .card-back a:focus, .ic-thumb-widget-flip-card .card-back a:active, .ic-thumb-widget-flip-card .card-back a:visited {
+color: #fff;
+font-weight:bold;
+}
+.ic-thumb-widget-flip-card .card-back a.pin, .ic-thumb-widget-flip-card .card-back a.pin:hover, .ic-thumb-widget-flip-card .card-back a.pin:focus, .ic-thumb-widget-flip-card .card-back a.pin:active, .ic-thumb-widget-flip-card .card-back a.pin:visited {
+color: #333;
+}
+.ic-thumb-widget-flip-card .card-back a span {
+display: none;
+}
+.ic-thumb-widget-flip-card .card-back .title {
+margin: 16px 0 0 0;
+font-size: 1.2em;
+line-height: 1.2em;
+padding: 0;
+}
+.ic-thumb-widget-flip-card .card-back .title a {
+display: block;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.ic-thumb-widget-flip-card .card-back span.desc {
+display: block;
+margin: 5px 0 0 0;
+line-height: 1.2em;
+}
+.ic-thumb-widget-flip-card .card-back .actions {
+bottom: 0;
+left: 0;
+width:100%;
+height: 30px;
+margin: 0;
+padding: 6px 8px;
+position: absolute;
+background-color: #F6F6F6;
+text-align: right;
+border-top: 1px solid #FFFFFF;
+}
+.ic-thumb-widget-flip-card .card-back .actions a {
+text-decoration: none;
+margin-left: 5px;
+color: #333333;
+}
+.ic-thumb-widget-flip-card-is-checked .card-front,
+.ic-thumb-widget-flip-card-is-checked .card-back {
+border-color: #047CBD;
+-webkit-box-shadow: 0 0 0 2px #047CBD;
+-moz-box-shadow: 0 0 0 2px #047CBD;
+box-shadow: 0 0 0 2px #047CBD;
+}
+.ic-thumb-widget-flip-card .hc, .ic-thumb-widget-flip-card .hc {
+text-indent: 100%;
+white-space: nowrap;
+overflow: hidden;
+}
+.lotusui30.lotusImagesOff .ic-thumb-widget-flip-card .hc, .lotusImagesOff .lotusui30 .ic-thumb-widget-flip-card .hc {
+text-indent: 0;
+text-overflow: ellipsis;
+font-size: 1em;
+font-weight: bold;
+}
+.lotusui30.lotusImagesOff .ic-thumb-widget-flip-card .summary  span.text, .lotusImagesOff .lotusui30 .ic-thumb-widget-flip-card .summary span.text {
+position: absolute;
+top: -2px;
+left: 2px;
+right: 2px;
+padding: 0;
+width: 100%;
+height: auto;
+text-align: left;
+}
+.lotusui30.lotusImagesOff .ic-thumb-widget-flip-card .summary  span.icon.hc, .lotusImagesOff .lotusui30 .ic-thumb-widget-flip-card .summary  span.icon.hc {
+width: 50%;
+height: auto;
+bottom: -2px;
+rigth: 2px;
+text-align: right;
+}
+.lotusui30.lotusImagesOff .ic-thumb-widget-flip-card .summary  span.icon.sync.hc, .lotusImagesOff .lotusui30 .ic-thumb-widget-flip-card .summary  span.icon.sync.hc {
+right: auto;
+text-align: left;
+}
+.lotusui30.lotusImagesOff .ic-thumb-widget-flip-card .actions, .lotusImagesOff .lotusui30 .ic-thumb-widget-flip-card .actions {
+padding: 0;
+line-height: 15px;
+}
+.lotusui30.lotusImagesOff .ic-thumb-widget-flip-card .actions a, .lotusImagesOff .lotusui30 .ic-thumb-widget-flip-card .actions a {
+display: inline-block;
+float: left;
+position: static;
+width: auto;
+height: auto;
+}
+.lotusui30.lotusImagesOff .check, .lotusImagesOff .lotusui30 .check, .lotusui30.lotusImagesOff .pin, .lotusImagesOff .lotusui30 .pin {
+display: inline-block;
+width: auto;
+height: auto;
+}.lotusPaletteContent{ height: 19.2em; }
+.lotusPaletteNav{ height: 19.2em; }
+.dj_ff3 .lotusPaletteContent{ height: 20.2em; }
+.dj_ff3 .lotusPaletteNav{ height: 20.2em; }
+.lotusui_ie .lotusPaletteWidget .lotusTitle h4.lotusAdded{ width: auto; }
+.lotusui_ie .lotusPaletteWidget .lotusTitle h4 { width: 11.5em !important; }
+.lotusui_ie .lotusLargeWidgets .lotusPaletteWidget .lotusTitle h4 { width: 10em !important; }
+.lotusPaletteWidget div.lotusIcon { height: 34px; }
+.lotusPaletteNav li a { outline-style: none; -moz-outline-style: none; }
+.lotusPalette .lotusMenu{ height: 17.5em !important; }
+.lotusui_ie7 .lotusPalette .lotusMenu{ height: 17.5em !important; }
+.lotusPaletteWidgets{ min-height: 16.7em}
+.lotusPaletteContent .lotusPaging { width: auto; }
+.lotusPaletteDisabledBtn: hover{ cursor: auto !important; border-color: #222222 !important; }
+.lotusPaletteDisabledBtn: focus{ cursor: auto !important; border-color: #222222 !important; }
+.lotusui_ie .lotusLargeWidgets div.lotusIcon { width: 65px !important; }
+.lotusui_ie .lotusLargeWidgets .lotusPaletteWidget div { line-height: 5em !important; }
+.lotusui_ie .lotusLargeWidgets h4 { margin-top: -0.5em !important; }
+.personinlinemenu .h2 { width: auto; word-wrap: break-word; }
+.personinlinemenu .lotusInlinePhoto img { boder: 1px solid #666666; padding: 5px 0; }
+.lconnTypeHighlighted { border: 1px solid #b9cfeb; background: #e6f1fe; color: #666; padding: 0 5px; }
+.lotusMenu .lconnTypeHighlighted { display: inline-block; font-weight: normal; font-size: .9em; margin-top: 2px; }
+.lotusTable .cnxnsType,
+.lotusTable .lconnTypeHighlighted { font-size: 0.75em; font-weight: normal; margin-left: 5px; }
+.lotusTable .lotusType img,
+.lotusTable .cnxnsType img,
+.lotusTable .lconnTypeHighlighted img { display: none; }
+.lotusContent h1 .lconnTypeHighlighted { font-size: .53em; vertical-align: bottom; }
+.lotusui_ie .lotusContent h1 .lconnTypeHighlighted { vertical-align: middle; }
+.cnxsDueDateLate { color: red; }
+#commonTagsSubArea #tagCloud { margin-top: 7px; }
+.lotusUpdateStatus #newsStatusFormDiv { background-color: #B4D5FC; }
+.lotusBoard #wallInput .lotusPostContent { padding: 0; }
+.lotusBoard .lotusPostContent .lotusForm textarea { margin-bottom: 0; }
+#associatedInfoSubArea .attributeTitle { margin-bottom: 10px; }
+.lotusForum .lotusPostDetails { padding: 10px 0; }
+.lotusForum ul.lotusCommentList .lotusChildNoIndent{ margin-left: 0; padding-left: 0px; list-style-type: none; background-position: left top; background-repeat: no-repeat; }
+.lotusui_ie7 .lotusui30 ul.lotusCommentList li.lotusCommentItem ol>li { display: list-item; }
+#miscControl label { margin: 0 5px; }
+.blog .entryContentContainer { margin-top: 5px; }
+.notifyPerson label { margin-left: 3px; margin-top: -2px; }
+.dijitMenuItem td.dijitMenuItemLabel { padding: 4px 20px 4px 5px !important; }
+.dijitMenuItem .dijitMenuItemIcon { margin: 2px; vertical-align: text-top; }
+.dijit_a11y .dijitMenuItem td.dijitMenuItemLabel { position: static; }
+.dijit_a11y .dijitCalendarYearLabel .dijitCalendarSelectedYear { border: 1px solid black; }
+#lotusNavBarContainer .lotusMenu .lotusInlinePhoto a img { margin: 5px 0 10px 0; border: 1px solid #666666; }
+.personinlinemenu .lotusMenu .lotusInlinePhoto a img { margin: 5px 0 10px 0; border: 1px solid #666666; }
+.lotusColLeft .sets { margin-bottom: 10px; }
+#statusMessageDiv h1 { word-wrap: break-word; width: auto; overflow: hidden; }
+.lotusPinnedRow{ background-color: #FFFABD; }
+.SpinnerOverlay { display: none; position: absolute; text-align: center; margin-left: auto; margin-right: auto; }
+.SpinnerOverlay .spinner { background: transparent url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/loading.gif?etag=20150310.220517") no-repeat scroll top center; height: 16px; }
+.shadowText { color: #999999; font-style: italic; }
+.lotusui .lconnEmpty { font-style: italic; color: #666; }
+.lotusui .lotusContent .lconnEmpty { margin-top: 20px; margin-bottom: 20px; }
+.dijitMenu .searchDirectory, .lotusui30dojo .dijitComboBoxMenu .dijitMenuItem.searchDirectory { font-weight: bold; background-image: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/iconSearchDark16.png?etag=20150310.220517"); background-repeat: no-repeat; background-position: 2px center; padding-left: 18px; color: #105CB6; }
+body.lconnHideContent .lotusBanner,
+body.lconnHideContent .lotusTitleBar,
+body.lconnHideContent .lotusTitleBar2,
+body.lconnHideContent .lotusPlaceBar,
+body.lconnHideContent .lotusMain,
+body.lconnHideContent .lotusFooter { display: none !important; }
+body.lconnHideLoading .lconnApplicationLoading { display: none; }
+.lconnApplicationLoading { color: #BBB; text-align: center; padding-bottom: 10px; position: absolute; top: 40%; width: 100%; font-size: 2em; line-height: 2em; font-weight: bold; }
+.lotusui_ie .lconnApplicationLoading { top: expression( (documentElement.clientHeight * .4) + "px" ); }
+.lotusHeader .lotusTags .lotusDelete img { margin-right: 0; }
+.lotusHeader .lotusRecommend IMG { vertical-align: text-top; margin-right: 2px; }
+.lotusRecommend IMG { vertical-align: text-top; margin-right: 2px; }
+.lotusRecommend a.lotusAction { font-size: 1em !important; }
+.lotusWelcomeBox { padding: 20px; }
+.lotusWelcomeBox a.lotusClose { top: 15px; right: 17px; }
+.lotusWelcomeBox .lconnDemoThumbnail { float: right; }
+.lotusWelcomeBox .lconnDemoThumbnail img { width: 48px; height: 48px; vertical-align: baseline; margin: 0px; }
+.lotusWelcomeBox .lconnDemoThumbnail div { text-align: center; }
+.lotusWelcomeBox .lconnDemoThumbnail div a { font-size: 0.9em; font-weight: bold; text-decoration: none; }
+.lotusWelcomeBox p,
+.lotusWelcomeBox ul { padding-right: 100px; }
+.lotusWelcomeBox .lconnSprite-iconHelp16 { margin: 2px; vertical-align: text-top; }
+.lconnTabBody { padding-left: 10px; }
+.lconnTabBody .lotusVertTable th,
+.lconnTabBody .lotusVertTable td { padding-left: 0; }
+.lconnTabBody .lotusFeeds { margin: 0; margin-top: 10px; }
+.lconnTabBody div.lotusSort { margin-left: 0; }
+.lconnTabBody p.lotusChunk { margin: 10px 0 0 0; }
+.lconnTabBody table.lotusTable .lotusFirstCell { padding-left: 0; }
+.lconnTabBody table.lotusTable td { padding-top: 3px; padding-bottom: 3px; padding-left: 3px; padding-right: 10px; border-top: 0; }
+ul.XlotusCompactList li { margin: 0; margin-top: 2px; padding: 0; }
+.lotusDivider { padding: 0 5px; }
+.lotusui a.lotusDelete { text-decoration: none !important; }
+.lotusFeeds .lotusInlinelist li a.lotusFeed{ margin-right: 0px; }
+.lotusTitleBar .lotusSearch .lotusSearchButton{ color: #fff; }
+.lconnDownloadableIcon { position: relative; display: block; }
+.lconnDownloadableIcon .lconnDownloadOverlay { position: absolute; right: 0; bottom: -1px; }
+.lconnIconContainer { position: relative; display: block; }
+.lconnIconContainer .lconnFileSyncOverlay { position: absolute; right: 3px; bottom: -1px; }
+.dijitPopup .lotusHelp,
+.dijitTooltipDialog .lotusHelp,
+.lotusTooltipDialog .lotusHelp { position: relative; left: 0; top: 0; width: auto; }
+.lotusui .dijitTooltipContainer { font-size: 1em; }
+.lotusHelp .lotusInfoBox h3 { float: none; margin-left: 0; padding-left: 0}
+.lotusTooltipDialog .dijitTooltipContainer { background-image: none; background-color: transparent; border: 0; padding: 0; }
+.lotusTooltipDialog .dijitTooltipConnector { display: none; }
+.lconnExternalAccess{ background-color: #666; color: white; padding: 0.1em; }
+.BrowseGroups .fieldAddDisabled { height: 16px; width: 16px; opacity: 0.4; -moz-opacity: 0.4; filter: alpha(opacity=40); border: none; }
+.BrowseGroups .dijit_a11y .fieldAddDisabled { height: 16px; width: 16px; opacity: 0.4; -moz-opacity: 0.4; filter: alpha(opacity=40); border: none; }
+.BrowseGroups .groupList { background-color: white; border: 1px solid #AAA; overflow: auto; display: block; height: 135px; padding: 0; width: 440px; overflow: auto; margin-top: 5px; margin-left: 0; }
+.BrowseGroups .dijitMenuItem { white-space: nowrap; padding: 0 0; overflow: visible; }
+.BrowseGroups .lotusBreadcrumbs { margin: 12px 0px 0px 0px; }
+.BrowseGroups .lotusDialog ul li { margin-bottom: 0px; }
+.BrowseGroups .selectedLabel { font-weight: bold; }
+.BrowseGroups .lotusFormFieldRow td { padding-bottom: 5px !important; }
+.BrowseGroups .groupSelect { padding-left: 5px; }
+.BrowseGroups .browseLink { padding-top: 0px; }
+.lotusui_ie  .lotusPlaceBar .lotusBtnContainer{ overflow: visible}
+.lconnFileUpload { position: relative; padding: 0 20px; z-index: 1}
+.lconnFileUploadIcon { position: absolute; left: 0; top: 0; }
+.dj_iequirks .lconnFileUploadIcon { left: -20px; }
+.lconnFileUploadLabel { width: 100%;  }
+.lconnFileUploadLabel .lconnFilenameContainer { overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; white-space: nowrap; }
+.lconnFileUploadAction { position: absolute; right: 0; top: 0; }
+.lconnFileUploadDisabled a { color: #000 !important; text-decoration: none !important; cursor: text !important; }
+.lconnFileUploadDisabled .lconnFileUploadAction a { display: none !important; }
+.lconnFileUploadDisabled .lconnFileUploadIcon,
+.lconnFileUploadDisabled .lconnFileUploadLabel,
+.lconnFileUploadDisabled .lconnFileUploadStatus { opacity: 0.5; filter: alpha(opacity=50); }
+.lconnFileUploadDisabled .lconnFileUploadStatus .lotusInlinelist { display: none; }
+.lconnFileUploadDisabled .lconnFileUploadStatus_IsDuplicate,
+.lconnFileUploadDisabled .lconnFileUploadStatus_FileRenamed,
+.lconnFileUploadDisabled .lconnUploadContainer { display: none; }
+.lconnFileUploadEditing .lconnFileUploadStatus_IsDuplicate { display: none; }
+.lconnFileUploadStatus { padding-top: 1px; padding-bottom: 2px; }
+.lconnFileUploadStatus .lotusMessage { border: none; padding: 3px; margin-bottom: 2px; }
+.lconnFileUploadStatus .lotusInlinelist { display: inline; }
+.lconnFocusHelper { z-index: 2; position: relative; }
+.lconnInvisibleMovie { background-color: transparent; opacity: 0; position: absolute; top: 0; left: 0; z-index: 3; cursor: crosshair; }
+.lconnUploadContainer { display: inline-block; position: relative; z-index: 2; }
+.lconnUploadMultiple .lconnUploadHover { background-color: #f0f0f0; }
+.lconnFileUploadAction .lconnRemoveLink { padding: 0 4px; }
+.lotusui_ie .lconnInvisibleMovie, .lotusui_ie8 .lconnInvisibleMovie { filter: alpha(opacity=0); }
+.lconnFileInput { z-index: 1; overflow: hidden; }
+.lotusui .lconnSelectAllContainer { padding-left: 10px; padding-right: 5px; }
+.lotusui_ie .lconnSelectAllContainer { padding-top: 1px; }
+.lotusui .lotusTable .lconnSelectAllContainer input.lotusCheckbox,
+.lotusui .lotusTable .lotusFirstCell input.lotusCheckbox { margin-right: 1px; }
+.lotusui .qkrIcon32  .lconnSelectAllContainer input.lotusCheckbox,
+.lotusui .qkrIcon32  .lotusFirstCell input.lotusCheckbox { margin-right: 2px; }
+.lotusui .qkrIcon32  td.lotusFirstCell input.lotusCheckbox { margin-top: 10px; }
+.lotusui_ie .qkrIcon32  td.lotusFirstCell input.lotusCheckbox { margin-top: 6px; }
+.lconnCompactMessage .lotusMessage { margin: 0; border-radius: 0px; -moz-border-radius: 0px; -webkit-border-radius: 0px; }
+.lotusMessage span { margin: 0px 20px; }
+.lotusui30 .lotusDialog .lotusFormTable td { padding: 0 3px 10px 0; }
+.lotusui30 .lotusDialog .lotusDialogContent .lotusFormTable { padding: 0;}
+.lotusui30 .lotusNavMenu .dijitTooltipFocusNode{ padding: 0; }
+.lotusui30 .lotusNavMenu tr img { margin: 0 3px 0 8px; }
+.lotusui30 .lotusNavMenu tr th span { display: block;margin: 1px;padding: 10px; }
+.lotusui30dojo .dijitMenuPassive, .lotusui30dojo .dijitMenuActive { position: static; }
+.lotusui30 .dijitMenu.lotusNavMenu, .lotusui30 .dijitTooltipDialogPopup .lotusNavMenu { position: relative !important; }
+.lotusui30dojo .dijitMenuActive .dijitMenuItemHover,
+.lotusui30dojo .dijitMenuActive .dijitMenuItemSelected { background-color: #E1F4F9 !important; }
+.lotusui30dojo .dijitMenuActive .dijitMenuItemHover a,
+.lotusui30dojo .dijitMenuActive .dijitMenuItemHover a:link,
+.lotusui30dojo .dijitMenuActive .dijitMenuItemHover a:visited,
+.lotusui30dojo .dijitMenuActive .dijitMenuItemSelected a,
+.lotusui30dojo .dijitMenuActive .dijitMenuItemSelected a:link,
+.lotusui30dojo .dijitMenuActive .dijitMenuItemSelected a:visited { background-color: #E1F4F9 !important; }
+.lotusui30dojo .dijitCalendarContainer { border: solid 1px #aaaaaa; background-color: #ffffff; text-align: center; -webkit-box-shadow: 0 2px 5px #eeeeee; -moz-box-shadow: 0 2px 5px #eeeeee; box-shadow: 0 2px 5px #eeeeee; }
+.lotusui30 .lotusPlaceBar h2 a,
+.lotusui30 .lotusPlaceBar h2 a: visited { color: #222222; }
+.lotusui30 .lotusHeading img.lotusIcon{ margin-right: 7px}
+.lotusui30 .lotusTabContainer .lotusWidget{ margin: 0 0 20px; padding: 0; border-width: 0; width: auto; }
+.lotusui30 .lotusTabContainer .lotusWidget h2{ margin-bottom: 0; font-size: 1em; }
+.lotusui30 .lotusTabContainer .lotusWidget .lotusTabTitle { outline: none; float: left; padding-top: 6px; padding-bottom: 3px; }
+.lotusui30 .lotusTabContainer .lotusWidget .lotusTabActionMenu { float: left; padding-bottom: 5px; padding-top: 2px; }
+.lotusui30 .lotusTabContainer .lotusWidget h2 a.lotusActionMenu { padding: 0px; }
+.lotusLogin2 .lotusForm2 .lotusFormError{ display: block; }
+.lotusui30 .lotusVCard,
+#cardDiv { display: table; position: absolute; width: 400px; color: #444444; font-size: 1em; border: 3px solid #ababab; border: 3px solid rgba(3, 3, 3, 0.45); -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0 0 5px rgba(34, 34, 34, 0.5); -webkit-box-shadow: 0 0 5px rgba(34, 34, 34, 0.5); box-shadow: 0 0 5px rgba(34, 34, 34, 0.5); background-color: #fff; z-index: 10000; zoom: 1; }
+.lotusui30 .lotusVCard .lotusAppLinks td,
+#cardDiv .lotusAppLinks td { background: none; border: none; background-color: #fff; text-align: left; line-height: 1; }
+.lotusui30 .lotusVCard .lotusAppLinks td a { padding: 0 8px; }
+.lotusui30 .lotusVCard .lotusAppLinks a { display: inline; padding: 0 10px; border-width: 0 0 0 1px; border-style: solid; border-color: #c5c5c5; color: #003f69; font-size: 0.9em; }
+.lotusui30 .lotusVCard .lotusAppLinks td.lotusFirst a { border-left-width: 0; padding-left: 11px; }
+.lotusui30 .lotusVCard .lotusMore { margin-right: 40px; background-position: 10px -2418px; }
+.lotusui30 .lotusVCard .lotusMoreExpanded { background-position: 10px -2471px; }
+.lotusui30 .lotusVCard #cardHeader>td>table { width: 99%; margin: 12px 4px; }
+.lotusui30 .lotusVCard tr#appLinksNext table { margin-top: 5px; }
+.lotusui30 .lotusVCard .lotusDetails { padding: 0px 16px 20px; }
+.lotusui30 .lotusVCard #cardTable .lotusDetails { background-color: #FFFFFF; }
+.lotusui30 .lotusVCard .lotusDetails p,
+.lotusui30 .lotusVCard .lotusDetails div.adr { line-height: 1.2; font-size: 12px; }
+.lotusui30 .lotusVCard .lotusDetails div.adr p { margin-left: 0; }
+.lotusui30 .lotusVCard .lotusDetails .title { margin-top: 12px; font-weight: bold; }
+.lotusui30 .lotusVCard .lotusDetails .lotusRight { margin-top: 10px; }
+.lotusui30 .lotusVCard .lotusPhoto img { width: 100px; height: 100px; }
+.lotusui30 .lotusVCard .lotusPhoto { border: 0 none; padding: 5px; margin-top: 5px; }
+.lotusui30 .lotusVCard h2 { position: relative; color: #003f69; font-size: 18px; font-weight: normal; }
+.lotusui30 .lotusVCard .lotusPersonInfo { color: #444444; font-size: 11px; margin: 10px 0 0; }
+.lotusui30 .lotusVCard .lotusPersonInfo h2 { overflow: hidden; }
+.lotusui_ie .lotusui30 .lotusVCard .lotusPersonInfo h2 { padding-bottom: 5px; }
+.lotusui30 .lotusVCard .lotusPersonInfo h2 span { vertical-align: top; line-height: 1; }
+.lotusui30 .lotusVCard .lotusPersonActions .lotusInlinelist li { border-color: #ccc; }
+.lotusui30 .lotusVCard .lotusPersonActions .lotusInlinelist li a img { margin-left: 4px; }
+.lotusui30 .lotusVCard .lotusPersonActions { padding: 0 16px 12px; font-size: 11px; }
+.lotusui30 .lotusVCard .lotusPersonActions { border: none; margin-top: -5px; position: relative; overflow: auto; }
+.lotusui30 .lotusVCard .lotusPersonActions .email img { display: none; }
+.lotusui30 .lotusVCard .lotusActionMenu { margin-top: 0; position: relative; overflow: auto; }
+.lotusui30 .lotusVCard .lotusActionMenu a,
+.lotusui30 .lotusVCard .lotusActionMenu a: visited { padding-left: 20px; }
+.lotusui30 .lotusTitleBar2 .lotusInner .lotusSearch .lotusLayout .lotusScope{  border-right: 1px solid #E3E3E3; font-size: 1em; line-height: 1.33em; min-width: 11em; padding-right: 14px; }
+.lotusui_ie7 .lotusui30 .lotusTitleBar2 .lotusInner .lotusSearch .lotusLayout .lotusScope{  min-width: 0; }
+.lotusui30 .lotusTitleBar2 .lotusRightCorner{ margin: 0 auto; max-width: 1190px; min-width: 980px; padding: 0 5px; }
+.lotusui30 .lotusTitleBar2 img.lotusIcon { margin-bottom: -3px; }
+.lotusui_ie .lotusui30 .lotusBoard .lotusStreamUpdate .lotusText { overflow: auto; }
+.lotusui30dojo .dijitDialog { border: 0px; -webkit-box-shadow: 0 0 0px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0 0 0px rgba(0, 0, 0, 0.4); box-shadow: 0 0 0px rgba(0, 0, 0, 0.4); }
+.lotusui30dojo .dijitDialogPaneContent { background: none; padding: 0px; position: static; }
+.lotusui30dojo .dijitTooltipContainer { padding: 0px; }
+.lotusui30dojo div.lcSharebox { -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); }
+.lotusui30dojo .dijitDialogTitleBar { display: none; }
+.lotusui30dojo .lcSharebox .dijitDialogTitleBar { display: block; }
+.lotusui_ie .lotusui30 .lotusNavMenu tr img { margin-top: 0; }
+.lotusui_ie .lotusui30 .lotusNavMenu tr th img { margin-top: -10px; }
+.lotusui_ie .lotusui30 .lotusNavMenu tr td .lotusPerson img { margin-top: 0px; }
+.lotusui30 .lotusNavMenu tr .lotusPerson img { margin: 0 3px; }
+.lotusui30 .lotusNavMenu { margin-top: -3px; }
+.lotusui30 .lotusNavMenu .dijitTooltipContainer { box-shadow: none; }
+.navDiv.lotusMenu .dijitTreeContainer {
+float: none;
+}
+.lotusui30dojo .dijitMenuItemHover { background-color: #E1F4F9; color: black; }
+.lotusui30dojo .headerNode { background-color: #f0f0f0; font-style: italic; border-bottom: #dadada solid 1px;}
+.lotusui30 .lotusDelete .lotusMessage { margin-left: 50px; }
+.lotusui30 .lotusDelete .lotusFormHeader { border-bottom: 1px solid #AAAAAA; margin-bottom: 10px; }
+.lotusui30 .lotusDelete .lotusFormHeader img { float: left; }
+.lotusui30 .lotusDelete .lotusFormHeader p { margin-bottom: 20px; margin-left: 50px; }
+.lotusui30 .lotusDelete .lotusFormTitle,
+.lotusui30 .lotusDelete .lotusFormBody { margin-left: 50px; padding-left: 0; }
+.lotusui30 img.lotusDelete { opacity: 0.55; filter: alpha(opacity=55); }
+.lotusui30 .lotusMessage2 .lotusDelete img { opacity: 0.55; filter: alpha(opacity=55); }
+.lotusui30 .lotusMessage2 .lotusDelete:hover img, .lotusui30 .lotusMessage2 .lotusDelete:focus img, .lotusui30 .lotusMessage2 .lotusDelete:active img { opacity: 0.65; filter: alpha(opacity=65); }
+.lotusui30 .lotusForm td label { font-weight: normal; }
+.lotusui30 .lotusForm td.lotusFormLabel { font-weight: normal; text-align: left; }
+.lotusui30 .lotusHeader.lconnSearchHeader { margin-bottom: 4px; }
+.lotusui30 .lotusFilters2 .lotusSearchFilterSection { border-bottom: 1px solid #eee; margin-bottom: 0.25em; padding-bottom: 5px; }
+.lotusui30 .lotusFilters2 .lotusSearchFilterSection div { display: inline-block; }
+.lotusui30 .lotusFilters2 .lotusSearchFilterSection a.lotusFilter{ margin-top: 5px; }
+.lotusui30 .lconnSearchResults .lconnPromotedStatusUpdatesContainer div.lotusHeader { margin-top: 15px; margin-bottom: 3px; }
+.lotusui30 .lconnSearchResults .lconnPromotedStatusUpdatesContainer .lotusHeader h1 { display: inline; margin-right: 15px; }
+.lotusui30 .lconnSearchResults .lconnPromotedStatusUpdatesContainer .lotusTable { border-bottom: 1px solid #EEE; }
+.lotusui30 .lconnSearchResults div.lotusHeader.lconnSearchResultsHeading { margin-top: 15px; margin-bottom: 3px; }
+.lotusui30 .lconnSearchResults .lotusSort a.lotusDisabled{ text-decoration: none;  color: #222;  pointer-events: none;  cursor: default; }
+.lotusui30 .lconnSearchResults .lconnSearchComponentCategory img { margin-right: 3px; }
+.lconnSearchResults .lconnProfilesPhotoContainer { height: 65px; }
+.lconnSearchResults .lconnStatusUpdatePhotoContainer { height: 55px; }
+.lconnSearchResults h4 {  display: inline; }
+.lconnSearchResults .lconnSearchHighlight b,
+.lconnSearchResults a.lconnSearchHighlight,
+.lconnSearchResults h4 a b {  background-color: #d3f3fb; font-weight: bold; }
+.lconnSearchResults .lconnSearchHighlight b {  font-weight: bold; }
+.dijit_a11y .lconnSearchResults .lconnSearchHighlight b,
+.dijit_a11y .lconnSearchResults a.lconnSearchHighlight,
+.dijit_a11y .lconnSearchResults h4 a b {  font-style: italic; }
+.lconnSearchResults a: visited { color: #551a8b; }
+.lotusui30 .lconnSearchResults .lconnSearchBookmarkUrl { color: #228822; }
+.lotusui30 .lconnSearchResults .lconnSearchIdeaGraduated { padding: 3px 5px; margin-left: 4px; margin-right: 4px; color: #105CB6; border: 1px solid #8AC4FF; display: inline-block; background-color: #C5E2FF; }
+.lotusDialog .lotusSearchWideDialog { min-width: 600px; }
+.lotusui30 .lotusGlobalSearch .lotusSearch .lotusText: focus,
+.lotusui30 .lotusGlobalSearch .lotusSearch .lotusText: active { color: #222; }
+.lotusui30 .lotusGlobalSearch .lotusSearch .lotusText { border: 0; padding-top: 4px; padding-right: 0; padding-bottom: 3px; background: none; color: #666; }
+.lotusui30 .lotusGlobalSearch .lotusSearch .lotusLayout { border:1px solid #ececec;
+background:#f1f1f1;
+background:-moz-linear-gradient(center top, #f4f4f4 25%, #f1f1f1 100%);
+background:-webkit-gradient(linear, left top, left bottom, from(#f4f4f4), color-stop(25%, #f4f4f4), to(#f1f1f1));
+-moz-border-radius:15px;
+-webkit-border-radius:15px;
+border-radius:15px; }
+.lotusui30 .lotusGlobalSearch .lotusSearch .lotusBtnImg { border: 0; margin-top: 1px; margin-bottom: 4px; margin-left: 1px; background: none; }
+.lotusui30 .lconnSearchHeader .lotusGlobalSearch .lotusSearch .lotusText { padding-left: 9px; width: 99%; }
+.lotusui30 .lconnSearchHeader .lotusGlobalSearch .lotusSearch .lotusLayout { width: 100%; }
+.lotusui30 .lconnSearchHeader .lotusGlobalSearch .lotusSearch .lotusLayout td { width: 100%; }
+.lotusui30 .lconnSearchHeader .lotusGlobalSearch .lotusSearch .lotusBtnImg { margin-right: 5px; padding: 1px}
+.lconnSearchDidYouMean { margin-top: 12px; }
+.lotusDim { opacity: 0.5; filter: alpha(opacity=50); }
+.lotusui30 .lotusPaletteWidget { table-layout: fixed; }
+.lotusui30 .lotusPaletteWidget .lotusWidgetTitle h4.lotusTitle { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.2em}
+.lotusui30 .lotusPaletteWidget .lotusWidgetTitle .lotusTitle span { font-size: 100%; color: #086B3e; }
+.lotusImagesOff.lotusui30 .lotusBtnDisabled{ opacity: 0.50 !important; filter: alpha(opacity=50) !important; }
+.lotusui30.lotusImagesOff .lotusBoard .lotusStreamUpdate .lotusText,
+.lotusImagesOff .lotusui30 .lotusBoard .lotusStreamUpdate .lotusText{ background: #fff; }
+.lotusui_ie .dijitMenuItem { border: 1px solid transparent; }
+.lotusui_ie .lotusui30dojo .dijitMenuTable { border-collapse: collapse; }
+.lotusPaletteClose { padding: 3px; margin-left: 20px; }
+.lotusui_ie .lotusui30 .peopleList .notifyPerson label.lotusCheckbox { position: static; }
+.lotusui30 div.lotusBanner ul li span.lotusUser { padding: 10px 18px; }
+.lotusui30 div.lotusBanner .lotusRightCorner { border-top: none; }
+.lotusui30 div.lotusBanner .lotusLogo .lotusAltText { margin: 10px 20px 10px 0; }
+.lotusui_ie .lotusui30 div.lotusBanner .lotusLogo img { margin-top: 10px; }
+.lotusui30 div.lotusBanner .lotusLogo img { margin-top: 12px; margin-bottom: 10px; }
+.lotusui30 div.lotusBanner ul li a { padding: 11px 16px 9px; }
+.lotusui30 div.lotusBanner ul.lotusUtility li a { padding: 10px 11px; }
+.lotusui30 div.lotusBanner ul.lotusUtility .lotusBranding { padding: 10px 0 10px 11px; }
+.lotusui30 div.lotusPlaceBar .lotusInner { padding: 10px 0; }
+.lotusui30 div.lotusPlaceBar h2 { padding-top: 0; font-size: 1.2em; }
+.lotusui30 div.lotusTitleBar h2 { padding-top: 12px; }
+.lotusui30 div.lotusTitleBar .lotusInner { height: 4.2em; }
+.lotusui30 div.lotusTitleBar .lotusSearch { top: 13px; }
+.lotusui30 div.lotusTitleBar2 .lotusInner { padding: 12px 0 10px; }
+.lotusui30 div.lotusTitleBar2 .lotusHeading { font-size: 1.5em; }
+.lotusui30 div.lotusTitleBar2 .lotusSearch { margin-top: 2px; }
+.lotusui30 a[name]: hover { color: #000000; text-decoration: none; }
+.lotusui30 a[name] { color: #000000; }
+.lotusui30 .lotusTitleBar2 .lotusHeading a,
+.lotusui30 .lotusTitleBar .lotusHeading a { color: #222222; }
+.dj_webkit .lotusui30 .lotusForm.lotusDialog .lotusText { width: 97%; margin: 0; }
+.dj_webkit .lotusui30 .lotusForm.lotusDialog textarea { margin: 0; }
+.lotusui30 #editCommunityForm .lotusForm .lotusFormTitle h2 { margin-left: 0; }
+.lotusui30 #editCommunityForm .lotusForm .lotusFormTable td.lotusFormFooter { padding-left: 0; }
+.lotusui30 #editCommunityForm .lotusForm2 .lotusFormTitle { padding-left: 0; }
+.lotusui30 #editCommunityForm .lotusForm2 .lotusFormFooter { padding-left: 0; }
+.lotusui30 #editCommunityForm .lotusLeftLabels .lotusFormBody,
+.lotusui30 #editCommunityForm .lotusForm2 .lotusFormBody { padding-left: 0; }
+.lotusui30 #editCommunityForm .lotusLeftLabels label,
+.lotusui30 #editCommunityForm .lotusLeftLabels .lotusFormLabel  { margin-left: 0; }
+.lotusui30 .lotusPaletteWidget a.lotusIcon { opacity: 0.95; }
+.lotusui30 .lotusAccess { width: auto; }
+.lotusui30 .lotusNavMenu .dijitContentPaneError,
+.lotusui30 .lotusNavMenu .dijitContentPaneLoading { background-color: #fff; display: block; padding: 10px; white-space: nowrap; }
+.lotusui30 .lotusNavMenu .lotusMessage2 { background-color: #fff; border-color: #fff; padding: 10px; margin-bottom: 0px; }
+.lotusui30 .lotusNavMenu .lotusMessage2 .lotusMessageBody { white-space: nowrap; }
+.lotusui_ie .lotusNavMenu.lotusNavMenuError { position: static; }
+.lotusui30.lotusImagesOff .lotusVCardHover,
+.lotusImagesOff .lotusui30 .lotusVCardHover { background-color: #fff; }
+.lconnWidgetMsgError { font-size: 0.9em; vertical-align: top; padding-left: 10px; }
+.lconnWidgetMsgError b { padding-left: 10px; }
+.lconnWidgetMsgError.lconnWidgetMsgCompact { padding-left: 5px; }
+.lotusui30 .lotusVCard h2.awareness { padding-left: 18px!important; }
+.lotusui30 .lotusLikeLightBox ul.lotusList li { padding: 5px; }
+.lotusui30dojo .dijitMenuSeparatorTop { border-bottom: 1px dotted #ccc; }
+.lotusui30 .lotusNavMenu tr #recentCommunities { padding: 5px 10px;font-size: 0.9em;color: #666; }
+.lotusLogin2 .lotusMessage2 { margin: 30px auto 10px; width: 465px; }
+.lconnHighlight .dijitMenuItemSelected { background-color: #E1F4F9; color: black; }
+.lotusui30 .lotusLike .lconnLikeCountNoBackground { padding: 2px 4px 2px 22px; margin-right: 7px; position: relative; display: inline-block; }
+.lotusui30 .lotusLike .lconnLikeCountNoBackground .lotusIconLike { position: absolute; left: 3px; }
+.lotusui_ie .lotusui30 .lotusLike .lconnLikeCountNoBackground { display: inline; zoom: 1; margin-right: 8px; }
+.lotusui30.lotusImagesOff .lotusLike .lconnLikeCountNoBackground,
+.lotusImagesOff .lotusui30 .lotusLike .lconnLikeCountNoBackground { padding-left: 5px; }
+.lotusLoadingBox { color: #FFF; background: #444; background: -moz-linear-gradient(rgba(62,  62,  62,  0.80), rgba(37, 37, 37, 0.80)) repeat scroll 0 0 transparent; background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(62,  62,  62,  0.80)), to(rgba(37, 37, 37, 0.80))) repeat scroll 0 0 transparent; background: linear-gradient(rgba(62,  62,  62,  0.80), rgba(37, 37, 37, 0.80)) repeat scroll 0 0 transparent; border: 1px solid #FFFFFF; -moz-border-radius: 0 0 0 0; border-radius: 0 0 0 0; -moz-box-shadow: 0 0 7px rgba(0, 0, 0, 0.3); font-size: 1.0em; padding: 4px 5px; position: fixed; left: 48%; top: 0; margin-top: 45px; }
+.lotusui_ie .lotusui30 .lotusBoard .lotusStreamUpdate .lotusText { background-color: #FFF; }
+.lotusui .lotusLargeWidgets .lotusPaletteWidget div.lotusIcon { width: 65px !important; }
+.lotusui30 .lotusLikeLightBox .lotusLikeAvatar { vertical-align: middle; }
+.lotusui30 .lotusLikeLightBox .lotusLikeAvatarLink { vertical-align: middle; margin-left: 32px; padding: 7px; }
+.lotusui30 .lotusLikeLightBox ul.lotusList li a { margin: 0px; padding: 0px; display: inline; }
+.lotusui30 .lotusLikeLightBox ul.lotusList li:hover,
+.lotusui30 .lotusLikeLightBox ul.lotusList li:focus,
+.lotusui30 .lotusLikeLightBox ul.lotusList li:active { background-color: #E1F4F9; }
+.lotusui30.lotusImagesOff .lotusBanner ul.lotusInlinelist li a:hover,
+.lotusImagesOff .lotusui30 .lotusBanner ul.lotusInlinelist li a:hover,
+.lotusui30.lotusImagesOff .lotusBanner ul.lotusInlinelist li a:focus,
+.lotusImagesOff .lotusui30 .lotusBanner ul.lotusInlinelist li a:focus,
+.lotusui30.lotusImagesOff .lotusBanner ul.lotusInlinelist li a:active,
+.lotusImagesOff .lotusui30 .lotusBanner ul.lotusInlinelist li a:active,
+.lotusui30.lotusImagesOff .lotusBanner ul.lotusInlinelist li.lotusHover a,
+.lotusImagesOff .lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a { outline-color: invert; outline-style: dotted; outline-width: 1px; }
+.lconnNotify { font-size: .9em; width: 170px; height: 20px; overflow: hidden; text-overflow: ellipsis; -ms-text-overflow: ellipsis; white-space: nowrap; }
+.lconnNotify input { display: block; }
+.lconnNotify label { height: 20px; line-height: 18px; overflow: hidden; white-space: nowrap; width: 145px; display: block; text-overflow: ellipsis; }
+.lotusui30 .lotusMessage { font-weight: normal; }
+.lconnOAuthLoading { display: inline-block; width: 16px; height: 16px; margin: 4px; }
+.lotusui30 .lotusFlyoutInner { padding: 0 10px; background-color: #fff; }
+.lotusui30 .lotusNavMenu { background-color: rgb(255,255,255); }
+.lconnStMenuItem .dijitMenuItemIcon { width: 9px; height: 9px; margin-left: 5px; margin-top: 3px; }
+.lotusui30 .lotusFooter li.lotusHidden { display: none; }
+.lotusui30 .lotusOffScreen { top: auto; left: -9999px; }
+.lotusMentionsDiv { -webkit-user-select: text; -moz-appearance: textfield-multiline; white-space: pre-wrap; word-wrap: break-word; border: 1px solid gray; overflow: auto; padding: 5px; width: auto; }
+.lotusMentionsTypeaheadField { position: absolute; visibility: hidden; height: 0px; width: 0px; }
+.lotusui_ie .lconnTypeAhead { overflow: hidden; padding-top: 1px; }
+.lotusui30 .lotusBoard .lotusStreamUpdate .lotusTextCollapsed.lotusText { overflow: hidden; }
+.lotusui_ie .lotusui30 .lotusBoard .lotusStreamUpdate div.lotusTextCollapsed.lotusText{ height: 1.5em; }
+.lotusui_ie .lotusui30 .lotusBoard .lotusStreamUpdate .lotusText { padding-top: inherit; padding-bottom: inherit; }
+.lotusui30 .personinlinemenu .lotusMenu .lotusInner { width: 200px; }
+.lotusui30 .personinlinemenu .lotusMenu h3 a.lotusArrow { background-color: #fff; }
+.lotusui30 .personinlinemenu .lotusMenu h3 a.discussCommunityLink { display: inline; background-color: #fff; }
+.lotusui30 .personinlinemenu .lotusMenu li.lconnCommLogo a:hover, .lotusui30 .personinlinemenu .lotusMenu li.lconnCommLogo a:focus, .lotusui30 .personinlinemenu .lotusMenu li.lconnCommLogo a:active { background-color: #fff; }
+.lotusui_ie .lotusui30 .lotusHelp .lotusHelpHeader { clear: both; width: 100%; }
+.lotusui30 .lotusHelp .lotusHelpHeader{ margin: 0px 0px 0px 0px;}
+.lotusui30.lotusJapanese .lotusHelp .lotusHelpHeader{word-break: break-all;}
+.lotusui30.lotusImagesOff .lotusPostAvatar, .lotusImagesOff .lotusui30 .lotusPostAvatar { display: inline; }
+.lotusui_ie .lotusui30 #shareboxGlobalForm .lotusFilters2 { vertical-align: bottom; }
+.lotusui30 .lotusBoard .lotusPost .lotusText .lotusPerson { padding-right: 0px; }
+.lotusColLeft .lotusSection .lotusList li .lotusLeft { max-width: 135px; word-wrap: break-word; }
+.lotusui30dojo.lotusImagesOff .dijitMenuItemHover {border: 1px dotted; padding: 0em .1em;}
+.lotusui30dojo.lotusImagesOff .dijitMenuItem.searchDirectory {padding: .1em .3em;}
+.lotusui30dojo.lotusImagesOff .dijitMenuItemHover.searchDirectory {padding: 0em .2em;}
+.lotusui30 .lotusInlineVCard { width:175px; }
+.lotusui30 .lotusInlineVCard .lotusPhoto { padding:0; margin-top:5px;}
+.lotusui30 .lotusInlineVCard h2{ font-size:1.2em;font-weight:bold;color:#444; }
+.lotusui30 .lotusInlineVCard .lotusPersonInfo h2 { margin-left: 60px; }
+.lotusui30 .lotusInlineVCard .lotusPhoto img { height: 35px; width: 35px; }
+.lotusui30 .lotusInlineVCard .lotusPersonActions { margin-top: 5px; }
+.lotusui30 .lotusInlineVCard .lotusAppLinks { font-size:1.2em; }
+.lotusui30 .ublogPost.lotusPersonInactive, .lotusui30 a:hover.ublogPost.lotusPersonInactive, .lotusui30 a:focus.ublogPost.lotusPersonInactive, .lotusui30 a:active.ublogPost.lotusPersonInactive, .lotusui30 a:visited.ublogPost.lotusPersonInactive  {color: #767676;}
+.lotusui30 .lotusBoard .ublogWarningMessage { margin-top: 10px; }
+.lotusui30 #shareboxGlobalForm .lotusBoard .ublogWarningMessage { margin-top: 0px; }
+.lotusui30 .lotusBanner .lconnBannerIcon { display: none; }
+#activitiesAddButton .lconnSprite-iconAddRating16 { height: 15px; }
+.lconnPreview { position: relative; border: 1px solid #dadada; margin-top: -1px; color: #444; box-shadow: 0 1px 1px rgba(240,240,240,.6);}
+.lconnPreviewExtended { height: 350px; }
+.lconnPreview .lconnPreviewFooter { background-color: #e4e4e4; border-top: 1px solid #dadada; height: 26px; }
+.lconnPreview .lconnPreviewLeft { float:left; }
+.lconnPreview .lconnPreviewClose { position:absolute; right: 0px; top: 0px; margin: 9px;  z-index: 500; }
+.lconnPreview .lconnPreviewClose img { background-image: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/lotusHSprite-8bit.png?etag=20150310.220517"); background-position: -557px -10px; height: 12px; width: 12px; opacity: 0.45; filter: alpha(opacity = 45); }
+.lconnPreview .lconnPreviewClose:focus img, .lconnPreview .lconnPreviewClose:hover img, .lconnPreview .lconnPreviewClose:active img { opacity: 0.55; filter: alpha(opacity = 55); }
+.lconnPreview .lconnPreviewContent { overflow: hidden; padding: 15px; height: 90px; background-color: #f6f6f6; }
+.lconnPreview .lconnPreviewContentTitle { font-size: 14px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lconnPreview .lconnPreviewContent p { margin: 0px; overflow:hidden; height: 55px; }
+.lconnPreview .lconnPreviewContent .lconnPreviewContentTitle a,
+.lconnPreview .lconnPreviewContent .lconnPreviewContentTitle a:visited,
+.lconnPreview .lconnPreviewContent .lconnPreviewContentTitle a:focus,
+.lconnPreview .lconnPreviewContent .lconnPreviewContentTitle a:hover,
+.lconnPreview .lconnPreviewContent .lconnPreviewContentTitle a:active { color: #444 }
+.lconnPreview .lconnPreviewImageChoose { float: left; border-right: 1px solid #dadada; width: 120px; }
+.lconnPreview .lconnPreviewImageChooseToggle { display: inline-block; padding-top: 4px; padding-bottom: 4px; padding-left: 15px; color: #666; }
+.lconnPreview .lconnPreviewImageChooseLeft { float: left; display: inline-block; padding-right: 38px; padding-left: 10px; transition: all 0.2s ease-in-out; border-right: 1px solid #dadada; }
+.lconnPreview .lconnPreviewImageChooseLeft:hover { background-color: #dadada; padding-right: 42px; padding-left: 5px; }
+.lconnPreview .lconnPreviewImageChooseRight { float: right; display: inline-block; padding-left: 37px; padding-right: 10px; transition: all 0.2s ease-in-out; }
+.lconnPreview .lconnPreviewImageChooseRight:hover { background-color: #dadada; padding-left: 42px; padding-right: 5px; }
+.lconnPreview .lconnPreviewImageChooseLeft img, .lconnPreview .lconnPreviewImageChooseRight img { margin: 7px 0px}
+.lconnPreview .lconnPreviewCenter { display: block; width: 120px; height: 120px; }
+.lconnPreview .lconnPreviewCenter img { width: 120px; height: auto; max-height: 120px; position: absolute; top: 0; left: 0;}
+.lconnPreview .lconnPreviewCenter .playBtn { margin: 42px; }
+.lconnPreviewHidden { display: none; }
+.lconnPreview .lconnPreviewFallbackImg {background-position: 50% 50%; width: 100%; height: 100%; background-size: cover;}
+.lconnPreview .lconnBlackOpaqueOverlay {-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; background-color: black; width: 100%; height: 100%; opacity: 0.70; position: absolute;}
+.lconnPreview .lconnPreviewImgText {color: #fff; font-size: 18px; display: inline-block; margin-top: 150px; text-align: center; width: 100%; line-height: 48px; position: relative;}
+.lconnPreview .lconnPreviewImgText .lconnPreviewVerticalAlign {vertical-align: top;}
+.lconnPreview .lconnPreviewCenter .fallBackImgIE8 {max-height: 100%; width : 100%; height: 100%}
+.lconnPreview .lconnPreviewCenter.videoPreviewNoThumbnail {background-color: #469cca;}
+.lotusui30 .ublogFileUploadProgress { float: right; }
+.lotusui30 .ublogActionsList {margin-top: 0px; }
+.lotusui_ie8 .lotusui30 .lotusForm input.IECheckbox {margin-left:0px}
+.lotusui_ie .lotusui30_layout .lotusMain .lotusContent {}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader {
+padding: 10px 15px;
+font-size: 0.91666666666667em;
+color: #444;
+box-shadow: 0 0 5px rgba(218,218,218,0.5);
+border-bottom: 1px solid #ececec;
+margin-bottom: 2px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .lotusMeta {
+color: #444;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .lotusInlinelist li {
+border-left-color: #444;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .vcard > a {
+font-size: 1.09090909090909em;
+color: #1f7cae;
+font-weight: bold;
+}
+.lotusui30 .lotusFlyout .lotusClose {
+top: 7px;
+right: 7px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutContentArea {
+padding: 0;
+margin-top: 10px;
+}
+.lotusui30 .lotusFlyoutContentArea > .lotusFlyoutInner {
+padding: 0;
+}
+.lotusui30 .lotusBoard .lotusCommentItem > a.lotusMeta {
+font-size: 0.91666666666667em;
+padding: 10px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleContainer {
+width: 95%;
+display: inline-block;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleContainer td {
+vertical-align: top;
+padding: 0;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleContainer .flyoutTitle {
+width: 100%;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleOuter {
+position: relative;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleInner {
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+position: absolute;
+width: 100%;
+line-height: 13px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutHeader .flyoutTitleContainer td.flyoutTime {
+white-space: nowrap;
+line-height: 14px;
+color: #6e6e6e;
+border-left: 1px solid #CCCCCC;
+padding-left: 7px;
+}
+.lotusui30 .lotusFlyout .lotusWrapper {
+border-radius: 13px;
+}
+.lotusui30 .lotusFlyout .lotusFlyoutContent {
+border-radius: 0 0 13px 13px;
+margin-bottom: 0;
+}
+.lotusui30 #gadgetDiv {
+margin: 0 !important;
+}
+.lotusui30 .lconnShareGadget {
+background-color: #fff;
+}
+.lotusui30 .lconnCalendarGadget {
+background-color: #fff;
+}
+.lotusui_ie8 .lotusui30 .lotusInlinelist li{display:inline-block;}
+.lotusui_ie9 .lotusui30 .lotusInlinelist li{display:inline-block;}
+.lotusui_ie .lotusui30 .lotusInlinelist li{display:inline-block;}
+.lotusui30 .lotusInlinelist li.lotusHidden { display: none; }
+.lotusui30 .lconnIconMsgSharedExternal {background-image:url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/Icons/Messages/iconsMessages16-8bit.png?etag=20150310.220517");width:16px;height:16px;background-position:0 -113px;background-repeat:no-repeat;display:-moz-inline-box;display:inline-block;}
+.lotusui30 .lotusMessage2.lconnSharedExternal {background-color: #FDF4C8; border-color: #E48617;}
+.lotusui30 li.lconnSharedExternalListItem {padding: 10px;}
+.lotusui30 div.lconnSharedExternalPlaceBar {background: none repeat scroll 0 0 #FDF4C8; border:1px solid #E48617;}
+.lotusui30 div.lconnSharedExternalPlaceBar .lotusInlinelist li {border-left-color: #E48617; box-shadow: 1px 0 0 #FBFBFB inset; margin-left: 18px; padding: 0 0 0 18px;}
+.lotusui30 .lconnIconListSharedExternal {background-image:url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/Icons/Messages/iconsMessages16-8bit.png?etag=20150310.220517");width:13px;height:13px;background-position:0 -137px;background-repeat:no-repeat;display:-moz-inline-box;display:inline-block;margin-bottom:4px;}
+.lotusui30 .lotusMessage2 .lotusIcon.lconnIconListSharedExternal {margin-top: 2px;}
+.lotusui30 li.lconnSharedExternalListItem .lotusMessage2.lconnSharedExternal {margin:0; font-size: 1em;}
+.lotusui30 .lconnIconFolderSharedExternal {background-image:url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/Icons/Messages/iconsMessages16-8bit.png?etag=20150310.220517");width:16px;height:16px;background-position:0 -158px;background-repeat:no-repeat;display:-moz-inline-box;display:inline-block;}
+.lotusui30 .lconnSharedExternalInfo .lotusMessageBody {color: #222; font-size: 0.9em;}
+.lotusui30 .asLinkContainer img.lconnIconListSharedExternal {display:-moz-inline-box;display:inline-block;margin-bottom: 5px;}
+.lotusui30 .lconn_personContainer {
+min-height: 80px;
+vertical-align: top;
+}
+.lotusui30 .lconn_personContainer.compact {
+min-height: 68px;
+padding-right: 10px;
+}
+.lotusui30 .lconn_personContainer .lconn_gray {
+color: #6F6F6F;
+}
+.lotusui30 .lconn_personContainer.pfSelected .lconn_gray {
+color: #6D6D6D;
+}
+.lotusui30 .lconn_personContainer .lconn_profileImage {
+float: left;
+padding: 10px;
+margin-right: 10px;
+vertical-align: top;
+}
+.lotusui30 .lconn_personContainer.compact .lconn_profileImage{
+margin-right: 5px;
+}
+.lotusui30 .lconn_personContainer .lconn_profileInfo {
+padding-top: 10px;
+padding-bottom: 10px;
+padding-left: 90px;
+vertical-align: middle;
+word-wrap: break-word;
+}
+.lotusui30 .lconn_personContainer .lconn_profileInfo.lconn_medium_confidence {
+padding-left: 158px;
+}
+.lotusui30 .lconn_personContainer.compact .lconn_profileInfo{
+padding-left: 73px;
+}
+.lotusui30 .lconn_personContainer .lconn_profileInfo-high {
+display: inline-block;
+vertical-align: top;
+word-wrap: break-word;
+padding: 10px 0px;
+max-width: 40%;
+}
+.lotusui30 .lconn_personContainer .lconn_separator {
+border-left: 1px solid #E1E1E1;
+display: inline-block;
+height: 128px;
+vertical-align: middle;
+margin: 10px 20px;
+}
+.lotusui30 .lconn_personContainer .lconn_profileInfo .lconn_separator-compact {
+border-top: 1px solid #E1E1E1;
+display: inline-block;
+width: 100%;
+vertical-align: middle;
+margin: 12px 0px 5px 0px;
+}
+.lotusui30 .lconn_personContainer .lconn_tags,
+.lotusui30 .lconn_personContainer .lconn_profileInfo .lconn_tags-compact {
+display: inline-block;
+vertical-align: middle;
+}
+.lotusui30 .lconn_personContainer .lconn_tags {
+max-width: 35%;
+padding-top: 10px;
+vertical-align: top;
+}
+.lotusui30 .lconn_personContainer .lconn_tags .lconn_title {
+color: #666;
+font-weight: bold;
+}
+.lotusui30 .lconn_personContainer .lconn_tags .lconn_exceededMessage {
+display: block;
+padding-top: 10px;
+}
+.lotusui30 .lconn_personContainer .lconn_profileInfo .lconn_highlightedTagsTitle {
+color: #999;
+margin-right: 5px;
+}
+.lotusui30 .lconn_personContainer .lconn_profileInfo .lconn_highlightedTags {
+display: inline-block;
+overflow: hidden;
+text-overflow: ellipsis;
+max-width: 80%;
+white-space: nowrap;
+vertical-align: top;
+}
+.lotusui30 .lconn_personContainer .lconn_profileInfo .lconn_highlightedTags a {
+color: #666;
+}
+.lotusui30 .pfScrollbarFix{
+overflow: visible !important;
+}
+.lotusui30 .pfNormalScope {
+padding: 1px 2px;
+cursor: pointer;
+}
+.lotusui30 .pfNormalScope .pfSearchIcon {
+display: inline-block;
+vertical-align: top;
+}
+.lotusui30 .pfNormalScope .pfTextMessage {
+display: inline-block;
+padding: 5px;
+max-width: 80%;
+}
+.lotusui30 .pfDirectoryResults {
+padding: 0px 10px;
+}
+.lotusui30 .pfDirectoryResults .pfTitle {
+color: #6F6F6F;
+padding: 10px 0px;
+font-weight: bold;
+}
+.lotusui30 .pfDirectoryResults .pfDirectoryLink {
+margin: 0px -10px;
+padding: 6px 10px;
+cursor: pointer;
+}
+.lotusui30 .pfDirectoryResults .pfDirectoryLink .pfLinkNode {
+color: #1970b0;
+}
+.lotusui30 .pfDirectoryResults .pfEntry {
+margin: 0px -10px;
+cursor: pointer;
+}
+.lotusui30 .pfSelected {
+background-color: #E9F1F3;
+}
+.lotusui30 .lotusBoard .lotusStreamUpdate .lconnRTE .cke_inner {
+background-color: #fff;
+-moz-box-shadow: 0 4px 4px #f3f3f3 inset;
+-webkit-box-shadow: 0 4px 4px #f3f3f3 inset;
+box-shadow: 0 4px 4px #f3f3f3 inset;
+}
+.lotusui30 .lotusForm2 .lconnRTE .cke_contents {
+width: 275px;
+border: 1px solid #aaa !important;
+padding: 3px;
+}
+.lotusui30 .lotusBoard .lotusStreamUpdate .lconnRTE .cke_contents {
+width: 100%;
+height: 5em !important;
+padding: 5px;
+margin: 0;
+display: block;
+background: none;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}
+.lotusui30dojo .dijitCalendarDayLabelTemplate {
+padding-bottom: 0;
+text-align: center;
+font-size: 0.909em;
+padding: 0 3px 2px;
+color: #676767;
+}
+.lotusui30dojo .dijitCalendarPreviousMonth .dijitCalendarDateLabel, .lotusui30dojo .dijitCalendarNextMonth .dijitCalendarDateLabel {
+color: #676767;
+border-color: #ffffff;
+}
+.lotusui30dojo .dijitCalendarNextYear, .lotusui30dojo .dijitCalendarPreviousYear {
+padding: 1px 6px 1px 6px;
+font-size: 0.909em;
+color: #676767;
+}
+.lotusui30dojo .dijitTimePicker .dijitTimePickerTick {
+color: #676767;
+background-color: #ffffff;
+font-size: 0.9em;
+}
+.lotusui30 .lotusForm .lotusText,.lotusui30 .lotusForm textarea,.lotusui30 .lotusForm select {
+margin: 0;
+padding: 1px;
+border: 1px solid #aaa;
+line-height: inherit;
+text-overflow: ellipsis;
+}
+.lotusMentionsDiv a {
+cursor: text;
+}
+span.cke_mention {
+color: #1970B0;
+}
+span.cke_mention:hover {
+text-decoration: underline;
+}
+
+

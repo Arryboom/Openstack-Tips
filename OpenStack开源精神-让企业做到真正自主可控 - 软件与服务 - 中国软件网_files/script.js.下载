@@ -1,0 +1,129 @@
+
+$(function(){
+
+	$('.footer_logo').append('<div style="display:none;"><a href="http://tongji.baidu.com" target="_blank"><img style="vertical-align: bottom;margin-left:10px" src="http://sitecenter.baidu.com/sc-web/image/icon/21.gif?__v=1477901559446"></a></div>')
+
+	$('.tab_ul ul').find('li').eq(1).find('a').attr('href','http://www.soft6.com/news/');
+	$('.footer_top .map').html('<a href="">网站首页</a> | <a href="http://old.soft6.com/extend/about.html#7">联系方式</a> | <a href="http://old.soft6.com/extend/about.html">关于我们</a> | <a href="http://www.soft6.com/index.php?m=search">网站地图</a> | <span>京ICP备12052919号-1</span> | <span>京公网安备11010802011065号</span>|<a href="https://su.baidu.com" se_prerender_url="complete" target="_blank">网站由百度云加速提供云安全防护</a>');
+
+	var hostUrl = window.location.host;
+	var urlPath = window.location.pathname;
+	urlarr=urlPath.split(".");
+	var urlPath1 = urlarr[0];
+	urlarr1 = urlPath1.split("/");
+	var urlCount = urlarr1.length-1;
+	var newId = urlarr1[urlCount];
+
+	if(IsNum(newId)){
+		if(hostUrl == 'www.soft6.com'){
+			$.post("http://www.soft6.com/index.php?m=content&c=index&a=get_news_info2",{id:newId},function(result){
+		    	$('.des_box').find('span').eq(1).html('来源：'+result);
+		  	});
+		}else{
+		  	$.ajax({
+		         url: "http://www.soft6.com/index.php?m=content&c=index&a=get_news_info",
+		         type: 'POST',
+		         dataType: 'JSONP',//here
+		         data:{id:newId},
+		         jsonp: 'callback', //jsonp回调参数，必需
+	             async: false,
+		         success: function (data) {
+		         //alert(data);
+		         	$('.des_box').find('span').eq(1).html('来源：'+data);
+		        }
+		    });
+		}
+	}
+
+	var text1 = '<p><b>免责声明：</b></p><p>本站系本网编辑转载，本站会尽可能注明出处，但不排除无法注明来源的情况，转载目的在于传递更多信息，并不代表本网赞同其观点和对其真实性负责。如涉及作品内容、版权和其它问题，请在30日内与本网联系， 来信: liujun@soft6.com 我们将在收到邮件后第一时间删除内容！</p><p>[声明]本站文章版权归原作者所有，内容为作者个人观点，不代表本网站的观点和对其真实性负责，本站拥有对此声明的最终解释权。</p>';
+	var text2 = '<p><b>版权声明：</b></p><p>凡本网注明”来源：中国软件网（http://www.soft6.com）”的所有作品，版权均属于中国软件网或昆仑海比（北京）信息技术有限公司，未经本网书面授权，不得转载、摘编或以其它方式使用上述作品。</p><p>任何行业、传播媒体转载、摘编中国软件网（http://www.soft6.com）刊登、发布的产品信息及新闻文章，必须按有关规定向本网站载明的相应著作权人支付报酬并在其网站上注明真实作者和真实出处，且转载、摘编不得超过本网站刊登、转载该信息的范围；未经本网站的明确书面许可，任何人不得复制或在非本网站所属的服务器上做镜像。</p><p>本网书面授权使用作品的，应在授权范围内使用，并按双方协议注明作品来源。违反上述声明者，昆仑海比（北京）信息技术有限公司将追究其相关法律责任。</p>';
+
+	if(IsNum(newId)){
+		if(hostUrl == 'www.soft6.com'){
+			$.post("http://www.soft6.com/index.php?m=content&c=index&a=ajax_get_copyfrom2",{id:newId},function(result){
+		    	if(result == '1'){
+		    		$('.show_content .content').after('<div class="mzsm">'+text2+'</div>');
+		    	}else{
+		    		$('.show_content .content').after('<div class="mzsm">'+text1+'</div>');
+		    	}
+		  	});
+		}else{
+		  	$.ajax({
+		         url: "http://www.soft6.com/index.php?m=content&c=index&a=ajax_get_copyfrom",
+		         type: 'POST',
+		         dataType: 'JSONP',//here
+		         data:{id:newId},
+		         jsonp: 'callback', //jsonp回调参数，必需
+	             async: false,
+		         success: function (data) {
+		         	if(data == '1'){
+			    		$('.show_content .content').after('<div class="mzsm">'+text2+'</div>');
+			    	}else{
+			    		$('.show_content .content').after('<div class="mzsm">'+text1+'</div>');
+			    	}
+		        }
+		    });
+		}
+	}
+
+	if(IsNum(newId)){
+		if(hostUrl == 'www.soft6.com'){
+			$.post("http://www.soft6.com/index.php?m=content&c=index&a=get_news_url2",{id:newId},function(result){
+		    	if(result != 'http://'+hostUrl+urlPath){
+		    		window.location.href=result;
+		    	}
+		  	});
+		}else{
+		  	$.ajax({
+		         url: "http://www.soft6.com/index.php?m=content&c=index&a=get_news_url",
+		         type: 'POST',
+		         dataType: 'JSONP',//here
+		         data:{id:newId},
+		         jsonp: 'callback', //jsonp回调参数，必需
+	             async: false,
+		         success: function (data) {
+		         	if(data != 'http://'+hostUrl+urlPath){
+			    		window.location.href=data;
+			    	}
+		        }
+		    });
+		}
+	}
+
+	function IsNum(s)
+	{
+	    if (s!=null && s!="")
+	    {
+	        return !isNaN(s);
+	    }
+	    return false;
+	}
+
+});
+
+var maxWidth=$(".content").width();
+$(".content").find("img").each(function(){
+  var imgWidth=$(this).width();
+  var imgHeight=$(this).height();
+  var maxHeight = maxWidth*imgHeight/imgWidth;
+  if(imgWidth>maxWidth){
+      $(this).css("width",maxWidth).css("height",maxHeight);
+      }
+});
+
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F199506307bbbcf36b9b8d50e815d535b' type='text/javascript'%3E%3C/script%3E"));
+
+
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https'){
+   bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();

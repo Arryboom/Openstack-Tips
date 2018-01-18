@@ -1,0 +1,75 @@
+.u-leftnav .tabul li.tabitem .nti1{ background:url(/Public/images/student/1.png);width:34px; height:34px; margin-top:12px; float:left}
+.u-leftnav .tabul li.tabitem .nti2{ background:url(/Public/images/student/2.png); width:34px; height:34px; margin-top:12px; float:left}
+.u-leftnav .tabul li.tabitem .nti9{ background:url(/Public/images/student/3.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti4{background:url(/Public/images/master/1.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti5{background:url(/Public/images/master/2.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti6{ background:url(/Public/images/student/4.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti7{ background:url(/Public/images/student/5.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti8{background:url(/Public/images/master/3.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti3{ background:url(/Public/images/student/6.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti10{background:url(/Public/images/master/4.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti11{background:url(/Public/images/master/5.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti12{ background:url(/Public/images/student/7.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti13{background:url(/Public/images/master/6.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti14{background:url(/Public/images/master/7.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti15{background:url(/Public/images/master/8.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti16{background:url(/Public/images/master/9.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti17{background:url(/Public/images/master/10.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti18{background:url(/Public/images/master/11.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti20{background:url(/Public/images/master/13.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti21{background:url(/Public/images/master/14.png); width:34px; height:34px; margin-top:12px}
+.u-leftnav .tabul li.tabitem .nti22{background:url(/Public/images/master/15.png); width:34px; height:34px; margin-top:12px}
+
+.footer{width:100%; background:#3f3f3f; margin-top:10px; min-width:1200px; font-size:14px}
+.gotop{width:100%; height:73px; margin:0 auto; background:url(/Public/images/footer_bg1.png) repeat-x; text-align:center; line-height:73px}
+.gotop_btu{ display:inline-block;width:93px; height:31px; background:#fff; border-radius:5px; line-height:31px; overflow:hidden; margin-top:20px}
+.links{width:100%;min-height:50px; background:#000; overflow:auto; padding-bottom:30px}
+.links ul{width:1200px; margin:0 auto; color:#fff}
+.links ul li{ float:left; line-height:50px; margin-right:30px; font-size:16px}
+.links ul li a{ color:#666; font-size:14px}
+.copyright{width:100%; height:144px; text-align:center; background:#272829; padding-top:40px}
+.copyright p { text-align:center; color:#fff; line-height:30px}
+.copyright p a { margin:0 3px; color:#CCC; margin:0 10px}
+.copyright p img { margin:0 10px}
+.copy { color:#fff}
+.copy img{width:66px; height:25px}
+
+/*登陆弹窗*/
+.login_popup{ width:540px; border:1px solid #ccc; border-radius:4px; position:fixed; top:20%; left:20%; background:#fff; z-index:214748363}
+.lp_title{ margin-top:10px; line-height:30px; font-size:18px; padding-left:20px}
+.lp_d_left{ width:295px; float:left}
+.lp_down { padding:20px}
+.lp_in{ border:1px solid #ccc; width:280px; height:20px; padding:10px 5px 13px; margin-top:23px}
+.lp_label{ float:left;}
+.lp_label input,.lp_label span{ float:left; line-height:13px}
+.lp_down button { width:290px; height:50px; background:#00aeef; border:none; color:#fff; font-size:16px; font-weight:bold; margin-top:17px; margin-bottom:21px}
+.lp_d_main{ float:left; border-left:1px solid #ccc; height:210px; margin:20px 0px 10px 50px; position:relative}
+.lp_m_w{ background:#fff; color:#aaa; height:24px; left:-7px; line-height:24px; top:85px; z-index:10; width:24px; position:absolute}
+.lp_d_right{ width:94px; float:left; margin:10px; padding:6px 0 8px 40px}
+.lp_xl{ width:90px; margin-top:10px; height:25px; display:block; background:url(/Public/images/snsSprite.png) no-repeat scroll -10px -13px}
+.lp_rr{ width:90px; margin-top:10px; height:25px; display:block; background:url(/Public/images/snsSprite.png) no-repeat scroll -215px -13px}
+.lp_qq{ width:90px; margin-top:10px; height:25px; display:block; background:url(/Public/images/snsSprite.png) no-repeat scroll -112px -13px}
+.lp_bd{ width:90px; margin-top:10px; height:25px; display:block; background:url(/Public/images/snsSprite.png) no-repeat scroll -11px -277px}
+.zhezhao{ width:100%; height:100%; position:fixed; top:0; left:0; opacity:0.5; background:#000; z-index:214748362}
+/*登陆弹窗*/
+
+/*头部*/
+.search_text{+margin-left:-160px}
+.nav_ml{position:absolute; left:-100px; top:0}
+.nav_mr{position:absolute; right:-100px; top:0}
+
+.right_fix{width:65px; position:fixed; right:0; bottom:220px; display:none; z-index:2147483647}
+.right_fix a {display:block; width:40px; height:40px; background:url(/Public/images/icons40x40.png) no-repeat scroll 0 -440px; margin-top:10px; text-align:center; position:relative}
+.right_fix a img { margin-top:10px}
+.right_fix .fankui{ background:url(/Public/images/fankui_1.png) no-repeat }
+.right_fix .fantop{ background:url(/Public/images/undo_red.png) no-repeat}
+.right_weweima{ width:180px; height:180px; position:absolute; left:-207px; border:1px solid #ccc; padding:10px; top:0; background:#fff; z-index:9; display:none}
+.qqqun{ width:180px; height:74px; position:absolute; left:-207px; border:1px solid #ccc; padding:10px; top:0; background:#fff; z-index:9; display:none}
+.right_fix a.aon .right_weweima{ display:block; z-index:2147483647}
+.right_fix a.aon .right_weweima img{ z-index:2147483647}
+.right_fix a.aon .qqqun{ display:block; z-index:2147483647}
+.right_fix a.aon .qqqun img { z-index:2147483647}
+
+.right_fix .topic{ background:url(/Public/images/fix_sq.png) no-repeat}
+.right_fix .topic_fatie{ background:url(/Public/images/fix_ft.png) no-repeat}
+.right_fix .shuaxin{ background:url(/Public/images/fix_sx.png) no-repeat}

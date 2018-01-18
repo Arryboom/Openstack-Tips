@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)http://www.chenshake.com/install-openstack-openstack-juno-version/#i-11 -->
+<html lang="en-US"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<link rel="pingback" href="http://www.chenshake.com/xmlrpc.php">
+
+	<!--[if lt IE 9]>
+	<script src="http://chenshake.qiniudn.com/wp-content/themes/suffusion/scripts/html5.js" type="text/javascript"></script>
+	<![endif]-->
+<title>Openstack安装Openstack（Juno版本） – 陈沙克日志</title>
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link rel="dns-prefetch" href="http://chenshake.qiniudn.com/">
+<link rel="alternate" type="application/rss+xml" title="陈沙克日志 » Feed" href="http://www.chenshake.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="陈沙克日志 » Comments Feed" href="http://www.chenshake.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="陈沙克日志 » Openstack安装Openstack（Juno版本） Comments Feed" href="http://www.chenshake.com/install-openstack-openstack-juno-version/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www.chenshake.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.3"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b!==c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/wp-emoji-release.min.js.下载" type="text/javascript" defer=""></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="toc-screen-css" href="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/screen.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="suffusion-theme-css" href="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="suffusion-theme-skin-1-css" href="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/skin.css" type="text/css" media="all">
+<!--[if !IE]>--><link rel="stylesheet" id="suffusion-rounded-css" href="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/rounded-corners.css" type="text/css" media="all">
+<!--<![endif]-->
+<!--[if gt IE 8]><link rel='stylesheet' id='suffusion-rounded-css'  href='http://chenshake.qiniudn.com/wp-content/themes/suffusion/rounded-corners.css?ver=4.4.8' type='text/css' media='all' />
+<![endif]-->
+<!--[if lt IE 8]><link rel='stylesheet' id='suffusion-ie-css'  href='http://chenshake.qiniudn.com/wp-content/themes/suffusion/ie-fix.css?ver=4.4.8' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="suffusion-generated-css" href="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/custom-styles.css" type="text/css" media="all">
+<script type="text/javascript" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/jquery.min.js.下载"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var Suffusion_JS = {"wrapper_width_type_page_template_1l_sidebar_php":"fixed","wrapper_max_width_page_template_1l_sidebar_php":"1200","wrapper_min_width_page_template_1l_sidebar_php":"600","wrapper_orig_width_page_template_1l_sidebar_php":"75","wrapper_width_type_page_template_1r_sidebar_php":"fixed","wrapper_max_width_page_template_1r_sidebar_php":"1200","wrapper_min_width_page_template_1r_sidebar_php":"600","wrapper_orig_width_page_template_1r_sidebar_php":"75","wrapper_width_type_page_template_1l1r_sidebar_php":"fixed","wrapper_max_width_page_template_1l1r_sidebar_php":"1200","wrapper_min_width_page_template_1l1r_sidebar_php":"600","wrapper_orig_width_page_template_1l1r_sidebar_php":"75","wrapper_width_type_page_template_2l_sidebars_php":"fixed","wrapper_max_width_page_template_2l_sidebars_php":"1200","wrapper_min_width_page_template_2l_sidebars_php":"600","wrapper_orig_width_page_template_2l_sidebars_php":"75","wrapper_width_type_page_template_2r_sidebars_php":"fixed","wrapper_max_width_page_template_2r_sidebars_php":"1200","wrapper_min_width_page_template_2r_sidebars_php":"600","wrapper_orig_width_page_template_2r_sidebars_php":"75","wrapper_width_type":"fixed","wrapper_max_width":"1200","wrapper_min_width":"600","wrapper_orig_width":"75","wrapper_width_type_page_template_no_sidebars_php":"fixed","wrapper_max_width_page_template_no_sidebars_php":"1200","wrapper_min_width_page_template_no_sidebars_php":"600","wrapper_orig_width_page_template_no_sidebars_php":"75","suf_featured_interval":"4000","suf_featured_transition_speed":"1000","suf_featured_fx":"fade","suf_featured_pause":"Pause","suf_featured_resume":"Resume","suf_featured_sync":"0","suf_featured_pager_style":"numbers","suf_nav_delay":"500","suf_nav_effect":"fade","suf_navt_delay":"500","suf_navt_effect":"fade","suf_jq_masonry_enabled":"disabled","suf_fix_aspect_ratio":"preserve","suf_show_drop_caps":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/suffusion.js.下载"></script>
+<link rel="https://api.w.org/" href="http://www.chenshake.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.chenshake.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.chenshake.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="周末Openstack聚会总结（2015年3月21日）" href="http://www.chenshake.com/openstack-weekend-gatherings-summary-march-21-2015/">
+<link rel="next" title="闲聊Openstack中国的商业模式" href="http://www.chenshake.com/chat-openstack-business-model-in-china/">
+<link rel="canonical" href="http://www.chenshake.com/install-openstack-openstack-juno-version/">
+<link rel="shortlink" href="http://www.chenshake.com/?p=3184">
+<link rel="alternate" type="application/json+oembed" href="http://www.chenshake.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.chenshake.com%2Finstall-openstack-openstack-juno-version%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://www.chenshake.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.chenshake.com%2Finstall-openstack-openstack-juno-version%2F&amp;format=xml">
+<style type="text/css">div#toc_container {width: 275px;}</style><style data-context="foundation-flickity-css">/*! Flickity v2.0.2
+http://flickity.metafizzy.co
+---------------------------------------------- */.flickity-enabled{position:relative}.flickity-enabled:focus{outline:0}.flickity-viewport{overflow:hidden;position:relative;height:100%}.flickity-slider{position:absolute;width:100%;height:100%}.flickity-enabled.is-draggable{-webkit-tap-highlight-color:transparent;tap-highlight-color:transparent;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.flickity-enabled.is-draggable .flickity-viewport{cursor:move;cursor:-webkit-grab;cursor:grab}.flickity-enabled.is-draggable .flickity-viewport.is-pointer-down{cursor:-webkit-grabbing;cursor:grabbing}.flickity-prev-next-button{position:absolute;top:50%;width:44px;height:44px;border:none;border-radius:50%;background:#fff;background:hsla(0,0%,100%,.75);cursor:pointer;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.flickity-prev-next-button:hover{background:#fff}.flickity-prev-next-button:focus{outline:0;box-shadow:0 0 0 5px #09F}.flickity-prev-next-button:active{opacity:.6}.flickity-prev-next-button.previous{left:10px}.flickity-prev-next-button.next{right:10px}.flickity-rtl .flickity-prev-next-button.previous{left:auto;right:10px}.flickity-rtl .flickity-prev-next-button.next{right:auto;left:10px}.flickity-prev-next-button:disabled{opacity:.3;cursor:auto}.flickity-prev-next-button svg{position:absolute;left:20%;top:20%;width:60%;height:60%}.flickity-prev-next-button .arrow{fill:#333}.flickity-page-dots{position:absolute;width:100%;bottom:-25px;padding:0;margin:0;list-style:none;text-align:center;line-height:1}.flickity-rtl .flickity-page-dots{direction:rtl}.flickity-page-dots .dot{display:inline-block;width:10px;height:10px;margin:0 8px;background:#333;border-radius:50%;opacity:.25;cursor:pointer}.flickity-page-dots .dot.is-selected{opacity:1}</style><style data-context="foundation-slideout-css">.slideout-menu{position:fixed;left:0;top:0;bottom:0;right:auto;z-index:0;width:256px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none}.slideout-menu.pushit-right{left:auto;right:0}.slideout-panel{position:relative;z-index:1;will-change:transform}.slideout-open,.slideout-open .slideout-panel,.slideout-open body{overflow:hidden}.slideout-open .slideout-menu{display:block}.pushit{display:none}</style><!-- Start Additional Feeds -->
+<!-- End Additional Feeds -->
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<!-- location header -->
+<style>.ios7.web-app-mode.has-fixed header{ background-color: rgba(3,122,221,.88);}</style></head>
+
+<body class="post-template-default single single-post postid-3184 single-format-standard light-theme-gray-1 suffusion-custom preset-1000px device-desktop">
+    				<div id="wrapper" class="fix">
+					<div id="header-container" class="custom-header fix">
+					<header id="header" class="fix">
+			<h2 class="blogtitle left"><a href="http://www.chenshake.com/">陈沙克日志</a></h2>
+		<div class="description right">把我的过程记录下来，以免以后忘了</div>
+    </header><!-- /header -->
+ 	<nav id="nav" class="tab fix">
+		<div class="col-control left">
+	<!-- right-header-widgets -->
+	<div id="right-header-widgets" class="warea">
+	
+<form method="get" class="searchform " action="http://www.chenshake.com/">
+	<input type="text" name="s" class="searchfield" value="Search" onfocus="if (this.value == &#39;Search&#39;) {this.value = &#39;&#39;;}" onblur="if (this.value == &#39;&#39;) {this.value = &#39;Search&#39;;}">
+	<input type="submit" class="searchsubmit" value="" name="searchsubmit">
+</form>
+	</div>
+	<!-- /right-header-widgets -->
+		</div><!-- /col-control -->
+	</nav><!-- /nav -->
+			</div><!-- //#header-container -->
+			<div id="container" class="fix">
+				    <div id="main-col">
+		  	<div id="content">
+	<article class="post-3184 post type-post status-publish format-standard hentry category-cloud-computing tag-openstack category-10-id full-content meta-position-corners fix" id="post-3184">
+<header class="post-header title-container fix">
+	<div class="title">
+		<h1 class="posttitle"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/" class="entry-title" rel="bookmark" title="Openstack安装Openstack（Juno版本）">Openstack安装Openstack（Juno版本）</a></h1>
+		<div class="postdata fix">
+					<span class="category"><span class="icon">&nbsp;</span><a href="http://www.chenshake.com/cloud-computing/" rel="category tag">云计算</a></span>
+							<span class="comments"><span class="icon">&nbsp;</span><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#respond">Add comments</a></span>
+					</div><!-- /.postdata -->
+		</div><!-- /.title -->
+		<div class="date"><span class="month">Apr</span> <span class="day">09</span><span class="year">2015</span></div>
+	</header><!-- /.title-container -->
+	<span class="post-format-icon">&nbsp;</span><span class="updated" title="2015-04-09T21:25:51+00:00"></span>		<div class="entry-container fix">
+			<div class="entry fix">
+<p class="first-para">国内现在做Openstack的培训也开始多起来，不过应该都是采用虚拟机的方式来培训，我个人感觉还是很土的，不能吃自己的狗食。建议日后大家参加Openstack的培训的时候，都问一句，是不是在Openstack下培训Openstack。</p>
+<p>上次写过一篇Icehouse版本的。这次Juno版本，基本是一样的过程。不过调整一下顺序。用用户更容易操作。</p>
+<p>这次我是使用刻通云平台进行，希望可以做到更加流畅。</p>
+<p><span id="more-3184"></span></p>
+<div id="toc_container" class="no_bullets"><p class="toc_title">Contents <span class="toc_toggle">[<a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#">hide</a>]</span></p><ul class="toc_list"><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i"><span class="toc_number toc_depth_1">1</span> 基本情况</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-2"><span class="toc_number toc_depth_1">2</span> 控制节点</a><ul><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-3"><span class="toc_number toc_depth_2">2.1</span> 网络搭建</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-4"><span class="toc_number toc_depth_2">2.2</span> 设置源</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#NTP"><span class="toc_number toc_depth_2">2.3</span> NTP服务器</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-5"><span class="toc_number toc_depth_2">2.4</span> 数据库</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#RabbitMQ"><span class="toc_number toc_depth_2">2.5</span> 消息队列RabbitMQ</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#keystone"><span class="toc_number toc_depth_2">2.6</span> keystone</a><ul><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-6"><span class="toc_number toc_depth_3">2.6.1</span> 安装</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-7"><span class="toc_number toc_depth_3">2.6.2</span> 设置</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#keystone-2"><span class="toc_number toc_depth_3">2.6.3</span> 初始化keystone数据库</a></li></ul></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#Glance"><span class="toc_number toc_depth_2">2.7</span> Glance</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#Nova"><span class="toc_number toc_depth_2">2.8</span> Nova</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#Neutron"><span class="toc_number toc_depth_2">2.9</span> Neutron</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#Horizon"><span class="toc_number toc_depth_2">2.10</span> Horizon</a></li></ul></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-8"><span class="toc_number toc_depth_1">3</span> 网络节点</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-9"><span class="toc_number toc_depth_1">4</span> 计算节点</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-10"><span class="toc_number toc_depth_1">5</span> 命令行创建虚拟机</a></li><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#i-11"><span class="toc_number toc_depth_1">6</span> 访问公网</a><ul><li><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#vnc"><span class="toc_number toc_depth_2">6.1</span> vnc访问</a></li></ul></li></ul></div>
+<h1><span id="i">基本情况</span></h1>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap4.png"><img title="Snap4" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap4" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap4_thumb.png" width="783"></a></p>
+<p>默认是有一个基础网络。我们还是需要创建一个自己的网络，来满足openstack需求。</p>
+<p><img style="margin: 0px" alt="" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/network-topo_thumb.jpg"></p>
+<p>整理一下</p>
+<table cellspacing="0" cellpadding="2" width="400" border="0">
+<tbody>
+<tr>
+<td valign="top" width="100">角色</td>
+<td valign="top" width="100">管理网络</td>
+<td valign="top" width="100">虚拟机通讯网络</td>
+<td valign="top" width="100">外部网络</td>
+</tr>
+<tr>
+<td valign="top" width="100">控制节点</td>
+<td valign="top" width="100">eth0（10.0.0.11）</td>
+<td valign="top" width="100">&nbsp;</td>
+<td valign="top" width="100">eth1<br>（192.168.100.11）</td>
+</tr>
+<tr>
+<td valign="top" width="100">网络节点</td>
+<td valign="top" width="100">eth0（10.0.0.21）</td>
+<td valign="top" width="100">eth1（10.0.1.21）</td>
+<td valign="top" width="100">eth2（192.168.100.21）</td>
+</tr>
+<tr>
+<td valign="top" width="100">计算节点</td>
+<td valign="top" width="100">eth0（10.0.0.31）</td>
+<td valign="top" width="100">eth1（10.0.1.21）</td>
+<td valign="top" width="100">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>文档很清楚，</p>
+<ol>
+<li>网络节点，需要3块网卡。
+</li><li>控制节点和网络节点，需要外部网络，就是需要所谓的公网的IP
+</li><li>计算节点是不需要公网IP
+</li><li>所有的虚拟机访问公网，都是需要经过网络节点。
+</li><li>192.168.100.0,就相当于公网的IP地址段 </li>
+</ol>
+<p>根据上图，我们组建我们自己的网络</p>
+<ol>
+<li>创建router
+</li><li>创建管理网络，公网，虚拟机网络（记得按顺序创建）
+</li><li>公网连接router
+</li><li>申请公网IP
+</li><li>把IP绑定在router </li>
+</ol>
+<p>&nbsp;</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap5.png"><img title="Snap5" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap5" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap5_thumb.png" width="530"></a></p>
+<h1><span id="i-2">控制节点</span></h1>
+<p>&nbsp;</p>
+<h2><span id="i-3">网络搭建</span></h2>
+<p>创建一个ubuntu14.04的虚拟机，1core，2G内存，应该就够用了。网络，记得设置固定IP地址</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap6.png"><img title="Snap6" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap6" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap6_thumb.png" width="615"></a></p>
+<p>为了登陆vnc，所以选择密码登陆</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap7.png"><img title="Snap7" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap7" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap7_thumb.png" width="611"></a></p>
+<p>最后一步</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap8.png"><img title="Snap8" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap8" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap8_thumb.png" width="612"></a></p>
+<p>虚拟机就创建完毕。</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap9.png"><img title="Snap9" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap9" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap9_thumb.png" width="508"></a></p>
+<p>我们需要给控制节点添加一块网卡，连接到公网</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap10.png"><img title="Snap10" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap10" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap10_thumb.png" width="589"></a></p>
+<p>看看拓扑图</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap11.png"><img title="Snap11" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap11" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap11_thumb.png" width="514"></a></p>
+<p>vnc登陆</p>
+<p>由于虚拟机获得两块网卡，默认网关就需要手工指定。</p>
+<pre lang="csharp">route add default gw 192.168.100.1</pre>
+<p>这个时候,你就可以访问外网.</p>
+<p>&nbsp;</p>
+<p>从远程访问虚拟机，可以通过端口映射，或者vpn，这里直接在router上设置端口映射。这样你直接sshrouter的IP地址，就可以访问。</p>
+<p>&nbsp;</p>
+<h2><span id="i-4">设置源</span></h2>
+<pre lang="csharp">apt-get install ubuntu-cloud-keyring
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
+  "trusty-updates/juno main" &gt; /etc/apt/sources.list.d/cloudarchive-juno.list</pre>
+<p>更新</p>
+<pre lang="csharp">apt-get update &amp;&amp; apt-get dist-upgrade</pre>
+<h2><span id="NTP">NTP服务器</span></h2>
+<pre lang="csharp">apt-get install -y ntp</pre>
+<h2><span id="i-5">数据库</span></h2>
+<pre lang="csharp">apt-get install mariadb-server python-mysqldb</pre>
+<p>修改/etc/mysql/my.cnf</p>
+<pre lang="csharp">bind-address = 10.0.0.11
+
+[mysqld]
+default-storage-engine = innodb
+innodb_file_per_table
+collation-server = utf8_general_ci
+init-connect = 'SET NAMES utf8'
+character-set-server = utf8</pre>
+<p>重启数据库</p>
+<pre lang="csharp">service mysql restart</pre>
+<p>&nbsp;</p>
+<h2><span id="RabbitMQ">消息队列RabbitMQ</span></h2>
+<pre class="csharpcode">apt-get install -y rabbitmq-server</pre>
+<h2></h2>
+<h2><span id="keystone">keystone</span></h2>
+<p>&nbsp;</p>
+<h3><span id="i-6">安装</span></h3>
+<pre class="csharpcode">apt-get install -y keystone</pre>
+<h3><span id="i-7">设置</span></h3>
+<p>创建keystone数据库，都是通过 mysql –u root –p 进入</p>
+<pre class="csharpcode">CREATE DATABASE keystone;
+GRANT ALL PRIVILEGES ON keystone.* TO <span class="str">'keystone'</span>@<span class="str">'localhost'</span> IDENTIFIED BY <span class="str">'KEYSTONE_DBPASS'</span>;
+GRANT ALL PRIVILEGES ON keystone.* TO <span class="str">'keystone'</span>@<span class="str">'%'</span> IDENTIFIED BY <span class="str">'KEYSTONE_DBPASS'</span>;
+
+exit;</pre>
+<p>删除sqllite数据库</p>
+<pre class="csharpcode">rm /var/lib/keystone/keystone.db</pre>
+<p>编辑 /etc/keystone/keystone.conf</p>
+<pre class="csharpcode">connection = mysql:<span class="rem">//keystone:KEYSTONE_DBPASS@10.0.0.11/keystone</span>
+
+[DEFAULT]
+admin_token=ADMIN
+log_dir=/var/log/keystone</pre>
+<h3><span id="keystone-2">初始化keystone数据库</span></h3>
+<pre class="csharpcode">service keystone restart
+keystone-manage db_sync</pre>
+<p>设置环境变量</p>
+<pre class="csharpcode">export OS_SERVICE_TOKEN=ADMIN
+export OS_SERVICE_ENDPOINT=http://10.0.0.11:35357/v2.0</pre>
+<p>创建管理员权力的用户</p>
+<pre lang="csharp" line="1" escaped="true">keystone user-create --name=admin --pass=admin_pass --email=admin@domain.com
+keystone role-create --name=admin
+keystone role-create --name=_member_
+keystone tenant-create --name=admin --description="Admin Tenant"
+keystone user-role-add --user=admin --tenant=admin --role=admin
+keystone user-role-add --user=admin --role=_member_ --tenant=admin</pre>
+<p>创建普通用户</p>
+<pre class="csharpcode">keystone user-create --name=demo --pass=demo_pass --email=demo@domain.com
+keystone tenant-create --name=demo --description=<span class="str">"Demo Tenant"</span>
+keystone user-role-add --user=demo --role=_member_ --tenant=demo</pre>
+<p>创建 service 租户</p>
+<pre class="csharpcode">keystone tenant-create --name=service --description=<span class="str">"Service Tenant"</span></pre>
+<p>定义服务的API的endpoint</p>
+<p>&nbsp;</p>
+<pre class="csharpcode">keystone service-create --name=keystone --type=identity --description=<span class="str">"OpenStack Identity"</span></pre>
+<p>创建endpoint</p>
+<pre class="csharpcode">keystone endpoint-create \
+--service-id=$(keystone service-list | awk <span class="str">'/ identity / {print $2}'</span>) \
+--publicurl=http:<span class="rem">//192.168.100.11:5000/v2.0 \</span>
+--internalurl=http:<span class="rem">//10.0.0.11:5000/v2.0 \</span>
+--adminurl=http://10.0.0.11:35357/v2.0</pre>
+<p>检测keystone</p>
+<p>通过下面命令检查keystone的初始化是否正常</p>
+<p>设置环境变量，创建creds 和 admin_creds 两个文件</p>
+<pre class="csharpcode">cat &lt;&lt;EOF &gt;&gt;/root/creds
+export OS_TENANT_NAME=admin
+export OS_USERNAME=admin
+export OS_PASSWORD=admin_pass
+export OS_AUTH_URL=<span class="str">"http://192.168.100.11:5000/v2.0/"</span>
+EOF
+cat &lt;&lt;EOF &gt;&gt;/root/admin_creds
+export OS_USERNAME=admin
+export OS_PASSWORD=admin_pass
+export OS_TENANT_NAME=admin
+export OS_AUTH_URL=http:<span class="rem">//10.0.0.11:35357/v2.0</span>
+EOF</pre>
+<p>检测</p>
+<p>先退出ssh，让以前设置的环境变量失效。再登陆。</p>
+<p>设置环境变量才能进行下面操作</p>
+<pre class="csharpcode">source creds</pre>
+<p>&nbsp;</p>
+<p>这样就可以</p>
+<pre class="csharpcode">root@controller:~# keystone user-list
++----------------------------------+-------+---------+------------------+
+|                id                |  name | enabled |      email       |
++----------------------------------+-------+---------+------------------+
+| 6f8bcafd62ec4e23ab2be28016829f91 | admin |   True  | admin@domain.com |
+| 66713a75b7c14f73a1c5a015241f5826 |  demo |   True  | demo@domain.com  |
++----------------------------------+-------+---------+------------------+
+root@controller:~# keystone role-list
++----------------------------------+----------+
+|                id                |   name   |
++----------------------------------+----------+
+| 9fe2ff9ee4384b1894a90878d3e92bab | _member_ |
+| cd8dec7752d24a028f95657556f7573d |  admin   |
++----------------------------------+----------+
+root@controller:~# keystone tenant-list
++----------------------------------+---------+---------+
+|                id                |   name  | enabled |
++----------------------------------+---------+---------+
+| efc81990ab4c433f94573e2e0fcf08c3 |  admin  |   True  |
+| be10dc11d4034b389bef8bbcec657f6f |   demo  |   True  |
+| cb45c886bc094f65940ba29d79eab8aa | service |   True  |
++----------------------------------+---------+---------+</pre>
+<p>查看日志</p>
+<p>日志在/var/log/keystone/ 下，先清空日志,看看日志是否还有错误信息.</p>
+<pre class="csharpcode">echo <span class="str">""</span> &gt; /var/log/keystone/keystone-all.log
+echo <span class="str">""</span> &gt; /var/log/keystone/keystone-manage.log
+tail  /var/log/keystone/*</pre>
+<p>&nbsp;</p>
+<h2><span id="Glance">Glance</span></h2>
+<p>Openstack组件安装，都比较类似。</p>
+<pre class="csharpcode">apt-get install -y glance python-glanceclient</pre>
+<p>创建数据库 mysql –uroot –p</p>
+<pre class="csharpcode">CREATE DATABASE glance;
+GRANT ALL PRIVILEGES ON glance.* TO <span class="str">'glance'</span>@<span class="str">'localhost'</span> IDENTIFIED BY <span class="str">'GLANCE_DBPASS'</span>;
+GRANT ALL PRIVILEGES ON glance.* TO <span class="str">'glance'</span>@<span class="str">'%'</span> IDENTIFIED BY <span class="str">'GLANCE_DBPASS'</span>;
+
+exit;</pre>
+<p>keystone创建glance用户和服务</p>
+<pre class="csharpcode">keystone user-create --name=glance --pass=service_pass --email=glance@domain.com
+keystone user-role-add --user=glance --tenant=service --role=admin</pre>
+<p>设置endpoint</p>
+<pre class="csharpcode">keystone service-create --name=glance --type=image --description=<span class="str">"OpenStack Image Service"</span>
+keystone endpoint-create \
+--service-id=$(keystone service-list | awk <span class="str">'/ image / {print $2}'</span>) \
+--publicurl=http:<span class="rem">//192.168.100.11:9292 \</span>
+--internalurl=http:<span class="rem">//10.0.0.11:9292 \</span>
+--adminurl=http://10.0.0.11:9292</pre>
+<p>&nbsp;</p>
+<p>编辑 /etc/glance/glance-api.conf</p>
+<pre lang="csharp" line="1" escaped="true">[database]
+connection = mysql://glance:GLANCE_DBPASS@10.0.0.11/glance
+
+[DEFAULT]
+rpc_backend = rabbit
+rabbit_host = 10.0.0.11
+
+[keystone_authtoken]
+auth_uri = http://10.0.0.11:5000
+identity_uri = http://10.0.0.11:35357
+admin_tenant_name = service
+admin_user = glance
+admin_password = service_pass
+
+[paste_deploy]
+flavor = keystone</pre>
+<p>编辑 /etc/glance/glance-registry.conf</p>
+<pre class="csharpcode">[database]
+# The file name to use with SQLite (<span class="kwrd">string</span> <span class="kwrd">value</span>)
+#sqlite_db = /var/lib/glance/glance.sqlite
+connection = mysql:<span class="rem">//glance:GLANCE_DBPASS@10.0.0.11/glance</span>
+
+
+[keystone_authtoken]
+auth_uri = http:<span class="rem">//10.0.0.11:5000</span>
+auth_host = 10.0.0.11
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = glance
+admin_password = service_pass
+
+[paste_deploy]
+flavor = keystone</pre>
+<p>重启服务</p>
+<pre class="csharpcode">service glance-api restart; service glance-registry restart</pre>
+<p>初始化glance数据库</p>
+<pre class="csharpcode">glance-manage db_sync</pre>
+<p>上传镜像</p>
+<pre class="csharpcode">source creds
+glance image-create --name <span class="str">"cirros-0.3.2-x86_64"</span> --<span class="kwrd">is</span>-<span class="kwrd">public</span> <span class="kwrd">true</span> \
+--container-format bare --disk-format qcow2 \
+--location http://cdn.download.cirros-cloud.net/0.3.2/cirros-0.3.2-x86_64-disk.img</pre>
+<p>查看镜像</p>
+<pre class="csharpcode"># glance image-list
++--------------------------------------+---------------------+-------------+------------------+----------+--------+
+| ID                                   | Name                | Disk Format | Container Format | Size     | Status |
++--------------------------------------+---------------------+-------------+------------------+----------+--------+
+| d7a6d71d-4222-44f4-82d0-49c14ba19676 | cirros-0.3.2-x86_64 | qcow2       | bare             | 13167616 | active |
++--------------------------------------+---------------------+-------------+------------------+----------+--------+</pre>
+<p>检测log</p>
+<pre class="csharpcode">root@controller:~# tail /var/log/glance/*
+==&gt; /var/log/glance/api.log &lt;==
+2014-09-02 07:07:12.315 2946 WARNING glance.store.<span class="kwrd">base</span> [-] Failed to configure store correctly:
+ Store sheepdog could not be configured correctly. Reason:
+ Error <span class="kwrd">in</span> store configuration: [Errno 2] No such file or directory Disabling add method.
+2014-09-02 07:07:12.316 2946 WARNING glance.store [-] Deprecated: glance.store.
+sheepdog.Store not found <span class="kwrd">in</span> `known_store`. 
+Stores need to be explicitly enabled <span class="kwrd">in</span> the configuration file.</pre>
+<p>你会发现log里有类似的所谓错误，这个不是问题。希望glance改进一下这个地方的log。不然让很多新手很郁闷。</p>
+<p>&nbsp;</p>
+<h2><span id="Nova">Nova</span></h2>
+<p>安装软件</p>
+<pre class="csharpcode">apt-get install -y nova-api nova-cert nova-conductor nova-consoleauth \
+nova-novncproxy nova-scheduler python-novaclient</pre>
+<p>创建nova 数据库 mysql –u root –p</p>
+<pre class="csharpcode">CREATE DATABASE nova;
+GRANT ALL PRIVILEGES ON nova.* TO <span class="str">'nova'</span>@<span class="str">'localhost'</span> IDENTIFIED BY <span class="str">'NOVA_DBPASS'</span>;
+GRANT ALL PRIVILEGES ON nova.* TO <span class="str">'nova'</span>@<span class="str">'%'</span> IDENTIFIED BY <span class="str">'NOVA_DBPASS'</span>;
+
+exit;</pre>
+<p>配置keystone</p>
+<pre class="csharpcode">keystone user-create --name=nova --pass=service_pass --email=nova@domain.com
+keystone user-role-add --user=nova --tenant=service --role=admin</pre>
+<p>设置endpoint</p>
+<pre class="csharpcode">keystone service-create --name=nova --type=compute --description=<span class="str">"OpenStack Compute"</span>
+keystone endpoint-create \
+--service-id=$(keystone service-list | awk <span class="str">'/ compute / {print $2}'</span>) \
+--publicurl=http:<span class="rem">//192.168.100.11:8774/v2/%\(tenant_id\)s \</span>
+--internalurl=http:<span class="rem">//10.0.0.11:8774/v2/%\(tenant_id\)s \</span>
+--adminurl=http://10.0.0.11:8774/v2/%\(tenant_id\)s</pre>
+<p>编辑 /etc/nova/nova.conf</p>
+<p>下面是我的nova.conf 文件的全部内容</p>
+<pre class="csharpcode">[DEFAULT]
+dhcpbridge_flagfile=/etc/nova/nova.conf
+dhcpbridge=/usr/bin/nova-dhcpbridge
+logdir=/var/log/nova
+state_path=/var/lib/nova
+lock_path=/var/<span class="kwrd">lock</span>/nova
+force_dhcp_release=True
+iscsi_helper=tgtadm
+libvirt_use_virtio_for_bridges=True
+connection_type=libvirt
+root_helper=sudo nova-rootwrap /etc/nova/rootwrap.conf
+verbose=True
+ec2_private_dns_show_ip=True
+api_paste_config=/etc/nova/api-paste.ini
+volumes_path=/var/lib/nova/volumes
+enabled_apis=ec2,osapi_compute,metadata
+
+rpc_backend = rabbit
+rabbit_host = 10.0.0.11
+my_ip = 10.0.0.11
+vncserver_listen = 10.0.0.11
+vncserver_proxyclient_address = 10.0.0.11
+auth_strategy = keystone
+
+[keystone_authtoken]
+auth_uri = http:<span class="rem">//10.0.0.11:5000</span>
+auth_host = 10.0.0.11
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = nova
+admin_password = service_pass
+
+[database]
+connection = mysql://nova:NOVA_DBPASS@10.0.0.11/nova</pre>
+<p>删除sqlite数据库</p>
+<pre class="csharpcode">rm /var/lib/nova/nova.sqlite</pre>
+<p>初始化nova数据库</p>
+<pre class="csharpcode">nova-manage db sync</pre>
+<p>重启nova相关服务</p>
+<pre class="csharpcode">service nova-api restart
+service nova-cert restart
+service nova-conductor restart
+service nova-consoleauth restart
+service nova-novncproxy restart
+service nova-scheduler restart</pre>
+<p>检查</p>
+<pre class="csharpcode"># nova-manage service list
+Binary           Host                                 Zone             Status     State Updated_At
+nova-cert        controller                           <span class="kwrd">internal</span>         enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-08-26 14:13:08
+nova-consoleauth controller                           <span class="kwrd">internal</span>         enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-08-26 14:13:08
+nova-conductor   controller                           <span class="kwrd">internal</span>         enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-08-26 14:13:08
+nova-scheduler   controller                           <span class="kwrd">internal</span>         enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-08-26 14:13:08</pre>
+<p>&nbsp;</p>
+<h2><span id="Neutron">Neutron</span></h2>
+<p>控制节点，也是需要安装Neutron server</p>
+<pre class="csharpcode">apt-get install -y neutron-server neutron-plugin-ml2</pre>
+<p>创建Neutron数据库 mysql –u root –p</p>
+<pre class="csharpcode">CREATE DATABASE neutron;
+GRANT ALL PRIVILEGES ON neutron.* TO neutron@<span class="str">'localhost'</span> IDENTIFIED BY <span class="str">'NEUTRON_DBPASS'</span>;
+GRANT ALL PRIVILEGES ON neutron.* TO neutron@<span class="str">'%'</span> IDENTIFIED BY <span class="str">'NEUTRON_DBPASS'</span>;
+
+exit;</pre>
+<p>keystone创建neutron用户和角色</p>
+<pre class="csharpcode">keystone user-create --name=neutron --pass=service_pass --email=neutron@domain.com
+keystone user-role-add --user=neutron --tenant=service --role=admin</pre>
+<p>注册服务和endpoint</p>
+<pre class="csharpcode">keystone service-create --name=neutron --type=network --description=<span class="str">"OpenStack Networking"</span>
+
+keystone endpoint-create \
+--service-id=$(keystone service-list | awk <span class="str">'/ network / {print $2}'</span>) \
+--publicurl=http:<span class="rem">//192.168.100.11:9696 \</span>
+--internalurl=http:<span class="rem">//10.0.0.11:9696 \</span>
+--adminurl=http://10.0.0.11:9696</pre>
+<p>编辑 /etc/neutron/neutron.conf，关键的是nova_admin_tenant_id 需要你手工用命令获得，再填写</p>
+<pre class="csharpcode">keystone tenant-list | awk <span class="str">'/ service / { print $2 }'</span></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre class="csharpcode">#core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
+core_plugin = ml2
+
+# service_plugins =
+# Example: service_plugins = router,firewall,lbaas,vpnaas,metering
+service_plugins = router
+
+# auth_strategy = keystone
+auth_strategy = keystone
+
+# allow_overlapping_ips = False
+allow_overlapping_ips = True
+
+rpc_backend = rabbit
+
+rabbit_host = 10.0.0.11
+
+notification_driver = neutron.openstack.common.notifier.rpc_notifier
+
+# ======== neutron nova interactions ==========
+# Send notification to nova when port status <span class="kwrd">is</span> active.
+notify_nova_on_port_status_changes = True
+
+# Send notifications to nova when port data (fixed_ips/floatingips) change
+# so nova can update it's cache.
+notify_nova_on_port_data_changes = True
+
+# URL <span class="kwrd">for</span> connection to nova (Only supports one nova region currently).
+nova_url = http:<span class="rem">//10.0.0.11:8774/v2</span>
+
+# Name of nova region to use. Useful <span class="kwrd">if</span> keystone manages more than one region
+# nova_region_name =
+
+# Username <span class="kwrd">for</span> connection to nova <span class="kwrd">in</span> admin context
+nova_admin_username = nova
+
+# The uuid of the admin nova tenant
+nova_admin_tenant_id = cb45c886bc094f65940ba29d79eab8aa
+
+# Password <span class="kwrd">for</span> connection to nova <span class="kwrd">in</span> admin context.
+nova_admin_password = service_pass
+
+# Authorization URL <span class="kwrd">for</span> connection to nova <span class="kwrd">in</span> admin context.
+nova_admin_auth_url = http:<span class="rem">//10.0.0.11:35357/v2.0</span>
+
+[keystone_authtoken]
+#auth_host = 127.0.0.1
+#auth_port = 35357
+#auth_protocol = http
+#admin_tenant_name = %SERVICE_TENANT_NAME%
+#admin_user = %SERVICE_USER%
+#admin_password = %SERVICE_PASSWORD%
+#signing_dir = $state_path/keystone-signing
+auth_uri = http:<span class="rem">//10.0.0.11:5000</span>
+auth_host = 10.0.0.11
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = neutron
+admin_password = service_pass
+
+[database]
+# This line MUST be changed to actually run the plugin.
+# Example:
+# connection = mysql:<span class="rem">//root:pass@127.0.0.1:3306/neutron</span>
+# Replace 127.0.0.1 above with the IP address of the database used by the
+# main neutron server. (Leave it <span class="kwrd">as</span> <span class="kwrd">is</span> <span class="kwrd">if</span> the database runs on <span class="kwrd">this</span> host.)
+#connection = sqlite:<span class="rem">////var/lib/neutron/neutron.sqlite</span>
+connection = mysql:<span class="rem">//neutron:NEUTRON_DBPASS@10.0.0.11/neutron</span>
+</pre>
+<p>编辑 /etc/neutron/plugins/ml2/ml2_conf.ini</p>
+<pre class="csharpcode">[ml2]
+type_drivers = gre
+tenant_network_types = gre
+mechanism_drivers = openvswitch
+
+[ml2_type_gre]
+tunnel_id_ranges = 1:1000
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+enable_security_group = True</pre>
+<p>&nbsp;</p>
+<p>编辑/etc/nova/nova.conf, 让nova支持neutron，在[DEFAULT] 添加</p>
+<pre class="csharpcode">network_api_class=nova.network.neutronv2.api.API
+neutron_url=http:<span class="rem">//10.0.0.11:9696</span>
+neutron_auth_strategy=keystone
+neutron_admin_tenant_name=service
+neutron_admin_username=neutron
+neutron_admin_password=service_pass
+neutron_admin_auth_url=http:<span class="rem">//10.0.0.11:35357/v2.0</span>
+libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
+linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver
+firewall_driver=nova.virt.firewall.NoopFirewallDriver
+security_group_api=neutron</pre>
+<p>重启nova服务</p>
+<pre class="csharpcode">service nova-api restart
+service nova-scheduler restart
+service nova-conductor restart</pre>
+<p>这里面有一个bug，需要修复 <a title="http://www.tuicool.com/articles/vmaiiua" href="http://www.tuicool.com/articles/vmaiiua">http://www.tuicool.com/articles/vmaiiua</a></p>
+<pre lang="csharp" line="1" escaped="true">neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno</pre>
+<p>重启neutron服务</p>
+<pre class="csharpcode">service neutron-server restart</pre>
+<p>查看log</p>
+<pre class="csharpcode">root@controller:~# tail -f /var/log/neutron/*
+2014-09-02 07:27:53.950 5373 WARNING neutron.api.extensions [-] Extension fwaas not supported by any of loaded plugins
+2014-09-02 07:27:53.952 5373 WARNING neutron.api.extensions [-] Extension flavor not supported by any of loaded plugins
+2014-09-02 07:27:53.962 5373 WARNING neutron.api.extensions [-] Extension lbaas_agent_scheduler not supported by any of loaded plugins
+2014-09-02 07:27:53.967 5373 WARNING neutron.api.extensions [-] Extension lbaas not supported by any of loaded plugins
+2014-09-02 07:27:53.969 5373 WARNING neutron.api.extensions [-] Extension metering not supported by any of loaded plugins
+2014-09-02 07:27:53.973 5373 WARNING neutron.api.extensions [-] Extension port-security not supported by any of loaded plugins
+2014-09-02 07:27:53.977 5373 WARNING neutron.api.extensions [-] Extension routed-service-insertion not supported by any of loaded plugins
+</pre>
+<p>&nbsp;</p>
+<p>日志里显示找不到插件，这都是正常的。</p>
+<p>&nbsp;</p>
+<h2><span id="Horizon">Horizon</span></h2>
+<p>Dashboard的安装，倒是比较简单，不需要创建数据库。</p>
+<pre class="csharpcode">apt-get install -y apache2 memcached libapache2-mod-wsgi openstack-dashboard</pre>
+<p>编辑 /etc/openstack-dashboard/local_settings.py</p>
+<pre class="csharpcode">#ALLOWED_HOSTS = [<span class="str">'horizon.example.com'</span>, ]
+ALLOWED_HOSTS = [<span class="str">'localhost'</span>,<span class="str">'192.168.100.11'</span>]
+
+#OPENSTACK_HOST = <span class="str">"127.0.0.1"</span>
+OPENSTACK_HOST = <span class="str">"10.0.0.11"</span></pre>
+<p>重启apache服务</p>
+<pre class="csharpcode">service apache2 restart; service memcached restart</pre>
+<p>这个时候，你可以通过<a title="http://192.168.100.11/horizon" href="http://192.168.100.11/horizon">http://192.168.100.11/horizon</a></p>
+<p>看到登录界面，应该是无法登录。</p>
+<p>安装Openstack client端</p>
+<p>在控制节点装上Openstack的client端，这样会方便很多，很多Neutron的操作，你都可以进行</p>
+<pre class="csharpcode">apt-get -y install python-openstackclient</pre>
+<p>&nbsp;</p>
+<h1><span id="i-8">网络节点</span></h1>
+<p>看图理解的更好，这图来自redhat的官方文档。</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2014/09/2476.png"><img title="2476" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="2476" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/2476_thumb.png" width="664"></a></p>
+<p>网络节点需要3块网卡。经常有朋友问，1块网卡是否可以。其实1块网卡肯定也是可以的，不过不利于大家理解。不过大家都很难找到3块网卡的机器，所以在IaaS下来测试，就方便很多。</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2014/08/network.jpg"><img title="network" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="network" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/network_thumb.jpg" width="381"></a></p>
+<p>创建一个虚拟机，名字为：network, 删除网卡，并且添加3块网卡。ssh到虚拟机上，默认是无法访问外网的，原因也很简单，没有默认路由，手工添加默认路由就可以。</p>
+<p>由于网络节点,比较特殊,我们需要把网卡的Ip设置成固定 /etc/netwrok/interface</p>
+<pre class="csharpcode"># This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network <span class="kwrd">interface</span>
+auto lo
+iface lo inet loopback
+
+# Source interfaces
+# Please check /etc/network/interfaces.d before changing <span class="kwrd">this</span> file
+# <span class="kwrd">as</span> interfaces may have been defined <span class="kwrd">in</span> /etc/network/interfaces.d
+# NOTE: the primary ethernet device <span class="kwrd">is</span> defined <span class="kwrd">in</span>
+# /etc/network/interfaces.d/eth0
+# See LP: #1262951
+#source /etc/network/interfaces.d/*.cfg
+# The management network <span class="kwrd">interface</span>
+  auto eth0
+  iface eth0 inet <span class="kwrd">static</span>
+  address 10.0.0.21
+  netmask 255.255.255.0
+
+# VM traffic <span class="kwrd">interface</span>
+  auto eth1
+  iface eth1 inet <span class="kwrd">static</span>
+  address 10.0.1.21
+  netmask 255.255.255.0
+
+# The <span class="kwrd">public</span> network <span class="kwrd">interface</span>
+ auto eth2
+ iface eth2 inet <span class="kwrd">static</span>
+ address 192.168.100.21
+ netmask 255.255.255.0
+ gateway 192.168.100.1
+ dns-nameservers 114.114.114.114</pre>
+<p>&nbsp;</p>
+<p>设置完毕，重启虚拟机。</p>
+<p>这个时候，你就可以访问外网，安装包。</p>
+<pre class="csharpcode">apt-get update -y &amp;&amp; apt-get upgrade -y &amp;&amp; apt-get dist-upgrade</pre>
+<p>同步时间</p>
+<pre class="csharpcode">apt-get install -y ntp</pre>
+<p>编辑 /etc/ntp.conf</p>
+<pre class="csharpcode">server 10.0.0.11</pre>
+<p>重启NTP服务</p>
+<pre class="csharpcode">service ntp restart</pre>
+<p>安装基础组件</p>
+<pre class="csharpcode">apt-get install -y vlan bridge-utils</pre>
+<p>编辑 /etc/sysctl.conf</p>
+<pre class="csharpcode">net.ipv4.ip_forward=1
+net.ipv4.conf.all.rp_filter=0
+net.ipv4.conf.<span class="kwrd">default</span>.rp_filter=0</pre>
+<p>检测</p>
+<pre class="csharpcode">sysctl -p</pre>
+<p>&nbsp;</p>
+<p>安装Neutron组件</p>
+<pre class="csharpcode">apt-get install -y neutron-plugin-ml2 neutron-plugin-openvswitch-agent \
+dnsmasq neutron-l3-agent neutron-dhcp-agent</pre>
+<p>编辑 /etc/neutron/neutron.conf , 这里修改的内容，比控制节点少很多。</p>
+<pre class="csharpcode">#core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
+core_plugin = ml2
+
+# service_plugins =
+# Example: service_plugins = router,firewall,lbaas,vpnaas,metering
+service_plugins = router
+
+# The strategy to be used <span class="kwrd">for</span> auth.
+# Supported values are <span class="str">'keystone'</span>(<span class="kwrd">default</span>), <span class="str">'noauth'</span>.
+auth_strategy = keystone
+
+allow_overlapping_ips = True
+
+rpc_backend = neutron.openstack.common.rpc.impl_kombu
+
+rabbit_host = 10.0.0.11
+
+[keystone_authtoken]
+#auth_host = 127.0.0.1
+#auth_port = 35357
+#auth_protocol = http
+#admin_tenant_name = %SERVICE_TENANT_NAME%
+#admin_user = %SERVICE_USER%
+#admin_password = %SERVICE_PASSWORD%
+#signing_dir = $state_path/keystone-signing
+auth_uri = http:<span class="rem">//10.0.0.11:5000</span>
+auth_host = 10.0.0.11
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = neutron
+admin_password = service_pass</pre>
+<p>编辑 /etc/neutron/l3_agent.ini</p>
+<pre class="csharpcode">interface_driver = neutron.agent.linux.<span class="kwrd">interface</span>.OVSInterfaceDriver
+use_namespaces = True</pre>
+<p>编辑 /etc/neutron/dhcp_agent.ini</p>
+<pre class="csharpcode">interface_driver = neutron.agent.linux.<span class="kwrd">interface</span>.OVSInterfaceDriver
+dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
+use_namespaces = True</pre>
+<p>编辑 /etc/neutron/metadata_agent.ini</p>
+<pre class="csharpcode">auth_url = http:<span class="rem">//10.0.0.11:5000/v2.0</span>
+auth_region = regionOne
+
+admin_tenant_name = service
+admin_user = neutron
+admin_password = service_pass
+nova_metadata_ip = 10.0.0.11
+metadata_proxy_shared_secret = helloOpenStack</pre>
+<p>登录控制节点，修改 /etc/nova.conf 在[DEFAULT] 加入下面内容</p>
+<pre class="csharpcode">service_neutron_metadata_proxy = <span class="kwrd">true</span>
+neutron_metadata_proxy_shared_secret = helloOpenStack</pre>
+<p>重启nova api服务</p>
+<pre class="csharpcode">service nova-api restart</pre>
+<p>编辑 /etc/neutron/plugins/ml2/ml2_conf.ini</p>
+<pre class="csharpcode">[ml2]
+type_drivers = gre
+tenant_network_types = gre
+mechanism_drivers = openvswitch
+
+[ml2_type_gre]
+tunnel_id_ranges = 1:1000
+
+[ovs]
+local_ip = 10.0.1.21
+tunnel_type = gre
+enable_tunneling = True
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+enable_security_group = True</pre>
+<p>重启openvswitch</p>
+<pre class="csharpcode">service openvswitch-<span class="kwrd">switch</span> restart</pre>
+<p>创建br-ex</p>
+<p>创建br-ex连接外网，这个不太好理解，看图</p>
+<p>大概意思是：我们创建一个bridge br-ex，把br-ex绑定在eth2下，eth2是连接到公网的路由器上的。</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2014/08/Snap1.png"><img title="Snap1" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap1" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap1_thumb.png" width="995"></a></p>
+<pre class="csharpcode">ovs-vsctl add-br br-ex
+ovs-vsctl add-port br-ex eth2</pre>
+<p>下面内容是我操作的结果,大家慢慢理解.</p>
+<p>&nbsp;</p>
+<p>编辑 /etc/network/interfaces</p>
+<pre class="csharpcode"># This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network <span class="kwrd">interface</span>
+auto lo
+iface lo inet loopback
+
+# Source interfaces
+# Please check /etc/network/interfaces.d before changing <span class="kwrd">this</span> file
+# <span class="kwrd">as</span> interfaces may have been defined <span class="kwrd">in</span> /etc/network/interfaces.d
+# NOTE: the primary ethernet device <span class="kwrd">is</span> defined <span class="kwrd">in</span>
+# /etc/network/interfaces.d/eth0
+# See LP: #1262951
+#source /etc/network/interfaces.d/*.cfg
+# The management network <span class="kwrd">interface</span>
+  auto eth0
+  iface eth0 inet <span class="kwrd">static</span>
+  address 10.0.0.21
+  netmask 255.255.255.0
+
+# VM traffic <span class="kwrd">interface</span>
+  auto eth1
+  iface eth1 inet <span class="kwrd">static</span>
+  address 10.0.1.21
+  netmask 255.255.255.0
+
+# The <span class="kwrd">public</span> network <span class="kwrd">interface</span>
+# auto eth2
+# iface eth2 inet <span class="kwrd">static</span>
+# address 192.168.100.21
+# netmask 255.255.255.0
+# gateway 192.168.100.1
+# dns-nameservers 114.114.114.114
+
+auto eth2
+iface eth2 inet manual
+up ifconfig $IFACE 0.0.0.0 up
+up ip link set $IFACE promisc on
+down ip link set $IFACE promisc off
+down ifconfig $IFACE down
+
+auto br-ex
+iface br-ex inet <span class="kwrd">static</span>
+address 192.168.100.21
+netmask 255.255.255.0
+gateway 192.168.100.1
+dns-nameservers 114.114.114.114</pre>
+<p>&nbsp;</p>
+<p>重启虚拟机</p>
+<p>替换br-ex和eth2的mac地址</p>
+<p>由于网络的限制，目前192.168.100.21和192.168.100.11是无法通讯的，原因是因为出于安全的考虑，对网络访问的mac地址和ip地址做了绑定和限制。</p>
+<p>通过ifconfig 查看网卡的mac地址，通过命令，把mac地址互换。</p>
+<ul>
+<li>br-ex mac 地址 c2:32:7d:cf:9d:4
+</li><li>eth2 mac地址 fa:16:3e:80:5d:e6 </li>
+</ul>
+<pre class="csharpcode">ip link set eth2 addr c2:32:7d:cf:9d:43
+ip link set br-ex addr fa:16:3e:80:5d:e6</pre>
+<p>&nbsp;</p>
+<p>这个时候，外部网络的IP就可以互相访问。这些修改是临时性的，如果重启neutron服务，mac地址就会恢复。不过我们实验不需要重启服务。这里提供的是临时的方法，后面有彻底解决问题的办法。</p>
+<p>&nbsp;</p>
+<p>设置环境变量</p>
+<pre class="csharpcode">cat &lt;&lt;EOF &gt;&gt;/root/creds
+export OS_TENANT_NAME=admin
+export OS_USERNAME=admin
+export OS_PASSWORD=admin_pass
+export OS_AUTH_URL=<span class="str">"http://192.168.100.11:5000/v2.0/"</span>
+EOF</pre>
+<p>这样你就可以看到安装的agent</p>
+<pre class="csharpcode">source creds
+neutron agent-list</pre>
+<p>&nbsp;</p>
+<pre class="csharpcode"># neutron agent-list
++--------------------------------------+--------------------+---------+-------+----------------+
+| id                                   | agent_type         | host    | alive | admin_state_up |
++--------------------------------------+--------------------+---------+-------+----------------+
+| 3a80d2ea-bcf6-4835-b125-55144948024c | Open vSwitch agent | network | <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   | True           |
+| 4219dd20-c4fd-4586-b2fc-c81bec0015d6 | L3 agent           | network | <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   | True           |
+| e956687f-a658-4226-a34f-368da61e9e44 | Metadata agent     | network | <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   | True           |
+| f3e841f8-b803-4134-9ba6-3152c3db5592 | DHCP agent         | network | <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   | True           |
++--------------------------------------+--------------------+---------+-------+----------------+</pre>
+<p>&nbsp;</p>
+<h1><span id="i-9">计算节点</span></h1>
+<p>&nbsp;</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2014/08/compute.jpg"><img title="compute" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="compute" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/compute_thumb.jpg" width="375"></a></p>
+<p>&nbsp;</p>
+<p>创建一个虚拟机，名字为：compute1, 删除网卡，并且添加2块网卡。ssh到虚拟机上.</p>
+<p>计算节点默认是不需要接公网，不过由于我需要安装包，必须联网，所以你可以创建完虚拟机后，给虚拟机连接到外部网络，装完系统后，再断开就可以。</p>
+<pre class="csharpcode">route add <span class="kwrd">default</span> gw 192.168.100.1</pre>
+<p>这个时候，你就可以访问外网，安装包。</p>
+<pre class="csharpcode">apt-get update -y &amp;&amp; apt-get upgrade -y &amp;&amp; apt-get dist-upgrade</pre>
+<p>同步时间</p>
+<pre class="csharpcode">apt-get install -y ntp</pre>
+<p>编辑 /etc/ntp.conf</p>
+<pre class="csharpcode">server 10.0.0.11</pre>
+<p>重启NTP服务</p>
+<pre class="csharpcode">service ntp restart</pre>
+<p>安装kvm套件</p>
+<pre class="csharpcode">apt-get install -y kvm libvirt-bin pm-utils</pre>
+<p>安装计算节点组件</p>
+<pre class="csharpcode">apt-get install -y nova-compute-kvm python-guestfs</pre>
+<p>让内核只读</p>
+<pre class="csharpcode">dpkg-statoverride  --update --add root root 0644 /boot/vmlinuz-$(uname -r)</pre>
+<p>创建脚本 /etc/kernel/postinst.d/statoverride</p>
+<pre class="csharpcode">#!/bin/sh
+version=<span class="str">"$1"</span>
+# passing the kernel version <span class="kwrd">is</span> required
+[ -z <span class="str">"${version}"</span> ] &amp;&amp; exit 0
+dpkg-statoverride --update --add root root 0644 /boot/vmlinuz-${version}</pre>
+<p>允许运行</p>
+<pre class="csharpcode">chmod +x /etc/kernel/postinst.d/statoverride</pre>
+<p>编辑 /etc/nova/nova.conf 文件，添加下面内容</p>
+<pre class="csharpcode">[DEFAULT]
+dhcpbridge_flagfile=/etc/nova/nova.conf
+dhcpbridge=/usr/bin/nova-dhcpbridge
+logdir=/var/log/nova
+state_path=/var/lib/nova
+lock_path=/var/<span class="kwrd">lock</span>/nova
+force_dhcp_release=True
+iscsi_helper=tgtadm
+libvirt_use_virtio_for_bridges=True
+connection_type=libvirt
+root_helper=sudo nova-rootwrap /etc/nova/rootwrap.conf
+verbose=True
+ec2_private_dns_show_ip=True
+api_paste_config=/etc/nova/api-paste.ini
+volumes_path=/var/lib/nova/volumes
+enabled_apis=ec2,osapi_compute,metadata
+
+auth_strategy = keystone
+rpc_backend = rabbit
+rabbit_host = 10.0.0.11
+my_ip = 10.0.0.31
+vnc_enabled = True
+vncserver_listen = 0.0.0.0
+vncserver_proxyclient_address = 10.0.0.31
+novncproxy_base_url = http:<span class="rem">//192.168.100.11:6080/vnc_auto.html</span>
+glance_host = 10.0.0.11
+vif_plugging_is_fatal=<span class="kwrd">false</span>
+vif_plugging_timeout=0
+
+
+[database]
+connection = mysql:<span class="rem">//nova:NOVA_DBPASS@10.0.0.11/nova</span>
+
+[keystone_authtoken]
+auth_uri = http:<span class="rem">//10.0.0.11:5000</span>
+auth_host = 10.0.0.11
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = nova
+admin_password = service_pass
+
+</pre>
+<p>删除sqlite</p>
+<pre class="csharpcode">rm /var/lib/nova/nova.sqlite</pre>
+<p>重启compute服务</p>
+<pre class="csharpcode">service nova-compute restart</pre>
+<p>编辑 /etc/sysctl.conf</p>
+<pre class="csharpcode">net.ipv4.ip_forward=1
+net.ipv4.conf.all.rp_filter=0
+net.ipv4.conf.<span class="kwrd">default</span>.rp_filter=0</pre>
+<p>马上生效</p>
+<pre class="csharpcode">sysctl -p</pre>
+<p>安装网络组件</p>
+<pre class="csharpcode">apt-get install -y neutron-common neutron-plugin-ml2 neutron-plugin-openvswitch-agent</pre>
+<p>编辑 /etc/neutron/neutron.conf</p>
+<pre class="csharpcode">#core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin
+core_plugin = ml2
+
+# service_plugins =
+# Example: service_plugins = router,firewall,lbaas,vpnaas,metering
+service_plugins = router
+
+auth_strategy = keystone
+
+allow_overlapping_ips = True
+
+rpc_backend = neutron.openstack.common.rpc.impl_kombu
+
+rabbit_host = 10.0.0.11
+
+[keystone_authtoken]
+#auth_host = 127.0.0.1
+#auth_port = 35357
+#auth_protocol = http
+#admin_tenant_name = %SERVICE_TENANT_NAME%
+#admin_user = %SERVICE_USER%
+#admin_password = %SERVICE_PASSWORD%
+#signing_dir = $state_path/keystone-signing
+auth_uri = http:<span class="rem">//10.0.0.11:5000</span>
+auth_host = 10.0.0.11
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = neutron
+admin_password = service_pass
+
+</pre>
+<p>编辑&nbsp; /etc/neutron/plugins/ml2/ml2_conf.ini</p>
+<pre class="csharpcode">[ml2]
+type_drivers = gre
+tenant_network_types = gre
+mechanism_drivers = openvswitch
+
+[ml2_type_gre]
+tunnel_id_ranges = 1:1000
+
+[ovs]
+local_ip = 10.0.1.31
+tunnel_type = gre
+enable_tunneling = True
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+enable_security_group = True</pre>
+<p>重启OVS</p>
+<pre class="csharpcode">service openvswitch-<span class="kwrd">switch</span> restart</pre>
+<p>再编辑 /etc/nova/nova.conf ，在[DEFAULT]里添加下面</p>
+<pre class="csharpcode">network_api_class = nova.network.neutronv2.api.API
+neutron_url = http:<span class="rem">//10.0.0.11:9696</span>
+neutron_auth_strategy = keystone
+neutron_admin_tenant_name = service
+neutron_admin_username = neutron
+neutron_admin_password = service_pass
+neutron_admin_auth_url = http:<span class="rem">//10.0.0.11:35357/v2.0</span>
+linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+security_group_api = neutron</pre>
+<p>编辑 /etc/nova/nova-compute.conf ,修改为使用qemu</p>
+<pre class="csharpcode">[DEFAULT]
+compute_driver=libvirt.LibvirtDriver
+[libvirt]
+virt_type=qemu</pre>
+<p>重启相关服务</p>
+<pre class="csharpcode">service nova-compute restart
+service neutron-plugin-openvswitch-agent restart</pre>
+<p>安装就全部完成。</p>
+<p>登录控制节点</p>
+<pre class="csharpcode">root@controller:~# source creds 
+root@controller:~# nova-manage service list
+Binary           Host                                 Zone             Status     State Updated_At
+nova-cert        controller                           <span class="kwrd">internal</span>         enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-09-02 10:31:03
+nova-conductor   controller                           <span class="kwrd">internal</span>         enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-09-02 10:31:04
+nova-scheduler   controller                           <span class="kwrd">internal</span>         enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-09-02 10:30:58
+nova-consoleauth controller                           <span class="kwrd">internal</span>         enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-09-02 10:31:00
+nova-compute     compute1                             nova             enabled    <img draggable="false" class="emoji" alt="🙂" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/1f642.svg">   2014-09-02 10:30:57
+root@controller:~#</pre>
+<p>&nbsp;</p>
+<h1><span id="i-10">命令行创建虚拟机</span></h1>
+<p>在控制节点上，运行下面的命令就可以。镜像我上面已经上传。下面的操作，你完全可以在Dashboard里进行操作，这里命令行下，了解更加深入。</p>
+<p>下面的操作，在控制节点完成。</p>
+<p>创建外部网络</p>
+<pre class="csharpcode">source creds
+
+#Create the external network:
+neutron net-create ext-net --shared --router:external=True
+
+#Create the subnet <span class="kwrd">for</span> the external network:
+neutron subnet-create ext-net --name ext-subnet \
+--allocation-pool start=192.168.100.101,end=192.168.100.200 \
+--disable-dhcp --gateway 192.168.100.1 192.168.100.0/24</pre>
+<p>给租户创建内部网络</p>
+<pre class="csharpcode">#Create the <span class="kwrd">internal</span> network:
+neutron net-create <span class="kwrd">int</span>-net
+
+#Create the subnet <span class="kwrd">for</span> the <span class="kwrd">internal</span> network:
+neutron subnet-create <span class="kwrd">int</span>-net --name <span class="kwrd">int</span>-subnet \
+--dns-nameserver 114.114.114.114 --gateway 172.16.1.1 172.16.1.0/24</pre>
+<p>创建路由，并且连接到外部网络</p>
+<pre class="csharpcode">#Create the router:
+neutron router-create router1
+
+#Attach the router to the <span class="kwrd">internal</span> subnet:
+neutron router-<span class="kwrd">interface</span>-add router1 <span class="kwrd">int</span>-subnet
+
+#Attach the router to the external network by setting it <span class="kwrd">as</span> the gateway:
+neutron router-gateway-set router1 ext-net</pre>
+<p>创建密钥</p>
+<pre class="csharpcode">ssh-keygen</pre>
+<p>添加公钥</p>
+<pre class="csharpcode">nova keypair-add --pub-key ~/.ssh/id_rsa.pub key1</pre>
+<p>设置安全组</p>
+<pre class="csharpcode"># Permit ICMP (ping):
+nova secgroup-add-rule <span class="kwrd">default</span> icmp -1 -1 0.0.0.0/0
+
+# Permit secure shell (SSH) access:
+nova secgroup-add-rule <span class="kwrd">default</span> tcp 22 22 0.0.0.0/0</pre>
+<p>创建虚拟机</p>
+<pre class="csharpcode">NET_ID=$(neutron net-list | awk <span class="str">'/ int-net / { print $2 }'</span>)
+nova boot --flavor m1.tiny --image cirros-0.3.2-x86_64 --nic net-id=$NET_ID \
+--security-group <span class="kwrd">default</span> --key-name key1 instance1</pre>
+<p>查看虚拟机</p>
+<pre class="csharpcode">nova list</pre>
+<p>申请公网IP</p>
+<pre class="csharpcode">neutron floatingip-create ext-net</pre>
+<p>关联floating IP</p>
+<pre class="csharpcode">nova floating-ip-associate instance1 192.168.100.102</pre>
+<p>这个时候，你会发现你在控制节点上，根本是无法访问 router 192.168.100.101和floating ip 192.168.100.102。</p>
+<p>访问虚拟机，你需要登录网络节点上，你可以用下面命令访问虚拟机</p>
+<pre class="csharpcode"># ip netns
+qdhcp-bf7f3043-d696-4735-9bc7-8c2e4d95c8d5
+qrouter-7e8bbb53-1ea6-4763-a69c-a0c875b5224b</pre>
+<p>第一个的虚拟机，第二个是路由器</p>
+<pre class="csharpcode"># ip netns exec qdhcp-bf7f3043-d696-4735-9bc7-8c2e4d95c8d5 ifconfig
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:16 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:16 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1216 (1.2 KB)  TX bytes:1216 (1.2 KB)
+
+tap1a85db16-da Link encap:Ethernet  HWaddr fa:16:3e:ce:e0:e2  
+          inet addr:172.16.1.3  Bcast:172.16.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::f816:3eff:fece:e0e2/64 Scope:Link
+          UP BROADCAST RUNNING  MTU:1500  Metric:1
+          RX packets:415 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:105 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:64724 (64.7 KB)  TX bytes:10228 (10.2 KB)
+</pre>
+<p>&nbsp;</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2014/08/Instance-creation.png"><img title="Instance-creation" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Instance-creation" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Instance-creation_thumb.png" width="917"></a></p>
+<p>&nbsp;</p>
+<h1><span id="i-11">访问公网</span></h1>
+<p>你可能发现一个很明显的问题，你在网络节点是可以ping 通虚拟机的floating IP，router的IP，不过你在控制节点是无法访问的。</p>
+<p>如果希望比较完美，实现虚拟机可以ping通公网，那么需要我们多了解一下内容才行。可以发现全部的流量都是通过192.168.100.21这个端口出去，我们需要设置一下这个端口，运行所有的IP和mac地址通过。</p>
+<p>登录网络节点，通过ping 192.168.100.101 和192.168.100.102 ，获得他们的mac地址。</p>
+<pre class="csharpcode"># arp -a
+? (10.0.0.11) at fa:16:3e:34:d0:7a [ether] on eth0
+? (192.168.100.102) at fa:16:3e:0c:be:cd [ether] on br-ex
+? (10.0.1.31) at fa:16:3e:eb:96:1c [ether] on eth1
+? (192.168.100.101) at fa:16:3e:0c:be:cd [ether] on br-ex
+? (192.168.100.1) at fa:16:3e:c2:a8:a8 [ether] on br-ex</pre>
+<p>&nbsp;</p>
+<p>下面的操作，你可以在控制节点完成</p>
+<p>通过curl获取token</p>
+<p>使用token，修改192.168.100.21 port 的allow_address_pairs ，可以顺便把eth2和br-ex也修改，这样就不担心重启服务。</p>
+<p>详细的操作，就参考这篇文档就可以。</p>
+<p><a title="http://www.chenshake.com/use-the-uos-api/" href="http://www.chenshake.com/use-the-uos-api/">http://www.chenshake.com/use-the-uos-api/</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2><span id="vnc">vnc访问</span></h2>
+<p>如果你登录Horizon，访问虚拟机，vnc可能无法访问，你需要登录uos，修改安全组规则。默认第一个虚拟机使用vnc的端口是6080。或者你全部打开端口。</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2014/08/Snap2.png"><img title="Snap2" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap2" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap2_thumb.png" width="1061"></a></p>
+<p>参考资料</p>
+<p><a title="http://oddbit.com/rdo-hangout-multinode-packstack-slides/#/" href="http://oddbit.com/rdo-hangout-multinode-packstack-slides/#/">http://oddbit.com/rdo-hangout-multinode-packstack-slides/#/</a></p>
+<p><a title="https://github.com/ChaimaGhribi/OpenStack-Icehouse-Installation/blob/master/OpenStack-Icehouse-Installation.rst" href="https://github.com/ChaimaGhribi/OpenStack-Icehouse-Installation/blob/master/OpenStack-Icehouse-Installation.rst">https://github.com/ChaimaGhribi/OpenStack-Icehouse-Installation/blob/master/OpenStack-Icehouse-Installation.rst</a></p>
+<p>参考文档 <a href="http://blog.oddbit.com/2014/05/23/open-vswitch-and-persistent-ma/">http://blog.oddbit.com/2014/05/23/open-vswitch-and-persistent-ma/</a></p>
+<p>ovs-vsctl操作</p>
+<pre class="csharpcode">root@network:~# ovs-vsctl show
+533105dd-bd0d-4af1-a331-c9394fbcb775
+    Bridge br-<span class="kwrd">int</span>
+        fail_mode: secure
+        Port br-<span class="kwrd">int</span>
+            Interface br-<span class="kwrd">int</span>
+                type: <span class="kwrd">internal</span>
+    ovs_version: <span class="str">"2.0.2"</span>
+root@network:~# ovs-vsctl add-br br-ex
+root@network:~# ovs-vsctl show        
+533105dd-bd0d-4af1-a331-c9394fbcb775
+    Bridge br-ex
+        Port br-ex
+            Interface br-ex
+                type: <span class="kwrd">internal</span>
+    Bridge br-<span class="kwrd">int</span>
+        fail_mode: secure
+        Port br-<span class="kwrd">int</span>
+            Interface br-<span class="kwrd">int</span>
+                type: <span class="kwrd">internal</span>
+    ovs_version: <span class="str">"2.0.2"</span>
+root@network:~# ovs-vsctl add-port br-ex eth2
+root@network:~# ovs-vsctl show
+533105dd-bd0d-4af1-a331-c9394fbcb775
+    Bridge br-ex
+        Port <span class="str">"eth2"</span>
+            Interface <span class="str">"eth2"</span>
+        Port br-ex
+            Interface br-ex
+                type: <span class="kwrd">internal</span>
+    Bridge br-<span class="kwrd">int</span>
+        fail_mode: secure
+        Port br-<span class="kwrd">int</span>
+            Interface br-<span class="kwrd">int</span>
+                type: <span class="kwrd">internal</span>
+    ovs_version: <span class="str">"2.0.2"</span></pre>
+<p>网络节点重启服务</p>
+<pre class="csharpcode">service neutron-plugin-openvswitch-agent restart
+service neutron-dhcp-agent restart
+service neutron-l3-agent restart
+service neutron-metadata-agent restart
+service dnsmasq restart</pre>
+<p>附录</p>
+<p>建议采用vpn的方式，我就简单，采用pptp</p>
+<p>PPTP，默认拨号连接上去，你本地就无法上网了。你需要设置一下。</p>
+<p><a href="http://chenshake.qiniudn.com/wp-content/uploads/2015/04/Snap132.png"><img title="Snap13" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="Snap13" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/Snap13_thumb2.png" width="464"></a></p>
+<p>去掉这个勾就可以了。</p>
+<p>这个时候，你拨号连接上去，访问虚拟机的时候，走vpn通道，访问外网，还是走你以前的网络。</p>
+<p>你还需要在你的增加一条路由才行，不过在win7，win8，增加路由，需要管理员权限。</p>
+<p>按 Windows key + X, 再按 A</p>
+<p>这时候，你就调出管理员权限的cmd</p>
+<p>添加一条路由</p>
+<pre lang="csharp">route add 192.168.100.0 mask 255.255.255.0 10.100.100.1</pre>
+<p>这时候，你就可以ping通那台控制节点的虚拟机。不容易吧。</p>
+			</div><!--/entry -->
+		</div><!-- .entry-container -->
+<footer class="post-footer postdata fix">
+<span class="author"><span class="icon">&nbsp;</span>Posted by <span class="vcard"><a href="http://www.chenshake.com/author/admin/" class="url fn" rel="author">陈沙克</a></span> at 9:25 PM</span>		<span class="tags tax"><span class="icon">&nbsp;</span>Tagged with: <a href="http://www.chenshake.com/tag/openstack/" rel="tag">openstack</a></span>
+	</footer><!-- .post-footer -->
+<section id="comments">
+<h3 class="comments"><span class="icon">&nbsp;</span>
+	35 Responses to “Openstack安装Openstack（Juno版本）”</h3>
+<ol class="commentlist">
+	<li id="comment-35306" class="comment even thread-even depth-1 plain-nested">
+				<div id="div-comment-35306" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn"><a href="http://zigame.com/" rel="external nofollow" class="url">zigame.com</a></cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-35306">
+				2015/04/14 at 5:53 PM</a>				</div>
+
+			</div>
+	
+			<p>沙克老师的blog, 非常给力, 你值得拥有。www.zigame.com</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=35306#respond" onclick="return addComment.moveForm( &quot;comment-35306&quot;, &quot;35306&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to zigame.com">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-35468" class="comment odd alt thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-35468" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">nick_ning</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-35468">
+				2015/04/21 at 6:31 PM</a>				</div>
+
+			</div>
+	
+			<p># openssl rand -hex 10</p>
+<p>问下您，文档上这个是干什么用的，看你这边没有，是可有可无的配置吗</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=35468#respond" onclick="return addComment.moveForm( &quot;comment-35468&quot;, &quot;35468&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to nick_ning">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-40298" class="comment byuser comment-author-admin bypostauthor even depth-2 plain-nested">
+				<div id="div-comment-40298" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-40298">
+				2015/12/05 at 10:05 AM</a>				</div>
+
+			</div>
+	
+			<p>随机生成密码。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=40298#respond" onclick="return addComment.moveForm( &quot;comment-40298&quot;, &quot;40298&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-35585" class="comment odd alt thread-even depth-1 plain-nested">
+				<div id="div-comment-35585" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn"><a href="http://ifshell.com/" rel="external nofollow" class="url">openstack</a></cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-35585">
+				2015/04/26 at 1:12 PM</a>				</div>
+
+			</div>
+	
+			<p>为啥子没有cinder的安装过程呢？现在正在纠结呢，不知道哪种方式的存储连接方式才是正确的</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=35585#respond" onclick="return addComment.moveForm( &quot;comment-35585&quot;, &quot;35585&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to openstack">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-35648" class="comment even thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-35648" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn"><a href="http://k1game.com/" rel="external nofollow" class="url">k1game.com</a></cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-35648">
+				2015/04/28 at 11:30 PM</a>				</div>
+
+			</div>
+	
+			<p>陈老师，想请教个大问题，资源：3台实体机器各4个网卡，1台h3c5500交换机。openstack用fuel_mirantis_6.0(Nova-Network模式或Neutron VLAN模式)部署都能弄好，<br>
+现如何从办公网络连接openstack里面的各台实例机器，百度了好些几天，没有找到网上有后面弄通外面网络的教程和方法。等待你的回信。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=35648#respond" onclick="return addComment.moveForm( &quot;comment-35648&quot;, &quot;35648&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to k1game.com">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-35675" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 plain-nested">
+				<div id="div-comment-35675" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-35675">
+				2015/04/30 at 2:40 PM</a>				</div>
+
+			</div>
+	
+			<p>fuel网络问题是比较麻烦，我这边是我同事负责搞定。你加入fuel的一个qq群交流，应该就可以找到答案。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=35675#respond" onclick="return addComment.moveForm( &quot;comment-35675&quot;, &quot;35675&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-36370" class="comment even thread-even depth-1 plain-nested">
+				<div id="div-comment-36370" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">LXC@RUC</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-36370">
+				2015/06/04 at 10:03 AM</a>				</div>
+
+			</div>
+	
+			<p>陈老师，在网络节点上我按着您的方法在/etc/network/interfaces中设置了br-ex和对应物理网卡之后，重启服务器之后还是ping不通外网，这有可能是什么问题导致的呢？</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=36370#respond" onclick="return addComment.moveForm( &quot;comment-36370&quot;, &quot;36370&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to LXC@RUC">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-36600" class="comment odd alt thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-36600" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">guohui wan</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-36600">
+				2015/06/10 at 10:08 AM</a>				</div>
+
+			</div>
+	
+			<p>您好，看了文档很有帮助。在最前面网络配置的地方那个表格里，计算节点的虚拟机通讯网络的地址写错了，应该是10.0.1.31吧~</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=36600#respond" onclick="return addComment.moveForm( &quot;comment-36600&quot;, &quot;36600&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to guohui wan">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-40297" class="comment byuser comment-author-admin bypostauthor even depth-2 plain-nested">
+				<div id="div-comment-40297" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-40297">
+				2015/12/05 at 10:04 AM</a>				</div>
+
+			</div>
+	
+			<p>谢谢指出。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=40297#respond" onclick="return addComment.moveForm( &quot;comment-40297&quot;, &quot;40297&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-36821" class="comment odd alt thread-even depth-1 plain-nested">
+				<div id="div-comment-36821" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">Firebat</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-36821">
+				2015/06/18 at 9:02 AM</a>				</div>
+
+			</div>
+	
+			<p>陈老师，有2个问题请您指点：<br>
+1、controller和neutron节点在生产环境中如何消除单点故障？<br>
+2、neutron单节点是否会成为网络流量的瓶颈？如果是应如何解决？目前我只想到通过端口绑定尽量增加出口带宽</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=36821#respond" onclick="return addComment.moveForm( &quot;comment-36821&quot;, &quot;36821&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to Firebat">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-36824" class="comment byuser comment-author-admin bypostauthor even depth-2 plain-nested">
+				<div id="div-comment-36824" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-36824">
+				2015/06/18 at 1:32 PM</a>				</div>
+
+			</div>
+	
+			<p>技术已经都解决HA的问题，具体你可以看mirantis的fuel的文档。在kilo版本，原生就解决网络节点单点的问题。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=36824#respond" onclick="return addComment.moveForm( &quot;comment-36824&quot;, &quot;36824&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-36865" class="comment odd alt depth-3 plain-nested">
+				<div id="div-comment-36865" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">Firebat</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-36865">
+				2015/06/20 at 9:31 AM</a>				</div>
+
+			</div>
+	
+			<p>谢谢指导！<br>
+一直用juno，今天看了kilo，发现怎么没有trove了<br>
+陈老师在qemu-kvm下用过gluster吗，我用qemu-img可以通过gluster路径建立img，但在新建虚拟机的时候指定gluster路径会显示无法访问或找不到指定文件？</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=36865#respond" onclick="return addComment.moveForm( &quot;comment-36865&quot;, &quot;36865&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to Firebat">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-37278" class="comment even thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-37278" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">zym</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-37278">
+				2015/07/06 at 5:00 PM</a>				</div>
+
+			</div>
+	
+			<p>在Kilo版的ubuntu安装手册中，网络节点的外网网卡的配置是这样的：</p>
+<p># The external network interface<br>
+   auto INTERFACE_NAME<br>
+   iface INTERFACE_NAME inet manual<br>
+          up ip link set dev $IFACE up<br>
+          down ip link set dev $IFACE down</p>
+<p>我是在3台物理机中安装OpenStack的，网络节点照此配置后，仍然无法ping通外网；<br>
+为什么官方要使用这种方法？</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=37278#respond" onclick="return addComment.moveForm( &quot;comment-37278&quot;, &quot;37278&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to zym">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-37474" class="comment odd alt thread-even depth-1 plain-nested">
+				<div id="div-comment-37474" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">fei</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-37474">
+				2015/07/15 at 5:08 PM</a>				</div>
+
+			</div>
+	
+			<p>替换br-ex和eth2的mac地址</p>
+<p>陈老师：这一步我的显示br-ex和eth2的mac相同是怎么回事呀</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=37474#respond" onclick="return addComment.moveForm( &quot;comment-37474&quot;, &quot;37474&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to fei">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-37501" class="comment even depth-2 plain-nested">
+				<div id="div-comment-37501" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">zym</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-37501">
+				2015/07/17 at 2:59 PM</a>				</div>
+
+			</div>
+	
+			<p>应该是版本的问题吧，我这边也是br-ex与eth2的mac相同。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=37501#respond" onclick="return addComment.moveForm( &quot;comment-37501&quot;, &quot;37501&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to zym">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-37562" class="comment odd alt depth-3 plain-nested">
+				<div id="div-comment-37562" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">fei</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-37562">
+				2015/07/20 at 11:25 AM</a>				</div>
+
+			</div>
+	
+			<p>嗯，thank you</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=37562#respond" onclick="return addComment.moveForm( &quot;comment-37562&quot;, &quot;37562&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to fei">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-37563" class="comment even depth-3 plain-nested">
+				<div id="div-comment-37563" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">fei</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-37563">
+				2015/07/20 at 11:32 AM</a>				</div>
+
+			</div>
+	
+			<p>Error: Invalid service catalog service: identity</p>
+<p>在登录dashboard时提示的错误，不知道该怎么解决，还有就是在用命令关联floating ip时提示下面错误，其他都正常<br>
+ERROR (BadRequest): No nw_info cache associated with instance (HTTP 400) (Request-ID: req-a616091e-2391-4b7e-8c57-2602ec46701d)</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=37563#respond" onclick="return addComment.moveForm( &quot;comment-37563&quot;, &quot;37563&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to fei">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-37502" class="comment odd alt depth-2 plain-nested">
+				<div id="div-comment-37502" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">zym</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-37502">
+				2015/07/17 at 3:39 PM</a>				</div>
+
+			</div>
+	
+			<p>在“编辑/etc/nova/nova.conf, 让nova支持neutron，在[DEFAULT] 添加”中<br>
+属性“libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver”在<br>
+icehouse、juno和kilo的安装文档中都没有发现。</p>
+<p>“rpc_backend = neutron.openstack.common.rpc.impl_kombu”<br>
+这种属性配置，只是在icehouse的安装文档里有发现；<br>
+在juno和kilo版本中，都已经被统一一成“rpc_backend = rabbit”了。</p>
+<p>“安装基础组件 apt-get install -y vlan bridge-utils”<br>
+这两个组件一定要安装吗？在icehose、juno和kilo的安装文档中都没有提到。</p>
+<p>感觉openstack就是在“玩你”呀。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=37502#respond" onclick="return addComment.moveForm( &quot;comment-37502&quot;, &quot;37502&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to zym">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-37559" class="comment byuser comment-author-admin bypostauthor even depth-3 plain-nested">
+				<div id="div-comment-37559" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-37559">
+				2015/07/20 at 9:37 AM</a>				</div>
+
+			</div>
+	
+			<p>你提到的这些，我确实不敢肯定，我是根据我以前的文档来修改安装的。应该是以官方最新的文档为准。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=37559#respond" onclick="return addComment.moveForm( &quot;comment-37559&quot;, &quot;37559&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-38381" class="comment odd alt thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-38381" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">pandigreat</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-38381">
+				2015/09/04 at 2:31 PM</a>				</div>
+
+			</div>
+	
+			<p>陈老师，我和小伙伴按照官方文档上面用三台机器安装juno(neutron架构) 的openstack，完完全全的按照上面安装，都使用的是centos7.1，但是在使用过程中，虚拟机没有分配到ip，查了dhcp功能什么的都没有问题，日志也看不出来，请问这是怎么回事？</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=38381#respond" onclick="return addComment.moveForm( &quot;comment-38381&quot;, &quot;38381&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to pandigreat">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-38391" class="comment byuser comment-author-admin bypostauthor even depth-2 plain-nested">
+				<div id="div-comment-38391" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-38391">
+				2015/09/05 at 12:44 AM</a>				</div>
+
+			</div>
+	
+			<p>你可以用rdo搭建一个，应该都是正常的。你再比较两者的区别。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=38391#respond" onclick="return addComment.moveForm( &quot;comment-38391&quot;, &quot;38391&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-38575" class="comment odd alt thread-even depth-1 plain-nested">
+				<div id="div-comment-38575" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">ikobe</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-38575">
+				2015/09/17 at 6:07 PM</a>				</div>
+
+			</div>
+	
+			<p>你好，陈老师<br>
+    我是按照官方的文档安装的，创建服务时出了一个问题，我搞了一下午也没有解决，希望您能帮忙看一下。<br>
+root@ubuntu:~# openstack service create –name keystone –description “OpenStack identity” identity<br>
+ERROR: openstack Unable to establish connection to <a href="http://controller:35357/v2.0/OS-KSADM/services" rel="nofollow">http://controller:35357/v2.0/OS-KSADM/services</a><br>
+我不确定是哪里出了问题，所以安装文档检查了一遍，/etc/keystone/keystone.conf配置和数据库都看了….<br>
+希望您能帮我看一下，谢谢。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=38575#respond" onclick="return addComment.moveForm( &quot;comment-38575&quot;, &quot;38575&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to ikobe">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-38597" class="comment byuser comment-author-admin bypostauthor even depth-2 plain-nested">
+				<div id="div-comment-38597" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-38597">
+				2015/09/18 at 10:27 AM</a>				</div>
+
+			</div>
+	
+			<p>加上 –debug参数，你就可以知道哪里设置有问题。看看自己的环境变量的设置。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=38597#respond" onclick="return addComment.moveForm( &quot;comment-38597&quot;, &quot;38597&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-38602" class="comment odd alt depth-3 plain-nested">
+				<div id="div-comment-38602" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">ikobe</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-38602">
+				2015/09/18 at 11:59 AM</a>				</div>
+
+			</div>
+	
+			<p>INFO: urllib3.connectionpool Starting new HTTP connection (1): proxy.cmcc<br>
+ERROR: openstack Unable to establish connection to <a href="http://controller:35357/v2.0/OS-KSADM/services" rel="nofollow">http://controller:35357/v2.0/OS-KSADM/services</a><br>
+Traceback (most recent call last):<br>
+……<br>
+  File “/usr/lib/python2.7/dist-packages/keystoneclient/session.py”, line 417, in _send_request<br>
+    raise exceptions.ConnectionRefused(msg)<br>
+ConnectionRefused: Unable to establish connection to <a href="http://controller:35357/v2.0/OS-KSADM/services" rel="nofollow">http://controller:35357/v2.0/OS-KSADM/services</a><br>
+DEBUG: openstackclient.shell clean_up CreateService<br>
+DEBUG: openstackclient.shell got an error: Unable to establish connection to <a href="http://controller:35357/v2.0/OS-KSADM/services" rel="nofollow">http://controller:35357/v2.0/OS-KSADM/services</a><br>
+ERROR: openstackclient.shell Traceback (most recent call last):<br>
+  File “/usr/lib/python2.7/dist-packages/openstackclient/shell.py”, line 176, in run<br>
+    return super(OpenStackShell, self).run(argv)<br>
+….<br>
+陈老师，部分信息是上面那样的。公司的网是通过代理上网的，所以说我的ubuntu也是设置了代理的：.bashrc文件设置的，是不是和这个代理有关系啊，谢谢。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=38602#respond" onclick="return addComment.moveForm( &quot;comment-38602&quot;, &quot;38602&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to ikobe">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-40638" class="comment even depth-2 plain-nested">
+				<div id="div-comment-40638" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">Runto</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-40638">
+				2015/12/16 at 1:25 AM</a>				</div>
+
+			</div>
+	
+			<p>我也有遇到同样的问题,后来发现是设置的http_proxy这个环境变量,unset http_proxy后OK</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=40638#respond" onclick="return addComment.moveForm( &quot;comment-40638&quot;, &quot;40638&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to Runto">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-38630" class="comment odd alt thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-38630" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">a5525510</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-38630">
+				2015/09/20 at 1:21 PM</a>				</div>
+
+			</div>
+	
+			<p>陈老师，您好<br>
+     openstack的kilo版本.创建的云磁盘不能给虚拟机挂载。<br>
+日志<br>
+1  控制节点cinder的api.log发现有如下错误<br>
+OSError: [Errno 13] Permission denied: ‘/var/lock/cinder’<br>
+] Permission denied<br>
+控制节点和cinder节点都没有此相关目录<br>
+2  检查控制节点的var/log下面的 scheduler.log,发现有如下错误：<br>
+2015-09-19 13:02:59.141 1141 ERROR oslo_messaging._drivers.impl_rabbit [req-81017b1e-4e3d-4a52-8804-b4f7fc0fc8b7 eff3c37ef12e4aa4aca14b2e4b452276 46d8ac56f67f41c08012f4fd1c0786ef – – -] AMQP server on controller:5672 is unreachable: [Errno 104] Connection reset by peer. Trying again in 1 seconds.<br>
+2015-09-19 13:03:00.163 1141 INFO oslo_messaging._drivers.impl_rabbit [req-81017b1e-4e3d-4a52-8804-b4f7fc0fc8b7 eff3c37ef12e4aa4aca14b2e4b452276 46d8ac56f67f41c08012f4fd1c0786ef – – -] Reconnected to AMQP server on controller:5672<br>
+我重启了rabbit服务 还是挂载不了磁盘。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=38630#respond" onclick="return addComment.moveForm( &quot;comment-38630&quot;, &quot;38630&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to a5525510">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-40005" class="comment even thread-even depth-1 plain-nested">
+				<div id="div-comment-40005" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">lizhixin</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-40005">
+				2015/11/26 at 5:24 PM</a>				</div>
+
+			</div>
+	
+			<p>陈老师你好</p>
+<p>我想问一下，在我自己搭建的icehouse版的环境中，启动了neutron-vpn-agent，vpn服务是正常的。但是我看了日志，发现在vpn agent的日志中，它干了一些l3干的事，比如在新建router的interface port，本来需要l3在网络节点和对应的命名空间里面新建veth pair，但是有时候是vpn agent拿到这个rpc，由它来做，问题是有时候vpn agent拿到rpc之后又不执行相应的命令去新建veth pair。把vpn agent down掉之后上述问题不会出现；而如果把l3 down掉，vpn还是可以接管所有l3的过，所有l3的功能都正常，不会出现上面的错误。请问这个是vpn agent和l3 agent有冲突吗？还是跑了vpn agent就不用跑l3 agent了（devstack的liberty就是只有vpn agent）？</p>
+<p>谢谢~</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=40005#respond" onclick="return addComment.moveForm( &quot;comment-40005&quot;, &quot;40005&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to lizhixin">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-40221" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 plain-nested">
+				<div id="div-comment-40221" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-40221">
+				2015/12/03 at 4:14 PM</a>				</div>
+
+			</div>
+	
+			<p>网络是很头疼的，更别说vpn。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=40221#respond" onclick="return addComment.moveForm( &quot;comment-40221&quot;, &quot;40221&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-40751" class="comment even thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-40751" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">鹤立独行的猪</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-40751">
+				2015/12/21 at 10:15 AM</a>				</div>
+
+			</div>
+	
+			<p>陈老师你好，我按照您的步骤在安装完网络节点后，没有看到agent。这个是什么原因呢？</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=40751#respond" onclick="return addComment.moveForm( &quot;comment-40751&quot;, &quot;40751&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 鹤立独行的猪">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-40758" class="comment byuser comment-author-admin bypostauthor odd alt depth-2 plain-nested">
+				<div id="div-comment-40758" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-40758">
+				2015/12/21 at 2:24 PM</a>				</div>
+
+			</div>
+	
+			<p>这个地方处理比较麻烦。http://www.chenshake.com/use-the-uos-api/</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=40758#respond" onclick="return addComment.moveForm( &quot;comment-40758&quot;, &quot;40758&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-40762" class="comment even depth-3 plain-nested">
+				<div id="div-comment-40762" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">鹤立独行的猪</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-40762">
+				2015/12/21 at 2:51 PM</a>				</div>
+
+			</div>
+	
+			<p>我是在vmware vsphere的平台上做的实验，只使用了两个网卡来配置neu的，会是这个问题嘛？</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=40762#respond" onclick="return addComment.moveForm( &quot;comment-40762&quot;, &quot;40762&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 鹤立独行的猪">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-42477" class="comment odd alt thread-even depth-1 plain-nested">
+				<div id="div-comment-42477" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">christpest</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-42477">
+				2016/02/16 at 3:45 PM</a>				</div>
+
+			</div>
+	
+			<p>陈老师，请问一下，我用kilo版本的安装在debian8上面可以吗？因为官方没有提供在debian下的安装文档，我安装icehouse版本的安装的，但是到了nova-compute就报“ImportError: Class LibvirtDriver cannot be found ([‘Traceback (most recent call last):\n’, ‘  File “/usr/lib/python2.7/dist-packages/oslo/utils/importutils.py”, line 29, in import_class\n    return getattr(sys.modules[mod_str], class_str)\n’, “AttributeError: ‘module’ object has no attribute ‘LibvirtDriver’\n”])”这样的错误，不知道是系统的版本还是什么问题，请陈老师指教，谢谢！</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=42477#respond" onclick="return addComment.moveForm( &quot;comment-42477&quot;, &quot;42477&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to christpest">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-42526" class="comment byuser comment-author-admin bypostauthor even depth-2 plain-nested">
+				<div id="div-comment-42526" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">陈沙克</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-42526">
+				2016/02/17 at 4:41 PM</a>				</div>
+
+			</div>
+	
+			<p>没招啊。</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=42526#respond" onclick="return addComment.moveForm( &quot;comment-42526&quot;, &quot;42526&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to 陈沙克">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-42527" class="comment odd alt depth-3 plain-nested">
+				<div id="div-comment-42527" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">christpest</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-42527">
+				2016/02/17 at 4:42 PM</a>				</div>
+
+			</div>
+	
+			<p>陈老师，有关于在debian8下面安装kilo的文档吗，官网上都没有，不知道怎么去找啊？</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=42527#respond" onclick="return addComment.moveForm( &quot;comment-42527&quot;, &quot;42527&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to christpest">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li id="comment-46546" class="comment even thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-46546" class="comment-body">
+			<div class="comment-author fix vcard">
+							<div class="comment-author-link">
+					<cite class="fn">hui</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://www.chenshake.com/install-openstack-openstack-juno-version/#comment-46546">
+				2016/06/17 at 4:02 AM</a>				</div>
+
+			</div>
+	
+			<p>看完之后，还是不知道怎么安装，好晕</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/?replytocom=46546#respond" onclick="return addComment.moveForm( &quot;comment-46546&quot;, &quot;46546&quot;, &quot;respond&quot;, &quot;3184&quot; )" aria-label="Reply to hui">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ol>
+<div class="navigation fix">
+	<div class="alignleft"></div>
+	<div class="alignright"></div>
+</div>
+	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title"><span class="icon">&nbsp;</span>Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://www.chenshake.com/install-openstack-openstack-juno-version/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://www.chenshake.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<span></span>
+					<p>
+						<label for="comment" class="textarea suf-comment-label">Your Comment</label>
+						<textarea name="comment" id="comment" cols="60" rows="10" tabindex="4" class="textarea"></textarea>
+					</p>
+					<p>
+						<label for="author" class="suf-comment-label">Name</label>
+						<input type="text" name="author" id="author" class="textarea" value="" size="28" tabindex="1"> (required)
+					</p>
+
+					<p>
+						<label for="email" class="suf-comment-label">E-mail</label>
+						<input type="text" name="email" id="email" value="" size="28" tabindex="2" class="textarea"> (required)
+					</p>
+
+					<p>
+						<label for="url" class="suf-comment-label">Website</label>
+						<input type="text" name="url" id="url" value="" size="28" tabindex="3" class="textarea">
+					</p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Submit Comment"> <input type="hidden" name="comment_post_ID" value="3184" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="d72d0b4dc6"></p><p style="display: none;"></p><p><input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked" style="width: auto;"><label for="comment_mail_notify">Notify me of follow-up comments via e-mail</label></p>			<input type="hidden" id="ak_js" name="ak_js" value="1511161564233"></form>
+			</div><!-- #respond -->
+	</section>   <!-- #comments -->	</article><!--/post -->
+<nav class="post-nav fix">
+<table>
+<tbody><tr>
+	<td class="previous"><a href="http://www.chenshake.com/openstack-weekend-gatherings-summary-march-21-2015/" rel="prev"><span class="icon">&nbsp;</span> 周末Openstack聚会总结（2015年3月21日）</a></td>
+	<td class="next"><a href="http://www.chenshake.com/chat-openstack-business-model-in-china/" rel="next"><span class="icon">&nbsp;</span> 闲聊Openstack中国的商业模式</a></td>
+</tr>
+</tbody></table>
+</nav>
+      </div><!-- content -->
+    </div><!-- main col -->
+<div id="sidebar-shell-1" class="sidebar-shell sidebar-shell-right">
+<div class="dbx-group right boxed warea" id="sidebar">
+<!--widget start --><aside id="categories-4" class="dbx-box suf-widget widget_categories"><h3 class="dbx-handle plain">Categories</h3><div class="dbx-content">		<ul>
+	<li class="cat-item cat-item-1"><a href="http://www.chenshake.com/uncategorized/">Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="http://www.chenshake.com/cloud-computing/">云计算</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="http://www.chenshake.com/technology/">技术</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://www.chenshake.com/live/">生活</a>
+</li>
+		</ul>
+</div></aside><!--widget end --><!--widget start --><aside id="archives-2" class="dbx-box suf-widget widget_archive"><h3 class="dbx-handle plain">Archives</h3><div class="dbx-content">		<ul>
+			<li><a href="http://www.chenshake.com/2017/11/">November 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/10/">October 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/09/">September 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/08/">August 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/07/">July 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/06/">June 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/05/">May 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/04/">April 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/03/">March 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/02/">February 2017</a></li>
+	<li><a href="http://www.chenshake.com/2017/01/">January 2017</a></li>
+	<li><a href="http://www.chenshake.com/2016/12/">December 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/11/">November 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/10/">October 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/08/">August 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/07/">July 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/06/">June 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/05/">May 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/04/">April 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/03/">March 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/02/">February 2016</a></li>
+	<li><a href="http://www.chenshake.com/2016/01/">January 2016</a></li>
+	<li><a href="http://www.chenshake.com/2015/12/">December 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/11/">November 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/10/">October 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/09/">September 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/08/">August 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/07/">July 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/06/">June 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/05/">May 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/04/">April 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/03/">March 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/02/">February 2015</a></li>
+	<li><a href="http://www.chenshake.com/2015/01/">January 2015</a></li>
+	<li><a href="http://www.chenshake.com/2014/12/">December 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/11/">November 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/10/">October 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/09/">September 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/08/">August 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/07/">July 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/06/">June 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/05/">May 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/04/">April 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/03/">March 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/02/">February 2014</a></li>
+	<li><a href="http://www.chenshake.com/2014/01/">January 2014</a></li>
+	<li><a href="http://www.chenshake.com/2013/12/">December 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/11/">November 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/10/">October 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/09/">September 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/08/">August 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/07/">July 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/06/">June 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/05/">May 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/04/">April 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/03/">March 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/02/">February 2013</a></li>
+	<li><a href="http://www.chenshake.com/2013/01/">January 2013</a></li>
+	<li><a href="http://www.chenshake.com/2012/12/">December 2012</a></li>
+	<li><a href="http://www.chenshake.com/2012/11/">November 2012</a></li>
+	<li><a href="http://www.chenshake.com/2012/10/">October 2012</a></li>
+	<li><a href="http://www.chenshake.com/2012/09/">September 2012</a></li>
+	<li><a href="http://www.chenshake.com/2012/08/">August 2012</a></li>
+	<li><a href="http://www.chenshake.com/2012/07/">July 2012</a></li>
+	<li><a href="http://www.chenshake.com/2012/06/">June 2012</a></li>
+		</ul>
+		</div></aside><!--widget end --><!--widget start --><aside id="tag_cloud-4" class="dbx-box suf-widget widget_tag_cloud"><h3 class="dbx-handle plain">Tags</h3><div class="dbx-content"><div class="tagcloud"><a href="http://www.chenshake.com/tag/android/" class="tag-cloud-link tag-link-27 tag-link-position-1" style="font-size: 10.282608695652pt;" aria-label="android (3 items)">android</a>
+<a href="http://www.chenshake.com/tag/bluehost/" class="tag-cloud-link tag-link-5 tag-link-position-2" style="font-size: 12.565217391304pt;" aria-label="bluehost (7 items)">bluehost</a>
+<a href="http://www.chenshake.com/tag/cacti/" class="tag-cloud-link tag-link-34 tag-link-position-3" style="font-size: 8pt;" aria-label="cacti (1 item)">cacti</a>
+<a href="http://www.chenshake.com/tag/centos/" class="tag-cloud-link tag-link-18 tag-link-position-4" style="font-size: 17.967391304348pt;" aria-label="centos (40 items)">centos</a>
+<a href="http://www.chenshake.com/tag/ceph/" class="tag-cloud-link tag-link-49 tag-link-position-5" style="font-size: 8pt;" aria-label="ceph (1 item)">ceph</a>
+<a href="http://www.chenshake.com/tag/cloudstack/" class="tag-cloud-link tag-link-31 tag-link-position-6" style="font-size: 8pt;" aria-label="cloudstack (1 item)">cloudstack</a>
+<a href="http://www.chenshake.com/tag/cobbler/" class="tag-cloud-link tag-link-28 tag-link-position-7" style="font-size: 14.847826086957pt;" aria-label="cobbler (15 items)">cobbler</a>
+<a href="http://www.chenshake.com/tag/docker/" class="tag-cloud-link tag-link-46 tag-link-position-8" style="font-size: 8pt;" aria-label="docker (1 item)">docker</a>
+<a href="http://www.chenshake.com/tag/english/" class="tag-cloud-link tag-link-23 tag-link-position-9" style="font-size: 9.3695652173913pt;" aria-label="english (2 items)">english</a>
+<a href="http://www.chenshake.com/tag/git/" class="tag-cloud-link tag-link-39 tag-link-position-10" style="font-size: 8pt;" aria-label="Git (1 item)">Git</a>
+<a href="http://www.chenshake.com/tag/kolla/" class="tag-cloud-link tag-link-50 tag-link-position-11" style="font-size: 15.760869565217pt;" aria-label="kolla (20 items)">kolla</a>
+<a href="http://www.chenshake.com/tag/kvm/" class="tag-cloud-link tag-link-36 tag-link-position-12" style="font-size: 8pt;" aria-label="kvm (1 item)">kvm</a>
+<a href="http://www.chenshake.com/tag/linux/" class="tag-cloud-link tag-link-12 tag-link-position-13" style="font-size: 15.076086956522pt;" aria-label="linux (16 items)">linux</a>
+<a href="http://www.chenshake.com/tag/linux%e5%9f%ba%e7%a1%80/" class="tag-cloud-link tag-link-41 tag-link-position-14" style="font-size: 11.04347826087pt;" aria-label="linux基础 (4 items)">linux基础</a>
+<a href="http://www.chenshake.com/tag/nagios/" class="tag-cloud-link tag-link-33 tag-link-position-15" style="font-size: 8pt;" aria-label="nagios (1 item)">nagios</a>
+<a href="http://www.chenshake.com/tag/news/" class="tag-cloud-link tag-link-21 tag-link-position-16" style="font-size: 12.565217391304pt;" aria-label="news (7 items)">news</a>
+<a href="http://www.chenshake.com/tag/office/" class="tag-cloud-link tag-link-16 tag-link-position-17" style="font-size: 11.652173913043pt;" aria-label="office (5 items)">office</a>
+<a href="http://www.chenshake.com/tag/openshift/" class="tag-cloud-link tag-link-52 tag-link-position-18" style="font-size: 11.04347826087pt;" aria-label="openshift (4 items)">openshift</a>
+<a href="http://www.chenshake.com/tag/openstack/" class="tag-cloud-link tag-link-11 tag-link-position-19" style="font-size: 22pt;" aria-label="openstack (136 items)">openstack</a>
+<a href="http://www.chenshake.com/tag/openstack-centos/" class="tag-cloud-link tag-link-42 tag-link-position-20" style="font-size: 11.652173913043pt;" aria-label="openstack.centos (5 items)">openstack.centos</a>
+<a href="http://www.chenshake.com/tag/ovs/" class="tag-cloud-link tag-link-30 tag-link-position-21" style="font-size: 8pt;" aria-label="OVS (1 item)">OVS</a>
+<a href="http://www.chenshake.com/tag/paas/" class="tag-cloud-link tag-link-51 tag-link-position-22" style="font-size: 8pt;" aria-label="paas (1 item)">paas</a>
+<a href="http://www.chenshake.com/tag/puppet/" class="tag-cloud-link tag-link-26 tag-link-position-23" style="font-size: 11.652173913043pt;" aria-label="puppet (5 items)">puppet</a>
+<a href="http://www.chenshake.com/tag/python/" class="tag-cloud-link tag-link-38 tag-link-position-24" style="font-size: 8pt;" aria-label="python (1 item)">python</a>
+<a href="http://www.chenshake.com/tag/ubuntu/" class="tag-cloud-link tag-link-13 tag-link-position-25" style="font-size: 17.739130434783pt;" aria-label="ubuntu (37 items)">ubuntu</a>
+<a href="http://www.chenshake.com/tag/ubunu/" class="tag-cloud-link tag-link-29 tag-link-position-26" style="font-size: 8pt;" aria-label="ubunu (1 item)">ubunu</a>
+<a href="http://www.chenshake.com/tag/windows/" class="tag-cloud-link tag-link-22 tag-link-position-27" style="font-size: 11.652173913043pt;" aria-label="windows (5 items)">windows</a>
+<a href="http://www.chenshake.com/tag/wordpress/" class="tag-cloud-link tag-link-7 tag-link-position-28" style="font-size: 16.065217391304pt;" aria-label="wordpress (22 items)">wordpress</a>
+<a href="http://www.chenshake.com/tag/%e5%84%bf%e5%ad%90/" class="tag-cloud-link tag-link-25 tag-link-position-29" style="font-size: 14.163043478261pt;" aria-label="儿子 (12 items)">儿子</a>
+<a href="http://www.chenshake.com/tag/%e6%80%bb%e7%bb%93/" class="tag-cloud-link tag-link-24 tag-link-position-30" style="font-size: 15.608695652174pt;" aria-label="总结 (19 items)">总结</a>
+<a href="http://www.chenshake.com/tag/%e6%97%85%e6%b8%b8/" class="tag-cloud-link tag-link-37 tag-link-position-31" style="font-size: 8pt;" aria-label="旅游 (1 item)">旅游</a>
+<a href="http://www.chenshake.com/tag/%e6%b1%bd%e8%bd%a6/" class="tag-cloud-link tag-link-43 tag-link-position-32" style="font-size: 8pt;" aria-label="汽车 (1 item)">汽车</a>
+<a href="http://www.chenshake.com/tag/%e7%94%b5%e5%99%a8/" class="tag-cloud-link tag-link-40 tag-link-position-33" style="font-size: 10.282608695652pt;" aria-label="电器 (3 items)">电器</a>
+<a href="http://www.chenshake.com/tag/%e7%9b%91%e6%8e%a7/" class="tag-cloud-link tag-link-35 tag-link-position-34" style="font-size: 9.3695652173913pt;" aria-label="监控 (2 items)">监控</a>
+<a href="http://www.chenshake.com/tag/%e8%8d%af/" class="tag-cloud-link tag-link-32 tag-link-position-35" style="font-size: 8pt;" aria-label="药 (1 item)">药</a>
+<a href="http://www.chenshake.com/tag/%e8%a7%82%e7%82%b9/" class="tag-cloud-link tag-link-44 tag-link-position-36" style="font-size: 10.282608695652pt;" aria-label="观点 (3 items)">观点</a>
+<a href="http://www.chenshake.com/tag/%e8%bd%a6/" class="tag-cloud-link tag-link-19 tag-link-position-37" style="font-size: 13.630434782609pt;" aria-label="车 (10 items)">车</a>
+<a href="http://www.chenshake.com/tag/%e8%bd%ac%e8%bd%bd/" class="tag-cloud-link tag-link-14 tag-link-position-38" style="font-size: 13.934782608696pt;" aria-label="转载 (11 items)">转载</a>
+<a href="http://www.chenshake.com/tag/%e9%85%b7%e5%a8%81/" class="tag-cloud-link tag-link-45 tag-link-position-39" style="font-size: 11.04347826087pt;" aria-label="酷威 (4 items)">酷威</a></div>
+</div></aside><!--widget end --><!--widget start --><aside id="views-2" class="dbx-box suf-widget widget_views"><h3 class="dbx-handle plain">热门文章</h3><div class="dbx-content"><ul>
+<li><a href="http://www.chenshake.com/ubuntu-12-04-openstack-essex-installation-single-node/" title="Ubuntu 12.04 Openstack Essex 安装（单节点）">Ubuntu 12.04 Openstack Essex 安装（单节点）</a> - 387,167 views</li><li><a href="http://www.chenshake.com/centos6-4-single-card-all-in-one-install-havana/" title="CentOS6.4 Openstack Havana 单网卡 All in One 安装">CentOS6.4 Openstack Havana 单网卡 All in One 安装</a> - 128,126 views</li><li><a href="http://www.chenshake.com/openstack-mirror-and-password/" title="Openstack镜像和密码">Openstack镜像和密码</a> - 98,728 views</li><li><a href="http://www.chenshake.com/ubuntu12-04-2-installed-openstack-grizzly-bridge-mode/" title="Ubuntu12.04.2 OpenStack Grizzly 安装（Bridge）">Ubuntu12.04.2 OpenStack Grizzly 安装（Bridge）</a> - 86,783 views</li><li><a href="http://www.chenshake.com/openstack-havana-dashboard-to-test-and-use/" title="Openstack Havana Dashboard测试和使用">Openstack Havana Dashboard测试和使用</a> - 85,979 views</li><li><a href="http://www.chenshake.com/summary-of-ipmi/" title="IPMI总结">IPMI总结</a> - 80,620 views</li><li><a href="http://www.chenshake.com/openstack-deployment-tool-summary/" title="Openstack部署工具总结">Openstack部署工具总结</a> - 76,030 views</li><li><a href="http://www.chenshake.com/openstack-folsom-install-guide-vlan-mode/" title="Ubuntu12.04 OpenStack Folsom 安装（VLAN模式）">Ubuntu12.04 OpenStack Folsom 安装（VLAN模式）</a> - 69,481 views</li><li><a href="http://www.chenshake.com/openstack-project-series-3-devstack/" title="OpenStack项目系列介绍（3） Devstack">OpenStack项目系列介绍（3） Devstack</a> - 62,584 views</li><li><a href="http://www.chenshake.com/ubuntu-12-04-openstack-essex-multinode-installation/" title="Ubuntu 12.04 Openstack Essex 安装（多节点）">Ubuntu 12.04 Openstack Essex 安装（多节点）</a> - 62,091 views</li></ul>
+</div></aside><!--widget end --><!--widget start --><aside id="recent-comments-3" class="dbx-box suf-widget widget_recent_comments"><h3 class="dbx-handle plain">评论</h3><div class="dbx-content"><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">renni</span> on <a href="http://www.chenshake.com/kolla-2017%e5%b9%b410%e6%9c%88%e4%bb%bd%e6%9c%88%e6%8a%a5%ef%bc%9akolla%e7%9c%8b%e4%b8%8d%e5%88%b0%e5%af%b9%e6%89%8b/#comment-77986">Kolla 2017年10月份月报：Kolla看不到对手</a></li><li class="recentcomments"><span class="comment-author-link">7el</span> on <a href="http://www.chenshake.com/kolla-ocata-iso-release-notes/#comment-77229">Kolla Ocata ISO Release notes</a></li><li class="recentcomments"><span class="comment-author-link">7el</span> on <a href="http://www.chenshake.com/kolla-ocata-iso-release-notes/#comment-77228">Kolla Ocata ISO Release notes</a></li><li class="recentcomments"><span class="comment-author-link">陈沙克</span> on <a href="http://www.chenshake.com/kolla-ocata-iso-release-notes/#comment-77226">Kolla Ocata ISO Release notes</a></li><li class="recentcomments"><span class="comment-author-link">陈沙克</span> on <a href="http://www.chenshake.com/kolla-ocata-iso-release-notes/#comment-77225">Kolla Ocata ISO Release notes</a></li></ul></div></aside><!--widget end --><!--widget start --><aside id="linkcat-2" class="dbx-box suf-widget widget_links"><h3 class="dbx-handle plain">Blogroll</h3><div class="dbx-content">
+	<ul class="xoxo blogroll">
+<li><a href="http://www.z-dig.com/">Dig All Possible</a></li>
+<li><a href="http://heylinux.com/">heylinux</a></li>
+<li><a href="http://jaseywang.me/">Jasey Wang</a></li>
+<li><a href="http://adam.younglogic.com/">keystone牛人</a></li>
+<li><a href="http://www.ksyoulee.org/">Ksyou</a></li>
+<li><a href="http://blog.scottlowe.org/">OVS牛人</a></li>
+<li><a href="http://yobin.sinaapp.com/">yobin</a></li>
+<li><a href="http://www.tianmeng.org/">互联网观察</a></li>
+<li><a href="http://zxkh19501.blog.163.com/">光盘大师</a></li>
+<li><a href="http://dbanotes.net/">冯大辉</a></li>
+<li><a href="http://www.osforce.cn/">开源力量</a></li>
+<li><a href="http://agenge.com/">攻城师</a></li>
+<li><a href="http://way4ever.com/">朱荣泽</a></li>
+<li><a href="http://kernel.taobao.org/index.php/Monthly_Kernel_Reports">淘宝内核团队</a></li>
+<li><a href="http://www.huilog.com/">阿辉</a></li>
+
+	</ul>
+</div></aside><!--widget end -->
+</div><!--/sidebar -->
+</div>
+	</div><!-- /container -->
+
+<footer>
+	<div id="cred">
+		<table>
+			<tbody><tr>
+				<td class="cred-left">© 2012 <a href="http://www.chenshake.com/">陈沙克日志</a></td>
+				<td class="cred-center"></td>
+				<td class="cred-right"><a href="http://aquoid.com/news/themes/suffusion/">Suffusion theme by Sayontan Sinha</a></td>
+			</tr>
+		</tbody></table>
+	</div>
+</footer>
+<!-- 58 queries, 27MB in 0.546 seconds. -->
+</div><!--/wrapper -->
+<!-- location footer -->
+<!-- Powered by WPtouch: 4.3.19 --><script type="text/javascript" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/comment-reply.min.js.下载"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"275px"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/front.min.js.下载"></script>
+<script type="text/javascript" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/wp-embed.min.js.下载"></script>
+<script async="async" type="text/javascript" src="./Openstack安装Openstack（Juno版本） – 陈沙克日志_files/form.js.下载"></script>
+
+
+
+</body></html>

@@ -1,0 +1,211 @@
+if(typeof define!=="undefined"&&typeof define._packages!=="undefined")define._packages["com.ibm.social.as"]=true;
+
+;if(!dojo._hasResource["com.ibm.social.as.portlet.PortletUrlUtil"]){
+dojo._hasResource["com.ibm.social.as.portlet.PortletUrlUtil"]=true;
+dojo.provide("com.ibm.social.as.portlet.PortletUrlUtil");
+
+
+(function(){
+var _1="urn:lsid:lconn.ibm.com:blogs.article:";
+var _2="urn:lsid:lconn.ibm.com:blogs.blog:";
+var _3="urn:lsid:lconn.ibm.com:blogs.question:";
+var _4="ideationblog";
+var _5="urn:lsid:lconn.ibm.com:communities.community:";
+var _6="{ecm_files}";
+var _7="communityUuid=";
+dojo.declare("com.ibm.social.as.portlet.PortletUrlUtil",null,{connSvcUrls:null,skipPocUpdate:false,openLinksNewWindow:true,constructor:function(_8){
+if(_8&&_8.pocTemplates&&_8.usePocUrls){
+var _9=_8.pocTemplates;
+this.pocUrlTemplate=_9.standard;
+this.pocCommunityUrlTemplate=_9.community;
+this.pocCommunityBlogEntryUrlTemplate=_9.communityBlogEntry;
+this.pocBlogEntryUrlTemplate=_9.blogEntry;
+this.pocCommunityIdeationBlogEntryUrlTemplate=_9.communityIdeationBlogEntry;
+this.pocCommunityIdeationBlogUrlTemplate=_9.communityIdeationBlog;
+}else{
+this.skipPocUpdate=true;
+}
+if(_8&&typeof _8.openLinksNewWindow!=="undefined"){
+this.openLinksNewWindow=_8.openLinksNewWindow;
+}
+this.connSvcUrls=[];
+for(var _a in lconn.core.config.services){
+var _b=lconn.core.url.getServiceUrl(lconn.core.config.services[_a]).toString();
+if(dojo.trim(_b).length>0){
+this.connSvcUrls.push(_b);
+}
+}
+this.blogsSvcUrl=lconn.core.config.services.blogs?lconn.core.url.getServiceUrl(lconn.core.config.services.blogs).toString():"";
+dojo.subscribe("com/ibm/oneui/likePopup/personAdded",dojo.hitch(this,function(_c){
+if(_c&&_c.domNode){
+this._updateUrls(_c.domNode);
+}
+}));
+},updateUrls:function(_d){
+dojo.forEach(dijit.findWidgets(_d),dojo.hitch(this,this.updateUrlsByWidget));
+},updateEEUrls:function(_e,_f){
+_e=dojo.byId(_e);
+var _10=_f.itemUrl;
+var _11=this.getCommunityId(_f.communityid);
+if(!_10&&_f.entryUrl&&_f.entryUrl.indexOf(_6)==0){
+_10=_f.entryUrl;
+if(!_11){
+_11=this.getECMCommunityId(_f.activityUrl);
+}
+}
+if(_e&&_f.id&&_10){
+this._updateUrls(_e,_f.id,_10,_11,dojo.hitch(this,this._resetEEPocExclusions),_f.eventType,"_parent");
+}
+},updateUrlsByWidget:function(_12){
+if(_12&&_12.domNode&&_12.newsData&&_12.newsData.object){
+var _13=_12.newsData;
+var id=_13.object.id;
+var url=_13.object.url;
+var _14="";
+if(_13&&_13.openSocial&&_13.openSocial.embed&&_13.openSocial.embed.context&&_13.openSocial.embed.context.eventType){
+_14=_13.openSocial.embed.context.eventType;
+}
+if((_13.object.objectType=="comment")&&(this.getBlogEntryId(_13.target.id)||this.getIdeationBlogEntryId(_13.target.id))){
+id=_13.target.id;
+url=_13.target.url;
+}
+this._updateUrls(_12.domNode,id,url,_13.connections?this.getCommunityId(_13.connections.communityid):null,dojo.hitch(this,this._resetActivityStreamPocExclusions,_12.domNode),_14);
+}
+},_resetEEPocExclusions:function(_15){
+var _16=function(_17,_18){
+if(dojo.attr(_18,"connectionsWebUrl")&&!dojo.hasClass(_18,"lotusPerson")&&_18.parentNode&&!dojo.hasClass(_18.parentNode,"vcard")&&!dojo.hasClass(_18,"eeActionLinks")){
+dojo.attr(_18,"href",dojo.attr(_18,"connectionsWebUrl"));
+}
+if(_17&&dojo.attr(_18,"connectionsOriginalTarget")){
+dojo.attr(_18,"target",dojo.attr(_18,"connectionsOriginalTarget"));
+}
+};
+dojo.query("div.eeCommentContent a, div.blogsWrapText a, div.lotusStatus a",_15).forEach(dojo.hitch(null,_16,false));
+dojo.query("a[id$='_downloadLink'], a[id$='_previewLink'], a[dojoAttachPoint='downloadLink'], a[dojoAttachPoint='prevLink']",_15).forEach(dojo.hitch(null,_16,true));
+},_resetActivityStreamPocExclusions:function(_19){
+dojo.query("div.activityStreamSummary div.lotusPostContent a, div.activityStreamSummary div.lotusPostDetails a, li.lotusCommentItem div.lotusPostContent a",_19).forEach(function(_1a){
+if(_1a.parentNode&&!dojo.hasClass(_1a.parentNode,"vcard")){
+if(dojo.attr(_1a,"connectionsWebUrl")){
+dojo.attr(_1a,"href",dojo.attr(_1a,"connectionsWebUrl"));
+}
+if(dojo.attr(_1a,"connectionsOriginalTarget")){
+dojo.attr(_1a,"target",dojo.attr(_1a,"connectionsOriginalTarget"));
+}
+}
+});
+},_updateUrls:function(_1b,_1c,_1d,_1e,_1f,_20,_21){
+dojo.query("a",_1b).forEach(dojo.hitch(this,function(_22,_23,_24,_25){
+var url=dojo.attr(_25,"href");
+if(this.isConnectionsUrl(url)&&!dojo.attr(_25,"pocRun")){
+dojo.attr(_25,"connectionsWebUrl",url);
+if(!this.skipPocUpdate){
+dojo.attr(_25,"href",this.getUrl(dojo.trim(url.toString()),_24,_22,_23,_20));
+}
+if(dojo.attr(_25,"target")){
+dojo.attr(_25,"connectionsOriginalTarget",dojo.attr(_25,"target"));
+}
+if(this.openLinksNewWindow){
+dojo.attr(_25,"target","_blank");
+}else{
+dojo.attr(_25,"target",_21||"_self");
+}
+dojo.attr(_25,"pocRun",true);
+}
+},_1c,_1d,_1e));
+if(_1f){
+_1f(_1b);
+}
+dojo.query("a[connectionsWebUrl],a[connectionsOriginalTarget]",_1b).forEach(function(_26){
+dojo.removeAttr(_26,"connectionsWebUrl");
+dojo.removeAttr(_26,"connectionsOriginalTarget");
+});
+},getUrl:function(url,_27,_28,_29,_2a){
+if(this.isProfilesUrl(url)){
+url=this.getStandardPocUrl(url,null);
+}else{
+if(this.isBlogEntryUrl(url,_28,_29)){
+url=this.getBlogEntryPocUrl(url,_27,this.getBlogEntryId(_28));
+}else{
+if(this.isIdeationBlogEntryUrl(url,_28,_29)){
+url=this.getIdeationBlogEntryPocUrl(url,_27,this.getIdeationBlogEntryId(_28));
+}else{
+if(this.isIdeationBlogUrl(url,_2a)){
+url=this.getIdeationBlogPocUrl(url,_27);
+}else{
+url=this.getStandardPocUrl(url,_27);
+}
+}
+}
+}
+return url;
+},getStandardPocUrl:function(_2b,_2c){
+var url=_2c?this.pocCommunityUrlTemplate:this.pocUrlTemplate;
+url=url.replace("{url}",encodeURIComponent(decodeURIComponent(_2b)));
+url=url.replace("{communityId}",encodeURIComponent(decodeURIComponent(_2c)));
+return url;
+},getBlogEntryPocUrl:function(_2d,_2e,_2f){
+var url=_2e?this.pocCommunityBlogEntryUrlTemplate:this.pocBlogEntryUrlTemplate;
+url=url.replace("{url}",encodeURIComponent(decodeURIComponent(_2d)));
+url=url.replace("{communityId}",encodeURIComponent(decodeURIComponent(_2e)));
+url=url.replace("{entryId}",encodeURIComponent(decodeURIComponent(_2f)));
+return url;
+},getIdeationBlogEntryPocUrl:function(_30,_31,_32){
+var url=this.pocCommunityIdeationBlogEntryUrlTemplate;
+if(url){
+url=url.replace("{url}",encodeURIComponent(decodeURIComponent(_30)));
+url=url.replace("{communityId}",encodeURIComponent(decodeURIComponent(_31)));
+url=url.replace("{entryId}",encodeURIComponent(decodeURIComponent(_32)));
+}else{
+url=this.getBlogEntryPocUrl(_30,_31,_32);
+}
+return url;
+},getIdeationBlogPocUrl:function(_33,_34){
+var url=this.pocCommunityIdeationBlogUrlTemplate;
+if(url){
+url=url.replace("{url}",encodeURIComponent(decodeURIComponent(_33)));
+url=url.replace("{communityId}",encodeURIComponent(decodeURIComponent(_34)));
+}else{
+url=this.getStandardPocUrl(_33,_34);
+}
+return url;
+},getBlogEntryId:function(_35){
+return _35&&(_35.indexOf(_1)==0)?_35.substring(_1.length):null;
+},getIdeationBlogEntryId:function(_36){
+return _36&&(_36.indexOf(_3)==0)?_36.substring(_3.length):null;
+},getIdeationBlogId:function(_37){
+return _37&&(_37.indexOf(_2)==0)?_37.substring(_2.length):null;
+},getCommunityId:function(_38){
+return _38&&(_38.indexOf(_5)==0)?_38.substring(_5.length):null;
+},getECMCommunityId:function(_39){
+var id=null;
+if(_39){
+var _3a=_39.indexOf(_7);
+if(_3a!=-1){
+_3a+=_7.length;
+var _3b=_39.indexOf("&",_3a);
+id=(_3b==-1)?_39.substring(_3a):_39.substring(_3a,_3b);
+}
+}
+return id;
+},isConnectionsUrl:function(url){
+if(!url||(url==="javascript:;")){
+return false;
+}
+return (url.indexOf(_6)==0)||dojo.some(this.connSvcUrls,dojo.hitch(null,function(url,_3c){
+return url.indexOf(_3c)==0;
+},url));
+},isProfilesUrl:function(url){
+var _3d=lconn.core.config.services.profiles?lconn.core.config.services.profiles:lconn.core.config.services.scprofiles;
+return url&&(url.indexOf(lconn.core.url.getServiceUrl(_3d).toString())==0);
+},isBlogEntryUrl:function(url,_3e,_3f){
+return url&&(url.indexOf(_3f)==0)&&this.getBlogEntryId(_3e);
+},isIdeationBlogEntryUrl:function(url,_40,_41){
+return url&&(url.indexOf(_41)==0)&&this.getIdeationBlogEntryId(_40);
+},isIdeationBlogUrl:function(url,_42){
+return url&&(url.indexOf(this.blogsSvcUrl)==0)&&(_42.indexOf(_4)==0);
+}});
+})();
+}
+
+
+window['_js_modules']=(window['_js_modules']||[]).concat(["com.ibm.social.as.portlet.PortletUrlUtil"]);

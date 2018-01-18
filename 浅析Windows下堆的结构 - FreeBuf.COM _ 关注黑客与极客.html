@@ -1,0 +1,1255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0050)http://www.freebuf.com/articles/system/156174.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>
+  浅析Windows下堆的结构 - FreeBuf.COM | 关注黑客与极客</title>
+<meta name="description" content="*本文原创作者：hellowuzekai，本文属FreeBuf原创奖励计划，未经许可禁止转载
+## 简介
+Windows下的堆主要有两种，进程的默认堆和自己创建的私有堆。在程序启动时，系统在刚刚创建的进程虚拟地址空间中创建一个进程…">
+<meta name="keywords" content="windows, 堆结构, 系统安全解决方案,系统安全软件排行,系统安全技术">
+<meta name="baidu-site-verification" content="nKKKqQxp6R">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta property="qc:admins" content="6620477777662552566375">
+<link rel="stylesheet" id="wpfp-css" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/wpfp.css" type="text/css">
+<link rel="stylesheet" id="wp-recentcomments-css" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/wp-recentcomments.css" type="text/css" media="screen">
+<link rel="stylesheet" id="mycred-widget-css" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/widget.css" type="text/css" media="all">
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/jquery.min.js.下载"></script>
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/wpfp.js.下载"></script>
+<link rel="prev" title="平安银行总行零售信息安全岗位招聘" href="http://www.freebuf.com/jobs/156644.html">
+<link rel="next" title="2017湖湘杯网络安全大赛Writeup" href="http://www.freebuf.com/articles/others-articles/155172.html">
+<link rel="canonical" href="http://www.freebuf.com/articles/system/156174.html">
+<link rel="shortlink" href="http://www.freebuf.com/?p=156174">
+
+<link rel="stylesheet" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/highslide.css" type="text/css">
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/highslide-with-html.packed.js.下载"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    hs.graphicsDir = "http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/";
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+            opacity: 0.75,
+            position: "bottom center",
+            hideOnMouseOut: true
+
+        }
+
+    });
+});
+</script>
+          <script language="JavaScript" type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/script.js.下载"></script>
+        <script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/layer.js.下载"></script><link rel="stylesheet" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/layer.css" id="layui_layer_skinlayercss" style="">
+      <link rel="stylesheet" type="text/css" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/style.css">
+      <script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/highlight.pack.js.下载"></script><link type="text/css" rel="stylesheet" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/default.css">	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<link rel="shortcut icon" href="http://static.freebuf.com/images/favicon.ico">
+<link rel="stylesheet" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/header.css">
+<link href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!--轮播图-->
+    <link href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/swiper-3.4.2.min.css" rel="stylesheet" type="text/css">
+    <link href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/style(1).css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+#contenttxt hr {
+  display: block;
+  height: 0px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 15px 0;
+  padding: 0;
+}
+#contenttxt table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 15px 0;
+}
+#contenttxt table thead {
+  background-color: #f9f9f9;
+}
+#contenttxt table td, #contenttxt table th {
+  min-width: 40px;
+  height: 30px;
+  border: 1px solid #ccc;
+  vertical-align: top;
+  padding: 2px 4px;
+  text-align: left;
+  box-sizing: border-box;
+  white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;
+}
+#contenttxt table td.active, #contenttxt table th.active {
+  background-color: #ffffee;
+  white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;
+}
+</style>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/jquery-2.0.3.min.js.下载"></script>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/bootstrap.min.js.下载"></script>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/slider.js.下载" type="text/javascript"></script>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/jquery.sticky.js.下载" type="text/javascript"></script>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/bjqs-1.3.min.js.下载" type="text/javascript"></script>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/mosaic.1.0.1.min.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/setint.js.下载"></script>
+    <!--轮播图-->
+    <script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/swiper-3.4.2.min.js.下载"></script>
+<!--[if lt IE 9]>
+    <script src="http://www.freebuf.com/buf/themes/freebuf/js/html5shiv.min.js"></script>
+    <script src="http://www.freebuf.com/buf/themes/freebuf/js/respond.min.js"></script>
+<![endif]-->
+    <style>
+        @font-face {font-family: 'iconfont';
+            src: url('http://static.3001.net/iconfont/iconfont.eot'); /* IE9*/
+            src: url('http://static.3001.net/iconfont/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('http://static.3001.net/iconfont/iconfont.woff') format('woff'), /* chrome、firefox */
+            url('http://static.3001.net/iconfont/iconfonticonfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            url('http://static.3001.net/iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+        }
+    </style>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/share.js.下载"></script><style type="text/css">.highslide img {cursor: url(http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/zoomin.cur), pointer !important;}.highslide-viewport-size {position: fixed; width: 100%; height: 100%; left: 0; top: 0}</style><link rel="stylesheet" href="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/share_style1_24.css"><style type="text/css">.highslide img {cursor: url(http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/zoomin.cur), pointer !important;}.highslide-viewport-size {position: fixed; width: 100%; height: 100%; left: 0; top: 0}</style></head>
+
+<body style="">
+<!----------header---------->
+<!--头部导航-->
+<div id="undefined-sticky-wrapper" class="sticky-wrapper is-sticky">
+    <div id="undefined-sticky-wrapper" class="sticky-wrapper" style="height: 65px;"><div id="undefined-sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 65px;"><div class="main-header" style="position: fixed; top: 0px; display: none;">
+        <div class="header">
+            <div class="header-container clearfix">
+                                <div class="header-logo"><a href="http://www.freebuf.com/"></a></div>
+                                        <!-- column -->
+                        <div class="nav">
+                            <ul class="nav-child clearfix">
+                                <li class=" index">
+                                    <a href="http://www.freebuf.com/">首页</a></li>
+                                <li>
+                                    <a href="http://job.freebuf.com/" target="_blank">FB招聘站</a>
+                                </li>
+                                <li data-value="read-menu">
+                                    <a href="http://www.freebuf.com/articles/system/156174.html#">分类阅读<b class="triangle-down triangle-down-04"></b></a>
+                                </li>
+                                <li>
+                                    <a href="http://fit.freebuf.com/" target="_blank" style="color:#08e285;">FIT大会</a><b class="icon-hot"></b>
+                                </li>
+                                <li data-value="wenku-menu"><a href="javascript:;" target="_blank">文库<b class="triangle-down triangle-down-04"></b></a></li>
+                                <li>
+                                    <a href="http://zhuanlan.freebuf.com/" target="_blank">专栏</a>
+                                </li>
+                                <li><a href="http://open.freebuf.com/" target="_blank">公开课</a></li>
+                                <li data-value="company-menu"><a href="javascript:;">企业服务<b class="triangle-down triangle-down-04"></b></a></li>
+                                <li data-value="user-menu"><a href="javascript:;">用户服务<b class="triangle-down triangle-down-04"></b></a></li>
+                            </ul>
+                        </div>
+                                        <div class="header-right">
+                                    <div class="header-icon">
+                        <ul class="clearfix">
+                                                            <li class="icon-search"><a href="http://search.freebuf.com/" target="_blank"><span>搜索</span></a></li>
+                                <li class="icon-contribute"><a href="http://www.freebuf.com/oauth" target="_blank"><span>投稿</span></a></li>
+                                                    </ul>
+                    </div>
+                    <div class="loginSign login-before">
+                        <div class="header-icon">
+                            <ul class="clearfix">
+                                <li class="icon-login"><a href="http://www.freebuf.com/oauth" target="_blank"><span>登录</span></a></li>
+                                <li class="icon-reg"><a href="https://account.tophant.com/register.html" target="_blank"><span>注册</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                                </div>
+                <div class="nav-small">
+                    <a href="http://www.freebuf.com/articles/system/156174.html#"></a>
+                    <ul class="nav-child clearfix">
+                                                        <li class=" index">
+                                    <a href="http://www.freebuf.com/">首页</a></li>
+                                <li>
+                                    <a href="http://job.freebuf.com/" target="_blank">FB招聘站</a>
+                                </li>
+                                <li class="read-classify">
+                                    <a href="http://www.freebuf.com/articles/system/156174.html#">分类阅读<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2 read-classify clearfix">
+                                        <li>
+                                            <strong>黑客</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/vuls" target="_blank">漏洞</a>
+                                                <a href="http://www.freebuf.com/sectool" target="_blank">安全工具</a>
+                                                <a href="http://www.freebuf.com/articles/web" target="_blank">WEB安全</a>
+                                                <a href="http://www.freebuf.com/articles/system" target="_blank">系统安全</a>
+                                                <a href="http://www.freebuf.com/articles/network" target="_blank">网络安全</a>
+                                                <a href="http://www.freebuf.com/articles/wireless" target="_blank">无线安全</a>
+                                                <a href="http://www.freebuf.com/articles/terminal" target="_blank">设备/客户端安全</a>
+                                                <a href="http://www.freebuf.com/articles/database" target="_blank">数据库安全</a>
+                                                <a href="http://www.freebuf.com/articles/security-management" target="_blank">安全管理</a>
+                                                <a href="http://www.freebuf.com/articles/es" target="_blank">企业安全</a>
+                                                <a href="http://www.freebuf.com/ics-articles" target="_blank">工控安全</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <strong>极客</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/geek" target="_blank">极客有意思</a>
+                                                <a href="http://www.freebuf.com/news/others" target="_blank">周边</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <strong>特色</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/news/special" target="_blank">头条</a>
+                                                <a href="http://www.freebuf.com/articles/people" target="_blank">人物志</a>
+                                                <a href="http://www.freebuf.com/fevents" target="_blank">活动</a>
+                                                <a href="http://www.freebuf.com/video" target="_blank">视频</a>
+                                                <a href="http://www.freebuf.com/articles/neopoints" target="_blank">观点</a>
+                                                <a href="http://www.freebuf.com/jobs" target="_blank">招聘</a>
+                                                <a href="http://www.freebuf.com/paper/" target="_blank">报告</a>
+                                                <a href="http://www.freebuf.com/news" target="_blank">资讯</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="http://zhuanlan.freebuf.com/" target="_blank">专栏</a></li>
+                                <li><a href="http://open.freebuf.com/" target="_blank">公开课</a></li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">企业服务<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="https://www.vulbox.com/bounties/item-9-0-1" target="_blank"><strong>企业SRC</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://company.freebuf.com/" target="_blank"><strong>企业空间</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.vulbox.com/" target="_blank"><strong>安全测试</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.riskivy.com/" target="_blank"><strong>风险感知</strong></a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">用户服务<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="http://shop.freebuf.com/" target="_blank"><strong>商城</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.freebuf.com/newsend" target="_blank"><strong>有奖投稿</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                        </a></li><a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                        </a><li><a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                            </a><a href="https://www.vulbox.com/bounties/detail-72" target="_blank"><strong>提交漏洞</strong></a>
+                                        </li>
+                                        <li class="last">
+                                            <a href="https://www.vulbox.com/bounties" target="_blank"><strong>参与众测</strong></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">文库<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="http://search.freebuf.com/search" target="_blank"><strong>文库</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.freebuf.com/special-subject" target="_blank"><strong>专题</strong></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                                    <li><a href="http://my.freebuf.com/post/edit" target="_blank">投稿</a></li>
+                                                    <li><a href="https://account.tophant.com/register.html" class="login-btn">注册</a>
+                            </li>
+                            <li><a href="http://www.freebuf.com/oauth" class="sign-btn">登录</a></li>
+                                            </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu read-menu" id="read-menu" style="">
+                <div class="container">
+                    <ul class="menu clearfix">
+                        <li>
+                            <strong>黑客</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/vuls" target="_blank">漏洞</a>
+                                <a href="http://www.freebuf.com/sectool" target="_blank">安全工具</a>
+                                <a href="http://www.freebuf.com/articles/web" target="_blank">WEB安全</a>
+                                <a href="http://www.freebuf.com/articles/system" target="_blank">系统安全</a>
+                                <a href="http://www.freebuf.com/articles/network" target="_blank">网络安全</a>
+                                <a href="http://www.freebuf.com/articles/wireless" target="_blank">无线安全</a>
+                                <a href="http://www.freebuf.com/articles/terminal" target="_blank">设备/客户端安全</a>
+                                <a href="http://www.freebuf.com/articles/database" target="_blank">数据库安全</a>
+                                <a href="http://www.freebuf.com/articles/security-management" target="_blank">安全管理</a>
+                                <a href="http://www.freebuf.com/articles/es" target="_blank">企业安全</a>
+                                <a class="last" href="http://www.freebuf.com/ics-articles" target="_blank">工控安全</a>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>极客</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/geek" target="_blank">极客有意思</a>
+                                <a class="last" href="http://www.freebuf.com/news/others" target="_blank">周边</a>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>特色</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/news/special" target="_blank">头条</a>
+                                <a href="http://www.freebuf.com/articles/people" target="_blank">人物志</a>
+                                <a href="http://www.freebuf.com/fevents" target="_blank">活动</a>
+                                <a href="http://www.freebuf.com/video" target="_blank">视频</a>
+                                <a href="http://www.freebuf.com/articles/neopoints" target="_blank">观点</a>
+                                <a href="http://www.freebuf.com/jobs" target="_blank">招聘</a>
+                                <a href="http://www.freebuf.com/paper/" target="_blank">报告</a>
+                                <a class="last" href="http://www.freebuf.com/news" target="_blank">资讯</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu company-menu" id="company-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="https://www.vulbox.com/bounties/item-9-0-1" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-src.png"></span>
+                                <span class="name">企业SRC</span>
+                                <span class="intro">全/半托管式互联网漏洞收集管理</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://company.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-company.png"></span>
+                                <span class="name">企业空间</span>
+                                <span class="intro">为企业定制信息安全专属门户</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.vulbox.com/" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-safety.png"></span>
+                                <span class="name">安全测试</span>
+                                <span class="intro">国内领先的互联网安全众测服务</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="https://www.riskivy.com/" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-risk.png"></span>
+                                <span class="name">风险感知</span>
+                                <span class="intro">基于IT资产的全息风险分析监控</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu user-menu" id="user-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="http://shop.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-shop.png"></span>
+                                <span class="name">商城</span>
+                                <span class="intro">用FB金币购物</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.freebuf.com/newsend" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-write.png"></span>
+                                <span class="name">有奖投稿</span>
+                                <span class="intro">与整个行业分享你的经验与见解</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-column.png"></span>
+                                <span class="name">申请专栏</span>
+                                <span class="intro">自由创作，打造自主内容品牌</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.vulbox.com/bounties/detail-72" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-leak.png"></span>
+                                <span class="name">提交漏洞</span>
+                                <span class="intro">与数万白帽一起，让互联网更安全</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="https://www.vulbox.com/bounties" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-test.png"></span>
+                                <span class="name">参与众测</span>
+                                <span class="intro">挖洞开启自由职业之路</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu wenku-menu" id="wenku-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="http://search.freebuf.com/search" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-write.png"></span>
+                                <span class="name">文库</span>
+                                <span class="intro">最全的FB百科</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="http://www.freebuf.com/special-subject" target="_blank">
+                                <span class="img"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-test.png"></span>
+                                <span class="name">专题</span>
+                                <span class="intro">浓缩的安全精华汇总</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div></div></div>
+</div>
+<!----------header end---------->
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/header.js.下载"></script><script>
+    jQuery(window).load(function(){
+      if(jQuery(window).width()>480){
+        jQuery(".main-header").sticky({ topSpacing: 0 });
+      }else{
+        jQuery(".main-header nav").removeClass("navbar-fixed-top");
+      }
+      jQuery("#mar-right").sticky({ topSpacing: 105,bottomSpacing: 410 });
+    });
+</script>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/layer.js.下载"></script>
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/prettify.js.下载"></script>
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/lazyload.js.下载"></script>
+<script type="text/javascript" charset="utf-8">
+      jQuery(function() {
+          jQuery("img").lazyload({
+              effect : "fadeIn"
+          });
+      });
+ </script>
+<script type="text/javascript">
+    window.onload = function(){
+        prettyPrint();
+    }
+</script>
+<script language="JavaScript" type="text/javascript">
+//<![CDATA[
+var va = "您已经点亮过了";
+function acv_vote(id,option, m){
+  if( m==null) m =''; m = m + '';
+  jQuery('#acv_stat_'+m+id).html('Loading...');
+  var url="http://www.freebuf.com/index.php?acv_ajax=true&option="+option+"&ID="+id;
+  jQuery.get(url,function(d){
+    d =d.split('|');var s='#acv_stat_'+m+d[0];
+    var sele = '#cos_support-'+m+id,unsele = '#cos_unsupport-'+m+id,tpjs = 'javascript:alert(va)';
+    jQuery( s ).html( d[1] );jQuery(s).fadeOut(400,function(){jQuery(s).fadeIn();});
+    if( d[2] == 1 ){ jQuery(sele).html(jQuery(sele).html()*1+1); }
+    if( d[2] == -1 ){ jQuery(unsele).html(jQuery(unsele).html()*1+1); }
+    jQuery('#vote4-'+id).attr('href',tpjs);jQuery('#vote4-2'+id).attr('href',tpjs);
+    jQuery('#votea-'+id).attr('href',tpjs);jQuery('#votea-2'+id).attr('href',tpjs);
+  });
+}
+  
+$(document).on("mouseenter",".comment-tools",function(){
+  $(this).find(".btn-report").show();
+  $(this).find(".btn-report").addClass("hover");
+}).on("mouseleave",".comment-tools",function(){
+  var $_this = $(this);
+  $(this).find(".btn-report").removeClass("hover");
+  if(!$(this).find(".dropup").hasClass('open')){
+    $(this).find(".btn-report").hide(); 
+    $_this.find(".dropdown-menu").css("display","none");
+  }else{
+    setTimeout(function(){
+      if(!$_this.find(".btn-report").hasClass("hover")){
+        $_this.find(".dropup").removeClass("open");
+        $_this.find(".dropdown-menu").css("display","none");
+        $_this.find(".btn-report").hide(); 
+      }
+    },"500");
+  }
+})
+
+$(document).on("click",".click_report",function(){
+  $(this).parent().parent().css("display","none");
+  var id = $(this).attr("data-id");
+  var url="http://www.freebuf.com/index.php?acv_ajax=true&option=0&ID="+id;
+  $_this = $(this);
+  jQuery.get(url,function(d){
+    d =d.split('|');
+    if(d[1]=='您已经点过灯了'){
+      d[1] = '您已经举报过了';
+    }
+    if(d[1]=='Thank you'){
+      d[1] = '举报成功';
+    }
+    $_this.parent().parent().parent().find(".btn-report").text(d[1]);
+    $_this.parent().parent().parent().find(".btn-report").css("display","block");
+  })
+})
+
+$(document).on("click",".btn-report",function(){
+  if($(this).parent().hasClass('open')){
+    $(this).parent().find(".dropdown-menu").css("display","block");
+  }else{
+    $(this).parent().find(".dropdown-menu").css("display","none");
+  }
+})
+//]]>
+</script>
+<div class="column-article" data-column="">
+            <div class="container pad-top35">
+        <div class="row clearfix">
+            <div class="col-md-9" id="getWidth">
+                    <div class="reletive search-xs-wrap">
+                    <div class="form-group has-active search-col search-xs">
+                        <form id="hpsform-new" class="navbar-search navbar-form" onsubmit="return dispatch()">
+                            <div class="form-group">
+                                <input id="q" class="input form-control" type="text" placeholder="关键字查找" autocomplete="off" title="关键字查找" name="q">
+                                <button class="submit" type="submit"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                    <script type="text/javascript">
+                        var dispatch = function () {
+                            var q = document.getElementById("q");
+                            if (q.value == "") {
+                                q = document.getElementById("bigq");
+                            }
+                            if (q.value != "") {
+                                window.open('http://search.freebuf.com/search/?search=' + q.value, "_blank");
+                                return false;
+                            } else {
+                                return false;
+                            }
+                        }
+                    </script>
+                <div class="article-wrap panel panel-default">
+                                                            <div class="articlecontent">
+                                                    <div class="title">
+                                <h2>
+                                    浅析Windows下堆的结构                                </h2>
+                                <div class="property">
+                                                                            <span class="name"><a href="http://www.freebuf.com/author/hellowuzekai" title="由 hellowuzekai 发布" rel="author">hellowuzekai</a></span>
+                                                                        <span class="icon-f"></span>
+                                    <span class="time">2017-12-10</span>
+                                                                                                            <span class="look">共<strong>90646</strong>人围观
+                                        ，发现 <strong>1</strong> 个不明物体 </span>                                      
+                                                                <span class="tags">
+                                      <a href="http://www.freebuf.com/articles/system">系统安全</a></span>
+                                    <span class="tags_01"></span>
+                                </div>
+                            </div>
+                                                                                                <div id="contenttxt">
+                            <p><b style="color: rgb(239, 71, 71);">*本文原创作者：hellowuzekai，本文属FreeBuf原创奖励计划，未经许可禁止转载</b></p>
+<h2>## 简介</h2>
+<p><b style="color: rgb(0, 176, 80);">Windows下的堆主要有两种，进程的默认堆和自己创建的私有堆。在程序启动时，系统在刚刚创建的进程虚拟地址空间中创建一个进程的默认堆，而且程序也可以通过 HeapCreate 函数来调用 ntdll 中的RtlCreateHeap 来创建自己的私有堆，所以一个进程中可以存在多个堆。</b></p>
+<p>虽说这两种堆名称不同，但是其本质是相同的，区别的只是返回的句柄不同，私有堆虽然名字是私有，但并不是只能在创建它的线程中使用，如果得到它的句柄，在其他线程中也可使用。</p>
+<h2>## 堆的信息</h2>
+<p>堆的相关信息可以在/PEB(进程环境块)中看到</p>
+<p></p>
+<pre><code class="hljs perl"><p>.process 查看 $peb 地址</p><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; .process</span></p><p><span class="hljs-string">Implicit process is now 7ffd8000</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p><p>dt _PEB addr 查看 $peb 的结构信息</p><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; dt _PEB 7ffd8000</span></p><p><span class="hljs-string">ntdll!_PEB</span></p><p><span class="hljs-string">...</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x018 ProcessHeap&nbsp; &nbsp; &nbsp; : 0x00140000 Void</span></p><p><span class="hljs-string">...&nbsp; &nbsp;</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x078 HeapSegmentReserve : 0x100000</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x07c HeapSegmentCommit : 0x2000</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x080 HeapDeCommitTotalFreeThreshold : 0x10000</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x084 HeapDeCommitFreeBlockThreshold : 0x1000</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x088 NumberOfHeaps&nbsp; &nbsp; : 4</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x08c MaximumNumberOfHeaps : 0x10</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x090 ProcessHeaps&nbsp; &nbsp; &nbsp;: 0x7c99cfc0&nbsp; -&gt; 0x00140000 Void</span></p><p><span class="hljs-string">...</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p></code></pre>
+<p></p>
+<p>我们需要注意的是上面几个偏移位置的信息</p>
+<blockquote><p> 0×18 默认堆的地址</p>
+<p> 0×78 默认堆的默认大小</p>
+<p> 0x7c 默认堆的初始提交大小</p>
+<p> 0×80 与堆释放有关的阈值</p>
+<p> 0×84 与堆释放有关的阈值</p>
+<p> 0×88 程序中堆的数量</p>
+<p> 0x8c 程序中最大的堆的数量</p>
+<p> 0×90 存储所有堆地址的数组</p>
+</blockquote>
+<p>只有当本次释放时</p>
+<blockquote><p>1. 本次释放的堆块大小超过了_PEB中的HeapDeCommitFreeBlockThreshold字段的值。</p>
+<p>2. 空闲空间的总大小超过了_PEB中的eapDeCommitTotalFreeThreshold字段的值。</p>
+</blockquote>
+<p>堆管理器才会将该内存交还给内存管理器，否则继续由堆管理器管理</p>
+<p>查看一下所有堆的地址</p>
+<p></p>
+<pre><code class="hljs javascript"><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; dd 7c99cfc0</span></p><p><span class="hljs-string">7c99cfc0&nbsp; 00140000 00240000 00250000 00380000</span></p><p><span class="hljs-string">7c99cfd0&nbsp; 00000000 00000000 00000000 00000000</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p></code></pre>
+<p></p>
+<p>可以看到进程中四个堆的地址，同样使用!heap -h来看一下</p>
+<p></p>
+<pre><code class="hljs javascript"><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; !heap -h</span></p><p><span class="hljs-string">Index&nbsp; &nbsp;Address&nbsp; Name&nbsp; &nbsp; &nbsp; Debugging options enabled</span></p><p><span class="hljs-string">&nbsp; 1:&nbsp; &nbsp;00140000&nbsp;</span></p><p><span class="hljs-string">&nbsp; &nbsp; Segment at 00140000 to 00240000 (00003000 bytes committed)</span></p><p><span class="hljs-string">&nbsp; 2:&nbsp; &nbsp;00240000&nbsp;</span></p><p><span class="hljs-string">&nbsp; &nbsp; Segment at 00240000 to 00250000 (00006000 bytes committed)</span></p><p><span class="hljs-string">&nbsp; 3:&nbsp; &nbsp;00250000&nbsp;</span></p><p><span class="hljs-string">&nbsp; &nbsp; Segment at 00250000 to 00260000 (00003000 bytes committed)</span></p><p><span class="hljs-string">&nbsp; 4:&nbsp; &nbsp;00380000&nbsp;</span></p><p><span class="hljs-string">&nbsp; &nbsp; Segment at 00380000 to 00390000 (00003000 bytes committed)</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p></code></pre>
+<p></p>
+<h2>## 堆的结构</h2>
+<p>上面我们通过 PEB 查看了进程中堆的一些信息。</p>
+<p>在 Windows 的堆中管理着许多的堆段 (Segment)，在堆创建时同时创建第一个堆段，称为 0 号段，之后如果一个段不够，如果指明了 HEAP_GROWABLE 标志，会创建其他的堆段，但是最多有 64 个堆段，而这一个个堆段，正是由堆块 ( 类似于 linux 的 Chunk) 构成。</p>
+<h2>#### 堆</h2>
+<p>现在选其中一个堆，我们来看一下堆的详细结构</p>
+<p></p>
+<pre><code class="hljs coffeescript"><p>`<span class="javascript"></span>``</p><p><span class="javascript"><span class="hljs-number">0</span>:<span class="hljs-number">000</span>&gt; dt _HEAP <span class="hljs-number">140000</span></span></p><p><span class="javascript">ntdll!_HEAP</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x000</span> Entry&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : _HEAP_ENTRY</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x008</span> Signature&nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0xeeffeeff</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x00c</span> Flags&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0x50000062</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x010</span> ForceFlags&nbsp; &nbsp; &nbsp; &nbsp;: <span class="hljs-number">0x40000060</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x014</span> VirtualMemoryThreshold : <span class="hljs-number">0xfe00</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x018</span> SegmentReserve&nbsp; &nbsp;: <span class="hljs-number">0x100000</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x01c</span> SegmentCommit&nbsp; &nbsp; : <span class="hljs-number">0x2000</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x020</span> DeCommitFreeBlockThreshold : <span class="hljs-number">0x200</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x024</span> DeCommitTotalFreeThreshold : <span class="hljs-number">0x2000</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x028</span> TotalFreeSize&nbsp; &nbsp; : <span class="hljs-number">0xa6</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x02c</span> MaximumAllocationSize : <span class="hljs-number">0x7ffdefff</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x030</span> ProcessHeapsListIndex : <span class="hljs-number">1</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x032</span> HeaderValidateLength : <span class="hljs-number">0x608</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x034</span> HeaderValidateCopy : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x038</span> NextAvailableTagIndex : <span class="hljs-number">0</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x03a</span> MaximumTagIndex&nbsp; : <span class="hljs-number">0</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x03c</span> TagEntries&nbsp; &nbsp; &nbsp; &nbsp;: (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x040</span> UCRSegments&nbsp; &nbsp; &nbsp; : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x044</span> UnusedUnCommittedRanges : <span class="hljs-number">0x00140598</span> _HEAP_UNCOMMMTTED_RANGE</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x048</span> AlignRound&nbsp; &nbsp; &nbsp; &nbsp;: <span class="hljs-number">0x17</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x04c</span> AlignMask&nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0xfffffff8</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x050</span> VirtualAllocdBlocks : _LIST_ENTRY [ <span class="hljs-number">0x140050</span> - <span class="hljs-number">0x140050</span> ]</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x058</span> Segments&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: [<span class="hljs-number">64</span>] <span class="hljs-number">0x00140640</span> _HEAP_SEGMENT</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x158</span> u&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : __unnamed</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x168</span> u2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: __unnamed</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x16a</span> AllocatorBackTraceIndex : <span class="hljs-number">0</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x16c</span> NonDedicatedListLength : <span class="hljs-number">1</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x170</span> LargeBlocksIndex : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x174</span> PseudoTagEntries : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x178</span> FreeLists&nbsp; &nbsp; &nbsp; &nbsp; : [<span class="hljs-number">128</span>] _LIST_ENTRY [ <span class="hljs-number">0x142ad8</span> - <span class="hljs-number">0x142ad8</span> ]</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x578</span> LockVariable&nbsp; &nbsp; &nbsp;: <span class="hljs-number">0x00140608</span> _HEAP_LOCK</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x57c</span> CommitRoutine&nbsp; &nbsp; : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x580</span> FrontEndHeap&nbsp; &nbsp; &nbsp;: <span class="hljs-number">0x00140688</span> Void</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x584</span> FrontHeapLockCount : <span class="hljs-number">0</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x586</span> FrontEndHeapType : <span class="hljs-number">0x1</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x587</span> LastSegmentIndex : <span class="hljs-number">0</span> <span class="hljs-string">''</span></span></p><p>``<span class="javascript"></span>`</p></code></pre>
+<p></p>
+<p>注意这几个偏移位置</p>
+<blockquote><p> 0×14 最大分配内存，超过此大小就交由内存管理器分配</p>
+<p> 0x2c 最大申请大小</p>
+<p> 0×50 管理由内存管理器分配内存的链表</p>
+<p> 0×58 该堆中堆段数组</p>
+<p> 0×178 管理 128 个空闲堆块的双向链表头指针</p>
+<p> 0×580 指向前端分配器</p>
+</blockquote>
+<p>在 0×14 偏移处的值的单位是 8byte，也就是最大申请大小为 0xfe00 * 8 = 508kB，由于申请内存时堆块的头部需要占用 8 字节，所以最大申请大小 = 最大分配大小 – 8B</p>
+<p>看一下偏移 0×178 处</p>
+<p></p>
+<pre><code class="hljs css"><p>```</p><p>0<span class="hljs-selector-pseudo">:000</span>&gt; <span class="hljs-selector-tag">dd</span> 140000+178</p><p>00140178&nbsp; 00142<span class="hljs-selector-tag">ad8</span> 00142<span class="hljs-selector-tag">ad8</span> 00140180 00140180</p><p>00140188&nbsp; 00140188 00140188 00140190 00140190</p><p>00140198&nbsp; 00140198 00140198 001401<span class="hljs-selector-tag">a0</span> 001401<span class="hljs-selector-tag">a0</span></p><p><span class="hljs-selector-tag">001401a8</span>&nbsp; 001401<span class="hljs-selector-tag">a8</span> 001401<span class="hljs-selector-tag">a8</span> 001401<span class="hljs-selector-tag">b0</span> 001401<span class="hljs-selector-tag">b0</span></p><p><span class="hljs-selector-tag">001401b8</span>&nbsp; 001401<span class="hljs-selector-tag">b8</span> 001401<span class="hljs-selector-tag">b8</span> 001401<span class="hljs-selector-tag">c0</span> 001401<span class="hljs-selector-tag">c0</span></p><p><span class="hljs-selector-tag">001401c8</span>&nbsp; 001401<span class="hljs-selector-tag">c8</span> 001401<span class="hljs-selector-tag">c8</span> 001401<span class="hljs-selector-tag">d0</span> 001401<span class="hljs-selector-tag">d0</span></p><p><span class="hljs-selector-tag">001401d8</span>&nbsp; 001401<span class="hljs-selector-tag">d8</span> 001401<span class="hljs-selector-tag">d8</span> 001401<span class="hljs-selector-tag">e0</span> 001401<span class="hljs-selector-tag">e0</span></p><p><span class="hljs-selector-tag">001401e8</span>&nbsp; 001401<span class="hljs-selector-tag">e8</span> 001401<span class="hljs-selector-tag">e8</span> 001401<span class="hljs-selector-tag">f0</span> 001401<span class="hljs-selector-tag">f0</span></p><p><span class="hljs-selector-tag">0</span><span class="hljs-selector-pseudo">:000</span>&gt; <span class="hljs-selector-tag">dt</span> _<span class="hljs-selector-tag">LIST_ENTRY</span> 142<span class="hljs-selector-tag">ad8</span></p><p><span class="hljs-selector-tag">ntdll</span>!_<span class="hljs-selector-tag">LIST_ENTRY</span></p><p>&nbsp;<span class="hljs-selector-attr">[ 0x140178 - 0x140178 ]</span></p><p>&nbsp; &nbsp;+0<span class="hljs-selector-tag">x000</span> <span class="hljs-selector-tag">Flink</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : 0<span class="hljs-selector-tag">x00140178</span> _<span class="hljs-selector-tag">LIST_ENTRY</span> <span class="hljs-selector-attr">[ 0x142ad8 - 0x142ad8 ]</span></p><p>&nbsp; &nbsp;+0<span class="hljs-selector-tag">x004</span> <span class="hljs-selector-tag">Blink</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : 0<span class="hljs-selector-tag">x00140178</span> _<span class="hljs-selector-tag">LIST_ENTRY</span> <span class="hljs-selector-attr">[ 0x142ad8 - 0x142ad8 ]</span></p><p>```</p></code></pre>
+<p></p>
+<p>可以看到 HEAP 结构维护的是&nbsp; LIST_ENTRY 指针，该指针指向的正是双向链表的头指针结构</p>
+<h2>#### 堆段</h2>
+<p>同样看一下 0×58 处的 Segments</p>
+<p></p>
+<pre><code class="hljs javascript"><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; dd 0x140000+58</span></p><p><span class="hljs-string">00140058&nbsp; 00140640 00000000 00000000 00000000</span></p><p><span class="hljs-string">00140068&nbsp; 00000000 00000000 00000000 00000000</span></p><p><span class="hljs-string">0:000&gt; dt _HEAP_SEGMENT 0x140640</span></p><p><span class="hljs-string">ntdll!_HEAP_SEGMENT</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x000 Entry&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : _HEAP_ENTRY</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x008 Signature&nbsp; &nbsp; &nbsp; &nbsp; : 0xffeeffee</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x00c Flags&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : 0</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x010 Heap&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: 0x00140000 _HEAP</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x014 LargestUnCommittedRange : 0xfd000</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x018 BaseAddress&nbsp; &nbsp; &nbsp; : 0x00140000 Void</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x01c NumberOfPages&nbsp; &nbsp; : 0x100</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x020 FirstEntry&nbsp; &nbsp; &nbsp; &nbsp;: 0x00140680 _HEAP_ENTRY</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x024 LastValidEntry&nbsp; &nbsp;: 0x00240000 _HEAP_ENTRY</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x028 NumberOfUnCommittedPages : 0xfd</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x02c NumberOfUnCommittedRanges : 1</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x030 UnCommittedRanges : 0x00140588 _HEAP_UNCOMMMTTED_RANGE</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x034 AllocatorBackTraceIndex : 0</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x036 Reserved&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: 0</span></p><p><span class="hljs-string">&nbsp; &nbsp;+0x038 LastEntryInSegment : 0x00142ad0 _HEAP_ENTRY</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p></code></pre>
+<p></p>
+<p>注意这几个偏移位置</p>
+<blockquote><p> 0×00 存储该堆段所有堆块</p>
+<p> 0×10 记录 _HEAP 结构的地址</p>
+<p> 0×18 维护该段的基址</p>
+<p> 0×20 第一个堆块地址</p>
+</blockquote>
+<h2>#### 堆块</h2>
+<p>查看堆块的结构</p>
+<p></p>
+<pre><code class="hljs coffeescript"><p>`<span class="javascript"></span>``</p><p><span class="javascript"><span class="hljs-number">0</span>:<span class="hljs-number">000</span>&gt; dt _HEAP_ENTRY <span class="hljs-number">0x140640</span></span></p><p><span class="javascript">ntdll!_HEAP_ENTRY</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x000</span> Size&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: <span class="hljs-number">8</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x002</span> PreviousSize&nbsp; &nbsp; &nbsp;: <span class="hljs-number">0xc8</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x000</span> SubSegmentCode&nbsp; &nbsp;: <span class="hljs-number">0x00c80008</span> Void</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x004</span> SmallTagIndex&nbsp; &nbsp; : <span class="hljs-number">0</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x005</span> Flags&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0x1</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x006</span> UnusedBytes&nbsp; &nbsp; &nbsp; : <span class="hljs-number">0</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x007</span> SegmentIndex&nbsp; &nbsp; &nbsp;: <span class="hljs-number">0</span> <span class="hljs-string">''</span></span></p><p>``<span class="javascript"></span>`</p></code></pre>
+<p></p>
+<p>注意这几个偏移位置</p>
+<blockquote><p> 0×00 本堆块的大小</p>
+<p> 0×02 前一堆块的大小&nbsp;</p>
+<p> 0×05 标志位</p>
+<p> 0×06 由于对齐原因多分配的字节数</p>
+<p> 0×07 所属的 segment 号</p>
+</blockquote>
+<p>Flags 的标志位有下面几种情形</p>
+<blockquote><p> 0×01 该块处于占用状态</p>
+<p> 0×02 该块存在额外描述</p>
+<p> 0×04 使用固定模式填充堆块</p>
+<p> 0×08 虚拟分配</p>
+<p> 0×10 该段最后一个堆块</p>
+</blockquote>
+<p>我们可以看到堆块的结构相比较于Linux下的Chunk结构来说，首先 prev_size 和 size 的位置调换了一下，并且该块的状态并不在下一块的 size 位中保存，而是在本块的 Flags 位保存，这对我们的漏洞利用提出了新的要求。</p>
+<h2>#### 实例观测私有堆</h2>
+<p>编译下面的代码并使用 WinDBG 调试</p>
+<p></p>
+<pre><code class="hljs coffeescript"><p>`<span class="javascript"></span>``</p><p><span class="javascript">#include&lt;Windows.h&gt;</span></p><p><span class="javascript">int main(int argc, char* argv[])&nbsp;&nbsp;</span></p><p><span class="javascript">{&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp; &nbsp; &nbsp;HANDLE hHeap = HeapCreate(HEAP_NO_SERIALIZE, <span class="hljs-number">0</span>, <span class="hljs-number">1024</span>);&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp; &nbsp; &nbsp;<span class="hljs-keyword">void</span> * p = HeapAlloc(hHeap, HEAP_NO_SERIALIZE, <span class="hljs-number">1012</span>);&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp; &nbsp; &nbsp;bool bRetVal = HeapFree(hHeap, HEAP_NO_SERIALIZE, p);&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp; &nbsp; &nbsp;<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&nbsp;&nbsp;</span></p><p><span class="javascript">&nbsp;&nbsp;</span></p><p><span class="javascript">}&nbsp;</span></p><p>``<span class="javascript"></span>`</p></code></pre>
+<p></p>
+<p>首先在 main 函数下断点，运行</p>
+<p></p>
+<pre><code class="hljs coffeescript"><p>`<span class="javascript"></span>``</p><p><span class="javascript"><span class="hljs-number">0</span>:<span class="hljs-number">000</span>&gt; bp main</span></p><p><span class="javascript">*** WARNING: Unable to verify checksum <span class="hljs-keyword">for</span> heap.exe</span></p><p><span class="javascript">0:<span class="hljs-number">000</span>&gt; bl</span></p><p><span class="javascript">&nbsp;<span class="hljs-number">0</span> e <span class="hljs-number">00401010</span>&nbsp; &nbsp; &nbsp;<span class="hljs-number">0001</span> (<span class="hljs-number">0001</span>)&nbsp; <span class="hljs-number">0</span>:**** heap!main</span></p><p><span class="javascript">0:<span class="hljs-number">000</span>&gt; g</span></p><p><span class="javascript">Breakpoint <span class="hljs-number">0</span> hit</span></p><p><span class="javascript">eax=<span class="hljs-number">00380</span>c20 ebx=<span class="hljs-number">7</span>ffdf000 ecx=<span class="hljs-number">00000001</span> edx=<span class="hljs-number">00380</span>cc8 esi=<span class="hljs-number">007e6436</span> edi=<span class="hljs-number">0242</span>f554</span></p><p><span class="javascript">eip=<span class="hljs-number">00401010</span> esp=<span class="hljs-number">0012</span>ff84 ebp=<span class="hljs-number">0012</span>ffc0 iopl=<span class="hljs-number">0</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;nv up ei pl nz na po nc</span></p><p><span class="javascript">cs=<span class="hljs-number">001</span>b&nbsp; ss=<span class="hljs-number">0023</span>&nbsp; ds=<span class="hljs-number">0023</span>&nbsp; es=<span class="hljs-number">0023</span>&nbsp; fs=<span class="hljs-number">003</span>b&nbsp; gs=<span class="hljs-number">0000</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;efl=<span class="hljs-number">00000202</span></span></p><p><span class="javascript">heap!main:</span></p><p><span class="javascript"><span class="hljs-number">00401010</span> <span class="hljs-number">55</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; push&nbsp; &nbsp; ebp</span></p><p>``<span class="javascript"></span>`</p></code></pre>
+<p></p>
+<p>单步调试到 HeapCreate 函数返回，通过 eax 返回值观察堆结构，也可 !heap 查看</p>
+<p></p>
+<pre><code class="hljs javascript"><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; p</span></p><p><span class="hljs-string">eax=003a0000 ebx=7ffdf000 ecx=7c946090 edx=7c99b380 esi=0012ff28 edi=0012ff80</span></p><p><span class="hljs-string">eip=00401043 esp=0012ff28 ebp=0012ff80 iopl=0&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;nv up ei pl zr na pe nc</span></p><p><span class="hljs-string">cs=001b&nbsp; ss=0023&nbsp; ds=0023&nbsp; es=0023&nbsp; fs=003b&nbsp; gs=0000&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;efl=00000246</span></p><p><span class="hljs-string">heap!main+0x33:</span></p><p><span class="hljs-string">00401043 8bf4&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mov&nbsp; &nbsp; &nbsp;esi,esp</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p></code></pre>
+<p></p>
+<p>这里返回的 eax，即hHeap句柄值为3a0000</p>
+<p></p>
+<pre><code class="hljs coffeescript"><p>`<span class="javascript"></span>``</p><p><span class="javascript"><span class="hljs-number">0</span>:<span class="hljs-number">000</span>&gt; dt _HEAP <span class="hljs-number">3</span>a0000</span></p><p><span class="javascript">ntdll!_HEAP</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x000</span> Entry&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : _HEAP_ENTRY</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x008</span> Signature&nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0xeeffeeff</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x00c</span> Flags&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0x50001061</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x010</span> ForceFlags&nbsp; &nbsp; &nbsp; &nbsp;: <span class="hljs-number">0x40000061</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x014</span> VirtualMemoryThreshold : <span class="hljs-number">0xfe00</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x018</span> SegmentReserve&nbsp; &nbsp;: <span class="hljs-number">0x100000</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x01c</span> SegmentCommit&nbsp; &nbsp; : <span class="hljs-number">0x2000</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x020</span> DeCommitFreeBlockThreshold : <span class="hljs-number">0x200</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x024</span> DeCommitTotalFreeThreshold : <span class="hljs-number">0x2000</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x028</span> TotalFreeSize&nbsp; &nbsp; : <span class="hljs-number">0x137</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x02c</span> MaximumAllocationSize : <span class="hljs-number">0x7ffdefff</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x030</span> ProcessHeapsListIndex : <span class="hljs-number">5</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x032</span> HeaderValidateLength : <span class="hljs-number">0x608</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x034</span> HeaderValidateCopy : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x038</span> NextAvailableTagIndex : <span class="hljs-number">0</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x03a</span> MaximumTagIndex&nbsp; : <span class="hljs-number">0</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x03c</span> TagEntries&nbsp; &nbsp; &nbsp; &nbsp;: (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x040</span> UCRSegments&nbsp; &nbsp; &nbsp; : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x044</span> UnusedUnCommittedRanges : <span class="hljs-number">0x003a0588</span> _HEAP_UNCOMMMTTED_RANGE</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x048</span> AlignRound&nbsp; &nbsp; &nbsp; &nbsp;: <span class="hljs-number">0x17</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x04c</span> AlignMask&nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0xfffffff8</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x050</span> VirtualAllocdBlocks : _LIST_ENTRY [ <span class="hljs-number">0x3a0050</span> - <span class="hljs-number">0x3a0050</span> ]</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x058</span> Segments&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: [<span class="hljs-number">64</span>] <span class="hljs-number">0x003a0608</span> _HEAP_SEGMENT</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x158</span> u&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : __unnamed</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x168</span> u2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: __unnamed</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x16a</span> AllocatorBackTraceIndex : <span class="hljs-number">0</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x16c</span> NonDedicatedListLength : <span class="hljs-number">1</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x170</span> LargeBlocksIndex : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x174</span> PseudoTagEntries : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x178</span> FreeLists&nbsp; &nbsp; &nbsp; &nbsp; : [<span class="hljs-number">128</span>] _LIST_ENTRY [ <span class="hljs-number">0x3a0650</span> - <span class="hljs-number">0x3a0650</span> ]</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x578</span> LockVariable&nbsp; &nbsp; &nbsp;: (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x57c</span> CommitRoutine&nbsp; &nbsp; : (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x580</span> FrontEndHeap&nbsp; &nbsp; &nbsp;: (<span class="hljs-literal">null</span>)&nbsp;</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x584</span> FrontHeapLockCount : <span class="hljs-number">0</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x586</span> FrontEndHeapType : <span class="hljs-number">0</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x587</span> LastSegmentIndex : <span class="hljs-number">0</span> <span class="hljs-string">''</span></span></p><p>``<span class="javascript"></span>`</p></code></pre>
+<p></p>
+<p>继续单步调试到 HeapAlloc 函数返回，得到这次申请的堆块地址为 0x3a6500</p>
+<p></p>
+<pre><code class="hljs javascript"><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; p</span></p><p><span class="hljs-string">eax=003a0650 ebx=7ffdf000 ecx=7c9301bb edx=000003f4 esi=0012ff28 edi=0012ff80</span></p><p><span class="hljs-string">eip=00401060 esp=0012ff28 ebp=0012ff80 iopl=0&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;nv up ei pl zr na pe nc</span></p><p><span class="hljs-string">cs=001b&nbsp; ss=0023&nbsp; ds=0023&nbsp; es=0023&nbsp; fs=003b&nbsp; gs=0000&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;efl=00000246</span></p><p><span class="hljs-string">heap!main+0x50:</span></p><p><span class="hljs-string">00401060 8bf4&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mov&nbsp; &nbsp; &nbsp;esi,esp</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p></code></pre>
+<p></p>
+<p>由于返回的地址是加上堆块头的地址，所以查看堆块结构时减去 8byte</p>
+<p></p>
+<pre><code class="hljs coffeescript"><p>`<span class="javascript"></span>``</p><p><span class="javascript"><span class="hljs-number">0</span>:<span class="hljs-number">000</span>&gt; dt _HEAP_ENTRY <span class="hljs-number">3</span>a0650<span class="hljs-number">-8</span></span></p><p><span class="javascript">ntdll!_HEAP_ENTRY</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x000</span> Size&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: <span class="hljs-number">0x82</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x002</span> PreviousSize&nbsp; &nbsp; &nbsp;: <span class="hljs-number">8</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x000</span> SubSegmentCode&nbsp; &nbsp;: <span class="hljs-number">0x00080082</span> Void</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x004</span> SmallTagIndex&nbsp; &nbsp; : <span class="hljs-number">0xa7</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x005</span> Flags&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0x7</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x006</span> UnusedBytes&nbsp; &nbsp; &nbsp; : <span class="hljs-number">0x1c</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x007</span> SegmentIndex&nbsp; &nbsp; &nbsp;: <span class="hljs-number">0</span> <span class="hljs-string">''</span></span></p><p>``<span class="javascript"></span>`</p></code></pre>
+<p></p>
+<p>可以了解到此堆块大小为 0×82*8 byte，属于堆段 0，并且多分配了 0x1c 字节，Flags位表示该块占用，有额外描述并且被 ‘baadf00d’ 填充</p>
+<p></p>
+<pre><code class="hljs javascript"><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; dd 3a0650-8</span></p><p><span class="hljs-string">003a0648&nbsp; 00080082 001c07a7 baadf00d baadf00d</span></p><p><span class="hljs-string">003a0658&nbsp; baadf00d baadf00d baadf00d baadf00d</span></p><p><span class="hljs-string">003a0668&nbsp; baadf00d baadf00d baadf00d baadf00d</span></p><p><span class="hljs-string">003a0678&nbsp; baadf00d baadf00d baadf00d baadf00d</span></p><p><span class="hljs-string">003a0688&nbsp; baadf00d baadf00d baadf00d baadf00d</span></p><p><span class="hljs-string">003a0698&nbsp; baadf00d baadf00d baadf00d baadf00d</span></p><p><span class="hljs-string">003a06a8&nbsp; baadf00d baadf00d baadf00d baadf00d</span></p><p><span class="hljs-string">003a06b8&nbsp; baadf00d baadf00d baadf00d baadf00d</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p></code></pre>
+<p></p>
+<p>继续单步执行到 HeapFree 函数返回，再次观察该堆块</p>
+<p></p>
+<pre><code class="hljs javascript"><p><span class="hljs-string">``</span><span class="hljs-string">`</span></p><p><span class="hljs-string">0:000&gt; dd 3a0650-8</span></p><p><span class="hljs-string">003a0648&nbsp; 00080137 001c14a7 003a0178 003a0178</span></p><p><span class="hljs-string">003a0658&nbsp; feeefeee feeefeee feeefeee feeefeee</span></p><p><span class="hljs-string">003a0668&nbsp; feeefeee feeefeee feeefeee feeefeee</span></p><p><span class="hljs-string">003a0678&nbsp; feeefeee feeefeee feeefeee feeefeee</span></p><p><span class="hljs-string">003a0688&nbsp; feeefeee feeefeee feeefeee feeefeee</span></p><p><span class="hljs-string">003a0698&nbsp; feeefeee feeefeee feeefeee feeefeee</span></p><p><span class="hljs-string">003a06a8&nbsp; feeefeee feeefeee feeefeee feeefeee</span></p><p><span class="hljs-string">003a06b8&nbsp; feeefeee feeefeee feeefeee feeefeee</span></p><p><span class="hljs-string">`</span><span class="hljs-string">``</span></p></code></pre>
+<p></p>
+<p>注意到填充发生了变化，对于已释放的堆块，结构体为 Heap_Free_Entry,相较于 Heap_Entry 多了两个空闲链表的指针</p>
+<p></p>
+<pre><code class="hljs coffeescript"><p>`<span class="javascript"></span>``</p><p><span class="javascript"><span class="hljs-number">0</span>:<span class="hljs-number">000</span>&gt; dt _HEAP_FREE_ENTRY <span class="hljs-number">3</span>a0650<span class="hljs-number">-8</span></span></p><p><span class="javascript">ntdll!_HEAP_FREE_ENTRY</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x000</span> Size&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: <span class="hljs-number">0x137</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x002</span> PreviousSize&nbsp; &nbsp; &nbsp;: <span class="hljs-number">8</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x000</span> SubSegmentCode&nbsp; &nbsp;: <span class="hljs-number">0x00080137</span> Void</span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x004</span> SmallTagIndex&nbsp; &nbsp; : <span class="hljs-number">0xa7</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x005</span> Flags&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <span class="hljs-number">0x14</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x006</span> UnusedBytes&nbsp; &nbsp; &nbsp; : <span class="hljs-number">0x1c</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x007</span> SegmentIndex&nbsp; &nbsp; &nbsp;: <span class="hljs-number">0</span> <span class="hljs-string">''</span></span></p><p><span class="javascript">&nbsp; &nbsp;+<span class="hljs-number">0x008</span> FreeList&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: _LIST_ENTRY [ <span class="hljs-number">0x3a0178</span> - <span class="hljs-number">0x3a0178</span> ]</span></p><p>``<span class="javascript"></span>`</p></code></pre>
+<p></p>
+<p>这里的堆块由于 free 后合并，所以 size 变成了合并后的值</p>
+<h2>## 堆的管理</h2>
+<p>在 Windows 中堆的申请回收使用了两种分配器，分别叫做前端分配器和后端分配器，当进程发起申请堆的请求时，首先由前端分配器处理，如果处理不了的话在交由后端分配器处理，在这点上前端分配器有点类似于 Linux 下的 FastBin，后端分配器类似于 UnsortedBin,SmallBin,LargeBin 组成的 Bin 数组</p>
+<p>Windows 提供了两种前端分配器，分别为旁视列表（LAL）和低碎片(LF)前端分配器，其中前者在 Vista 之后的版本中不再使用</p>
+<h2>## 小结</h2>
+<p>这篇文章主要分析了 Windows 下不同于 Linux 的堆的结构，而 Windows 下堆的申请回收类似于 Linux，详情可以查看我的<a href="http://www.freebuf.com/articles/system/151372.html" target="_blank" rel="nofollow">Dance In Heap</a>系列文章。</p>
+<p><b style="color: rgb(239, 71, 71);">*本文原创作者：hellowuzekai，本文属FreeBuf原创奖励计划，未经许可禁止转载&nbsp;</b></p>
+                        </div>
+                        <div class="article-oper article-oper-new">
+                            <style>
+                                @font-face {font-family: 'iconfont';
+                                    src: url('http://static.3001.net/iconfonts/iconfont.eot'); /* IE9*/
+                                    src: url('http://static.3001.net/iconfonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+                                    url('http://static.3001.net/iconfonts/iconfont.woff') format('woff'), /* chrome、firefox */
+                                    url('http://static.3001.net/iconfonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+                                    url('http://static.3001.net/iconfonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+                                }
+                            </style>
+                            <div class="share-new clearfix" style="width: 100%; left: 358px;">
+                                <div class="share-author">
+                                                                            <a href="http://www.freebuf.com/author/hellowuzekai" title="由 hellowuzekai 发布" rel="author">
+                                            <img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/15078098924271.jpg!video" width="0" height="0" alt="hellowuzekai" class="avatar avatar-50 wp-user-avatar wp-user-avatar-50 photo">                                            <!--							<img src="http://image.3001.net/2015/06/17.jpg" alt="ArthurKiller">-->
+                                        </a>
+                                        <div class="share-author-info">
+                                                                                        <a class="author-name" href="http://www.freebuf.com/author/hellowuzekai">hellowuzekai</a>
+                                            <!--<span class="icon-f"></span>-->
+                                            <span>
+                                <i class="colour-red">
+                                    6                                </i>
+                                篇文章</span>
+                                            <span>等级：
+                                <i class="colour-green">3</i>级
+                            </span>
+                                        </div>
+                                                                                                        </div>
+                                <div class="user-center clearfix">
+                                                                            <a href="http://www.freebuf.com/author/hellowuzekai" data-toggle="tooltip" data-placement="top" title="" class="home" target="_blank" data-original-title="个人主页"></a>
+                                                                        <a href="http://www.freebuf.com/user/pm?pmaction=newmessage&amp;to=hellowuzekai" data-toggle="tooltip" data-placement="top" title="" class="letter" target="_blank" data-original-title="私信"></a>
+                                </div>
+                                <div class="share-ctrl clearfix">
+                                                                        <div class="bdsharebuttonbox clearfix columnstatus bdshare-button-style1-24" data-bd-bind="1513141063577" data-column="" data-title="浅析Windows下堆的结构" data-name="">
+                                        <a href="http://www.freebuf.com/articles/system/156174.html#" data-toggle="tooltip" data-placement="top" data-cmd="tsina" title="分享到新浪微博" id="tsina" data-original-title="分享到新浪微博"></a>
+                                        <a href="http://www.freebuf.com/articles/system/156174.html#" data-toggle="tooltip" data-placement="top" data-cmd="weixin" title="分享到微信" id="weixin" data-original-title="分享到微信"></a>
+                                        <a href="http://www.freebuf.com/articles/system/156174.html#" data-toggle="tooltip" data-placement="top" data-cmd="qzone" title="分享到QQ空间" id="qzone" data-original-title="分享到QQ空间"></a>
+                                       <!-- _shareUrlWeibo = 'http://service.weibo.com/share/share.php?url=http://'+encodeURIComponent(_json[i].url)+'&title='+encodeURIComponent(_json[i].title)+'-FreeBuf涓撴爮路'+_json[i].columnName;
+                                        _shareUrlZone = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://'+encodeURIComponent(_json[i].url)+'&title='+_json[i].title+'-FreeBuf涓撴爮路'+_json[i].columnName;
+                                        _shareSrc = 'http://s.jiathis.com/qrcode.php?url=http://'+_json[i].url;-->
+                                        <span class="share-line">|</span>
+                                    </div>
+                                </div>
+                                <div class="user-ctrl clearfix">
+                                                                            <a href="http://www.freebuf.com/oauth" id="collect" data-toggle="tooltip" data-placement="top" title="" data-original-title="收藏"></a>
+                                                                        <a href="http://www.freebuf.com/articles/system/156174.html#respond" data-toggle="tooltip" data-placement="top" title="" id="comments" data-original-title="评论"></a>
+                                                                        <!--					<a href="#" title="文章纠正">&#xe6e3;</a>-->
+                                    <span class="share-line">|</span>
+                                    <span class="info-alert"></span>
+                                </div>
+                            </div>
+                            <script>
+                                var column = $('.columnstatus').attr('data-column');
+                                var text = '';
+                                if(column){
+                                    var title = $('.columnstatus').attr('data-title');
+                                    var name = $('.columnstatus').attr('data-name');
+                                    text = title+' - FreeBuf专栏·'+name;
+                                }
+                                window._bd_share_config={
+                                    "common": {
+                                        "bdSnsKey": {},
+                                        "bdText": text,
+                                        "bdMini": "2",
+                                        "bdMiniList": ["qzone", "tsina", "weixin"],
+                                        "bdPic": "",
+                                        "bdStyle": "1",
+                                        "bdSize": "24"
+                                    },
+                                    "share":{},
+                                };
+                                with(document)0[
+                                    (getElementsByTagName('head')[0]||body).
+                                    appendChild(createElement('script')).
+                                        src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)
+                                    ];
+                                //控制垂直方向分享模块的定位
+                                function shareFixVertical(){
+                                    var offsetTop = jQuery(".article-oper").get(0).offsetTop;
+                                    var win_h = jQuery(window).height();
+                                    var win_w = jQuery(window).width();
+                                    var scrollTop = document.body.scrollTop||document.documentElement.scrollTop;
+                                    var _height = offsetTop-scrollTop;
+                                    var _flag = $('.column-article').attr('data-column');
+                                    if(_flag == 1) {
+                                        if(_height>=win_h-660&&win_w>975){
+                                            var _width = jQuery("#getWidth").innerWidth()-30;
+                                            var _left = jQuery("#getWidth").offset().left+15;
+                                            jQuery(".share-new").addClass("fixed");
+                                            jQuery(".fixed").css({
+                                                width:_width,
+                                                left:_left
+                                            });
+
+                                        }else{
+                                            jQuery(".share-new").removeClass("fixed");
+                                            jQuery(".share-new").css({
+                                                width: "100%"
+                                            });
+                                        }
+                                    }else {
+                                        if(_height>=win_h-255&&win_w>975){
+                                            var _width = jQuery("#getWidth").innerWidth()-30;
+                                            var _left = jQuery("#getWidth").offset().left+15;
+                                            jQuery(".share-new").addClass("fixed");
+                                            jQuery(".fixed").css({
+                                                width:_width,
+                                                left:_left
+                                            });
+
+                                        }else{
+                                            jQuery(".share-new").removeClass("fixed");
+                                            jQuery(".share-new").css({
+                                                width: "100%"
+                                            });
+                                        }
+                                    }
+                                }
+                                //控制水平方向分享模块的定位
+                                function shareFixHorizontal(){
+                                    var _width = jQuery("#getWidth").innerWidth()-30;
+                                    var _left = jQuery("#getWidth").get(0).offsetLeft+15;
+                                    var win_w = document.documentElement.clientWidth || document.body.clientWidth;
+                                    jQuery(".fixed").css({
+                                        width:_width,
+                                        left:_left
+                                    });
+                                    if(win_w< 975){
+                                        jQuery(".share-new").css({
+                                            width: "100%",
+                                            left: "0"
+                                        });
+                                    }else{
+                                        var _width = jQuery("#getWidth").innerWidth()-30;
+                                        var _left = jQuery("#getWidth").get(0).offsetLeft+15;
+                                        jQuery(".fixed").css({
+                                            width:_width,
+                                            left:_left
+                                        });
+                                    }
+                                }
+                                function click(){
+                                    var _w = jQuery(window).width();
+                                    jQuery(document).click(function(e){
+                                        if(jQuery(e.target).attr("id")=="weixin"){
+                                            if(_w <= 760) {
+                                                jQuery("#bdshare_weixin_qrcode_dialog").hide();
+                                                layer.open({
+                                                    title: '提示',
+                                                    btnAlign: 'c',
+                                                    content: '请使用手机浏览器自带的分享功能分享该页面',
+                                                    area: '260px'
+                                                });
+                                            }else {
+                                                jQuery("#bdshare_weixin_qrcode_dialog").show();
+                                            }
+                                        }else {
+                                            jQuery("#bdshare_weixin_qrcode_dialog").hide();
+                                        }
+                                    });
+                                }
+
+                                jQuery(window).on("load",function(){
+                                    shareFixVertical();
+                                    click();
+                                });
+
+                                jQuery(window).on("resize",function(){
+                                    shareFixHorizontal();
+                                    click();
+                                });
+
+                                var direction_flag;
+
+                                scroll( function(direction) {
+                                    if(direction == 'down') {
+                                        jQuery(".share-new").removeClass("fixed");
+                                        $(".share-new").css({
+                                            width: "100%"
+                                        });
+                                        jQuery('.main-header').stop().hide();
+                                    }else {
+                                        shareFixVertical();
+                                        jQuery('.main-header').stop().show();
+                                    }
+                                    return direction;
+                                });
+
+                                function scroll( fn ) {
+                                    var beforeScrollTop = document.body.scrollTop || document.documentElement.scrollTop,
+                                        fn = fn || function() {};
+                                    window.addEventListener("scroll", function() {
+                                        var afterScrollTop = document.body.scrollTop || document.documentElement.scrollTop,
+                                            delta = afterScrollTop - beforeScrollTop;
+                                        if( delta === 0 ) return false;
+                                        direction_flag = fn( delta > 0 ? "down" : "up" );
+                                        beforeScrollTop = afterScrollTop;
+                                    }, false);
+                                }
+
+                                //tooltips提示
+                                $(function () { $("[data-toggle='tooltip']").tooltip(); });
+                            </script>
+                        </div>
+                                                                                                                            <div class="article-pager ">
+                                <ul>
+                                    <li class="previous"><span>上一篇：</span><a href="http://www.freebuf.com/articles/system/155969.html" rel="prev">如何利用日志来监控和限制PowerShell攻击活动</a>                                    </li>
+                                    <li class="next"><span>下一篇：</span>
+                                        <a href="http://www.freebuf.com/articles/system/156485.html" rel="next">以CVE-2016-6516为例深入分析内核Double Fetch型漏洞利用方法</a>                                    </li>
+                                </ul>
+                            </div>
+                                                </div>
+                </div>
+                <div class="comment-list">
+      <div class="main-tit02">
+		<a rel="nofollow" class="btnbtn-default btn-comment" href="http://www.freebuf.com/articles/system/156174.html#respond">发表评论</a>
+        <h3>已有 <span class="color_red">1</span> 条评论
+      </h3></div>
+      <ul>
+         <li class="comment byuser comment-author-lucky0001 even thread-even depth-1" id="li-comment-236965">
+    <div id="comment-236965">
+        <div class="photo"> <a href="http://www.freebuf.com/author/lucky0001">
+    <img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/wp-user-avatar-96x96.png"></a>
+     </div>
+    <div class="tit"> 
+	    <span class="name"> <a href="http://www.freebuf.com/author/lucky0001" target="_blank">lucky0001&nbsp;</a>  </span>
+        		
+		<span class="icon-f"> </span>
+		<span class="rank">(5级)</span>
+				<span class="explain"> 已经买了电脑，网费已经续到了2020年。 </span>
+		<span class="time">&nbsp;2017-12-10</span>
+		<span class="time">
+                    </span>
+        <span class="useragent_output_custom"></span>
+        <span class="useragent_output_custom"></span> 
+		<span class="reply">
+		        <!-- 正常情况 -->
+           <a onclick="return addComment.moveForm( &#39;comment-236965&#39;,&#39;236965&#39;, &#39;respond&#39;,&#39;156174&#39; ) " href="http://www.freebuf.com/articles/system/156174.html?replytocom=236965#respond" class="comment-reply-link" rel="nofollow">回复</a>
+        	    </span>
+		<span class="floor">1楼</span>
+	</div>
+	    <div class="txt">
+	  <p class="useragent_output_custom"></p>
+      <p>学习了， 感谢。 正打算往二进制发展。</p>
+<div class="comment-tools">
+<div class="vote" id="vote-236965"><span id="acv_stat_236965"></span><a class="ilike_icon" id="vote4-236965" href="javascript:acv_vote(236965,1);">亮了</a>(<span id="cos_support-236965">0</span>)</div>
+<div class="dropup"><a class="dropdown-toggle btn-report" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:none;"> 举报</a>
+<ul class="dropdown-menu" style="display:none;bottom:auto;">
+<li><a data-id="236965" class="click_report" href="javascript:;">广告等垃圾信息</a></li>
+<li><a data-id="236965" class="click_report" href="javascript:;">不友善内容</a></li>
+<li><a data-id="236965" class="click_report" href="javascript:;">违反法律法规的内容</a></li>
+<li><a data-id="236965" class="click_report" href="javascript:;">不宜公开讨论的政治内容</a></li>
+<li><a data-id="236965" class="click_report" href="javascript:;">其他</a></li>
+</ul></div>
+</div>
+	</div></div>
+</li><!-- #comment-## -->
+      </ul>
+      <div class="commentnav page01" style="padding-top:10px; text-align: center;">
+               </div>
+	  
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/ajaxfileupload.js.下载" type="text/javascript"></script>
+<div id="respond" class="comment-box">
+<input type="file" id="uploadUnit" name="upfile" class="hidden" value="">
+    <form action="http://www.freebuf.com/wp-comments-post.php" method="post" id="commentform">
+        <div id="comment-author-info">
+	    <div class="login-other">
+		  <div class="login_button login_icon_sina" title="使用新浪微博登陆" onclick="login_button_click(&#39;sina&#39;)"></div>
+          <div class="login_button login_icon_qq" title="使用腾讯QQ登陆" onclick="login_button_click(&#39;qq&#39;)"></div></div>
+        <div class="login-input">
+	    <p><label for="author">昵称</label>
+		          <input type="text" name="author" id="author" value="4378532785735" size="14" tabindex="1" aria-required="true" placeholder="请输入昵称" required="">
+        </p><span>必须</span><span>您当前尚未登录。<a class="simplemodal-login" href="http://www.freebuf.com/oauth" title="登陆">登陆？</a><a href="https://account.tophant.com/register.html" target="_blank">注册</a></span></div>
+		<div class="login-input">
+		  <p><label for="email">邮箱</label><input type="text" name="email" id="email" value="gudahgsa@43230590987.com" size="25" tabindex="2" aria-required="true" placeholder="请输入邮箱地址" required=""></p>
+		<span>必须（保密）</span>
+		</div>
+    </div>
+
+            <div id="test" class="post-area">
+      <div class="holiday"></div>
+	    <div class="comment-editor">
+			<a id="comment-smiley" href="javascript:;">表情</a><a href="javascript:;" id="imageThumb">插图</a>
+	    </div>
+        <div id="smileys">
+           <a title="mrgreen" href="javascript:grin(&#39;:mrgreen:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_mrgreen.gif"></a><a title="razz" href="javascript:grin(&#39;:razz:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_razz.gif"></a><a title="sad" href="javascript:grin(&#39;:sad:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_sad.gif"></a><a title="smile" href="javascript:grin(&#39;:smile:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_smile.gif"></a><a title="oops" href="javascript:grin(&#39;:oops:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_redface.gif"></a><a title="grin" href="javascript:grin(&#39;:grin:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_biggrin.gif"></a><a title="eek" href="javascript:grin(&#39;:eek:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_surprised.gif"></a><a title="???" href="javascript:grin(&#39;:???:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_confused.gif"></a><a title="cool" href="javascript:grin(&#39;:cool:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_cool.gif"></a><a title="lol" href="javascript:grin(&#39;:lol:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_lol.gif"></a><a title="mad" href="javascript:grin(&#39;:mad:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_mad.gif"></a><a title="twisted" href="javascript:grin(&#39;:twisted:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_twisted.gif"></a><a title="roll" href="javascript:grin(&#39;:roll:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_rolleyes.gif"></a><a title="wink" href="javascript:grin(&#39;:wink:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_wink.gif"></a><a title="idea" href="javascript:grin(&#39;:idea:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_idea.gif"></a><a title="arrow" href="javascript:grin(&#39;:arrow:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_arrow.gif"></a><a title="neutral" href="javascript:grin(&#39;:neutral:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_neutral.gif"></a><a title="cry" href="javascript:grin(&#39;:cry:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_cry.gif"></a><a title="?" href="javascript:grin(&#39;:?:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_question.gif"></a><a title="evil" href="javascript:grin(&#39;:evil:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_evil.gif"></a><a title="shock" href="javascript:grin(&#39;:shock:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_eek.gif"></a><a title="!" href="javascript:grin(&#39;:!:&#39;)"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon_exclaim.gif"></a>        </div>
+         <textarea name="comment" id="comment" cols="100%" rows="7" tabindex="4" style="overflow-x:hidden; overflow-y:hidden; border:0; width:100%;" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById(&#39;submit&#39;).click();return false};"></textarea><div id="loading" style="display: none;"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/wpspin_light.gif" style="vertical-align:middle;" alt=""> 正在提交, 请稍候...</div><div id="error" style="display: none;">#</div>
+    </div>
+      <div class="subcon but">
+      <input class="btn btn-success" type="submit" name="submit" id="submit" tabindex="5" value="提交评论(Ctrl+Enter)">
+      <a rel="nofollow" class="btn btn-default" id="cancel-comment-reply-link" href="javascript:;">取消</a>
+      <div class="checkbox"><input type="hidden" name="comment_post_ID" value="156174" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+<label for="comment_mail_notify" class="comment_mail"><input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked">有人回复时邮件通知我</label></div>
+      </div>
+    <input name="Token" id="Token" type="hidden" value="r3ql13">
+  </form>
+  </div>
+</div>	  
+<div class="commentshow">
+<div class="comments-loading">Loading...</div>
+</div>
+<script language="javascript">
+jQuery(document).ready(function($){ //Begin jQuery
+    $('.reply').click(function() {
+    var atid = '"#' + $(this).parent().attr("id") + '"';
+    var atname = $(this).parent().find('span:first').text();
+    $("#comment").val("@" + atname + " ").focus();
+});
+    $('.cancel-comment-reply a').click(function() { //点击取消回复评论清空评论框的内容
+    $("#comment").val('');
+});
+}) 
+
+jQuery(document).ready(function($) {
+    $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');//commentnav ajax
+    $(document).on('click', '.commentnav a', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: $(this).attr('href'),
+            beforeSend: function() {
+                $('.commentnav').remove();
+                $('.comment-list').remove();
+                $('.comments-loading').slideDown();
+            },
+            dataType: "html",
+            success: function(out) {
+                result = $(out).find('.comment-list');
+                nextlink = $(out).find('.commentnav');
+                $('.comments-loading').slideUp(550);
+                $('.comments-loading').after(result.fadeIn(800));
+                $(".comment-list img").each(function(){
+                  var url = $(this).attr("data-original");
+                  $(this).attr("src",url);
+                })
+            }
+        });
+    });    
+});
+</script>            </div>
+                    <div class="col-md-3 visible-md-block visible-lg-block">
+                <div class="panel panel-default">
+                    <div class="author-top">
+                         <div class="author-wrap">
+                            <div class="author-header"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/15078098924271.jpg!video" width="0" height="0" alt="hellowuzekai" class="avatar avatar-100 wp-user-avatar wp-user-avatar-100 photo">                            </div>
+                            <p class="name"><a href="http://www.freebuf.com/author/hellowuzekai" title="由 hellowuzekai 发布" rel="author">hellowuzekai</a><span></span></p>
+                            <p class="signature">pwn好难~</p>
+                            <p class="art-com clearfix">
+                                <span class="aut-article">
+                                    <a href="http://www.freebuf.com/author/hellowuzekai" target="_blank">
+                                        <i>6</i>
+                                        <i>文章数</i>
+                                    </a>
+                                </span>
+                                <span class="aut-comment">
+                                    <a href="http://www.freebuf.com/author/hellowuzekai?comment=1" target="_blank">
+                                        <i>4</i>
+                                        <i>评论数</i>
+                                    </a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="author-bottom">
+                        <div class="author-wrap">
+                            <h3 class="last-title">最近文章</h3>
+                            <div class="last-item-wrap">
+                                                                        <div class="last-item">
+                                            <a href="http://www.freebuf.com/articles/system/156174.html" target="_blank"><span class="point"></span>浅析Windows下堆的结构</a>
+                                            <p class="last-time">2017.12.10</p>
+                                        </div>
+                                                                            <div class="last-item">
+                                            <a href="http://www.freebuf.com/articles/system/151435.html" target="_blank"><span class="point"></span>Dance In Heap（四）：一些堆利用的方法（下）</a>
+                                            <p class="last-time">2017.10.29</p>
+                                        </div>
+                                                                            <div class="last-item">
+                                            <a href="http://www.freebuf.com/articles/system/151428.html" target="_blank"><span class="point"></span>Dance In Heap（三）：一些堆利用的方法（中）</a>
+                                            <p class="last-time">2017.10.28</p>
+                                        </div>
+                                                                </div>
+                        </div>
+
+                        <div class="more-wrap">
+                            <a href="http://www.freebuf.com/author/hellowuzekai" target="_blank" class="btn-new">浏览更多</a>
+                        </div>
+                    </div>
+                </div>
+                                <div class="panel panel-default">
+                    <div class="read visible-md-block visible-lg-block">
+                        <div class="main-tit02">
+                            <h3>相关阅读</h3>
+                        </div>
+                        <ul>
+  <li><a href="http://www.freebuf.com/articles/others-articles/72904.html" target="_blank">没有外部工具，如何快速发现Windows中毒了</a></li>
+  
+  <li><a href="http://www.freebuf.com/news/118699.html" target="_blank">谷歌又双叒叕曝光Windows的0day漏洞，微软很不开心</a></li>
+  
+  <li><a href="http://www.freebuf.com/vuls/113527.html" target="_blank">BlackHat议题解析：Windows程序的数字签名校验“漏洞”</a></li>
+  
+  <li><a href="http://www.freebuf.com/sectool/144211.html" target="_blank">BeRoot：一款功能强大的Windows权限提升工具</a></li>
+  
+  <li><a href="http://www.freebuf.com/sectool/89230.html" target="_blank">Windows恶意代码分析学习笔记</a></li>
+  </ul>                    </div>
+                </div>
+                <!--<div class="ad-wrap"><a href="http://www.ijiami.cn/?freebuf.com" target="_blank"><img width="100%" src="http://image.3001.net/images/20141201/14174039186901.jpg"></a></div>-->
+                <div class="panel panel-default rec-spe">
+                    <div class="main-tit03 colour-blue">
+                        <h3>特别推荐</h3>
+                    </div>
+                                                    <div class="rec-img"><a href="http://www.freebuf.com/show?id=3" target="_blank"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/14a10c5c919d154dddbee79e3a944143-220x150.png" width="220"></a></div>
+                                                </div>
+                <div id="mar-right-sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 241px;"><div id="mar-right" style="position: fixed; top: 105px;">
+                    <!--<div class="read visible-lg-block">
+        <div class="main-tit04">
+          <h3>商城新品</h3>
+        </div>
+        <div id="slider" class="nivoSlider">  </div>
+      </div>-->
+                    <div class="panel panel-default code"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/code.jpg" width="192" height="192">
+                        <p>关注我们 分享每日精选文章</p>
+                    </div>
+                </div></div>
+            </div>
+                </div>
+                    <div class="row marvellous visible-lg-block">
+                <h3>不容错过</h3>
+                <ul>
+                                                <li><a href="http://www.freebuf.com/news/108561.html" rel="bookmark" title="“中国”制造：悍马（Hummer）病毒家族技术分析报告">“中国”制造：悍马（Hummer）病毒家族技术分析报告</a>
+                                <p>                                        <span class="name"><a href="http://www.freebuf.com/author/%e7%8c%8e%e8%b1%b9%e7%a7%bb%e5%8a%a8%e5%a8%81%e8%83%81%e6%83%85%e6%8a%a5%e4%b8%ad%e5%bf%83" title="由 猎豹移动威胁情报中心 发布" rel="author">猎豹移动威胁情报中心</a></span>
+                                                                        <span class="time">2016-07-07</span></p>
+                            </li>
+                                                    <li><a href="http://www.freebuf.com/articles/es/152236.html" rel="bookmark" title="利用Freeradius和Django双因子认证，快速搭建统一认证平台指南">利用Freeradius和Django双因子认证，快速搭建统一认证平台指南</a>
+                                <p>                                        <span class="name"><a href="http://www.freebuf.com/author/chengfangang" title="由 chengfangang 发布" rel="author">chengfangang</a></span>
+                                                                        <span class="time">2017-11-10</span></p>
+                            </li>
+                                                    <li><a href="http://www.freebuf.com/articles/system/102374.html" rel="bookmark" title="TEST LAB V8在线渗透实验室教程（四）">TEST LAB V8在线渗透实验室教程（四）</a>
+                                <p>                                        <span class="name"><a href="http://www.freebuf.com/author/felix" title="由 felix 发布" rel="author">felix</a></span>
+                                                                        <span class="time">2016-04-25</span></p>
+                            </li>
+                                                    <li><a href="http://www.freebuf.com/news/72929.html" rel="bookmark" title="微软发布紧急更新：严重远程代码执行漏洞，影响所有版本Windows">微软发布紧急更新：严重远程代码执行漏洞，影响所有版本Windows</a>
+                                <p>                                        <span class="name"><a href="http://www.freebuf.com/author/sphinx" title="由 Sphinx 发布" rel="author">Sphinx</a></span>
+                                                                        <span class="time">2015-07-21</span></p>
+                            </li>
+                                                            </ul>
+            </div>
+            </div>
+</div>
+<script type="text/javascript">
+  $(window).load(function() {
+    $('#slider').nivoSlider();
+  });
+  $('#contenttxt img').removeAttr('height');
+  $('#contenttxt img').wrap(function(){
+    if(!$(this).parent().attr('href')){
+      var imgurl = $(this).attr('data-original');
+      if(imgurl.substr(-6)=='!small'){
+        imgurl = imgurl.substring(0,imgurl.length-6);
+      }
+      return '<a href="' + imgurl + '" class="highslide-image" onclick="return hs.expand(this);" target="_blank"></a>';
+    }
+  })
+</script>
+    <script type="text/javascript">
+        getWidth();
+
+        $(window).resize(function () {
+            getWidth();
+        });
+        function getWidth() {
+            var windowWidth = $(window).width();
+            var src = $('#contenttxt iframe').attr('src');
+            if( windowWidth < 768 ){
+                $('#contenttxt iframe').attr('src',src+'&width=270&height=200');
+            }else {
+                $('#contenttxt iframe').attr('src',src+'&width=640&height=498');
+            }
+        }
+    </script>
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/comments-ajax.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/jquery.nivo.slider.pack.js.下载"></script>
+<!----------footer---------->
+<div class="footer">
+  <div class="container">
+    <div class="footer-list ">
+      <h3>FREEBUF</h3>
+      <ul>
+        <li><a href="http://www.freebuf.com/dis">免责声明</a></li>
+        <li><a href="http://www.freebuf.com/news/others/864.html">关于我们</a></li>
+        <li><a href="http://www.freebuf.com/jobs/40386.html">加入我们</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>广告及服务</h3>
+      <ul>
+        <li><a target="_blank" href="mailto:root@freebuf.com">寻求报道</a></li>
+        <li><a href="http://www.freebuf.com/advertise">广告合作</a></li>
+        <li><a target="_blank" href="mailto:help@freebuf.com">联系我们</a></li>
+        <li><a href="http://www.freebuf.com/friends">友情链接</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>关注我们</h3>
+      <ul>
+        <li><div class="weixin-pannel weixin"><a class="qr" href="javascript:viod(0);"><span class="g-icon-qr1">官方微信</span><i></i></a></div></li>
+        <li><a rel="nofollow" target="_blank" href="http://weibo.com/freebuf">新浪微博</a></li>
+        <li><a rel="nofollow" target="_blank" href="http://t.qq.com/freebuf">腾讯微博</a></li>
+        <li><a rel="nofollow" target="_blank" href="http://twitter.com/freebuf">Twitter</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>赞助商</h3>
+      <ul>
+        <li style="padding:6px 0 10px;"><a rel="nofollow" target="_blank" href="http://www.aliyun.com/?freebuf"><img src="http://image.3001.net/images/ad/ali.png" style="display: none !important;"></a></li>
+        <li><a rel="nofollow" target="_blank" href="http://www.upyun.com/?freebuf"><img src="http://image.3001.net/images/ad/upyun.png" style="display: none !important;"></a></li>
+        <li style="padding:6px 0 10px;"><a rel="nofollow" target="_blank" href="https://www.trustasia.com/?freebuf"><img src="http://image.3001.net/images/ad/ad-yzcx.png" style="display: none !important;"></a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <ul>
+      </ul>
+    </div>
+    <div class="footer-logo  pull-right"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/freebufrobot_shendanjie.png"></div>
+  </div>
+  <div class="copyright"><div class="container"><p>Copyright © 2017 WWW.FREEBUF.COM All Rights Reserved <a rel="nofollow" target="_blank" href="http://www.miitbeian.gov.cn/">沪ICP备13033796号</a></p><span><a rel="nofollow" target="_blank" href="http://click.aliyun.com/m/1336/?freebuf"><img src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/icon-aly.png"></a></span></div></div>
+</div>
+<div class="bottom_tools" style="bottom: 40px;"><a id="scrollUp" href="javascript:;" title="飞回顶部" style="display: block;"></a></div>
+<!----------footer end----------> 
+<script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/backtop.js.下载"></script>
+<script type="text/javascript">
+jQuery(function(){	
+	jQuery('.tabPanes ul li').click(function(){
+		jQuery(this).addClass('hit').siblings().removeClass('hit');
+		jQuery('.panesl>div:eq('+jQuery(this).index()+')').show().siblings().hide();	
+	})
+	jQuery('.vulbox-nav').click(function(e) { 
+        e.stopPropagation(); 
+    });  
+})
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fcc53db168808048541c6735ce30421f5' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/h.js.下载" type="text/javascript"></script>
+<img alt="css.php" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/css.php" width="1" height="1"><script type="text/javascript">
+jQuery(function() {
+    jQuery(".simditor pre").each(function(i, block){
+        hljs.highlightBlock(block);    
+    });
+    hljs.initHighlightingOnLoad();
+});
+</script>
+<script>
+/* <![CDATA[ */
+var rcGlobal = {
+	serverUrl		:'http://www.freebuf.com',
+	infoTemp		:'%REVIEWER% on %POST%',
+	loadingText		:'Loading',
+	noCommentsText	:'No comments',
+	newestText		:'&laquo; 最新',
+	newerText		:'&laquo; 新一点',
+	olderText		:'旧一点 &raquo;',
+	showContent		:'1',
+	external		:'1',
+	avatarSize		:'32',
+	avatarPosition	:'left',
+	anonymous		:'Anonymous'
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./浅析Windows下堆的结构 - FreeBuf.COM _ 关注黑客与极客_files/wp-recentcomments-jquery.js.下载"></script>
+
+
+<div class="highslide-container" style="padding: 0px; border: none; margin: 0px; position: absolute; left: 0px; top: 0px; width: 100%; z-index: 1001; direction: ltr;"><a class="highslide-loading" title="点击关闭" href="javascript:;" style="position: absolute; top: -9999px; opacity: 0.75; z-index: 1;">正在加载中...</a><div style="display: none;"></div><div class="highslide-viewport highslide-viewport-size" style="padding: 0px; border: none; margin: 0px; visibility: hidden;"></div><table cellspacing="0" style="padding: 0px; border: none; margin: 0px; visibility: hidden; position: absolute; border-collapse: collapse; width: 0px;"><tbody style="padding: 0px; border: none; margin: 0px;"><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px 0px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -40px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px 0px; height: 20px; width: 20px;"></td></tr><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -80px; height: 20px; width: 20px;"></td><td class="rounded-white highslide-outline" style="padding: 0px; border: none; margin: 0px; position: relative;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px -80px; height: 20px; width: 20px;"></td></tr><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -20px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -60px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px -20px; height: 20px; width: 20px;"></td></tr></tbody></table></div></body></html>

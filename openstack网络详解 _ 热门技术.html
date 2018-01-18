@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)https://www.topjishu.com/4663.html -->
+<html slick-uniqueid="3"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<title>openstack网络详解 | 热门技术</title>
+<script src="./openstack网络详解 _ 热门技术_files/push.js.下载"></script><script src="./openstack网络详解 _ 热门技术_files/hm.js.下载"></script><script>
+window._deel = {
+    name: '热门技术',
+    url: 'https://www.topjishu.com/wp-content/themes/d8',
+    rss: 'http://www.topjishu.com/feed',
+    ajaxpager: '',
+    maillist: '',
+    maillistCode: '399c0f2c52d2969de4d0978c7237e27b471facb4e80fc95b',
+    commenton: 1,
+    roll: [1,20],
+    tougaoContentmin: 20,
+    tougaoContentmax: 50000,
+    appkey: {
+    	tqq: '111111111',
+    	tsina: '551593240',
+    	t163: '',
+    	tsohu: ''
+    }
+}
+</script>
+
+<!-- All in One SEO Pack 2.4.3 by Michael Torbert of Semper Fi Web Design[247,280] -->
+<link rel="canonical" href="https://www.topjishu.com/4663.html">
+<!-- /all in one seo pack -->
+<link rel="dns-prefetch" href="https://s.w.org/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.topjishu.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56794,8205,9794,65039],[55358,56794,8203,9794,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./openstack网络详解 _ 热门技术_files/wp-emoji-release.min.js.下载" type="text/javascript" defer=""></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="style-css" href="./openstack网络详解 _ 热门技术_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="enlighter-local-css" href="./openstack网络详解 _ 热门技术_files/EnlighterJS.min.css" type="text/css" media="all">
+<script type="text/javascript" src="./openstack网络详解 _ 热门技术_files/jquery.js.下载"></script>
+<link rel="https://api.w.org/" href="https://www.topjishu.com/wp-json/">
+<link rel="prev" title="Linux 下搭建 GitLab 服务器" href="https://www.topjishu.com/4660.html">
+<link rel="next" title="php-mysql异步查询" href="https://www.topjishu.com/4684.html">
+<link rel="shortlink" href="https://www.topjishu.com/?p=4663">
+<link rel="alternate" type="application/json+oembed" href="https://www.topjishu.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.topjishu.com%2F4663.html">
+<link rel="alternate" type="text/xml+oembed" href="https://www.topjishu.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.topjishu.com%2F4663.html&amp;format=xml">
+
+<link rel="stylesheet" href="./openstack网络详解 _ 热门技术_files/highslide.css" type="text/css">
+<script type="text/javascript" src="./openstack网络详解 _ 热门技术_files/highslide-with-html.packed.js.下载"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    hs.graphicsDir = "https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/";
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+            opacity: 0.75,
+            position: "bottom center",
+            hideOnMouseOut: true
+
+        }
+
+    });
+});
+</script>
+	<script type="text/javascript">
+	window._wp_rp_static_base_url = 'https://wprp.zemanta.com/static/';
+	window._wp_rp_wp_ajax_url = "https://www.topjishu.com/wp-admin/admin-ajax.php";
+	window._wp_rp_plugin_version = '3.6.4';
+	window._wp_rp_post_id = '4663';
+	window._wp_rp_num_rel_posts = '6';
+	window._wp_rp_thumbnails = false;
+	window._wp_rp_post_title = 'openstack%E7%BD%91%E7%BB%9C%E8%AF%A6%E8%A7%A3';
+	window._wp_rp_post_tags = ['openstack', '%E7%BD%91%E7%BB%9C', 'openstack', 'a', 'a1', 'gatewai', 'metric', 'aa', 'flag', 'rout', 'ipa', 'ip', 'hw', 'openstack', '2', '4', 'network', '3'];
+	window._wp_rp_promoted_content = true;
+</script>
+<meta name="keywords" content="Openstack, 网络, OpenStack">
+<meta name="description" content="这篇文章基本是参考了http://www.mirantis.com/blog/的几篇英文blog，进过翻译和整理，详细介绍了openstack Essex版的网络模型，虽然在Folsom版启动了Quantum，但并不成熟，如果是部署中没有用到网络高级特性，建议大家还是使用nova-network。 1      Flat Flat模式和FlatDHCP模式其实区别不大，都是基于网桥网络，只是FLat模式需要管理员手动配置（包括配置网桥和">
+<style>.article-content{font-size: 16px;line-height:27px;}.article-content p{margin:20px 0;}@media (max-width:640px){.article-content{font-size:16px}}body{margin-top: 52px}.navbar-wrap{position:fixed}@media (max-width: 979px){body{margin-top: 0}.navbar-wrap{position:relative}}</style><!--[if lt IE 9]><script src="https://www.topjishu.com/wp-content/themes/d8/js/html5.js"></script><![endif]-->
+<style type="text/css">.highslide img {cursor: url(https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/zoomin.cur), pointer !important;}.highslide-viewport-size {position: fixed; width: 100%; height: 100%; left: 0; top: 0}</style></head>
+<body class="post-template-default single single-post postid-4663 single-format-standard">
+<div class="navbar-wrap">
+<div class="navbar">
+		<div class="logo"><a href="https://www.topjishu.com/" title="热门技术-热门技术">热门技术</a></div>
+		<ul class="nav">
+			<li id="menu-item-9252" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-9252"><a href="https://www.topjishu.com/">首页</a></li>
+<li id="menu-item-10586" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10586"><a href="https://www.topjishu.com/recommend">推荐</a></li>
+<li id="menu-item-9244" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9244"><a href="https://www.topjishu.com/contribute">投稿</a></li>
+<li id="menu-item-9510" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9510"><a href="https://www.topjishu.com/archive.html">存档</a></li>
+<li id="menu-item-9511" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9511"><a href="https://www.topjishu.com/tags.html">标签</a></li>
+<li id="menu-item-9242" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9242"><a href="https://www.topjishu.com/link">链接</a></li>
+<li id="menu-item-9258" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9258"><a href="https://www.topjishu.com/readers">读者墙</a></li>
+<li id="menu-item-11084" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11084"><a href="https://www.topjishu.com/category/sinacloud">新浪云</a></li>
+<li id="menu-item-9253" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9253"><a href="https://www.topjishu.com/sitemap.html">网站地图</a></li>
+		</ul><div class="screen-mini"><button data-type="screen-nav" class="btn btn-inverse screen-nav"><i class="icon-tasks icon-white"></i></button></div>
+		<div class="menu pull-right">
+			<form method="get" class="dropdown search-form" action="https://www.topjishu.com/">
+				<input class="search-input" name="s" type="text" placeholder="输入关键字搜索" x-webkit-speech=""><input class="btn btn-success search-submit" type="submit" value="搜索">
+				<ul class="dropdown-menu search-suggest"></ul>
+			</form>
+			<div class="btn-group pull-left">
+				<button class="btn btn-primary" data-toggle="modal" data-target="#feed">订阅</button>
+							</div>
+		</div>
+</div>
+</div>
+<header class="header">
+	<div class="speedbar">
+					<div class="pull-right">
+				<i class="icon-user icon12"></i> <a href="https://www.topjishu.com/wp-login.php">登录</a>			</div>
+				<div class="toptip"><strong class="text-success">最新消息：</strong></div>
+	</div>
+</header>
+<section class="container">
+	<div class="content-wrap">
+	<div class="content">
+		<div class="breadcrumbs">你的位置：<a href="https://www.topjishu.com/">热门技术</a> <small>&gt;</small> <a href="https://www.topjishu.com/category/openstack-2">OpenStack</a> <small>&gt;</small> <span class="muted">openstack网络详解</span></div>
+				<header class="article-header">
+			<h1 class="article-title"><a href="https://www.topjishu.com/4663.html">openstack网络详解</a></h1>
+			<div class="meta">
+				<span class="muted"><a href="https://www.topjishu.com/category/openstack-2"><i class="icon-list-alt icon12"></i> OpenStack</a></span>				<span class="muted"><i class="icon-user icon12"></i> <a href="https://www.topjishu.com/author/admin">admin</a></span>
+								<time class="muted"><i class="ico icon-time icon12"></i> 5年前 (2013-05-16)</time>
+				<span class="muted"><i class="ico icon-eye-open icon12"></i> 3497浏览</span>
+				<span class="muted"><i class="icon-comment icon12"></i> <a href="https://www.topjishu.com/4663.html#respond">0评论</a></span>							</div>
+		</header>
+
+		<div class="banner banner-post"><script type="text/javascript">
+    /*760*90 创建于 2017/6/26*/
+    var cpro_id = "u3019421";
+</script>
+<script type="text/javascript" src="https://cpro.baidustatic.com/cpro/ui/c.js"></script>
+</div>		
+		<article class="article-content">
+			<p>这篇文章基本是参考了<a href="http://www.mirantis.com/blog/" data-original-title="" title="">http://www.mirantis.com/blog/</a>的几篇英文blog，进过翻译和整理，详细介绍了openstack Essex版的网络模型，虽然在Folsom版启动了Quantum，但并不成熟，如果是部署中没有用到网络高级特性，建议大家还是使用nova-network。</p>
+<h1><a name="t0" data-original-title="" title=""></a>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Flat</h1>
+<p>Flat模式和FlatDHCP模式其实区别不大，都是基于网桥网络，只是FLat模式需要管理员手动配置（包括配置网桥和外部的DHCP设备）.<br>
+<a href="./openstack网络详解 _ 热门技术_files/b6d14e29-8962-3b2f-8b65-07d75364d59a.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="b6d14e29-8962-3b2f-8b65-07d75364d59a" src="./openstack网络详解 _ 热门技术_files/b6d14e29-8962-3b2f-8b65-07d75364d59a.png" width="473" height="504"></a></p>
+<h1><a name="t1" data-original-title="" title=""></a>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FlatDHCP</h1>
+<p>这种模式下与Flat模式不同的地方在于有一个DHCP进程，每一个运行nova-network进程的节点（网络控制节点/nove-network主机）就是一个单独的网络。Nova会在nove-network主机建立网桥（默认名称br100，配置项flat_network_bridge=br100），并给该网桥指定该网络的网关IP，同时Nova在网桥处起一个DHCP进程，最后，会建立iptables规则（SNAT/DNAT）使虚拟机能够与外界通信，同时与一个metadata服务器通信以取得cloud内的信息。</p>
+<p>计算节点负责创建对应节点的网桥，此时的计算节点网卡可以不需要IP地址，因为网桥把虚拟机与nove-network主机连接在一个逻辑网络内。虚拟机启动时会发送dhcpdiscover以获取IP地址。如下图：<br>
+<a href="./openstack网络详解 _ 热门技术_files/1d2cfe3f-4f5a-341b-8704-498aa139a795.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="1d2cfe3f-4f5a-341b-8704-498aa139a795" src="./openstack网络详解 _ 热门技术_files/1d2cfe3f-4f5a-341b-8704-498aa139a795.png" width="1052" height="781"></a><br>
+图中的虚线（两个计算节点的eth0）表示节点之间的网络，可选。虚拟机通往外界的数据都要通过nove-network主机，DHCP在网桥处监听，分配fixed_range指定的IP段。</p>
+<h2><a name="t2" data-original-title="" title=""></a>2.1&nbsp;&nbsp;&nbsp; Drawback</h2>
+<p>这种部署方式的缺点之前说过—-单节点故障、无二层隔离（即所有的虚拟机都在一个广播域）。</p>
+<h2><a name="t3" data-original-title="" title=""></a>2.2&nbsp;&nbsp;&nbsp; HA方案</h2>
+<p>为了解决单节点故障问题，有如下几个方案可供选择：</p>
+<p>Ø&nbsp; Option 1: Failover</p>
+<p>NTT实验室的工作人员通过配置网络控制节点使用主备模式实现HA，但宕机需要4秒的时间恢复，不能用于实时应用</p>
+<p>Ø&nbsp; Option 2: Multi-nic</p>
+<p>这种模式使虚拟机桥接到不同的网络，每个网络中为虚拟机创建网卡、指定IP，每个网络可以有自己的nove-network主机作为网关。虚拟机可能会有多个路由，如果一个失败，可以选择使用另一个，该方式的缺点是对于用户来说，需要感知多个网络，同时指定切换策略。同时，必须为每一个网卡关联floating_ip。</p>
+<p>Ø&nbsp; Option 3: HW Gateway</p>
+<p>可以配置dnsmasq使用外部硬件网关作为虚拟机网关。可以配置dhcpoption=3,&lt;ip of gateway&gt;。这需要人工干预，即需要在外部网关设备上设置IP的转发规则（而不是在nove-network主机）.该方式把HA的任务交给更可靠的硬件设备，但nova-network仍需要负责floating_ip natting和DHCP，所以仍需要主备策略保证。</p>
+<p>Ø&nbsp; Option 4: Multi-host</p>
+<p>该方式被认为是最佳的解决方案。即在每个计算节点上部署nova-network，这样每个计算节点为自己主机上的虚拟机负责，为每个计算节点创建网桥并为网桥指定不同的IP（从fixed_ip中取）作为虚拟机网关，在每个主机起DHCP服务，同时要求每个计算节点至少两个物理网卡，每个计算节点负责自己的虚拟机与外网的通信。如下图：<br>
+<a href="./openstack网络详解 _ 热门技术_files/2f8e4c4f-8b79-32b4-975c-dc2d0bb86122.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="2f8e4c4f-8b79-32b4-975c-dc2d0bb86122" src="./openstack网络详解 _ 热门技术_files/2f8e4c4f-8b79-32b4-975c-dc2d0bb86122.png" width="1050" height="779"></a><br>
+在每个计算节点：</p>
+<p>«&nbsp; 从“flat”IP池中取出一个给网桥</p>
+<p>«&nbsp; 创建dnsmasq DHCP服务并在网桥IP监听</p>
+<p>«&nbsp; 在该节点上创建的所有虚拟机的默认网关为网桥IP<br>
+<a href="./openstack网络详解 _ 热门技术_files/0607d147-78b3-3205-8115-a4e22469004e.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="0607d147-78b3-3205-8115-a4e22469004e" src="./openstack网络详解 _ 热门技术_files/0607d147-78b3-3205-8115-a4e22469004e.png" width="700" height="393"></a><br>
+FlatDHCPManager在每个计算节点上创建一个静态的租约文件记录虚拟机的私有IP，文件的数据是从DB中获取，包括MAC、IP、虚拟机名。每个dnsmasq只负责为本节点的虚拟机发放IP，所以从”instance”表的”host”字段过滤即可。如下图所示，每个计算节点的虚拟机都有一个默认网关：<br>
+<a href="./openstack网络详解 _ 热门技术_files/b9de9b9e-1b71-3133-a703-15ab354bc70a.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="b9de9b9e-1b71-3133-a703-15ab354bc70a" src="./openstack网络详解 _ 热门技术_files/b9de9b9e-1b71-3133-a703-15ab354bc70a.png" width="486" height="344"></a><br>
+登录虚拟机查看验证：</p>
+<p><em>root@vm_1:~# route -n</em></p>
+<p><em>Kernel IP routing table</em></p>
+<p><em>Destination&nbsp;&nbsp;&nbsp; Gateway&nbsp;&nbsp;&nbsp;&nbsp; Genmask Flags Metric Ref Use Iface</em></p>
+<p><em>0.0.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10.0.0.1&nbsp;&nbsp;&nbsp;&nbsp; 0.0.0.0 UG&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0 eth0</em></p>
+<p><em>&nbsp;</em></p>
+<p><em>root@vm_3:~# route -n</em></p>
+<p><em>Kernel IP routing table</em></p>
+<p><em>Destination&nbsp;&nbsp;&nbsp; Gateway&nbsp;&nbsp;&nbsp;&nbsp; Genmask Flags Metric Ref Use Iface</em></p>
+<p><em>0.0.0.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10.0.0.4&nbsp;&nbsp;&nbsp;&nbsp; 0.0.0.0 UG&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0 eth0</em></p>
+<p>默认情况下，一个域中的所有虚拟机都可以看到彼此，而不管虚拟机属于哪个租户，但可以通过配置来强制虚拟机间的隔离：</p>
+<p><em>allow_same_net_traffic=False</em></p>
+<p>该配置通过iptables规则来阻止虚拟机间的通信（即便是同一个租户的虚拟机），除非使用安全组策略实现通信。</p>
+<h2><a name="t4" data-original-title="" title=""></a>2.3&nbsp;&nbsp;&nbsp; 配置</h2>
+<p>相关的配置项看起来应该是这样：</p>
+<p><em># 使用的网络模式</em></p>
+<p><em>network_manager=nova.network.manager.FlatDHCPManager</em></p>
+<p><em>&nbsp;</em></p>
+<p><em># 连接虚拟机的网桥名称</em></p>
+<p><em>flat_network_bridge=br100</em></p>
+<p><em>&nbsp;</em></p>
+<p><em># 网桥绑定的网卡</em></p>
+<p><em>flat_interface=eth0</em></p>
+<p><em>&nbsp;</em></p>
+<p><em># 在flat模式，下面的配置允许在虚拟机启动前将IP地址注入到镜像的/etc/network/interfaces</em></p>
+<p><em>flat_injected=True</em></p>
+<p><em>&nbsp;</em></p>
+<p><em># 私有IP池</em></p>
+<p><em>fixed_range=YOUR_IP_RANGE_FOR_FIXED_IP_NETWORK</em></p>
+<h2><a name="t5" data-original-title="" title=""></a>2.4&nbsp;&nbsp;&nbsp; 一个单nova-network节点部署示例</h2>
+<p>见另一篇blog</p>
+<p>&nbsp;</p>
+<h1><a name="t6" data-original-title="" title=""></a>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VLAN</h1>
+<h2><a name="t7" data-original-title="" title=""></a>3.1&nbsp;&nbsp;&nbsp; 与Flat模式的区别</h2>
+<p>在Flat模式下，管理员的工作流程应该是这样的：</p>
+<p>1.&nbsp;&nbsp;&nbsp;&nbsp; 为所有租户创建一个IP池</p>
+<p><em>nova-manage network create –fixed_range_v4=10.0.0.0/16 –label=public</em></p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 创建租户</p>
+<p>3.&nbsp;&nbsp;&nbsp;&nbsp; 租户创建虚拟机，为虚拟机分配IP池中的可用IP</p>
+<p>数据库中的虚拟机信息可能是这样：<br>
+<a href="./openstack网络详解 _ 热门技术_files/99818ed9-32c1-33e1-bba2-f8b4632695a4.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="99818ed9-32c1-33e1-bba2-f8b4632695a4" src="./openstack网络详解 _ 热门技术_files/99818ed9-32c1-33e1-bba2-f8b4632695a4.png" width="695" height="220"></a><br>
+我们看到，两个虚拟机在同一个网段。</p>
+<p>而在Vlan模式下，流程变成如下：</p>
+<p>1.&nbsp;&nbsp;&nbsp;&nbsp; 创建新的租户，并记下租户的标识</p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 为该租户创建独占的fixed_ip段</p>
+<p><em>nova-manage network create –fixed_range_v4=10.0.1.0/24 –vlan=102&nbsp; –project_id=”tenantID”</em></p>
+<p>3.&nbsp;&nbsp;&nbsp;&nbsp; 租户创建虚拟机，从租户的私有IP段内分配IP给虚拟机</p>
+<p>所以，与Flat模式相比，Vlan模式为网络增加了两个东西：</p>
+<p>«&nbsp; 将网络与租户关联</p>
+<p>«&nbsp; 为网络分配一个vlan号</p>
+<h2><a name="t8" data-original-title="" title=""></a>3.2&nbsp;&nbsp;&nbsp; 多nova-network主机部署的VLAN模式</h2>
+<p>VlanManager做三件事：</p>
+<p>1.&nbsp;&nbsp;&nbsp;&nbsp; 在计算节点为租户的网络创建独占的网桥</p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 在计算节点的物理网口eth0之上创建vlan接口（虚拟接口）</p>
+<p>3.&nbsp;&nbsp;&nbsp;&nbsp; 在网桥处关联一个dnsmasq进程，为虚拟机分配IP<br>
+<a href="./openstack网络详解 _ 热门技术_files/f9b8f27e-8cce-3f2f-aa9d-c23919508729.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="f9b8f27e-8cce-3f2f-aa9d-c23919508729" src="./openstack网络详解 _ 热门技术_files/f9b8f27e-8cce-3f2f-aa9d-c23919508729.png" width="231" height="263"></a><br>
+一个计算节点上有多个租户虚拟机的场景如下：<br>
+<a href="./openstack网络详解 _ 热门技术_files/fb351e49-afc8-3f8c-a19c-c7307e2046a5.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="fb351e49-afc8-3f8c-a19c-c7307e2046a5" src="./openstack网络详解 _ 热门技术_files/fb351e49-afc8-3f8c-a19c-c7307e2046a5.png" width="464" height="263"></a><br>
+多个计算节点上场景：<br>
+<a href="./openstack网络详解 _ 热门技术_files/2f773f56-a445-3b80-a279-2573e74518f5.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="2f773f56-a445-3b80-a279-2573e74518f5" src="./openstack网络详解 _ 热门技术_files/2f773f56-a445-3b80-a279-2573e74518f5.png" width="924" height="372"></a><br>
+所以有以下结论：在一个计算节点上有几个租户，就有几个网桥，就会创建几个dnsmasq进程。而且不同租户的虚拟机之间不能通信。同时，依赖于系统管理员配置交换机。</p>
+<p>上图中，租户“t1”从10.0.2.2虚拟机pingIP地址10.0.2.5的通信过程：</p>
+<p>§&nbsp;&nbsp; 首先数据包从10.0.2.2发往网桥br102，在该数据包打上vlan102的标签发往交换机</p>
+<p>§&nbsp;&nbsp; 交换机把数据包传递到第二个节点，此时会校验数据包的vlan标签</p>
+<p>§&nbsp;&nbsp; 如果校验成功，节点把数据包发往vlan102接口</p>
+<p>§&nbsp;&nbsp; vlan102接口把vlan标签从数据包中剥离，以便可以发往虚拟机</p>
+<p>§&nbsp;&nbsp; 数据包通过br102，最终到达10.0.2.5</p>
+<h2><a name="t9" data-original-title="" title=""></a>3.3&nbsp;&nbsp;&nbsp; multi-host部署模式下的通信流程</h2>
+<p>Ø&nbsp; 场景1：tenant1创建虚拟机：<br>
+<a href="./openstack网络详解 _ 热门技术_files/90f9a813-2fbc-3b0f-8c62-24b3160fdf80.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="90f9a813-2fbc-3b0f-8c62-24b3160fdf80" src="./openstack网络详解 _ 热门技术_files/90f9a813-2fbc-3b0f-8c62-24b3160fdf80.png" width="1551" height="780"></a><br>
+不同计算节点上的虚拟机有不同的网关。</p>
+<p>Ø&nbsp; 场景2：VM_1访问外网（8.8.8.8），且该虚拟机只有fixed_ip<br>
+<a href="./openstack网络详解 _ 热门技术_files/3a8b1ace-b26b-3f26-85ac-a2084fbd75ac.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="3a8b1ace-b26b-3f26-85ac-a2084fbd75ac" src="./openstack网络详解 _ 热门技术_files/3a8b1ace-b26b-3f26-85ac-a2084fbd75ac.png" width="1490" height="786"></a><br>
+1.&nbsp;&nbsp;&nbsp;&nbsp; VM_1发送ping数据包</p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 目的地址不在本网段，于是数据包发往虚拟机的网关（10.0.0.1）</p>
+<p>3.&nbsp;&nbsp;&nbsp;&nbsp; 计算节点查看路由表，没有发现对应的路由规则，于是发送到计算节点默认网关（91.207.15.105）</p>
+<p>4.&nbsp;&nbsp;&nbsp;&nbsp; iptables的SNAT规则处理：</p>
+<p><em>nova-network-snat -s 10.0.0.0/24 -j SNAT –to-source 91.207.15.105</em></p>
+<p>该规则是根据配置文件中的routing_source_ip=91.207.15.105</p>
+<p>5.&nbsp;&nbsp;&nbsp;&nbsp; 数据返回</p>
+<p>Ø&nbsp; 场景3：用户从VM_1pingVM_2<br>
+<a href="./openstack网络详解 _ 热门技术_files/b4b3486b-e2a0-3f9f-a3b2-f0fdecfc7d01.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="b4b3486b-e2a0-3f9f-a3b2-f0fdecfc7d01" src="./openstack网络详解 _ 热门技术_files/b4b3486b-e2a0-3f9f-a3b2-f0fdecfc7d01.png" width="1127" height="566"></a><br>
+由于两个虚拟机在同一个计算节点，且属于同一个租户，所以是简单的二层通信。</p>
+<p>Ø&nbsp; 场景4：用户从VM_1pingVM_5<br>
+<a href="./openstack网络详解 _ 热门技术_files/4303065c-a12c-3405-aa71-459e7a2d1eab.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="4303065c-a12c-3405-aa71-459e7a2d1eab" src="./openstack网络详解 _ 热门技术_files/4303065c-a12c-3405-aa71-459e7a2d1eab.png" width="1122" height="562"></a><br>
+1.&nbsp;&nbsp;&nbsp;&nbsp; 两个虚拟机在同一网段，但在不同计算节点上。VM_1发送ARP广播包查询VM_5的MAC地址</p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 广播包到达br100</p>
+<p>3.&nbsp;&nbsp;&nbsp;&nbsp; 数据包转发到vlan100（带vlan标签）</p>
+<p>4.&nbsp;&nbsp;&nbsp;&nbsp; 数据包通过物理交换机（交换机配置为”trunk”模式）</p>
+<p>5.&nbsp;&nbsp;&nbsp;&nbsp; 数据包到达第二个计算节点，因为带有vlan100标签，所以只有vlan100接口能接收</p>
+<p>6.&nbsp;&nbsp;&nbsp;&nbsp; 通过br100</p>
+<p>7.&nbsp;&nbsp;&nbsp;&nbsp; VM_5收到广播并返回响应</p>
+<p>有这样的需求，可能不同的租户是来自同一个公司的不同开发者或部门，所以他们之间需要相互通信，此时就需要设置安全组规则：</p>
+<p><em>tenant1:&nbsp;nova secgroup-add-rule default tcp 1 65535 10.1.0.0/24</em></p>
+<p><em>tenant2:&nbsp;nova secgroup-add-rule default tcp 1 65535 10.0.0.0/24</em></p>
+<p>这样，两个租户的虚拟机之间就可以相互通信。</p>
+<p>Ø&nbsp; 场景5：配置了安全组规则，VM_1pingVM_3<br>
+<a href="./openstack网络详解 _ 热门技术_files/ee0e73c6-b4dd-356d-af7c-e75f8a7510a0.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="ee0e73c6-b4dd-356d-af7c-e75f8a7510a0" src="./openstack网络详解 _ 热门技术_files/ee0e73c6-b4dd-356d-af7c-e75f8a7510a0.png" width="1116" height="562"></a><br>
+1.&nbsp;&nbsp;&nbsp;&nbsp; 两个虚拟机属于不同的租户，不同的网段，但在同一个计算节点。于是来自VM_1的包发送到默认网关10.0.0.1</p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 包到达br100</p>
+<p>3.&nbsp;&nbsp;&nbsp;&nbsp; 计算节点根据路由表将包路由到br102</p>
+<p>4.&nbsp;&nbsp;&nbsp;&nbsp; 包到达br102，根据ARP广播找到VM_3的MAC地址</p>
+<p>5.&nbsp;&nbsp;&nbsp;&nbsp; VM_3返回MAC地址。因为两个虚拟机不再同一个网段，VM_3会把数据包发到默认网关10.1.0.1，数据包随后会被路由到租户1的网络。</p>
+<p>看一下两个计算节点的相关路由：</p>
+<p><em>10.0.0.0/24 dev br100&nbsp; proto kernel&nbsp; scope link</em></p>
+<p><em>10.1.0.0/24 dev br102&nbsp; proto kernel&nbsp; scope link</em></p>
+<p>Ø&nbsp; 场景6：VM_1pingVM_6<br>
+<a href="./openstack网络详解 _ 热门技术_files/ae1517e3-3937-3f88-b289-5d95cedede05.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="ae1517e3-3937-3f88-b289-5d95cedede05" src="./openstack网络详解 _ 热门技术_files/ae1517e3-3937-3f88-b289-5d95cedede05.png" width="1126" height="567"></a><br>
+1.&nbsp;&nbsp;&nbsp;&nbsp; 两个虚拟机属于不同的租户，不同的网段，在不同的计算节点上。VM_1的包发送到默认网关</p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 包到达br100</p>
+<p>3.&nbsp;&nbsp;&nbsp;&nbsp; 计算节点看到目的地址（10.1.0.0/24）的路由是br102，于是包被路由到br102</p>
+<p>4.&nbsp;&nbsp;&nbsp;&nbsp; 现在数据包在租户2的二层网络内</p>
+<p>5.&nbsp;&nbsp;&nbsp;&nbsp; 获取一个vlan标签</p>
+<p>6.&nbsp;&nbsp;&nbsp;&nbsp; 数据包通过交换机</p>
+<p>7.&nbsp;&nbsp;&nbsp;&nbsp; 包到达其他计算节点，因为带有vlan102的标签，于是通过vlan102接口，标签被剔除</p>
+<p>8.&nbsp;&nbsp;&nbsp;&nbsp; 包通过br102到达VM_6</p>
+<p>9.&nbsp;&nbsp;&nbsp;&nbsp; VM_6向VM_1回响应（目的地址10.0.0.3），包发送到默认网关10.1.0.5</p>
+<p>10.&nbsp; 包被路由到br100</p>
+<p>11.&nbsp; 现在数据包在租户1的二层网络内</p>
+<p>12.&nbsp; 打vlan100标签</p>
+<p>13.&nbsp; 通过交换机</p>
+<p>14.&nbsp; 到达左边计算节点的物理网络接口，因为属于vlan100，所以被转发到vlan100接口，剔除vlan标签</p>
+<p>15.&nbsp; 数据包通过br100到达VM_1</p>
+<p>但是，如果是下面这个情况：<br>
+<a href="./openstack网络详解 _ 热门技术_files/0ab39b7f-911a-3e74-894c-f92a7802d42a.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="0ab39b7f-911a-3e74-894c-f92a7802d42a" src="./openstack网络详解 _ 热门技术_files/0ab39b7f-911a-3e74-894c-f92a7802d42a.png" width="1122" height="664"></a><br>
+因为只有创建虚拟机时才会创建必要的网桥，所以在左边计算节点上没有租户2的网桥，此时从VM_1 ping VM_6时，数据包不会被路由到右边计算节点。</p>
+<p>结论：vlan模式下，不同租户的虚拟机之间通信不能依赖于fixed_ip。</p>
+<p>Ø&nbsp; 场景7：VM_1和VM_6都关联了floating_ip，VM_1 ping VM_6<br>
+<a href="./openstack网络详解 _ 热门技术_files/c5cfc676-c669-302a-9a18-ae0554ef5381.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="c5cfc676-c669-302a-9a18-ae0554ef5381" src="./openstack网络详解 _ 热门技术_files/c5cfc676-c669-302a-9a18-ae0554ef5381.png" width="1124" height="591"></a><br>
+假设虚拟机分配的floating_ip如下：</p>
+<p><em>tenant1: VM_1: 91.208.23.11</em></p>
+<p><em>tenant2: VM_6: 91.208.23.16</em></p>
+<p>1.&nbsp;&nbsp;&nbsp;&nbsp; 从VM_1ping 91.208.23.16，数据包源地址10.0.0.3，目的地址91.208.23.16</p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 数据包被发送到默认网关10.0.0.1</p>
+<p>3.&nbsp;&nbsp;&nbsp;&nbsp; 计算节点的路由允许其被发送到eth1</p>
+<p>4.&nbsp;&nbsp;&nbsp;&nbsp; iptables的SNAT规则处理，源地址改为91.208.23.11</p>
+<p>5.&nbsp;&nbsp;&nbsp;&nbsp; 数据包到达另一个计算节点，由该计算节点上的iptables的DNAT规则处理，目的地址改为10.1.0.4</p>
+<p>6.&nbsp;&nbsp;&nbsp;&nbsp; 根据目的地址，数据包被路由到br102</p>
+<p>7.&nbsp;&nbsp;&nbsp;&nbsp; 到达目标虚拟机VM_6</p>
+<p>ICMP的响应走的路径类似，但注意的是，ICMP响应被认为与ICMP请求关联，所以在左边计算节点上没有显式的DNAT的处理，由系统内部处理。</p>
+<h2><a name="t10" data-original-title="" title=""></a>3.4&nbsp;&nbsp;&nbsp; 配置</h2>
+<p><em>#指定network manager</em></p>
+<p><em>network_manager=nova.network.manager.VlanManager</em></p>
+<p><em>&nbsp;</em></p>
+<p><em>#使用哪个接口创建vlan</em></p>
+<p><em>vlan_interface=eth0</em></p>
+<p><em>&nbsp;</em></p>
+<p><em>#起始vlan号。这种情况下，小于100的vlan号可以用于内部通信</em></p>
+<p><em>vlan_start=100</em></p>
+<h2><a name="t11" data-original-title="" title=""></a>3.5&nbsp;&nbsp;&nbsp; Drawback</h2>
+<p>1.&nbsp;&nbsp;&nbsp;&nbsp; vlan模式下，不同租户使用的IP地址不能重复（在AmazonVPC中是可以重复的）</p>
+<p>2.&nbsp;&nbsp;&nbsp;&nbsp; 由于vlan标签的标志位是12bit，所以vlan号的范围是1-4096，也就是系统中最多只能有4096个租户，不适用于公有云（Nicira NVP作为Quantum的插件解决了这个问题）</p>
+<h1><a name="t12" data-original-title="" title=""></a>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 关于floating_ip</h1>
+<p>floating_ip是需要用户主动申请并绑定到用户虚拟机，并且可以从虚拟机解绑定，然后绑定到另一个虚拟机，一旦虚拟机被删除，floating_ip仍然属于用户，不会被删掉。目前，floating_ip不支持一个IP绑定多个虚拟机实例以实现负载均衡（Amazon ELB）。</p>
+<p>而fixed_ip是虚拟机创建时自动分配，而且，如果虚拟机被意外删除，但又通过虚拟机快照恢复后，fixed_ip会发生变化。</p>
+<p>管理员可以配置多个floating_ip池，用户可以从不同的池中获取IP，这里配置多个IP池的目的是从不同的ISP提供商获取IP池，保证链接，这样即使一个ISP挂掉，不影响其他IP池的使用。</p>
+<h2><a name="t13" data-original-title="" title=""></a>4.1&nbsp;&nbsp;&nbsp; 分配floating_ip</h2>
+<p>Ø&nbsp; 首先，管理员先配置IP池：</p>
+<p><em>nova-manage floating create –ip_range=PUBLICLY_ROUTABLE_IP_RANGE&nbsp; –pool POOL_NAME</em></p>
+<p>Ø&nbsp; 用户创建虚拟机</p>
+<p><em>+————————————–+———+——–+——————————–+</em></p>
+<p><em>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; Name&nbsp; | Status |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Networks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |</em></p>
+<p><em>+————————————–+———+——–+——————————–+</em></p>
+<p><em>| 79935433-241a-4268-8aea-5570d74fcf42 &nbsp;&nbsp;|&nbsp; inst1&nbsp; | ACTIVE | private=10.0.0.4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |</em></p>
+<p><em>+————————————–+———+——–+——————————–+</em></p>
+<p>Ø&nbsp; 查询可用的floating_ip</p>
+<p><em>nova floating-ip-pool-list</em></p>
+<p><em>+——+</em></p>
+<p><em>| name |</em></p>
+<p><em>+——+</em></p>
+<p><em>| pub&nbsp; |</em></p>
+<p><em>| test |</em></p>
+<p><em>+——+</em></p>
+<p>Ø&nbsp; 从“pub/test”获取一个IP</p>
+<p><em>nova floating-ip-create pub</em></p>
+<p><em>&nbsp;</em></p>
+<p><em>+—————+————-+———-+——+</em></p>
+<p><em>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Instance Id | Fixed Ip | Pool |</em></p>
+<p><em>+—————+————-+———-+——+</em></p>
+<p><em>| 172.24.4.225&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; None&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; None&nbsp;&nbsp; | pub&nbsp; |</em></p>
+<p><em>+—————+————-+———-+——+</em></p>
+<p>Ø&nbsp; 为虚拟机绑定IP</p>
+<p><em>nova add-floating-ip 79935433-241a-4268-8aea-5570d74fcf42 172.24.4.225</em></p>
+<p>Ø&nbsp; 查看floating_ip的分配情况</p>
+<p><em>nova floating-ip-list</em></p>
+<p><em>&nbsp;</em></p>
+<p><em>+————–+————————————–+———-+——+</em></p>
+<p><em>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Instance Id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Fixed Ip | Pool |</em></p>
+<p><em>+————–+————————————–+———-+——+</em></p>
+<p><em>| 172.24.4.225 | 79935433-241a-4268-8aea-5570d74fcf42 | 10.0.0.4 | pub&nbsp; |</em></p>
+<p><em>+————–+————————————–+———-+——+</em></p>
+<p>到此为止，虚拟机就能通过外网访问。</p>
+<h2><a name="t14" data-original-title="" title=""></a>4.2&nbsp;&nbsp;&nbsp; 引起哪些变化</h2>
+<p>虚拟机在绑定floating_ip后，内部的网路配置并没有变化，所有的配置都由nova-network完成.先看下图示（vlanmanager模式的multi-host部署）：<br>
+<a href="./openstack网络详解 _ 热门技术_files/338283dc-f2e4-315e-bcc8-5bae7a2e87c8.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="338283dc-f2e4-315e-bcc8-5bae7a2e87c8" src="./openstack网络详解 _ 热门技术_files/338283dc-f2e4-315e-bcc8-5bae7a2e87c8.png" width="485" height="400"></a><br>
+eth1连接外网（IP：91.207.15.105，该IP也是该计算节点的默认网关），eth0连接内网（没有指定IP），当虚拟机关联floating_ip时，两个东西发生变化：</p>
+<p>Ø&nbsp; floating_ip作为计算节点eth1的secondary地址，可以通过”ip addr show eth1”命令查看：</p>
+<p><em>inet 91.207.15.105/24 scope global eth1&nbsp;&nbsp; # primary eth1 ip</em></p>
+<p><em>inet 91.207.16.144/32 scope global eth1&nbsp;&nbsp; # floating ip of VM_1</em></p>
+<p>Ø&nbsp; 增加计算节点的iptables中NAT表的规则</p>
+<p><em># 这条规则保证了在计算节点上可以访问虚拟机私有IP</em></p>
+<p><em>-A nova-network-OUTPUT -d 91.207.16.144/32 -j DNAT –to-destination 10.0.0.3</em></p>
+<p><em>&nbsp;</em></p>
+<p><em># 这条规则保证从外网发向91.207.16.144的数据包能转发的10.0.0.3</em></p>
+<p><em>-A nova-network-PREROUTING -d 91.207.16.144/32 -j DNAT –to-destination 10.0.0.3</em></p>
+<p><em>&nbsp;</em></p>
+<p><em># 这条规则保证从虚拟机发往外网的数据包的源IP为其flaoting_IP</em></p>
+<p><em>-A nova-network-float-snat -s 10.0.0.3/32 -j SNAT –to-source 91.207.16.144</em></p>
+<p>相关的nova-network代码在nova/network/linux_net.py中：<br>
+<a href="./openstack网络详解 _ 热门技术_files/d45e55f7-d605-38ab-ab10-2347194e6897.png" class="highslide-image" onclick="return hs.expand(this);" data-original-title="" title=""><img class="attachment-full" alt="d45e55f7-d605-38ab-ab10-2347194e6897" src="./openstack网络详解 _ 热门技术_files/d45e55f7-d605-38ab-ab10-2347194e6897.png" width="632" height="94"></a></p>
+<h2><a name="t15" data-original-title="" title=""></a>4.3&nbsp;&nbsp;&nbsp; 通信流程</h2>
+<p>从外网访问虚拟机：</p>
+<p>Ø&nbsp; 首先数据包到达计算节点的eth1，DNAT规则开始处理，数据包的目的IP变为私有IP：</p>
+<p>91.207.16.144 –&gt;10.0.0.3</p>
+<p>Ø&nbsp; 计算节点通过查看路由表，将数据包发往br100，通过br100发往目标虚拟机</p>
+<p><em>ip route show：</em></p>
+<p><em>10.0.0.0/24 dev br100</em></p>
+<p>从虚拟机访问外网（以ping 8.8.8.8为例）：</p>
+<p>Ø&nbsp; 因为目的IP不在虚拟机网段，数据包会发送到虚拟机的默认网关，也就是br100</p>
+<p>Ø&nbsp; 计算节点检查路由表，也没发现对应的路由规则，于是发往默认网关91.207.15.105</p>
+<p>Ø&nbsp; 数据包由iptables的SNAT规则处理，源IP被修改为虚拟机的floating_ip（91.207.16.144）</p>
+<h2><a name="t16" data-original-title="" title=""></a>4.4&nbsp;&nbsp;&nbsp; 需要注意的点</h2>
+<p>因为openstack有对网络设置的完全的控制权限，因此网络设置很容易被人为操作破坏。如果需要修改iptables的行为，最好的方式是修改代码（linux_net.py）。</p>
+<p>这从另一个方面也说明，openstack没有对iptables规则的监控策略，如果人为修改了规则，则需要nova-network重启才能恢复。举个例子：</p>
+<p>比如当前的计算节点有如下规则：</p>
+<p><em>-A nova-network-PREROUTING -d 91.207.16.144/32 -j DNAT –to-destination 10.0.0.3</em></p>
+<p>如果管理员不慎使用了：<em>iptables –F –t nat</em></p>
+<p>这样上述的NAT规则被清掉，但eth1仍然有secondary地址91.207.16.144，当一个发往虚拟机的数据包到达计算节点时，因为没有了DNAT规则，所以数据包会直接到达计算节点。直到下次nova-network重启才能解决该问题。</p>
+<h2><a name="t17" data-original-title="" title=""></a>4.5&nbsp;&nbsp;&nbsp; 相关的配置</h2>
+<p><em># floating_ip绑定到哪个网络接口，作为该网络接口的secondary IP</em></p>
+<p><em>public_interface=”eth1″</em></p>
+<p><em>&nbsp;</em></p>
+<p><em># 默认的floating_ip池</em></p>
+<p><em>default_floating_pool=”pub”</em></p>
+<p><em>&nbsp;</em></p>
+<p><em># 是否在创建虚拟机时自动分配floating_ip</em></p>
+<p><em>auto_assign_floating_ip=false</em></p>
+<div></div>
+
+<div class="wp_rp_wrap  wp_rp_plain" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li data-position="0" data-poid="in-7006" data-post-type="none"><a href="https://www.topjishu.com/7006.html" class="wp_rp_title" data-original-title="" title="">使用RDO 安装OpenStack Icehouse</a></li><li data-position="1" data-poid="in-4739" data-post-type="none"><a href="https://www.topjishu.com/4739.html" class="wp_rp_title" data-original-title="" title="">Openstack 资料</a></li><li data-position="2" data-poid="in-4745" data-post-type="none"><a href="https://www.topjishu.com/4745.html" class="wp_rp_title" data-original-title="" title="">Ubuntu 12.04 Openstack Essex 安装（单节点）Swift篇</a></li><li data-position="3" data-poid="in-7578" data-post-type="none"><a href="https://www.topjishu.com/7578.html" class="wp_rp_title" data-original-title="" title="">云环境下的容灾</a></li><li data-position="4" data-poid="in-9691" data-post-type="none"><a href="https://www.topjishu.com/9691.html" class="wp_rp_title" data-original-title="" title="">Ceph架构剖析</a></li><li data-position="5" data-poid="in-6805" data-post-type="none"><a href="https://www.topjishu.com/6805.html" class="wp_rp_title" data-original-title="" title="">调整虚拟机磁盘大小原理</a></li></ul></div></div>
+<p>转载请注明：<a href="https://www.topjishu.com/" data-original-title="" title="">热门技术</a> » <a href="https://www.topjishu.com/4663.html" data-original-title="" title="">openstack网络详解</a></p>		</article>
+
+		
+		<footer class="article-footer">
+			<div class="article-tags">继续浏览有关 <a href="https://www.topjishu.com/tag/openstack" rel="tag">Openstack</a><a href="https://www.topjishu.com/tag/%e7%bd%91%e7%bb%9c" rel="tag">网络</a> 的文章</div>			<div class="share"><h5>分享到 </h5><div class="bdsharebuttonbox"><a class="bds_qzone" data-cmd="qzone"></a><a class="bds_tsina" data-cmd="tsina"></a><a class="bds_weixin" data-cmd="weixin"></a><a class="bds_tqq" data-cmd="tqq"></a><a class="bds_sqq" data-cmd="sqq"></a><a class="bds_renren" data-cmd="renren"></a><a class="bds_t163" data-cmd="t163"></a><a class="bds_tsohu" data-cmd="tsohu"></a><a class="bds_baidu" data-cmd="baidu"></a><a class="bds_douban" data-cmd="douban"></a><a class="bds_bdhome" data-cmd="bdhome"></a><a class="bds_youdao" data-cmd="youdao"></a><a class="bds_fbook" data-cmd="fbook"></a><a class="bds_twi" data-cmd="twi"></a><a class="bds_more" data-cmd="more"></a><a class="bds_count" data-cmd="count"></a></div></div>		</footer>
+
+		<nav class="article-nav">
+			<span class="article-nav-prev">上一篇 <a href="https://www.topjishu.com/4660.html" rel="prev">Linux 下搭建 GitLab 服务器</a></span>
+			<span class="article-nav-next"><a href="https://www.topjishu.com/4684.html" rel="next">php-mysql异步查询</a> 下一篇</span>
+		</nav>
+
+		<div class="relates">
+			<h3>与本文相关的文章</h3>
+			<ul>
+<li><a href="https://www.topjishu.com/11754.html">经典的”服务器最多65536个连接”误解</a></li><li><a href="https://www.topjishu.com/11457.html">网卡 LSO/LRO、GSO/GRO、TSO</a></li></ul>		</div>
+	
+
+		
+		<div id="respond" class="no_webshot">
+		<form action="https://www.topjishu.com/wp-comments-post.php" method="post" id="commentform">
+		
+		<div class="comt-title">
+			<div class="comt-avatar pull-left">
+				<img src="./openstack网络详解 _ 热门技术_files/saved_resource" class="avatar avatar-56" height="56" width="56">			</div>
+			<div class="comt-author pull-left">
+			发表我的评论			</div>
+			<a id="cancel-comment-reply-link" class="pull-right" href="javascript:;">取消评论</a>
+		</div>
+		
+		<div class="comt">
+			<div class="comt-box">
+				<textarea placeholder="写点什么..." class="input-block-level comt-area" name="comment" id="comment" cols="100%" rows="3" tabindex="1" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById(&#39;submit&#39;).click();return false};"></textarea>
+				<div class="comt-ctrl">
+					<button class="btn btn-primary pull-right" type="submit" name="submit" id="submit" tabindex="5"><i class="icon-ok-circle icon-white icon12"></i> 提交评论</button>
+					<div class="comt-tips pull-right"><input type="hidden" name="comment_post_ID" value="4663" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+<div class="comt-tip comt-loading" style="display: none;">正在提交, 请稍候...</div><div class="comt-tip comt-error" style="display: none;">#</div></div>
+					<span data-type="comment-insert-smilie" class="muted comt-smilie"><i class="icon-thumbs-up icon12"></i> 表情</span>
+					<span class="muted comt-mailme"><label for="comment_mail_notify" class="checkbox inline" style="padding-top:0"><input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked">有人回复时邮件通知我</label></span>
+				</div>
+			</div>
+
+												<div class="comt-comterinfo" id="comment-author-info">
+						<h4>Hi Hello您需要填写昵称和邮箱</h4>
+						<ul>
+							<li class="form-inline"><label class="hide" for="author">昵称</label><input class="ipt" type="text" name="author" id="author" value="" tabindex="2" placeholder="昵称"><span class="help-inline">昵称 (必填)</span></li>
+							<li class="form-inline"><label class="hide" for="email">邮箱</label><input class="ipt" type="text" name="email" id="email" value="" tabindex="3" placeholder="邮箱"><span class="help-inline">邮箱 (必填)</span></li>
+							<li class="form-inline"><label class="hide" for="url">网址</label><input class="ipt" type="text" name="url" id="url" value="" tabindex="4" placeholder="网址"><span class="help-inline">网址</span></li>
+							<li> <input type="text" name="sum" class="math_textfield" value="" size="25" tabindex="4"><input type="hidden" name="num1" value="13"><input type="hidden" name="num2" value="35"> 请输入评论验证码 48  </li>
+						</ul>
+					</div>
+									</div>
+
+		
+	</form>
+	</div>
+
+		
+	</div>
+</div>
+<aside class="sidebar">	
+<div class="widget widget_text"><h3 class="widget_tit">广而告之</h3>			<div class="textwidget"><p><script type="text/javascript">
+    /*350*280 创建于 2017/6/26*/
+    var cpro_id = "u3019425";
+</script><br>
+<script type="text/javascript" src="https://cpro.baidustatic.com/cpro/ui/c.js"></script></p>
+</div>
+		</div><div class="widget d_tag"><h3 class="widget_tit">标签云</h3><div class="d_tags"><a href="https://www.topjishu.com/tag/mysql">mysql (257)</a><a href="https://www.topjishu.com/tag/python">python (255)</a><a href="https://www.topjishu.com/tag/linux-2">linux (250)</a><a href="https://www.topjishu.com/tag/nginx">nginx (201)</a><a href="https://www.topjishu.com/tag/php">php (145)</a><a href="https://www.topjishu.com/tag/%e4%bc%98%e5%8c%96">优化 (114)</a><a href="https://www.topjishu.com/tag/%e8%a7%a3%e5%86%b3">解决 (109)</a><a href="https://www.topjishu.com/tag/kernel">kernel (83)</a><a href="https://www.topjishu.com/tag/%e6%80%a7%e8%83%bd">性能 (83)</a><a href="https://www.topjishu.com/tag/centos">centos (82)</a><a href="https://www.topjishu.com/tag/%e5%91%bd%e4%bb%a4">命令 (82)</a><a href="https://www.topjishu.com/tag/tcp">tcp (78)</a><a href="https://www.topjishu.com/tag/http">http (77)</a><a href="https://www.topjishu.com/tag/c">c (75)</a><a href="https://www.topjishu.com/tag/%e9%94%99%e8%af%af">错误 (69)</a><a href="https://www.topjishu.com/tag/cpu-2">CPU (63)</a><a href="https://www.topjishu.com/tag/cache">cache (62)</a><a href="https://www.topjishu.com/tag/%e6%b5%8b%e8%af%95">测试 (58)</a><a href="https://www.topjishu.com/tag/%e7%bd%91%e7%bb%9c">网络 (56)</a><a href="https://www.topjishu.com/tag/io">IO (55)</a><a href="https://www.topjishu.com/tag/sql">SQL (55)</a><a href="https://www.topjishu.com/tag/%e5%86%85%e6%a0%b8">内核 (55)</a><a href="https://www.topjishu.com/tag/%e9%85%8d%e7%bd%ae">配置 (53)</a><a href="https://www.topjishu.com/tag/%e6%95%b0%e6%8d%ae%e5%ba%93">数据库 (52)</a><a href="https://www.topjishu.com/tag/%e5%86%85%e5%ad%98">内存 (51)</a><a href="https://www.topjishu.com/tag/%e5%ae%89%e5%85%a8">安全 (51)</a><a href="https://www.topjishu.com/tag/%e4%bb%a3%e7%a0%81">代码 (49)</a><a href="https://www.topjishu.com/tag/%e7%9b%91%e6%8e%a7">监控 (48)</a><a href="https://www.topjishu.com/tag/innodb-2">InnoDB (45)</a><a href="https://www.topjishu.com/tag/%e5%b7%a5%e5%85%b7">工具 (45)</a><a href="https://www.topjishu.com/tag/%e6%a8%a1%e5%9d%97">模块 (45)</a><a href="https://www.topjishu.com/tag/%e5%8d%8f%e8%ae%ae">协议 (44)</a><a href="https://www.topjishu.com/tag/redis">redis (43)</a><a href="https://www.topjishu.com/tag/%e7%b3%bb%e7%bb%9f">系统 (43)</a><a href="https://www.topjishu.com/tag/bash">bash (42)</a><a href="https://www.topjishu.com/tag/%e5%88%86%e6%9e%90">分析 (42)</a><a href="https://www.topjishu.com/tag/%e7%bd%91%e5%8d%a1">网卡 (41)</a><a href="https://www.topjishu.com/tag/git">git (40)</a><a href="https://www.topjishu.com/tag/ip">ip (40)</a><a href="https://www.topjishu.com/tag/%e7%bc%93%e5%ad%98">缓存 (40)</a><a href="https://www.topjishu.com/tag/%e8%99%9a%e6%8b%9f%e5%8c%96">虚拟化 (40)</a><a href="https://www.topjishu.com/tag/web">web (39)</a><a href="https://www.topjishu.com/tag/%e5%ae%89%e8%a3%85">安装 (39)</a><a href="https://www.topjishu.com/tag/apache">apache (38)</a><a href="https://www.topjishu.com/tag/%e6%97%a5%e5%bf%97">日志 (38)</a><a href="https://www.topjishu.com/tag/windows">windows (37)</a><a href="https://www.topjishu.com/tag/%e5%87%bd%e6%95%b0">函数 (37)</a><a href="https://www.topjishu.com/tag/%e5%a4%84%e7%90%86">处理 (37)</a><a href="https://www.topjishu.com/tag/%e8%87%aa%e5%8a%a8%e5%8c%96">自动化 (37)</a><a href="https://www.topjishu.com/tag/%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f">文件系统 (36)</a></div></div><div class="widget d_comment"><h3 class="widget_tit">最新评论</h3><ul><li><a href="https://www.topjishu.com/2297.html#comment-1289" title="使用Sheepdog体验Openstack的弹性块服务上的评论"><img data-original="https://secure.gravatar.com/avatar/c5d991ee0c6fa4701b4cdd62edd15496" class="avatar avatar-72" height="72" width="72" src="./openstack网络详解 _ 热门技术_files/default.png">admin <span class="muted">4周前 (11-18)说：<br>jjj</span></a></li><li><a href="https://www.topjishu.com/8692.html#comment-1286" title="BIND 配置文件(named.conf) logging 的使用上的评论"><img data-original="https://secure.gravatar.com/avatar/c5d991ee0c6fa4701b4cdd62edd15496" class="avatar avatar-72" height="72" width="72" src="./openstack网络详解 _ 热门技术_files/default.png">admin <span class="muted">2个月前 (10-25)说：<br>up</span></a></li></ul></div><div class="widget widget_text"><h3 class="widget_tit">广而告之</h3>			<div class="textwidget"></div>
+		</div><div class="widget d_postlist"><h3 class="widget_tit">最新文章</h3><ul class="nopic"><li><a href="https://www.topjishu.com/11839.html"><span class="text">深入 OpenVPN 配置</span><span class="muted">2017-11-23</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11837.html"><span class="text">svn迁移到git仓库并保留commit历史记录</span><span class="muted">2017-11-23</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11833.html"><span class="text">分布式服务框架 Zookeeper-安装和配置详解</span><span class="muted">2017-11-16</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11829.html"><span class="text">hung_task_timeout_secs</span><span class="muted">2017-11-14</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11827.html"><span class="text">error_page 指令代码分析</span><span class="muted">2017-11-13</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11811.html"><span class="text">SYN丢包的几个例子</span><span class="muted">2017-10-31</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11804.html"><span class="text">关于TCP 半连接队列和全连接队列</span><span class="muted">2017-10-31</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11802.html"><span class="text">SYN和RTO</span><span class="muted">2017-10-31</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11800.html"><span class="text">Svn 错误以及中文翻译</span><span class="muted">2017-10-31</span><span class="muted"></span></a></li>
+<li><a href="https://www.topjishu.com/11797.html"><span class="text">使用stdbuf解决tail -f加管道命令后不能及时输出的问题（IO缓冲的坑）</span><span class="muted">2017-10-23</span><span class="muted"></span></a></li>
+</ul></div><div class="widget widget_archive"><h3 class="widget_tit">文章归档</h3>		<ul>
+			<li><a href="https://www.topjishu.com/date/2017/11">2017年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/10">2017年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/09">2017年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/08">2017年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/07">2017年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/06">2017年六月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/05">2017年五月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/04">2017年四月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/03">2017年三月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/02">2017年二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2017/01">2017年一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/12">2016年十二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/11">2016年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/10">2016年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/09">2016年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/08">2016年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/07">2016年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/06">2016年六月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/05">2016年五月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/04">2016年四月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/03">2016年三月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/02">2016年二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2016/01">2016年一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/12">2015年十二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/11">2015年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/09">2015年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/08">2015年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/07">2015年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/06">2015年六月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/05">2015年五月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/04">2015年四月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/03">2015年三月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/02">2015年二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2015/01">2015年一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/12">2014年十二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/11">2014年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/10">2014年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/09">2014年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/08">2014年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/07">2014年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/06">2014年六月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/05">2014年五月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/04">2014年四月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/03">2014年三月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/02">2014年二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2014/01">2014年一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/12">2013年十二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/11">2013年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/10">2013年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/09">2013年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/08">2013年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/07">2013年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/06">2013年六月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/05">2013年五月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/04">2013年四月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/03">2013年三月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/02">2013年二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2013/01">2013年一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/12">2012年十二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/11">2012年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/10">2012年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/09">2012年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/08">2012年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/07">2012年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/06">2012年六月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/05">2012年五月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/04">2012年四月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/03">2012年三月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/02">2012年二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2012/01">2012年一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/12">2011年十二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/11">2011年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/10">2011年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/09">2011年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/08">2011年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/07">2011年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/06">2011年六月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/05">2011年五月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/04">2011年四月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/03">2011年三月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/02">2011年二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2011/01">2011年一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/12">2010年十二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/11">2010年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/10">2010年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/09">2010年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/08">2010年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/07">2010年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/06">2010年六月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/05">2010年五月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/04">2010年四月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/03">2010年三月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/02">2010年二月</a></li>
+	<li><a href="https://www.topjishu.com/date/2010/01">2010年一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2009/11">2009年十一月</a></li>
+	<li><a href="https://www.topjishu.com/date/2009/10">2009年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2009/09">2009年九月</a></li>
+	<li><a href="https://www.topjishu.com/date/2009/08">2009年八月</a></li>
+	<li><a href="https://www.topjishu.com/date/2009/07">2009年七月</a></li>
+	<li><a href="https://www.topjishu.com/date/2006/10">2006年十月</a></li>
+	<li><a href="https://www.topjishu.com/date/2005/12">2005年十二月</a></li>
+		</ul>
+		</div><div class="widget widget_links"><h3 class="widget_tit">博客链接</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://www.ichenfu.com/" target="_blank">C0reFast</a></li>
+<li><a href="http://selboo.com/">selboo</a></li>
+<li><a href="http://blog.lilydjwg.me/">依云's Blog</a></li>
+<li><a href="http://www.lvtao.net/" target="_blank">吕滔博客</a></li>
+<li><a href="https://see.changes.com.cn/" target="_blank">想猜赫巴德哥</a></li>
+<li><a href="http://blog.zfuyun.top/" target="_blank">赵浮云的blog</a></li>
+<li><a href="http://www.it-refer.com/" target="_blank">零一积流</a></li>
+
+	</ul>
+</div>
+<div class="widget widget_links"><h3 class="widget_tit">网站链接</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://www.sousuoya.com/" target="_blank">Google翻墙</a></li>
+<li><a href="http://book.aikaiyuan.com/" target="_blank">LinuxBook</a></li>
+<li><a href="http://etc.aikaiyuan.com/" target="_blank">LinuxETC</a></li>
+<li><a href="http://www.touxianzhai.com/" target="_blank">高清PDF书籍</a></li>
+
+	</ul>
+</div>
+<div class="widget widget_text"><h3 class="widget_tit">广而告之</h3>			<div class="textwidget"><p><script type="text/javascript">
+    /*336*280 创建于 2017/6/26*/
+    var cpro_id = "u3019424";
+</script><br>
+<script type="text/javascript" src="https://cpro.baidustatic.com/cpro/ui/c.js"></script></p>
+</div>
+		</div></aside></section>
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="copyright pull-left">
+            版权所有，保留一切权利！ © 2017 <a href="https://www.topjishu.com/">热门技术 Theme
+        </a></div><a href="https://www.topjishu.com/">
+        <div class="trackcode pull-right">
+            <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?a26e7eeb66d2a4aa3354c7bcc578b0d5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+        </div>
+    </a></div><a href="https://www.topjishu.com/">
+</a></footer><a href="https://www.topjishu.com/">
+<script type="text/javascript" src="./openstack网络详解 _ 热门技术_files/mootools-core-yc.js.下载"></script>
+<script type="text/javascript" src="./openstack网络详解 _ 热门技术_files/EnlighterJS.min.js.下载"></script>
+<script type="text/javascript" src="./openstack网络详解 _ 热门技术_files/wp-embed.min.js.下载"></script>
+<script type="text/javascript">/* <![CDATA[ */EnlighterJS_Config = {"selector":{"block":"pre.EnlighterJSRAW","inline":"code.EnlighterJSRAW"},"language":"shell","theme":"enlighter","indent":2,"hover":"hoverEnabled","showLinenumbers":true,"rawButton":true,"infoButton":true,"windowButton":true,"rawcodeDoubleclick":false,"grouping":true,"cryptex":{"enabled":false,"email":"mail@example.tld"}};!function(){var a=function(a){var b="Enlighter Error: ";console.error?console.error(b+a):console.log&&console.log(b+a)};return window.addEvent?"undefined"==typeof EnlighterJS?void a("Javascript Resources not loaded yet!"):"undefined"==typeof EnlighterJS_Config?void a("Configuration not loaded yet!"):void window.addEvent("domready",function(){EnlighterJS.Util.Init(EnlighterJS_Config.selector.block,EnlighterJS_Config.selector.inline,EnlighterJS_Config)}):void a("MooTools Framework not loaded yet!")}();;/* ]]> */</script>
+
+</a><div class="modal hide fade" id="feed" tabindex="-1" style="width:400px;margin-left:-200px;"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">×</button><h3>订阅热门技术</h3></div><div class="modal-body"><p><strong>订阅地址</strong><br><input type="text" class="input-block-level" value="http://www.topjishu.com/feed" readonly=""></p></div></div><div class="rollto" style="display: block;"><button class="btn btn-inverse" data-type="totop" title="回顶部"><i class="icon-eject icon-white"></i></button><button class="btn btn-inverse" data-type="torespond" title="发评论"><i class="icon-comment icon-white"></i></button></div><div class="highslide-container" style="padding: 0px; border: none; margin: 0px; position: absolute; left: 0px; top: 0px; width: 100%; z-index: 1001; direction: ltr;"><a class="highslide-loading" title="点击关闭" href="javascript:;" style="position: absolute; top: -9999px; opacity: 0.75; z-index: 1;">正在加载中...</a><div style="display: none;"></div><div class="highslide-viewport highslide-viewport-size" style="padding: 0px; border: none; margin: 0px; visibility: hidden;"></div><table cellspacing="0" style="padding: 0px; border: none; margin: 0px; visibility: hidden; position: absolute; border-collapse: collapse; width: 0px;"><tbody style="padding: 0px; border: none; margin: 0px;"><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/outlines/rounded-white.png&quot;) 0px 0px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/outlines/rounded-white.png&quot;) 0px -40px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/outlines/rounded-white.png&quot;) -20px 0px; height: 20px; width: 20px;"></td></tr><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/outlines/rounded-white.png&quot;) 0px -80px; height: 20px; width: 20px;"></td><td class="rounded-white highslide-outline" style="padding: 0px; border: none; margin: 0px; position: relative;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/outlines/rounded-white.png&quot;) -20px -80px; height: 20px; width: 20px;"></td></tr><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/outlines/rounded-white.png&quot;) 0px -20px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/outlines/rounded-white.png&quot;) 0px -60px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;https://www.topjishu.com/wp-content/plugins/auto-highslide/highslide/graphics/outlines/rounded-white.png&quot;) -20px -20px; height: 20px; width: 20px;"></td></tr></tbody></table></div></body></html>

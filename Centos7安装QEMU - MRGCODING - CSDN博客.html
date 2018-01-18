@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)http://m.blog.csdn.net/u013182960/article/details/75214186 -->
+<html style="font-size: 40px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <link rel="canonical" href="http://blog.csdn.net/u013182960/article/details/75214186">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="yes">    
+    <meta name="shenma-site-verification" content="bf32a58a3df1c3452b75fbe96c7feb42_1497604697">
+    <script src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/hm.js.下载"></script><script src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/jquery-1.9.1.min.js.下载" type="text/javascript"></script>
+    <!--link( rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/css/index.css" )-->
+    <link rel="stylesheet" href="./Centos7安装QEMU - MRGCODING - CSDN博客_files/bootstrap.css">
+    <link rel="stylesheet" href="./Centos7安装QEMU - MRGCODING - CSDN博客_files/avatar.css">
+    <link rel="stylesheet" href="./Centos7安装QEMU - MRGCODING - CSDN博客_files/common.css">
+    <!-- [if IE 7]-->
+    <!--link( rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" )-->
+    <!-- [endif]-->
+    <link rel="stylesheet" href="./Centos7安装QEMU - MRGCODING - CSDN博客_files/main.css">
+    <!-- [if lt IE 9]-->
+    <script src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/html5shiv.min.js.下载"></script>
+    <!-- [endif]-->
+        <title>Centos7安装QEMU - MRGCODING - CSDN博客</title>
+    
+    <script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/blog_mobile.js.下载"></script>
+
+<script src="http://dup.baidustatic.com/js/dm.js"></script>
+
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+   
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div><link href="./Centos7安装QEMU - MRGCODING - CSDN博客_files/jiathis_share.css" rel="stylesheet" type="text/css"><iframe frameborder="0" style="position: absolute; display: none; opacity: 0;" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/saved_resource.html"></iframe><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; top: 50%; left: 50%; overflow: auto;"></div><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; overflow: auto;"></div><iframe frameborder="0" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/jiathis_utility.html" style="display: none;"></iframe>
+    
+<!-- 广告位开始 --> 
+<ins data-revive-zoneid="202" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins> 
+<!-- 广告位结束 -->
+
+
+<script language="JavaScript" type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/jquery.cookie.js.下载"></script>
+<script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/main.js.下载"></script>
+
+<script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/MathJax.js.下载"></script>
+<link rel="stylesheet" href="./Centos7安装QEMU - MRGCODING - CSDN博客_files/markdown_views.css">
+
+<script type="text/javascript">
+    var fileName = '75214186';
+    var commentscount = 0;
+    var islock = false;
+    var currentUserName='';
+    
+</script>
+
+<script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/digg.js.下载"></script>
+
+
+<div class="blog_main">
+      <div class="blog_top_wrap">
+        <div class="blog_top"><i id="menu_J" class="iconfont icon_l"></i>
+            <form method="get" action="http://m.blog.csdn.net/search/index" id="searchform">
+    <i id="search_J" class="iconfont icon_r"></i>
+    <div id="search_c_J" class="search">
+         <input type="text" placeholder="请输入" id="search" name="keyword" page="1" value=""><i class="iconfont icon_search"></i><i class="iconfont icon_close"></i>
+    </div>
+</form>
+<script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/search.js.下载"></script>
+
+
+
+
+          <h2 class="blog_top_t">CSDN博客</h2>
+        </div>
+      </div>
+
+ 
+
+      <div class="main_list">
+     
+
+         
+        
+          
+                  
+          <!-- 广告位：WAP端-博客详情页banner1-20:3 -->
+        <script>
+            (function() {
+                var s = "_" + Math.random().toString(36).slice(2);
+                document.write('<div id="' + s + '"></div>');
+                (window.slotbydup=window.slotbydup || []).push({
+                    id: '4777139',
+                    container: s,
+                    size: '20,3',
+                    display: 'inlay-fix'
+                });
+            })();
+        </script><div id="_lnc6aanohd"></div>
+
+
+        <div class="blog_article">
+          <div class="blog_article_t">
+            <div class="article_l"><a href="http://m.blog.csdn.net/u013182960"><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/1_u013182960.jpg" alt="img"></a>
+                <a href="http://m.blog.csdn.net/u013182960" class="article_user">u013182960</a></div>
+            <div class="article_r">
+            </div>
+          </div>
+          <div class="blog_article_c clearfix">
+            <h3 class="article_t">Centos7安装QEMU</h3>
+            <p class="date"><i>发表于</i><em>2017/7/17 9:17:17  &nbsp;</em><i>639</i><span>人阅读</span></p>
+            <p class="category_p">
+                    分类：
+                        <span>OS</span>
+            </p>
+             
+<div class="article_c">
+
+<div style="top:0px"><span style="font-size:14px"><span lang="EN-US" style="font-family:&#39;Arial&#39;,sans-serif; color:#333333"><br>
+</span></span></div>
+<span style="font-family:宋体; font-size:14px"></span>
+<p style="margin:0cm 0cm 0pt">请转步至最新版http://blog.csdn.net/u013182960/article/details/76229432</p>
+<span lang="EN-US" style="font-family:&#39;Arial&#39;,sans-serif; color:#333333"></span>
+<p style="margin:0cm 0cm 0pt"></p>
+<span style="font-size:14px"></span>
+<p style="margin:0cm 0cm 0pt">&nbsp;<span style="font-family:宋体; color:#000000"></span></p>
+<h1 align="center" style="margin:17pt 0cm 16.5pt; text-align:center"><span style="font-family:等线"><span style="color:#000000"><span lang="EN-US">QEMU</span>环境搭建流程</span></span></h1>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h3 style="margin:13pt 0cm"><span style="font-family:等线; font-size:24px; color:#000000">更新软件源为阿里云</span></h3>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h4 style="margin:14pt 0cm 14.5pt"><span style="font-family:等线 Light; font-size:24px; color:#000000">备份原来的<span lang="EN-US">yum</span>源</span></h4>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线"><span style="color:#000000">sudo cp /etc/yum.repos.d/CentOS-Base.repo/etc/yum.repos.d/CentOS-Base.repo.bak<span style="">&nbsp;</span></span></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">&nbsp;</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h4 style="margin:14pt 0cm 14.5pt"><span style="font-family:等线 Light; font-size:24px; color:#000000">设置<span lang="EN-US">aliyun</span>的<span lang="EN-US">yum</span>源</span></h4>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线"><span style="color:#000000">sudo wget -O/etc/yum.repos.d/CentOS-Base.repohttp://mirrors.aliyun.com/repo/Centos-7.repo<span style="">&nbsp;</span></span></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">&nbsp;</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h4 style="margin:14pt 0cm 14.5pt"><span style="font-family:等线 Light; font-size:24px; color:#000000">添加<span lang="EN-US">EPEL</span>源</span></h4>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:等线"><span style="color:#000000"><span lang="EN-US">EPEL</span>（<span lang="EN-US">http://fedoraproject.org/wiki/EPEL</span>）是由<span lang="EN-US"> Fedora</span>社区打造，为<span lang="EN-US"> RHEL</span>及衍生发行版如<span lang="EN-US">
+ CentOS</span>、<span lang="EN-US">Scientific Linux</span>等提供高质量软件包的项目。装上<span lang="EN-US"> EPEL</span>后，可以像在<span lang="EN-US"> Fedora</span>上一样，可以通过<span lang="EN-US"> yum install package-name</span>，安装更多软件。</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线"><span style="color:#000000">sudo wget -P /etc/yum.repos.d/http://mirrors.aliyun.com/repo/epel-7.repo<span style="">&nbsp;</span></span></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">&nbsp;</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h4 style="margin:14pt 0cm 14.5pt"><span style="font-family:等线 Light; font-size:24px; color:#000000">清理缓存并生成新的缓存</span></h4>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线"><span style="color:#000000">sudo yum clean all<span style="">&nbsp;</span></span></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线"><span style="color:#000000">sudo yum makecache<span style="">&nbsp;</span></span></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h3 style="margin:13pt 0cm"><span style="font-family:等线; font-size:24px; color:#000000">安装</span></h3>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US" style=""><span style="font-family:宋体; color:#000000"><img width="553" height="156" src="http://m.blog.csdn.net/u013182960/article/details/75214186" alt=""></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left; line-height:19.5pt"><span style="color:rgb(51,51,51); font-family:宋体">在</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">http://wiki.qemu.org/Download</span><span style="color:rgb(51,51,51); font-family:宋体">中下载关于</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">qemu</span><span style="color:rgb(51,51,51); font-family:宋体">的源代码压缩文件，并放入</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">/home/qemu</span><span style="color:rgb(51,51,51); font-family:宋体">中</span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">cd&nbsp;/home/qemu&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li><li style="background:rgb(248,248,248); margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">tar&nbsp;-jxvf&nbsp;qemu-2.1.3.tar.bz2&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span style="color:rgb(51,51,51); font-family:宋体">进入</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">/home/qemu/qemu-2.1.3</span><span style="color:rgb(51,51,51); font-family:宋体">中</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">,</span><span style="color:rgb(51,51,51); font-family:宋体">并进行编译</span><span style="font-family:宋体; font-size:12pt"><span style="color:#000000"></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">cd&nbsp;qemu&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li><li style="background:rgb(248,248,248); margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">./configure&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span style="color:rgb(51,51,51); font-family:宋体">之后可能会报错：</span><span style="color:silver; font-family:&#39;Verdana&#39;,sans-serif; font-size:7pt"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">ERROR:&nbsp;"cc"&nbsp;either&nbsp;does&nbsp;not&nbsp;exist&nbsp;or&nbsp;does&nbsp;not&nbsp;work&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span style="color:rgb(51,51,51); font-family:宋体">说明没有</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">gcc</span><span style="color:rgb(51,51,51); font-family:宋体">编译器，故安装</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">gcc</span><span style="color:rgb(51,51,51); font-family:宋体">编译</span><span style="font-family:宋体; font-size:12pt"><span style="color:#000000"></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">yum&nbsp;install&nbsp;gcc*&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span style="color:rgb(51,51,51); font-family:宋体">继续运行</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">./configure,</span><span style="color:rgb(51,51,51); font-family:宋体">可能还会出错</span><span style="font-family:宋体; font-size:12pt"><span style="color:#000000"></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">Error:&nbsp;zlib&nbsp;check&nbsp;failed&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li><li style="background:rgb(248,248,248); margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">Make&nbsp;sure&nbsp;to&nbsp;have&nbsp;the&nbsp;zlib&nbsp;libs&nbsp;and&nbsp;headers&nbsp;installed.&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span style="color:rgb(51,51,51); font-family:宋体">则需安装</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">zlib</span><span style="color:rgb(51,51,51); font-family:宋体">相关的软件</span><span style="color:silver; font-family:&#39;Verdana&#39;,sans-serif; font-size:7pt"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">yum&nbsp;install&nbsp;zlib*&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span style="color:rgb(51,51,51); font-family:宋体">再次运行</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">./configure,</span><span style="color:rgb(51,51,51); font-family:宋体">可能还有错误</span><span style="font-family:宋体; font-size:12pt"><span style="color:#000000"></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">glib-2.12&nbsp;required&nbsp;to&nbsp;compile&nbsp;QEMU&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span style="color:rgb(51,51,51); font-family:宋体">则须安装</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">glib</span><span style="color:rgb(51,51,51); font-family:宋体">相关的模块</span><span style="color:silver; font-family:&#39;Verdana&#39;,sans-serif; font-size:7pt"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">yum&nbsp;install&nbsp;-y&nbsp;glib*&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li><li style="background:rgb(248,248,248); margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">./configure&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li><li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">make&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">./configure</span><span style="color:rgb(51,51,51); font-family:宋体">成功，继续运行</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">make</span><span style="color:rgb(51,51,51); font-family:宋体">后失败，出现错误</span><span style="font-family:宋体; font-size:12pt"><span style="color:#000000"></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:18pt">
+<span style="font-family:宋体; color:#000000"></span>
+<ol type="1" start="1">
+<span style="font-family:宋体; color:#000000"></span>
+<li style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; font-size:12pt; font-style:normal; font-weight:normal">
+<span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">/bin/sh:&nbsp;autoreconf:&nbsp;command&nbsp;not&nbsp;found&nbsp;make:&nbsp;***&nbsp;[/home/qemu-2.1.3/pixman/configure]&nbsp;Error&nbsp;127&nbsp;&nbsp;</span><span style="font-family:宋体; color:#000000"></span></li></ol>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p align="left" style="margin:0cm 0cm 0pt; text-align:left"><span style="color:rgb(51,51,51); font-family:宋体">说明</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">make</span><span style="color:rgb(51,51,51); font-family:宋体">方面出现问题，通过安装这三个</span><span style="font-family:宋体; font-size:12pt"><span style="color:#000000"></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<div style="background:white; border-width:medium medium medium 2.25pt; border-style:none none none solid; border-color:currentColor currentColor currentColor rgb(108,226,108); padding:0cm; margin-right:0cm; margin-left:7.1pt">
+<span style="font-family:宋体; color:#000000"></span>
+<p align="left" style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; text-indent:-18pt">
+<span lang="EN-US" style="color:rgb(92,92,92); font-family:Consolas; font-size:12pt"><span style="">1.<span style="font:7pt/normal &#39;Times New Roman&#39;">&nbsp;</span></span></span><span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">yum&nbsp;install&nbsp;install&nbsp;autoconf&nbsp;automake&nbsp;libtool&nbsp;&nbsp;</span></p>
+<span style="font-family:宋体; color:#000000"></span>
+<p align="left" style="background:rgb(248,248,248); margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; text-indent:-18pt">
+<span lang="EN-US" style="color:rgb(92,92,92); font-family:Consolas; font-size:12pt"><span style="">2.<span style="font:7pt/normal &#39;Times New Roman&#39;">&nbsp;</span></span></span><span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">make&nbsp;&nbsp;</span></p>
+<span style="font-family:宋体; color:#000000"></span>
+<p align="left" style="background:white; margin:0cm 0cm 0pt 18pt; padding:0cm; border:currentColor; text-align:left; line-height:13.5pt; text-indent:-18pt">
+<span style=""><span lang="EN-US" style="color:rgb(92,92,92); font-family:Consolas; font-size:12pt"><span style="">3.<span style="font:7pt/normal &#39;Times New Roman&#39;">&nbsp;</span></span></span><span lang="EN-US" style="color:black; font-family:Consolas; font-size:12pt">make&nbsp;install&nbsp;&nbsp;</span></span></p>
+<span style="font-family:宋体; color:#000000"></span></div>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="color:rgb(51,51,51); font-family:宋体">成功安装</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">qemu-2.1.3</span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="color:rgb(51,51,51); font-family:宋体">要注意最后使用</span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif"><strong>sudo make install</strong></span><span style="color:rgb(51,51,51); font-family:宋体">来完成安装</span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h3 style="margin:13pt 0cm"><span style="font-family:等线; font-size:24px; color:#000000">配置</span></h3>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:等线; color:#000000">首先测试<span lang="EN-US">qemu</span>和内核能否运行成功，编译出来的内核是否<span lang="EN-US">OK</span>，或者<span lang="EN-US">qemu</span>对<span lang="EN-US">vexpress</span>单板支持是否够友好。</span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">&nbsp;</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:等线; color:#000000">运行如下命令：</span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">qemu-system-arm -M vexpress-a9 -m 512M-kernel /home/ivan/kernel_git/linux/arch/arm/boot/zImage -nographic -append"console=ttyAMA0"</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:等线; color:#000000">如果看到内核启动过程中的打印，说明前的搭建是成功的。</span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style=""><span style="font-family:等线; color:#000000">&nbsp;</span></span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h3 style="background:white; margin:13pt 0cm; line-height:19.5pt"><a target="_blank" name="t1"></a><span style="font-size:24px"><span style="color:rgb(51,51,51)"><span style="font-family:等线">安装</span></span><span lang="EN-US" style="color:rgb(51,51,51); font-family:&#39;Arial&#39;,sans-serif">KVM</span></span></h3>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="background:white; line-height:19.5pt"><span style="color:rgb(51,51,51); font-family:等线; font-size:10.5pt">通过下面命令安装<span lang="EN-US">qemu</span>和<span lang="EN-US">virt-manager</span>软件包</span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">yum install qemu-kvm qemu-img virt-managerlibvirt libvirt-python python-virtinst libvirt-client virt-install virt-viewer</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">&nbsp;</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:等线; color:#000000">通过如下命令开启服务</span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">&nbsp;</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">systemctl start libvirtd &amp;&amp;systemctl enabled libvirtd</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">systemctl status libvirtd</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">&nbsp;</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:等线"><span style="color:#000000"><span lang="EN-US">virt-manage</span>即可打开虚拟设备，之后载入镜像即可</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; color:#000000">&nbsp;</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<h3 style="margin:13pt 0cm"><span style="font-family:等线; font-size:24px; color:#000000">注意</span></h3>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:等线; color:#000000">安装完成后，使用</span><span lang="EN-US" style="color:rgb(85,85,85); font-family:&#39;Verdana&#39;,sans-serif; font-size:9pt">locate qemu-system-arm</span><span style="color:rgb(85,85,85)"><span style="font-family:等线">定位到安装位置</span></span></p>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<ol style="list-style-type:decimal; direction:ltr">
+<li style="font-size:12pt; font-style:normal; font-weight:normal">
+<p style="font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+如果本机只有一个<span lang="EN-US">qemu</span>，可采用如下方式升级</p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">&nbsp;</span></p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">updatedb</span></p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">locateqemu-system-arm</span></p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">&nbsp;</span></p>
+</li><li style="color:rgb(0,0,0); font-family:宋体; font-size:12pt; font-style:normal; font-weight:normal">
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+如果安装之后依旧显示老版本<span lang="EN-US">qemu</span>，则按照如下方法操作</p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">&nbsp;</span></p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">./configure--target-list=arm-softmmu,arm-linux-user --prefix=/usr/local</span></p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">&nbsp;</span></p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">./configure--target-list=arm-softmmu,arm-linux-user --prefix=/home/qemu-2.7.0</span></p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+<span lang="EN-US">&nbsp;</span></p>
+<p style="color:rgb(0,0,0); font-family:等线; font-size:10.5pt; font-style:normal; font-weight:normal; margin-top:0cm; margin-bottom:0pt">
+该<span lang="EN-US">--prefix</span>后面跟安装路径</p>
+</li></ol>
+<p style="margin:0cm 0cm 0pt"><span style="font-family:宋体; color:#000000"></span></p>
+<p style="margin:0cm 0cm 0pt"></p>
+<p style="margin:0cm 0cm 0pt"></p>
+<span style="font-family:宋体; font-size:14px"></span>
+<p style="margin:0cm 0cm 0pt"><span lang="EN-US"><span style="font-family:等线; font-size:14px">&nbsp;</span></span></p>
+<span style="font-family:宋体; font-size:14px"></span>
+<div style="top:0px">﻿﻿</div>
+ </div>
+
+          </div>
+
+                               
+
+             <div class="blog_handle">
+        <span id="digg" style="cursor:pointer"><i class="iconfont"></i><em>0</em></span>
+        <span id="bury" style="cursor:pointer"><i class="iconfont"></i><em>0</em></span>
+       
+    </div>
+
+
+
+              <div class="prev_next">
+                        <a href="http://m.blog.csdn.net/u013182960/article/details/74908910" class="prev" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;]);">上一篇</a>                                                                       
+                        <a href="http://m.blog.csdn.net/u013182960/article/details/75223256" class="next" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;])">下一篇</a>
+              </div>         
+        </div>
+        
+    
+
+          <script type="text/javascript">
+               /*csdn wap端 博客内页-20:3 创建于 2016-05-10*/
+               var cpro_id = "u2634430";
+            </script>           
+          <!-- 广告位：WAP端-博客详情页banner2-20:3 -->
+        <script>
+            (function() {
+                var s = "_" + Math.random().toString(36).slice(2);
+                document.write('<div id="' + s + '"></div>');
+                (window.slotbydup=window.slotbydup || []).push({
+                    id: '4777150',
+                    container: s,
+                    size: '20,3',
+                    display: 'inlay-fix'
+                });
+            })();
+        </script><div id="_iknre3wyyw"></div>
+
+
+       
+<script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/highcode.js.下载"></script>
+<script type="text/javascript">
+    var fileName = '75214186';
+    var commentscount = 0;
+    var islock = false;
+    var currentUserName='';
+    var topSize=3;
+    var listId = ".blog_comment_list";
+</script>
+
+<div class="no_comment" style=""><i class="iconfont"></i><span>暂无评论，</span><a href="http://m.blog.csdn.net/comment/post?id=75214186">我去发表</a><em>~</em></div>
+
+ <div class="blog_comment" style="display:none">
+       <h3 class="isComment">评论<span>（0）</span></h3>
+       <dl class="blog_comment_list"></dl>
+       <div class="checkAll"></div>
+ </div>
+
+<script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/comment.js.下载"></script>
+
+
+
+       
+        <div style="display:none" id="tags">centos,qemu,color</div>
+
+   
+<script type="text/javascript">
+    /*wap端-博客内页热门文章上通栏-20:5*/
+    var cpro_id = "u2901277";
+</script>
+<!-- 广告位：WAP端-博客详情页banner3-20:5 -->
+<script>
+    (function () {
+        var s = "_" + Math.random().toString(36).slice(2);
+        document.write('<div id="' + s + '"></div>');
+        (window.slotbydup = window.slotbydup || []).push({
+            id: '4777155',
+            container: s,
+            size: '20,5',
+            display: 'inlay-fix'
+        });
+    })();
+</script><div id="_c7u0lquw9e5"></div>
+
+<div class="my_hot_article">
+         <h3 class="isArticle">相关博文</h3>
+
+                  <ul class="hot_article tracking-ad" id="res" data-mod="popu_36">
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/Oxford_D/article/details/51823473" title="Centos下QEMU安装" strategy="BlogCommendFromCsdn" target="_blank">Centos下QEMU安装</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/yxwmzouzou/article/details/47286763" title="CentOS 6.5安装图形界面" strategy="BlogCommendFromCsdn" target="_blank">CentOS 6.5安装图形界面</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/qq_21398167/article/details/46422523" title="CentOS7 上源码安装KVM（qemu--kvm）" strategy="BlogCommendFromCsdn" target="_blank">CentOS7 上源码安装KVM（qemu--kvm）</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/RHEL_admin/article/details/46458427" title="CentOS7/RHEL7上安装KVM(QEMU)" strategy="BlogCommendFromCsdn" target="_blank">CentOS7/RHEL7上安装KVM(QEMU)</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/liukuan73/article/details/49019691" title="Install KVM (QEMU) on CentOS 7 / RHEL 7" strategy="BlogCommendFromCsdn" target="_blank">Install KVM (QEMU) on CentOS 7 / RHEL 7</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/liu_xing_hui/6626221" title="qemu-kvm1.6  for centos" strategy="BlogCommendFromCsdn" target="_blank">qemu-kvm1.6  for centos</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/lisweet_win/10049520" title="[全]Oracle 11gR2 安装依赖 For Centos7.x" strategy="BlogCommendFromCsdn" target="_blank">[全]Oracle 11gR2 安装依赖 For Centos7.x</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/yazhou0514aa/10029826" title="centos7安装nginx全部软件" strategy="BlogCommendFromCsdn" target="_blank">centos7安装nginx全部软件</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/zjzslk/10035096" title="Centos7安装Python3.6(同时使用Python2与3)" strategy="BlogCommendFromCsdn" target="_blank">Centos7安装Python3.6(同时使用Python2与3)</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/a15565772151/10049439" title="centos7中hive的安装和使用" strategy="BlogCommendFromCsdn" target="_blank">centos7中hive的安装和使用</a>
+                                   </li>
+                  </ul>
+        </div>
+
+      
+<script type="text/javascript">
+    /*wap端-博客内页相关博文上通栏-20:5*/
+    var cpro_id = "u2901286";
+</script>
+<!-- 广告位：WAP端-博客详情页banner4-20:5 -->
+<script>
+    (function () {
+        var s = "_" + Math.random().toString(36).slice(2);
+        document.write('<div id="' + s + '"></div>');
+        (window.slotbydup = window.slotbydup || []).push({
+            id: '4777158',
+            container: s,
+            size: '20,5',
+            display: 'inlay-fix'
+        });
+    })();
+</script><div id="_bgw5u9i67j"></div>
+
+        
+    <div class="my_hot_article">
+          <h3 class="isArticle">我的热门文章</h3>
+          <ul class="hot_article">
+                <li><a href="http://m.blog.csdn.net/u013182960/article/details/53431460">解决python-dev无法安装(依赖关系)</a></li>
+                <li><a href="http://m.blog.csdn.net/u013182960/article/details/53534490">无法修正错误,因为您要求某些软件包保持现状,就是它们破坏了软件包间的依赖关系</a></li>
+                <li><a href="http://m.blog.csdn.net/u013182960/article/details/53056714">[Arduino库]任务调度器，更好地处理多任务</a></li>
+                <li><a href="http://m.blog.csdn.net/u013182960/article/details/53534990">第一行代码勘误</a></li>
+                <li><a href="http://m.blog.csdn.net/u013182960/article/details/53426930">如何在/etc/apt/sources.list添加新内容</a></li>
+          </ul>
+        </div>
+
+<script type="text/javascript" src="http://c.csdnimg.cn/rabbit/tracking-ad/main.js?20170606001"></script>
+
+
+
+
+
+
+
+
+       
+      </div>
+
+        
+   <div class="leftNav">
+      
+<div class="left_top">
+        <a href="https://passport.csdn.net/account/login?from=http%3a%2f%2fm.blog.csdn.net%2fu013182960%2farticle%2fdetails%2f75214186"><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/1_csdn.jpg"></a>
+        <a href="https://passport.csdn.net/account/login?from=http%3a%2f%2fm.blog.csdn.net%2fu013182960%2farticle%2fdetails%2f75214186" class="sign">未登录</a> 
+</div>
+        
+        <ul class="nav_list">
+            <li><a href="http://m.blog.csdn.net/home/index"><i>•</i><span>首页</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=mobile&amp;Type="><i>•</i><span>移动开发</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=enterprise&amp;Type="><i>•</i><span>架构</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=cloud&amp;Type="><i>•</i><span>云计算/大数据</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=www&amp;Type="><i>•</i><span>互联网</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=system&amp;Type="><i>•</i><span>运维</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=database&amp;Type="><i>•</i><span>数据库</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=web&amp;Type="><i>•</i><span>前端</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=code&amp;Type="><i>•</i><span>编程语言</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=software&amp;Type="><i>•</i><span>研发管理</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=other&amp;Type="><i>•</i><span>综合</span><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+        </ul>
+   </div>
+   
+
+      <div id="mask"></div>
+    </div>
+
+
+   
+
+    <div class="backToTop" style="display: block;"><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-fudongxiangshang.png" alt="img"></div>
+    <!--分享弹窗：-->
+    <div class="popup_cover"></div>
+    <div class="sharePopup_box">
+      <div class="sharePopup">
+        <!--JiaThis Button BEGIN-->
+        <div class="jiathis_style_32x32"><a class="jiathis_button_weixin" title="分享到微信"><span class="jiathis_txt jiathis_separator jtico jtico_weixin"><b><i class="iconfont"></i></b><em>微信分享</em></span></a><a class="jiathis_button_tsina" title="分享到微博"><span class="jiathis_txt jiathis_separator jtico jtico_tsina"><b><i class="iconfont"></i></b><em>新浪微博</em></span></a><a class="jiathis_button_cqq" title="分享到QQ好友"><span class="jiathis_txt jiathis_separator jtico jtico_cqq"><b><i class="iconfont"></i></b><em>QQ好友</em></span></a><a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jiathis_separator jtico jtico_qzone"><b><i class="iconfont"></i></b><em>QQ空间</em></span></a></div>
+        <script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/jia.js.下载" charset="utf-8"></script><script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/plugin.client.js.下载" charset="utf-8"></script>
+        <!--JiaThis Button END-->
+      </div>
+      <div class="sharePopup_cancel">取 消</div>
+    </div>
+    <script>
+      $(function(){
+        $('#share_btn').click(function(){
+          $('.popup_cover').stop().show();
+          $('.sharePopup_box').stop().slideDown();
+        });
+        $('.sharePopup_cancel').click(function(){
+          $('.popup_cover').stop().hide();
+          $('.sharePopup_box').stop().slideUp();
+        });
+      })
+    </script>
+
+
+
+
+
+
+
+   <div class="backToTop" style="z-index: 9999999; display: block;"><img src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/iconfont-fudongxiangshang.png" alt="img"></div>
+    <div class="blog_footer">©1999-2012, csdn.net, All Rights Reserved</div>
+    <script type="text/javascript" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/fontSize.js.下载"></script>
+<script type="text/javascript" charset="utf-8" src="./Centos7安装QEMU - MRGCODING - CSDN博客_files/tracking.js.下载"></script>
+
+
+
+
+
+</body></html>

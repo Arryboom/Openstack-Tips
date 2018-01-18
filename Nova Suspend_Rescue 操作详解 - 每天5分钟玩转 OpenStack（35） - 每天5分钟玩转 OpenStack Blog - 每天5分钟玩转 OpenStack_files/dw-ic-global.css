@@ -1,0 +1,1448 @@
+/* developerWorks IBM Connections CSS - owner: Debra Hayley, last updated 11/19/14 - ddh */
+
+
+/* IC GENERAL STYLES ACCROSS APPS START =================================== */
+
+fieldset {
+	border:none;
+}
+
+.lotusui30 .lotusTitleBar2 .lotusInner {
+    border-bottom: 0px dotted #CCCCCC !important;
+    padding: 10px 0 4px;
+}/* BUG: Remove dotted underline for those apps that call a different class name to ensure consistency accross apps */
+.lotusui30_layout .lotusMain .lotusContent {
+    padding: 30px !important;
+}/* BUG: To adjust padding for middle column accross all apps  */
+.dw-ic-strong{
+	font-weight:bold;
+}
+.lotusui30 .lotusForm tr.lotusFormFieldRowAlt td, .lotusui30 .lotusForm td.lotusFormFieldRowAlt {
+    padding-bottom: 20px;
+}
+.lotusui30 .lotusDialog .lotusHeading {
+    color: #FFFFFF;
+    display: block;
+    font-size: 1.1em !important;
+    margin-right: 0;
+    letter-spacing:.050em;
+    font-weight: normal !important;
+}
+.lotusui30_body {
+    background-color: #fff !important;
+}
+.lotusui30 .lotusFooter ul {
+	background:none;
+}
+.lotusui30_layout .lotusMain .lotusContent {
+	border: 0px solid #d2d2d2;
+}
+.lotusContent h1 {
+	font-size:1.5em;
+}
+/* DEFECT # 22943: COMMUNITIES/BLOGS/ACTIVITIES/FORUMS/FILES/WIKIS - The remove icon 'X' is not visible in the Tags widget.*/
+.lotusui30_layout .lotusColLeft a.lotusDelete img {
+    background-position: -557px -10px;
+}
+
+/* MY HOME: Styles for IC5 */
+.lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected, .lotusui30 .lotusPalette .lotusPaletteNav .lotusMenu li.lotusSelected a {
+    background: none repeat scroll 0 0 #00b0da !important;
+}
+.lotusui30 .lotusPaletteHeader {
+	background-color:#fff;
+}
+.lotusui30 .lotusBoard .lotusStream > li:after {
+    width: 88%;
+}
+.lotusui30 #gadgetDiv {
+    background-color: #fff;
+}
+
+.lotusui30 .lotusPalette {
+	border-width: 0 0px 0px;
+}
+.lotusui30 .lotusMenu .lconnHomepage-myNotifications .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-myNotifications a:hover .lconnStreamIcon, .lotusui30 .lotusMenu .lconnHomepage-myNotifications a:focus .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-myNotifications.lotusSelected a .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu li a, .lotusui30 .lotusMenu li a:visited, .lotusui30 .lotusMenu li a:hover, .lotusui30 .lotusMenu li a:focus, .lotusui30 .lotusMenu li a:active {
+    padding: 5px 20px 5px 20px;
+}
+.lotusui30 .lotusMenu .lconnHomepage-myStream.lotusSelected a .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-myStream .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-myStream a:hover .lconnStreamIcon, .lotusui30 .lotusMenu .lconnHomepage-myStream a:focus .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-atMentions .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-atMentions a:hover .lconnStreamIcon, .lotusui30 .lotusMenu .lconnHomepage-atMentions a:focus .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-atMentions.lotusSelected a .lconnStreamIcon {
+    background-position: 90px 0;
+}
+
+.lotusui30 .lotusMenu .lconnHomepage-actionRequired .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-actionRequired a:hover .lconnStreamIcon, .lotusui30 .lotusMenu .lconnHomepage-actionRequired a:focus .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-actionRequired.lotusSelected a .lconnStreamIcon {
+    background-position: 90px 0;
+}
+
+.lotusui30 .lotusMenu .lconnHomepage-saved .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-saved a:hover .lconnStreamIcon, .lotusui30 .lotusMenu .lconnHomepage-saved a:focus .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepage-saved.lotusSelected a .lconnStreamIcon {
+    background-position: 90px 0;
+}
+
+.lotusui30 .lotusMenu .lconnHomepageMyPage .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepageMyPage a:hover .lconnStreamIcon, .lotusui30 .lotusMenu .lconnHomepageMyPage a:focus .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepageMyPage.lotusSelected a .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepageAdmin .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepageAdmin a:hover .lconnStreamIcon, .lotusui30 .lotusMenu .lconnHomepageMyPage a:focus .lconnStreamIcon {
+    background-position: 90px 0;
+}
+.lotusui30 .lotusMenu .lconnHomepageAdmin.lotusSelected a .lconnStreamIcon {
+    background-position: 90px 0;
+}
+/* Action buttons: Styles for IC5 */
+.lotusui30 span.lotusBtn a:visited, .lotusui30 span.lotusBtn a:hover, .lotusui30 span.lotusBtn a:focus, .lotusui30 .lotusBtn:visited, .lotusui30 .lotusBtn:hover, .lotusui30 .lotusBtn:focus {
+	background-color: #DDDDDD !important;
+	-webkit-transition: background-color 0.3s ease 0s;
+	-moz-transition: background-color 0.3s ease 0s;
+	-o-transition: background-color 0.3s ease 0s;
+	transition: background-color 0.3s ease 0s;
+}
+  .lotusui30 button.lotusFormButton:visited, .lotusui30 input.lotusFormButton:hover, .lotusui30 input.lotusFormButton:focus {background-color: #DDDDDD !important;
+	-webkit-transition: background-color 0.3s ease 0s;
+	-moz-transition: background-color 0.3s ease 0s;
+	-o-transition: background-color 0.3s ease 0s;
+    transition: background-color 0.3s ease 0s;
+}
+.lotusui30 span.lotusBtn a:hover, .lotusui30 span.lotusBtn a:focus, .lotusui30 span.lotusBtn a:active {
+    background-color: #DDDDDD !important;
+	-webkit-transition: background-color 0.3s ease 0s;
+	-moz-transition: background-color 0.3s ease 0s;
+	-o-transition: background-color 0.3s ease 0s;
+    transition: background-color 0.3s ease 0s;
+}
+
+	
+/* IC Submenu: Styles for IC5 */
+
+.lconnSprite-iconHomeBlue16 {
+    background-position: 0 -804px;
+}
+.lotusui30 .lotusNavMenu tr a, .lotusui30 .lotusNavMenu tr a:visited {
+    color: #222;
+	background-color:#fff;
+	border-left: 3px solid #fff;
+}
+.lotusui30 .lotusNavMenu tr a:hover, .lotusui30 .lotusNavMenu tr a:focus, .lotusui30 .lotusNavMenu tr a:active, .lotusui30 .lotusNavMenu tr a.lotusHover {
+    background-color: #fff;
+	border-left: 3px solid #00b0da;
+}
+/*.lotusui30 .lotusNavMenu tr a {
+    margin: 5px 10px 8px 0 !important;
+    padding: 3px 15px 0 2px !important;
+}*/
+.lotusui30 .lotusNavMenu tr a {
+    margin: 0px 15px 0px 0 !important;
+    padding: 8px 15px 8px 5px !important;
+}
+
+.lotusui30 .lotusNavMenu table, .lotusui30 .lotusNavMenu th, .lotusui30 .lotusNavMenu td, .lotusui30 .lotusNavMenu table td, .lotusui30 .lotusNavMenu tr.lotusMenuSeparator + tr th, .lotusui30 .lotusNavMenu tr.lotusMenuSeparator + tr td {
+    border-bottom: 1px solid #ededed;
+	margin-left:0px;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:hover,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:focus,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:active,
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a {
+border-color: #212121;
+border-color: rgba(0, 0, 0, 0.4);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#33393f', endColorstr='#161618'));
+-moz-box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+-webkit-box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+box-shadow: 1px 0 rgba(255, 255, 255, 0.05), -1px 0 rgba(255, 255, 255, 0.05);
+background: -moz-linear-gradient(top, #33393f 0%, #161618 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #33393f), color-stop(100%, #161618));
+background: -webkit-linear-gradient(top, #33393f 0%, #161618 100%);
+background: linear-gradient(to bottom, #33393f 0%, #161618 100%);
+
+zoom: 1;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:visited,
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotus a {
+	border-bottom:3px solid #222;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:hover,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:focus,
+.lotusui30 .lotusBanner ul.lotusInlinelist li a:active,
+.lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a {
+	border-bottom:3px solid #00b0da;
+}
+.lotusui30 .lotusBanner ul.lotusLinks li.lotusSelected a {
+	border-bottom:3px solid #00b0da;
+}
+.lotusui30 .lotusNavMenu {
+	margin-top:0px;
+	border: 3px solid rgba(0, 0, 0, 0.25);
+}
+  input[type="button"] {
+    background-color: #e7e7e7;
+    border-radius: 3px;
+    border-width: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    color: #333;
+    text-decoration: none;
+    font-weight:bold;
+    
+}
+ input[type="button"]:hover,  input[type="button"]:focus,  input[type="button"]:active{
+    background-color: #DDDDDD !important;
+	-webkit-transition: background-color 0.3s ease 0s;
+	-moz-transition: background-color 0.3s ease 0s;
+	-o-transition: background-color 0.3s ease 0s;
+    transition: background-color 0.3s ease 0s;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a {
+	font-weight: normal;
+	padding: 7px 15px 7px 15px;
+}
+.lotusui30 div.lotusBanner ul.lotusUtility li a {
+    padding: 10px;
+	font-size:1.1em;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:hover, .lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:focus, .lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a.lotusBannerBtn {
+    background: none;
+    border-color: #fff;
+}
+.lotusui30 .lotusBanner ul.lotusUtility li {
+    font-size: 1em;
+}
+.lotusui30 .lotusBanner ul.lotusLinks li.lotusSelected a {
+    font-weight: normal;
+}
+  #lotusBannerHomepage:after, #languageSelectorText:after {
+    top: 7px !important;
+}
+/* SHARE BUTTON: IC5 */
+.lotusui30 .lotusBanner ul.lotusInlinelist #headerSharebox {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 0 solid rgba(0, 0, 0, 0);
+    box-shadow: 0 0 rgba(255, 255, 255, 0.05), 0 0 rgba(255, 255, 255, 0.05);
+	filter: none;
+}
+
+.lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 0 solid #212121;
+    border-radius: 0;
+    box-shadow: 0 0 0 rgba(204, 204, 204, 0.15) inset;
+    color: #ccc;
+    font-size: 1.09091em;
+    margin: 6px 12px;
+    padding: 0 18px;
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0.5);
+}
+
+.lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:hover, .lotusui30 .lotusBanner ul.lotusInlinelist li a.lotusBannerBtn:focus, .lotusui30 .lotusBanner ul.lotusInlinelist li.lotusHover a.lotusBannerBtn {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-color: none !important;
+  border-left: 0px;
+  border-bottom:0px;
+  color: #fff;
+}
+#headerSharebox {margin-left:0px;margin-top:-1px;}
+#headerHelpLi img {margin-top:4px;}
+#headerLanguageSelectorMenu {margin-left:-20px;}
+
+/* LEFT COLUMN: To fix font and link colors for IC5 */
+.lotusui30 .lotusColLeft a.lotusF5, .lotusui30 .lotusColLeft a.lotusF5:visited {
+    color: #1970b0;
+}
+.lotusui30 .lotusColLeft a.lotusF5:hover, .lotusui30 .lotusColLeft a.lotusF5:focus, .lotusui30 .lotusColLeft a.lotusF5:active {
+    color: #05386b;
+}
+
+.lotusui30 .lotusColLeft a.lotusF4, .lotusui30 .lotusColLeft a.lotusF4:visited {
+    color: #1970b0;
+}
+.lotusui30 .lotusColLeft a.lotusF4:hover, .lotusui30 .lotusColLeft a.lotusF4:focus, .lotusui30 .lotusColLeft a.lotusF4:active {
+    color: #05386b;
+}
+
+.lotusui30 .lotusColLeft a.lotusF3, .lotusui30 .lotusColLeft a.lotusF3:visited {
+    color: #1970b0;
+}
+.lotusui30 .lotusColLeft a.lotusF3:hover, .lotusui30 .lotusColLeft a.lotusF3:focus, .lotusColLeft a.lotusF3:active {
+    color: #05386b;
+}
+
+.lotusui30 .lotusColLeft a.lotusF2, .lotusui30 .lotusColLeft a.lotusF2:visited {
+    color: #1970b0;
+}
+
+.lotusui30 .lotusColLeft a.lotusF2:hover, .lotusui30 .lotusColLeft a.lotusF2:focus, .lotusui30 .lotusColLeft a.lotusF2:active {
+    color: #05386b;
+}
+
+.lotusui30 .lotusColLeft a.lotusF1, .lotusui30 .lotusColLeft a.lotusF1:visited {
+    color: #1970b0;
+}
+.lotusui30 .lotusColLeft a.lotusF1:hover, .lotusui30 .lotusColLeft a.lotusF1:focus, .lotusui30 .lotusColLeft a.lotusF1:active {
+    color: #05386b;
+}
+.lotusui30 .lotusColLeft .lotusInlinelist li {
+    border-left-color: #ccc;
+}
+.lotusui30_layout .lotusColLeft a, .lotusui30_layout .lotusColLeft a:visited {
+    color: #1970b0;
+}
+.lotusui30_layout .lotusColLeft a:hover, .lotusui30_layout .lotusColLeft a:focus, .lotusui30_layout .lotusColLeft a:active {
+    color: #05386b;
+}
+.lotusui30_layout .lotusColLeft {
+    color: #444;
+}
+.lotusui30 .lotusSectionBody[dojoattachpoint="tagCloudContent"], .lotusui30 #socialTagsSubArea, .lotusui30 #lconnTagCloudContent, .lotusui30 .lotusSection .lconnTagCloudContent, .lotusui30 .lotusSectionBody.lconnFacet, .lotusui30 .lotusWidget2 .lconnTagCloudContent {
+    background: none repeat scroll 0 0 #fff;
+    border-bottom: 0px solid #404040;
+    border-top: 0px solid #252525;
+}
+
+.lotusui30 .lotusColLeft .lotusSection2 .lotusHeading, .lotusui30 .lotusColLeft .lotusSection h2, .lotusui30 .lotusColLeft .lotusWidget h2, .lotusui30 .lotusColLeft .lotusWidget2 h2, .lotusui30 .lotusColLeft .dijitTitlePaneTitle {
+    color: #444;
+    font-size: 1.16667em;
+    text-shadow: none;
+}
+.lotusui30 .lotusMenu li a, .lotusui30 .lotusMenu li a:visited, #lotusNavBar li a, #lotusNavBar li a:visited {
+    color: #000;
+    text-shadow: none;
+	font-weight: normal;
+	border-left:3px solid transparent;
+}
+
+.lotusui30 .lotusMenu .lotusHeading a, .lotusui30 .lotusMenu .lotusHeading a:visited, .lotusui30 .lotusMenu .lotusHeading a:hover, .lotusui30 .lotusMenu .lotusHeading a:focus, .lotusui30 .lotusMenu .lotusHeading a:active, .lotusui30 .lotusMenu h3 a, .lotusui30 .lotusMenu h3 a:visited, .lotusui30 .lotusMenu h3 a:hover, .lotusui30 .lotusMenu h3 a:focus, .lotusui30 .lotusMenu h3 a:active {
+    color: #000;
+    text-decoration: none;
+    text-shadow: 0 0px 0px #121212;
+}
+
+.lotusui30 .lotusMenu li a:hover, .lotusui30 .lotusMenu li a:focus, .lotusui30 .lotusMenu li:focus a, .lotusui_ie .lotusui30 .lotusMenu li a:active {
+    box-shadow: none;
+    color: #000;
+}
+.lotusui30 .lotusMenu li.lotusSelected a, .lotusui30 .lotusMenu li.lotusSelected a:visited, .lotusui30 .lotusMenu li.lotusSelected a:hover, .lotusui30 .lotusMenu li.lotusSelected a:focus, .lotusui30 .lotusMenu li.lotusSelected a:active, .lotusui30 .lotusMenu .lotusHeaderSelected, .lotusui30 .lotusMenu li.lotusSelected:focus a {
+	background-color:none;
+	box-shadow:none !important;
+	color:#000;
+	background:#ededed;
+	text-shadow:none;
+	border-width:3px;
+	border-left:solid #00b0da !important;
+	border-right:none;
+}	
+.lotusui30 .lotusMenu .lotusMenuSeparatorTop {
+    margin-top: 10px;
+}
+.lotusui30_layout .lotusColLeft .lotusAdd img {
+    background-position: -519px -8px;
+}
+.lotusui30 .lotusMenu .lotusMenuHeader .lotusHeading, .lotusui30 .lotusMenu h3 {
+    color: #333;
+	text-shadow: 0 0px 0px #121212;
+}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRow a.dijitTreeLabel {
+    color: #333 !important;
+}
+
+.lotusui30_layout .lotusColLeft:after {
+    background: none repeat scroll 0 0 #fff !important;
+    border-left: 1000px solid #fff !important;
+    border-right: 214px solid #fff !important;
+    box-shadow: -1px 0 0 #fff inset !important;
+}
+.lotusui30 .lotusMenu {
+    color: #000;
+}
+.lotusui30 .lotusMenu .lotusTwistyClosedMenu, .lotusui30 .lotusMenu .lotusTwistyOpenMenu {
+    background-position: 2px 2px;
+    opacity: 1;
+}
+.lotusui30 .lotusMenu h3.lotusSelected {
+    background: none repeat scroll 0 0 #ededed;
+    border-right: 1px solid #ededed;
+    box-shadow: 0 1px 1px #ededed inset, 0 -1px 0 #000 inset;
+	border-left: 3px solid #00b0da;
+}
+.lotusui30 .personinlinemenu .lotusMenu .lotusMenuSubsection li a {
+    text-shadow: 0 0px 0px #121212;
+	font-weight: normal;
+}
+.lotusui30 .lotusMenu .lotusTree .dijitTreeRow {
+    text-shadow: 0 0px 0px #121212;
+}
+.lotusui30 .personinlinemenu .lotusMenu li a:active, .lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a, .lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a:visited, .lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a:hover, .lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a:focus, .lotusui30 .personinlinemenu .lotusMenu li.lotusSelected a:active, .lotusui30 .personinlinemenu .lotusMenu .lotusHeaderSelected {
+    text-shadow: 0 0px 0 #121212;
+}
+ .lotusui30 .lotusMenu .lotusMenuSubsection li a {
+    text-shadow: 0 0 0 #121212;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection li.lotusSelected a:before {
+    color: #54575a;
+    margin-left: -3px;
+}
+.lotusui30 .lotusMenu li a, .lotusui30 .lotusMenu li a:visited {
+	font-weight:normal;
+}
+.lotusui30 .lotusMenu li a:active, .lotusui30 .lotusMenu li.lotusSelected a, .lotusui30 .lotusMenu li.lotusSelected a:visited, .lotusui30 .lotusMenu li.lotusSelected a:hover, .lotusui30 .lotusMenu li.lotusSelected a:focus, .lotusui30 .lotusMenu li.lotusSelected a:active, .lotusui30 .lotusMenu .lotusHeaderSelected {
+    text-shadow: 0 0px 0 #121212;
+}
+.lotusui30 .lotusMenu .lotusMenuSubsection li a {
+    font-weight: normal;
+	padding-left:34px;
+}
+.lotusui30 .lotusColLeft .lotusSection2 .lotusHeading2, .lotusui30 .lotusColLeft .lotusSection h3, .lotusui30 .lotusColLeft .lotusWidget h3, .lotusui30 .lotusColLeft .lotusWidget2 h3 {
+    color: #000;
+    text-shadow: 0 0px 0px #121212;
+}
+  .lotusui30 .lotusMenu .lotusTwistyClosedMenu {
+    background-position: 2px -102px;
+}
+/* WIKIS: General style fixes */
+.lotusResizable {
+    cursor: w-resize;
+    float: left;
+    height: 100px;
+    margin-left: -5px !important;
+    width: 6px;
+}/* WIKIS: To center column alignment issues -- Defect 13522 */
+#lconn_wikis_widget_MembershipOptions_0_userTextbox_dropdown {
+z-index: 999999 !important;
+}/* WIKIS - Type ahead feature as part of adding members to WIKIS remains hidden behind "Add members" lightbox. -- Defect 13737 */
+div.dijitPopup {
+z-index: 999999 !important;
+}
+
+#lconn_share_widget_MemberInput_0_people_dropdown {
+z-index: 999999 !important;
+}/* FILES - Type-ahead feature on Share files appears behind the lightbox. -- Defect 13645 */
+
+/* IC GENERAL STYLES ACCROSS APPS END =================================== */
+
+
+/* dW IC BACKGROUND STYLES BEGIN =================================== */
+/* dW IC background styles  */
+.lotusui30_body .lotusMain {
+    background-color: #ffffff;
+}
+	
+/* dW IC tooltip background styles  */
+.lotusui30 .lotusVCardHover {
+    background: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/lotusSprite-8bit.png?etag=Xle76ms") no-repeat scroll 5px -2622px, -moz-linear-gradient(rgba(253, 245, 21, 0.95), rgba(255, 255, 102, 0.95)) repeat scroll 0 0 transparent !important;
+    border-color: #cccccc !important;
+    border-radius: 0 0 0 0;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+    font-size: 0.9em;
+    padding: 6px 10px 6px 25px;
+	color: #222222 !important;
+	background-color: #fefa8a !important;
+	background: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/lotusSprite-8bit.png?etag=Xle76ms") no-repeat scroll 5px -2622px, -webkit-gradient(linear, left top, left bottom, from(#fefa8a), to(#fefa8a));
+}/* per design: Color change for hover status (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/vcardhover.jpg) -- ddh */
+
+/* dW IC welcome box background styles */
+.lotusui30 .lotusWelcomeBox {
+    background-color: #38667d !important;
+    background-image: -moz-linear-gradient(center top, #38667d 0%, #4883a0 100%) !important;
+    border: 0 none;
+    border-radius: 8px 8px 8px 8px;
+    margin-left: 0;
+    padding: 25px;
+    filter:
+    progid:DXImageTransform.Microsoft.gradient(startColorStr='#38667d',EndColorStr='#4883a0') !important;
+    -ms-filter:
+    "progid:DXImageTransform.Microsoft.gradient(startColorStr='#38667d',EndColorStr='#4883a0')" !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#38667d), to(#4883a0));
+    background: -o-linear-gradient(top, #38667d, #4883a0) !important;
+}/* per design: Background color change (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/bookmarks-main.jpg) -- ddh */
+
+.lotusui30 .lotusColLeft .lotusInfoBox h3, .lotusui30 .lotusColRight .lotusInfoBox h3 {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background-color:#e5f6f7;
+}
+.lotusui30 .lotusColLeft .lotusInfoBox h3, .lotusui30 .lotusColRight .lotusInfoBox h3 {
+    border-bottom: 0px solid #ade2ef;
+}
+/* dW IC5 lotus help menu background styles  */
+.lotusui30 .lotusHelp {
+    box-shadow: 0 0 0 #eee;
+}
+
+/* dW IC lotus menu background styles  */
+.lotusui30 .lotusMenu li a:hover, .lotusui30 .lotusMenu li a:focus, .lotusui30 .lotusMenu li a:active, .lotusui30 .lotusMenu .lotusMenuHeader .lotusHeading a:hover, .lotusui30 .lotusMenu .lotusMenuHeader .lotusHeading a:focus, .lotusui30 .lotusMenu .lotusMenuHeader .lotusHeading a:active {
+    background-color: #ededed !important;
+}
+
+.lotusui30 .lotusActionMenu a:hover, .lotusui30 .lotusActionMenu a:focus, .lotusui30 .lotusActionMenu a:active{
+    background-color:#ededed !important;
+}
+.dijitMenuItem  {
+    background-color: #fff;
+	border-left: 3px solid #ffff !important;
+}
+.dijitMenuItemHover td:first-child {
+    background-color: #fff;
+	border-left: 3px solid #00b0da;
+}
+.dijitMenuItemHover td,  .dijitMenuItemSelected td {
+    background-color: #fff;
+	border-left: 3px solid #fff;
+}
+  .dijitMenuItem td {
+    background-color: #fff;
+	border-left: 3px solid #fff;
+}
+div.lconnLeftSide a.lotusSelected,  div.lconnLeftSide a.lotusSelected span {
+    background-color: #ededed;
+}
+/* per design: Color change for hover status (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/advancedsearch-main-dropdown.jpg) -- ddh */
+
+/* dW IC lotus table hover background styles  */
+.lotusui30 .lotusBoard .lotusStream .lotusPostHover, .lotusui30 .lotusBoard .lotusStream .lotusPostSelected {
+    background-color: #ededed !important;
+}/* per design: Color change for hover status (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/home-discover.jpg) -- ddh */
+
+/* dW IC lotus tip boxes background styles  */
+
+lotusui30 .lotusColLeft .lotusInfoBox {
+    background-color: #e5f6fa;
+    border: 1px solid #ade2ef;
+    box-shadow: none;
+    margin: 0 12px 20px;
+}
+.lotusui30 .lotusColLeft .lotusInfoBox, .lotusui30 .lotusColRight .lotusInfoBox {
+    background: none repeat scroll 0 0 #e5f6fa;
+    border-radius: 8px;
+	box-shadow: none;
+	border:1px solid #ade2ef;
+}
+
+.lotusui30 .lotusInfoBox h4 {
+    font-size: 1.0em;
+}/* BUG: This fix is needed for IE 7/8 -- ddh */
+
+
+/* dW IC Menu hover background styles  */
+tr.dijitMenuItemHover {
+    background-color: #ededed !important;
+}
+.dijitMenuItemHover {
+	background-color: #ededed !important;
+}
+.lotusui30 .lotusMenu h3 a:hover, .lotusui30 .lotusMenu h3 a:focus {
+background-color: #ededed !important;
+}/* per design: Color change for hover status (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/advancedsearch-main-dropdown.jpg) -- ddh */
+
+/* dW IC banner background styles  */
+.lotusui30 .lotusBanner {
+    background: none repeat scroll 0 0 #242424;
+    border-bottom: 0px solid #ffffff;
+    padding: 0 0 0px;
+    position: inherit;
+
+	
+}/* BUG: To remove blue background from masthead area -- ddh */
+
+
+/* dW IC BACKGROUND STYLES END =================================== */
+
+
+
+/* dW IC TAB STYLES BEGIN ===================================  */
+
+/* dW IC main tabs in center panel */
+.lotusLayout {
+    border: 0px solid #ECECEC !important;
+}
+#lotusTitleBar, .lotusTitleBar {
+padding-top:10px;
+}
+*+html  #lotusTitleBar, .lotusTitleBar {
+padding-top:0px !important;
+}
+/* BUG: Add extra padding between main tabs and masthead (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/blogs-main.jpg)-- ddh */
+
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab, .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:hover, .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:focus, .lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected a.lotusTab:active {
+	background: none;
+	background-color:#fff;
+    color: #222;
+	border-top: 2px solid #00b0da;
+	border-left: 1px solid #d2d2d2;
+	border-right: 1px solid #d2d2d2;
+	border-bottom: 1px solid #ffffff;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab, .lotusui30 .lotusTitleBar2 .lotusNavTabs li a.lotusTab:visited {
+    padding: 8px 0;
+}
+  .lotusNavTabs li a {
+	background-color:#d2d2d2;
+}
+a.lotusTab  { 
+	text-shadow: 1px 1px 1px #ffffff !important;
+}
+.lotusNavTabs li a:hover,.lotusNavTabs li a:focus{
+    border-color: #000000 #DFDFDF #DFDFDF #D2D2D2;
+    color: #000000;
+background-color: #DDDDDD;
+-webkit-transition: background-color 0.3s ease 0s;
+-moz-transition: background-color 0.3s ease 0s;
+-o-transition: background-color 0.3s ease 0s;
+transition: background-color 0.3s ease 0s;
+}
+
+.lotusui30 .lotusTitleBar2 .lotusNavTabs .lotusTabInner {
+    border-left: 0 solid #e5e5e5;
+    border-right: 0 solid #e5e5e5;
+}
+
+.lotusui30 .lotusTitleBar2 .lotusNavTabs .lotusTabWrapper {
+    margin-right: 0px;
+}
+
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li.lotusSelected {
+    background-color: transparent !important;
+    border-bottom-color: #fff;
+}
+
+.lotusui30 .lotusTitleBar .lotusTabs {
+ background:none !important;
+    font-size: 1.2em;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+ .lotusTabs li a {
+    border-color: #DFDFDF #DFDFDF #DFDFDF #D2D2D2 !important;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li {
+    margin: 0 5px 0 0;
+	
+}
+.lotusTabs li a {
+background-color:#d2d2d2;
+}
+.lotusTabs li a:hover,.lotusTabs li a:focus{
+    border-color: #000000 #DFDFDF #DFDFDF #D2D2D2;
+    color: #000000;
+background-color: #DDDDDD;
+-moz-transition: background-color 0.3s ease 0s;
+}
+.lotusui30 .lotusTitleBar2 .lotusNavTabs li {
+    margin-right: 5px;
+}
+.lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a, .lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:hover, .lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:focus, .lotusui30 .lotusTitleBar .lotusTabs li.lotusSelected a:active {
+    border-color: #D2D2D2 #D2D2D2 #FFFFFF !important;
+}
+.lotusTabContainer .lotusTabs li a {
+background-color:transparent !important;
+}/* per design: Change in tab background color and font size (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/blogs-main.jpg) -- ddh */
+
+.lotusui30 .lotusTitleBar .lotusTabs li a {
+    padding: 11px 20px !important;/* per design: Change in tab background color and font size (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/blogs-main.jpg) -- ddh */
+}
+
+/* dW IC TAB STYLES END ===================================  */
+
+
+
+/* dW IC HEADER STYLES BEGIN ===================================  */
+/* dW IC h2 header styles */
+.lotusui30 div.lotusTitleBar2 h2.lotusHeading {
+    font-size: 1.5em;
+}/* per design: Remove icon in heading in all apps (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/home-discover.jpg) -- ddh */
+
+.lotusui30 .lotusTitleBar h2 a:hover{
+   text-decoration:none !important;
+}/* per design: Ensure consistency across app titles (same size font, #222222, not hyperlinked, correct vertical alignment) -- ddh */
+
+.iconsComponentsBlue24 {
+    background-image: url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/Icons/ComponentsBlue/iconsComponentsBlue24-8bit.png?etag=Xle76ms");
+    background-repeat: no-repeat;
+    display: none;
+}/* per design: Remove icon in heading in all apps (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/home-discover.jpg) -- ddh */
+
+.lotusui30 .lotusTitleBar2 {border-bottom:1px solid #d2d2d2 !important;
+background:#f8f8f8;
+background:-moz-linear-gradient(top, #f8f8f8 0%, #f8f8f8 92%, #eaeaea 100%) !important;
+background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-
+stop(92%,#f8f8f8), color-stop(100%,#eaeaea)) !important;
+background:linear-gradient(top, #f8f8f8 0%, #f8f8f8 92%, #eaeaea 100%) !important;}/* per design: Modify app title to be consistent with other apps (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/home-discover.jpg) -- ddh */
+
+/* dW IC HEADER STYLES END ===================================  */
+
+
+/* dW IC ADVANCED SEARCH APPLICATION STYLES BEGIN ===================================  */
+/* dW IC highlight styles */
+a.lconnSearchHighlight {
+    background-color: #ededed;
+}
+.lconnSearchResults .lconnSearchHighlight b, .lconnSearchResults a.lconnSearchHighlight, .lconnSearchResults h4 a b {
+    background-color: #fffadc;
+}/* per design: Change the advanced search results highlight color to light yellow (http://dwmaster.rtp.raleigh.ibm.com/graphicdesign/ami/ic4/advancedsearch-results.jpg) -- ddh */
+
+/* dW IC ADVANCED SEARCH APPLICATION STYLES END ===================================  */
+
+/* dW IC MASTHEAD/FOOTER STYLES BEGIN ===================================  */
+/* To fix z-index values to display social toolbar for IE -- ddh */
+.lotusui30 .lotusBanner {
+/*z-index: 1000;*/
+z-index: 900;
+}
+
+
+
+/* To fix font alignment issue in search box -- ddh */
+#ibm-com .dijitDialog {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 8px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 0 20px #333;
+    overflow: visible;
+}
+.emailDialog.dijitDialog {
+    width: 370px;
+}
+
+div.dijitDialog form.ibm-column-form label {
+    width: 125px;
+}
+div.dijitDialog form label {
+    color: #333;
+}
+form.ibm-column-form label, form.ibm-row-form label {
+    font-weight: bold;
+}
+form.ibm-column-form label {
+    clear: left;
+    display: block;
+    float: left;
+}
+  .ibm-buttons-row:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.ibm-buttons-row {
+    clear: both;
+    width: 100%;
+	margin-left:75px;
+}
+  a.ibm-btn-pri, input.ibm-btn-pri, input.ibm-btn-arrow-pri, input.ibm-btn-cancel-pri, input.ibm-btn-cart-pri, input.ibm-btn-customize-pri, input.ibm-btn-download-pri, input.ibm-btn-view-pri {
+    font-size: 1em;
+    font-weight: bold;
+}
+a.ibm-btn-pri, a.ibm-btn-sec, input.ibm-btn-pri, input.ibm-btn-sec, input.ibm-btn-arrow-pri, input.ibm-btn-cancel-pri, input.ibm-btn-cart-pri, input.ibm-btn-customize-pri, input.ibm-btn-download-pri, input.ibm-btn-view-pri, input.ibm-btn-sec, input.ibm-btn-add-sec, input.ibm-btn-arrow-sec, input.ibm-btn-back-sec, input.ibm-btn-cancel-sec, input.ibm-btn-cart-sec, input.ibm-btn-chat-sec, input.ibm-btn-customize-sec, input.ibm-btn-download-sec, input.ibm-btn-email-sec, input.ibm-btn-pda-sec, input.ibm-btn-phone-sec, input.ibm-btn-refresh-sec, input.ibm-btn-remove-sec, input.ibm-btn-undo-sec, input.ibm-btn-video-sec, input.ibm-btn-view-sec {
+    background: -moz-linear-gradient(center top , #f5f5f5, #dbdbdb) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#dbdbdb'));
+	background: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#dbdbdb));
+	background: -o-linear-gradient(top, #f5f5f5, #dbdbdb) transparent;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    color: #000;
+    cursor: pointer;
+    font-family: Arial,Helvetica;
+    margin-bottom: 20px;
+    min-width: 120px;
+    padding: 7px 20px;
+    text-align: center;
+    text-shadow: 0 1px 0 #fff;
+}
+a.ibm-btn-pri:hover, a.ibm-btn-sec:hover, input.ibm-btn-pri:hover, input.ibm-btn-sec:hover, input.ibm-btn-arrow-pri:hover, input.ibm-btn-cancel-pri:hover, input.ibm-btn-cart-pri:hover, input.ibm-btn-customize-pri:hover, input.ibm-btn-download-pri:hover, input.ibm-btn-view-pri:hover, input.ibm-btn-sec:hover, input.ibm-btn-add-sec:hover, input.ibm-btn-arrow-sec:hover, input.ibm-btn-back-sec:hover, input.ibm-btn-cancel-sec:hover, input.ibm-btn-cart-sec:hover, input.ibm-btn-chat-sec:hover, input.ibm-btn-customize-sec:hover, input.ibm-btn-download-sec:hover, input.ibm-btn-email-sec:hover, input.ibm-btn-pda-sec:hover, input.ibm-btn-phone-sec:hover, input.ibm-btn-refresh-sec:hover, input.ibm-btn-remove-sec:hover, input.ibm-btn-undo-sec:hover, input.ibm-btn-video-sec:hover, input.ibm-btn-view-sec:hover {
+    background: -moz-linear-gradient(center top , #ffffff, #cbcbcb) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cbcbcb'));
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cbcbcb));
+	background: -o-linear-gradient(top, #ffffff, #cbcbcb) transparent;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+a.ibm-btn-pri:focus, a.ibm-btn-sec:focus, input.ibm-btn-pri:focus, input.ibm-btn-sec:focus, input.ibm-btn-arrow-pri:focus, input.ibm-btn-cancel-pri:focus, input.ibm-btn-cart-pri:focus, input.ibm-btn-customize-pri:focus, input.ibm-btn-download-pri:focus, input.ibm-btn-view-pri:focus, input.ibm-btn-sec:focus, input.ibm-btn-add-sec:focus, input.ibm-btn-arrow-sec:focus, input.ibm-btn-back-sec:focus, input.ibm-btn-cancel-sec:focus, input.ibm-btn-cart-sec:focus, input.ibm-btn-chat-sec:focus, input.ibm-btn-customize-sec:focus, input.ibm-btn-download-sec:focus, input.ibm-btn-email-sec:focus, input.ibm-btn-pda-sec:focus, input.ibm-btn-phone-sec:focus, input.ibm-btn-refresh-sec:focus, input.ibm-btn-remove-sec:focus, input.ibm-btn-undo-sec:focus, input.ibm-btn-video-sec:focus, input.ibm-btn-view-sec:focus {
+    background: -moz-linear-gradient(center top , #ffffff, #ababab) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+a.ibm-btn-pri:active, a.ibm-btn-sec:active, input.ibm-btn-pri:active, input.ibm-btn-sec:active, input.ibm-btn-arrow-pri:active, input.ibm-btn-cancel-pri:active, input.ibm-btn-cart-pri:active, input.ibm-btn-customize-pri:active, input.ibm-btn-download-pri:active, input.ibm-btn-view-pri:active, input.ibm-btn-sec:active, input.ibm-btn-add-sec:active, input.ibm-btn-arrow-sec:active, input.ibm-btn-back-sec:active, input.ibm-btn-cancel-sec:active, input.ibm-btn-cart-sec:active, input.ibm-btn-chat-sec:active, input.ibm-btn-customize-sec:active, input.ibm-btn-download-sec:active, input.ibm-btn-email-sec:active, input.ibm-btn-pda-sec:active, input.ibm-btn-phone-sec:active, input.ibm-btn-refresh-sec:active, input.ibm-btn-remove-sec:active, input.ibm-btn-undo-sec:active, input.ibm-btn-video-sec:active, input.ibm-btn-view-sec:active {
+    background: -moz-linear-gradient(center top , #cbcbcb, #f5f5f5) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 1px 3px #c1c1c1 inset;
+    color: #515151;
+    padding: 7px 20px;
+}
+a.ibm-btn-pri:active, a.ibm-btn-arrow-pri:active, a.ibm-btn-sec:active {
+    padding: 6px 20px 5px;
+}
+#from_first_name, #from_last_name, #from_last_name, #from_email, #to_first_name, #to_last_name, #to_email  {
+    border: 1px solid #bababa;
+    color: #333;
+    font-style: normal;
+    padding: 4px;
+}
+#from_first_name:hover, #from_last_name:hover, #from_last_name:hover, #from_email:hover, #to_first_name:hover, #to_last_name:hover, #to_email:hover  {
+    border: 1px solid #5c5c5c;
+    color: #222;
+}
+.ibm-required {
+    font-size: 1.2em;
+    line-height: 16px;
+}
+.ibm-required {
+    color: #d9182d;
+}
+.ibm-error, .ibm-confidential {
+    color: #d9182d !important;
+}
+.ibm-buttons-row .ibm-sep {
+    padding: 5px;
+}
+#etpForm input[type="text"]:focus, #etpForm input[type="password"]:focus,  #etpForm textarea:focus, .v17 .dijitDialog input[type="text"]:focus, .dijitDialog input[type="password"]:focus, .dijitDialog textarea:focus {
+    background: -moz-linear-gradient(center top , #e5e5e5, #ffffff) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e5e5e5', endColorstr='#ffffff'));
+	background: -webkit-gradient(linear, left top, left bottom, from(#e5e5e5), to(#ffffff));
+	background: -o-linear-gradient(top, #e5e5e5, #ffffff) transparent;
+    border: 1px solid #5c5c5c !important;
+    color: #222;
+    font-style: normal;
+}
+:focus {outline:none;}
+label[for=from_first_name] span.ibm-required, label[for=from_last_name] span.ibm-required, label[for=to_first_name] span.ibm-required, label[for=to_last_name] span.ibm-required  {float:right; margin-right:53px;}
+label[for=from_email] span.ibm-required, label[for=to_email] span.ibm-required {float:right; margin-right:28px;}
+
+form.ibm-column-form span input[type="text"], form.ibm-column-form span input[type="password"], form.ibm-column-form #ibm-content span textarea {
+    position: relative;
+    top: -5px;
+}
+  div.ibm-rule {
+    border-top: 1px dotted #ccc;
+    clear: both;
+    height: 1px;
+    margin-top: 10px;
+}
+  div.ibm-rule hr, div.ibm-alternate-rule hr, div.ibm-rule-alternate hr, div.ibm-alternate-rule-1 hr, div.ibm-alternate-rule-2 hr {
+    display: none;
+}
+.lotusui30 .lotusSearch .lotusText, .lotusui30 .lotusSearch .lotusScope  {
+   *margin: 0 0px !important; /* IE 7 */
+    margin: 0 0px\0/ !important; /* IE 8-9 */
+}
+
+/* To fix styles for IC5 submenu */
+#lotusBannerHomepage a:before {
+	content: "Home";
+}
+.lotusui30 #lotusBannerHomepage .lconnBannerIcon {
+    background-position: 15px 0;
+	margin-left:-15px;
+}
+.lotusui30 #lotusBannerHomepage a:hover .lconnBannerIcon, .lotusui30 #lotusBannerHomepage a:focus .lconnBannerIcon, .lotusui30 #lotusBannerHomepage.lotusSelected .lconnBannerIcon {
+    background-position: 15px 0;
+	margin-left:-15px;
+}
+ 
+.lotusui30 #lotusBannerProfiles .lconnBannerIcon {
+    background-position: 15px 0;
+	margin-left:0px;
+}
+.lotusui30 #lotusBannerProfiles a:hover .lconnBannerIcon, .lotusui30 #lotusBannerProfiles a:focus .lconnBannerIcon, .lotusui30 #lotusBannerProfiles.lotusSelected .lconnBannerIcon {
+    background-position: 15px 0;
+	margin-left:0px;
+}
+.lotusui30 #lotusBannerCommunities .lconnBannerIcon {
+    background-position: 15px 0;
+	margin-left:0px;
+}
+.lotusui30 #lotusBannerCommunities a:hover .lconnBannerIcon, .lotusui30 #lotusBannerCommunities a:focus .lconnBannerIcon, .lotusui30 #lotusBannerCommunities.lotusSelected .lconnBannerIcon {
+    background-position: 15px 0;
+}
+.lconnSprite-iconActivitiesBlue16 {
+    background-position: 0 15px;
+}
+
+.lconnSprite-iconBlogsBlue16 {
+    background-position: 0 15px;
+}
+.lconnSprite-iconBookmarksBlue16 {
+    background-position: 0 15px;
+}
+.lconnSprite-iconFilesBlue16 {
+    background-position: 0 15px;
+}
+.lconnSprite-iconForumsBlue16 {
+    background-position: 0 15px;
+}
+.lconnSprite-iconWikisBlue16 {
+    background-position: 0 15px;
+}
+/* To fix styles for email lightbox in social toolbar -- ddh */
+.dijitDialogPaneContent {
+    background-color: #FFFFFF !important;
+}
+
+.dijitDialogPaneContent .ibm-main {
+    padding: 20px !important;
+}
+div#ibm-overlay-top .ibm-buttons-row p {
+    padding-bottom: 0px !important;
+    padding-left: 20px !important;
+}
+div.emailDialog {
+    background: none repeat scroll 0 0 transparent;
+    border: 8px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 0 20px #333333 !important;
+    overflow: visible;
+}
+
+.lotusui30dojo .dijitDialog .emailDialog {
+    border: 0 none;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.4);
+}
+div.emailDialog {
+    border: 3px solid rgba(2, 2, 2, 0.4);
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    outline: medium none;
+    overflow: visible;
+}
+.dijitDialog .emailDialog {
+    z-index: 1250 !important;
+}
+.dijitDialog .emailDialog {
+    width: auto;
+}
+.emailDialog {
+    display: block;
+    overflow: auto;
+}
+*+html div.emailDialog {
+    background: #fff !important;
+	border: 8px solid !important;
+	border-color: #aaaaaa !important;
+	width: 370px !important;
+}
+.lotusui30dojo .emailDialog .dijitDialogTitleBar {
+    background: -moz-linear-gradient(center top , #FFFFFF 0%, #FFFFFF 100%) repeat scroll 0 0 transparent;
+    padding: 10px 20px;
+	 display: block;
+    background: #fff !important;
+}
+div.ibm-title {
+	margin-top:-20px;
+}
+div.emailDialog .dijitDialogCloseIcon {
+    background: url("//1.www.s81c.com/i/v17/overlay/overlay-close.png") no-repeat scroll 0 0 transparent;
+    height: 42px;
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    width: 42px;
+	cursor: pointer;
+	z-index:99999
+}
+div.emailDialog .dijitDialogCloseIconHover {
+    background-position: 0 -42px !important;
+}
+
+*+html div.emailDialog .dijitDialogCloseIcon {
+	right: -22px;
+	top: -25px;
+}
+*+html div#ibm-overlay-top .ibm-buttons-row p {
+    padding-bottom: 12px !important;
+}
+
+form.ibm-column-form  a.ibm-error-link {
+    background: transparent url("//1.www.s81c.com/i/v17/icons/ibm_sprite_status_sm_OFF.png") no-repeat scroll 0 0 !important; 
+	background-position: 0px -201px !important;
+	text-indent:-9999px;
+	margin-right:5px;
+}
+#etpForm a.ibm-error-link:hover{
+	background:url("//1.www.s81c.com/i/v17/icons/sprites-form.gif") no-repeat scroll 0 -126px transparent}
+
+form.ibm-column-form p {
+    clear: both !important;
+    display: inline-block !important;
+    width: 100% !important;
+	margin-bottom:2px;
+}
+div#ibm-overlay-top p {
+    background-color: #FFFFFF;
+    clear: left !important;
+}
+#ibm-com .dijitDialogUnderlay {
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.6;
+}
+div#ibm-overlay-top form.ibm-column-form label {
+    display: block !important;
+    float: left !important;
+    width: 120px;
+}
+div#ibm-overlay-top form label {
+    padding-bottom: 0.2em;
+}
+form.ibm-column-form label {
+    margin-top: 3px;
+	line-height: 14px;
+}
+#etpForm a.ibm-error-link {
+    left: 13px;
+    position: relative !important;
+    top: -30px;
+}
+form p span a.ibm-calculator-link, form p span a.ibm-calendar-link, form p span a.ibm-information-link, form p span a.ibm-error-link, form p span a.ibm-help-link {
+    display: inline-block;
+    height: 16px;
+ 
+    overflow: hidden;
+    padding: 0 !important;
+    position: relative;
+    text-decoration: none;
+    text-indent: -999em;
+    width: 16px;
+  float:right;
+}
+form span a.ibm-error-link {
+    background-position: 0 -201px;
+}
+span[class*="-link"], a[class*="-link"], table.ibm-data-table td a[class*="-link"] {
+    border-bottom: 0 none;
+}
+
+/* FOOTER: To fix font and positioning issues for icons -- ddh */
+
+.lotusui30 .lotusFooter {
+    padding: 0 !important;
+	max-width:100%;
+}
+.lotusui30 .lotusBanner .ibm-access {
+    margin-left: -3000px !important;
+    position: absolute !important;
+    width: 500px;
+} /* To hide content for accessibility purposes (i.e. screen readers) -- ddh */
+
+/* global background color for dw recommends posts */
+div.dwrecommends {
+	background-color:#ffffcc !important;
+	}
+	
+/* global background startup screen for IC4 apps -- ddh */ 
+html, body {
+    background: url("//www.ibm.com/i/c.gif") no-repeat scroll 50% 200px #ffffff; !important;
+}
+
+/* Defect #14845: BLOGS - Missing grid/table & borders around sections within the AUTHOR page. -- ddh */
+table.rollertable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.lotusui30 .lotusMeta {
+    color: #222222;
+    font-size: 0.9em;
+}
+
+table.rollertable th, table.rollertable th {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #F4F5F6;
+	border: 1px solid #DBDBDB;
+    border-color: #DBDBDB #DBDBDB -moz-use-text-color !important;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 1px 0;
+    padding: 3px;
+    text-align: left;
+}
+table.rollertable td, table.rollertable tbody td {
+    border: 1px solid #DBDBDB;
+}
+table.rollertable tbody td {
+    padding: 3px;
+}
+table.rollertable td, table.rollertable tbody td {
+    vertical-align: top;
+}
+
+#memberAddDialog {
+    background-color: white;
+    border: 1px solid gray;
+    height: auto;
+    padding: 0 10px 10px;
+    width: 35em;
+}
+#memberAddDialog form, #publicMemberAddDialog form {
+    margin: 0;
+    padding: 0;
+}
+.AddMembers .field {
+    padding: 5px;
+}
+.AddMembers .memberList {
+    visibility: hidden;
+}
+.AddMembers .memberList {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: white;
+    border-color: #9A9A9A #9A9A9A -moz-use-text-color;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+}
+.member {
+    border: 1px solid #9A9A9A  !important;
+}
+.AddMembers .memberList {
+	border-color: #9A9A9A #9A9A9A -moz-use-text-color;
+	border-style: solid solid none;
+    border-width: 0px 0px medium !important;
+}
+
+.AddMembers .typeAhead {
+    width: 310px;
+}
+.AddMembers .typeAhead {
+    border: 1px solid #9A9A9A;
+    font-size: 1.1em;
+}
+.field .fieldAdd {
+   background: url("/developerworks/community/blogs/roller-ui/images/add_icon.gif") no-repeat scroll center center transparent !important;
+    border: medium none;
+    height: 16px;
+    vertical-align: top;
+    width: 16px;
+}
+.field .fieldAddText {
+    border: medium none;
+    display: none;
+    height: 16px;
+    width: 16px;
+}
+.dijit_a11y .field .fieldAddText {
+    border: medium none;
+    cursor: pointer;
+    display: inline;
+    height: 16px;
+    width: 16px;
+}
+.dijit_a11y .field .fieldDel {
+    border: medium none;
+    display: none;
+}
+.field .fieldDelText {
+    border: medium none;
+    display: none;
+    height: 16px;
+    width: 16px;
+}
+.dijit_a11y .field .fieldDelText {
+    border: medium none;
+    cursor: pointer;
+    display: inline;
+    height: 16px;
+    width: 16px;
+}
+#memberAddDialog .submitArea, #publicMemberAddDialog .submitArea {
+    margin-top: 5px;
+}
+h1 {
+    clear: both;
+    font-size: 2em;
+    line-height: 1em;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+.AddMembers .memberList .member {
+    padding: 3px;
+}
+.AddMembers .memberList .member {
+    border-bottom: 0px solid #9A9A9A;
+}
+.AddMembers .memberList .member .type {
+    color: #AFAFAF;
+    font-style: italic;
+}
+.AddMembers .memberList .member .fieldDel {
+}
+.AddMembers .memberList .member .fieldDel {
+}
+.field .fieldDel {
+    background: url("/developerworks/community/blogs/roller-ui/images/remove_icon.gif") no-repeat scroll center center transparent !important;
+    border: medium none;
+    height: 16px;
+    width: 16px;
+}
+.lotusFormField button.fieldAdd {
+   background: url("/developerworks/community/blogs/roller-ui/images/add_icon.gif") no-repeat scroll center center transparent !important;
+    border: medium none;
+    height: 16px !important;
+    vertical-align: top;
+    width: 16px !important;
+}
+/* fixes defects: 13639 and 17503 relating the long name in the vcard */
+.MemberContainers.lotusLeft .fn {
+    display: inline-block;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.lotusPersonInfo .fn{ display: inline-block;
+	width:160px;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* fixes defects: 7399 and 13638 relating the long name in the vcard */
+
+#membersListId .fn {
+display: inline-block;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	margin: 0px 0px 0px 0px;
+}
+
+#membersListId img {padding-right:30px;}	
+.lotusPostName .fn  {
+display: inline-block;
+    max-width: 105px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	}
+
+#section_authors #blogAuthors .fn {
+    word-wrap: break-word;
+    max-width: 180px;
+    display: inline-block;
+	overflow:hidden;
+}	
+
+#entry_summary_table .fn {
+    word-wrap: break-word;
+    max-width: 160px;
+    display: inline-block;
+	overflow:hidden;	
+}
+/* fixes defect 14305 : HOME - Blue box appears in left navigation menu */
+.lotusui30 .lotusHidden{display:none!important;}
+
+
+/* fixes defect 14225 : BLOGS - If the user likes a blog entry, the "You like this" image and the "Unlike" text will move on the row below, with a right-side alignment. */
+.blogsWrapText {clear:both;}
+
+
+#wikiContentDiv dd {margin-left:40px;}
+.css-entry dd {margin-left:40px;}
+.entryContentContainer dd {margin-left:40px;}
+#mainHWDiv dd {margin-left:40px;}
+ .lotusPostDetails dd {margin-left:40px !important;}
+ 
+ /* BLOGS IC5: General style fixes */
+ #NotificationFormEx .fieldborder .fieldcontent .typeAheadPeople {
+    padding: 4px 5px;
+}
+  /* fixes defect #23063 : BLOGS - White border appears around buttons as part of minimal blog page. */
+.lotusui30 .lotusPlaceBar .lotusInlinelist li {
+    box-shadow: 0 0 0 #fbfbfb inset;
+      margin-left: 12px;
+    padding: 0 0 0 10px ;
+}
+.lotusui30 .lotusPlaceBar .lotusBtn {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-width: 0px;
+	padding: 8px 0;
+}
+
+.lotusui30 .lotusPlaceBar .lotusBtn:hover, .lotusui30 .lotusPlaceBar .lotusBtn:focus, .lotusui30 .lotusPlaceBar .lotusBtn:active {
+    background: none !important;
+	background-color: #dddddd;
+}
+.lotusui30 .lotusPlaceBar .lotusBtn:active {
+    box-shadow: none !important;
+}
+  .lotusui30 .lotusTagCloud {
+    padding-left:15px;
+}
+ 
+ /* COMMUNITIES IC5: General style fixes */
+ .lotusui30_layout .lotusColLeft .lotusTwistyClosed {
+    background-position: 2px -102px;
+}
+.lotusui30_layout .lotusColLeft .lotusTwistyOpen {
+    background-position: 2px 2px;
+}
+.lotusInner span a:hover, .lotusInner span a:focus, .lotusInner span a:active {
+	text-decoration:none;
+}
+#addCommunityTitle {
+	font-weight:bold;
+}
+.lotusui30 .lotusMenu li .communityImgLink a:hover {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-top:5px !important;
+}
+  .lotusui30 .lotusMenu li .communityImgLink a:hover, .lotusui30 .lotusMenu li.lconnCommLogo a:hover {
+   margin-top:0px !important;
+    padding-bottom:10px !important;
+}
+ /* PROFILES IC5: General style fixes */
+ .lotusui30 .pfSelected {
+	background-color:#ededed;
+}
+.lotusui30_layout .lotusColLeft .lotusSearch .lotusSearchButton {
+    background-position: -593px -8px;
+}
+  .lotusui30 .lotusTitleBar .lotusInner {
+    width: auto !important;
+}
+
+  .lotusui30 .lotusTitleBar {
+    background: -moz-linear-gradient(center top , #f8f8f8 0%, #f8f8f8 92%, #eaeaea 100%) repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+	 filter:
+    progid:DXImageTransform.Microsoft.gradient(startColorStr='#f8f8f8',EndColorStr='#eaeaea') !important;
+    -ms-filter:
+    "progid:DXImageTransform.Microsoft.gradient(startColorStr='#f8f8f8',EndColorStr='#eaeaea')" !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#eaeaea));
+    background: -o-linear-gradient(top, #f8f8f8, #eaeaea) !important;
+    border-bottom: 1px solid #d2d2d2 !important;
+}
+
+/* Defect 22788- Fix for showing the accepted answer on forums  */
+.forumQuestion .forumAnswer .forumAnswerIndicator, .forumQuestion .acceptedReply .forumAcceptedAnswerIndicator {
+    display: inline !important;
+}
+/* Defect 23357- BLOGS - Using Chrome under Linux, the app names don't fit inside the 'Apps' submenu on Blogs app.  */
+.lotusui30 .dijitMenu.lotusNavMenu, .lotusui30 .dijitTooltipDialogPopup .lotusNavMenu {
+    width: auto;
+}
+ #lotusBannerCommunities_dropdown {
+    overflow-y:hidden;
+  }
+  
+ /* Defect 23357- BLOGS - Using Chrome under Linux, the app names don't fit inside the 'Apps' submenu on Blogs app.  */ 
+  
+    a.ibm-share-yahoo-japan, a.ibm-share-hatena, a.ibm-share-livedoor, ul:hover a.ibm-share-yahoo-japan, ul:hover a.ibm-share-hatena, ul:hover a.ibm-share-livedoor, ul:hover a.ibm-share-yahoo-japan:hover, ul:hover a.ibm-share-hatena:hover, ul:hover a.ibm-share-livedoor:hover, ul a.ibm-share-yahoo-japan:focus, ul a.ibm-share-hatena:focus, ul a.ibm-share-livedoor:focus {
+    background: rgba(0, 0, 0, 0) url("//www.ibm.com/i/v17/icons/sprites-pt-jp.png") no-repeat scroll 0 0;
+}
+a.ibm-share-yahoo-japan {
+    background-position: -52px 0;
+}
+a.ibm-share-hatena {
+    background-position: -52px -26px;
+}
+a.ibm-share-livedoor {
+    background-position: -52px -52px;
+}
+ul:hover a.ibm-share-yahoo-japan {
+    background-position: -26px 0;
+}
+ul:hover a.ibm-share-hatena {
+    background-position: -26px -26px;
+}
+ul:hover a.ibm-share-livedoor {
+    background-position: -26px -52px;
+}
+ul:hover a.ibm-share-yahoo-japan:hover, ul a.ibm-share-yahoo-japan:focus {
+    background-position: -78px 0;
+}
+ul:hover a.ibm-share-hatena:hover, ul a.ibm-share-hatena:focus {
+    background-position: -78px -26px;
+}
+ul:hover a.ibm-share-livedoor:hover, ul a.ibm-share-livedoor:focus {
+    background-position: -78px -52px;
+}
+ul:hover a.ibm-share-active-yahoo-japan:hover {
+    background-position: 0 0;
+}
+ul:hover a.ibm-share-active-hatena:hover {
+    background-position: 0 -26px;
+}
+ul:hover a.ibm-share-active-livedoor:hover {
+    background-position: 0 -52px;
+}
+
+a.ibm-share-kaixn, a.ibm-share-renren, a.ibm-share-baidu, a.ibm-share-weibo, ul:hover a.ibm-share-kaixn, ul:hover a.ibm-share-renren, ul:hover a.ibm-share-baidu, ul:hover a.ibm-share-weibo, ul:hover a.ibm-share-kaixn:hover, ul:hover a.ibm-share-renren:hover, ul:hover a.ibm-share-baidu:hover, ul:hover a.ibm-share-weibo:hover, ul a.ibm-share-kaixn:focus, ul a.ibm-share-renren:focus, ul a.ibm-share-baidu:focus, ul a.ibm-share-weibo:focus {
+    background: rgba(0, 0, 0, 0) url("//www.ibm.com/i/v17/icons/sprites-pt-cn.png") no-repeat scroll 0 0;
+}
+a.ibm-share-kaixn {
+    background-position: -52px 0;
+}
+a.ibm-share-renren {
+    background-position: -52px -26px;
+}
+a.ibm-share-baidu {
+    background-position: -52px -52px;
+}
+a.ibm-share-weibo {
+    background-position: -52px -78px;
+}
+ul:hover a.ibm-share-kaixn {
+    background-position: -26px 0;
+}
+ul:hover a.ibm-share-renren {
+    background-position: -26px -26px;
+}
+ul:hover a.ibm-share-baidu {
+    background-position: -26px -52px;
+}
+ul:hover a.ibm-share-weibo {
+    background-position: -26px -78px;
+}
+ul:hover a.ibm-share-kaixn:hover, ul a.ibm-share-kaixn:focus {
+    background-position: -78px 0;
+}
+ul:hover a.ibm-share-renren:hover, ul a.ibm-share-renren:focus {
+    background-position: -78px -26px;
+}
+ul:hover a.ibm-share-baidu:hover, ul a.ibm-share-baidu:focus {
+    background-position: -78px -52px;
+}
+ul:hover a.ibm-share-weibo:hover, ul a.ibm-share-weibo:focus {
+    background-position: -78px -78px;
+}

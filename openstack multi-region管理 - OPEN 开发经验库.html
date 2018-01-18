@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)http://www.open-open.com/lib/view/open1459335472918.html -->
+<html><head lang="cn"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>openstack multi-region管理 - OPEN 开发经验库</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="keywords" content="OpenStack,数据库,Memcached,分布式/云计算/大数据">
+	<meta name="description" content="由于有些物理集群处于不同的地点，或者某一些物理集群规模太大，就需要创建多个openstack集群对其进行管理。而每个openstack集群是单独管理的，这就导致管理入口太多，不方便统一管理。那么就需要一种统一管理的机制。">
+	<link rel="shortcut icon" href="http://www.open-open.com/lib/favicon.ico">
+	<link rel="copyright" href="http://www.open-open.com/">
+
+	<link href="./openstack multi-region管理 - OPEN 开发经验库_files/idea.min.css" rel="stylesheet">
+	<link href="./openstack multi-region管理 - OPEN 开发经验库_files/jquery-ui.min.css" rel="stylesheet">
+	
+	<link href="./openstack multi-region管理 - OPEN 开发经验库_files/bootstrap.min.css" rel="stylesheet">
+	<link href="./openstack multi-region管理 - OPEN 开发经验库_files/font-awesome.min.css" rel="stylesheet">
+	<link href="./openstack multi-region管理 - OPEN 开发经验库_files/jquery-confirm.css" rel="stylesheet">
+	<link href="./openstack multi-region管理 - OPEN 开发经验库_files/styles.css" rel="stylesheet">
+
+	<style type="text/css" media="screen, projection">
+		/*<![CDATA[*/
+		@import "/lib/css/common.css";
+		@import "/lib/css/main.css";
+		@import "/lib/css/jGrowl.css";
+		/*]]>*/
+		.articleIndex li.active a {
+			color: #0099ff;
+		}
+	</style>
+	<style type="text/css">
+		.topheader h1{font-size: 24px;margin: 0;}
+		.crumbs{padding-bottom: 5px;font-size: 11px;}.crumbs,.crumbs a,.meta{color: #bbb;}
+		#tag-list{margin-top: 10px;}
+		#tag-list a{background: #fff;padding: 2px 10px;text-decoration: none;}
+		#tag-list a:hover{background: #c5e2ff;color: #0099ff;}
+		.crumbs a:hover{color: #0099ff;}
+		#readercontainer{background: #fff;padding: 40px 89px;}
+
+		.post-nav ul{
+			margin: 0;
+		}
+		.post-nav>ul>li a{
+			padding-left: 10px;
+		}
+		.post-nav>ul>li>ul>li a{
+			padding-left: 30px;
+		}
+		.post-nav>ul>li>ul>li>ul>li a{
+			padding-left: 50px;
+		}
+		.post-nav ul li.active a{
+			border-left: 2px solid #0099ff;
+		}
+
+		.aside-fixed {
+			left: 50%;
+			margin-left: 310px;
+			position: fixed;
+			top: 65px;
+			width: 260px;
+		}
+		.bdsharebuttonbox {
+			background: #eee none repeat scroll 0 0;
+			margin-top: 10px;
+			padding: 10px;
+			width: 100%;
+		}
+
+	</style>
+
+	<script src="./openstack multi-region管理 - OPEN 开发经验库_files/hm.js.下载"></script><script src="./openstack multi-region管理 - OPEN 开发经验库_files/push.js.下载"></script><script type="text/javascript">
+		if(window.location.toString().indexOf('pref=padindex') != -1){
+		}else{
+			if(/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))){
+				if(window.location.href.indexOf("?mobile")<0){
+					try{
+						if(/Android|Windows Phone|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+							window.location.href="http://m.open-open.com/m/lib/view/1459335472918.html";
+						}else if(/iPad/i.test(navigator.userAgent)){
+							window.location.href="http://m.open-open.com/m/lib/view/1459335472918.html"
+						}else{
+							window.location.href="http://m.open-open.com/m/lib/view/1459335472918.html"
+						}
+					}catch(e){}
+				}
+			}
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		var rooturl="/lib";
+		var wgDocKey='1459335472918';
+		var wgDocTitle='openstack multi-region管理';
+		var wgDocStatusFlag='';
+		var wgUserFolders=null;
+		var wgDownFrame=null;
+		var wgCostByUser=null;
+		var wgDocFavoriteByUser=false;
+		var wgDocScoreByUser=null;
+		var wgUserLogined=0;
+		var tb_pathToImage = "/lib/images/loadingAnimation.gif";
+
+
+	</script>
+
+
+
+
+<script src="./openstack multi-region管理 - OPEN 开发经验库_files/share.js.下载"></script><link rel="stylesheet" href="./openstack multi-region管理 - OPEN 开发经验库_files/share_style0_16.css"></head>
+<body id="view">
+
+
+<style>
+	.global-tags{background: #333;color: #ababab;height: 30px;line-height: 30px;width: 100%;}
+	.global-tags .container{position: relative;}
+	.global-tags ul{ height: 30px; margin: 0; overflow: hidden;}
+	.global-tags a{color:#ababab;padding: 5px; }
+	.global-tags a:hover{color:#e0e0e0; }
+	.global-tags li { display: inline-block; padding: 0; }
+	.global-tags  .more { background-color: #333; height: 30px; position: absolute; right: 0; top: 0; width: 30px; }
+	.global-tags  .more:before { background-image: linear-gradient(90deg, rgba(0, 95, 60, 0), #333); background-size: 100% auto; content: ""; height: 100%; left: -20px; position: absolute; top: 0; width: 20px; }
+
+	/* menu */
+	.all-sort{z-index: 100;position: absolute;left: 15px;top: 30px;display: none;}
+	.all-sort-head{background: #ff3c00; color: #fff; margin-right: 20px; text-align: center; width: 160px;float: left;}
+	.all-sort-head a{color: #fff;}
+	.item-list .subitem{float:left;padding:20px;}
+	.all-sort-list{position:relative;width:160px;border:2px solid #393939;border-top:none;background:#393939;float: left;z-index: 100;}
+	.all-sort-list .item .parent{font-weight: 700;border: none;width: 120px;text-align: right;margin-right: 2px;}
+	.all-sort-list .item .parent i{font: 400 9px/14px consolas; height: 14px; margin-left: 10px; width: 4px;}
+	.all-sort-list .item.bo{border-top:none;}
+	.all-sort-list .item h3{height:40px;line-height:40px;font-size:14px;font-weight:normal;width:158px;overflow:hidden; color:#ffffff;margin: 0;}
+	.all-sort-list .item h3 a{color: #ffffff;}
+	.all-sort-list .item:hover h3,.all-sort-list .item:hover span,.all-sort-list .item:hover h3 a,.all-sort-list .item .active ,.all-sort-list .item .active a,.all-sort-list .item .active span{color:#E4393C;}
+	.all-sort-list .item span{padding:0px 5px;color:#ffffff;font-family:"\5B8B\4F53";}
+	.all-sort-list .item a{text-decoration:none;}
+	.all-sort-list .subitem a{ float: left;  margin:5px 20px 5px 0;border-left:1px solid #eee;line-height: 14px;height: 20px;}
+	.all-sort-list .item a:hover{color:#E4393C;}
+	.all-sort-list .item:hover h3,.all-sort-list .item .active{position:relative;z-index:13;background:#FFF;border-color:#DDD;border-width:1px 0px;border-style:solid;}
+	.all-sort-list .item-list{ display:none; position:absolute; width:705px; min-height:360px; _height:360px; background:#FFF; left:157px;  border:1px solid #DDD; top:0; z-index:10; }
+
+</style>
+
+
+<header class="site-header">
+	<div class="header-top ">
+		<div class="header-top-inner">
+			<div class="" style="margin: 0 30px;">
+				<div class="row">
+					
+						<div class="header-talet pull-left">
+							<a href="http://www.open-open.com/">首页</a> &nbsp;
+							<a class="" href="http://www.open-open.com/code/">代码</a> &nbsp;
+							<a class="" href="http://www.open-open.com/doc/">文档</a> &nbsp;
+							<a title="OPEN论坛频道" href="http://www.open-open.com/solution/">问答</a> &nbsp;
+							<a title="OPEN资讯" class="" href="http://www.open-open.com/news/">资讯</a> &nbsp;
+							<a title="OPEN经验库" class="active" href="http://www.open-open.com/lib/">经验</a> &nbsp;
+							<a title="GitHub日报" class="" href="http://www.open-open.com/github/">GitHub日报</a>
+							&nbsp;|&nbsp;
+							<a class="active" title=" 安卓开发专栏" target="_blank" href="http://www.open-open.com/lib/list/177">安卓开发专栏</a>
+							&nbsp;|&nbsp;
+							<a class="active" href="http://www.open-open.com/lib/tag/%E5%BC%80%E5%8F%91%E8%80%85%E5%91%A8%E5%88%8A" target="_blank" rel="tag">开发者周刊</a>&nbsp;|&nbsp;
+							<a class="active" href="http://www.open-open.com/lib/view/open1475497562965.html" target="_blank" rel="tag">Android Studio 使用推荐</a>&nbsp;|&nbsp;
+							<a class="active" href="http://www.open-open.com/lib/view/open1475497355674.html" target="_blank" rel="tag">Android开发推荐</a>
+							
+						</div>
+					
+						<div class="user-info pull-right" id="Personal">
+							
+								<a href="http://www.open-open.com/lib/view/open1459335472918.html#" title="登录OPEN经验库" class="login">登录</a>&nbsp;&nbsp;
+								<a href="http://www.open-open.com/lib/view/open1459335472918.html#" title="注册新的账号" class="register">注册</a>
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<nav class="navbar ">
+		<div class="container">
+			<div class="navbar-header" style="margin-right: 30px;">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+					<span aria-hidden="true" class="glyphicon glyphicon-menu-up"></span>
+				</button>
+				<a class="top-logo" href="http://www.open-open.com/lib"><span>www.open-open.com/lib</span></a>
+				<span style="font-size: 26px;color: #db6d4c">OPEN经验</span>
+				<span style="font-size: 12px;color: #b5b5b5"></span>
+			</div>
+
+			<div class="pull-right" style="padding: 20px;">
+				<button class="btn btn-info br40" id="upload" type="button">投稿</button>
+			</div>
+			<div id="search">
+				<form onsubmit="document.charset=&#39;utf-8&#39;;" accept-charset="utf-8" method="post" action="http://www.open-open.com/lib/query" name="sf">
+					<input type="hidden" value="all" name="site">
+					<div class="input-group">
+						<input type="text" x-webkit-speech="" placeholder="经验搜索" class="form-control" name="q" id="kw">
+                      <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                      </span>
+
+					</div>
+				</form>
+
+				<!-- /input-group -->
+
+			</div>
+
+		</div>
+	</nav>
+	<div class="global-tags">
+		<div class="container">
+			<div class="all-sort-head"><a href="http://www.open-open.com/lib/list/all">全部经验分类</a>&nbsp;<i aria-hidden="true" class="fa fa-toggle-down"></i></div><div class="all-sort"><div class="all-sort-list"><div data-submenu-id="submenu1" class="item bo"><h3><span>·</span><a href="http://www.open-open.com/lib/list/1">软件开发</a></h3><div id="submenu1" class="item-list clearfix"><div class=" subitem"><a href="http://www.open-open.com/lib/list/405">VR</a><a href="http://www.open-open.com/lib/list/2">Web框架</a><a href="http://www.open-open.com/lib/list/3">GUI开发框架</a><a href="http://www.open-open.com/lib/list/4">图表/报表制作</a><a href="http://www.open-open.com/lib/list/5">搜索引擎</a><a href="http://www.open-open.com/lib/list/6">模板引擎</a><a href="http://www.open-open.com/lib/list/7">缓存组件</a><a href="http://www.open-open.com/lib/list/8">Ajax框架</a><a href="http://www.open-open.com/lib/list/9">XML操作类库</a><a href="http://www.open-open.com/lib/list/10">HTML操作类库</a><a href="http://www.open-open.com/lib/list/12">文件上传</a><a href="http://www.open-open.com/lib/list/347">3D图形处理库</a><a href="http://www.open-open.com/lib/list/14">图形/图像处理</a><a href="http://www.open-open.com/lib/list/15">常用工具包</a><a href="http://www.open-open.com/lib/list/16">JSON开发包</a><a href="http://www.open-open.com/lib/list/353">OAuth开发包</a><a href="http://www.open-open.com/lib/list/17">PDF工具包</a><a href="http://www.open-open.com/lib/list/18">Flex开发</a><a href="http://www.open-open.com/lib/list/19">Office文档处理</a><a href="http://www.open-open.com/lib/list/20">日志处理</a><a href="http://www.open-open.com/lib/list/21">网络工具包</a><a href="http://www.open-open.com/lib/list/22">多媒体处理</a><a href="http://www.open-open.com/lib/list/23">WEB服务/RPC/SOA</a><a href="http://www.open-open.com/lib/list/24">RSS/ATOM相关</a><a href="http://www.open-open.com/lib/list/25">持久层框架</a><a href="http://www.open-open.com/lib/list/26">作业调度框架</a><a href="http://www.open-open.com/lib/list/27">工作流引擎</a><a href="http://www.open-open.com/lib/list/28">业务规则引擎</a><a href="http://www.open-open.com/lib/list/29">面向方面AOP/IoC</a><a href="http://www.open-open.com/lib/list/30">JEE框架</a><a href="http://www.open-open.com/lib/list/31">安全相关</a><a href="http://www.open-open.com/lib/list/32">OpenID/单点登录SSO</a><a href="http://www.open-open.com/lib/list/34">条形码/二维码开发包</a><a href="http://www.open-open.com/lib/list/35">验证码(Captcha)</a><a href="http://www.open-open.com/lib/list/96">网络爬虫</a><a href="http://www.open-open.com/lib/list/214">OSGi</a><a href="http://www.open-open.com/lib/list/237">网络技术</a><a href="http://www.open-open.com/lib/list/324">Google相关API</a><a href="http://www.open-open.com/lib/list/328">Swing开发包</a><a href="http://www.open-open.com/lib/list/332">HTML编辑器</a><a href="http://www.open-open.com/lib/list/337" style="color:#FF3C00">JavaScript开发工具包</a><a href="http://www.open-open.com/lib/list/352">TTS/语音合成和处理</a><a href="http://www.open-open.com/lib/list/367">游戏开发</a><a href="http://www.open-open.com/lib/list/370">加密/解密软件包</a><a href="http://www.open-open.com/lib/list/374">源代码语法着色</a><a href="http://www.open-open.com/lib/list/376">WebSocket 开发</a><a href="http://www.open-open.com/lib/list/381">MathML显示与编辑</a><a href="http://www.open-open.com/lib/list/383">计算机视觉库/人脸识别</a><a href="http://www.open-open.com/lib/list/385">XML-RPC 开发</a><a href="http://www.open-open.com/lib/list/386">Markdown处理库</a><a href="http://www.open-open.com/lib/list/387">神经网络</a><a href="http://www.open-open.com/lib/list/389">多媒体播放器</a><a href="http://www.open-open.com/lib/list/391">推荐引擎</a><a href="http://www.open-open.com/lib/list/394">机器学习</a><a href="http://www.open-open.com/lib/list/401">算法</a></div><div class="cat-right"></div></div></div><div data-submenu-id="submenu2" class="item "><h3><span>·</span><a href="http://www.open-open.com/lib/list/36">开发语言与工具</a></h3><div id="submenu2" class="item-list clearfix"><div class=" subitem"><a href="http://www.open-open.com/lib/list/406">R语言</a><a href="http://www.open-open.com/lib/list/37" style="color:#FF3C00">Java开发</a><a href="http://www.open-open.com/lib/list/38">.NET开发</a><a href="http://www.open-open.com/lib/list/39">PHP开发</a><a href="http://www.open-open.com/lib/list/40">C/C++开发</a><a href="http://www.open-open.com/lib/list/42">Ruby开发</a><a href="http://www.open-open.com/lib/list/43">Python开发</a><a href="http://www.open-open.com/lib/list/148">ActionScript开发</a><a href="http://www.open-open.com/lib/list/145" style="color:#FF3C00">JavaScript开发</a><a href="http://www.open-open.com/lib/list/44">Perl开发</a><a href="http://www.open-open.com/lib/list/263">Delphi开发</a><a href="http://www.open-open.com/lib/list/243">Erlang开发</a><a href="http://www.open-open.com/lib/list/211">Google Go/Golang开发</a><a href="http://www.open-open.com/lib/list/201">Scala开发</a><a href="http://www.open-open.com/lib/list/240">Lua开发</a><a href="http://www.open-open.com/lib/list/392">Apple Swift开发</a><a href="http://www.open-open.com/lib/list/301">Objective-C开发</a><a href="http://www.open-open.com/lib/list/45">BUG跟踪管理</a><a href="http://www.open-open.com/lib/list/294">Lisp开发</a><a href="http://www.open-open.com/lib/list/46">项目构建</a><a href="http://www.open-open.com/lib/list/41">移动开发</a><a href="http://www.open-open.com/lib/list/47">单元测试</a><a href="http://www.open-open.com/lib/list/48">测试工具</a><a href="http://www.open-open.com/lib/list/49">性能测试和优化</a><a href="http://www.open-open.com/lib/list/50">程序调试</a><a href="http://www.open-open.com/lib/list/51">代码混淆和加密</a><a href="http://www.open-open.com/lib/list/52">UML/模型工具</a><a href="http://www.open-open.com/lib/list/53">安装制作</a><a href="http://www.open-open.com/lib/list/54">代码分析/审查/优化</a><a href="http://www.open-open.com/lib/list/55">前端技术</a><a href="http://www.open-open.com/lib/list/179">Eclipse开发工具</a><a href="http://www.open-open.com/lib/list/205">IntelliJ IDEA</a><a href="http://www.open-open.com/lib/list/281">NetBeans</a><a href="http://www.open-open.com/lib/list/349">程序文档工具</a><a href="http://www.open-open.com/lib/list/361">语法/词法分析器</a><a href="http://www.open-open.com/lib/list/362">脚本/动态语言</a><a href="http://www.open-open.com/lib/list/364">持续集成系统</a><a href="http://www.open-open.com/lib/list/375">Web开发工具</a><a href="http://www.open-open.com/lib/list/388">Node.js 开发</a><a href="http://www.open-open.com/lib/list/395">中文分词</a><a href="http://www.open-open.com/lib/list/399" style="color:#FF3C00">Android Studio开发工具</a></div><div class="cat-right"></div></div></div><div data-submenu-id="submenu3" class="item "><h3><span>·</span><a href="http://www.open-open.com/lib/list/57">网站系统</a></h3><div id="submenu3" class="item-list clearfix"><div class=" subitem"><a href="http://www.open-open.com/lib/list/58">论坛系统BBS</a><a href="http://www.open-open.com/lib/list/59">建站系统CMS</a><a href="http://www.open-open.com/lib/list/60">电子商务/商城</a><a href="http://www.open-open.com/lib/list/61">SNS社交网络/交友平台</a><a href="http://www.open-open.com/lib/list/62">百科系统Wiki</a><a href="http://www.open-open.com/lib/list/63">门户平台Portal</a><a href="http://www.open-open.com/lib/list/64">网络会议/视频会议</a><a href="http://www.open-open.com/lib/list/65">相册/照片/多媒体系统</a><a href="http://www.open-open.com/lib/list/66">微博工具/系统</a><a href="http://www.open-open.com/lib/list/363">博客系统</a><a href="http://www.open-open.com/lib/list/379">开源问答系统</a></div><div class="cat-right"></div></div></div><div data-submenu-id="submenu4" class="item "><h3><span>·</span><a href="http://www.open-open.com/lib/list/67">企业应用</a></h3><div id="submenu4" class="item-list clearfix"><div class=" subitem"><a href="http://www.open-open.com/lib/list/68">ERP/CRM</a><a href="http://www.open-open.com/lib/list/69">OA办公/协作平台</a><a href="http://www.open-open.com/lib/list/70">WebMail系统</a><a href="http://www.open-open.com/lib/list/71">地理信息系统GIS</a><a href="http://www.open-open.com/lib/list/72">数据挖掘</a><a href="http://www.open-open.com/lib/list/73">文档管理</a><a href="http://www.open-open.com/lib/list/74">项目/任务管理</a><a href="http://www.open-open.com/lib/list/333">教学科研相关</a><a href="http://www.open-open.com/lib/list/357">开源SIP项目</a><a href="http://www.open-open.com/lib/list/368">计算机辅助设计CAD/CAM</a></div><div class="cat-right"></div></div></div><div data-submenu-id="submenu5" class="item "><h3><span>·</span><a href="http://www.open-open.com/lib/list/75">服务器软件</a></h3><div id="submenu5" class="item-list clearfix"><div class=" subitem"><a href="http://www.open-open.com/lib/list/76">应用服务器</a><a href="http://www.open-open.com/lib/list/77">Web服务器</a><a href="http://www.open-open.com/lib/list/78">FTP服务器</a><a href="http://www.open-open.com/lib/list/79">邮件服务器</a><a href="http://www.open-open.com/lib/list/80">缓存服务器</a><a href="http://www.open-open.com/lib/list/81">版本控制系统</a><a href="http://www.open-open.com/lib/list/82">路由器/防火墙</a><a href="http://www.open-open.com/lib/list/83">电话/通讯/IM聊天</a><a href="http://www.open-open.com/lib/list/84">集群/负载均衡</a><a href="http://www.open-open.com/lib/list/85">流媒体服务器</a><a href="http://www.open-open.com/lib/list/86">消息系统</a><a href="http://www.open-open.com/lib/list/220">分布式/云计算/大数据</a><a href="http://www.open-open.com/lib/list/298">企业服务总线ESB</a><a href="http://www.open-open.com/lib/list/321">建站服务器套件</a><a href="http://www.open-open.com/lib/list/348">虚拟化</a><a href="http://www.open-open.com/lib/list/355">目录服务LDAP</a><a href="http://www.open-open.com/lib/list/393">容器系统</a></div><div class="cat-right"></div></div></div><div data-submenu-id="submenu6" class="item "><h3><span>·</span><a href="http://www.open-open.com/lib/list/87">插件和扩展</a></h3><div id="submenu6" class="item-list clearfix"><div class=" subitem"><a href="http://www.open-open.com/lib/list/88">Eclipse插件</a><a href="http://www.open-open.com/lib/list/89">jQuery插件</a><a href="http://www.open-open.com/lib/list/331">Node.js扩展</a><a href="http://www.open-open.com/lib/list/338">jQuery分页插件</a><a href="http://www.open-open.com/lib/list/346">Prototype扩展</a><a href="http://www.open-open.com/lib/list/356">Chrome插件/扩展</a></div><div class="cat-right"></div></div></div><div data-submenu-id="submenu7" class="item "><h3><span>·</span><a href="http://www.open-open.com/lib/list/90">数据库相关</a></h3><div id="submenu7" class="item-list clearfix"><div class=" subitem"><a href="http://www.open-open.com/lib/list/91">数据库服务器</a><a href="http://www.open-open.com/lib/list/92">数据库管理工具</a><a href="http://www.open-open.com/lib/list/93">数据库驱动程序</a><a href="http://www.open-open.com/lib/list/94">数据库建模</a><a href="http://www.open-open.com/lib/list/122">数据库连接池</a><a href="http://www.open-open.com/lib/list/154">SQL</a><a href="http://www.open-open.com/lib/list/307">NoSQL数据库</a></div><div class="cat-right"></div></div></div><div data-submenu-id="submenu8" class="item "><h3><span>·</span><a href="http://www.open-open.com/lib/list/155">操作系统</a></h3><div id="submenu8" class="item-list clearfix"><div class=" subitem"><a href="http://www.open-open.com/lib/list/156">Linux</a><a href="http://www.open-open.com/lib/list/182">CentOS</a><a href="http://www.open-open.com/lib/list/183">Ubuntu</a><a href="http://www.open-open.com/lib/list/224">UNIX</a><a href="http://www.open-open.com/lib/list/251">Fedora</a><a href="http://www.open-open.com/lib/list/274">FreeBSD</a><a href="http://www.open-open.com/lib/list/310">Solaris</a><a href="http://www.open-open.com/lib/list/311">openSUSE</a><a href="http://www.open-open.com/lib/list/312">Debian</a><a href="http://www.open-open.com/lib/list/313">OpenBSD</a></div><div class="cat-right"></div></div></div><div data-submenu-id="submenu9" class="item "><h3><span>·</span>其他分类</h3><div id="submenu9" class="item-list clearfix"><div class=" subitem"><p class="clearfix"><a href="http://www.open-open.com/lib/list/159" class="parent">软件开发管理<i>&gt;</i></a><a href="http://www.open-open.com/lib/list/174">敏捷开发</a><a href="http://www.open-open.com/lib/list/178">项目管理</a><a href="http://www.open-open.com/lib/list/196">软件架构</a><a href="http://www.open-open.com/lib/list/296">软件测试</a></p><p class="clearfix"><a href="http://www.open-open.com/lib/list/319" class="parent">管理和监控<i>&gt;</i></a><a href="http://www.open-open.com/lib/list/320">系统监控</a><a href="http://www.open-open.com/lib/list/360">日志分析和统计</a><a href="http://www.open-open.com/lib/list/366">备份工具</a></p><p class="clearfix"><a href="http://www.open-open.com/lib/list/322" class="parent">应用工具<i>&gt;</i></a><a href="http://www.open-open.com/lib/list/323">磁盘/光驱工具</a><a href="http://www.open-open.com/lib/list/359">文档/文本编辑</a><a href="http://www.open-open.com/lib/list/384">终端/远程登录</a></p><p class="clearfix"><a href="http://www.open-open.com/lib/list/329" class="parent">游戏相关<i>&gt;</i></a><a href="http://www.open-open.com/lib/list/330">网页游戏</a></p></div><div class="cat-right"></div></div></div></div></div>
+			<ul class="nav__list">
+				<li class="nav__item ">
+
+				</li>
+				<li class="nav__item"><i class="fa fa-tags"></i></li>
+
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Android" rel="tag">Android</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/IOS" rel="tag">IOS</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/JavaScript" rel="tag">JavaScript</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/HTML5" rel="tag">HTML5</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/CSS" rel="tag">CSS</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/jQuery" rel="tag">jQuery</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Python" rel="tag">Python</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/PHP" rel="tag">PHP</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/NodeJS" rel="tag">NodeJS</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Java" rel="tag">Java</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Spring" rel="tag">Spring</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/MySQL" rel="tag">MySQL</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/MongoDB" rel="tag">MongoDB</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Redis" rel="tag">Redis</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/NOSQL" rel="tag">NOSQL</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Vim" rel="tag">Vim</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/C++" rel="tag">C++</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/C#" rel="tag">C#</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/JSON" rel="tag">JSON</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Ruby" rel="tag">Ruby</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Linux" rel="tag">Linux</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Nginx" rel="tag">Nginx</a></li>
+				<li class="nav__item"><a href="http://www.open-open.com/lib/tag/Docker" rel="tag">Docker</a></li>
+				<li class="more"></li>
+
+			</ul>
+
+		</div>
+	</div>
+</header>
+
+
+
+<div class="topheader" style="background: #eee;padding: 10px 0 30px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<div class="crumbs">
+					<a href="http://www.open-open.com/lib/list/all">所有分类</a>
+					
+						&nbsp;&gt;&nbsp;
+						<a href="http://www.open-open.com/lib/list/75">服务器软件</a>
+					
+						&nbsp;&gt;&nbsp;
+						<a href="http://www.open-open.com/lib/list/220">分布式/云计算/大数据</a>
+					
+				</div>
+				<h1 id="articleTitle">openstack multi-region管理</h1>
+				<div class="meta" style="margin-top: 10px;">
+					<span id="tag-list">
+					
+						<a href="http://www.open-open.com/lib/tag/OpenStack">OpenStack</a>
+					
+						<a href="http://www.open-open.com/lib/tag/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a>
+					
+						<a href="http://www.open-open.com/lib/tag/Memcached">Memcached</a>
+					
+					</span>&nbsp;
+
+					<span class="item">2016-03-30 19:32:41 发布</span>
+				</div>
+
+
+			</div>
+			<div class="col-md-3">
+				<table>
+					<tbody>
+					<tr>
+						<td><strong>您的评价</strong>:</td>
+						<td>
+							<div id="rate" class="rate-container"><span id="star1" class="star-big-off" title="很差">&nbsp;</span><span id="star2" class="star-big-off" title="较差">&nbsp;</span><span id="star3" class="star-big-off" title="还行">&nbsp;</span><span id="star4" class="star-big-off" title="不错">&nbsp;</span><span id="star5" class="star-big-off" title="力荐">&nbsp;</span></div>
+						</td>
+						<td width="30">
+							<span id="score-num">3.0</span>
+						</td>
+						<td width="30">
+							<div id="rate-tip"></div>
+						</td>
+
+					</tr>
+					</tbody>
+				</table>
+				<div id="favorite-container"><a id="favorite" href="javascript:void(0)" class="btn btn-default">收藏</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="item">0收藏</span>
+					
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div class="container">
+<div class="row">
+
+		<div id="readercontainer" class="col-md-9">
+				<article>
+					<p>openstack多集群管理</p>
+
+<h2 id="articleHeader0">&nbsp;背景介绍</h2>
+
+<p>由于有些物理集群处于不同的地点，或者某一些物理集群规模太大，就需要创建多个openstack集群对其进行管理。而每个openstack集群是单独管理的，这就导致管理入口太多，不方便统一管理。那么就需要一种统一管理的机制。</p>
+
+<h2 id="articleHeader1">方案对比</h2>
+
+<p>2.1 nova AZ</p>
+
+<p>针对多个集群处于不同地点的情况，这时每个集群可以作为一个（或者多个）AZ，但是由于AZ之间还是会共享很多服务，比如neutron，glance，mariadb，rabbitMQ等，需要跨机房访问这些服务，时延比较大，也会消耗较多的机房间带宽，会影响用户体验。 当单个物理集群太大时，即使划分了多个AZ，从逻辑上分割开了，但是rabbitMQ，glance，neutron，mariadb等服务的压力还是会比较大，同样会影响用户体验，划分多个AZ是无法解决这类问题的，AZ只是一个逻辑范围的划分。</p>
+
+<p>2.2 multi-region</p>
+
+<p>一个region可以对应一个物理集群，region与region可以是不同地点的物理集群，也可以是单个大规模物理机集群分割后的多个物理集群。region之间只共享dashboard service（horizon）和identity service（keystone），也就是说使用统一的管理界面和认证，其他服务（例如，nova，neutron，glance，cinder，mariadb，rabbitMQ等）都是各个region独立拥有的，这样可以有效避免region间的交互开销。 该方案如下图所示</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190245_910.png"></p>
+
+<p>在上图中，左边的集群是RegionOne，右边的集群是RegionTwo，可以使用任何一个region的horizon和keystone service来行使dashboard和identity功能。为了便于后面进行说明，需要选定一个region提供dashboard和identity service，这里就选定RegionOne了。</p>
+
+<p>下面对上图中的几个关键点做下说明，</p>
+
+<p>1）keystone数据库设置主从</p>
+
+<p>RegionOne中keystone连接的数据库作为master，RegionTwo中keystone连接的数据库作为slave，他们之间做主从，以实现keystone数据库之间的同步。 这么做的目的是当RegionOne的keystone service无法给RegionTwo的各个service提供访问认证服务时（比如，当RegionOne和RegionTwo之间的网络中断时），RegionTwo上的keystone service可以使用slave keystone数据库中的信息给RegionTwo上的各个service提供访问认证服务。</p>
+
+<p>2）keystone token driver配置为memcache</p>
+
+<p>keystone除了token对象存放在memcache中，其他对象（例如，user，role，credential，endpoint，service，region等）全都存放在mariadb中。 之所以把token存在memcache中，是因为token是有使用期限的（例如，24h），如果把token存在mariadb中，当RegionOne上的keystone service无法给RegionTwo上的各个service提供访问认证服务时，这时就要使用RegionTwo上的keystone，那么当slave keystone数据库中存放的token过期了，就无法把新的token存储到slave keystone数据库中，因为slave数据库不允许写。那么如果把token存放在memcache中，当RegionOne上的keystone service无法给RegionTwo上的各个service提供访问认证服务时，RegionTwo上的keystone service只需要把把新生成的token存放到memcache中即可，后面就可以使用memcache中的token进行访问。</p>
+
+<p>3）RegionOne上的keystone service无法给RegionTwo上的各个service提供访问认证服务时，RegionTwo仍可以管理</p>
+
+<p>RegionTwo的dashboard和identity service平常不再起作用，其实这时RegionTwo上各个service的访问认证已经不通过RegionTwo上的keystone了，而是通过RegionOne上的keystone进行认证，上图的RegionTwo中的两条虚线就代表这个意思。当RegionOne上的keystone service无法给RegionTwo上的各个service提供访问认证服务时，就需要使用RegionTwo上的horizon和keystone重新提供dashboard和identity服务。通过修改RegionTwo上各个service的配置使其重新使用RegionTwo上的keystone进行访问认证。</p>
+
+<p>4）dashboard支持multi-region</p>
+
+<p>openstack dashboard是支持multi-region的，它通过keystone service可以发现所有的Region，然后再界面上提供Region切换功能，如下图所示</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190245_179.png"></p>
+
+<p>5）openstack其他组件</p>
+
+<p>region之间只共享horizon和keystone service，其余service（例如nova，neutron，glance，cinder，ceilometer，mariadb，rabbitMQ等），各个region都是用自己的，这些service如果要做HA，那么各个region自己做自己的。</p>
+
+<h2 id="articleHeader2">方案实施</h2>
+
+<p>通过上面的方案介绍可以知道，该方案总共有四个关键点，一是提供dashboard和identity service的Region和其他Region之间，keystone数据库要做主从；二是各个Region的keystone token driver要使用memcache；三是创建多Region；四是当RegionOne上的dashboard和identity service无法给其他Region提供服务时，要保证其他Region仍可管理。下面就围绕这四点进行实施。</p>
+
+<p>3.1 多集群环境准备</p>
+
+<p>选用的软件版本如下</p>
+
+<p>openstack：rdo-liberty</p>
+
+<p>OS：centos-7.2.1511（3.10.0-327.el7.x86_64）</p>
+
+<p>qemu：2.3.0-31.el7_2.7</p>
+
+<p>libvirt：1.2.17-13.el7</p>
+
+<p>总共搭建了两个openstack集群，每个集群有两个节点，controller和compute节点，controller同时也作为compute节点，如下表所示</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190245_376.png"></p>
+
+<p>我是使用packstack部署的openstack，默认都是只有一个RegionOne。下面计划把cluster-1作为RegionOne，cluster-2作为RegionTwo，然后使用RegionOne上的horizon和keystone service给这两个Region提供dashboard和identity服务。</p>
+
+<p>3.2 keystone token driver配置为memcache</p>
+
+<p>所有region的token driver都要配置为memcache，默认情况下token driver使用的是sql数据库。</p>
+
+<p>3.2.1 修改token driver</p>
+
+<p>编辑/etc/keystone/keystone.conf [token] section,将</p>
+
+<p>driver = keystone.token.persistence.backends.sql.Token</p>
+
+<p>修改为</p>
+
+<p>driver = keystone.token.persistence.backends.memcache.Token</p>
+
+<p>并且确认enable caching功能，</p>
+
+<p>caching=true</p>
+
+<p>3.3.2 启动memcached服务</p>
+
+<p>yum install memcached python-memcached</p>
+
+<p>systemctl enable memcached.service</p>
+
+<p>systemctl start memcached.service</p>
+
+<p>3.3.3 修改keystone [memcache] section配置</p>
+
+<p>先查询memcache使用的端口，</p>
+
+<p>[root@juanniu032019 ~(keystone_admin)]# netstat -antp | grep memcache</p>
+
+<p>tcp 0 0 0.0.0.0:11211 0.0.0.0:* LISTEN 8159/memcached</p>
+
+<p>默认情况下，memcache监听的端口都是11211，这是在</p>
+
+<p>/etc/sysconfig/memcached配置文件中进行配置的。</p>
+
+<p>然后修改/etc/keystone/keystone.conf的[memcache] sectionservers = localhost:11211</p>
+
+<p>3.3.4 restart keystone service</p>
+
+<p>systemctl restart httpd.service</p>
+
+<p>3.3.5 确认是否修改成功</p>
+
+<p>在确认是否修改成功前，先重新登录下dashboard，这样会产生新的token。</p>
+
+<p>有多种方式都可以确认是否修改成功，下面列举了四种</p>
+
+<p>1）telnet 127.0.0.1 11211</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190246_365.png"></p>
+
+<p>2）lsof -i :11211</p>
+
+<p>如果输出中有服务跟memcache建立了连接，如下图所示</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190246_43.png"></p>
+
+<p>然后再查询keystone service使用的port是否可以对上</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190247_850.png"></p>
+
+<p>3）netstat -antp | grep memcache如果已经有服务跟memcache建立连接，并且建立连接的keystone服务，那么就说明memcache生效了。</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190247_666.png"></p>
+
+<p>4）不断的登录/退出dashboard，然后查看keystone数据中token表中的记录数是否变化</p>
+
+<p>select count(*) from keystone.token;</p>
+
+<p>不断的登录/退出dashboard，如果token表中的记录数没有变化，就说明keystone token driver不再使用mysql，此时又可以正常的登录，间接地说明memcache生效了。</p>
+
+<p>3.3 创建multi-region</p>
+
+<p>3.3.1 备份keystone database</p>
+
+<p>因为后面要修改两个region的keystone数据库，为了出现问题后可以恢复，这里先把备份下两个cluster的keystone数据库。</p>
+
+<p>cluster-1:</p>
+
+<p>mysqldump -uroot keystone &gt; keystone.cluster-1_bak.sql</p>
+
+<p>cluster-2:</p>
+
+<p>mysqldump -uroot keystone &gt; keystone.cluster-2_bak.sql</p>
+
+<p>3.3.2 修改cluster-2的region name为RegionTwo</p>
+
+<p>1）在region table中插入一个'RegionTwo'记录</p>
+
+<p>insert into keystone.region(id,extra) values ('RegionTwo','{}');</p>
+
+<p>2）修改endpoint table中的所有记录的region_id为'RegionTwo'</p>
+
+<p>update keystone.endpoint set region_id='RegionTwo';</p>
+
+<p>3）删除region table中的'RegionOne'记录</p>
+
+<p>delete from keystone.region where id='RegionOne';</p>
+
+<p>在验证是否修改成功之前，需要修改/root/keystonerc_admin，将OS_REGION_NAME修改为RegionTwo，然后重新source /root/keystonerc_admin，</p>
+
+<p>验证region name是否修改成功，如下图所示</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190247_638.png"></p>
+
+<p>3.3.3 备份RegionTwo的endpoint、service table</p>
+
+<p>备份RegionTwo上的keystone数据中的endpoint、service table是为了将这两个table中的记录导入到RegionOne上的keystone数据库中的endpoint、service table。</p>
+
+<p>mysqldump -uroot keystone endpoint &gt; keystone.endpoint_RegionTwo.sql</p>
+
+<p>mysqldump -uroot keystone service &gt; keystone.service_RegionTwo.sql</p>
+
+<p>其实，endpoint table可以不备份，因为在RegionOne上执行以下命令也会在RegionOne的keystone数据中的endpoint table中插入RegionTwo上的各个service的endpoint记录</p>
+
+<p>openstack endpoint create --publicurl --internalurl --adminurl --region RegionTwo</p>
+
+<p>并且以上命令，还会在RegionOne的keystone数据库的region table中插入'RegionTwo'记录。但是由于命令操作比较麻烦，每个service都要创建endpoint，还是直接导数据库简单。</p>
+
+<p>另外，需要把导出的endpoint、service table文件中的‘判断是否存在endpoint(service) table，如果存在就删除，以及后面紧跟着的创建endpoint(service) table’ 的处理删除，如下截图所示（以endpoint table为例）</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190248_916.png"></p>
+
+<p>因为这两个table的导出文件是要导入到RegionOne的keystone的endpoint、service table中的，因为在RegionOne的keystone数据库中已经有endpoint、service table了，并且也有记录了，是不可以删除的，我们只是要合并两个region的keystone的endpoint、service table。</p>
+
+<p>3.3.4 RegionOne的keystone的region table插入RegionTwo记录</p>
+
+<p>insert into region(id,extra) values ('RegionTwo','{}');在3.3.3中也注明过，通过openstack endpoint create --region RegionTwo也可以在region table增加'RegionTwo'记录。</p>
+
+<p>3.3.5 在RegionOne上导入RegionTwo上导出的endpoint、service table</p>
+
+<p>1）将RegionTwo上导出的endpoint、service table拷贝到RegionTwo的controller node上</p>
+
+<p>2）将拷贝的endpoint、service table导入到10.13.32.19的keystone的相应的endpoint service table中</p>
+
+<p>mysql -uroot keystone &lt; keystone.endpoint_RegionTwo.sqlmysql -uroot keystone &lt; keystone.service_RegionTwo.sql</p>
+
+<p>3）修改RegionTwo的identity的三个endpoint（publicurl，internalurl，admin url）</p>
+
+<p>update endpoint set url='http://10.13.32.19:5000/v2.0' where id='6e114696c6464a879d08fef46fd7b9cc';</p>
+
+<p>update endpoint set url='http://10.13.32.19:5000/v2.0' where id='aa5496200239498485257761026e825e';</p>
+
+<p>update endpoint set url='http://10.13.32.19:35357/v2.0' where id='a3b4da535c09421c93f3da257fa2cae5';</p>
+
+<p>其中6e114696c6464a879d08fef46fd7b9cc、aa5496200239498485257761026e825e、a3b4da535c09421c93f3da257fa2cae5对应的是RegionTwo的identity service的 三个endpoint（public，internal，admin）的id</p>
+
+<p>4）验证是否修改成功</p>
+
+<p>①确认endpoint list中是否都已经添加进去</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190248_432.png"></p>
+
+<p>②确认RegionTwo的identity service的三个url是否已经修改成功</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190249_432.png"></p>
+
+<p>3.3.6 修改RegionTwo的所有节点的各个service的authencation endpoint</p>
+
+<p>修改RegionTwo上所有service访问认证endpoint为RegionOne的keystone service。</p>
+
+<p>默认情况下，keystone service提供服务的两个端口为5000和35357，可以通过以下命令搜到到修改点</p>
+
+<p>service-auth-endpoint.png</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190250_549.png"></p>
+
+<p>其中，/etc/openstack-dashboard/local_settings是不需要修改的，因为RegionTwo上的dashboard服务是不需要跟RegionTwo上的keystone service交互的。然后逐个去修改，将10.13.131.137修改为10.13.32.19。另外，上图中搜索出来的内容之所以被注释掉了，是因为我已经做了修改。</p>
+
+<p>需要额外注意的就是/etc/cinder/cinder.conf [keymgr] section,</p>
+
+<p>需要将 #encryptionauthurl = http://localhost:5000/v3</p>
+
+<p>修改为</p>
+
+<p>encryptionauthurl = http://10.13.32.19:5000/v3</p>
+
+<p>如果在dashboard上修改project的quota时会报以下错误</p>
+
+<p>“Error: Unable to retrieve volume limit information”</p>
+
+<p>请参考</p>
+
+<p>Bug 1272572 - Error: Unable to retrieve volume limit information when accessing System Defaults in Horizon</p>
+
+<p>3.3.9 修改RegionTwo的各个service的admin pass</p>
+
+<p>需要修改RegionTwo上的各个service的admin pass，跟RegionOne上相应service的admin pass保持一致。 可以通过find /etc/ -type f | xargs grep admin_pass搜到相关的修改点，以nova为例进行说明，编辑/etc/nova/nova.conf</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190251_81.png"></p>
+
+<p>3.3.10 重启RegionTwo上的各个service</p>
+
+<p>需要重启RegionTwo上的各个service，让上面的修改生效。</p>
+
+<p>3.4 keystone数据库配置master-slave</p>
+
+<p>请参考 Openstack Mysql 主备服务器搭建</p>
+
+<p>3.5 keystone service无法给其他region上的各个service提供访问认证服务时，其他Region仍可管理</p>
+
+<p>RegionOne上的keystone service无法给RegionTwo上的各个service提供访问认证服务的场景很多，最典型的就是RegionOne和RegionTwo之间的网络中断了，这时就要考虑如何单独的管理RegionTwo。这时需要revert3.3.6中做的修改，然后重启各个service，让RegionTwo上各个service重新使用RegionOne上的keystone service进行访问认证。这时就可以使用RegionTwo上的dashboard来管理RegionTwo，不过有一点需要注意，由于现在RegionTwo上的keystone数据库是read-only的，是不可以创建user，project，service等操作的。</p>
+
+<h2 id="articleHeader3">遗留问题</h2>
+
+<p>4.1 memcache size</p>
+
+<p>可以使用memcached-tool 127.0.0.1:11211 stats来查看memcache的空间是否紧张，如下图所示</p>
+
+<p><img alt="openstack multi-region管理" src="./openstack multi-region管理 - OPEN 开发经验库_files/20160330190252_465.png"></p>
+
+<p>如果touchmisses持续增加，可以适当调大memcache size，可以通过编辑/etc/sysconfig/memcached，改大CACHESIZE的值。当调大cache size后，如果发现totalitems, total_connections有所增加，就说明调大cache size是有效果的。</p>
+
+<p>来自： <a href="http://mogu.io/178-178" rel="nofollow">http://mogu.io/178-178</a></p>
+<h2 id="articleHeader4"><strong>扩展阅读</strong></h2><a title="OpenStack" all="" in="" one="" href="http://www.open-open.com/lib/view/open1408283726666.html"><span class="title">OpenStack All in One</span></a><br><a title="Docker资源汇总" href="http://www.open-open.com/lib/view/open1425882783217.html"><span class="title">Docker资源汇总</span></a><br><a title="万台规模下的SDN控制器集群部署实践" href="http://www.open-open.com/lib/view/open1414028387325.html"><span class="title">万台规模下的SDN控制器集群部署实践 </span></a><br><a title="docker资源汇总" href="http://www.open-open.com/lib/view/open1443075440623.html"><span class="title">docker资源汇总 </span></a><br><a title="OpenStack" grizzly="" 安装指南="" href="http://www.open-open.com/lib/view/open1393377698521.html"><span class="title">OpenStack Grizzly 安装指南</span></a><br><h2 id="articleHeader5"><strong>为您推荐</strong></h2><a title="OpenStack" grizzly="" 安装指南="" href="http://www.open-open.com/lib/view/open1393377698521.html"><span class="title">OpenStack Grizzly 安装指南</span></a><br><a title="OpenStack" all="" in="" one="" href="http://www.open-open.com/lib/view/open1408283726666.html"><span class="title">OpenStack All in One</span></a><br><a title="Openstack命令收集" href="http://www.open-open.com/lib/view/open1390654246101.html"><span class="title">Openstack命令收集 </span></a><br><a title="OneStack：Ubuntu" 12.04="" (或11.10)="" 一键部署安装openstack云计算平台="" href="http://www.open-open.com/lib/view/open1342255827448.html"><span class="title">OneStack：Ubuntu 12.04 (或11.10) 一键部署安装OpenStack云计算平台 </span></a><br><a title="将基于" soap="" 的="" wcf="" 服务转成="" restful="" 设计="" href="http://www.open-open.com/lib/view/open1368687247094.html"><span class="title">将基于 SOAP 的 WCF 服务转成 RESTful 设计 </span></a><br><h2 id="articleHeader6"><strong>更多</strong></h2><a title="OpenStack" href="https://www.baidu.com/s?wd=site:open-open.com%20OpenStack"><span class="title">OpenStack</span></a><br><a title="数据库" href="https://www.baidu.com/s?wd=site:open-open.com%20%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="title">数据库</span></a><br><a title="Memcached" href="https://www.baidu.com/s?wd=site:open-open.com%20Memcached"><span class="title">Memcached</span></a><br><a title="分布式/云计算/大数据" href="https://www.baidu.com/s?wd=site:open-open.com%20%E5%88%86%E5%B8%83%E5%BC%8F/%E4%BA%91%E8%AE%A1%E7%AE%97/%E5%A4%A7%E6%95%B0%E6%8D%AE"><span class="title">分布式/云计算/大数据</span></a><br>
+				</article>
+
+
+
+
+		
+
+
+
+		</div>
+
+
+
+	<div class="col-md-3">
+		<div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1513152123011">
+			<a href="http://www.open-open.com/lib/view/open1459335472918.html#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+			<a href="http://www.open-open.com/lib/view/open1459335472918.html#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+			<a href="http://www.open-open.com/lib/view/open1459335472918.html#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+			<a href="http://www.open-open.com/lib/view/open1459335472918.html#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+			<a href="http://www.open-open.com/lib/view/open1459335472918.html#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+
+		</div>
+
+		<div class=" side-box" style="margin-top: 20px;">
+				<div class="title"><h3>同类热门新闻</h3></div>
+				<ol class="hot">
+					
+						<li>
+							<a href="http://www.open-open.com/news/view/8d26c6" target="_blank" title="甲骨文推出最新 MySQL 5.7 开发者里程碑版本软件">甲骨文推出最新 MySQL 5.7 开发者里程碑版本软件</a>
+						</li>
+					
+						<li>
+							<a href="http://www.open-open.com/news/view/18dc9d8" target="_blank" title="DockOne技术分享：OpenStack Magnum社区及项目介绍">DockOne技术分享：OpenStack Magnum社区及项目介绍</a>
+						</li>
+					
+						<li>
+							<a href="http://www.open-open.com/news/view/137999b" target="_blank" title="OpenStack &amp; Ceph Kilo 版解析">OpenStack &amp; Ceph Kilo 版解析</a>
+						</li>
+					
+						<li>
+							<a href="http://www.open-open.com/news/view/1e32e30" target="_blank" title="开源云服务基础平台 CloudStack">开源云服务基础平台 CloudStack</a>
+						</li>
+					
+						<li>
+							<a href="http://www.open-open.com/news/view/33dca187" target="_blank" title="盘点大数据开源软件Google Trends指数">盘点大数据开源软件Google Trends指数</a>
+						</li>
+					
+						<li>
+							<a href="http://www.open-open.com/news/view/af2942" target="_blank" title="又一款开源多云管理解决方案 Aeolus">又一款开源多云管理解决方案 Aeolus</a>
+						</li>
+					
+
+				</ol>
+		
+				<div class="title"><h3>同类热门经验</h3></div>
+				<ol class="hot">
+					
+						<li>
+							<a title="谷歌三大核心技术（一）Google" file="" system中文版="" href="http://www.open-open.com/lib/view/open1328763454608.html"><span class="title">谷歌三大核心技术（一）Google File System中文版 </span></a>
+						</li>
+					
+						<li>
+							<a title="Hadoop" 实战实例="" href="http://www.open-open.com/lib/view/open1328755683796.html"><span class="title">Hadoop 实战实例</span></a>
+						</li>
+					
+						<li>
+							<a title="基于ZooKeeper的分布式Session实现" href="http://www.open-open.com/lib/view/open1325412725125.html"><span class="title">基于ZooKeeper的分布式Session实现</span></a>
+						</li>
+					
+						<li>
+							<a title="谷歌三大核心技术（二）Google" mapreduce中文版="" href="http://www.open-open.com/lib/view/open1328763069203.html"><span class="title">谷歌三大核心技术（二）Google MapReduce中文版 </span></a>
+						</li>
+					
+						<li>
+							<a title="轻松使用Hadoop" rpc="" href="http://www.open-open.com/lib/view/open1325322874436.html"><span class="title">轻松使用Hadoop RPC </span></a>
+						</li>
+					
+						<li>
+							<a title="为什么Hadoop将一定会是分布式计算的未来？" href="http://www.open-open.com/lib/view/open1329629720718.html"><span class="title">为什么Hadoop将一定会是分布式计算的未来？</span></a>
+						</li>
+					
+
+				</ol>
+			</div>
+			
+		<p class="aiBar"></p>
+		<div class="side-box post-nav" style="margin-top: 20px;">
+			<div class="title"><h3>阅读目录</h3></div>
+			<ul class="articleIndex"><li class="active"><a href="http://www.open-open.com/lib/view/open1459335472918.html#articleHeader0">背景介绍</a></li><li><a href="http://www.open-open.com/lib/view/open1459335472918.html#articleHeader1">方案对比</a></li><li><a href="http://www.open-open.com/lib/view/open1459335472918.html#articleHeader2">方案实施</a></li><li><a href="http://www.open-open.com/lib/view/open1459335472918.html#articleHeader3">遗留问题</a></li><li><a href="http://www.open-open.com/lib/view/open1459335472918.html#articleHeader4">扩展阅读</a></li><li><a href="http://www.open-open.com/lib/view/open1459335472918.html#articleHeader5">为您推荐</a></li><li class=""><a href="http://www.open-open.com/lib/view/open1459335472918.html#articleHeader6">更多</a></li></ul>
+		</div>
+	</div>
+
+
+
+</div>
+	</div>
+
+<div class="container">
+
+	<div class="row">
+		<div class="col-md-9">
+			<table width="100%"><tbody><tr>
+				<td valign="top" width="33%" class="Relatedb">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关文档</strong> 　—　<a href="http://www.open-open.com/doc" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li><a href="http://www.open-open.com/doc/view/aaf6e2f98726484691169d8d3961defc" rel="nofollow" target="_blank" title="Openstack Neutron 原理详解.pdf">Openstack Neutron 原理详解.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/c3067bc8278a48069c43b119796e2cb3" rel="nofollow" target="_blank" title="OpenStack构建云计算数据中⼼.pdf">OpenStack构建云计算数据中⼼.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/255dd4f80e214476ac4f9b9bb11f7c5f" rel="nofollow" target="_blank" title="OpenStack API 快速入门.pdf">OpenStack API 快速入门.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/6b4487edecb04035adf52255fc0c9bc4" rel="nofollow" target="_blank" title="基于openstack docker打造spark大数据服务.pdf">基于openstack docker打造spark大数据服务.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/21c964b4322047c995ab9646ae998a16" rel="nofollow" target="_blank" title="openstack_api快速入门.pdf">openstack_api快速入门.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/7f7448db59d949d0b93e2708b9956b75" rel="nofollow" target="_blank" title="OpenStack 在Sina云计算平台上的应用 - OpenStack沙龙.pdf">OpenStack 在Sina云计算平台上的应用 - OpenStack沙龙.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/fb101f8d62584528ad84d3c5e499fcc6" rel="nofollow" target="_blank" title="openstack实战指南.pdf">openstack实战指南.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/ad7496adec6744a7b5d76b5324061aa9" rel="nofollow" target="_blank" title="在OpenStack中身份验证和访问管理.pdf">在OpenStack中身份验证和访问管理.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/06af0c4b80904389a9975424c7347ce6" rel="nofollow" target="_blank" title="【试读】《OpenStack运维指南》.pdf">【试读】《OpenStack运维指南》.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/0d2d0656ca3344f796cc6d69c724aba0" rel="nofollow" target="_blank" title="OpenStack在大数据方面的思考：技术、应用、生态系统.pdf">OpenStack在大数据方面的思考：技术、应用、生态系统.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/0d2d0656ca3344f796cc6d69c724aba0" rel="nofollow" target="_blank" title="OpenStack在大数据方面的思考：技术、应用、生态系统.pdf">OpenStack在大数据方面的思考：技术、应用、生态系统.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/0d2d0656ca3344f796cc6d69c724aba0" rel="nofollow" target="_blank" title="OpenStack在大数据方面的思考：技术、应用、生态系统.pdf">OpenStack在大数据方面的思考：技术、应用、生态系统.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/bec2435bbc7c4c77ba3335fb0f7a994e" rel="nofollow" target="_blank" title="OpenStack 安装指南.doc">OpenStack 安装指南.doc</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/b90d4f57c1d440c29f7c797d9e09e10b" rel="nofollow" target="_blank" title="OpenStack 架构分析.pdf">OpenStack 架构分析.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/d2db83bcf46a45c382a04a8d08b13a4f" rel="nofollow" target="_blank" title="OpenStack Trove.pdf">OpenStack Trove.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/e531bcf334cd405a922da850a00f8b8e" rel="nofollow" target="_blank" title="杜玉杰：OpenStack在大数据方面的思考：技术、应用、生态系统.pdf">杜玉杰：OpenStack在大数据方面的思考：技术、应用、生态系统.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/40ba9fa8cacb42df96f8596cac1ad78b" rel="nofollow" target="_blank" title="Openstack DASHBOARD 文档说明.doc">Openstack DASHBOARD 文档说明.doc</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/cad60c1dc44c410c815a9bdfdca3daaa" rel="nofollow" target="_blank" title="OpenStack Operations Guide.pdf">OpenStack Operations Guide.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/fe9286df2e9f4a848412f1695d6f6eff" rel="nofollow" target="_blank" title="Deploying OpenStack.pdf">Deploying OpenStack.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/0f1f2b4548034be28ae79be72b8e1747" rel="nofollow" target="_blank" title="漫谈OpenStack开发那点事.ppt">漫谈OpenStack开发那点事.ppt</a></li>
+						
+					</ul>
+				</td>
+				<td valign="top" width="33%" class="Relatedb">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关经验</strong> 　—　<a href="http://www.open-open.com/lib" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li>
+								<a title="OpenStack" all="" in="" one="" href="http://www.open-open.com/lib/view/open1408283726666.html" target="_blank"><span class="title">OpenStack All in One</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Docker资源汇总" href="http://www.open-open.com/lib/view/open1425882783217.html" target="_blank"><span class="title">Docker资源汇总</span></a>
+
+							</li>
+						
+							<li>
+								<a title="万台规模下的SDN控制器集群部署实践" href="http://www.open-open.com/lib/view/open1414028387325.html" target="_blank"><span class="title">万台规模下的SDN控制器集群部署实践 </span></a>
+
+							</li>
+						
+							<li>
+								<a title="docker资源汇总" href="http://www.open-open.com/lib/view/open1443075440623.html" target="_blank"><span class="title">docker资源汇总 </span></a>
+
+							</li>
+						
+							<li>
+								<a title="OpenStack" grizzly="" 安装指南="" href="http://www.open-open.com/lib/view/open1393377698521.html" target="_blank"><span class="title">OpenStack Grizzly 安装指南</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Go语言(golang)开源项目大全" href="http://www.open-open.com/lib/view/open1396063913278.html" target="_blank"><span class="title">Go语言(golang)开源项目大全</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Go开源框架，类库和软件集合" href="http://www.open-open.com/lib/view/open1412990532561.html" target="_blank"><span class="title">Go开源框架，类库和软件集合</span></a>
+
+							</li>
+						
+							<li>
+								<a title="OpenStack安装部署管理中常见问题解决方法（OpenStack-Lite-FAQ）" href="http://www.open-open.com/lib/view/open1342256392776.html" target="_blank"><span class="title"> OpenStack安装部署管理中常见问题解决方法（OpenStack-Lite-FAQ） </span></a>
+
+							</li>
+						
+							<li>
+								<a title="构建OpenStack的高可用性（HA，High" availability）="" href="http://www.open-open.com/lib/view/open1341107460871.html" target="_blank"><span class="title">构建OpenStack的高可用性（HA，High Availability） </span></a>
+
+							</li>
+						
+							<li>
+								<a title="Kolla让OpenStack与Docker相融合" href="http://www.open-open.com/lib/view/open1466151323776.html" target="_blank"><span class="title">Kolla让OpenStack与Docker相融合</span></a>
+
+							</li>
+						
+							<li>
+								<a title="OneStack：Ubuntu" 12.04="" (或11.10)="" 一键部署安装openstack云计算平台="" href="http://www.open-open.com/lib/view/open1342255827448.html" target="_blank"><span class="title">OneStack：Ubuntu 12.04 (或11.10) 一键部署安装OpenStack云计算平台 </span></a>
+
+							</li>
+						
+							<li>
+								<a title="OpenStack云平台的网络模式及其工作机制" href="http://www.open-open.com/lib/view/open1342256315323.html" target="_blank"><span class="title"> OpenStack云平台的网络模式及其工作机制</span></a>
+
+							</li>
+						
+							<li>
+								<a title="分布式服务平台：Microservices" infrastructure="" href="http://www.open-open.com/lib/view/open1433993382254.html" target="_blank"><span class="title">分布式服务平台：Microservices Infrastructure</span></a>
+
+							</li>
+						
+							<li>
+								<a title="开源大数据处理系统/工具大全" href="http://www.open-open.com/lib/view/open1426206533857.html" target="_blank"><span class="title">开源大数据处理系统/工具大全</span></a>
+
+							</li>
+						
+					</ul>
+				</td>
+				<td valign="top" width="33%" class="Relatedb">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关讨论</strong> 　—　<a href="http://www.open-open.com/solution" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li>
+								<a title="说说你对虚拟桌面的理解和分析" href="http://www.open-open.com/solution/view/1343541298462" rel="nofollow" target="_blank"><span class="title">说说你对虚拟桌面的理解和分析</span></a>
+							</li>
+						
+							<li>
+								<a title="★★杭州招聘：架构师、开发(云计算、技术框架)、前端架构等" href="http://www.open-open.com/solution/view/1413011516358" rel="nofollow" target="_blank"><span class="title">★★杭州招聘：架构师、开发(云计算、技术框架)、前端架构等</span></a>
+							</li>
+						
+							<li>
+								<a title="中国PMI2015项目管理大会" href="http://www.open-open.com/solution/view/1440568938169" rel="nofollow" target="_blank"><span class="title">中国PMI2015项目管理大会</span></a>
+							</li>
+						
+							<li>
+								<a title="无论是云计算SaaS,PaaS还是IaaS,拼的都是运维!" href="http://www.open-open.com/solution/view/1427264664746" rel="nofollow" target="_blank"><span class="title"> 无论是云计算SaaS,PaaS还是IaaS,拼的都是运维!</span></a>
+							</li>
+						
+							<li>
+								<a title="OrientDB" 的分布式架构原理="" href="http://www.open-open.com/solution/view/1320969839999" rel="nofollow" target="_blank"><span class="title">OrientDB 的分布式架构原理</span></a>
+							</li>
+						
+							<li>
+								<a title="Redis" 集群功能说明="" href="http://www.open-open.com/solution/view/1319506593546" rel="nofollow" target="_blank"><span class="title">Redis 集群功能说明</span></a>
+							</li>
+						
+							<li>
+								<a title="不可忽略的数据库缓存重建" href="http://www.open-open.com/solution/view/1371963222729" rel="nofollow" target="_blank"><span class="title">不可忽略的数据库缓存重建</span></a>
+							</li>
+						
+					</ul>
+				</td>
+			</tr></tbody></table>
+		</div>
+
+	</div>
+
+</div>
+
+
+
+
+
+<style>
+	footer{background-color: #fff;
+		border-top: 1px solid rgba(230, 230, 230, 0.75);
+		margin-top: 20px;
+		padding: 20px 0;}
+</style>
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-xs-4" style="line-height: 60px;">
+				<span>©2006-2016 深度开源 </span>
+			</div>
+			<div class="col-md-4 col-xs-4 text-center"><span>
+				<a rel="nofollow" href="http://www.open-open.com/" class="brightbox-logo"><img src="./openstack multi-region管理 - OPEN 开发经验库_files/logo-icon.png"></a>
+			</span></div>
+			<div class="col-md-4 col-xs-4" style="line-height: 60px;">
+				 <a target="_blank" href="http://www.miibeian.gov.cn/">浙ICP备09019653号-31</a>
+				<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1257892335'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1257892335' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_1257892335"><a href="http://www.cnzz.com/stat/website.php?web_id=1257892335" target="_blank" title="站长统计">站长统计</a></span><script src="./openstack multi-region管理 - OPEN 开发经验库_files/z_stat.php" type="text/javascript"></script><script src="./openstack multi-region管理 - OPEN 开发经验库_files/core.php" charset="utf-8" type="text/javascript"></script>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="./openstack multi-region管理 - OPEN 开发经验库_files/jquery.min.js.下载"></script>
+<script type="text/javascript" src="./openstack multi-region管理 - OPEN 开发经验库_files/jquery-confirm.js.下载"></script>
+<script type="text/javascript" src="./openstack multi-region管理 - OPEN 开发经验库_files/app.js.下载"></script>
+<script type="text/javascript" src="./openstack multi-region管理 - OPEN 开发经验库_files/scrolltopcontrol.js.下载"></script>
+<!-- the jScrollPane script -->
+<script type="text/javascript" src="./openstack multi-region管理 - OPEN 开发经验库_files/jquery.contentcarousel.js.下载"></script>
+
+<script type="text/javascript">
+	var rooturl="/lib";
+	var tb_pathToImage = "/lib/images/loadingAnimation.gif";
+	var jc = {};
+	$(function (){
+		$('#ca-container').contentcarousel();
+		$('.login').on('click', function () {
+			jc = $.dialog({
+				title: '&nbsp;',
+				content: '<iframe id="dialog" scrolling="no" style="width:100%;border:none;height:300px;" src="/lib/members/login?keepThis=true&TB_iframe=true&height=177&width=280"></iframe>',
+				animation: 'top',
+				columnClass: 'col-md-5 col-md-offset-3',
+				closeAnimation: 'top',
+				backgroundDismiss: true
+			});
+		});
+		$('.register').on('click', function () {
+			jc = $.dialog({
+				title: '&nbsp;',
+				content: '<iframe id="dialog" scrolling="no" style="width:100%;border:none;height:460px;" src="/lib/members/register?keepThis=true&TB_iframe=true&height=460&width=460"></iframe>',
+				animation: 'top',
+				columnClass: 'col-md-6 col-md-offset-3',
+				closeAnimation: 'top',
+				backgroundDismiss: true
+			});
+		});
+
+
+	});
+
+
+</script>
+
+<script src="./openstack multi-region管理 - OPEN 开发经验库_files/jquery-ui.min.js.下载"></script>
+<script type="text/javascript" src="./openstack multi-region管理 - OPEN 开发经验库_files/scrolltopcontrol.js.下载"></script>
+<script type="text/javascript" src="./openstack multi-region管理 - OPEN 开发经验库_files/view.js.下载"></script>
+
+<script type="text/javascript" src="./openstack multi-region管理 - OPEN 开发经验库_files/jquery.jgrowl_minimized.js.下载"></script>
+
+<script type="text/javascript">
+	scrolltotop.offset(95,165);
+	scrolltotop.init();
+</script>
+<script src="./openstack multi-region管理 - OPEN 开发经验库_files/highlight.min.js.下载"></script>
+<script>hljs.initHighlightingOnLoad();
+
+	(function(){
+		var c = new contentIndex();
+		c("article", ".articleIndex");
+		setAIActive();
+
+
+		$(window).scroll(function () {
+			if ($(window).scrollTop() > $(".aiBar").offset().top) {
+				$(".post-nav").addClass("aside-fixed");
+//          console.log($(window).scrollTop());
+			} else {
+//           console.log($(window).scrollTop());
+				$(".post-nav").removeClass("aside-fixed");
+			}
+		});
+		$("#readercontainer img").each(function(index, element) {
+			var $width=$("#readercontainer article").width();
+			if ( this.width>$width) {
+
+				this.height = this.height*$width/this.width;
+				this.width=$width;
+			}
+		});
+
+	})();
+</script>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		bp.src = '//push.zhanzhang.baidu.com/push.js';
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?29cd250dff3fdb25c10482a503d49507";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable" tabindex="-1" role="dialog" aria-describedby="favorite-box" style="display: none;" aria-labelledby="ui-id-1"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle"><span id="ui-id-1" class="ui-dialog-title">收藏提示</span><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" role="button" title="Close"><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">Close</span></button></div><div id="favorite-box" class="ui-dialog-content ui-widget-content" style="display: block;">
+						<table>
+							<tbody>
+							<tr>
+								<td width="70" align="right">文件夹</td>
+								<td><select id="fav_folderlist" name="folder">
+									<option selected="" value="0">请选择...</option>
+									<option id="newfolder-sp" disabled="" value="">-------------</option>
+									<option value="-1">新增文件夹...</option>
+								</select></td>
+							</tr>
+							<tr style="display: none" id="newfolder-input">
+								<td align="right">新增文件夹</td>
+								<td><input id="fav_newfolder" maxlength="50" type="text" name="newfolder"></td>
+							</tr>
+							<tr>
+								<td align="right">标签</td>
+								<td><input id="fav_tags" maxlength="135" size="20" type="text" name="tags"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2">(多个标签用逗号分隔)</td>
+							</tr>
+							</tbody>
+						</table>
+					</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">取消</span></button><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">确认</span></button></div></div></div><div id="topcontrol" title="回到顶部" style="position: fixed; bottom: 165px; right: 95px; cursor: pointer;"><img src="./openstack multi-region管理 - OPEN 开发经验库_files/gotop.gif" style="width:35px; height:35px;"></div></body></html>

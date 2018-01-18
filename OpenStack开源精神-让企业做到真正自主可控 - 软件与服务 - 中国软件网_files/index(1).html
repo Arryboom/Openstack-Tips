@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0093)http://www.soft6.com/index.php?m=comment&c=index&a=init&commentid=content_6-323494-1&iframe=1 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><script type="text/javascript">Object.defineProperty(window.navigator, 'userAgent', { get: function(){ return 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A'; } });Object.defineProperty(window.navigator, 'vendor', { get: function(){ return 'Apple, Inc.'; } });Object.defineProperty(window.navigator, 'platform', { get: function(){ return 'MacIntel'; } });</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<title>中国软件网</title>
+<meta name="keywords" content="中国软件网">
+<meta name="description" content="中国规模最大的企业级软件导购平台。网站拥有 .丰富详尽的数据库资源、 全方位的软件导购资讯、 权威的渠道报道。 规模最大的软件渠道交流平台，覆盖95%以上的软件渠道和主流的软件产品。 可在线渠道招商。曾举办以“伙伴天下、渠道共赢、牵手行动”为主题的全国性大型渠道活动">
+<link href="./reset.css" rel="stylesheet" type="text/css">
+<link href="./default_blue.css" rel="stylesheet" type="text/css">
+<script language="javascript" type="text/javascript" src="./jquery.min.js.下载"></script>
+<script language="javascript" type="text/javascript" src="./jquery.sgallery.js.下载"></script>
+<style>
+body{background:none;}
+.blue, .blue a, .box h5 a, .box h6 a, .box a.more, .crumbs a{
+	color: #5f5e5a;
+}
+.comment-form strong{
+	color: #5f5e5a;
+}
+</style>
+</head>
+<body onload="iframe_height()">
+<div id="bodyheight">
+<form action="http://www.soft6.com/index.php?m=comment&amp;c=index&amp;a=post&amp;commentid=content_6-323494-1" method="post" onsubmit="return on_submit()">
+<input type="hidden" name="title" value="OpenStack%E5%BC%80%E6%BA%90%E7%B2%BE%E7%A5%9E-%E8%AE%A9%E4%BC%81%E4%B8%9A%E5%81%9A%E5%88%B0%E7%9C%9F%E6%AD%A3%E8%87%AA%E4%B8%BB%E5%8F%AF%E6%8E%A7">
+<input type="hidden" name="url" value="http%3A%2F%2Fwww.soft6.com%2Fnews%2F201708%2F21%2F323494.html">
+      <div class="comment-form">
+      	<h5><strong>我来说两句</strong><span class="fn rt blue">已有<font color="#FF0000">0</font>条评论，<a href="http://www.soft6.com/index.php?m=comment&amp;c=index&amp;a=init&amp;commentid=content_6-323494-1" target="_blank">点击全部查看</a></span></h5>
+        <div class="posn">我的态度：<input type="radio" name="direction" value="1"> <img src="./zheng.png"> <input type="radio" name="direction" value="2"> <img src="./fan.png"> <input type="radio" name="direction" value="3"> <img src="./zhong.png">
+</div>
+        <textarea rows="8" cols="80" name="content"></textarea><br>
+				
+		  <label>验证码：<input type="text" name="code" class="input-text" id="yzmText" onfocus="var offset = $(this).offset();$(&#39;#yzm&#39;).css({&#39;left&#39;: +offset.left-8, &#39;top&#39;: +offset.top-$(&#39;#yzm&#39;).height()});$(&#39;#yzm&#39;).show();$(&#39;#yzmText&#39;).data(&#39;hide&#39;, 1)" onblur="$(&quot;#yzmText&quot;).data(&quot;hide&quot;, 0);setTimeout(&quot;hide_code()&quot;, 3000)"></label>
+		  <div id="yzm" class="yzm"><img id="checkcode" onclick="this.src=this.src+&quot;&amp;&quot;+Math.random()" src="./api(1).php"><br>点击图片更换</div>
+        <div class="bk10"></div>
+		        <div class="btn"><input type="submit" value="发表评论"></div>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.soft6.com/index.php?m=member&amp;c=index&amp;a=login&amp;forward=http%3A%2F%2Fwww.soft6.com%2Fnews%2F201708%2F21%2F323494.html" target="_top" class="blue">登录</a><span> | </span><a href="http://www.soft6.com/index.php?m=member&amp;c=index&amp;a=register" class="blue" target="_top">注册</a> <span style="color:red">需要登陆才可发布评论</span>      </div>  
+</form>   
+ <div class="bk10"></div>
+<script type="text/javascript">
+function support(id, commentid) {
+	$.getJSON('http://www.soft6.com/index.php?m=comment&c=index&a=support&format=jsonp&commentid='+commentid+'&id='+id+'&callback=?', function(data){
+		if(data.status == 1) {
+			$('#support_'+id).html(parseInt($('#support_'+id).html())+1);
+		} else {
+			alert(data.msg);
+		}
+	});
+}
+
+function reply(id,commentid) {
+	var str = '<form action="http://www.soft6.com/index.php?m=comment&c=index&a=post&commentid='+commentid+'&id='+id+'" method="post" onsubmit="return on_submit()"><textarea rows="10" style="width:100%" name="content"></textarea><label>验证码：<input type="text" name="code" id="yzmreplay" class="input-text" onfocus="var offset = $(this).offset();$(\'#yzm\').css({\'left\': +offset.left-8, \'top\': +offset.top-$(\'#yzm\').height()});$(\'#yzm\').show();$(\'#yzmText\').data(\'hide\', 1)" onblur=\'$("#yzmText").data("hide", 0);setTimeout("hide_code()", 3000)\' /></label>  <div class="btn"><input type="submit" value="发表评论" /></div>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.soft6.com/index.php?m=member&c=index&a=login&forward=http%3A%2F%2Fwww.soft6.com%2Fnews%2F201708%2F21%2F323494.html" class="blue" target="_top">登录</a> | <a href="http://www.soft6.com/index.php?m=member&c=index&a=register" class="blue" target="_top">注册</a>  <span style="color:red">需要登陆才可发布评论</span></form>';
+	$('#reply_'+id).html(str).toggle();
+	iframe_height();
+}
+
+function hide_code() {
+	if ($('#yzmText').data('hide')==0) {
+		$('#yzm').hide();
+	}
+}
+function on_submit() {
+			var checkcode = $("#yzmText").val() == '' ? $("#yzmreplay").val() : $("#yzmText").val();
+		var res = $.ajax({
+			url: "http://www.soft6.com/index.php?m=pay&c=deposit&a=public_checkcode&code="+checkcode,
+			async: false
+		}).responseText;
+		if(res != 1) {
+		alert('验证码错误');
+		return false;
+	} else {
+		iframe_height(200);
+		$('#bodyheight').hide();
+		$('#loading').show();
+		return true;
+	}
+}
+function iframe_height(height) {
+	if (!height) {
+		var height = document.getElementById('bodyheight').scrollHeight;
+	} 
+	$('#top_src').attr('src', "http://www.soft6.com/js.html?"+height+'|'+0);
+}
+
+
+
+</script>
+</div>
+<iframe width="0" id="top_src" height="0" src="./js.html"></iframe>
+<div class="hidden text-c" id="loading">
+<img src="./loading.gif"> 正在提交中...
+</div>
+<script type="text/javascript" src="./su.js.下载"></script>
+
+</body></html>

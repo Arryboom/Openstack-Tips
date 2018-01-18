@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)http://www.openstack.cn/?p=1321 -->
+<html class="no-js" lang="zh-CN" prefix="og: http://ogp.me/ns#"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script async="" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/analytics.js.下载"></script><script src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/shares.php" charset="utf-8"></script>
+				<link rel="profile" href="http://gmpg.org/xfn/11">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="keywords" content="OpenStack中国社区 OpenStack OpenStack技术社区 安装 架构 下载 教程 官网 nova glance swift keystone horizon dashboard xen vmware 云计算 虚机">
+		
+		
+		<title>OpenStack Neutron网络状态详解 « OpenStack中国社区</title>
+		
+				
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.5.3.3 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="OpenStack Neutron网络状态详解 - OpenStack中国社区">
+<link rel="canonical" href="http://www.openstack.cn/?p=1321">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenStack Neutron网络状态详解 - OpenStack中国社区">
+<meta property="og:description" content="OpenStack Neutron网络状态详解 - OpenStack中国社区">
+<meta property="og:url" content="http://www.openstack.cn/?p=1321">
+<meta property="og:site_name" content="OpenStack中国社区">
+<meta property="article:tag" content="EasyStack">
+<meta property="article:tag" content="Neutron">
+<meta property="article:tag" content="OVS">
+<meta property="article:tag" content="网络">
+<meta property="article:section" content="网络">
+<meta property="article:published_time" content="2014-04-11T09:59:55+00:00">
+<meta property="article:modified_time" content="2014-06-16T18:05:26+00:00">
+<meta property="og:updated_time" content="2014-06-16T18:05:26+00:00">
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="OpenStack中国社区 » Feed" href="http://www.openstack.cn/?feed=rss2">
+<link rel="alternate" type="application/rss+xml" title="OpenStack中国社区 » 评论 Feed" href="http://www.openstack.cn/?feed=comments-rss2">
+<link rel="alternate" type="application/rss+xml" title="OpenStack中国社区 » OpenStack Neutron网络状态详解 评论 Feed" href="http://www.openstack.cn/?feed=rss2&amp;p=1321">
+<link rel="stylesheet" id="wordpress-popular-posts-css" href="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/wpp.css" type="text/css" media="all">
+<link rel="stylesheet" id="tw-bootstrap-css" href="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/bootstrap.css" type="text/css" media="all">
+<link rel="stylesheet" id="the-bootstrap-css" href="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/style.css" type="text/css" media="all">
+<script type="text/javascript" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/jquery.js.下载"></script>
+<script type="text/javascript" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/jquery-migrate.js.下载"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.openstack.cn/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.openstack.cn/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 3.9.1">
+<link rel="shortlink" href="http://www.openstack.cn/?p=1321">
+	<!--[if lt IE 9]>
+		<script src="http://www.openstack.cn/wp-content/themes/the-bootstrap/js/html5shiv.min.js" type="text/javascript"></script>
+		<script src="http://www.openstack.cn/wp-content/themes/the-bootstrap/js/respond.min.js" type="text/javascript"></script>
+	<![endif]-->
+		<script type="text/javascript" async="" charset="UTF-8" src="http://static.duoshuo.com/embed.js"></script></head>
+	
+	<body class="single single-post postid-1321 single-format-standard custom-background content-sidebar"><link href="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/jiathis_counter.css" rel="stylesheet" type="text/css"><link href="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/jiathis_share.css" rel="stylesheet" type="text/css"><iframe frameborder="0" style="position: absolute; display: none; opacity: 0;" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/saved_resource.html"></iframe><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; top: 50%; left: 50%; overflow: auto;"></div><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; overflow: auto;"></div><iframe frameborder="0" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/jiathis_utility.html" style="display: none;"></iframe>
+		<div class="container">
+			<div id="page" class="hfeed row">
+								<header id="branding" role="banner" class="span12">
+										<div class="row-fluid">
+					  <div class="span4">
+						<a href="http://www.openstack.cn/" title="OpenStack中国社区"><img src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/openstack-logo-full.svg" width="135" border="0" style="margin-top:10px;"></a>
+					  </div>
+					  <div class="span8">
+
+						<div id="navigation" class="oscn_last oscn_blueline">
+						<ul> <!--  class=" pull-right" -->
+
+						<li><a href="http://www.openstack.cn/" title="" class="link">首页</a></li><li><a href="http://www.openstack.cn/?cat=358" title="" class="link">精品</a></li><li><a href="http://www.openstack.cn/?cat=5" title="" class="link">新闻</a></li><li><a href="http://www.openstack.cn/?cat=351" title="计算" class="link">计算</a></li><li><a href="http://www.openstack.cn/?cat=352" title="" class="link">网络</a></li><li><a href="http://www.openstack.cn/?cat=353" title="" class="link">存储</a></li><li><a href="http://www.openstack.cn/?cat=354" title="" class="link">运维</a></li><li><a href="http://www.openstack.cn/?cat=355" title="" class="link">入门</a></li><li><a href="http://www.openstack.cn/?cat=356" title="" class="link">周报</a></li><li><a href="http://www.openstack.cn/?cat=357" title="" class="link">活动</a></li><li><a href="http://www.openstack.cn/?page_id=17" title="" class="link">关于我们</a></li>						</ul>
+						</div>
+
+					  </div>
+					</div>
+
+					<!--
+					<hgroup>
+						<h1 id="site-title">
+							<a href="http://www.openstack.cn/" title="OpenStack中国社区" rel="home">
+								<span>OpenStack中国社区</span>
+							</a>
+						</h1>
+						<h2 id="site-description">OpenStack中国社区由EasyStack创始人在2013年创立，致力于为OpenStack技术人员提供分享和交流的平台, 推动OpenStack在中国的普及和应用, 协力云计算产业链各企业打造开放, 共赢的OpenStack生态系统。</h2>
+					</hgroup>
+					
+					
+					<nav id="access" role="navigation">
+						<h3 class="assistive-text">Main menu</h3>
+						<div class="skip-link"><a class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div>
+						<div class="skip-link"><a class="assistive-text" href="#secondary" title="Skip to secondary content">Skip to secondary content</a></div>
+												<div class="navbar navbar-inverse">
+							<div class="navbar-inner">
+								<div class="container">
+
+									<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+									</a>
+																		<div class="nav-collapse">
+											<form id="searchform" class="navbar-search pull-right" method="get" action="http://www.openstack.cn/">
+						<label for="s" class="assistive-text hidden">Search</label>
+						<input type="search" class="search-query" name="s" id="s" placeholder="Search" />
+					</form>								    </div>
+								</div>
+							</div>
+						</div>
+											</nav>
+					
+										-->
+					<br>
+
+									</header><!-- #branding -->
+<section id="primary" class="span8">
+	
+		<div id="content" role="main">
+		<article id="post-1321" class="post-1321 post type-post status-publish format-standard hentry category-networking tag-easystack tag-neutron tag-ovs tag-283">
+		
+	<header class="page-header">
+		<h1 class="entry-title">OpenStack Neutron网络状态详解</h1>		<div class="entry-meta"><div class="row-fluid byline"><div class="pull-left"><span class="author vcard"><a class="url fn n" href="http://www.openstack.cn/?author=10" title="View all posts by Jackychen" rel="author">Jackychen</a></span></div><div class="pull-right"><span style="font-size:12px;">2014-4-11		<span class="sep"> | </span>
+		<span class="comments-link">
+			<a href="http://www.openstack.cn/?p=1321#comments" class="ds-thread-count" data-thread-key="1321" title="《OpenStack Neutron网络状态详解》上的评论"><strong>20</strong>回复</a>		</span>
+		</span></div></div></div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+	<div class="entry-content clearfix">
+		<p>作者：蒋趁心，EasyStack工程师</p>
+<p>Neutron里面很多对象都有admin_state_up和status两个属性，并且看上去很难搞清楚二者的区别，本文将详细介绍这两个属性在Network, Port和Router上的含义。</p>
+<h3><strong>Network</strong></h3>
+<p><strong>admin_state_up</strong></p>
+<p>表示Network的管理状态，如果设置为False，则网络不再转发IP包。在创建网络的时候这个属性的值默认为True. 管理员可以通过API来修改admin_state_up(True|False).</p>
+<p>在代码中是如何实现当admin_state_up为False时，不再转发IP包的呢？通过分析代码可以发现，当Network的 admin_state_up值变为False时，针对该Network的DHCP服务会被停止，用于监听DHCP请求的tap设备会被销毁，新建的虚机 将无法获得IP。那么对于已经获得IP地址的虚机呢？Neutron的DHCP Driver使用的是dnsmasq，并且为dnsmasq设置了lease time，在Grizzly里这个值为2分钟，这意味着最多两分钟之后，虚机将无法续租IP，继而无法转发IP包。对于没用使用DHCP的情况 (static)，没看到代码中所做的处理。</p>
+<p><strong>status</strong></p>
+<p>表示Network的运行状态，亦即Network的实际状态。在创建Network时status默认为ACTIVE。Neutron中对Network的status属性定义了ACTIVE，BUILD，DOWN和ERROR四个状态，对于ML2 + OVS agent，目前只有ACTIVE被用到。status属性无法通过API进行修改。</p>
+<h3><strong>Port</strong></h3>
+<p><strong>admin_state_up</strong></p>
+<p>表示Port的管理状态，如果设置为False，则该端口将不再转发网络包。代码中具体做法是，当Port的admin_state_up变为False时，OVS agent会将对应的OVS port的local vlan id会被设置为4095，并且在br-int上增加flow规则drop所有这个port收到网络包。</p>
+<p><strong>status</strong></p>
+<p>表示Port当前的运行状态。在创建Port时status默认为DOWN。此属性不能通过API修改。OVS agent在port创建后会将status设置成与admin_state_up一直的状态(ACTIVE or DOWN)。在此之前OVS agent根据admin_state_up设置其临时状态为BUILD或者DOWN。status共具有ACTIVE，DOWN，BUILD，ERROR四种状态，ML2 &amp; OVS agent没有用到ERROR。</p>
+<h3><strong>Router</strong></h3>
+<p><strong>admin_state_up</strong></p>
+<p>表示Router的管理状态，缺省值为True，管理员可以通过API修改。当属性值变为False时，Router将不再转发IP包，L3 Agent会清空router对应的nat rules, filter rules, 销毁对应的namespace等。</p>
+<p><strong>status</strong></p>
+<p>表示Router当前的运行状态。缺省值为ACTIVIE，并且不允许通过API进行修改。目前Neutron只用到了ACTIVE状态。</p>
+<p>&nbsp;</p>
+<p><strong>参考资料<br>
+</strong></p>
+<p>[1] <span style="color: #1155cc;"><span style="text-decoration: underline;"><a href="https://answers.launchpad.net/neutron/+question/230508">https</a><a href="https://answers.launchpad.net/neutron/+question/230508">://</a><a href="https://answers.launchpad.net/neutron/+question/230508">answers</a><a href="https://answers.launchpad.net/neutron/+question/230508">.</a><a href="https://answers.launchpad.net/neutron/+question/230508">launchpad</a><a href="https://answers.launchpad.net/neutron/+question/230508">.</a><a href="https://answers.launchpad.net/neutron/+question/230508">net</a><a href="https://answers.launchpad.net/neutron/+question/230508">/</a><a href="https://answers.launchpad.net/neutron/+question/230508">neutron</a><a href="https://answers.launchpad.net/neutron/+question/230508">/+</a><a href="https://answers.launchpad.net/neutron/+question/230508">question</a><a href="https://answers.launchpad.net/neutron/+question/230508">/230508</a></span></span></p>
+<p>[2] <span style="color: #1155cc;"><span style="text-decoration: underline;"><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">http</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">://</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">osdir</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">.</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">com</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">/</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">ml</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">/</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">openstack</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">-</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">dev</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">/2014-02/</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">msg</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">01807.</a><a href="http://osdir.com/ml/openstack-dev/2014-02/msg01807.html">html</a></span></span></p>
+<p>[3] <span style="color: #1155cc;"><span style="text-decoration: underline;"><a href="https://bugs.launchpad.net/neutron/+bug/1237807">https</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">://</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">bugs</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">.</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">launchpad</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">.</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">net</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">/</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">neutron</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">/+</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">bug</a><a href="https://bugs.launchpad.net/neutron/+bug/1237807">/1237807</a></span></span></p>
+<div></div>
+<div style="clear:both; margin-top:5px; margin-bottom:5px;"></div><div style="float:left"><!-- JiaThis Button BEGIN -->
+<div id="jiathis_style_32x32">
+	<a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jtico jtico_qzone"></span></a>
+	<a class="jiathis_button_tsina" title="分享到微博"><span class="jiathis_txt jtico jtico_tsina"></span></a>
+	<a class="jiathis_button_tqq" title="分享到腾讯微博"><span class="jiathis_txt jtico jtico_tqq"></span></a>
+	<a class="jiathis_button_renren" title="分享到人人网"><span class="jiathis_txt jtico jtico_renren"></span></a>
+	<a class="jiathis_button_kaixin001" title="分享到开心网"><span class="jiathis_txt jtico jtico_kaixin001"></span></a>
+	<a href="http://www.jiathis.com/share/" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"><span class="jiathis_button_expanded jiathis_counter jiathis_bubble_style" id="jiathis_counter_60" title="累计分享1次">1</span></a>
+</div>
+<script type="text/javascript" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/jia.js.下载" charset="utf-8"></script><script type="text/javascript" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/plugin.client.js.下载" charset="utf-8"></script>
+<!-- JiaThis Button END --></div><div style="clear:both; margin-top:5px; margin-bottom:5px;"></div>	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<span class="cat-links block">Posted in <a href="http://www.openstack.cn/?cat=352" title="查看 网络 中的全部文章" rel="category">网络</a>.</span><span class="tag-links block">Tagged <a href="http://www.openstack.cn/?tag=easystack" rel="tag">EasyStack</a>, <a href="http://www.openstack.cn/?tag=neutron" rel="tag">Neutron</a>, <a href="http://www.openstack.cn/?tag=ovs" rel="tag">OVS</a>, <a href="http://www.openstack.cn/?tag=%e7%bd%91%e7%bb%9c" rel="tag">网络</a>.</span>	</footer><!-- .entry-footer -->
+	
+	</article><!-- #post-1321 -->
+<script type="text/javascript">
+var duoshuoQuery = {"short_name":"openstack","sso":{"login":"http:\/\/www.openstack.cn\/wp-login.php?action=duoshuo_login","logout":"http:\/\/www.openstack.cn\/wp-login.php?action=logout&_wpnonce=90af8f38eb"},"theme":"default","stylePatch":"wordpress\/The_Bootstrap"};
+duoshuoQuery.sso.login += '&redirect_to=' + encodeURIComponent(window.location.href);
+duoshuoQuery.sso.logout += '&redirect_to=' + encodeURIComponent(window.location.href);
+(function() {
+    var ds = document.createElement('script'); ds.type = 'text/javascript'; ds.async = true;
+    ds.charset = 'UTF-8';
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script><a name="comments"></a>
+
+<div class="ds-thread" data-thread-key="1321" data-author-key="10" data-title="OpenStack Neutron网络状态详解" data-url="http://www.openstack.cn/?p=1321"></div>
+
+<script type="text/javascript">
+	if (typeof DUOSHUO !== 'undefined')
+		DUOSHUO.EmbedThread('.ds-thread');
+</script>
+	<div id="ds-ssr">
+
+		
+            <ol id="commentlist">
+                		<li class="comment even thread-even depth-1" id="li-comment-14298">
+			<article id="comment-14298" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://www.renren.com/profile.do?id=919527521" rel="external nofollow" class="url">新用户804724</a></span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-14298"><time pubdate="" datetime="2017-05-05T17:44:45+00:00">2017-5-5 at 17:44</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>典型的没钱加上爱逼逼，穷就大大方方的承认，努力去赚钱，买不起房子的人逼逼了还是买不起</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-12160">
+			<article id="comment-12160" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://www.renren.com/profile.do?id=919513839" rel="external nofollow" class="url">新用户687993</a></span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-12160"><time pubdate="" datetime="2017-04-20T20:58:15+00:00">2017-4-20 at 20:58</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>没文化真可怕，唯一不与中国建交的国家是不丹…..好好看看书吧  </p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-11213">
+			<article id="comment-11213" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://www.renren.com/profile.do?id=919526756" rel="external nofollow" class="url">新用户540307</a></span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-11213"><time pubdate="" datetime="2017-04-11T15:10:58+00:00">2017-4-11 at 15:10</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>Chrome表示间歇性抽风</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-10144">
+			<article id="comment-10144" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">vbdpkvunt</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-10144"><time pubdate="" datetime="2017-01-15T10:47:33+00:00">2017-1-15 at 10:47</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>A货货源⬅奢侈品⬅1:1包包 加微Xin：LoveMeJck劳力士ＰTiffanyＰRolexＰ万宝龙Ｐ蔻驰Ｐ卡地亚Ｐ路易威登Ｐ</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-10058">
+			<article id="comment-10058" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">icukxqejp</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-10058"><time pubdate="" datetime="2017-01-15T09:19:40+00:00">2017-1-15 at 09:19</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>源头货ぬ精品原单ぬ原单奢侈品 VX:LoveMeJck古驰ለBvlgariለLVለCartierለHermesለ</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-10005">
+			<article id="comment-10005" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">ryuxe</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-10005"><time pubdate="" datetime="2017-01-15T08:57:17+00:00">2017-1-15 at 08:57</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>高仿包包ᮇ复刻手表ᮇ高仿原单 V:LoveMeJck阿玛尼べ阿玛尼べ江诗丹顿べ劳力士べMontblancべ</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-9959">
+			<article id="comment-9959" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">ztuzslu</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-9959"><time pubdate="" datetime="2017-01-15T08:20:59+00:00">2017-1-15 at 08:20</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>A货货源וּ源头货וּ原单A货 <a href="http://t.cn/RMWAsZIGUCCI%E1%B5%AB%E4%B8%87%E5%9B%BD%E1%B5%ABHermes%E1%B5%ABIWC%E1%B5%AB%E4%BC%AF%E7%88%B5%E1%B5%AB%E8%8F%B2%E6%8B%89%E6%A0%BC%E6%85%95%E1%B5%ABPrada%E1%B5%AB%E8%B7%AF%E6%98%93%E5%A8%81%E7%99%BB%E1%B5%AB" rel="nofollow">http://t.cn/RMWAsZIGUCCIᵫ万国ᵫHermesᵫIWCᵫ伯爵ᵫ菲拉格慕ᵫPradaᵫ路易威登ᵫ</a></p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-9915">
+			<article id="comment-9915" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">lixppw</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-9915"><time pubdate="" datetime="2017-01-15T00:47:06+00:00">2017-1-15 at 00:47</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>精品原单ﬠ高仿原单ﬠ奢侈品 <a href="http://7469.118v.netIWC%E2%8B%A5Rolex%E2%8B%A5%E5%B7%B4%E5%88%A9%E2%8B%A5LV%E2%8B%A5LouisVuitton%E2%8B%A5%E5%AE%9D%E6%A0%BC%E4%B8%BD%E2%8B%A5%E8%92%82%E8%8A%99%E5%B0%BC%E2%8B%A5%E5%8F%A4%E9%A9%B0%E2%8B%A5chanel%E2%8B%A5/" rel="nofollow">http://7469.118v.netIWC⋥Rolex⋥巴利⋥LV⋥LouisVuitton⋥宝格丽⋥蒂芙尼⋥古驰⋥chanel⋥</a></p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-9914">
+			<article id="comment-9914" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">efpri</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-9914"><time pubdate="" datetime="2017-01-15T00:46:59+00:00">2017-1-15 at 00:46</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>复刻手表＠奢侈品＠外贸高仿 加微Xin：LoveMeJckchanelᬇIWCᬇ博柏利ᬇDiorᬇMontblancᬇ普拉达ᬇ博柏利ᬇ范思哲Versaceᬇ阿玛尼ᬇ</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-9905">
+			<article id="comment-9905" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">erncl</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-9905"><time pubdate="" datetime="2017-01-15T00:46:43+00:00">2017-1-15 at 00:46</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>顶级A货ꚡ复刻手表ꚡ奢侈品 <a href="http://9690.118v.net%E5%B7%B4%E5%88%A9%E1%8E%99Bally%E1%8E%99LouisVuitton%E1%8E%99Dior%E1%8E%99chanel%E1%8E%99%E9%98%BF%E7%8E%9B%E5%B0%BC%E1%8E%99Coach%E1%8E%99Bally%E1%8E%99%E6%99%AE%E6%8B%89%E8%BE%BE%E1%8E%99/" rel="nofollow">http://9690.118v.net巴利᎙Bally᎙LouisVuitton᎙Dior᎙chanel᎙阿玛尼᎙Coach᎙Bally᎙普拉达᎙</a></p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-9903">
+			<article id="comment-9903" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">erncl</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-9903"><time pubdate="" datetime="2017-01-15T00:46:43+00:00">2017-1-15 at 00:46</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>顶级A货ꚡ复刻手表ꚡ奢侈品 <a href="http://9690.118v.net%E5%B7%B4%E5%88%A9%E1%8E%99Bally%E1%8E%99LouisVuitton%E1%8E%99Dior%E1%8E%99chanel%E1%8E%99%E9%98%BF%E7%8E%9B%E5%B0%BC%E1%8E%99Coach%E1%8E%99Bally%E1%8E%99%E6%99%AE%E6%8B%89%E8%BE%BE%E1%8E%99/" rel="nofollow">http://9690.118v.net巴利᎙Bally᎙LouisVuitton᎙Dior᎙chanel᎙阿玛尼᎙Coach᎙Bally᎙普拉达᎙</a></p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-9292">
+			<article id="comment-9292" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://t.qq.com/hongchang4120" rel="external nofollow" class="url">洪昌</a></span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-9292"><time pubdate="" datetime="2016-05-03T10:52:03+00:00">2016-5-3 at 10:52</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>真棒，这里一直没高明白。</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="duoshuo even thread-even depth-1" id="li-comment-8626">
+			<article id="comment-8626" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://www.shayangnala.com/ds/175.html" rel="external nofollow" class="url">蜜桃乳女星</a></span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-8626"><time pubdate="" datetime="2015-10-24T01:23:23+00:00">2015-10-24 at 01:23</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>[gbz起床啦]</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-8523">
+			<article id="comment-8523" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">shooteras</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-8523"><time pubdate="" datetime="2015-07-30T10:13:45+00:00">2015-7-30 at 10:13</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>我看另外一本关于neutron的英文书写的好像不是网络不通，而是说设备不可管理，原文如下：the admin-state-up attribute is a Boolean, which when set to false, does not allow Neutron to update interface within the router, This includes not adding floating IP’s or additional internal interface to the router, Setting the value to true will allow queued changes to be applied.</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-7841">
+			<article id="comment-7841" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">samsong</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-7841"><time pubdate="" datetime="2014-07-09T12:13:31+00:00">2014-7-9 at 12:13</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>如果ml2+vlan的neutron配置，创建虚拟网络后，dhcp服务的vnic上tag id被设置为4095应该是哪方面的原因呢？plugin.ini配置文件与官方文档核对过好多遍了，是一致的。</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		<ul class="children">
+		<li class="comment odd alt depth-2" id="li-comment-8682">
+			<article id="comment-8682" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">jexbow</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-8682"><time pubdate="" datetime="2015-11-13T18:51:38+00:00">2015-11-13 at 18:51</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>应该是从neutron请求不到port的数据了</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="li-comment-7767">
+			<article id="comment-7767" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://www.zhouleyu.com/life/skinny-essential-oils-work-again" rel="external nofollow" class="url">zhouleyu</a></span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-7767"><time pubdate="" datetime="2014-04-30T14:03:29+00:00">2014-4-30 at 14:03</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>不错</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="post pingback">
+			<p>Pingback: <a href="http://www.openstack.cn/p1359.html" rel="external nofollow" class="url">OpenStack中国社区周报 （4/7-4/13） « OpenStack中国社区</a></p>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-even depth-1" id="li-comment-7735">
+			<article id="comment-7735" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">bupt_wrl</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-7735"><time pubdate="" datetime="2014-04-13T22:35:38+00:00">2014-4-13 at 22:35</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>不错</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="li-comment-7734">
+			<article id="comment-7734" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">MatheMatrix</span> on <a rel="nofollow" href="http://www.openstack.cn/?p=1321#comment-7734"><time pubdate="" datetime="2014-04-11T11:53:08+00:00">2014-4-11 at 11:53</time></a> <span class="says">said:</span>					</cite><!-- .comment-author .vcard -->
+				</footer>
+	
+				<div class="comment-content"><p>文章不错，印象中一个月前邮件列表里还有讨论这个的</p>
+</div>
+				
+			</article><!-- #comment-## -->
+		</li><!-- #comment-## -->
+            </ol>
+
+		            
+    </div>		
+		<nav id="nav-single" class="pager">
+			<h3 class="assistive-text">Post navigation</h3>
+			<span class="next"><a href="http://www.openstack.cn/?p=1359" rel="next">Next Post <span class="meta-nav">→</span></a></span>
+			<span class="previous"><a href="http://www.openstack.cn/?p=1353" rel="prev"><span class="meta-nav">←</span> Previous Post</a></span>
+		</nav><!-- #nav-single -->
+		
+			</div><!-- #content -->
+	</section><!-- #primary -->
+
+<section id="secondary" class="widget-area span4" role="complementary">
+	<div><h2 class="widget-title">近期活动</h2>			<div class="textwidget"><table class="table table-striped table-hover">
+<tbody><tr><td>05-10</td><td>成都</td><td>
+<a href="http://www.openstack.cn/?p=3528">成都OpenStack技术论坛</a></td></tr>
+<tr><td>04-26</td><td>西安</td><td>
+<a href="http://www.openstack.cn/?p=3434">西安OpenStack Meet Up</a></td></tr>
+<tr><td>05-12</td><td>北京</td><td>
+<a href="http://www.openstack.cn/?p=3419">OpenStack 企业就绪论坛</a></td></tr>
+
+<tr><td>03-28</td><td>南京</td><td>
+<a href="http://www.openstack.cn/?p=3312">OpenStack技术论坛(南京站)</a></td></tr>
+
+<tr><td>01-31</td><td>西安</td><td>
+<a href="http://www.openstack.cn/?p=3156">OpenStack Xi'an Meetup 2015 启航</a></td></tr>
+<tr><td>01-24</td><td>深圳</td><td>
+<a href="http://www.openstack.cn/?p=3057">OpenStack技术论坛(深圳站)</a></td></tr>
+<tr><td>01-24</td><td>北京</td><td>
+<a href="http://www.openstack.cn/?p=3146">OpenStack计算与虚拟化</a></td></tr>
+<tr><td>01-21</td><td>上海</td><td>
+<a href="http://www.openstack.cn/?p=3065">OpenStack Meetup@上海交通大学</a></td></tr>
+<tr><td>01-10</td><td>北京</td><td>
+<a href="http://www.openstack.cn/?p=3000">#寻找OpenStack SuperUser#第一期</a></td></tr>
+<tr><td>12-28</td><td>北京</td><td>
+<a href="http://www.openstack.cn/?p=3012">OpenStack存储技术研讨会</a></td></tr>
+<tr><td>12-21</td><td>北京</td><td>
+<a href="http://www.openstack.cn/?p=2939">OpenStack技术论坛</a></td></tr>
+<tr><td>11-29</td><td>西安</td><td>
+<a href="http://www.openstack.cn/?p=2781">  Xi'an  OpenStack Meetup</a></td></tr>
+<tr><td>11-29</td><td>北京</td><td>
+<a href="http://www.openstack.cn/?p=2777">  Beijing OpenStack Meetup</a></td></tr>
+<tr><td>10-31</td><td>上海</td><td>
+<a href="http://www.openstack.cn/?p=2539">  Shanghai OpenStack Meetup</a></td></tr>
+<tr><td>10-25</td><td>北京</td><td><a href="http://www.openstack.cn/?p=2573">圆桌讨论：OpenStack私有云市场­现状</a></td></tr>
+<tr><td>09-20</td><td>北京</td><td>
+<a href="http://www.openstack.cn/?p=2494">  OpenStack聚会之热议Docker</a></td></tr>
+<tr><td>08-16</td><td>西安</td><td><a href="http://www.openstack.cn/?p=2397">OpenStack Xi’an 2nd Meet Up</a></td></tr>
+</tbody></table></div>
+		</div><div><form method="get" id="searchform" class="form-search" action="http://www.openstack.cn/">
+	<label for="s" class="assistive-text hidden">Search</label>
+	<div class="input-append">
+		<input id="s" class="span2 search-query" type="search" name="s" placeholder="Search"><!--
+	 --><button class="btn btn-primary" name="submit" id="searchsubmit" type="submit">Go</button>
+   	</div>
+</form>
+</div><div><h2 class="widget-title">关注我们：</h2>			<div class="textwidget">微&nbsp;&nbsp;博：<a href="http://weibo.com/3529743383" target="_blank">@OpenStack中国社区</a><br>
+QQ群：<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=487dbc45481da427921f3773c968958bc949feb9d2f2c8a78e87d81498243d1f">347195472 <!-- <img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="OpenStack中国社区" title="OpenStack中国社区"> --> </a><br>
+微 信：<img src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/openstack-wx.jpg" width="139" height="139">
+
+
+</div>
+		</div><div><h2 class="widget-title">标签</h2><div class="tagcloud"><a href="http://www.openstack.cn/?tag=aws" class="tag-link-12" title="20 个话题" style="font-size: 14.092592592593pt;">AWS</a>
+<a href="http://www.openstack.cn/?tag=ceilometer" class="tag-link-53" title="10 个话题" style="font-size: 10.462962962963pt;">Ceilometer</a>
+<a href="http://www.openstack.cn/?tag=ceph" class="tag-link-32" title="22 个话题" style="font-size: 14.611111111111pt;">Ceph</a>
+<a href="http://www.openstack.cn/?tag=cinder" class="tag-link-26" title="8 个话题" style="font-size: 9.2962962962963pt;">Cinder</a>
+<a href="http://www.openstack.cn/?tag=cisco" class="tag-link-296" title="7 个话题" style="font-size: 8.6481481481481pt;">Cisco</a>
+<a href="http://www.openstack.cn/?tag=docker" class="tag-link-240" title="30 个话题" style="font-size: 16.296296296296pt;">Docker</a>
+<a href="http://www.openstack.cn/?tag=easystack" class="tag-link-260" title="19 个话题" style="font-size: 13.833333333333pt;">EasyStack</a>
+<a href="http://www.openstack.cn/?tag=ha" class="tag-link-105" title="9 个话题" style="font-size: 9.9444444444444pt;">ha</a>
+<a href="http://www.openstack.cn/?tag=hadoop" class="tag-link-31" title="7 个话题" style="font-size: 8.6481481481481pt;">Hadoop</a>
+<a href="http://www.openstack.cn/?tag=heat" class="tag-link-30" title="8 个话题" style="font-size: 9.2962962962963pt;">Heat</a>
+<a href="http://www.openstack.cn/?tag=horizon" class="tag-link-37" title="6 个话题" style="font-size: 8pt;">Horizon</a>
+<a href="http://www.openstack.cn/?tag=hp" class="tag-link-98" title="12 个话题" style="font-size: 11.37037037037pt;">HP</a>
+<a href="http://www.openstack.cn/?tag=ibm" class="tag-link-99" title="26 个话题" style="font-size: 15.518518518519pt;">IBM</a>
+<a href="http://www.openstack.cn/?tag=icehouse" class="tag-link-285" title="8 个话题" style="font-size: 9.2962962962963pt;">IceHouse</a>
+<a href="http://www.openstack.cn/?tag=intel" class="tag-link-46" title="8 个话题" style="font-size: 9.2962962962963pt;">intel</a>
+<a href="http://www.openstack.cn/?tag=keystone" class="tag-link-25" title="8 个话题" style="font-size: 9.2962962962963pt;">Keystone</a>
+<a href="http://www.openstack.cn/?tag=kvm" class="tag-link-42" title="17 个话题" style="font-size: 13.314814814815pt;">kvm</a>
+<a href="http://www.openstack.cn/?tag=linux" class="tag-link-173" title="9 个话题" style="font-size: 9.9444444444444pt;">linux</a>
+<a href="http://www.openstack.cn/?tag=meetup" class="tag-link-361" title="15 个话题" style="font-size: 12.537037037037pt;">meetup</a>
+<a href="http://www.openstack.cn/?tag=mirantis" class="tag-link-96" title="14 个话题" style="font-size: 12.277777777778pt;">Mirantis</a>
+<a href="http://www.openstack.cn/?tag=neutron" class="tag-link-27" title="32 个话题" style="font-size: 16.685185185185pt;">Neutron</a>
+<a href="http://www.openstack.cn/?tag=nfv" class="tag-link-262" title="20 个话题" style="font-size: 14.092592592593pt;">NFV</a>
+<a href="http://www.openstack.cn/?tag=nova" class="tag-link-24" title="17 个话题" style="font-size: 13.314814814815pt;">Nova</a>
+<a href="http://www.openstack.cn/?tag=openstack" class="tag-link-2" title="84 个话题" style="font-size: 22pt;">OpenStack</a>
+<a href="http://www.openstack.cn/?tag=paas" class="tag-link-224" title="8 个话题" style="font-size: 9.2962962962963pt;">PaaS</a>
+<a href="http://www.openstack.cn/?tag=puppet" class="tag-link-55" title="6 个话题" style="font-size: 8pt;">Puppet</a>
+<a href="http://www.openstack.cn/?tag=redhat" class="tag-link-97" title="21 个话题" style="font-size: 14.351851851852pt;">RedHat</a>
+<a href="http://www.openstack.cn/?tag=sdn" class="tag-link-143" title="35 个话题" style="font-size: 17.203703703704pt;">SDN</a>
+<a href="http://www.openstack.cn/?tag=summit" class="tag-link-72" title="8 个话题" style="font-size: 9.2962962962963pt;">summit</a>
+<a href="http://www.openstack.cn/?tag=swift" class="tag-link-28" title="17 个话题" style="font-size: 13.314814814815pt;">Swift</a>
+<a href="http://www.openstack.cn/?tag=ubuntu" class="tag-link-49" title="6 个话题" style="font-size: 8pt;">ubuntu</a>
+<a href="http://www.openstack.cn/?tag=vmware" class="tag-link-15" title="16 个话题" style="font-size: 12.925925925926pt;">vmware</a>
+<a href="http://www.openstack.cn/?tag=%e4%ba%91%e8%ae%a1%e7%ae%97" class="tag-link-9" title="8 个话题" style="font-size: 9.2962962962963pt;">云计算</a>
+<a href="http://www.openstack.cn/?tag=%e5%85%ac%e6%9c%89%e4%ba%91" class="tag-link-10" title="12 个话题" style="font-size: 11.37037037037pt;">公有云</a>
+<a href="http://www.openstack.cn/?tag=%e5%8d%8e%e4%b8%ba" class="tag-link-61" title="11 个话题" style="font-size: 10.981481481481pt;">华为</a>
+<a href="http://www.openstack.cn/?tag=%e5%ad%98%e5%82%a8" class="tag-link-313" title="14 个话题" style="font-size: 12.277777777778pt;">存储</a>
+<a href="http://www.openstack.cn/?tag=%e5%ae%9e%e8%b7%b5" class="tag-link-16" title="7 个话题" style="font-size: 8.6481481481481pt;">实践</a>
+<a href="http://www.openstack.cn/?tag=%e5%ae%b9%e5%99%a8" class="tag-link-461" title="7 个话题" style="font-size: 8.6481481481481pt;">容器</a>
+<a href="http://www.openstack.cn/?tag=%e5%b3%b0%e4%bc%9a" class="tag-link-291" title="7 个话题" style="font-size: 8.6481481481481pt;">峰会</a>
+<a href="http://www.openstack.cn/?tag=%e5%bc%80%e6%ba%90" class="tag-link-452" title="7 个话题" style="font-size: 8.6481481481481pt;">开源</a>
+<a href="http://www.openstack.cn/?tag=%e6%a1%88%e4%be%8b" class="tag-link-17" title="8 个话题" style="font-size: 9.2962962962963pt;">案例</a>
+<a href="http://www.openstack.cn/?tag=%e6%b7%b7%e5%90%88%e4%ba%91" class="tag-link-142" title="7 个话题" style="font-size: 8.6481481481481pt;">混合云</a>
+<a href="http://www.openstack.cn/?tag=%e7%a7%81%e6%9c%89%e4%ba%91" class="tag-link-216" title="15 个话题" style="font-size: 12.537037037037pt;">私有云</a>
+<a href="http://www.openstack.cn/?tag=%e7%bd%91%e7%bb%9c" class="tag-link-283" title="30 个话题" style="font-size: 16.296296296296pt;">网络</a>
+<a href="http://www.openstack.cn/?tag=%e8%99%9a%e6%8b%9f%e5%8c%96" class="tag-link-86" title="7 个话题" style="font-size: 8.6481481481481pt;">虚拟化</a></div>
+</div><!-- Wordpress Popular Posts Plugin v2.3.7 [W] [all] [views] [regular] -->
+<div>
+<h2 class="widget-title">热门文章</h2><ul class="wpp-list">
+<li><a href="http://www.openstack.cn/?p=776" title="Openstack Swift 原理、架构与 API 介绍" class="wpp-post-title" target="_blank">Openstack Swift 原理、架构与 API 介绍</a> <span class="post-stats"><span class="wpp-views">49,751 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1444" title="VMware 与 OpenStack 如何最佳整合？" class="wpp-post-title" target="_blank">VMware 与 OpenStack 如何最佳整合？</a> <span class="post-stats"><span class="wpp-views">42,646 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=2215" title="GlusterFS与Ceph性能测试报告" class="wpp-post-title" target="_blank">GlusterFS与Ceph性能测试报告</a> <span class="post-stats"><span class="wpp-views">38,443 views</span></span></li>
+<li><a href="http://www.openstack.cn/?page_id=17" title="关于我们" class="wpp-post-title" target="_blank">关于我们</a> <span class="post-stats"><span class="wpp-views">37,697 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=128" title="OpenStack快速入门之二：OpenStack安装与配置" class="wpp-post-title" target="_blank">OpenStack快速入门之二：OpenStack安装与配置</a> <span class="post-stats"><span class="wpp-views">37,081 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1206" title="云计算战争：OpenStack vs VMware" class="wpp-post-title" target="_blank">云计算战争：OpenStack vs VMware</a> <span class="post-stats"><span class="wpp-views">29,090 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=392" title="OpenStack Hacker养成指南" class="wpp-post-title" target="_blank">OpenStack Hacker养成指南</a> <span class="post-stats"><span class="wpp-views">26,641 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1321" title="OpenStack Neutron网络状态详解" class="wpp-post-title" target="_blank">OpenStack Neutron网络状态详解</a> <span class="post-stats"><span class="wpp-views">25,435 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=5" title="OpenStack中国社区上线了!" class="wpp-post-title" target="_blank">OpenStack中国社区上线了!</a> <span class="post-stats"><span class="wpp-views">24,086 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=861" title="OpenStack Ceilometer API说明" class="wpp-post-title" target="_blank">OpenStack Ceilometer API说明</a> <span class="post-stats"><span class="wpp-views">23,635 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1065" title="Openstack之neutron简介" class="wpp-post-title" target="_blank">Openstack之neutron简介</a> <span class="post-stats"><span class="wpp-views">22,528 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=565" title="如何学习OpenStack与精通OpenStack好书推荐" class="wpp-post-title" target="_blank">如何学习OpenStack与精通OpenStack好书推荐</a> <span class="post-stats"><span class="wpp-views">21,413 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=442" title="OpenStack实战指导手册" class="wpp-post-title" target="_blank">OpenStack实战指导手册</a> <span class="post-stats"><span class="wpp-views">19,645 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1817" title="Ceilometer的数据采集机制" class="wpp-post-title" target="_blank">Ceilometer的数据采集机制</a> <span class="post-stats"><span class="wpp-views">17,897 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1166" title="OpenStack与Hadoop的融合-恭喜OpenStack大数据项目Sahara顺利毕业" class="wpp-post-title" target="_blank">OpenStack与Hadoop的融合-恭喜OpenStack大数据项目Sahara顺利毕业</a> <span class="post-stats"><span class="wpp-views">17,184 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1385" title="OpenStack IceHouse版本发布" class="wpp-post-title" target="_blank">OpenStack IceHouse版本发布</a> <span class="post-stats"><span class="wpp-views">17,013 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=2486" title="OpenStack Cinder 与 Ceph 使用进阶篇" class="wpp-post-title" target="_blank">OpenStack Cinder 与 Ceph 使用进阶篇</a> <span class="post-stats"><span class="wpp-views">16,873 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=276" title="比较Swift与HDFS话Ceph本质" class="wpp-post-title" target="_blank">比较Swift与HDFS话Ceph本质</a> <span class="post-stats"><span class="wpp-views">15,742 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1423" title="OpenStack将提供对Docker的支持" class="wpp-post-title" target="_blank">OpenStack将提供对Docker的支持</a> <span class="post-stats"><span class="wpp-views">15,606 views</span></span></li>
+<li><a href="http://www.openstack.cn/?p=1073" title="不朽传奇-云计算技术背后的那些天才程序员:Qemu的作者法布里斯贝拉" class="wpp-post-title" target="_blank">不朽传奇-云计算技术背后的那些天才程序员:Qemu的作者法布里斯贝拉</a> <span class="post-stats"><span class="wpp-views">14,641 views</span></span></li>
+
+</ul>
+</div>
+<!-- End Wordpress Popular Posts Plugin v2.3.7 -->
+<div><h2 class="widget-title">分类目录</h2>		<ul>
+	<li class="cat-item cat-item-598"><a href="http://www.openstack.cn/?cat=598" title="查看 Uncategorized 下的所有文章">Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-355"><a href="http://www.openstack.cn/?cat=355" title="查看 入门 下的所有文章">入门</a>
+</li>
+	<li class="cat-item cat-item-356"><a href="http://www.openstack.cn/?cat=356" title="查看 周报 下的所有文章">周报</a>
+</li>
+	<li class="cat-item cat-item-353"><a href="http://www.openstack.cn/?cat=353" title="查看 存储 下的所有文章">存储</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.openstack.cn/?cat=5" title="云计算行业相关新闻资讯，OpenStack相关资讯。">新闻</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://www.openstack.cn/?cat=1" title="查看 未分类 下的所有文章">未分类</a>
+</li>
+	<li class="cat-item cat-item-357"><a href="http://www.openstack.cn/?cat=357" title="查看 活动 下的所有文章">活动</a>
+</li>
+	<li class="cat-item cat-item-358"><a href="http://www.openstack.cn/?cat=358" title="查看 精品 下的所有文章">精品</a>
+</li>
+	<li class="cat-item cat-item-352"><a href="http://www.openstack.cn/?cat=352" title="查看 网络 下的所有文章">网络</a>
+</li>
+	<li class="cat-item cat-item-351"><a href="http://www.openstack.cn/?cat=351" title="查看 计算 下的所有文章">计算</a>
+</li>
+	<li class="cat-item cat-item-532"><a href="http://www.openstack.cn/?cat=532" title="查看 评论 下的所有文章">评论</a>
+</li>
+	<li class="cat-item cat-item-354"><a href="http://www.openstack.cn/?cat=354" title="查看 运维 下的所有文章">运维</a>
+</li>
+		</ul>
+</div>		<div>		<h2 class="widget-title">近期文章</h2>		<ul>
+					<li>
+				<a href="http://www.openstack.cn/?p=7450">Howto Publish Your First Book</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7452">Creating Fantasy – An Innovative Method Of Worldbuilding</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7445">How exactly to Produce a Study Paper within the Thirdperson</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7429">Just how to Create a Critical Examination</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7409">Just how to Create a Critical Examination</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7431">Fun Facts About Ac</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7411">Fun Facts About Ac</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7433">Are Business Writing Skills Essential</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7421">Just how to Do an In- Citation in MLA</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7413">Are Business Writing Skills Essential</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7401">Just how to Do an In- Citation in MLA</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7435">How to Publish an Essay’s Conclusion</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7437">Mars might have lifestyle and did, says NASA employer</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7415">How to Publish an Essay’s Conclusion</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7389">Exciting Issues for Record Research Reports in Faculty</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7441">Just how to Enhance Your Handwriting</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7417">Mars might have lifestyle and did, says NASA employer</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7387">Set of Contrast and Compare Essay Topics</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7391">Enhancing Chances of Popularity at a Presentation Pathology Graduate School</a>
+						</li>
+					<li>
+				<a href="http://www.openstack.cn/?p=7423">Computer Research Paper Topics</a>
+						</li>
+				</ul>
+		</div><div><h2 class="widget-title">友情链接</h2>			<div class="textwidget"><ul>
+<li><a href="http://www.valleytalk.org/" title="弯曲评论" target="_blank">弯曲评论</a></li>
+<li><a href="http://www.idcquan.com/" title="中国IDC圈" target="_blank">中国IDC圈</a></li>
+<li><a href="http://www.sdnap.com/" target="_blank">SDN联合播报</a></li>
+<li><a href="http://linux.cn/" target="_blank">Linux中国</a></li>
+<li><a href="http://www.sdnlab.com/" target="_blank">SDNLAB</a></li>
+<li><a href="http://www.tektea.com/" target="_blank">IT茶话汇</a></li>
+<li><a href="http://www.ceph.org.cn/" title="Ceph中国社区" target="_blank">Ceph中国社区</a></li>
+</ul></div>
+		</div><div><h2 class="widget-title">功能</h2>			<ul>
+						<li><a rel="nofollow" href="http://www.openstack.cn/wp-login.php">登录</a></li>
+			<li><a href="http://www.openstack.cn/?feed=rss2" title="使用 RSS 2.0 订阅本站点内容">文章 <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://www.openstack.cn/?feed=comments-rss2" title="使用 RSS 订阅本站点的所有文章的近期评论">评论 <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="https://wordpress.org/" title="基于 WordPress，一个优美、先进的个人信息发布平台。">WordPress.org</a></li>			</ul>
+</div><div><h2 class="widget-title">文章归档</h2>		<ul>
+	<li><a href="http://www.openstack.cn/?m=201710">2017 年十月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201709">2017 年九月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201708">2017 年八月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201707">2017 年七月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201706">2017 年六月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201705">2017 年五月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201704">2017 年四月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201703">2017 年三月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201702">2017 年二月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201701">2017 年一月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201612">2016 年十二月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201611">2016 年十一月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201610">2016 年十月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201609">2016 年九月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201608">2016 年八月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201607">2016 年七月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201606">2016 年六月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201605">2016 年五月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201604">2016 年四月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201603">2016 年三月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201602">2016 年二月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201601">2016 年一月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201512">2015 年十二月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201511">2015 年十一月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201510">2015 年十月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201509">2015 年九月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201508">2015 年八月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201507">2015 年七月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201506">2015 年六月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201505">2015 年五月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201504">2015 年四月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201503">2015 年三月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201502">2015 年二月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201501">2015 年一月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201412">2014 年十二月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201411">2014 年十一月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201410">2014 年十月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201409">2014 年九月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201408">2014 年八月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201407">2014 年七月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201406">2014 年六月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201405">2014 年五月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201404">2014 年四月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201403">2014 年三月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201402">2014 年二月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201401">2014 年一月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201312">2013 年十二月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201311">2013 年十一月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201310">2013 年十月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201309">2013 年九月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201308">2013 年八月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201307">2013 年七月</a></li>
+	<li><a href="http://www.openstack.cn/?m=201209">2012 年九月</a></li>
+		</ul>
+</div></section><!-- #secondary .widget-area -->
+				<footer id="colophon" role="contentinfo" class="span12">
+										<div id="page-footer" class="well clearfix">
+						<span class="credits alignleft">© 2017 <a href="http://www.openstack.cn/">OpenStack中国社区</a>, all rights reserved.</span>						<div id="site-generator">
+						京ICP备13034000号-2
+						<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa8465d69e0a537dbf83149b190533d0a' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/h.js.下载" type="text/javascript"></script><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=a8465d69e0a537dbf83149b190533d0a" target="_blank"><img border="0" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/21.gif" width="20" height="20"></a>
+
+						</div>
+					</div><!-- #page-footer .well .clearfix -->
+									</footer><!-- #colophon -->
+							</div><!-- #page -->
+		</div><!-- .container -->
+	<!-- 60 queries. 0.376 seconds. -->
+	<script type="text/javascript" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/bootstrap.js.下载"></script>
+<script type="text/javascript" src="./OpenStack Neutron网络状态详解 « OpenStack中国社区_files/the-bootstrap.js.下载"></script>
+	
+	<!-- Begin Google Analytics -->
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51012374-1', 'openstack.cn');
+  ga('send', 'pageview');
+
+</script>
+	<!-- End Google Analytics -->
+
+</body></html>

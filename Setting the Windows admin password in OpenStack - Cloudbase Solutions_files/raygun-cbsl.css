@@ -1,0 +1,158 @@
+/*
+Name: Raygun Cbsl
+Description: Raygun code snippets
+Version: 1.0
+Author: Samuel Holt
+URL: http://zingdesign.com/
+*/
+.crayon-theme-raygun-cbsl {
+	border-width: 16px !important;
+	text-shadow: none !important;
+	border-color: #ebeaec !important;
+	background: #ebeaec !important;
+	border-style: solid !important;
+}
+.crayon-theme-raygun-cbsl-inline {
+	border-style: solid !important;
+	background: #ffffff !important;
+}
+.crayon-theme-raygun-cbsl .crayon-table .crayon-nums {
+	border-right-width: 0 !important;
+	border-right-color: #d7e0e9 !important;
+	padding-right: 5px !important;
+	color: #333333 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-striped-line {
+	background: #ebeaec !important;
+}
+.crayon-theme-raygun-cbsl .crayon-striped-num {
+	color: #333333 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-line {
+	padding-left: 10px !important;
+}
+.crayon-theme-raygun-cbsl .crayon-marked-line {
+	background: #fffee2 !important;
+	border-width: 1px !important;
+	border-color: #e9e579 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-marked-num {
+	border-width: 1px !important;
+	color: #333333 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-marked-line.crayon-striped-line {
+}
+.crayon-theme-raygun-cbsl .crayon-marked-num.crayon-striped-num {
+	color: #333333 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-marked-line.crayon-top {
+}
+.crayon-theme-raygun-cbsl .crayon-marked-num.crayon-top {
+}
+.crayon-theme-raygun-cbsl .crayon-marked-line.crayon-bottom {
+}
+.crayon-theme-raygun-cbsl .crayon-marked-num.crayon-bottom {
+}
+.crayon-theme-raygun-cbsl .crayon-info {
+	background: #faf9d7 !important;
+	border-bottom-width: 1px !important;
+	border-bottom-color: #b1af5e !important;
+	border-bottom-style: solid !important;
+	color: #7e7d34 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-toolbar {
+	background: #eee !important;
+	border-bottom-width: 1px !important;
+	border-bottom-color: #dedede !important;
+	border-bottom-style: solid !important;
+}
+.crayon-theme-raygun-cbsl .crayon-toolbar > div {
+	float: left !important;
+}
+.crayon-theme-raygun-cbsl .crayon-toolbar .crayon-tools {
+	float: right !important;
+}
+.crayon-theme-raygun-cbsl .crayon-title {
+	color: #333 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-language {
+	color: #999 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-button {
+	background-color: transparent !important;
+}
+.crayon-theme-raygun-cbsl .crayon-button:hover {
+	background-color: #EEE !important;
+	color: #666;
+}
+.crayon-theme-raygun-cbsl .crayon-button.crayon-pressed:hover {
+	background-color: #EEE !important;
+	color: #666;
+}
+.crayon-theme-raygun-cbsl .crayon-button.crayon-pressed {
+	background-color: #BCBCBC !important;
+	color: #FFF;
+}
+.crayon-theme-raygun-cbsl .crayon-button.crayon-pressed:active {
+	background-color: #BCBCBC !important;
+	color: #FFF;
+}
+.crayon-theme-raygun-cbsl .crayon-button:active {
+	background-color: #BCBCBC !important;
+	color: #FFF;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-c {
+	color: #708090 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-s {
+	color: #ff4e02 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-p {
+	color: #b85c00 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-ta {
+	color: #db0b0b !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-k {
+	color: #800080 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-st {
+	color: #800080 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-r {
+	color: #800080 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-t {
+	color: #158fef !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-m {
+	color: #800080 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-i {
+	color: #000 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-e {
+	color: #004ed0 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-v {
+	color: #002D7A !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-cn {
+	color: #ce0000 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-o {
+	color: #006fe0 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-sy {
+	color: #333 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-n {
+	color: #666 !important;
+	font-style: italic !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-f {
+	color: #999 !important;
+}
+.crayon-theme-raygun-cbsl .crayon-pre .crayon-h {
+	color: #006fe0 !important;
+}

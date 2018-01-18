@@ -1,0 +1,1188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0051)http://www.freebuf.com/articles/network/155973.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>
+  AWS攻防 | 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM | 关注黑客与极客</title>
+<meta name="description" content="AWS客户可以使用默认虚拟私有云（VPC）中的DNS架构，发往AWS管理设施的流量同样也会经过亚马逊域名服务器（AmazonProvidedDNS），但是，这种AmazonProvidedDNS流量不会像标准用户流量那样能通过同一个网络环境链…">
+<meta name="keywords" content="AWS攻防, DNS技术, 网络限制, 网络安全案例分享,网络安全知识大全,网络安全技术">
+<meta name="baidu-site-verification" content="nKKKqQxp6R">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta property="qc:admins" content="6620477777662552566375">
+<link rel="stylesheet" id="wpfp-css" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/wpfp.css" type="text/css">
+<link rel="stylesheet" id="wp-recentcomments-css" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/wp-recentcomments.css" type="text/css" media="screen">
+<link rel="stylesheet" id="mycred-widget-css" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/widget.css" type="text/css" media="all">
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/jquery.min.js.下载"></script>
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/wpfp.js.下载"></script>
+<link rel="prev" title="饿了么招聘，从E开始创造无限可能" href="http://www.freebuf.com/jobs/156494.html">
+<link rel="next" title="Process Doppelgänging：绕过杀软检测的新技术" href="http://www.freebuf.com/news/156657.html">
+<link rel="canonical" href="http://www.freebuf.com/articles/network/155973.html">
+<link rel="shortlink" href="http://www.freebuf.com/?p=155973">
+
+<link rel="stylesheet" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/highslide.css" type="text/css">
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/highslide-with-html.packed.js.下载"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    hs.graphicsDir = "http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/";
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+            opacity: 0.75,
+            position: "bottom center",
+            hideOnMouseOut: true
+
+        }
+
+    });
+});
+</script>
+          <script language="JavaScript" type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/script.js.下载"></script>
+        <script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/layer.js.下载"></script><link rel="stylesheet" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/layer.css" id="layui_layer_skinlayercss" style="">
+      <link rel="stylesheet" type="text/css" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/style.css">
+      <script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/highlight.pack.js.下载"></script><link type="text/css" rel="stylesheet" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/default.css">	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<link rel="shortcut icon" href="http://static.freebuf.com/images/favicon.ico">
+<link rel="stylesheet" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/header.css">
+<link href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!--轮播图-->
+    <link href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/swiper-3.4.2.min.css" rel="stylesheet" type="text/css">
+    <link href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/style(1).css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+#contenttxt hr {
+  display: block;
+  height: 0px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 15px 0;
+  padding: 0;
+}
+#contenttxt table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 15px 0;
+}
+#contenttxt table thead {
+  background-color: #f9f9f9;
+}
+#contenttxt table td, #contenttxt table th {
+  min-width: 40px;
+  height: 30px;
+  border: 1px solid #ccc;
+  vertical-align: top;
+  padding: 2px 4px;
+  text-align: left;
+  box-sizing: border-box;
+  white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;
+}
+#contenttxt table td.active, #contenttxt table th.active {
+  background-color: #ffffee;
+  white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;
+}
+</style>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/jquery-2.0.3.min.js.下载"></script>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/bootstrap.min.js.下载"></script>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/slider.js.下载" type="text/javascript"></script>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/jquery.sticky.js.下载" type="text/javascript"></script>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/bjqs-1.3.min.js.下载" type="text/javascript"></script>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/mosaic.1.0.1.min.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/setint.js.下载"></script>
+    <!--轮播图-->
+    <script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/swiper-3.4.2.min.js.下载"></script>
+<!--[if lt IE 9]>
+    <script src="http://www.freebuf.com/buf/themes/freebuf/js/html5shiv.min.js"></script>
+    <script src="http://www.freebuf.com/buf/themes/freebuf/js/respond.min.js"></script>
+<![endif]-->
+    <style>
+        @font-face {font-family: 'iconfont';
+            src: url('http://static.3001.net/iconfont/iconfont.eot'); /* IE9*/
+            src: url('http://static.3001.net/iconfont/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('http://static.3001.net/iconfont/iconfont.woff') format('woff'), /* chrome、firefox */
+            url('http://static.3001.net/iconfont/iconfonticonfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            url('http://static.3001.net/iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+        }
+    </style>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/share.js.下载"></script><style type="text/css">.highslide img {cursor: url(http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/zoomin.cur), pointer !important;}.highslide-viewport-size {position: fixed; width: 100%; height: 100%; left: 0; top: 0}</style><link rel="stylesheet" href="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/share_style1_24.css"><style type="text/css">.highslide img {cursor: url(http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/zoomin.cur), pointer !important;}.highslide-viewport-size {position: fixed; width: 100%; height: 100%; left: 0; top: 0}</style></head>
+
+<body style="">
+<!----------header---------->
+<!--头部导航-->
+<div id="undefined-sticky-wrapper" class="sticky-wrapper is-sticky">
+    <div id="undefined-sticky-wrapper" class="sticky-wrapper" style="height: 65px;"><div id="undefined-sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 65px;"><div class="main-header" style="position: fixed; top: 0px; display: none;">
+        <div class="header">
+            <div class="header-container clearfix">
+                                <div class="header-logo"><a href="http://www.freebuf.com/"></a></div>
+                                        <!-- column -->
+                        <div class="nav">
+                            <ul class="nav-child clearfix">
+                                <li class=" index">
+                                    <a href="http://www.freebuf.com/">首页</a></li>
+                                <li>
+                                    <a href="http://job.freebuf.com/" target="_blank">FB招聘站</a>
+                                </li>
+                                <li data-value="read-menu">
+                                    <a href="http://www.freebuf.com/articles/network/155973.html#">分类阅读<b class="triangle-down triangle-down-04"></b></a>
+                                </li>
+                                <li>
+                                    <a href="http://fit.freebuf.com/" target="_blank" style="color:#08e285;">FIT大会</a><b class="icon-hot"></b>
+                                </li>
+                                <li data-value="wenku-menu"><a href="javascript:;" target="_blank">文库<b class="triangle-down triangle-down-04"></b></a></li>
+                                <li>
+                                    <a href="http://zhuanlan.freebuf.com/" target="_blank">专栏</a>
+                                </li>
+                                <li><a href="http://open.freebuf.com/" target="_blank">公开课</a></li>
+                                <li data-value="company-menu"><a href="javascript:;">企业服务<b class="triangle-down triangle-down-04"></b></a></li>
+                                <li data-value="user-menu"><a href="javascript:;">用户服务<b class="triangle-down triangle-down-04"></b></a></li>
+                            </ul>
+                        </div>
+                                        <div class="header-right">
+                                    <div class="header-icon">
+                        <ul class="clearfix">
+                                                            <li class="icon-search"><a href="http://search.freebuf.com/" target="_blank"><span>搜索</span></a></li>
+                                <li class="icon-contribute"><a href="http://www.freebuf.com/oauth" target="_blank"><span>投稿</span></a></li>
+                                                    </ul>
+                    </div>
+                    <div class="loginSign login-before">
+                        <div class="header-icon">
+                            <ul class="clearfix">
+                                <li class="icon-login"><a href="http://www.freebuf.com/oauth" target="_blank"><span>登录</span></a></li>
+                                <li class="icon-reg"><a href="https://account.tophant.com/register.html" target="_blank"><span>注册</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                                </div>
+                <div class="nav-small">
+                    <a href="http://www.freebuf.com/articles/network/155973.html#"></a>
+                    <ul class="nav-child clearfix">
+                                                        <li class=" index">
+                                    <a href="http://www.freebuf.com/">首页</a></li>
+                                <li>
+                                    <a href="http://job.freebuf.com/" target="_blank">FB招聘站</a>
+                                </li>
+                                <li class="read-classify">
+                                    <a href="http://www.freebuf.com/articles/network/155973.html#">分类阅读<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2 read-classify clearfix">
+                                        <li>
+                                            <strong>黑客</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/vuls" target="_blank">漏洞</a>
+                                                <a href="http://www.freebuf.com/sectool" target="_blank">安全工具</a>
+                                                <a href="http://www.freebuf.com/articles/web" target="_blank">WEB安全</a>
+                                                <a href="http://www.freebuf.com/articles/system" target="_blank">系统安全</a>
+                                                <a href="http://www.freebuf.com/articles/network" target="_blank">网络安全</a>
+                                                <a href="http://www.freebuf.com/articles/wireless" target="_blank">无线安全</a>
+                                                <a href="http://www.freebuf.com/articles/terminal" target="_blank">设备/客户端安全</a>
+                                                <a href="http://www.freebuf.com/articles/database" target="_blank">数据库安全</a>
+                                                <a href="http://www.freebuf.com/articles/security-management" target="_blank">安全管理</a>
+                                                <a href="http://www.freebuf.com/articles/es" target="_blank">企业安全</a>
+                                                <a href="http://www.freebuf.com/ics-articles" target="_blank">工控安全</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <strong>极客</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/geek" target="_blank">极客有意思</a>
+                                                <a href="http://www.freebuf.com/news/others" target="_blank">周边</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <strong>特色</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/news/special" target="_blank">头条</a>
+                                                <a href="http://www.freebuf.com/articles/people" target="_blank">人物志</a>
+                                                <a href="http://www.freebuf.com/fevents" target="_blank">活动</a>
+                                                <a href="http://www.freebuf.com/video" target="_blank">视频</a>
+                                                <a href="http://www.freebuf.com/articles/neopoints" target="_blank">观点</a>
+                                                <a href="http://www.freebuf.com/jobs" target="_blank">招聘</a>
+                                                <a href="http://www.freebuf.com/paper/" target="_blank">报告</a>
+                                                <a href="http://www.freebuf.com/news" target="_blank">资讯</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="http://zhuanlan.freebuf.com/" target="_blank">专栏</a></li>
+                                <li><a href="http://open.freebuf.com/" target="_blank">公开课</a></li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">企业服务<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="https://www.vulbox.com/bounties/item-9-0-1" target="_blank"><strong>企业SRC</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://company.freebuf.com/" target="_blank"><strong>企业空间</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.vulbox.com/" target="_blank"><strong>安全测试</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.riskivy.com/" target="_blank"><strong>风险感知</strong></a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">用户服务<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="http://shop.freebuf.com/" target="_blank"><strong>商城</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.freebuf.com/newsend" target="_blank"><strong>有奖投稿</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                        </a></li><a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                        </a><li><a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                            </a><a href="https://www.vulbox.com/bounties/detail-72" target="_blank"><strong>提交漏洞</strong></a>
+                                        </li>
+                                        <li class="last">
+                                            <a href="https://www.vulbox.com/bounties" target="_blank"><strong>参与众测</strong></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">文库<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="http://search.freebuf.com/search" target="_blank"><strong>文库</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.freebuf.com/special-subject" target="_blank"><strong>专题</strong></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                                    <li><a href="http://my.freebuf.com/post/edit" target="_blank">投稿</a></li>
+                                                    <li><a href="https://account.tophant.com/register.html" class="login-btn">注册</a>
+                            </li>
+                            <li><a href="http://www.freebuf.com/oauth" class="sign-btn">登录</a></li>
+                                            </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu read-menu" id="read-menu" style="">
+                <div class="container">
+                    <ul class="menu clearfix">
+                        <li>
+                            <strong>黑客</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/vuls" target="_blank">漏洞</a>
+                                <a href="http://www.freebuf.com/sectool" target="_blank">安全工具</a>
+                                <a href="http://www.freebuf.com/articles/web" target="_blank">WEB安全</a>
+                                <a href="http://www.freebuf.com/articles/system" target="_blank">系统安全</a>
+                                <a href="http://www.freebuf.com/articles/network" target="_blank">网络安全</a>
+                                <a href="http://www.freebuf.com/articles/wireless" target="_blank">无线安全</a>
+                                <a href="http://www.freebuf.com/articles/terminal" target="_blank">设备/客户端安全</a>
+                                <a href="http://www.freebuf.com/articles/database" target="_blank">数据库安全</a>
+                                <a href="http://www.freebuf.com/articles/security-management" target="_blank">安全管理</a>
+                                <a href="http://www.freebuf.com/articles/es" target="_blank">企业安全</a>
+                                <a class="last" href="http://www.freebuf.com/ics-articles" target="_blank">工控安全</a>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>极客</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/geek" target="_blank">极客有意思</a>
+                                <a class="last" href="http://www.freebuf.com/news/others" target="_blank">周边</a>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>特色</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/news/special" target="_blank">头条</a>
+                                <a href="http://www.freebuf.com/articles/people" target="_blank">人物志</a>
+                                <a href="http://www.freebuf.com/fevents" target="_blank">活动</a>
+                                <a href="http://www.freebuf.com/video" target="_blank">视频</a>
+                                <a href="http://www.freebuf.com/articles/neopoints" target="_blank">观点</a>
+                                <a href="http://www.freebuf.com/jobs" target="_blank">招聘</a>
+                                <a href="http://www.freebuf.com/paper/" target="_blank">报告</a>
+                                <a class="last" href="http://www.freebuf.com/news" target="_blank">资讯</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu company-menu" id="company-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="https://www.vulbox.com/bounties/item-9-0-1" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-src.png"></span>
+                                <span class="name">企业SRC</span>
+                                <span class="intro">全/半托管式互联网漏洞收集管理</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://company.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-company.png"></span>
+                                <span class="name">企业空间</span>
+                                <span class="intro">为企业定制信息安全专属门户</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.vulbox.com/" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-safety.png"></span>
+                                <span class="name">安全测试</span>
+                                <span class="intro">国内领先的互联网安全众测服务</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="https://www.riskivy.com/" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-risk.png"></span>
+                                <span class="name">风险感知</span>
+                                <span class="intro">基于IT资产的全息风险分析监控</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu user-menu" id="user-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="http://shop.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-shop.png"></span>
+                                <span class="name">商城</span>
+                                <span class="intro">用FB金币购物</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.freebuf.com/newsend" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-write.png"></span>
+                                <span class="name">有奖投稿</span>
+                                <span class="intro">与整个行业分享你的经验与见解</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-column.png"></span>
+                                <span class="name">申请专栏</span>
+                                <span class="intro">自由创作，打造自主内容品牌</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.vulbox.com/bounties/detail-72" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-leak.png"></span>
+                                <span class="name">提交漏洞</span>
+                                <span class="intro">与数万白帽一起，让互联网更安全</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="https://www.vulbox.com/bounties" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-test.png"></span>
+                                <span class="name">参与众测</span>
+                                <span class="intro">挖洞开启自由职业之路</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu wenku-menu" id="wenku-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="http://search.freebuf.com/search" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-write.png"></span>
+                                <span class="name">文库</span>
+                                <span class="intro">最全的FB百科</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="http://www.freebuf.com/special-subject" target="_blank">
+                                <span class="img"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-test.png"></span>
+                                <span class="name">专题</span>
+                                <span class="intro">浓缩的安全精华汇总</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div></div></div>
+</div>
+<!----------header end---------->
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/header.js.下载"></script><script>
+    jQuery(window).load(function(){
+      if(jQuery(window).width()>480){
+        jQuery(".main-header").sticky({ topSpacing: 0 });
+      }else{
+        jQuery(".main-header nav").removeClass("navbar-fixed-top");
+      }
+      jQuery("#mar-right").sticky({ topSpacing: 105,bottomSpacing: 410 });
+    });
+</script>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/layer.js.下载"></script>
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/prettify.js.下载"></script>
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/lazyload.js.下载"></script>
+<script type="text/javascript" charset="utf-8">
+      jQuery(function() {
+          jQuery("img").lazyload({
+              effect : "fadeIn"
+          });
+      });
+ </script>
+<script type="text/javascript">
+    window.onload = function(){
+        prettyPrint();
+    }
+</script>
+<script language="JavaScript" type="text/javascript">
+//<![CDATA[
+var va = "您已经点亮过了";
+function acv_vote(id,option, m){
+  if( m==null) m =''; m = m + '';
+  jQuery('#acv_stat_'+m+id).html('Loading...');
+  var url="http://www.freebuf.com/index.php?acv_ajax=true&option="+option+"&ID="+id;
+  jQuery.get(url,function(d){
+    d =d.split('|');var s='#acv_stat_'+m+d[0];
+    var sele = '#cos_support-'+m+id,unsele = '#cos_unsupport-'+m+id,tpjs = 'javascript:alert(va)';
+    jQuery( s ).html( d[1] );jQuery(s).fadeOut(400,function(){jQuery(s).fadeIn();});
+    if( d[2] == 1 ){ jQuery(sele).html(jQuery(sele).html()*1+1); }
+    if( d[2] == -1 ){ jQuery(unsele).html(jQuery(unsele).html()*1+1); }
+    jQuery('#vote4-'+id).attr('href',tpjs);jQuery('#vote4-2'+id).attr('href',tpjs);
+    jQuery('#votea-'+id).attr('href',tpjs);jQuery('#votea-2'+id).attr('href',tpjs);
+  });
+}
+  
+$(document).on("mouseenter",".comment-tools",function(){
+  $(this).find(".btn-report").show();
+  $(this).find(".btn-report").addClass("hover");
+}).on("mouseleave",".comment-tools",function(){
+  var $_this = $(this);
+  $(this).find(".btn-report").removeClass("hover");
+  if(!$(this).find(".dropup").hasClass('open')){
+    $(this).find(".btn-report").hide(); 
+    $_this.find(".dropdown-menu").css("display","none");
+  }else{
+    setTimeout(function(){
+      if(!$_this.find(".btn-report").hasClass("hover")){
+        $_this.find(".dropup").removeClass("open");
+        $_this.find(".dropdown-menu").css("display","none");
+        $_this.find(".btn-report").hide(); 
+      }
+    },"500");
+  }
+})
+
+$(document).on("click",".click_report",function(){
+  $(this).parent().parent().css("display","none");
+  var id = $(this).attr("data-id");
+  var url="http://www.freebuf.com/index.php?acv_ajax=true&option=0&ID="+id;
+  $_this = $(this);
+  jQuery.get(url,function(d){
+    d =d.split('|');
+    if(d[1]=='您已经点过灯了'){
+      d[1] = '您已经举报过了';
+    }
+    if(d[1]=='Thank you'){
+      d[1] = '举报成功';
+    }
+    $_this.parent().parent().parent().find(".btn-report").text(d[1]);
+    $_this.parent().parent().parent().find(".btn-report").css("display","block");
+  })
+})
+
+$(document).on("click",".btn-report",function(){
+  if($(this).parent().hasClass('open')){
+    $(this).parent().find(".dropdown-menu").css("display","block");
+  }else{
+    $(this).parent().find(".dropdown-menu").css("display","none");
+  }
+})
+//]]>
+</script>
+<div class="column-article" data-column="">
+            <div class="container pad-top35">
+        <div class="row clearfix">
+            <div class="col-md-9" id="getWidth">
+                    <div class="reletive search-xs-wrap">
+                    <div class="form-group has-active search-col search-xs">
+                        <form id="hpsform-new" class="navbar-search navbar-form" onsubmit="return dispatch()">
+                            <div class="form-group">
+                                <input id="q" class="input form-control" type="text" placeholder="关键字查找" autocomplete="off" title="关键字查找" name="q">
+                                <button class="submit" type="submit"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                    <script type="text/javascript">
+                        var dispatch = function () {
+                            var q = document.getElementById("q");
+                            if (q.value == "") {
+                                q = document.getElementById("bigq");
+                            }
+                            if (q.value != "") {
+                                window.open('http://search.freebuf.com/search/?search=' + q.value, "_blank");
+                                return false;
+                            } else {
+                                return false;
+                            }
+                        }
+                    </script>
+                <div class="article-wrap panel panel-default">
+                                                            <div class="articlecontent">
+                                                    <div class="title">
+                                <h2>
+                                    AWS攻防 | 利用DNS技术突破AWS隔离网络限制进行数据渗漏                                </h2>
+                                <div class="property">
+                                                                            <span class="name"><a href="http://www.freebuf.com/author/clouds" title="由 clouds 发布" rel="author">clouds</a></span>
+                                                                        <span class="icon-f"><a href="http://zhuanlan.freebuf.com/" target="_blank"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/column-iden.png" title="专栏作者"></a></span>
+                                    <span class="time">2017-12-08</span>
+                                                                                                            <span class="look">共<strong>102883</strong>人围观
+                                        ，发现 <strong>1</strong> 个不明物体 </span>                                      
+                                                                <span class="tags">
+                                      <a href="http://www.freebuf.com/articles/network">网络安全</a></span>
+                                    <span class="tags_01"></span>
+                                </div>
+                            </div>
+                                                                                                <div id="contenttxt">
+                            <p style="text-align: center;"><b><a href="http://image.3001.net/images/20171203/1512306270482.jpg" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="34841094_ml.jpg" data-original="http://image.3001.net/images/20171203/1512306270482.jpg!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/1512306270482.jpg!small" style="display: inline;"></a></b></p>
+<noscript>&lt;img width="690" height="461" alt="34841094_ml.jpg" src="http://image.3001.net/images/20171203/1512306270482.jpg!small"&gt;&lt;/b&gt;&lt;/p&gt;</noscript>
+<p><b style="color: rgb(0, 176, 80);">AWS客户可以使用默认虚拟私有云（VPC）中的DNS架构，发往AWS管理设施的流量同样也会经过亚马逊域名服务器（AmazonProvidedDNS），但是，这种AmazonProvidedDNS流量不会像标准用户流量那样能通过同一个网络环境链接流出，且不可被AWS安全组审核评估。因此，使用DNS数据渗漏技术（DNS exfiltration ），就能实现从隔离网络中窃取数据。</b></p>
+<blockquote><p>数据渗漏（Data exfiltration）：就是黑客将已经在目标网络中获取的信息传递出来的技术，核心就是对欲渗出的数据进行加密、混淆，然后通过一些隐蔽的手段传递出来而不被察觉或者引起警觉。在某些场景中，数据渗漏也可称为数据窃取。</p>
+</blockquote>
+<h2>DNS数据渗漏</h2>
+<p>DNS数据渗漏技术允许攻击者绕过出站防火墙规则，仅利用DNS协议，通过外部服务来进行数据窃取或执行命令控制活动，在这种情况下，如果AWS的托管DNS设施未被禁用，则可以使用DNS数据窃取技术从隔离的虚拟私有云网络环境中（VPC）中进行数据窃取。</p>
+<p>当内部DNS服务器被配置为把外部请求转发至上游DNS服务器时，可能会发生DNS数据泄露。 因为AWS允许在所有VPC中默认使用预先配置的DNS架构（即AmazonProvidedDNS），攻击者可以利用这个通道，与这种特定环境之外的服务器进行数据发送和接收交互，这无疑会成为数据窃取的手段之一。要降低这种风险，AWS客户可以禁用亚马逊DNS架构的预先配置，使用自架DNS服务器来进行通信。</p>
+<h2>DNS工作原理</h2>
+<p>要理解AWS中的DNS数据窃取技术就有必要了解DNS的工作原理。在很多组织机构内部，由于使用了自架DNS服务器来解析外部域名，所以在防火墙上原本的53端口就被禁用了。在内部自架DNS架构中，在当前DNS无法有效完成解析时，端口53通常针对上一级别DNS服务器开放以继续完成解析请求。以域名”yo.dejandayoff.com”为例，我们来看DNS如何进行解析：</p>
+<p style="text-align: center;"><a href="http://image.3001.net/images/20171203/15123050112702.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="1_dns.png" data-original="http://image.3001.net/images/20171203/15123050112702.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/15123050112702.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="366" alt="1_dns.png" src="http://image.3001.net/images/20171203/15123050112702.png!small"&gt;&lt;/p&gt;</noscript>
+<blockquote><p>1. 计算机首先向内部DNS服务器请求yo.dejandayoff.com</p>
+<p>2. 为了解析顶级域名“.com”，当前DNS服务器须向根DNS服务器请求.COM的DNS服务器</p>
+<p>3. 由于我们正在查找的域名是yo.dejandayoff.com，DNS服务器需要找到dejandayoff.com域名服务器</p>
+<p>4. 一旦匹配的.COM域名服务器被找到，DNS服务器就会发出一个询问yo.dejandayoff.comA记录的请求</p>
+<p>5. 域名服务器返回IP信息响应</p>
+<p>6. DNS服务器向客户端计算机返回IP地址响应</p>
+<p>Note：整个解析工作流程中，可能还牵涉运营商DNS服务器或上游DNS服务器等。</p>
+</blockquote>
+<h2>如何利用DNS进行数据渗漏窃取</h2>
+<p>如果攻击者可以控制某个域名的域名服务器，那么他们就能记录任何子域名查询请求并伪造相关查询响应。由于域名服务器必须接受标准的DNS请求，但它对这种请求数据的处理并不一定标准。</p>
+<p>举个例子，我们假设某组织机构内部部署了不与外部互联网连接的内部生产网络，而某个内部不满员工打算从该生产网络中窃取数千个信用卡账号信息，那么存在这种可能，就是在DNS工作时，将信用卡账号信息添加到域名解析请求中实现数据窃取，如：</p>
+<blockquote><p>4012888888881881.123.0808.visa.yo.dejandayoff.com</p>
+</blockquote>
+<p>当隶属于yo.dejandayoff.com的域名服务器收到该请求后，会简单地记录该请求，并用随机IP作出响应。攻击者甚至可以在单个请求中包含多个卡号信息，或配合压缩和编码手段减少向外发送的请求数量，无论采用哪种方法，攻击者都可以通过内部DNS服务器来解析外部域名，从而实现双向通信。</p>
+<p>这里存在多种可能，攻击者可以创建一个本地http代理，只通过DNS甚至本地网络接口，利用DNS隧道传输所有类型流量。 这种情景下，<a href="http://code.kryo.se/iodine/">工具iodine</a>就可以配上用场。</p>
+<h2>AWS网络环境中攻击者如何利用DNS数据渗漏技术</h2>
+<p>DNS渗漏技术并不是现在才有的全新概念，而且其缓解方案也并不简单。在非AWS环境中，如果不在乎可用性的前提下，一种解决方案是阻止所有的出站DNS连接，另一种方案是将允许解析的域名列入白名单，但最简单直接的控制措施是监视DNS日志的异常情况（如请求域的频率，请求量的大小等）</p>
+<p>AWS允许使用AmazonProvidedDNS对每个子网（如VPC中的IPv4网络范围）分配一个IP地址的方式，来<a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html#VPC_Sizing">简化整体网络架构</a>。管理员只允许启用或禁用每个子网中的DNS设施，而根据VPC流量日志文档介绍，这类管理流量不会被记录到客户端的日志存储bucket中，因此不会填满客户端的存储bucket；另外，这类管理流量也不会像标准客户流量那样可通过相同网络链接向外交互，且不会被AWS安全组评估审核。下图是VPC创建时的默认DNS配置：</p>
+<p style="text-align: center;"><a href="http://image.3001.net/images/20171203/15123051615419.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="2_VPCDefaultConfig_allowDNS.png" data-original="http://image.3001.net/images/20171203/15123051615419.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/15123051615419.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="57" alt="2_VPCDefaultConfig_allowDNS.png" src="http://image.3001.net/images/20171203/15123051615419.png!small"&gt;&lt;/p&gt;</noscript>
+<p>通常在AWS中设置一个出站连接需要两方面的必要条件：</p>
+<blockquote><p>一条到Internet网关或NAT设备的路由</p>
+<p>允许在某端口上进行出站通信的一个安全组</p>
+</blockquote>
+<p>但是，攻击者可以通过AmazonProvidedDNS绕过上述方法限制， 为了演示这个漏洞，我创建了一个包含公共子网和私有子网的网络。公共子网的唯一目的是能够通过堡垒主机ssh方式进入私有子网，在公共子网中，确实存在方便以ssh方式进入堡垒主机的一个互联网网关。而私有子网中却不包含任何互联网网关或NAT（仅有默认情况下Amazon为所有子网分配的DNS IP）。 私有子网中的主机安全组配置不包含任何出站规则，且只允许以SSH方式从堡垒主机进入，以下为该网络布局图：</p>
+<p style="text-align: center;"><a href="http://image.3001.net/images/20171203/15123052098773.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="3_network_in_aws.png" data-original="http://image.3001.net/images/20171203/15123052098773.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/15123052098773.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="342" alt="3_network_in_aws.png" src="http://image.3001.net/images/20171203/15123052098773.png!small"&gt;&lt;/p&gt;</noscript>
+<p>一些相关配置如下：</p>
+<p><b>公共子网的路由配置表：</b></p>
+<p style="text-align: center;"><b></b><a href="http://image.3001.net/images/20171203/15123052481883.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="4_public_subnet_routetable.png" data-original="http://image.3001.net/images/20171203/15123052481883.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/15123052481883.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="258" alt="4_public_subnet_routetable.png" src="http://image.3001.net/images/20171203/15123052481883.png!small"&gt;&lt;/p&gt;</noscript>
+<p><b>私有子网的路由配置表：</b></p>
+<p style="text-align: center;"><a href="http://image.3001.net/images/20171203/15123052799290.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="5_private_subnet_routetable.png" data-original="http://image.3001.net/images/20171203/15123052799290.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/15123052799290.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="223" alt="5_private_subnet_routetable.png" src="http://image.3001.net/images/20171203/15123052799290.png!small"&gt;&lt;/p&gt;</noscript>
+<p><b>私有主机的入站安全组配置：</b></p>
+<p style="text-align: center;"><b></b><b></b><a href="http://image.3001.net/images/20171203/1512305309410.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="6_OnlyAllowBationHostInbound.png" data-original="http://image.3001.net/images/20171203/1512305309410.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/1512305309410.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="228" alt="6_OnlyAllowBationHostInbound.png" src="http://image.3001.net/images/20171203/1512305309410.png!small"&gt;&lt;/p&gt;</noscript>
+<p><b>私有主机的出站安全组配置：</b></p>
+<p style="text-align: center;"><b><a href="http://image.3001.net/images/20171203/1512305341266.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="7_DenyAllOutbound.png" data-original="http://image.3001.net/images/20171203/1512305341266.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/1512305341266.png!small" style="display: inline;"></a></b></p>
+<noscript>&lt;img width="690" height="273" alt="7_DenyAllOutbound.png" src="http://image.3001.net/images/20171203/1512305341266.png!small"&gt;&lt;/b&gt;&lt;/p&gt;</noscript>
+<p>下图为无法连接到外部互联网的证明，它为私有服务器主机在请求dejandayoff.com后收到的网络延时响应：</p>
+<p style="text-align: center;"><a href="http://image.3001.net/images/20171203/15123053689862.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="8_NetworkTimeout.png" data-original="http://image.3001.net/images/20171203/15123053689862.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/15123053689862.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="472" alt="8_NetworkTimeout.png" src="http://image.3001.net/images/20171203/15123053689862.png!small"&gt;&lt;/p&gt;</noscript>
+<p>当网络环境搭建完成后，我会在一个单独的VPC中创建另一个运行有iodined服务的私有服务器主机。接下来，该私有服务器使用其iodined服务客户端连接到远程请求服务器：</p>
+<p style="text-align: center;"><a href="http://image.3001.net/images/20171203/15123054015553.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="9_iodineConnect.png" data-original="http://image.3001.net/images/20171203/15123054015553.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/15123054015553.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="340" alt="9_iodineConnect.png" src="http://image.3001.net/images/20171203/15123054015553.png!small"&gt;&lt;/p&gt;</noscript>
+<p>当建立iodine连接后，我可以用以下命令通过iodine的DNS隧道，在8080端口上创建一个请求google.com的SSH通道：</p>
+<blockquote><p>sh -L 8080:google.com:443 10.53.53.2</p>
+</blockquote>
+<p>其中，10.53.53.0/24是iodine隧道的子网，而10.53.53.2是我可以通过ssh连接的iodine服务器。</p>
+<p>利用curl连接<a href="https://127.0.0.1:8080/" rel="nofollow">https://127.0.0.1:8080</a>，我们就能访问谷歌服务器了！</p>
+<p style="text-align: center;"><a href="http://image.3001.net/images/20171203/15123054336212.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img width="690" alt="10_access_google.png" data-original="http://image.3001.net/images/20171203/15123054336212.png!small" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/15123054336212.png!small" style="display: inline;"></a></p>
+<noscript>&lt;img width="690" height="675" alt="10_access_google.png" src="http://image.3001.net/images/20171203/15123054336212.png!small"&gt;&lt;/p&gt;</noscript>
+<p>上图中虽然谷歌服务器的响应使用了重定向，但演示本身要说明的是：一个没有出站规则、没有互联网网关的服务器照样能够访问外部网站。由此，攻击者就能不受安全检查，轻松地从一个隔离的AWS网络系统中向外实现数据传输。</p>
+<h2>缓解措施</h2>
+<p>好在亚马逊允许用户禁用VPC设置中的AmazonProvidedDNS，一旦禁用，用户就必须应用其他软件在网络中自架DNS服务器，这样一来，自架的DNS服务器就会记录相关数据，并且还能建立必要的网站通信白名单机制。</p>
+<p><span style="color: rgb(159, 163, 168);"><strong>*参考来源：<a href="https://dejandayoff.com/using-dns-to-break-out-of-isolated-networks-in-a-aws-cloud-environment/">dejandayoff</a>，freebuf小编clouds编译，转载请注明来自FreeBuf.COM</strong></span></p>
+                        </div>
+                        <div class="article-oper article-oper-new">
+                            <style>
+                                @font-face {font-family: 'iconfont';
+                                    src: url('http://static.3001.net/iconfonts/iconfont.eot'); /* IE9*/
+                                    src: url('http://static.3001.net/iconfonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+                                    url('http://static.3001.net/iconfonts/iconfont.woff') format('woff'), /* chrome、firefox */
+                                    url('http://static.3001.net/iconfonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+                                    url('http://static.3001.net/iconfonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+                                }
+                            </style>
+                            <div class="share-new clearfix" style="width: 100%; left: 358px;">
+                                <div class="share-author">
+                                                                            <a href="http://www.freebuf.com/author/clouds" title="由 clouds 发布" rel="author">
+                                            <img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/12425433_870161.jpg" width="50" height="50" alt="clouds" class="avatar avatar-50 wp-user-avatar wp-user-avatar-50 photo">                                            <!--							<img src="http://image.3001.net/2015/06/17.jpg" alt="ArthurKiller">-->
+                                        </a>
+                                        <div class="share-author-info">
+                                                                                        <a class="author-name" href="http://www.freebuf.com/author/clouds">clouds</a>
+                                            <!--<span class="icon-f"></span>-->
+                                            <span>
+                                <i class="colour-red">
+                                    186                                </i>
+                                篇文章</span>
+                                            <span>等级：
+                                <i class="colour-green">8</i>级
+                            </span>
+                                        </div>
+                                                                                                        </div>
+                                <div class="user-center clearfix">
+                                                                            <a href="http://www.freebuf.com/author/clouds" data-toggle="tooltip" data-placement="top" title="" class="home" target="_blank" data-original-title="个人主页"></a>
+                                                                        <a href="http://www.freebuf.com/user/pm?pmaction=newmessage&amp;to=clouds" data-toggle="tooltip" data-placement="top" title="" class="letter" target="_blank" data-original-title="私信"></a>
+                                </div>
+                                <div class="share-ctrl clearfix">
+                                                                        <div class="bdsharebuttonbox clearfix columnstatus bdshare-button-style1-24" data-bd-bind="1513141100526" data-column="" data-title="AWS攻防 | 利用DNS技术突破AWS隔离网络限制进行数据渗漏" data-name="">
+                                        <a href="http://www.freebuf.com/articles/network/155973.html#" data-toggle="tooltip" data-placement="top" data-cmd="tsina" title="分享到新浪微博" id="tsina" data-original-title="分享到新浪微博"></a>
+                                        <a href="http://www.freebuf.com/articles/network/155973.html#" data-toggle="tooltip" data-placement="top" data-cmd="weixin" title="分享到微信" id="weixin" data-original-title="分享到微信"></a>
+                                        <a href="http://www.freebuf.com/articles/network/155973.html#" data-toggle="tooltip" data-placement="top" data-cmd="qzone" title="分享到QQ空间" id="qzone" data-original-title="分享到QQ空间"></a>
+                                       <!-- _shareUrlWeibo = 'http://service.weibo.com/share/share.php?url=http://'+encodeURIComponent(_json[i].url)+'&title='+encodeURIComponent(_json[i].title)+'-FreeBuf涓撴爮路'+_json[i].columnName;
+                                        _shareUrlZone = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://'+encodeURIComponent(_json[i].url)+'&title='+_json[i].title+'-FreeBuf涓撴爮路'+_json[i].columnName;
+                                        _shareSrc = 'http://s.jiathis.com/qrcode.php?url=http://'+_json[i].url;-->
+                                        <span class="share-line">|</span>
+                                    </div>
+                                </div>
+                                <div class="user-ctrl clearfix">
+                                                                            <a href="http://www.freebuf.com/oauth" id="collect" data-toggle="tooltip" data-placement="top" title="" data-original-title="收藏"></a>
+                                                                        <a href="http://www.freebuf.com/articles/network/155973.html#respond" data-toggle="tooltip" data-placement="top" title="" id="comments" data-original-title="评论"></a>
+                                                                        <!--					<a href="#" title="文章纠正">&#xe6e3;</a>-->
+                                    <span class="share-line">|</span>
+                                    <span class="info-alert"></span>
+                                </div>
+                            </div>
+                            <script>
+                                var column = $('.columnstatus').attr('data-column');
+                                var text = '';
+                                if(column){
+                                    var title = $('.columnstatus').attr('data-title');
+                                    var name = $('.columnstatus').attr('data-name');
+                                    text = title+' - FreeBuf专栏·'+name;
+                                }
+                                window._bd_share_config={
+                                    "common": {
+                                        "bdSnsKey": {},
+                                        "bdText": text,
+                                        "bdMini": "2",
+                                        "bdMiniList": ["qzone", "tsina", "weixin"],
+                                        "bdPic": "",
+                                        "bdStyle": "1",
+                                        "bdSize": "24"
+                                    },
+                                    "share":{},
+                                };
+                                with(document)0[
+                                    (getElementsByTagName('head')[0]||body).
+                                    appendChild(createElement('script')).
+                                        src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)
+                                    ];
+                                //控制垂直方向分享模块的定位
+                                function shareFixVertical(){
+                                    var offsetTop = jQuery(".article-oper").get(0).offsetTop;
+                                    var win_h = jQuery(window).height();
+                                    var win_w = jQuery(window).width();
+                                    var scrollTop = document.body.scrollTop||document.documentElement.scrollTop;
+                                    var _height = offsetTop-scrollTop;
+                                    var _flag = $('.column-article').attr('data-column');
+                                    if(_flag == 1) {
+                                        if(_height>=win_h-660&&win_w>975){
+                                            var _width = jQuery("#getWidth").innerWidth()-30;
+                                            var _left = jQuery("#getWidth").offset().left+15;
+                                            jQuery(".share-new").addClass("fixed");
+                                            jQuery(".fixed").css({
+                                                width:_width,
+                                                left:_left
+                                            });
+
+                                        }else{
+                                            jQuery(".share-new").removeClass("fixed");
+                                            jQuery(".share-new").css({
+                                                width: "100%"
+                                            });
+                                        }
+                                    }else {
+                                        if(_height>=win_h-255&&win_w>975){
+                                            var _width = jQuery("#getWidth").innerWidth()-30;
+                                            var _left = jQuery("#getWidth").offset().left+15;
+                                            jQuery(".share-new").addClass("fixed");
+                                            jQuery(".fixed").css({
+                                                width:_width,
+                                                left:_left
+                                            });
+
+                                        }else{
+                                            jQuery(".share-new").removeClass("fixed");
+                                            jQuery(".share-new").css({
+                                                width: "100%"
+                                            });
+                                        }
+                                    }
+                                }
+                                //控制水平方向分享模块的定位
+                                function shareFixHorizontal(){
+                                    var _width = jQuery("#getWidth").innerWidth()-30;
+                                    var _left = jQuery("#getWidth").get(0).offsetLeft+15;
+                                    var win_w = document.documentElement.clientWidth || document.body.clientWidth;
+                                    jQuery(".fixed").css({
+                                        width:_width,
+                                        left:_left
+                                    });
+                                    if(win_w< 975){
+                                        jQuery(".share-new").css({
+                                            width: "100%",
+                                            left: "0"
+                                        });
+                                    }else{
+                                        var _width = jQuery("#getWidth").innerWidth()-30;
+                                        var _left = jQuery("#getWidth").get(0).offsetLeft+15;
+                                        jQuery(".fixed").css({
+                                            width:_width,
+                                            left:_left
+                                        });
+                                    }
+                                }
+                                function click(){
+                                    var _w = jQuery(window).width();
+                                    jQuery(document).click(function(e){
+                                        if(jQuery(e.target).attr("id")=="weixin"){
+                                            if(_w <= 760) {
+                                                jQuery("#bdshare_weixin_qrcode_dialog").hide();
+                                                layer.open({
+                                                    title: '提示',
+                                                    btnAlign: 'c',
+                                                    content: '请使用手机浏览器自带的分享功能分享该页面',
+                                                    area: '260px'
+                                                });
+                                            }else {
+                                                jQuery("#bdshare_weixin_qrcode_dialog").show();
+                                            }
+                                        }else {
+                                            jQuery("#bdshare_weixin_qrcode_dialog").hide();
+                                        }
+                                    });
+                                }
+
+                                jQuery(window).on("load",function(){
+                                    shareFixVertical();
+                                    click();
+                                });
+
+                                jQuery(window).on("resize",function(){
+                                    shareFixHorizontal();
+                                    click();
+                                });
+
+                                var direction_flag;
+
+                                scroll( function(direction) {
+                                    if(direction == 'down') {
+                                        jQuery(".share-new").removeClass("fixed");
+                                        $(".share-new").css({
+                                            width: "100%"
+                                        });
+                                        jQuery('.main-header').stop().hide();
+                                    }else {
+                                        shareFixVertical();
+                                        jQuery('.main-header').stop().show();
+                                    }
+                                    return direction;
+                                });
+
+                                function scroll( fn ) {
+                                    var beforeScrollTop = document.body.scrollTop || document.documentElement.scrollTop,
+                                        fn = fn || function() {};
+                                    window.addEventListener("scroll", function() {
+                                        var afterScrollTop = document.body.scrollTop || document.documentElement.scrollTop,
+                                            delta = afterScrollTop - beforeScrollTop;
+                                        if( delta === 0 ) return false;
+                                        direction_flag = fn( delta > 0 ? "down" : "up" );
+                                        beforeScrollTop = afterScrollTop;
+                                    }, false);
+                                }
+
+                                //tooltips提示
+                                $(function () { $("[data-toggle='tooltip']").tooltip(); });
+                            </script>
+                        </div>
+                                                                                                                            <div class="article-pager ">
+                                <ul>
+                                    <li class="previous"><span>上一篇：</span><a href="http://www.freebuf.com/articles/network/156069.html" rel="prev">AOP技术应用于安全防御与漏洞修复</a>                                    </li>
+                                    <li class="next"><span>下一篇：</span>
+                                        <a href="http://www.freebuf.com/articles/network/156228.html" rel="next">一起来围观国外厂商最新发布的7款信息安全产品</a>                                    </li>
+                                </ul>
+                            </div>
+                                                </div>
+                </div>
+                <div class="comment-list">
+      <div class="main-tit02">
+		<a rel="nofollow" class="btnbtn-default btn-comment" href="http://www.freebuf.com/articles/network/155973.html#respond">发表评论</a>
+        <h3>已有 <span class="color_red">1</span> 条评论
+      </h3></div>
+      <ul>
+         <li class="comment even thread-even depth-1" id="li-comment-236879">
+    <div id="comment-236879">
+        <div class="photo">     <img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/pic14.png">     </div>
+    <div class="tit"> 
+	    <span class="name"> keeep </span>
+        		<span class="explain">  </span>
+		<span class="time">&nbsp;2017-12-08</span>
+		<span class="time">
+                    </span>
+        <span class="useragent_output_custom"></span>
+        <span class="useragent_output_custom"></span> 
+		<span class="reply">
+		        <!-- 正常情况 -->
+           <a onclick="return addComment.moveForm( &#39;comment-236879&#39;,&#39;236879&#39;, &#39;respond&#39;,&#39;155973&#39; ) " href="http://www.freebuf.com/articles/network/155973.html?replytocom=236879#respond" class="comment-reply-link" rel="nofollow">回复</a>
+        	    </span>
+		<span class="floor">1楼</span>
+	</div>
+	    <div class="txt">
+	  <p class="useragent_output_custom"></p>
+      <p>看来 AWS 不仅仅是配置有问题</p>
+<div class="comment-tools">
+<div class="vote" id="vote-236879"><span id="acv_stat_236879"></span><a class="ilike_icon" id="vote4-236879" href="javascript:acv_vote(236879,1);">亮了</a>(<span id="cos_support-236879">0</span>)</div>
+<div class="dropup"><a class="dropdown-toggle btn-report" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:none;"> 举报</a>
+<ul class="dropdown-menu" style="display:none;bottom:auto;">
+<li><a data-id="236879" class="click_report" href="javascript:;">广告等垃圾信息</a></li>
+<li><a data-id="236879" class="click_report" href="javascript:;">不友善内容</a></li>
+<li><a data-id="236879" class="click_report" href="javascript:;">违反法律法规的内容</a></li>
+<li><a data-id="236879" class="click_report" href="javascript:;">不宜公开讨论的政治内容</a></li>
+<li><a data-id="236879" class="click_report" href="javascript:;">其他</a></li>
+</ul></div>
+</div>
+	</div></div>
+</li><!-- #comment-## -->
+      </ul>
+      <div class="commentnav page01" style="padding-top:10px; text-align: center;">
+               </div>
+	  
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/ajaxfileupload.js.下载" type="text/javascript"></script>
+<div id="respond" class="comment-box">
+<input type="file" id="uploadUnit" name="upfile" class="hidden" value="">
+    <form action="http://www.freebuf.com/wp-comments-post.php" method="post" id="commentform">
+        <div id="comment-author-info">
+	    <div class="login-other">
+		  <div class="login_button login_icon_sina" title="使用新浪微博登陆" onclick="login_button_click(&#39;sina&#39;)"></div>
+          <div class="login_button login_icon_qq" title="使用腾讯QQ登陆" onclick="login_button_click(&#39;qq&#39;)"></div></div>
+        <div class="login-input">
+	    <p><label for="author">昵称</label>
+		          <input type="text" name="author" id="author" value="4378532785735" size="14" tabindex="1" aria-required="true" placeholder="请输入昵称" required="">
+        </p><span>必须</span><span>您当前尚未登录。<a class="simplemodal-login" href="http://www.freebuf.com/oauth" title="登陆">登陆？</a><a href="https://account.tophant.com/register.html" target="_blank">注册</a></span></div>
+		<div class="login-input">
+		  <p><label for="email">邮箱</label><input type="text" name="email" id="email" value="gudahgsa@43230590987.com" size="25" tabindex="2" aria-required="true" placeholder="请输入邮箱地址" required=""></p>
+		<span>必须（保密）</span>
+		</div>
+    </div>
+
+            <div id="test" class="post-area">
+      <div class="holiday"></div>
+	    <div class="comment-editor">
+			<a id="comment-smiley" href="javascript:;">表情</a><a href="javascript:;" id="imageThumb">插图</a>
+	    </div>
+        <div id="smileys">
+           <a title="mrgreen" href="javascript:grin(&#39;:mrgreen:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_mrgreen.gif"></a><a title="razz" href="javascript:grin(&#39;:razz:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_razz.gif"></a><a title="sad" href="javascript:grin(&#39;:sad:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_sad.gif"></a><a title="smile" href="javascript:grin(&#39;:smile:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_smile.gif"></a><a title="oops" href="javascript:grin(&#39;:oops:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_redface.gif"></a><a title="grin" href="javascript:grin(&#39;:grin:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_biggrin.gif"></a><a title="eek" href="javascript:grin(&#39;:eek:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_surprised.gif"></a><a title="???" href="javascript:grin(&#39;:???:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_confused.gif"></a><a title="cool" href="javascript:grin(&#39;:cool:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_cool.gif"></a><a title="lol" href="javascript:grin(&#39;:lol:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_lol.gif"></a><a title="mad" href="javascript:grin(&#39;:mad:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_mad.gif"></a><a title="twisted" href="javascript:grin(&#39;:twisted:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_twisted.gif"></a><a title="roll" href="javascript:grin(&#39;:roll:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_rolleyes.gif"></a><a title="wink" href="javascript:grin(&#39;:wink:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_wink.gif"></a><a title="idea" href="javascript:grin(&#39;:idea:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_idea.gif"></a><a title="arrow" href="javascript:grin(&#39;:arrow:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_arrow.gif"></a><a title="neutral" href="javascript:grin(&#39;:neutral:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_neutral.gif"></a><a title="cry" href="javascript:grin(&#39;:cry:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_cry.gif"></a><a title="?" href="javascript:grin(&#39;:?:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_question.gif"></a><a title="evil" href="javascript:grin(&#39;:evil:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_evil.gif"></a><a title="shock" href="javascript:grin(&#39;:shock:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_eek.gif"></a><a title="!" href="javascript:grin(&#39;:!:&#39;)"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon_exclaim.gif"></a>        </div>
+         <textarea name="comment" id="comment" cols="100%" rows="7" tabindex="4" style="overflow-x:hidden; overflow-y:hidden; border:0; width:100%;" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById(&#39;submit&#39;).click();return false};"></textarea><div id="loading" style="display: none;"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/wpspin_light.gif" style="vertical-align:middle;" alt=""> 正在提交, 请稍候...</div><div id="error" style="display: none;">#</div>
+    </div>
+      <div class="subcon but">
+      <input class="btn btn-success" type="submit" name="submit" id="submit" tabindex="5" value="提交评论(Ctrl+Enter)">
+      <a rel="nofollow" class="btn btn-default" id="cancel-comment-reply-link" href="javascript:;">取消</a>
+      <div class="checkbox"><input type="hidden" name="comment_post_ID" value="155973" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+<label for="comment_mail_notify" class="comment_mail"><input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked">有人回复时邮件通知我</label></div>
+      </div>
+    <input name="Token" id="Token" type="hidden" value="jn1qaw">
+  </form>
+  </div>
+</div>	  
+<div class="commentshow">
+<div class="comments-loading">Loading...</div>
+</div>
+<script language="javascript">
+jQuery(document).ready(function($){ //Begin jQuery
+    $('.reply').click(function() {
+    var atid = '"#' + $(this).parent().attr("id") + '"';
+    var atname = $(this).parent().find('span:first').text();
+    $("#comment").val("@" + atname + " ").focus();
+});
+    $('.cancel-comment-reply a').click(function() { //点击取消回复评论清空评论框的内容
+    $("#comment").val('');
+});
+}) 
+
+jQuery(document).ready(function($) {
+    $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');//commentnav ajax
+    $(document).on('click', '.commentnav a', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: $(this).attr('href'),
+            beforeSend: function() {
+                $('.commentnav').remove();
+                $('.comment-list').remove();
+                $('.comments-loading').slideDown();
+            },
+            dataType: "html",
+            success: function(out) {
+                result = $(out).find('.comment-list');
+                nextlink = $(out).find('.commentnav');
+                $('.comments-loading').slideUp(550);
+                $('.comments-loading').after(result.fadeIn(800));
+                $(".comment-list img").each(function(){
+                  var url = $(this).attr("data-original");
+                  $(this).attr("src",url);
+                })
+            }
+        });
+    });    
+});
+</script>            </div>
+                    <div class="col-md-3 visible-md-block visible-lg-block">
+                <div class="panel panel-default">
+                    <div class="author-top">
+                         <div class="author-wrap">
+                            <div class="author-header"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/12425433_870161.jpg" width="96" height="96" alt="clouds" class="avatar avatar-100 wp-user-avatar wp-user-avatar-100 photo">                            </div>
+                            <p class="name"><a href="http://www.freebuf.com/author/clouds" title="由 clouds 发布" rel="author">clouds</a><span><a href="http://zhuanlan.freebuf.com/" target="_blank"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/column-iden.png" title="专栏作者"></a></span></p>
+                            <p class="signature">I am a robot ,do not talk to me ,code to me.</p>
+                            <p class="art-com clearfix">
+                                <span class="aut-article">
+                                    <a href="http://www.freebuf.com/author/clouds" target="_blank">
+                                        <i>186</i>
+                                        <i>文章数</i>
+                                    </a>
+                                </span>
+                                <span class="aut-comment">
+                                    <a href="http://www.freebuf.com/author/clouds?comment=1" target="_blank">
+                                        <i>38</i>
+                                        <i>评论数</i>
+                                    </a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="author-bottom">
+                        <div class="author-wrap">
+                            <h3 class="last-title">最近文章</h3>
+                            <div class="last-item-wrap">
+                                                                        <div class="last-item">
+                                            <a href="http://www.freebuf.com/sectool/156149.html" target="_blank"><span class="point"></span>利用开源工具TempestSDR实现屏显内容远程窃取</a>
+                                            <p class="last-time">2017.12.09</p>
+                                        </div>
+                                                                            <div class="last-item">
+                                            <a href="http://www.freebuf.com/articles/network/155973.html" target="_blank"><span class="point"></span>AWS攻防 | 利用DNS技术突破AWS隔离网络限制进行数据渗漏</a>
+                                            <p class="last-time">2017.12.08</p>
+                                        </div>
+                                                                            <div class="last-item">
+                                            <a href="http://www.freebuf.com/news/156501.html" target="_blank"><span class="point"></span>MailSploit：30多种邮件客户端存在电邮身份伪造漏洞</a>
+                                            <p class="last-time">2017.12.07</p>
+                                        </div>
+                                                                </div>
+                        </div>
+
+                        <div class="more-wrap">
+                            <a href="http://www.freebuf.com/author/clouds" target="_blank" class="btn-new">浏览更多</a>
+                        </div>
+                    </div>
+                </div>
+                                <div class="panel panel-default">
+                    <div class="read visible-md-block visible-lg-block">
+                        <div class="main-tit02">
+                            <h3>相关阅读</h3>
+                        </div>
+                        <ul></ul><ul>
+  <li><a href="http://www.freebuf.com/articles/network/129434.html" target="_blank" title="SSH端口转发情景模拟">SSH端口转发情景模拟</a></li>
+  
+  <li><a href="http://www.freebuf.com/articles/network/155924.html" target="_blank" title="二进制之图论与威胁情报">二进制之图论与威胁情报</a></li>
+  
+  <li><a href="http://www.freebuf.com/articles/terminal/100285.html" target="_blank" title="一次对支付宝木马的分析溯源之旅">一次对支付宝木马的分析溯源之旅</a></li>
+  
+  <li><a href="http://www.freebuf.com/articles/network/87998.html" target="_blank" title="针对TCP握手的欺骗">针对TCP握手的欺骗</a></li>
+  
+  <li><a href="http://www.freebuf.com/news/81793.html" target="_blank" title="走近科学：揭开伪基站的神秘面纱">走近科学：揭开伪基站的神秘面纱</a></li>
+  </ul>                    </div>
+                </div>
+                <!--<div class="ad-wrap"><a href="http://www.ijiami.cn/?freebuf.com" target="_blank"><img width="100%" src="http://image.3001.net/images/20141201/14174039186901.jpg"></a></div>-->
+                <div class="panel panel-default rec-spe">
+                    <div class="main-tit03 colour-blue">
+                        <h3>特别推荐</h3>
+                    </div>
+                                                    <div class="rec-img"><a href="http://www.freebuf.com/show?id=3" target="_blank"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/14a10c5c919d154dddbee79e3a944143-220x150.png" width="220"></a></div>
+                                                </div>
+                <div id="mar-right-sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 241px;"><div id="mar-right" style="position: fixed; top: 105px;">
+                    <!--<div class="read visible-lg-block">
+        <div class="main-tit04">
+          <h3>商城新品</h3>
+        </div>
+        <div id="slider" class="nivoSlider">  </div>
+      </div>-->
+                    <div class="panel panel-default code"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/code.jpg" width="192" height="192">
+                        <p>关注我们 分享每日精选文章</p>
+                    </div>
+                </div></div>
+            </div>
+                </div>
+                    <div class="row marvellous visible-lg-block">
+                <h3>不容错过</h3>
+                <ul>
+                                                <li><a href="http://www.freebuf.com/news/108561.html" rel="bookmark" title="“中国”制造：悍马（Hummer）病毒家族技术分析报告">“中国”制造：悍马（Hummer）病毒家族技术分析报告</a>
+                                <p>                                        <span class="name"><a href="http://www.freebuf.com/author/%e7%8c%8e%e8%b1%b9%e7%a7%bb%e5%8a%a8%e5%a8%81%e8%83%81%e6%83%85%e6%8a%a5%e4%b8%ad%e5%bf%83" title="由 猎豹移动威胁情报中心 发布" rel="author">猎豹移动威胁情报中心</a></span>
+                                                                        <span class="time">2016-07-07</span></p>
+                            </li>
+                                                    <li><a href="http://www.freebuf.com/articles/es/152236.html" rel="bookmark" title="利用Freeradius和Django双因子认证，快速搭建统一认证平台指南">利用Freeradius和Django双因子认证，快速搭建统一认证平台指南</a>
+                                <p>                                        <span class="name"><a href="http://www.freebuf.com/author/chengfangang" title="由 chengfangang 发布" rel="author">chengfangang</a></span>
+                                                                        <span class="time">2017-11-10</span></p>
+                            </li>
+                                                    <li><a href="http://www.freebuf.com/articles/system/102374.html" rel="bookmark" title="TEST LAB V8在线渗透实验室教程（四）">TEST LAB V8在线渗透实验室教程（四）</a>
+                                <p>                                        <span class="name"><a href="http://www.freebuf.com/author/felix" title="由 felix 发布" rel="author">felix</a></span>
+                                                                        <span class="time">2016-04-25</span></p>
+                            </li>
+                                                    <li><a href="http://www.freebuf.com/news/72929.html" rel="bookmark" title="微软发布紧急更新：严重远程代码执行漏洞，影响所有版本Windows">微软发布紧急更新：严重远程代码执行漏洞，影响所有版本Windows</a>
+                                <p>                                        <span class="name"><a href="http://www.freebuf.com/author/sphinx" title="由 Sphinx 发布" rel="author">Sphinx</a></span>
+                                                                        <span class="time">2015-07-21</span></p>
+                            </li>
+                                                            </ul>
+            </div>
+            </div>
+</div>
+<script type="text/javascript">
+  $(window).load(function() {
+    $('#slider').nivoSlider();
+  });
+  $('#contenttxt img').removeAttr('height');
+  $('#contenttxt img').wrap(function(){
+    if(!$(this).parent().attr('href')){
+      var imgurl = $(this).attr('data-original');
+      if(imgurl.substr(-6)=='!small'){
+        imgurl = imgurl.substring(0,imgurl.length-6);
+      }
+      return '<a href="' + imgurl + '" class="highslide-image" onclick="return hs.expand(this);" target="_blank"></a>';
+    }
+  })
+</script>
+    <script type="text/javascript">
+        getWidth();
+
+        $(window).resize(function () {
+            getWidth();
+        });
+        function getWidth() {
+            var windowWidth = $(window).width();
+            var src = $('#contenttxt iframe').attr('src');
+            if( windowWidth < 768 ){
+                $('#contenttxt iframe').attr('src',src+'&width=270&height=200');
+            }else {
+                $('#contenttxt iframe').attr('src',src+'&width=640&height=498');
+            }
+        }
+    </script>
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/comments-ajax.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/jquery.nivo.slider.pack.js.下载"></script>
+<!----------footer---------->
+<div class="footer">
+  <div class="container">
+    <div class="footer-list ">
+      <h3>FREEBUF</h3>
+      <ul>
+        <li><a href="http://www.freebuf.com/dis">免责声明</a></li>
+        <li><a href="http://www.freebuf.com/news/others/864.html">关于我们</a></li>
+        <li><a href="http://www.freebuf.com/jobs/40386.html">加入我们</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>广告及服务</h3>
+      <ul>
+        <li><a target="_blank" href="mailto:root@freebuf.com">寻求报道</a></li>
+        <li><a href="http://www.freebuf.com/advertise">广告合作</a></li>
+        <li><a target="_blank" href="mailto:help@freebuf.com">联系我们</a></li>
+        <li><a href="http://www.freebuf.com/friends">友情链接</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>关注我们</h3>
+      <ul>
+        <li><div class="weixin-pannel weixin"><a class="qr" href="javascript:viod(0);"><span class="g-icon-qr1">官方微信</span><i></i></a></div></li>
+        <li><a rel="nofollow" target="_blank" href="http://weibo.com/freebuf">新浪微博</a></li>
+        <li><a rel="nofollow" target="_blank" href="http://t.qq.com/freebuf">腾讯微博</a></li>
+        <li><a rel="nofollow" target="_blank" href="http://twitter.com/freebuf">Twitter</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>赞助商</h3>
+      <ul>
+        <li style="padding:6px 0 10px;"><a rel="nofollow" target="_blank" href="http://www.aliyun.com/?freebuf"><img src="http://image.3001.net/images/ad/ali.png" style="display: none !important;"></a></li>
+        <li><a rel="nofollow" target="_blank" href="http://www.upyun.com/?freebuf"><img src="http://image.3001.net/images/ad/upyun.png" style="display: none !important;"></a></li>
+        <li style="padding:6px 0 10px;"><a rel="nofollow" target="_blank" href="https://www.trustasia.com/?freebuf"><img src="http://image.3001.net/images/ad/ad-yzcx.png" style="display: none !important;"></a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <ul>
+      </ul>
+    </div>
+    <div class="footer-logo  pull-right"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/freebufrobot_shendanjie.png"></div>
+  </div>
+  <div class="copyright"><div class="container"><p>Copyright © 2017 WWW.FREEBUF.COM All Rights Reserved <a rel="nofollow" target="_blank" href="http://www.miitbeian.gov.cn/">沪ICP备13033796号</a></p><span><a rel="nofollow" target="_blank" href="http://click.aliyun.com/m/1336/?freebuf"><img src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/icon-aly.png"></a></span></div></div>
+</div>
+<div class="bottom_tools" style="bottom: 40px;"><a id="scrollUp" href="javascript:;" title="飞回顶部" style="display: block;"></a></div>
+<!----------footer end----------> 
+<script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/backtop.js.下载"></script>
+<script type="text/javascript">
+jQuery(function(){	
+	jQuery('.tabPanes ul li').click(function(){
+		jQuery(this).addClass('hit').siblings().removeClass('hit');
+		jQuery('.panesl>div:eq('+jQuery(this).index()+')').show().siblings().hide();	
+	})
+	jQuery('.vulbox-nav').click(function(e) { 
+        e.stopPropagation(); 
+    });  
+})
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fcc53db168808048541c6735ce30421f5' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/h.js.下载" type="text/javascript"></script>
+<img alt="css.php" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/css.php" width="1" height="1"><script type="text/javascript">
+jQuery(function() {
+    jQuery(".simditor pre").each(function(i, block){
+        hljs.highlightBlock(block);    
+    });
+    hljs.initHighlightingOnLoad();
+});
+</script>
+<script>
+/* <![CDATA[ */
+var rcGlobal = {
+	serverUrl		:'http://www.freebuf.com',
+	infoTemp		:'%REVIEWER% on %POST%',
+	loadingText		:'Loading',
+	noCommentsText	:'No comments',
+	newestText		:'&laquo; 最新',
+	newerText		:'&laquo; 新一点',
+	olderText		:'旧一点 &raquo;',
+	showContent		:'1',
+	external		:'1',
+	avatarSize		:'32',
+	avatarPosition	:'left',
+	anonymous		:'Anonymous'
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./AWS攻防 _ 利用DNS技术突破AWS隔离网络限制进行数据渗漏 - FreeBuf.COM _ 关注黑客与极客_files/wp-recentcomments-jquery.js.下载"></script>
+
+
+<div class="highslide-container" style="padding: 0px; border: none; margin: 0px; position: absolute; left: 0px; top: 0px; width: 100%; z-index: 1001; direction: ltr;"><a class="highslide-loading" title="点击关闭" href="javascript:;" style="position: absolute; top: -9999px; opacity: 0.75; z-index: 1;">正在加载中...</a><div style="display: none;"></div><div class="highslide-viewport highslide-viewport-size" style="padding: 0px; border: none; margin: 0px; visibility: hidden;"></div><table cellspacing="0" style="padding: 0px; border: none; margin: 0px; visibility: hidden; position: absolute; border-collapse: collapse; width: 0px;"><tbody style="padding: 0px; border: none; margin: 0px;"><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px 0px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -40px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px 0px; height: 20px; width: 20px;"></td></tr><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -80px; height: 20px; width: 20px;"></td><td class="rounded-white highslide-outline" style="padding: 0px; border: none; margin: 0px; position: relative;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px -80px; height: 20px; width: 20px;"></td></tr><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -20px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -60px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px -20px; height: 20px; width: 20px;"></td></tr></tbody></table></div></body></html>

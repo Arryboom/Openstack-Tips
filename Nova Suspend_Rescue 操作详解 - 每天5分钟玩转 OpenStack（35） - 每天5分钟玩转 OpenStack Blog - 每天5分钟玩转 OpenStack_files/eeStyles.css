@@ -1,0 +1,825 @@
+.lotusui30_body,
+.lotusui30_body .lotusFrame {background-color:#fff;}
+.lcPreviewGadget div.gadgets-gadget-title-bar,
+.lcPreviewGadget div.gadgets-gadget-user-prefs-dialog {
+display: none;
+}
+.eeImgPrev {
+overflow: hidden;
+display: block;
+position: relative;
+float: left;
+margin-right: 10px;
+}
+.lconnNumFollowers { color: #707070 !important; }
+.lotusCommentList .eeCommentError {
+padding-top: 10px !important;
+}
+.eeLoadingCtnr {
+margin-left: auto;
+margin-right: auto;
+margin-top: 20px;
+}
+.eeLoadingTxt {
+margin-left: 3px;
+}
+html.dj_safari textarea.eeTextArea { min-height: 0px;}
+.lotusui30 .lotusForumReplies .lotusBoard .lotusCommentList:after {
+background: none;
+height: 0;
+width: 0;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList li.lotusCommentItem {
+border-width: 0;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList li.lotusCommentItem.showMore {
+border-width: 1px;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList li.lotusCommentItem div.lotusPost {
+border-right: 1px solid #DDDDDD;
+border-left: 1px solid #DDDDDD;
+border-bottom: 1px solid #DDDDDD;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList li.lotusCommentItem div.lotusPost.selected {
+background-color: #FFFFFF;
+}
+.lotusui30 .lotusForumReplies .lotusBoard .lotusPost .lotusActions {
+margin-top: 0;
+padding-top: 0;
+margin-bottom: 5px;
+}
+.lotusui30 .lotusForumReplies .lotusBoard .lotusCommentList {
+margin-top: 0;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList {
+border-width: 0;
+}
+.lotusui30 .lotusForumReplies.noShowMore .lotusBoard ul.lotusCommentList {
+border-width: 1px 0 0;
+border-color: #DDDDDD;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList.lotusChild {
+border-width: 0 !important;
+margin-top: 0px;
+}
+.lotusui30 .lotusForumReplies .navigateLink {
+float: right;
+}
+.lotusui30 .lotusForumReplies .navigateLink img {
+vertical-align: baseline;
+}
+.lotusui30 .lotusForumReplies .navigateLink {
+display: block;
+position: absolute;
+right: 0;
+top: -9999px;
+}
+.lotusui30 .lotusForumReplies .lotusPostHover .navigateLink {
+display: inline;
+position: static;
+right: 0;
+top: 0;
+}
+.lotusui30 .lotusPostHover .replyAction {
+display: inline;
+position: static;
+right: 0;
+top: 0;
+}
+.lotusui30 .replyAction {
+display: block;
+position: absolute;
+right: 0;
+top: -9999px;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList .lotusChild {
+list-style-type: none;
+margin-left: 0;
+padding-left: 16px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPostContent {
+padding: 0
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusCommentList:after {
+background: none;
+height: 0;
+width: 0;
+}
+.eeDropDown {
+margin-left: 4px;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusBoard .lotusCommentList .lotusAddComment {
+margin-right: -2px;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusBoard {
+padding-left: 2px;
+padding-right: 2px;
+}
+.lotusui30 .lotusFlyoutInner .discussThisContent h4 {
+margin-bottom: 3px;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentsCondensed .lotusPostContent .lotusMeta {
+position: relative;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentsCondensed .lotusPostAction {
+margin-right: 0;
+}
+.eeFirstTab {
+margin-left: 1px !important;
+}
+.eeActions {
+margin-bottom: 5px;
+margin-left: 2px;
+}
+.eeActionLinks {
+margin-left: 2px !important;
+}
+.eeHeading {
+padding-top: 3px;
+word-wrap: break-word;
+}
+.eeHeaderDescription {
+min-height:100px;
+word-wrap: break-word;
+}
+.eeCommentContent {
+word-wrap: break-word;
+}
+.lotusNetworkPerson { padding: 2px 7px 4px 0px; }
+.lotusDim {opacity:0.5; filter:alpha(opacity=50); width:100%; }
+.lotusui_ie .lotusDim img { filter:alpha(opacity=50); }
+.ideaGraduated {padding: 3px 5px; border: 1px solid #8AC4FF; display:inline-block; background-color:#C5E2FF; color:#105CB6;}
+.lotusui30 .lotusFlyoutInner .lotusHeadingChunk {font-size:1.5em;}
+.lotusui30 .lotusFlyoutInner .lotusHeading {font-family: Arial, Helvetica, sans-serif;}
+.lotusui30 .lotusFlyoutInner .lotusStatus {font-size:1.1em; color:#444;word-wrap: break-word;}
+.eeOAuthImg {
+float: left;
+}
+.eeOAuthBodyContent {
+margin-left: 50px;
+max-width: 360px;
+}
+body.eeHideBodyOverflow {
+overflow: hidden !important;
+background: #f2f2f2;
+}
+.lotusui30 .lconnEmpty {
+color: #444;
+font-style: italic;
+padding: 10px;
+background-color: #F2F2F2;
+border-color: #DDDDDD;
+border-style: solid;
+border-width: 1px 0 0;
+}
+.eeDraftIndicator {
+background: none repeat scroll 0 0 #E6F1FE;
+border: 1px solid #B9CFEB;
+color: #666666;
+padding: 0 5px;
+vertical-align: middle;
+font-size: 0.55em;
+}
+.lotusui_ie .eeDraftIndicator {
+margin-left: 5px;
+}
+.lotusui30 .eeReviewTab .eeGreyText  {
+color: #666 !important;
+}
+.lotusui30 .eeReviewTab h3 {
+margin: 0;
+font-size: 1.2em;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusStreamUpdate .lotusText {
+height: auto;
+min-height: 3em;
+}
+.lotusui30 .lotusFlyoutInner .mentionsWarning .lotusMessage2 {
+margin: -10px 0 20px 0;
+padding: 5px;
+clear: both;
+top: 10px;
+}
+.lotusui30 .lotusFlyoutInner .lotusLikeCount {
+background: none;
+border-radius: 0px;
+border-width: 0px;
+margin-right: 0px;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusLikeCount.lotusDisabled .lotusLikeText {
+display: none;
+}
+.lotusui30 .lotusFlyoutInner .lotusLikeConnector {
+display: none;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentList li.lotusAddComment .lotusMentionsDiv a {
+padding-bottom: 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusChunk {
+margin-bottom: 10px;
+}
+.lotusui30 .lotusFlyoutInner .lotusFlyoutImage {
+padding-right: 15px;
+padding-bottom: 10px;
+}
+.statusUpdateProfileImage {
+height: 60px;
+width: 60px;
+}
+.lotusui30 .lotusFlyoutInner .lotusStatus {
+font-family: inherit;
+font-style: normal;
+font-size: 1.08333333333333em;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusInlinelist li {
+vertical-align: top;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed {
+margin: 10px 0 0;
+border-bottom: 0;
+border-top: 1px solid #f0f0f0;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs li {
+border: 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs li.lotusSelected {
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.social.gen4.theme/css/images/eeActiveSharkFin.png?etag=20150310.220517");
+background-position: 50% 100%;
+background-repeat: no-repeat;
+background-color: transparent;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs a {
+border: 0;
+padding: 14px 12px 12px;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs .lotusSelected a {
+margin: 0;
+padding: 14px 12px;
+}
+.lotusui30 .eeFirstTab {
+margin-left: -12px;
+}
+.lotusui30 .eeTabBody {
+margin: -1px -15px 0;
+background-color: #f2f2f2;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard ul.lotusCommentList li.lotusCommentItem {
+border-width: 0 0 1px 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPostAuthorInfo {
+padding: 0 10px 0 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusPostAuthorInfo .lotusPostAvatar {
+padding: 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPost .lotusPerson {
+padding-right: 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPostContent {
+top: -3px;
+}
+.lotusui30 .lotusContent .lotusFlyoutInner {
+padding: 0 15px;
+}
+.lotusui30 .lotusFlyoutInner .gadgetActions .lotusLike, .lotusui30 .lotusFlyoutInner .lotusCommentList .lotusLike {
+font-size: inherit;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .gadgetActions .lotusLike, .lotusui_ie .lotusui30 .lotusFlyoutInner .lotusCommentList .lotusLike {
+font-size: 1em;
+}
+.lotusui30 .lotusFlyoutInner .lotusLike .lotusDivider {
+margin: 0;
+padding: 0 2px;
+}
+.lotusui30 .lotusFlyoutInner .lotusLike .lotusLikeCount .lotusIconLike {
+top: 3px;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusLike .lotusLikeCount .lotusIconLike {
+top: auto;
+}
+.lotusui30 .lotusFlyoutInner .lotusLike .lotusLikeDescription, .lotusui30 .lotusFlyoutInner .lotusLike .lotusDivider {
+display:none;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentList .lotusLike .lotusLikeCount .lotusIconLike {
+top: 2px;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusCommentList .lotusLike .lotusLikeCount .lotusIconLike {
+top: auto;
+}
+.lotusui30 .lotusFlyoutInner .gadgetActions {
+font-weight: bold;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabs a, .lotusui30 .lotusFlyoutInner .lotusTabs a:visited {
+font-size: 1em;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusCommentList {
+margin-top: 1px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusMeta .lotusPerson {
+font-size: 1.111111111111em;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .showMore .commentCount {
+float: right;
+font-size: 0.9166666667em;
+padding: 10px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .showMore .lotusLoading {
+display: inline-block;
+vertical-align: text-bottom;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .showMore > a.lotusMeta {
+display:inline-block;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusBoard .showMore > a.lotusMeta {
+float: left;
+}
+.lotusui30 .lotusFlyoutInner .lotusPostHover .lotusDelete {
+top:5px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard ul.lotusCommentList li.lotusCommentItem.showMore {
+box-shadow: inset 0px -1px #f9f9f9;
+}
+.lotusui30 .lotusBoard .lotusCommentList .lotusStreamUpdate {
+margin: 10px 10px 0 10px;
+}
+.lotusui30 .lotusBoard .lotusCommentList .lotusChild .lotusStreamUpdate {
+margin: 10px 10px 0 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs .tabLoading a {
+padding: 12px 12px 8px;
+}
+.lotusui30 .lotusFlyoutInner .lotusVertTable th {
+white-space: nowrap;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentList abbr {
+color: #6e6e6e;
+border: 0 none;
+}
+.videoPreview {
+padding-bottom: 15px;
+}
+.lotusui30 .lotusFlyoutInner .lconnPreview .lconnPreviewContent .fileMeta .inlineSepList {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+.lotusui30_body{position: absolute;}
+.lotusui30_body,
+.lotusui30_body .lotusFrame {background-color:#fff;}
+.lcPreviewGadget div.gadgets-gadget-title-bar,
+.lcPreviewGadget div.gadgets-gadget-user-prefs-dialog {
+display: none;
+}
+.eeImgPrev {
+overflow: hidden;
+display: block;
+position: relative;
+float: left;
+margin-right: 10px;
+}
+.lconnNumFollowers { color: #707070 !important; }
+.lotusCommentList .eeCommentError {
+padding-top: 10px !important;
+}
+.eeLoadingCtnr {
+margin-left: auto;
+margin-right: auto;
+margin-top: 20px;
+}
+.eeLoadingTxt {
+margin-left: 3px;
+}
+html.dj_safari textarea.eeTextArea { min-height: 0px;}
+.lotusui30 .lotusForumReplies .lotusBoard .lotusCommentList:after {
+background: none;
+height: 0;
+width: 0;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList li.lotusCommentItem {
+border-width: 0;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList li.lotusCommentItem.showMore {
+border-width: 1px;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList li.lotusCommentItem div.lotusPost {
+border-right: 1px solid #DDDDDD;
+border-left: 1px solid #DDDDDD;
+border-bottom: 1px solid #DDDDDD;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList li.lotusCommentItem div.lotusPost.selected {
+background-color: #FFFFFF;
+}
+.lotusui30 .lotusForumReplies .lotusBoard .lotusPost .lotusActions {
+margin-top: 0;
+padding-top: 0;
+margin-bottom: 5px;
+}
+.lotusui30 .lotusForumReplies .lotusBoard .lotusCommentList {
+margin-top: 0;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList {
+border-width: 0;
+}
+.lotusui30 .lotusForumReplies.noShowMore .lotusBoard ul.lotusCommentList {
+border-width: 1px 0 0;
+border-color: #DDDDDD;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList.lotusChild {
+border-width: 0 !important;
+margin-top: 0px;
+}
+.lotusui30 .lotusForumReplies .navigateLink {
+float: right;
+}
+.lotusui30 .lotusForumReplies .navigateLink img {
+vertical-align: baseline;
+}
+.lotusui30 .lotusForumReplies .navigateLink {
+display: block;
+position: absolute;
+right: 0;
+top: -9999px;
+}
+.lotusui30 .lotusForumReplies .lotusPostHover .navigateLink {
+display: inline;
+position: static;
+right: 0;
+top: 0;
+}
+.lotusui30 .lotusPostHover .replyAction {
+display: inline;
+position: static;
+right: 0;
+top: 0;
+}
+.lotusui30 .replyAction {
+display: block;
+position: absolute;
+right: 0;
+top: -9999px;
+}
+.lotusui30 .lotusForumReplies .lotusBoard ul.lotusCommentList .lotusChild {
+list-style-type: none;
+margin-left: 0;
+padding-left: 16px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPostContent {
+padding: 0
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusCommentList:after {
+background: none;
+height: 0;
+width: 0;
+}
+.eeDropDown {
+margin-left: 4px;
+}
+.lotusui30 .lotusContent .lotusFlyoutInner.eeNetworkInvite {
+padding-bottom: 20px;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusBoard .lotusCommentList .lotusAddComment {
+margin-right: -2px;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusBoard {
+padding-left: 2px;
+padding-right: 2px;
+}
+.lotusui30 .lotusFlyoutInner .discussThisContent h4 {
+margin-bottom: 3px;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentsCondensed .lotusPostContent .lotusMeta {
+position: relative;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentsCondensed .lotusPostAction {
+margin-right: 0;
+}
+.eeFirstTab {
+margin-left: 1px !important;
+}
+.eeActions {
+margin-bottom: 5px;
+margin-left: 2px;
+}
+.eeActionLinks {
+margin-left: 2px !important;
+}
+.eeHeading {
+padding-top: 3px;
+}
+.lotusNetworkPerson { padding: 2px 7px 4px 0px; }
+.lotusDim {opacity:0.5; filter:alpha(opacity=50); width:100%; }
+.lotusui_ie .lotusDim img { filter:alpha(opacity=50); }
+.ideaGraduated {padding: 3px 5px; border: 1px solid #8AC4FF; display:inline-block; background-color:#C5E2FF; color:#105CB6;}
+.lotusui30 .lotusFlyoutInner .lotusHeadingChunk {font-size:1.5em;}
+.lotusui30 .lotusFlyoutInner .lotusHeading {font-family: Arial, Helvetica, sans-serif;}
+.lotusui30 .lotusFlyoutInner .lotusStatus {font-size:1.1em; color:#444;}
+.eeOAuthImg {
+float: left;
+}
+.eeOAuthBodyContent {
+margin-left: 50px;
+max-width: 360px;
+}
+body.eeHideBodyOverflow {
+overflow: hidden !important;
+background: #f2f2f2;
+}
+.lotusui30 .lconnEmpty {
+color: #444;
+font-style: italic;
+padding: 10px;
+background-color: #F2F2F2;
+border-color: #DDDDDD;
+border-style: solid;
+border-width: 1px 0 0;
+}
+.eeDraftIndicator {
+background: none repeat scroll 0 0 #E6F1FE;
+border: 1px solid #B9CFEB;
+color: #666666;
+padding: 0 5px;
+vertical-align: middle;
+font-size: 0.55em;
+}
+.lotusui_ie .eeDraftIndicator {
+margin-left: 5px;
+}
+.lotusui30 .eeReviewTab {
+padding: 10px;
+}
+.lotusui30 .eeReviewTab .eeGreyText  {
+color: #666 !important;
+}
+.lotusui30 .eeReviewTab h3 {
+margin: 0;
+font-size: 1.2em;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusStreamUpdate .lotusText {
+height: auto;
+min-height: 3em;
+}
+.lotusui30 .lotusFlyoutInner .mentionsWarning .lotusMessage2 {
+margin: -10px 0 20px 0;
+padding: 5px;
+clear: both;
+}
+.lotusui30 .lotusFlyoutInner .lotusLikeCount {
+background: none;
+border-radius: 0px;
+border-width: 0px;
+margin-right: 0px;
+}
+.lotusui_ie .lotusui30 .lotusFlyoutInner .lotusLikeCount.lotusDisabled .lotusLikeText {
+display: none;
+}
+.lotusui30 .lotusFlyoutInner .lotusLikeConnector {
+display: none;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentList li.lotusAddComment .lotusMentionsDiv a {
+padding-bottom: 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusChunk {
+margin-bottom: 10px;
+}
+.lotusui30 .lotusFlyoutInner .lotusFlyoutImage {
+padding-right: 15px;
+padding-bottom: 10px;
+}
+.lotusui30 .eeNetworkInvite .lotusFlyoutImage img {
+width: 100px;
+height: 100px;
+}
+.lotusui30 .eeNetworkInvite .eeCommonFriends .lotusNetworkPerson .eePersonPhoto img {
+width: 35px;
+height: 35px;
+margin-right: 7px;
+}
+.lotusui30 .eeNetworkInvite .eeCommonFriends .lotusNetworkPerson .eePersonName {
+vertical-align: top;
+}
+.lotusui30 .eeNetworkInvite .lconnNumFollowers {
+margin-top: 10px;
+margin-bottom: 5px;
+}
+.lotusui30 .eeNetworkInvite hr {
+border: 1px solid #E5E5E5;
+}
+.statusUpdateProfileImage {
+height: 60px;
+width: 60px;
+}
+.lotusui30 .lotusFlyoutInner .lotusStatus {
+font-family: inherit;
+font-style: normal;
+font-size: 1.08333333333333em;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed {
+margin: 10px 0 0;
+border-bottom: 0;
+border-top: 1px solid #f0f0f0;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs li {
+border: 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs li.lotusSelected {
+background-image: url("/developerworks/community/connections/resources/web/com.ibm.social.gen4.theme/css/images/eeActiveSharkFin.png?etag=20150310.220517");
+background-position: 50% 100%;
+background-repeat: no-repeat;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs a {
+border: 0;
+padding: 14px 12px 12px;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs .lotusSelected a {
+margin: 0;
+padding: 14px 12px;
+}
+.lotusui30 .eeFirstTab {
+margin-left: -12px;
+}
+.lotusui30 .eeTabBody {
+margin: -1px -15px 0;
+background-color: #f2f2f2;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard ul.lotusCommentList li.lotusCommentItem {
+border-width: 0 0 1px 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPostAuthorInfo {
+padding: 0 10px 0 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusPostAuthorInfo .lotusPostAvatar {
+padding: 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPost .lotusPerson {
+padding-right: 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPostContent {
+top: -3px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusPostContent {
+}
+.lotusui30 .lotusThreadedComments .lotusBoard .lotusCommentList:after {
+background: none;
+height: 0;
+width: 0;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard ul.lotusCommentList li.lotusCommentItem {
+border-width: 0;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard ul.lotusCommentList li.lotusCommentItem.showMore {
+border-width: 1px;
+margin-top: 10px;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard ul.lotusCommentList li.lotusCommentItem div.lotusPost {
+border-right: 1px solid #DDDDDD;
+border-left: 1px solid #DDDDDD;
+border-bottom: 1px solid #DDDDDD;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard ul.lotusCommentList li.lotusCommentItem div.lotusPost.selected {
+background-color: #FFFFFF;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard .lotusPost .lotusActions {
+margin-top: 0;
+padding-top: 0;
+margin-bottom: 5px;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard .lotusCommentList {
+margin-top: 0;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard ul.lotusCommentList {
+border-width: 0;
+}
+.lotusui30 .lotusThreadedComments.noShowMore .lotusBoard ul.lotusCommentList {
+border-width: 1px 0 0;
+border-color: #DDDDDD;
+margin-top: 10px;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard ul.lotusCommentList.lotusChild {
+border-width: 0 !important;
+margin-top: 0px;
+}
+.lotusui30 .lotusThreadedComments .navigateLink {
+float: right;
+}
+.lotusui30 .lotusThreadedComments .navigateLink img {
+vertical-align: baseline;
+}
+.lotusui30 .lotusThreadedComments .navigateLink {
+display: block;
+position: absolute;
+right: 0;
+top: -9999px;
+}
+.lotusui30 .lotusThreadedComments .lotusPostHover .navigateLink {
+display: inline;
+position: static;
+right: 0;
+top: 0;
+}
+.lotusui30 .lotusThreadedComments .lotusBoard ul.lotusCommentList .lotusChild {
+background: url("/developerworks/community/connections/resources/web/com.ibm.social.gen4.theme/css/com.ibm.lconn.core.styles.oneui3/images/commentIndent.png?etag=20150310.220517") no-repeat scroll left top transparent;
+list-style-type: none;
+margin-left: 0;
+padding-left: 16px;
+background-color: #FFFFFF;
+}
+.lotusui30 .lotusContent .lotusFlyoutInner {
+padding: 0 15px;
+}
+.lotusui30 .lotusFlyoutInner .gadgetActions .lotusLike, .lotusui30 .lotusFlyoutInner .lotusCommentList .lotusLike {
+font-size: inherit;
+}
+.lotusui30 .lotusFlyoutInner .lotusLike .lotusDivider {
+margin: 0;
+padding: 0 2px;
+}
+.lotusui30 .lotusFlyoutInner .lotusLike .lotusLikeCount .lotusIconLike {
+top: 3px;
+}
+.lotusui30 .lotusFlyoutInner .lotusLike .lotusLikeDescription, .lotusui30 .lotusFlyoutInner .lotusLike .lotusDivider {
+display:none;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentList .lotusLike .lotusLikeCount .lotusIconLike {
+top: 2px;
+}
+.lotusui30 .lotusFlyoutInner .gadgetActions {
+font-weight: bold;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabs a, .lotusui30 .lotusFlyoutInner .lotusTabs a:visited {
+font-size: 1em;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusCommentList {
+margin-top: 1px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .lotusMeta .lotusPerson {
+font-size: 1.111111111111em;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .showMore .commentCount {
+float: right;
+font-size: 0.9166666667em;
+padding: 10px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .showMore .lotusLoading {
+display: inline-block;
+vertical-align: text-bottom;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard .showMore > a.lotusMeta {
+display:inline-block;
+}
+.lotusui30 .lotusFlyoutInner .lotusPostHover .lotusDelete {
+top:5px;
+}
+.lotusui30 .lotusFlyoutInner .lotusBoard ul.lotusCommentList li.lotusCommentItem.showMore {
+box-shadow: inset 0px -1px #f9f9f9;
+}
+.lotusui30 .lotusBoard .lotusCommentList .lotusStreamUpdate {
+margin: 10px 10px 0 10px;
+}
+.lotusui30 .lotusBoard .lotusCommentList .lotusChild .lotusStreamUpdate {
+margin: 10px 10px 0 0;
+}
+.lotusui30 .lotusFlyoutInner .lotusTabCondensed .lotusTabs .tabLoading a {
+padding: 12px 12px 8px;
+}
+.lotusui30 .lotusFlyoutInner .lotusInlinelist li {
+border: medium none;
+display: inline-block;
+padding: 0;
+position: relative;
+margin-right: 3px;
+}
+.lotusui30 .lotusFlyoutInner .lotusInlinelist > * {
+display: inline-block;
+white-space: nowrap;
+}
+.lotusui30 .lotusFlyoutInner .lotusInlinelist li.lotusHidden {
+display: none;
+}
+.lotusui30 .lotusFlyoutInner .lotusInlinelist li:before {
+content:"";
+background:url("/developerworks/community/connections/resources/web/com.ibm.lconn.core.styles.oneui3/images/OtherImages/ActivityStream/otherActivityStream14-8bit.png?etag=20150310.220517") 0 -125px no-repeat;
+width:3px;
+height:3px;
+position:absolute;
+margin-top:7px;
+left:-3px;
+}
+.lotusui30 .lotusFlyoutInner .lotusInlinelist li > * {
+margin: 0 5px;
+}
+.lotusui30 .lotusFlyoutInner .lotusInlinelist li.lotusFirst>* {
+margin-left:0px;
+}
+.lotusui30 .lotusFlyoutInner .lotusInlinelist li.lotusRight:before, .lotusui30 .lotusFlyoutInner .lotusInlinelist li.lotusFirst:before {
+content: none;
+}
+.lotusui30 .lotusFlyoutInner .lotusVertTable th {
+white-space: nowrap;
+}
+.lotusui30 .lotusFlyoutInner .lotusInlinelist li.lotusTags {
+white-space: normal;
+}
+.lotusui30 .lotusFlyoutInner .lotusCommentList abbr {
+color: #6e6e6e;
+border: 0 none;
+}

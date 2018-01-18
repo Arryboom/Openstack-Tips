@@ -1,0 +1,921 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-TW" lang="zh-TW"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=Big5">
+	<meta name="Author" content="VBird, 鳥哥">
+	<meta name="Description" content="透過 iscsi 的使用，來提供網路磁碟～">
+	<title>鳥哥的 Linux 私房菜 -- 網路磁碟裝置：iSCSI伺服器</title>
+	<style type="text/css">
+	 	body {
+			background-color: #D3D3D3;
+			color: #000000;
+			background-attachment:fixed ;
+		}
+				body,th,td,input,select,textarea,select,checkbox {
+			font-family: '新細明體', 'Times New Roman', serif;
+			line-height: 1.6;
+			font-size: 11pt ;
+		}
+		a:link		{text-decoration: none; color: blue}
+		a:visited	{text-decoration: none; color: blue}
+		a:active	{text-decoration: none; color: blue}
+		a:hover		{text-decoration: underline; color: #ff0000}
+				table.head1	{width:100%; background-color: #FFCCCC; 
+				 border-style:groove;border-width:5px;border-color: #FFCCCC; margin:0;
+				 padding: 5px 5px}
+		   		   td.head1	{font: 10pt "新細明體", serif; color: #000099; }
+		   		   td.info1	{font: 11pt "新細明體", serif; color: #000066; text-align:center; width:14%}
+		   td.info2	{font: 11pt "新細明體", serif; color: #000066; text-align:center; width:12%}
+		    *.info21	{font: 11pt "新細明體", serif; color: #000066; }
+		    *.info22	{font: 11pt "新細明體", serif; color: blue  ; }
+		    *.info23	{font: 11pt "新細明體", serif; color: green ; }
+		   td.info3	{font: 11pt "新細明體", serif; color: #000066; text-align:justify}
+				*.text_head0	{font-size:18pt; font-family:'標楷體','Times New Roman','Times', serif; }
+		*.text_head_en	{font-size:18pt; font-family:'Times New Roman','Times', serif; }
+				*.text_h1	{font: 15pt "新細明體", serif; color: #0000BB; font-weight: bold }
+				*.text_h2	{font: 13pt "新細明體", serif; color: #0000BB; font-weight: bold }
+				*.text_import1	{font:  11pt "新細明體", serif; color: #000088; font-weight: bold  }
+		*.text_import2	{font:  11pt "新細明體", serif; color: #000088; font-weight: normal}
+		*.text_vbird	{font:  11pt "新細明體", serif; color: #000088; font-weight: normal; 
+				 font-style: italic;}
+		*.text_history	{font:  10pt "新細明體", serif; color: #000066; }
+		*.text_date	{font:  10pt "新細明體", serif; color: #3333FF; }
+				*.block1	{padding: 10px 20px 10px 25px; text-align:left }
+				*.block2	{padding: 10px 0px  10px 25px; text-align:left }
+	    table.term2		{width: 350px; background-color: #000000;
+				 border-style:groove;border-width:3px;border-color: #FFCCCC; margin:10px 0px;}
+	    	    table.term		{width: 580px; background-color: #000000;
+				 border-style:groove;border-width:3px;border-color: #FFCCCC; margin:10px 0px;}
+	       	       td.term		{font:  10pt "細明體", Fixedsys, serif; color: #FFFFFF; }
+		*.term_hd	{font:  10pt "細明體", Fixedsys, serif; color: #BBBBBB; }
+		*.term_note	{font:  10pt "細明體", Fixedsys, serif; color: #777777; font-weight: normal }
+		*.term_note_b	{font:  10pt "細明體", Fixedsys, serif; color: #FF77FF; font-weight: bolder }
+		*.term_command	{font:  10pt "細明體", Fixedsys, serif; color: yellow ; font-weight: bolder }
+		*.term_write	{font:  10pt "細明體", Fixedsys, serif; color: yellow ; font-weight: normal }
+		*.term_say	{font:  10pt "細明體", Fixedsys, serif; color: #FF6666; font-weight: normal }
+		*.term_white	{font:  10pt "細明體", Fixedsys, serif; color: #000000; background-color: #FFFFFF }
+		*.list1		{list-style-type: square ; padding-left:0; margin-bottom:0 }
+		*.listol	{                          padding-left:0; margin-bottom:0 }
+		*.blockex	{padding: 10px 0px  10px 25px ; font: 9pt "新細明體", serif; color: #FFFFFF ; text-align: left }
+		*.fontwidth	{font-family: 細明體 }
+		*.fontwidth td 	{font-family: 細明體 ; text-align: justify; }
+	</style>
+	<script language="JaveScript" type="text/javascript" src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/java.js"></script>
+</head>
+<body style="margin:0; padding:0">
+<center>
+
+
+<!-- 這裡是關於頁首按鈕處的按鈕程式 -->
+<div style="text-align:center">
+<span style="font-weight:bolder; color:#3333FF"><span class="text_head0">鳥哥的<span class="text_head_en"> 
+	Linux </span>私房菜</span></span><br>
+<span style="color:#000080">為取得較佳瀏覽結果，請愛用 <a href="http://moztw.org/" target="_blank">firefox</a>
+	瀏覽本網頁</span><br>
+| <a href="http://linux.vbird.org/" target="_top" title="前往鳥哥的 Linux 私房菜首頁" style="font-size: 10pt">繁體主站</a> | 
+<a href="http://vbird.dic.ksu.edu.tw/" target="_blank" title="前往鳥哥的 Linux 私房菜首頁" style="font-size: 10pt">簡體主站</a> | 
+<a href="http://linux.vbird.org/linux_basic/" title="Linux 基礎學習篇，從頭學習 Linux" style="font-size: 10pt">基礎篇</a> | 
+<a href="http://linux.vbird.org/linux_server/" title="Linux 伺服器架設篇" style="font-size: 10pt">伺服器</a> | 
+<a href="http://linux.vbird.org/linux_enterprise/" title="Linux 企業應用篇" style="font-size: 10pt">企業應用</a> | 
+<a href="http://linux.vbird.org/linux_desktop/" title="Linux 桌面應用篇" style="font-size: 10pt">桌面應用</a> | 
+<a href="http://linux.vbird.org/linux_security/" title="Linux 安全管理篇" style="font-size: 10pt">安全管理</a> | 
+<a href="http://phorum.vbird.org/" target="_blank" title="鳥站新手討論板" style="font-size: 10pt">討論板</a> | 
+<a href="http://phorum.study-area.org/" target="_blank" title="酷！學園討論板" style="font-size: 10pt">酷學園</a> | 
+<a href="http://linux.vbird.org/book/" title="書籍戡誤" style="font-size: 10pt">書籍戡誤</a> | 
+<a href="http://linux.vbird.org/vbird/" title="關於鳥哥的一些事情" style="font-size: 10pt">鳥哥我</a> | 
+<a href="http://www.dic.ksu.edu.tw/" target="_blank" title="崑山資傳" style="font-size: 10pt">崑山資傳</a> | 
+</div>
+
+<table summary="本文內容的排版" style="width:750px; 
+	background-image:url('http://linux.vbird.org/images/VBirdLinux.jpg');
+	background-attachment:fixed;" cellspacing="0" cellpadding="0" border="0">
+<tbody><tr><td style="width:16px; height:16px; background-image:url('http://linux.vbird.org/images/border-top-left.jpg'); 
+	font-size:6px">　</td>
+    <td style="width:718px; height:16px; font-size:6px;
+	background-image:url('http://linux.vbird.org/images/border-top-center.jpg')">　</td>
+    <td style="width:16px; height:16px; background-image:url('http://linux.vbird.org/images/border-top-right.jpg');
+	font-size:6px">　</td></tr>
+<tr><td style="width:16px; font-size:6px;
+	background-image:url('http://linux.vbird.org/images/border-middle-left.jpg')">　</td>
+    <td width="718">
+
+<!-- 本文的檔頭部分 -->
+<div style="text-align:center">
+    <a href="http://linux.vbird.org/linux_server/0460iscsi.php">
+    <span class="text_head0">第十八章、網路磁碟裝置：<span class="text_head_en"> iSCSI </span>伺服器</span></a><br>
+</div>
+    <div style="text-align:left">
+        <a href="http://linux.vbird.org/linux_server/0460iscsi.php?thisscreen=800x600">切換解析度為 800x600</a>
+    </div>
+    <div style="text-align:right">
+        <span class="text_history">最近更新日期：2011/08/02</span>
+    </div>
+
+
+<!-- 本文的檔頭部分 -->
+<table class="head1" summary="排版：文章檔頭的說明"><tbody><tr><td class="head1">
+	如果你的系統需要大量的磁碟容量，但是身邊卻沒有 NAS 或外接的儲存設備，僅有個人電腦時，那該如何是好？
+	此時，透過網路的 SCSI 磁碟 (iSCSI) 就能夠有大大的幫助啦！這個 iSCSI 是將來自網路的資料模擬成本機的 SCSI 設備，
+	因此可以進行諸如 LVM 等方面的實作，而不是單純使用伺服器端提供的檔案系統而已，相當的有幫助喔！
+</td></tr></tbody></table><br>
+
+<!-- 本文的連結區部分 -->
+<div class="block1">
+<span class="text_h1">
+18.1 <a href="#disk">網路檔案系統還是網路磁碟</a><br>
+	<span class="text_h2">
+	　　18.1.1 <a href="#disk_nas_san">NAS 與 SAN</a><br>
+	　　18.1.2 <a href="#disk_iscsi">iSCSI 介面</a><br>
+	　　18.1.3 <a href="#disk_relate">各元件相關性</a><br>
+	</span>
+18.2 <a href="#server">iSCSI target 的設定</a><br>
+	<span class="text_h2">
+	　　18.2.1 <a href="#server_pkg">所需軟體與軟體結構</a><br>
+	　　18.2.2 <a href="#server_config">target 的實際設定</a><br>
+	</span>
+18.3 <a href="#initiator">iSCSI initiator 的設定</a><br>
+	<span class="text_h2">
+	　　18.3.1 <a href="#initiator_pkg">所需軟體與軟體結構</a><br>
+	　　18.3.2 <a href="#initiator_config">initiator 的實際設定</a><br>
+	　　18.3.3 <a href="#initiator_exam">一個測試範例</a><br>
+	</span>
+18.4 <a href="#hint">重點回顧</a><br>
+18.5 <a href="#ex">本章習題</a><br>
+18.6 <a href="#reference">參考資料與延伸閱讀</a><br>
+<span class="text_h2">
+18.7 <a href="http://phorum.vbird.org/viewtopic.php?f=16&amp;t=35503" target="_blank">針對本文的建議：http://phorum.vbird.org/viewtopic.php?f=16&amp;t=35503</a><br>
+</span>
+
+</span>
+</div>
+
+<!-- 本文的正式部分 -->
+<hr><a name="disk"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-m.gif" alt="大標題的圖示" width="25" height="34" align="middle"><span class="text_h1">18.1 網路檔案系統還是網路磁碟</span><br>
+<div class="block1">
+	<p>做為伺服器的系統通常是需要儲存設備的，而儲存設備除了可以使用系統內建的磁碟之外，如果內建的磁碟容量不夠大，
+	而且也沒有額外的磁碟插槽 (SATA 或 IDE) 可用時，那麼常見解決的方案就是增加 NAS (網路附加儲存伺服器)
+	或外接式儲存設備。再高檔一點的系統，可能就會用到 SAN (儲存區域網路) 這個高貴的玩意兒 (<a href="#ps1">註1</a>)。</p>
+
+	<p>不過，不論是哪一種架構，基本上，它們的內部硬碟通常是以磁碟陣列 (RAID) 作為基礎的。磁碟陣列我們在基礎篇第三版的<a href="http://linux.vbird.org/linux_basic/0420quota.php">第十五章</a>談過了，這裡就不再囉唆。這裡想要瞭解的是，啥是 NAS 又啥是 SAN ？
+	這兩者有何不同？與本章主題有關的 iSCSI 又是啥呢？底下就讓我們來談一談。<br><br></p>
+
+	<hr><a name="disk_nas_san"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-s.gif" alt="小標題的圖示" width="16" height="23" align="middle"><span class="text_h2">18.1.1 NAS 與 SAN</span><br>
+	<div class="block2">
+		<p>由於企業的資料量越來越大，而且重要性與保密性越來越高，尤其類似資料庫的內容，常常容量單位是以 TB 
+		(1TB = 1024GB) 在進行計算的。哇！真可怕！所以囉，磁碟陣列的應用就很重要了。那麼磁碟陣列通常是在哪裡呢？
+		磁碟陣列通常是 (1)主機內部有磁碟陣列控制卡，可以自行管理磁碟陣列。不過想要提供磁碟陣列的容量，
+		得要透過額外的網路服務才行； (2)外接式磁碟陣列設備，就是單純的磁碟陣列設備，必須透過某些介面連結到主機上，
+		主機也要安裝適當的驅動程式後，才能捉到這個設備所提供的磁碟容量。</p>
+
+		<p>不過，以目前的資訊社會來說，你應該很少聽到內建或外接的 RAID 了，常常聽到的應該是 NAS 與 SAN ，那這是啥咚咚？
+		讓我們簡單的來說說：<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>NAS (Network Attached Storage, 網路附加儲存伺服器)</li></ul>
+
+		<p>基本上，NAS 其實就是一部客制化好的主機了，只要將 NAS 連接上網路，那麼在網路上面的其他主機就能夠存取 NAS 
+		上頭的資料了。簡單的說，NAS 就是一部 file server 囉～不過，NAS 由於也是接在網路上面，所以，如果網路上有某個用戶大量存取 
+		NAS 上頭的資料時，是很容易造成網路停頓的問題的，這個比較麻煩點～低階的 NAS 通常會使用 Linux 
+		系統搭配軟體磁碟陣列來提供大容量檔案系統。不過效能嘛就有待加強啦！此外，NAS 也通常支援 TCP/IP ，並會提供 NFS, SAMBA, FTP 
+		等常見的通訊協定來提供用戶端取得檔案系統。</p>
+
+		<p>那為什麼不要直接使用個人電腦安裝 Linux 再搭配相關的服務，即可提供 NAS 預計要提供的大容量空間啦！幹嘛需要 NAS 呢？
+		因為，通常 NAS 還會包括很多組態的介面，通常是利用 Web 介面來控制磁碟陣列的設定狀況、提供 IP 或其他相關網路設定，
+		以及是否提供某些特定的服務等等。因為具有較為親和的操作與控制介面，對於非 IT 的人員來說，控管較為容易啦。
+		這也是 NAS 存在的目的。</p>
+
+		<p>不過，目前倒是有類似 FreeNAS 的軟體開發專案 (<a href="http://sourceforge.net/projects/freenas/" target="_blank">http://sourceforge.net/projects/freenas/</a>, <a href="#ps2">註2</a>)，可以讓你的 Linux PC 變成一部可透過 
+		Web 控管的 NAS 哩！不過不是本章的重點，有興趣的朋友可以自行前往下載與安裝該軟體來玩玩～<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>SAN (Storage Area Networks, 儲存區域網路)</li></ul>
+
+		<p>從上面的說明來看，其實那個 NAS 就是一部可以提供大容量檔案系統的主機嘛！
+		那我們知道單部主機能夠提供的插槽再怎麼說也是有限的！
+		所以並不能無限制的安插磁碟在同一部實體主機上面。但是如果偏偏你就是有大量磁碟使用的需求，那時該如何是好？
+		這時就得要使用到 SAN 這玩意兒啦！</p>
+
+		<p>最簡單的看法，就是將 SAN 視為一個外接式的儲存設備。只是單純的外接式儲存設備僅能透過某些介面 (如 SCSI 或 eSATA) 
+		提供單一部主機使用，而 <span class="text_import2">SAN 
+		卻可以透過某些特殊的介面或通道來提供區域網路內的所有機器進行磁碟存取。要注意喔，SAN 
+		是提供『磁碟 (block device)』給主機用，而不是像 NAS 提供的是『網路協定的檔案系統 (NFS, 
+		SMB...)』！</span>這兩者的差異挺大的喔！因此，掛載使用 SAN 的主機會多出一個大磁碟，並可針對 SAN 
+		提供的磁碟進行分割與格式化等動作。想想看，你能對 NAS 提供的檔案系統格式化嗎？不行吧！這樣瞭解差異否？</p>
+
+		<p>另外，既然 SAN 可以提供磁碟，而 NAS 則是提供相關的網路檔案系統，那麼 NAS 能不能透過網路去使用 SAN 
+		所提供的磁碟呢？答案當然是可以啊！因為 SAN 最大的目的就是在提供磁碟給伺服器主機使用，NAS 也是一部完整的伺服器，
+		所以 NAS 當然可以使用 SAN 啦！同時其他的網路伺服器也能夠使用這個 SAN 來進行資料存取。</p>
+
+		<p>此外，既然 SAN 開發的目的是要提供大量的磁碟給使用者，那麼傳輸的速度當然是非常重要的。因此，早期的 SAN 大多配合光纖通道
+		(Fibre Channel) 來提供高速的資料傳輸。目前標準的光纖通道是速度是 2GB ，未來還可能到達 10GB 
+		以上呢～不過，使用光纖等技術較高的設備，當然就比較貴一些。</p>
+
+		<p>拜乙太網路盛行，加上技術成熟之賜，現今的乙太網路媒體 (網路卡、交換器、路由器等等設備) 已經可以達到 GB 
+		的速度了，離 SAN 的光纖通道速度其實差異已經縮小很多啦～那麼是否我們可以透過這個 GB 的乙太網路介面來連接到 SAN
+		的設備呢？這就是我們接下來要提到的 iSCSI 架構啦！ ^_^</p>
+	</div>
+
+	<hr><a name="disk_iscsi"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-s.gif" alt="小標題的圖示" width="16" height="23" align="middle"><span class="text_h2">18.1.2 iSCSI 介面</span><br>
+	<div class="block2">
+		<p>早期的企業使用的伺服器若有大容量磁碟的需求時，通常是透過 SCSI 來串接 SCSI 磁碟，因此伺服器上面必須要加裝
+		SCSI 介面卡，而且這個 SCSI 是專屬於該伺服器的。後來這個外接式的 SCSI 設備被上述提到的 SAN 的架構所取代，
+		在 SAN 的標準架構下，雖然有很多的伺服器可以對同一個 SAN 進行存取的動作，不過為了速度需求，通常使用的是光纖通道。
+		但是光纖通道就是貴嘛！不但設備貴，伺服器上面也要有光纖介面，很麻煩～所以光纖的 SAN 在中小企業很難普及啊～</p>
+
+		<p>後來網路實在太普及，尤其是以 IP 封包為基礎的 LAN 技術已經很成熟，再加上乙太網路的速度越來越快，
+		所以就有廠商將 SAN 的連接方式改為利用 IP 技術來處理。然後再透過一些標準的訂定，最後就得到 Internet SCSI
+		(iSCSI) 這玩意的產生啦！iSCSI 主要是透過 TCP/IP 的技術，將儲存設備端透過 iSCSI target (iSCSI 標的)
+		功能，做成可以提供磁碟的伺服器端，再透過 iSCSI initiator (iSCSI 初始化用戶) 功能，做成能夠掛載使用 iSCSI target
+		的用戶端，如此便能透過 iSCSI 協定來進行磁碟的應用了 (<a href="#ps3">註3</a>)。</p>
+
+		<p>也就是說，iSCSI 這個架構主要將儲存裝置與使用的主機分為兩個部分，分別是：</p>
+
+		<ul>
+		<li><span class="text_import2">iSCSI target</span>：就是儲存設備端，存放磁碟或 RAID 的設備，目前也能夠將 Linux 
+		主機模擬成 iSCSI target 了！目的在提供其他主機使用的『磁碟』；<br><br></li>
+		<li><span class="text_import2">iSCSI initiator</span>：就是能夠使用 target 的用戶端，通常是伺服器。
+		也就是說，想要連接到 iSCSI target 的伺服器，也必須要安裝 iSCSI initiator 的相關功能後才能夠使用 iSCSI target
+		提供的磁碟就是了。</li>
+		</ul>
+
+		<p>如下圖所示，iSCSI 是在 TCP/IP 上面所開發出來的一套應用，所以得要有網路才行啊！</p>
+
+		<center><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/iscsi.gif" alt="iSCSI 與 TCP/IP 相關性" title="iSCSI 與 TCP/IP 相關性" border="0"><br>
+		圖 18.1-1、iSCSI 與 TCP/IP 相關性<br></center>
+	</div>
+
+	<hr><a name="disk_relate"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-s.gif" alt="小標題的圖示" width="16" height="23" align="middle"><span class="text_h2">18.1.3 各元件相關性</span><br>
+	<div class="block2">
+		<p>由上面的說明中，我們可以知道一部伺服器如何取得磁碟或者是檔案系統來利用呢？基本上就是：</p>
+		<ul class="text_import2">
+		<li>直接存取 (direct-attached storage)：例如本機上面的磁碟，就是直接存取設備；</li>
+		<li>透過儲存區域網路 (SAN)：來自區網內的其他儲存設備提供的磁碟；</li>
+		<li>網路檔案系統 (NAS)：來自 NAS 提供的檔案系統，只能立即使用，不可進行格式化。</li>
+		</ul>
+
+		<p>這三個東西與伺服器主機能用的檔案系統之間可以用維基百科的圖示來展示：</p>
+
+		<center><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/das_nas_san.gif" alt="伺服器取得檔案系統的三個來源" title="伺服器取得檔案系統的三個來源" width="500" border="1"><br>
+		圖 18.1-2、伺服器取得檔案系統的三個來源 (資料來源為<a href="#ps1">註1</a>)<br></center>
+
+		<p>從上圖中，我們可以發現在一般的主機環境下，磁碟裝置 (SATA, SAS, FC) 可以透過主機的介面 (DAS) 來直接進行檔案系統的建立
+		(mkfs 進行格式化)，如果想要使用外部的磁碟，那可以透過 SAN (內含多個磁碟的設備)，然後透過 iSCSI 等介面來連線，
+		當然，還是得要進行格式化等動作 (假設這個 SAN 尚未被使用時)。最後，如果是 NAS 的條件下，那麼 NAS 
+		必須要先透過自己的作業系統將磁碟裝置進行檔案系統的建立後，再以 NFS/CIFS 等方式來提供其他主機掛載使用。</p>
+
+		<p>接下來，網路伺服器、用戶端系統、NAS 與 SAN 的角色在區網裡面又是如何呢？我們依舊使用維基百科的圖示來說明一下
+		(DAS 是每部主機內部的磁碟，即底下圖示中的圓柱體)：</p>
+
+		<center><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/das_nas_san-2.gif" alt="各元件之間的相關性" title="各元件之間的相關性" width="500" border="1"><br>
+		圖 18.1-3、各元件之間的相關性 (資料來源為<a href="#ps1">註1</a>)<br></center>
+
+		<p>NAS 可以使用自己的磁碟，也能夠透過光纖或乙太網路取得 SAN 所提供的磁碟來製作成為網路檔案系統，提供其他人的使用。
+		Server 可以透過 NFS/CIFS 等方式取得 NAS 的檔案系統，當然也能夠直接存取 SAN 的磁碟。用戶端主要則是透過網路檔案系統，
+		並且直接使用 Server 提供的網路資源 (如 FTP, WWW, mail 等等)。</p>
+	</div>
+</div>
+
+
+<hr><a name="server"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-m.gif" alt="大標題的圖示" width="25" height="34" align="middle"><span class="text_h1">18.2 iSCSI target 的設定</span><br>
+<div class="block1">
+	<p>能夠完成 iSCSI target/initiator 設定的專案非常多 (<a href="#ps4">註4</a>)，鳥哥找的到的就有底下這幾個：</p>
+	<ul>
+	<li>Linux SCSI target framework (tgt)：<a href="http://stgt.sourceforge.net/" target="_blank">http://stgt.sourceforge.net/</a></li>
+	<li>Linux-iSCSI Project：<a href="http://linux-iscsi.sourceforge.net/" target="_blank">http://linux-iscsi.sourceforge.net/</a></li>
+	<li>Open-iSCSI：<a href="http://www.open-iscsi.org/" target="_blank">http://www.open-iscsi.org/</a></li>
+	</ul>
+	<p>由於被我們 CentOS 6.x 官方直接使用的是 tgt 這個軟體，因此底下我們會使用 tgt 來介紹整個 iSCSI target 的設定喔！<br><br></p>
+
+	<hr><a name="server_pkg"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-s.gif" alt="小標題的圖示" width="16" height="23" align="middle"><span class="text_h2">18.2.1 所需軟體與軟體結構</span><br>
+	<div class="block2">
+		<p>CentOS 將 tgt 的軟體名稱定義為 scsi-target-utils ，因此你得要使用 yum 去安裝他才行。至於用來作為 initiator 
+		的軟體則是使用 linux-iscsi 的專案，該專案所提供的軟體名稱則為 iscsi-initiator-utils 。所以，總的來說，你需要的軟體有：</p>
+
+		<ul>
+		<li><span class="text_import2">scsi-target-utils</span>：用來將 Linux 系統模擬成為 iSCSI target 的功能；</li>
+		<li><span class="text_import2">iscsi-initiator-utils</span>：掛載來自 target 的磁碟到 Linux 本機上。</li>
+		</ul>
+
+		<p>那麼 scsi-target-utils 主要提供哪些檔案呢？基本上有底下幾個比較重要需要注意的：</p>
+
+		<ul>
+		<li><span class="text_import1">/etc/tgt/targets.conf</span>：主要設定檔，設定要分享的磁碟格式與哪幾顆；</li>
+		<li><span class="text_import1">/usr/sbin/tgt-admin</span>：線上查詢、刪除 target 等功能的設定工具；</li>
+		<li><span class="text_import1">/usr/sbin/tgt-setup-lun</span>：建立 target 
+		以及設定分享的磁碟與可使用的用戶端等工具軟體。</li>
+		<li><span class="text_import1">/usr/sbin/tgtadm</span>：手動直接管理的管理員工具 (可使用設定檔取代)；</li>
+		<li><span class="text_import2">/usr/sbin/tgtd</span>：主要提供 iSCSI target 服務的主程式；</li>
+		<li><span class="text_import2">/usr/sbin/tgtimg</span>：建置預計分享的映像檔裝置的工具 (以映像檔模擬磁碟)；</li>
+		</ul>
+
+		<p>其實 CentOS 已經將很多功能都設定好了，因此我們只要修訂設定檔，然後啟動 tgtd 這個服務就可以囉！
+		接下來，就讓我們實際來玩一玩 iSCSI target 的設定吧！</p>
+	</div>
+
+	<hr><a name="server_config"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-s.gif" alt="小標題的圖示" width="16" height="23" align="middle"><span class="text_h2">18.2.2 target 的實際設定</span><br>
+	<div class="block2">
+		<p>從上面的分析來看，iSCSI 就是透過一個網路介面，將既有的磁碟給分享出去就是了。那麼有哪些類型的磁碟可以分享呢？
+		這包括：</p>
+
+		<ul class="text_import2">
+		<li>使用 dd 指令所建立的大型檔案可供模擬為磁碟 (無須預先格式化)；</li>
+		<li>使用單一分割槽 (partition) 分享為磁碟；</li>
+		<li>使用單一完整的磁碟 (無須預先分割)；</li>
+		<li>使用磁碟陣列分享 (其實與單一磁碟相同方式)；</li>
+		<li>使用軟體磁碟陣列 (software raid) 分享成單一磁碟；</li>
+		<li>使用 LVM 的 LV 裝置分享為磁碟。</li>
+		</ul>
+
+		<p>其實沒有那麼複雜，我們大概知道可以透過 (1)大型檔案； (2)單一分割槽； (3)單一裝置 (包括磁碟、陣列、軟體磁碟陣列、LVM
+		的 LV 裝置檔名等等) 來進行分享。在本小節當中，我們將透過新的分割產生新的沒有用到的分割槽、LVM 
+		邏輯捲軸、大型檔案等三個咚咚來進行分享。既然如此，那就得要先來搞定這些咚咚囉！
+		要注意喔，等一下我們要分享出去的資料，最好不要被使用，也最好不要開機就被掛載 (/etc/fstab 當中沒有存在記錄的意思)。
+		那麼就來玩玩看囉！<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>建立所需要的磁碟裝置</li></ul>
+
+		<p>既然 iSCSI 要分享的是磁碟，那麼我們得要準備好啊！目前預計準備的磁碟為：</p>
+		<ul>
+		<li>建立一個名為 /srv/iscsi/disk1.img 的 500MB 檔案；</li>
+		<li>使用 /dev/sda10 提供 2GB 作為分享 (從第一章到目前為止的分割數)；</li>
+		<li>使用 /dev/server/iscsi01 的 2GB LV 作為分享 (再加入 5GB /dev/sda11 到 server VG 中)。</li>
+		</ul>
+
+		<p>實際處理的方式如下：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre><span class="term_hd"># 1. 建立大型檔案：</span>
+[root@www ~]# <span class="term_command">mkdir /srv/iscsi</span>
+[root@www ~]# <span class="term_command">dd if=/dev/zero of=/srv/iscsi/disk1.img bs=1M count=500</span>
+[root@www ~]# <span class="term_command">chcon -Rv -t tgtd_var_lib_t /srv/iscsi/</span>
+[root@www ~]# <span class="term_command">ls -lh /srv/iscsi/disk1.img</span>
+-rw-r--r--. 1 root root <span class="term_write">500M</span> Aug  2 16:22 /srv/iscsi/disk1.img <span class="term_note">&lt;==容量對的！</span>
+
+<span class="term_hd"># 2. 建立實際的 partition 分割：</span>
+[root@www ~]# <span class="term_command">fdisk /dev/sda</span>  <span class="term_note">&lt;==實際的分割方式自己處理吧！</span>
+[root@www ~]# <span class="term_command">partprobe     </span>  <span class="term_note">&lt;==某些情況下得 reboot 喔！</span>
+[root@www ~]# <span class="term_command">fdisk -l</span>
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda10           2202        2463     <span class="term_write">2104483+</span>  83  Linux
+/dev/sda11           2464        3117     <span class="term_write">5253223+</span>  8e  Linux LVM
+<span class="term_say"># 只有輸出 /dev/sda{10,11} 資訊，其他的都省略了。注意看容量，上述容量單位 KB</span>
+
+[root@www ~]# <span class="term_command">swapon -s; mount | grep 'sda1'</span>
+<span class="term_say"># 自己測試一下 /dev/sda{10,11} 不能夠被使用喔！若有被使用，請 umount 或 swapoff</span>
+
+<span class="term_hd"># 3. 建立 LV 裝置 ：</span>
+[root@www ~]# <span class="term_command">pvcreate /dev/sda11</span>
+[root@www ~]# <span class="term_command">vgextend server /dev/sda11</span>
+[root@www ~]# <span class="term_command">lvcreate -L 2G -n iscsi01 server</span>
+[root@www ~]# <span class="term_command">lvscan</span>
+  ACTIVE            '/dev/server/myhome' [6.88 GiB] inherit
+  ACTIVE            '/dev/server/iscsi01' [<span class="term_write">2.00 GB</span>] inherit
+</pre></td></tr></tbody></table>
+
+		<ul class="list1"><li class="text_import1"><hr>規劃分享的 iSCSI target 檔名</li></ul>
+
+		<p>iSCSI 有一套自己分享 target 檔名的定義，基本上，藉由 iSCSI 分享出來的 target 檔名都是以 iqn 為開頭，意思是：『iSCSI
+		Qualified Name (iSCSI 合格名稱)』的意思(<a href="#ps5">註5</a>)。那麼在 iqn 後面要接啥檔名呢？通常是這樣的：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre><span class="term_write">iqn.yyyy-mm.&lt;reversed domain name&gt;:identifier</span>
+iqn.年年-月.單位網域名的反轉寫法  :這個分享的target名稱
+</pre></td></tr></tbody></table>
+
+		<p>鳥哥做這個測試的時間是 2011 年 8 月份，然後鳥哥的機器是 www.centos.vbird ，反轉網域寫法為 vbird.centos，
+		然後，鳥哥想要的 iSCSI target 名稱是 vbirddisk ，那麼就可以這樣寫：</p>
+
+		<ul class="text_import2" style="font-family: '細明體'">
+		<li>iqn.2011-08.vbird.centos:vbirddisk</li>
+		</ul>
+
+		<p>另外，就如同一般外接式儲存裝置 (target 名稱) 可以具有多個磁碟一樣，我們的 target 也能夠擁有數個磁碟裝置的。
+		每個在同一個 target 上頭的磁碟我們可以將它定義為<span class="text_import2">邏輯單位編號 
+		(Logical Unit Number, LUN)</span>。我們的 iSCSI initiator 就是跟 target 協調後才取得 LUN 的存取權就是了
+		(<a href="#ps5">註5</a>)。在鳥哥的這個簡單案例中，最終的結果，我們會有一個 target ，在這個 target 
+		當中可以使用三個 LUN 的磁碟。<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>設定 tgt 的設定檔 /etc/tgt/targets.conf</li></ul>
+
+		<p>接下來我們要開始來修改設定檔了。基本上，設定檔就是修改 /etc/tgt/targets.conf 啦。這個檔案的內容可以改得很簡單，
+		最重要的就是設定前一點規定的 iqn 名稱，以及該名稱所對應的裝置，然後再給予一些可能會用到的參數而已。
+		多說無益，讓我們實際來實作看看：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@www ~]# <span class="term_command">vim /etc/tgt/targets.conf</span>
+<span class="term_say"># 此檔案的語法如下：
+&lt;target iqn.相關裝置的target名稱&gt;
+    backing-store /你的/虛擬裝置/完整檔名-1
+    backing-store /你的/虛擬裝置/完整檔名-2
+&lt;/target&gt;</span>
+<span class="term_write">
+&lt;target iqn.2011-08.vbird.centos:vbirddisk&gt;
+    backing-store /srv/iscsi/disk1.img  <span class="term_note">&lt;==LUN 1 (LUN 的編號通常照順序)</span>
+    backing-store /dev/sda10            <span class="term_note">&lt;==LUN 2</span>
+    backing-store /dev/server/iscsi01   <span class="term_note">&lt;==LUN 3</span>
+&lt;/target&gt;</span>
+</pre></td></tr></tbody></table>
+
+		<p>事實上，除了 backing-store 之外，在這個設定檔當中還有一些比較特別的參數可以討論看看 (man tgt-admin)：</p>
+
+		<ul>
+		<li><span class="text_import2">backing-store (虛擬的裝置), direct-store (實際的裝置)</span>：
+		設定裝置時，如果你的整顆磁碟是全部被拿來當 iSCSI 分享之用，那麼才能夠使用 direct-store 。不過，根據網路上的其他文件，
+		似乎說明這個設定值有點危險的樣子。所以，基本上還是建議單純使用模擬的 backing-store 
+		較佳。例如鳥哥的簡單案例中，就通通使用 backing-store 而已。<br><br></li>
+
+		<li><span class="text_import2">initiator-address (使用者端位址)</span>：
+		如果你想要限制能夠使用這個 target 的用戶端來源，才需要填寫這個設定值。基本上，不用設定它 (代表所有人都能使用的意思)，
+		因為我們後來會使用 iptables  來規範可以連線的客戶端嘛！<br><br></li>
+
+		<li><span class="text_import2">incominguser (使用者帳號密碼設定)</span>：
+		如果除了來源 IP 的限制之外，你還想要讓使用者輸入帳密才能使用你的 iSCSI target 的話，那麼就加用這個設定項目。
+		此設定後面接兩個參數，分別是帳號與密碼囉。<br><br></li>
+
+		<li><span class="text_import2">write-cache [off|on] (是否使用快取)</span>：
+		在預設的情況下，tgtd 會使用快取來增快速度。不過，這樣可能會有遺失資料的風險。所以，如果你的資料比較重要的話，
+		或許不要使用快取，直接存取裝置會比較妥當一些。</li>
+		</ul>
+
+		<p>上面的設定值要怎麼用呢？現在，假設你的環境中，僅允許 192.168.100.0/24 這個網段可以存取 iSCSI 
+		target，而且存取時需要帳密分別為
+		vbirduser, vbirdpasswd ，此外，不要使用快取，那麼原本的設定檔之外，還得要加上這樣的參數才行 
+		(基本上，使用上述的設定即可，底下的設定是多加測試用的，不需要填入你的設定中)。</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@www ~]# <span class="term_command">vim /etc/tgt/targets.conf</span>
+&lt;target iqn.2011-04.vbird.centos:vbirddisk&gt;
+    backing-store /home/iscsi/disk1.img
+    backing-store /dev/sda7
+    backing-store /dev/server/iscsi01
+<span class="term_write">    initiator-address 192.168.100.0/24
+    incominguser vbirduser vbirdpasswd
+    write-cache off</span>
+&lt;/target&gt;
+</pre></td></tr></tbody></table>
+
+		<ul class="list1"><li class="text_import1"><hr>啟動 iSCSI target 以及觀察相關埠口與磁碟資訊</li></ul>
+
+		<p>再來則是啟動、開機啟動，以及觀察 iSCSI target 所啟動的埠口囉：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@www ~]# <span class="term_command">/etc/init.d/tgtd start</span>
+[root@www ~]# <span class="term_command">chkconfig tgtd on</span>
+[root@www ~]# <span class="term_command">netstat -tlunp | grep tgt</span>
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address   Foreign Address   State   PID/Program name
+tcp        0      0 0.0.0.0:<span class="term_write">3260</span>    0.0.0.0:*         LISTEN  26944/tgtd
+tcp        0      0 :::3260         :::*              LISTEN  26944/tgtd
+<span class="term_say"># 重點就是那個 3260 TCP 封包啦！等一下的防火牆務必要開放這個埠口。</span>
+
+<span class="term_hd"># 觀察一下我們 target 相關資訊，以及提供的 LUN 資料內容：</span>
+[root@www ~]# <span class="term_command">tgt-admin --show</span>
+Target 1: <span class="term_write">iqn.2011-08.vbird.centos:vbirddisk</span> <span class="term_note">&lt;==就是我們的 target</span>
+    System information:
+        Driver: iscsi
+        State: ready
+    I_T nexus information:
+    LUN information:
+        <span class="term_write">LUN: 0
+            Type: controller     <span class="term_note">&lt;==這是個控制器，並非可以用的 LUN 喔！</span>
+<span class="term_say">....(中間省略)....</span>
+        LUN: 1
+            Type: disk</span>       <span class="term_note">&lt;==第一個 LUN，是磁碟 (disk) 喔！</span>
+            SCSI ID: IET     00010001
+            SCSI SN: beaf11
+            <span class="term_write">Size: 2155 MB</span>      <span class="term_note">&lt;==容量有這麼大！</span>
+            Online: Yes
+            Removable media: No
+            Backing store type: rdwr
+            <span class="term_write">Backing store path: /dev/sda10</span> <span class="term_note">&lt;==磁碟所在的實際檔名</span>
+        <span class="term_write">LUN: 2</span>
+            Type: disk
+            SCSI ID: IET     00010002
+            SCSI SN: beaf12
+            <span class="term_write">Size: 2147 MB</span>
+            Online: Yes
+            Removable media: No
+            Backing store type: rdwr
+            <span class="term_write">Backing store path: /dev/server/iscsi01</span>
+        <span class="term_write">LUN: 3</span>
+            Type: disk
+            SCSI ID: IET     00010003
+            SCSI SN: beaf13
+            <span class="term_write">Size: 524 MB</span>
+            Online: Yes
+            Removable media: No
+            Backing store type: rdwr
+            <span class="term_write">Backing store path: /srv/iscsi/disk1.img</span>
+    Account information:
+<span class="term_write">        vbirduser</span>        <span class="term_note">&lt;==額外的帳號資訊</span>
+    ACL information:
+<span class="term_write">        192.168.100.0/24</span> <span class="term_note">&lt;==額外的來源 IP 限制</span>
+</pre></td></tr></tbody></table>
+
+		<p>請將上面的資訊對照一下我們的設定檔呦！看看有沒有錯誤就是了！尤其注意每個 LUN 的容量、實際磁碟路徑！
+		那個項目不能錯誤就是了。(照理說 LUN 的數字應該與 backing-store  設定的順序有關，不過，在鳥哥的測試中，
+		出現的順序並不相同！因此，還是需要使用 tgt-admin --show 去查閱查閱才好！)<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>設定防火牆</li></ul>
+
+		<p>不論你有沒有使用 initiator-address 在 targets.conf 設定檔中，iSCSI target 就是使用 TCP/IP 傳輸資料的，
+		所以你還是得要在防火牆內設定可以連線的用戶端才行！既然 iSCSI 僅開啟 3260 埠口，那麼我們就這麼進行即可：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@www ~]# <span class="term_command">vim /usr/local/virus/iptables/iptables.allow</span>
+<span class="term_write">iptables -A INPUT  -p tcp -s 192.168.100.0/24 --dport 3260 -j ACCEPT</span>
+
+[root@www ~]# <span class="term_command">/usr/local/virus/iptables/iptables.rule</span>
+[root@www ~]# <span class="term_command">iptables-save | grep 3260</span>
+-A INPUT -s 192.168.100.0/24 -p tcp -m tcp --dport 3260 -j ACCEPT
+<span class="term_say"># 最終要看到上述的輸出字樣才是 OK 的呦！若有其他用戶需要連線，
+# 自行複製 iptables.allow 內的語法，修改來源端即可。</span>
+</pre></td></tr></tbody></table>
+	</div>
+</div>
+
+
+<hr><a name="initiator"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-m.gif" alt="大標題的圖示" width="25" height="34" align="middle"><span class="text_h1">18.3 iSCSI initiator 的設定</span><br>
+<div class="block1">
+	<p>談完了 target 的設定，並且觀察到相關 target 的 LUN 資料後，接下來就是要來掛載使用囉。使用的方法很簡單，
+	只不過我們得要安裝額外的軟體來取得 target 的 LUN 使用權就是了。<br><br></p>
+
+	<hr><a name="initiator_pkg"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-s.gif" alt="小標題的圖示" width="16" height="23" align="middle"><span class="text_h2">18.3.1 所需軟體與軟體結構</span><br>
+	<div class="block2">
+		<p>在前一小節就談過了，要設定 iSCSI initiator 必須要安裝 iscsi-initiator-utils 才行。安裝的方法請使用 yum
+		去處理，這裡不再多講話。那麼這個軟體的結構是如何呢？</p>
+
+		<ul>
+		<li><span class="text_import2">/etc/iscsi/iscsid.conf</span>：主要的設定檔，用來連結到 iSCSI target 的設定；</li>
+		<li><span class="text_import2">/sbin/iscsid</span>：啟動 iSCSI initiator 的主要服務程式；</li>
+		<li><span class="text_import2">/sbin/iscsiadm</span>：用來管理 iSCSI initiator 的主要設定程式；</li>
+		<li><span class="text_import2">/etc/init.d/iscsid</span>：讓本機模擬成為 iSCSI initiater 的主要服務；</li>
+		<li><span class="text_import2">/etc/init.d/iscsi</span>：在本機成為 iSCSI initiator 之後，啟動此腳本，讓我們可以登入
+		iSCSI target。所以 iscsid 先啟動後，才能啟動這個服務。為了防呆，所以 /etc/init.d/iscsi 已經寫了一個啟動指令，
+		啟動 iscsi 前尚未啟動 iscsid ，則會先呼叫 iscsid 才繼續處理 iscsi 喔！</li>
+		</ul>
+
+		<p>老實說，因為 /etc/init.d/iscsi 腳本已經包含了啟動 /etc/init.d/iscsid 的步驟在裡面，所以，理論上，
+		你只要啟動 iscsi 就好啦！此外，那個 iscsid.conf 裡面大概只要設定好登入 target 時的帳密即可，
+		其他的 target 搜尋、設定、取得的方法都直接使用 iscsiadm 這個指令來完成。由於 iscsiadm 偵測到的結果會直接寫入
+		/var/lib/iscsi/nodes/ 當中，因此只要啟動 /etc/init.d/iscsi 就能夠在下次開機時，自動的連結到正確的 target 囉。
+		那麼就讓我們來處理處理整個過程吧 (<a href="#ps6">註6</a>)！</p>
+	</div>
+
+	<hr><a name="initiator_config"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-s.gif" alt="小標題的圖示" width="16" height="23" align="middle"><span class="text_h2">18.3.2 initiator 的實際設定</span><br>
+	<div class="block2">
+		<p>首先，我們得要知道 target 提供了啥咚咚啊，因此，理論上，不論是 target 還是 initiator 都應該是要我們管理的機器才對。
+		而現在我們知道 target 其實有設定帳號與密碼的，所以底下我們就得要修改一下 iscsid.conf 的內容才行。<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>修改 /etc/iscsi/iscsid.conf 內容，並啟動 iscsi</li></ul>
+
+		<p>這個檔案的修改很簡單，因為裡面的參數大多已經預設做的不錯了，所以只要填寫 target 登入時所需要的帳密即可。
+		修改的地方有兩個，一個是偵測時 (discovery) 可能會用到的帳密，一個是連線時 (node) 會用到的帳密：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@clientlinux ~]# <span class="term_command">vim /etc/iscsi/iscsid.conf</span>
+node.session.auth.username = <span class="term_write">vbirduser</span>   <span class="term_note">&lt;==在 target 時設定的</span>
+node.session.auth.password = <span class="term_write">vbirdpasswd</span> <span class="term_note">&lt;==約在 53, 54 行</span>
+discovery.sendtargets.auth.username = <span class="term_write">vbirduser</span>  <span class="term_note">&lt;==約在 67, 68 行</span>
+discovery.sendtargets.auth.password = <span class="term_write">vbirdpasswd</span>
+
+[root@clientlinux ~]# <span class="term_command">chkconfig iscsid on</span>
+[root@clientlinux ~]# <span class="term_command">chkconfig iscsi on</span>
+</pre></td></tr></tbody></table>
+
+		<p>由於我們尚未與 target 連線，所以 iscsi 並無法讓我們順利啟動的！因此上面只要  chkconfig 即可，不需要啟動他。
+		要開始來偵測 target 與寫入系統資訊囉。全部使用 iscsiadm 這個指令就可以完成所有動作了。<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>偵測 192.168.100.254 這部 target 的相關資料</li></ul>
+
+		<p>雖然我們已經知道 target 的名字，不過，這裡假設還不知道啦！因為有可能哪一天你的公司有錢了，
+		會去買實體的 iSCSI 陣列嘛！所以這裡還是講完整的偵測過程好了！你可以這樣使用：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@clientlinux ~]# <span class="term_command">iscsiadm -m discovery -t sendtargets -p IP:port</span>
+<span class="term_say">選項與參數：
+-m discovery   ：使用偵測的方式進行 iscsiadmin 指令功能；
+-t sendtargets ：透過 iscsi 的協定，偵測後面的設備所擁有的 target 資料
+-p IP:port     ：就是那部 iscsi 設備的 IP 與埠口，不寫埠口預設是 3260 囉！</span>
+
+<span class="term_hd">範例：偵測 192.168.100.254 這部 iSCSI 設備的相關資料</span>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m discovery -t sendtargets -p 192.168.100.254</span>
+<u>192.168.100.254:3260,1</u>  <u>iqn.2011-08.vbird.centos:vbirddisk</u>
+<span class="term_say"># 192.168.100.254:3260,1 ：在此 IP, 埠口上面的 target 號碼，本例中為 target1
+# iqn.2011-08.vbird.centos:vbirddisk ：就是我們的 target 名稱啊！</span>
+
+[root@clientlinux ~]# <span class="term_command">ll -R /var/lib/iscsi/nodes/</span>
+/var/lib/iscsi/nodes/<span class="term_write">iqn.2011-08.vbird.centos:vbirddisk</span>
+/var/lib/iscsi/nodes/<span class="term_write">iqn.2011-08.vbird.centos:vbirddisk/192.168.100.254,3260,1</span>
+<span class="term_say"># 上面的特殊字體部分，就是我們利用 iscsiadm 偵測到的 target 結果！</span>
+</pre></td></tr></tbody></table>
+
+		<p>現在我們知道了 target 的名稱，同時將所有偵測到的資訊通通寫入到上述 
+		/var/lib/iscsi/nodes/iqn.2011-08.vbird.centos:vbirddisk/192.168.100.254,3260,1 目錄內的 default 檔案中，
+		若資訊有修訂過的話，那你可以到這個檔案內修改，也可以透過 iscsiadm 的 update 功能處理相關參數的。<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>開始進行連線 iSCSI target</li></ul>
+
+		<p>因為我們的 initiator 可能會連接多部的 target 設備，因此，我們得先要瞧瞧目前系統上面偵測到的 target 有幾部，
+		然後再找到我們要的那部 target 來進行登入的作業。不過，如果你想要將所有偵測到的 target 全部都登入的話，
+		那麼整個步驟可以再簡化：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre><span class="term_hd">範例：根據前一個步驟偵測到的資料，啟動全部的 target</span>
+[root@clientlinux ~]# <span class="term_command">/etc/init.d/iscsi restart</span>
+正在停止 iscsi：                                 [  確定  ]
+正在啟動 iscsi：                                 [  確定  ]
+<span class="term_say"># 將系統裡面全部的 target 通通以 /var/lib/iscs/nodes/ 內的設定登入
+# 上面的特殊字體比較需要注意啦！你只要做到這裡即可，底下的瞧瞧就好。</span>
+
+<span class="term_hd">範例：顯示出目前系統上面所有的 target 資料：</span>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node</span>
+192.168.100.254:3260,1 <u>iqn.2011-08.vbird.centos:vbirddisk</u>
+<span class="term_say">選項與參數：
+-m node：找出目前本機上面所有偵測到的 target 資訊，可能並未登入喔</span>
+
+<span class="term_hd">範例：僅登入某部 target ，不要重新啟動 iscsi 服務</span>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node -T target名稱 --login</span>
+<span class="term_say">選項與參數：
+-T target名稱：僅使用後面接的那部 target ，target 名稱可用上個指令查到！
+--login      ：就是登入啊！</span>
+
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node -T iqn.2011-08.vbird.centos:vbirddisk \</span>
+&gt;  <span class="term_command">--login</span>
+<span class="term_say"># 這次進行會出現錯誤，是因為我們已經登入了，不可重複登入喔！</span>
+</pre></td></tr></tbody></table>
+
+		<p>接下來呢？呵呵！很棒的是，我們要來開始處理這個 iSCSI 的磁碟了喔！怎麼處理？瞧一瞧！</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@clientlinux ~]# <span class="term_command">fdisk -l</span>
+Disk /dev/sda: 8589 MB, 8589934592 bytes  <span class="term_note">&lt;==這是原有的那顆磁碟，略過不看</span>
+<span class="term_say">....(中間省略)....</span>
+
+<span class="term_write">Disk /dev/sdc: 2147 MB, 2147483648 bytes</span>
+67 heads, 62 sectors/track, 1009 cylinders
+Units = cylinders of 4154 * 512 = 2126848 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+
+<span class="term_write">Disk /dev/sdb: 2154 MB, 2154991104 bytes</span>
+67 heads, 62 sectors/track, 1013 cylinders
+Units = cylinders of 4154 * 512 = 2126848 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+
+<span class="term_write">Disk /dev/sdd: 524 MB, 524288000 bytes</span>
+17 heads, 59 sectors/track, 1020 cylinders
+Units = cylinders of 1003 * 512 = 513536 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+</pre></td></tr></tbody></table>
+
+		<p>你會發現主機上面多出了三個新的磁碟，容量與剛剛在 192.168.100.254 那部 iSCSI target 上面分享的 LUN 一樣大。
+		那這三顆磁碟可以怎麼用？你想怎麼用就怎麼用啊！只是，唯一要注意的，就是 iSCSI target 每次都要比 iSCSI initiator
+		這部主機還要早開機，否則我們的 initiator 恐怕就會出問題。<br><br></p>
+
+		<ul class="list1"><li class="text_import1"><hr>更新/刪除/新增 target 資料的方法</li></ul>
+
+		<p>如果你的 iSCSI target 可能因為某些原因被拿走了，或者是已經不存在於你的區網中，或者是要送修了～
+		這個時候你的 iSCSI initiator 總是得要關閉吧！但是，又不能全部關掉 (/etc/init.d/iscsi stop)，
+		因為還有其他的 iSCSI target 在使用。這個時候該如何取消不要的 target 呢？很簡單！流程如下：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@clientlinux ~]# <span class="term_command">iscsiadm -m node -T targetname --logout</span>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node -o [delete|new|update] -T targetname</span>
+<span class="term_say">選項與參數：
+--logout ：就是登出 target，但是並沒有刪除 /var/lib/iscsi/nodes/ 內的資料
+-o delete：刪除後面接的那部 target 連結資訊 (/var/lib/iscsi/nodes/*)
+-o update：更新相關的資訊
+-o new   ：增加一個新的 target 資訊。</span>
+
+<span class="term_hd">範例：關閉來自鳥哥的 iSCSI target 的資料，並且移除連結</span>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node</span>   <span class="term_note">&lt;==還是先秀出相關的 target iqn 名稱</span>
+192.168.100.254:3260,1 <u>iqn.2011-08.vbird.centos:vbirddisk</u>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node -T <u>iqn.2011-08.vbird.centos:vbirddisk</u> \</span>
+&gt;  <span class="term_command">--logout</span>
+Logging out of session [sid: 1, target: iqn.2011-08.vbird.centos:vbirddisk,
+ portal: 192.168.100.254,3260]
+Logout of [sid: 1, target: iqn.2011-08.vbird.centos:vbirddisk, portal:
+ 192.168.100.254,3260] successful.
+<span class="term_say"># 這個時候的 target 連結還是存在的，雖然登出你還是看的到！</span>
+
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node -o delete \</span>
+&gt;  <span class="term_command">-T iqn.2011-08.vbird.centos:vbirddisk</span>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node</span>
+iscsiadm: no records found! <span class="term_note">&lt;==嘿嘿！不存在這個 target 了～</span>
+
+[root@clientlinux ~]# <span class="term_command">/etc/init.d/iscsi restart</span>
+<span class="term_say"># 你會發現唔！怎麼 target 的資訊不見了！這樣瞭了乎！</span>
+</pre></td></tr></tbody></table>
+
+		<p>如果一切都沒有問題，現在，請回到 discovery 的過程，重新再將 iSCSI target 偵測一次，再重新啟動 initiator
+		來取得那三個磁碟吧！我們要來測試與利用該磁碟囉！</p>
+	</div>
+
+	<hr><a name="initiator_exam"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-s.gif" alt="小標題的圖示" width="16" height="23" align="middle"><span class="text_h2">18.3.3 一個測試範例</span><br>
+	<div class="block2">
+		<p>到底 iSCSI 可以怎麼用？我們就來玩一玩。假設：</p>
+
+		<ol>
+		<li>你剛剛如同鳥哥的整個運作流程，已經在 initiator 上面將 target 資料清除了；</li>
+		<li>現在我們只知道 iSCSI target 的 IP 是 192.168.100.254 ，而需要的帳密是 vbirduser, vbirdpasswd；</li>
+		<li>帳密資訊你已經寫入 /etc/iscsi/iscsid.conf 裡面了；</li>
+		<li>假設我們預計要將 target 的磁碟拿來當作 LVM 內的 PV 使用；</li>
+		<li>並且將所有的磁碟容量都給一個名為 /dev/iscsi/disk 的 LV 使用；</li>
+		<li>這個 LV 會被格式化為 ext4 ，且掛載在 /data/iscsi 內。</li>
+		</ol>
+
+		<p>那麼，整體的流程是：</p>
+
+<table class="term"><tbody><tr><td class="term"><pre><span class="term_hd"># 1. 啟動 iscsi ，並且開始偵測及登入 192.168.100.254 上面的 target 名稱</span>
+[root@clientlinux ~]# <span class="term_command">/etc/init.d/iscsi restart</span>
+[root@clientlinux ~]# <span class="term_command">chkconfig iscsi on</span>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m discovery -t sendtargets -p 192.168.100.254</span>
+[root@clientlinux ~]# <span class="term_command">/etc/init.d/iscsi restart</span>
+[root@clientlinux ~]# <span class="term_command">iscsiadm -m node</span>
+192.168.100.254:3260,1 iqn.2011-08.vbird.centos:vbirddisk
+
+<span class="term_hd"># 2. 開始處理 LVM 的流程，由 PV, VG, LV 依序處理喔！</span>
+[root@clientlinux ~]# <span class="term_command">fdisk -l</span>    <span class="term_note">&lt;==出現的資料中你會發現 /dev/sd[b-d]</span>
+[root@clientlinux ~]# <span class="term_command">pvcreate /dev/sd{b,c,d}</span>  <span class="term_note">&lt;==建立 PV 去！</span>
+  Wiping swap signature on /dev/sdb
+  Physical volume "/dev/sdb" successfully created
+  Physical volume "/dev/sdc" successfully created
+  Physical volume "/dev/sdd" successfully created
+
+[root@clientlinux ~]# <span class="term_command">vgcreate iscsi /dev/sd{b,c,d}</span>  <span class="term_note">&lt;==建立 VG 去！</span>
+  Volume group "iscsi" successfully created
+
+[root@clientlinux ~]# <span class="term_command">vgdisplay</span>  <span class="term_note">&lt;==要找到可用的容量囉！</span>
+  --- Volume group ---
+  VG Name               iscsi
+<span class="term_say">....(中間省略)....</span>
+  Act PV                3
+  VG Size               4.48 GiB
+  PE Size               4.00 MiB
+  Total PE              1148  <span class="term_note">&lt;==就是這玩意兒！共 1148 個！</span>
+  Alloc PE / Size       0 / 0
+  Free  PE / Size       1148 / 4.48 GiB
+<span class="term_say">....(底下省略)....</span>
+
+[root@clientlinux ~]# <span class="term_command">lvcreate -l 1148 -n disk iscsi</span>
+  Logical volume "disk" created
+
+[root@clientlinux ~]# <span class="term_command">lvdisplay</span>
+  --- Logical volume ---
+<span class="term_write">  LV Name                /dev/iscsi/disk</span>
+  VG Name                iscsi
+  LV UUID                opR64B-Zeoe-C58n-ipN2-em3O-nUYs-wjEZDP
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                4.48 GiB <span class="term_note">&lt;==注意一下容量對不對啊！</span>
+  Current LE             1148
+  Segments               3
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:2
+
+<span class="term_hd"># 3. 開始格式化，並且進行開機自動掛載的動作！</span>
+[root@clientlinux ~]# <span class="term_command">mkfs -t ext4 /dev/iscsi/disk</span>
+[root@clientlinux ~]# <span class="term_command">mkdir -p /data/iscsi</span>
+[root@clientlinux ~]# <span class="term_command">vim /etc/fstab</span>
+/dev/iscsi/disk   /data/iscsi   ext4   defaults,<span class="term_write">_netdev</span>   1   2
+
+[root@clientlinux ~]# <span class="term_command">mount -a</span>
+[root@clientlinux ~]# <span class="term_command">df -Th</span>
+檔案系統      類型    Size  Used Avail Use% 掛載點
+/dev/mapper/iscsi-disk
+              ext4    4.5G  137M  4.1G   4% /data/iscsi
+</pre></td></tr></tbody></table>
+
+		<p>比較特殊的是 /etc/fstab 裡面的第四個欄位，加上 _netdev (最前面是底線) 指的是，因為這個 partition 位於網路上，
+		所以得要網路開機啟動完成後才會掛載的意思。現在，請讓你的 iSCSI initiator 重新開機看看，
+		試看看重新啟動系統後，你的 /data/iscsi 是否還存在呢？ ^_^</p>
+
+		<p>然後，讓我們切回 iSCSI target 那部主機，研究看看到底誰有使用我們的 target 呢？</p>
+
+<table class="term"><tbody><tr><td class="term"><pre>[root@www ~]# <span class="term_command">tgt-admin --show</span>
+Target 1: iqn.2011-08.vbird.centos:vbirddisk
+    System information:
+        Driver: iscsi
+        State: ready
+    <span class="term_write">I_T nexus information:
+        I_T nexus: 2
+            Initiator: iqn.1994-05.com.redhat:71cf137f58f2 <span class="term_note">&lt;==不是很喜歡的名字！</span>
+            Connection: 0
+                IP Address: 192.168.100.10</span>    <span class="term_note">&lt;==就是這裡連線進來囉！</span>
+    LUN information:
+<span class="term_say">....(後面省略)....</span>
+</pre></td></tr></tbody></table>
+
+		<p>明明是 initiator 怎麼會是那個 redhat 的名字呢？如果你不介意那就算了，如果挺介意的話，那麼修改 initiator
+		那部主機的 /etc/iscsi/initiatorname.iscsi 這個檔案的內容，將它變成類似如下的模樣即可：</p>
+
+		<div style="padding: 10pt 0pt 10pt 0pt ;" align="right"><table width="90%"><tbody><tr><td><b>Tips:</b><br><span style="color : #009000"><font size="-1">		不過，這個動作最好在使用 target 的 LUN 之前就進行，否則，當你使用了 LUN 的磁碟後，再修改這個檔案後，
+		你的磁碟檔名可能會改變。例如鳥哥的案例中，改過 initiatorname 之後，原本的磁碟檔名竟變成
+		/dev/sd[efg] 了！害鳥哥的 LV 就不能再度使用了...
+		</font></span></td><td><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/vbird_face.gif" alt="鳥哥的圖示" title="鳥哥的圖示"></td></tr></tbody></table></div>
+<table class="term"><tbody><tr><td class="term"><pre><span class="term_hd"># 1. 先在 iSCSI initiator 上面進行如下動作：</span>
+[root@clientlinux ~]# <span class="term_command">vim /etc/iscsi/initiatorname.iscsi</span>
+<span class="term_write">InitiatorName=iqn.2011-08.vbird.centos:initiator</span>
+[root@clientlinux ~]# <span class="term_command">/etc/init.d/iscsi restart</span>
+
+<span class="term_hd"># 2. 在 iSCSI target 上面就可以發現如下的資料修訂了：</span>
+[root@www ~]# <span class="term_command">tgt-admin --show</span>
+Target 1: iqn.2011-08.vbird.centos:vbirddisk
+    System information:
+        Driver: iscsi
+        State: ready
+    I_T nexus information:
+        I_T nexus: 5
+<span class="term_write">            Initiator: iqn.2011-08.vbird.centos:initiator</span>
+            Connection: 0
+                IP Address: 192.168.100.10
+<span class="term_say">....(後面省略)....</span>
+</pre></td></tr></tbody></table>
+	</div>
+</div>
+
+
+<hr><a name="hint"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-m.gif" alt="大標題的圖示" width="25" height="34" align="middle"><span class="text_h1">18.4 重點回顧</span><br>
+<div class="block1">
+<ul class="text_import2">
+	<li>如果需要大容量的磁碟，通常會使用 RAID 磁碟陣列的架構；</li>
+	<li>取得外部磁碟容量的作法，主要有 NAS 及 SAN 兩大類的方式；</li>
+	<li>NAS 可以想成是一部已經客製化的伺服器，主要提供 NFS, SMB 等網路檔案系統；</li>
+	<li>SAN 則是一種外接是儲存設備，可以透過 SAN 取得外部的磁碟裝置 (非檔案系統)；</li>
+	<li>SAN 早期使用光纖通道，由於乙太網路的發展，近來使用 iSCSI 協定在 TCP/IP 架構上面實作；</li>
+	<li>iSCSI 協定主要分為 iSCSI target (提供磁碟裝置者) 及 iSCSI initiator (存取 target 磁碟)；</li>
+	<li>iSCSI target 主要使用 scsi-target-utils 軟體達成主要利用 tgt-admin 及 tgtadm 指令完成：</li>
+	<li>一般定義 target 名稱為：iqn.yyyy-mm.&lt;reversed domain name&gt;:identifier</li>
+	<li>一部 target 裡面可分享多個磁碟，每個磁碟都是一個 LUN；</li>
+	<li>iSCSI initiator 主要透過 iscsi-initiator-utils 軟體達成連結到 target 的任務；</li>
+	<li>iscsi-initiator-utils 主要提供 iscsiadm 來完成所有的動作。</li>
+</ul>
+</div>
+
+
+<hr><a name="ex"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-m.gif" alt="大標題的圖示" width="25" height="34" align="middle"><span class="text_h1">18.5 本章習題</span><br>
+<div class="block1">
+<ul>
+	<li>由於網路磁碟機的運作是需要很好的網路品質才行，我們這裡僅在測試，因此，請將 client 端的 initiator 關閉，
+	否則，未來開機都會怪怪的！(chkconfig iscsi off; vim /etc/fstab 等等的動作！)</li>
+</ul>
+</div>
+
+
+<hr><a name="reference"></a><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/penguin-m.gif" alt="大標題的圖示" width="25" height="34" align="middle"><span class="text_h1">18.6 參考資料與延伸閱讀</span><br>
+<div class="block1">
+<ul>
+	<li><a name="ps1"></a>註1：SAN 與 NAS 在維基百科：<a href="http://en.wikipedia.org/wiki/Storage_area_network" target="_blank">http://en.wikipedia.org/wiki/Storage_area_network</a></li>
+	<li><a name="ps2"></a>註2：FreeNAS 的官網：<a href="http://sourceforge.net/projects/freenas/" target="_blank">http://sourceforge.net/projects/freenas/</a></li>
+	<li><a name="ps3"></a>註3：鳥站網友彥明兄對 iSCSI 的說明文件：<br>
+		<a href="http://linux.vbird.org/somepaper/20081205-rhel4-iscsi.pdf" target="_blank">http://linux.vbird.org/somepaper/20081205-rhel4-iscsi.pdf</a></li>
+	<li><a name="ps4"></a>註4：幾個常見的將 Linux 模擬成 iSCSI target 與 initiator 的官網：<br>
+		Linux SCSI target framework (tgt)：<a href="http://stgt.sourceforge.net/" target="_blank">http://stgt.sourceforge.net/</a><br>
+		Linux-iSCSI Project：<a href="http://linux-iscsi.sourceforge.net/" target="_blank">http://linux-iscsi.sourceforge.net/</a><br>
+		Open-iSCSI：<a href="http://www.open-iscsi.org/" target="_blank">http://www.open-iscsi.org/</a></li>
+	<li><a name="ps5"></a>註5：iSCSI 內的 iqn 及 LUN 意義說明：<a href="http://en.wikipedia.org/wiki/ISCSI" target="_blank">http://en.wikipedia.org/wiki/ISCSI</a></li>
+	<li><a name="ps6"></a>註6：鳥站之友彥明兄提供的良好文獻，以及相關的 initiator 設定方式：<br>
+		<a href="http://linux.vbird.org/somepaper/20081205-rhel5-iscsi.pdf" target="_blank">http://linux.vbird.org/somepaper/20081205-rhel5-iscsi.pdf</a><br>
+		iSCSI (client) howto：<a href="http://www.cyberciti.biz/tips/rhel-centos-fedora-linux-iscsi-howto.html" target="_blank">http://www.cyberciti.biz/tips/rhel-centos-fedora-linux-iscsi-howto.html</a><br>
+		鳥站舊版資料：<a href="http://linux.vbird.org/linux_basic/0610hardware/0610hardware-fc4.php#raid_iscsi" target="_blank">http://linux.vbird.org/linux_basic/0610hardware/0610hardware-fc4.php#raid_iscsi</a></li>
+	<li><a href="http://rhev-wiki.org/index.php?title=RHEL_5.5/CentOS_5.5_iSCSI_Storage_Server" target="_blank">http://rhev-wiki.org/index.php?title=RHEL_5.5/CentOS_5.5_iSCSI_Storage_Server</a></li>
+</ul>
+</div>
+
+
+<hr><span class="text_history">
+2011/04/08：重新編輯本資料哩！<br>
+2011/04/25：歷經多個禮拜的雜事雜務纏身，終於完成這篇 iSCSI 的模擬應用。應該是挺好玩的一個咚咚～<br>
+2011/08/02：將基於 CentOS 5.x 的版本移動到<a href="http://linux.vbird.org/linux_server/0460iscsi/0460iscsi-centos5.php">此處</a><br>
+2012/11/13：重點回顧的部分，將 NAS 誤植為 NAT 了！感謝網友 ci-jhe Lin 兄來信告知！^_^<br>
+</span>
+<hr><span class="text_date">2011/04/25以來統計人數</span><br>
+<img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/Count.gif" alt="計數器" title="計數器" style="display: none !important;" width="60" height="15" align="middle"><br>
+    </td>
+    <td style="width:16px; font-size:6px;
+	background-image:url('http://linux.vbird.org/images/border-middle-right.jpg')">　</td></tr>
+<tr><td style="width:16px; height:16px; background-image:url('http://linux.vbird.org/images/border-bottom-left.jpg');
+        font-size:6px">　</td>
+    <td style="width:750px; height:16px; font-size:6px;
+        background-image:url('http://linux.vbird.org/images/border-bottom-center.jpg')">　</td>
+    <td style="width:16px; height:16px; background-image:url('http://linux.vbird.org/images/border-bottom-right.jpg');
+        font-size:6px">　</td></tr>
+</tbody></table>
+
+<div style="padding-top:0px; text-align:center">
+| <a href="http://linux.vbird.org/" target="_top" title="前往鳥哥的 Linux 私房菜首頁" style="font-size: 10pt">繁體主站</a> |
+<a href="http://vbird.dic.ksu.edu.tw/" target="_blank" title="前往鳥哥的 Linux 私房菜首頁" style="font-size: 10pt">簡體主站</a> |
+<a href="http://linux.vbird.org/linux_basic/" title="Linux 基礎學習篇，從頭學習 Linux" style="font-size: 10pt">基礎篇</a> |
+<a href="http://linux.vbird.org/linux_server/" title="Linux 伺服器架設篇" style="font-size: 10pt">伺服器</a> |
+<a href="http://linux.vbird.org/linux_enterprise/" title="Linux 企業應用篇" style="font-size: 10pt">企業應用</a> |
+<a href="http://linux.vbird.org/linux_desktop/" title="Linux 桌面應用篇" style="font-size: 10pt">桌面應用</a> |
+<a href="http://linux.vbird.org/linux_security/" title="Linux 安全管理篇" style="font-size: 10pt">安全管理</a> |
+<a href="http://phorum.vbird.org/" target="_blank" title="鳥站新手討論板" style="font-size: 10pt">討論板</a> |
+<a href="http://phorum.study-area.org/" target="_blank" title="酷！學園討論板" style="font-size: 10pt">酷學園</a> |
+<a href="http://linux.vbird.org/book/" title="書籍戡誤" style="font-size: 10pt">書籍戡誤</a> |
+<a href="http://linux.vbird.org/vbird/" title="關於鳥哥的一些事情" style="font-size: 10pt">鳥哥我</a> |
+<a href="http://www.dic.ksu.edu.tw/" target="_blank" title="崑山資傳" style="font-size: 10pt">崑山資傳</a> |
+<br>
+<div style="padding:0; margin:0">
+    <a href="http://validator.w3.org/check?uri=referer" target="_blank"><img src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" title="Valid XHTML 1.0 Transitional" width="88" height="31" border="0"></a>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank"><img style="border:0;width:88px;height:31px" src="%E9%B3%A5%E5%93%A5%E7%9A%84%20Linux%20%E7%A7%81%E6%88%BF%E8%8F%9C%20--%20%E7%B6%B2%E8%B7%AF%E7%A3%81%E7%A2%9F%E8%A3%9D%E7%BD%AE%EF%BC%9AiSCSI%E4%BC%BA%E6%9C%8D%E5%99%A8_files/valid-css.gif" alt="Valid CSS!" title="Valid CSS!"></a>
+</div>
+<span style="font-size: 80%">
+	本網頁主要以 <a href="http://moztw.org/" target="_blank">firefox</a> 配合解析度 1024x768 作為設計依據<br>
+	<a href="http://linux.vbird.org/" target="_top" title="前往鳥哥的首頁">http://linux.vbird.org</a>
+	is designed by <a href="mailto:vbird@mail.vbird.idv.tw" title="聯絡鳥哥(我不要廣告信！)">VBird</a>
+		during 2001-2011. <a href="http://www.ksu.edu.tw/" target="_blank">ksu.edu</a></span>
+</div>
+</center>
+
+
+</body></html>

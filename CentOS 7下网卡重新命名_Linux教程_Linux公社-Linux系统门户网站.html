@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0048)http://www.linuxidc.com/Linux/2014-07/104537.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站</title>
+
+<link rel="icon" href="http://www.linuxidc.com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://www.linuxidc.com/favicon.ico" type="image/x-icon">
+<meta name="description" content="新装的CentOS 7网卡命名已经默认不像之前的那样了,而我自己又有点偏执狂的感觉...非要把他折腾成像之前5、6那样eth0...搜了N久没">
+<meta name="keywords" content="CentOS 7,CentOS网卡,CentOS 7下网卡重新命名,Linux,Linux教程,Linux系统,Linux安装,Ubuntu,Fedora,RedHat,SUSE,CentOS,红旗Linux">
+<link rel="canonical" href="http://www.linuxidc.com/Linux/2014-07/104537.htm">
+<meta name="generator" content="Linux公社">
+<meta name="generator" content="Linux">
+<link rel="stylesheet" href="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/style.css" type="text/css">
+<meta name="generator" content="专业的Linux网站">
+<script charset="utf-8" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/s.js.下载"></script><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/jquery.js.下载"></script>
+<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/iwms.js.下载"></script>
+<script type="text/javascript">iwms.urlPrefix="../../";</script>
+
+<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/show.js.下载"></script>
+<style>html #hm_t_undefined .hm-t-go-top {position:fixed;right:2px;bottom:2px;z-index:99998;cursor:pointer;width:40px;height:37px!important;text-align:center;white-space:normal;font-size:14px;line-height:17px;padding-top:3px;color:#fff;background:#404040;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAAAXCAYAAABH92JbAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExODA4M0UyNDA4ODdDRTZBQiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjc5RkRFNkI5ODMxMUUzQkZGNDhENEJFQjM2OTcyRiIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjc5RkRFNUI5ODMxMUUzQkZGNDhENEJFQjM2OTcyRiIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDI4MDExNzQwNzIwNjgxMTgwODNFMjQwODg3Q0U2QUIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMTgwODNFMjQwODg3Q0U2QUIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5HPYM5AAACC0lEQVR42uyZTSgEYRjH90NoqaVcpDblvKW2XOSkNh8H5Yac9sBBDqQokiJKSMpNTi5OPo6Ktsgu67JcUHIXWfK1u3b8Xx6Zxuzu+64dM83uv34zNfu8b8/8Z+d5P8YqSZLFJNLsRmyWvIRMKgVD4AhEwA3YAV0pzGwEqyAEwmAddIICHe7FqhnsdQM14FxKLj+ooFiGE2ykiD8GVbJ4I1ELAnTmasMODnAhpVcIFIMicMgRH6Z4IxnUAh4pP3Zu5TVpUOLXDJgWiB8wkEF9IK7IL07X05oUFLjpZ4JXQQOYYwfzafJcoDjVPqw43KE4lWtUTF+AQ8eBqQSsgTaO2E0apJ7URrdCDZOM62hQJfBzGmShOD+1+2XSiYaJ7utkkBsEgEewnYfauZUmzWmU6DuY0sEgLzgArgzbu6i992cu/1WclqXsa1iHIt0DYlnKP0b9fRZu5pWdZs7dWXqa7B80+s//oF5aMSjflGqBPq5BQnFtVv4UmGHjIPEH96PAZ6C5kVMwf6daPzbFKnqCqvx9Bk/yFjSBFTMvcL+1DerAmUA/p9Rm1+y7AHJdgnqwx9EHm1s0gKtc2CpR6gE00/ZHMm3RKxbJlf0kNb2BDrCk8hsbDdvBay5tuiUTGxL7waTs2iLw0YTR9BLZQRwDUVqwjuTS9q3VRB8C1OQUnM6UqdXX/IcADn0IMADs2AqDOPSutQAAAABJRU5ErkJggg==) no-repeat -42px center #666;*background-image:url(http://ecma.bdimg.com/holmes/t-popup-icons-png8.png);_position:absolute;_top:expression(eval(document.documentElement.scrollTop+(document.documentElement.clientHeight||document.body.clientHeight)-this.offsetHeight-2));}</style></head>
+<body>
+<div class="topBar">
+	<div class="twidth">
+	
+	<div style="float:right">
+		<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/language.js.下载"></script> <a id="StranLink" href="javascript:StranBody()" title="點擊以繁體中文方式浏覽">繁體</a>
+	</div>
+	
+	<div id="topUser">你好，游客 <a href="http://www.linuxidc.com/Linux/2014-07/104537.htm#" onclick="iwms.logPop()">登录</a>
+	<a href="http://www.linuxidc.com/memberreg.aspx" rel="nofollow">注册</a>
+	<a href="http://www.linuxidc.com/search.aspx" rel="nofollow">搜索</a>
+	</div>
+	</div>
+</div>
+<div class="twidth">
+<div id="sitehead">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<table width="100%">
+	<tbody><tr align="center"><td width="160">
+	<a href="http://www.linuxidc.com/"><img style="filter: chroma(color=#FFFFFF);" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/logo.jpg" alt="Linux公社" width="155" height="53" border="0"></a>
+	</td><td>
+	<div align="center"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux.js.下载"></script></div>
+	</td>
+	</tr></tbody></table>
+</div>
+</div>
+<div id="navbar">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<a href="http://www.linuxidc.com/index.htm" class="first">首页</a><a href="http://www.linuxidc.com/it/">Linux新闻</a><a href="http://www.linuxidc.com/Linuxit/" class="thisclass">Linux教程</a><a href="http://www.linuxidc.com/MySql/">数据库技术</a><a href="http://www.linuxidc.com/RedLinux/">Linux编程</a><a href="http://www.linuxidc.com/Apache/">服务器应用</a><a href="http://www.linuxidc.com/Unix/">Linux安全</a><a href="http://www.linuxidc.com/download/">Linux下载</a><a href="http://www.linuxidc.com/Linuxrz/">Linux认证</a><a href="http://www.linuxidc.com/theme/">Linux主题</a><a href="http://www.linuxidc.com/Linuxwallpaper/">Linux壁纸</a><a href="http://www.linuxidc.com/linuxsoft/">Linux软件</a><a href="http://www.linuxidc.com/digi/">数码</a><a href="http://www.linuxidc.com/mobile/">手机</a><a href="http://www.linuxidc.com/diannao/">电脑</a>
+
+</div>
+</div>
+
+<div id="navsub">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<a href="http://www.linuxidc.com/index.htm">首页</a> → <a href="http://www.linuxidc.com/Linuxit/">Linux教程</a>
+</div>
+</div>
+<div class="linuxe1"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linuxe1.js.下载"></script></div>
+<div class="linux1"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux1.js.下载"></script></div>
+<div class="linuxa"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linuxa.js.下载"></script></div>
+<div class="linuxa1"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linuxa1.js.下载"></script></div>
+<table id="middle" width="100%" cellspacing="0" cellpadding="0" style="table-layout:fixed">
+<tbody><tr valign="top"><td>
+
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<div class="moreR">
+			背景：<script type="text/javascript">WriteBg()</script><img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#EDF0F5" alt="#EDF0F5" onclick="ContentBg(&quot;#EDF0F5&quot;)"> <img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FAFBE6" alt="#FAFBE6" onclick="ContentBg(&quot;#FAFBE6&quot;)"> <img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FFF2E2" alt="#FFF2E2" onclick="ContentBg(&quot;#FFF2E2&quot;)"> <img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FDE6E0" alt="#FDE6E0" onclick="ContentBg(&quot;#FDE6E0&quot;)"> <img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#F3FFE1" alt="#F3FFE1" onclick="ContentBg(&quot;#F3FFE1&quot;)"> <img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#DAFAF3" alt="#DAFAF3" onclick="ContentBg(&quot;#DAFAF3&quot;)"> <img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#EAEAEF" alt="#EAEAEF" onclick="ContentBg(&quot;#EAEAEF&quot;)"> <img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FFF" alt="默认" onclick="ContentBg(&quot;&quot;)"> 
+		</div>
+		<span class="tt">阅读新闻</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm" id="bodyTd">
+		<div id="printBody" style="word-break:break-all;">
+			<div style="text-align:center"><h1 class="aTitle">CentOS 7下网卡重新命名</h1></div>
+			
+			<table width="97%" align="center">
+				<tbody><tr>
+				<td width="140">[日期：2014-07-22]</td>
+				<td align="center">来源：Linux社区&nbsp;
+				作者：xlogin </td>
+				<td width="160" align="right">[字体：<a href="javascript:ContentSize(16)">大</a> <a href="javascript:ContentSize(0)">中</a> <a href="javascript:ContentSize(12)">小</a>]
+				</td></tr>
+			</tbody></table>
+<div id="li_all">
+<div id="li_1"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux201.js.下载"></script></div>
+<div id="li_2"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux2.js.下载"></script></div>
+</div>
+			<div id="content" style="overflow-x: hidden; word-break: break-all;"><p>新装的<a href="http://www.linuxidc.com/topicnews.aspx?tid=14" target="_blank" title="CentOS">CentOS</a> 7网卡命名已经默认不像之前的那样了,而我自己又有点偏执狂的感觉...非要把他折腾成像之前5、6那样eth0...搜了N久没找到解决方法，后来在群里一吼，有朋友给出了解决方法的链接...感谢北京-德忠！</p>
+<p>CentOS 7改了很多地方，看来各位又得熟悉一段时间了，希望本文能够帮到跟我类似的朋友们。</p>
+<p>在CentOS 7上利用systemctl添加自定义系统服务 <a href="http://www.linuxidc.com/linux/2014-07/104487.htm">http://www.linuxidc.com/linux/2014-07/104487.htm</a></p>
+<p>CentOS 7.0下编译安装LNMP <a href="http://www.linuxidc.com/Linux/2014-07/104247.htm">http://www.linuxidc.com/Linux/2014-07/104247.htm</a></p>
+<p>CentOS 7.0体验与之前版本的不同 <a href="http://www.linuxidc.com/Linux/2014-07/104196.htm">http://www.linuxidc.com/Linux/2014-07/104196.htm</a></p>
+<p>CentOS 7 正式版发布下载 <a href="http://www.linuxidc.com/Linux/2014-07/104146.htm">http://www.linuxidc.com/Linux/2014-07/104146.htm</a></p>
+<p>U盘安装64位CentOS 6.5方法 <a href="http://www.linuxidc.com/Linux/2014-04/100035.htm">http://www.linuxidc.com/Linux/2014-04/100035.htm</a></p>
+<p>Win7安装64位CentOS 6.4双系统详细图文教程 <a href="http://www.linuxidc.com/Linux/2014-04/100032.htm">http://www.linuxidc.com/Linux/2014-04/100032.htm</a></p>
+<p>CentOS与Windows双系统安装注意事项记录 <a href="http://www.linuxidc.com/Linux/2014-05/101571.htm">http://www.linuxidc.com/Linux/2014-05/101571.htm</a></p>
+<p>UEFI+GPT安装Windows8和CentOS双系统 <a href="http://www.linuxidc.com/Linux/2014-05/101575.htm">http://www.linuxidc.com/Linux/2014-05/101575.htm</a></p>
+<p>Windows8.1和CentOS6.5双系统安装 <a href="http://www.linuxidc.com/Linux/2014-05/101581.htm">http://www.linuxidc.com/Linux/2014-05/101581.htm</a></p>
+<p>CentOS 5.6 Linux安装系统后的基本优化 <a href="http://www.linuxidc.com/Linux/2012-02/54504.htm">http://www.linuxidc.com/Linux/2012-02/54504.htm</a></p>
+<p><img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/14072220071509.jpg" alt="CentOS 7下网卡重新命名" align="center"><img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/14072220073237.jpg" alt="CentOS 7下网卡重新命名" align="center"></p>
+<p>编辑/etc/sysconfig/grub文件内容，下边是编辑前的文件内容：</p>
+<p><img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/14072220088897.jpg" alt="CentOS 7下网卡重新命名" align="center" width="705" vspace="5" style="cursor: pointer; display: block;"></p>
+<p>增加“net.ifnames=0 biosdevname=0”，编辑后的文件内容：</p>
+<p><img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/14072220089518.jpg" alt="CentOS 7下网卡重新命名" align="center" width="705" vspace="5" style="cursor: pointer; display: block;"></p>
+<p>执行：grub2-mkconfig -o /boot/grub2/grub.cfg</p>
+<p><img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/14072220089660.jpg" alt="CentOS 7下网卡重新命名" align="center" width="705" vspace="5" style="cursor: pointer; display: block;"></p>
+<p>然后重启系统后查看网卡名称：</p>
+<p><img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/14072220082406.jpg" alt="CentOS 7下网卡重新命名" align="center"></p>
+<p>参考文章，链接：<a href="http://www.linuxidc.com/Linux/2014-07/104538.htm">http://www.linuxidc.com/Linux/2014-07/104538.htm</a></p>
+<p>在CentOS 5的时候，我们习惯了eth0 这样的网络设备命名，在CentOS 6下，发现网络设备变成了em1 这样的命名。那时我们在安装的时候，给启动参数加上 biosdevname=0，就可以继续使用 eth0 这样的命名。</p>
+<p>到了CentOS 7的时候，原有的参数biosdevname=0不起作用了，网络设备变成了 eno1 这样的名称。如果你希望继续使用 eth0 这样的传统名称，那么在安装启动时加上参数：</p>
+<p>net.ifnames=0 biosdevname=0</p>
+<p>如果你已经安装完了，希望改成eth0这样的名称，那么需要：</p>
+<p>修改grub2启动参数</p>
+<p>vi /etc/sysconfig/grub</p>
+<p>GRUB_CMDLINE_LINUX=”rd.lvm.lv=vg0/swap vconsole.keymap=us crashkernel=auto&nbsp; vconsole.font=latarcyrheb-sun16 net.ifnames=0 biosdevname=0 rd.lvm.lv=vg0/usr rhgb quiet”</p>
+<p>grub2-mkconfig -o /boot/grub2/grub.cfg</p>
+<p>重新对 文件进行命名：</p>
+<p>/etc/sysconfig/network-scripts/ifcfg-*</p>
+<p>CentOS 7 这种变化的原因，是由于systemd 和 udev 引入了一种新的网络设备命名方式–一致网络设备命名（CONSISTENT NETWORK DEVICE NAMING） 。可以根据固件、拓扑、位置信息来设置固定名字，带来的好处是命名自动化，名字完全可预测，在硬件坏了以后更换也不会影响设备的命名，这样可以让硬件的更换无缝化。带来的不利是新的设备名称比传统的名称难以阅读。比如心得名称是enp5s0.</p>
+<p>详细的命名规则，请参见网络指南。</p>
+<p style="background: #ffffff; padding: 0px; border: 0px currentColor; color: #333333; line-height: 24px; font-family: Georgia, &#39;Bitstream Charter&#39;, serif; margin-top: 0px; margin-bottom: 24px; vertical-align: baseline; white-space: normal;">详细参见：</p>
+<ul class="list-paddingleft-2" style="list-style-type: square;">
+<li>
+<p><a style="margin: 0px; padding: 0px; border: 0px currentColor; color: #743399; vertical-align: baseline;" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/ch-Consistent_Network_Device_Naming.html" target="_blank">RHEL 7 网络指南</a></p>
+</li>
+<li>
+<p><a style="margin: 0px; padding: 0px; border: 0px currentColor; color: #743399; vertical-align: baseline;" href="https://bugzilla.redhat.com/show_bug.cgi?id=965718" target="_blank">红帽子BUG965718</a></p>
+</li>
+</ul>
+<p><span><span style="color: #ff0000;">更多CentOS相关信息见</span><a href="http://www.linuxidc.com/topicnews.aspx?tid=14" target="_self"><span style="color: #0000ff;">CentOS</span></a><span style="color: #ff0000;"> 专题页面 </span><span style="color: #0000ff;"><a title="CentOS" href="http://www.linuxidc.com/topicnews.aspx?tid=14" target="">http://www.linuxidc.com/topicnews.aspx?tid=14</a></span></span></p>
+<p><strong>本文永久更新链接地址</strong>：<a href="http://www.linuxidc.com/Linux/2014-07/104537.htm">http://www.linuxidc.com/Linux/2014-07/104537.htm</a></p><a href="http://www.linuxidc.com/" target="_blank"><img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/logo.gif" alt="linux" width="15" height="17"></a></div><a href="http://www.linuxidc.com/" target="_blank">
+<div class="linux3"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux3.js.下载"></script></div>
+<div class="linux302"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux302.js.下载"></script></div>		
+			
+			
+		</a></div><a href="http://www.linuxidc.com/" target="_blank">
+<div class="linuxfx"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/fx.js.下载"></script></div>	
+<div class="linux8"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux8.js.下载"></script></div>
+<div class="linux801"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux801.js.下载"></script></div>
+		</a><div class="nearNews"><a href="http://www.linuxidc.com/" target="_blank">
+			</a><div class="prevNews"><a href="http://www.linuxidc.com/" target="_blank"></a><a href="http://www.linuxidc.com/Linux/2014-07/104500.htm">Linux使用locate命令定位文件</a></div>
+			<div class="nextNews"><a href="http://www.linuxidc.com/Linux/2014-07/104538.htm">CentOS 7下网络设备命名</a></div>
+		</div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+<div class="linux809"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux809.js.下载"></script></div>
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">相关资讯</span> &nbsp; &nbsp; &nbsp;
+		<a href="http://www.linuxidc.com/search.aspx?where=nkey&amp;keyword=20663" target="_blank">CentOS网卡</a>&nbsp; <a href="http://www.linuxidc.com/search.aspx?where=nkey&amp;keyword=29811" target="_blank">CentOS 7</a>&nbsp; 
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<table width="100%"><tbody><tr><td width="50%" valign="top"><ul class="nl"><li><a href="http://www.linuxidc.com/Linux/2017-10/147649.htm" target="_blank">CentOS 7系统配置详解</a>&nbsp; <span class="gray">(<span class="time">今 19:15</span>)</span></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-04/142459.htm" target="_blank" title="VirtualBox虚拟机安装CentOS 7 及SSH访问、自启动等配置">VirtualBox虚拟机安装CentOS 7 及</a>&nbsp; <span class="gray">(04月03日)</span></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-12/138882.htm" target="_blank" title="CentOS 7 安装出现 /dev/root does not exits 导致无法安装的问题">CentOS 7 安装出现 /dev/root does</a>&nbsp; <span class="gray">(12/28/2016 08:29:02)</span></li>
+</ul></td><td width="50%" valign="top"><ul class="nl"><li><a href="http://www.linuxidc.com/Linux/2017-05/143881.htm" target="_blank">CentOS 7与以往版本的变化</a>&nbsp; <span class="gray">(05月17日)</span></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-02/140513.htm" target="_blank">CentOS 7 网卡命名修改为ethx格式</a>&nbsp; <span class="gray">(02月11日)</span></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-12/138369.htm" target="_blank" title="CentOS 7（1611） for ARM（armhfp）发布">CentOS 7（1611） for ARM（armhfp</a>&nbsp; <span class="gray">(12/15/2016 10:32:59)</span></li>
+</ul></td></tr></tbody></table>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+<div class="linux808"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux808.js.下载"></script></div>
+	
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">本文评论</span>
+		 	　　<a href="http://www.linuxidc.com/remark.aspx?id=104537" target="_blank">查看全部评论</a> <span class="gray">(0)</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<table width="100%" style="margin:6px">		
+		<tbody><tr><td width="50%">
+			<form action="http://www.linuxidc.com/Linux/2014-07/104537.htm" name="fmRemarkSt" onsubmit="return remark.post(this);">
+			<input type="hidden" value="1" name="face">
+			表情： <img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" alt="表情" class="face1" style="cursor:pointer;vertical-align:middle" onclick="remark.dispFace(this)" onmouseout="remark.hideFace()">
+			姓名： <input type="text" name="username" value="" maxlength="15" style="width:60px" class="inputbg" disabled="disabled">
+			<input type="checkbox" id="rmAnonymitySt" onclick="remark.anony(this)"><label for="rmAnonymitySt">匿名</label>
+			字数 <input type="text" id="bodyLen" size="3" readonly="readonly" style="border-width:0;background:transparent;vertical-align:middle" value="0">
+			<br>
+			<textarea name="body" cols="40" rows="4" onkeydown="remark.dispLen(this)" onkeyup="remark.handle(event,this);remark.dispLen(this)" style="width:39em;height:100px;margin:3px 0;overflow-y:auto"></textarea>
+				<br>
+		　　　<input type="checkbox" checked="checked" id="rmAgreeSt"><label for="rmAgreeSt">同意评论声明</label>
+		　　　<button type="submit" style="width:50px">发表</button>
+			</form><br>
+			评论声明
+			<ul style="list-style-type:square;margin:5px 0 0 1em;padding:0">
+			<li>尊重网上道德，遵守中华人民共和国的各项有关法律法规</li>
+			<li>承担一切因您的行为而直接或间接导致的民事或刑事法律责任</li>
+			<li>本站管理人员有权保留或删除其管辖留言中的任意内容</li>
+			<li>本站有权在网站内转载或引用您的评论</li>
+			<li>参与本评论即表明您已经阅读并接受上述条款</li>
+			</ul>
+		</td>
+		<td width="50%"><div class="linux799"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux799.js.下载"></script></div></td></tr>
+		</tbody></table>
+		<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/remark.js.下载"></script>
+		<script type="text/javascript">
+			remark.maxSize=500;
+			remark.minSize=2;
+			remark.sourceEle=$(document.fmRemarkSt).find("button").get(0);
+			iwms.vCode="CC74440A";
+			iwms.user.name.length==0 ? $i("rmAnonymitySt").click() : $i("rmAnonymitySt").form.username.value=iwms.user.name;
+		</script>
+		<div class="reCont" id="reContainer"></div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	
+</td><td width="300" valign="top">
+<div class="linux901"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux901.js.下载"></script></div>
+<div class="linux902"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux902.js.下载"></script></div>
+<div class="linux903"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux903.js.下载"></script></div>
+<div class="linux905"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux905.js.下载"></script></div>
+	
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">最新资讯</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<ul class="nl">
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147649.htm" target="_blank">CentOS 7系统配置详解</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147648.htm" target="_blank" title="一加将对 Oxygen OS 搜集的用户数据加以限制">一加将对 Oxygen OS 搜集的用户数据加以限</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147647.htm" target="_blank">CentOS6.x网络基础及常用配置</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147646.htm" target="_blank" title="CentOS6.x和CentOS7.x字符界面安装图形界面方法">CentOS6.x和CentOS7.x字符界面安装图形界面</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147645.htm" target="_blank">高可用flume-ng搭建</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147644.htm" target="_blank" title="HA 模式下的 Hadoop2.7.4+ZooKeeper3.4.10搭建">HA 模式下的 Hadoop2.7.4+ZooKeeper3.4.10</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147643.htm" target="_blank">Hadoop-2.7.4编译安装</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147642.htm" target="_blank">SSH公钥分发</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147641.htm" target="_blank">Hadoop动态删除节点</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-10/147640.htm" target="_blank">Hadoop 分布式集群搭建初入门</a></li>
+</ul>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	<div class="u70"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/u70.js.下载"></script></div>
+	<div class="u80"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/u80.js.下载"></script></div>
+	<div class="u90"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/u90.js.下载"></script></div>
+	<div class="space"></div>
+	<div id="pin" style="position: fixed; top: 0px;">
+	<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/pin.js.下载"></script><script async="" src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 右侧粘性自适应 -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5195587195407606" data-ad-slot="7669622914" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+	</div>
+</td></tr>
+</tbody></table>
+<div class="linux906"><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linux906.js.下载"></script></div>
+<div id="footer">
+<a href="http://www.linuxidc.com/aboutus.htm">Linux公社简介</a> - <a href="http://www.linuxidc.com/adsense.htm">广告服务</a> - <a href="http://www.linuxidc.com/sitemap.aspx">网站地图</a> - <a href="http://www.linuxidc.com/help.htm">帮助信息</a> - <a href="http://www.linuxidc.com/contactus.htm">联系我们</a><br>本站（LinuxIDC）所刊载文章不代表同意其说法或描述，仅为提供更多信息，也不构成任何建议。<br><script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/qq.js.下载"></script>主编：漏网的鱼 联系邮箱:<img src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/email.png" alt="" width="138" height="20"> (如有合作请联系)
+<br>
+<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/foot.js.下载"></script>本站带宽由[<font color="red">808.Ai</font>]友情提供<br>关注Linux，关注LinuxIDC.com，<font color="red">请向您的QQ好友宣传LinuxIDC.com</font>，多谢支持！
+<br>Copyright © 2006-2016　<a href="http://www.linuxidc.com/">Linux公社</a>　All rights reserved 沪ICP备15008072号-1号
+	<script type="text/javascript">iwms.aId=104537;$(function(){iwms.imgCont=$i('content');iwms.imgResize();InitContStyle();iwms.getVars();})</script>
+	
+</div>
+</div>
+<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linuxren1.js.下载"></script><script type="text/javascript">
+document.body.oncopy = function () { setTimeout( function () { var text = clipboardData.getData("text"); if (text) { text = text + "\r\n本篇文章来源于 Linux公社网站(www.linuxidc.com)  原文链接："+location.href; clipboardData.setData("text", text); } }, 100 ) }
+</script>
+
+<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linuxren2.js.下载"></script>
+<script type="text/javascript" src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/linuxren3.js.下载"></script><script src="./CentOS 7下网卡重新命名_Linux教程_Linux公社-Linux系统门户网站_files/h.js.下载" type="text/javascript"></script>
+
+<div id="hm_t_undefined" class="hm-t-container"><div class="hm-t-go-top" style="display: block;"></div></div></body></html>

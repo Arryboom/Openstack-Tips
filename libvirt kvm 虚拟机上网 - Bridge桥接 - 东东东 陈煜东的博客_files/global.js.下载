@@ -1,0 +1,133 @@
+jQuery(document).ready(function($) {
+
+
+	// toggle blog-menu
+	$(".nav-toggle").on("click", function(){
+		$(this).toggleClass("active");
+		$(".navigation").slideToggle(function (){
+			$(".navigation").css('overflow', 'visible');
+		});
+	});
+
+
+	// Load Flexslider
+    $(".flexslider").flexslider({
+        animation: "slide",
+        controlNav: false,
+        prevText: "Prev",
+        nextText: "Next",
+        smoothHeight: true
+    });
+
+
+	// Smooth scroll to the top
+    $('.tothetop').click(function(){
+        $("html, body").animate({ scrollTop: 0 }, 500);
+        return false;
+    });
+
+
+	// Add custom audio player
+	$('#audio-player').mediaelementplayer({
+	    alwaysShowControls: true,
+	    features: ['playpause','progress','volume'],
+	    audioVolume: 'horizontal',
+	    audioWidth: 1000,
+	    audioHeight: 100,
+	    autosizeProgress:false,
+	});
+
+
+	// resize videos after container
+	var vidSelector = "iframe, object, video";
+	var resizeVideo = function(sSel) {
+		$( sSel ).each(function() {
+			var $video = $(this),
+				$container = $video.parent(),
+				iTargetWidth = $container.width();
+
+			if ( !$video.attr("data-origwidth") ) {
+				$video.attr("data-origwidth", $video.attr("width"));
+				$video.attr("data-origheight", $video.attr("height"));
+			}
+
+			var ratio = iTargetWidth / $video.attr("data-origwidth");
+
+			$video.css("width", iTargetWidth + "px");
+			$video.css("height", ( $video.attr("data-origheight") * ratio ) + "px");
+		});
+	};
+
+	resizeVideo(vidSelector);
+
+	$(window).resize(function() {
+		resizeVideo(vidSelector);
+	});
+
+     jQuery(document).ready(function($){
+        return;
+        $.ajaxSetup({cache:false});
+        $(document).on("click"," a.can-ajax-link, a.post-link, .can-ajax-container a, #ajax-page-container a " ,function(e){
+        	console.log('111');
+        	if( $(this).attr('href').indexOf(WORDPRESS_HOME) < 0  ||
+        	   	$("#ajax-page-container").length != 1
+        	 ){
+        		return true;
+        	}
+
+            pageurl = $(this).attr('href');
+            NProgress.start();
+
+            $.get(pageurl, function(content) {
+                var html = jQuery('<div style="display:none">').html(content);
+                $("#ajax-page-container").replaceWith(html.find("#ajax-page-container"));
+                $("body").attr("class", html.find("body").attr("class") );
+
+
+                //evalScript(content);
+                NProgress.done();
+                var element=document.getElementsByTagName("body")[0];
+                element.appendChild(html[0]);
+                //html.appendTo("body").remove();
+            });
+            if(pageurl!=window.location) {
+                window.history.pushState({path: pageurl}, '', pageurl);
+            }
+
+            return false;
+        });
+    });
+
+
+
+function evalScript(content){
+    // 第一步：匹配加载的页面中是否含有js
+var regDetectJs = /<script(.|\n)*?>(.|\n|\r\n)*?<\/script>/ig;
+var jsContained = content.match(regDetectJs);
+
+// 第二步：如果包含js，则一段一段的取出js再加载执行
+if(jsContained) {
+    // 分段取出js正则
+    var regGetJS = /<script(.|\n)*?>((.|\n|\r\n)*)?<\/script>/im;
+
+    // 按顺序分段执行js
+    var jsNums = jsContained.length;
+    for (var i=0; i<jsNums; i++) {
+        var jsSection = jsContained[i].match(regGetJS);
+
+        if(jsSection[2]) {
+            if(window.execScript) {
+                // 给IE的特殊待遇
+                window.execScript(jsSection[2]);
+            } else {
+                // 给其他大部分浏览器用的
+                window.eval(jsSection[2]);
+            }
+        }
+    }
+}
+
+}
+
+
+});

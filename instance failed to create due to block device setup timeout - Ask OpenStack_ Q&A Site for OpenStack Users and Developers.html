@@ -1,0 +1,852 @@
+
+<!-- saved from url=(0200)https://webcache.googleusercontent.com/search?q=cache:QS6_710o2IYJ:https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/+&cd=1&hl=zh-CN&ct=clnk&gl=us -->
+<html xmlns="http://www.w3.org/1999/xhtml" class=" js history"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--<base href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/">--><base href="."><style type="text/css">body { margin-left:0;margin-right:0;margin-top:0; }#google-cache-hdr {background:#f5f5f5 !important;font:13px arial,sans-serif !important;text-align:left !important;color:#202020 !important;border:0 !important;margin:0 !important;border-bottom:1px solid #cecece !important;line-height:16px !important ;padding:16px 28px 24px 28px !important;}#google-cache-hdr * {display:inline !important;font:inherit !important;text-align:inherit !important;color:inherit !important;line-height:inherit !important;background:none !important;border:0 !important;margin:0 !important;padding:0 !important;letter-spacing:0 !important;}#google-cache-hdr a {text-decoration:none !important;color:#1a0dab !important;}#google-cache-hdr a:hover { text-decoration:underline !important; }#google-cache-hdr a:visited { color:#609 !important; }#google-cache-hdr div { display:block !important;margin-top:4px !important; }#google-cache-hdr b {font-weight:bold !important;display:inline-block !important;direction:ltr !important;}</style></head><body class="two-col user-messages question-page anon lang-en"><div id="google-cache-hdr" dir="ltr"><div>这是 Google 对 <a href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/" dir="ltr">https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/</a> 的缓存。 这是该网页在 2017年12月7日 13:28:51 GMT 的快照。 </div><div><a href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/" dir="ltr">当前页</a>在此期间可能已经更改。 <a href="http://support.google.com/websearch/bin/answer.py?hl=zh-CN&amp;p=cached&amp;answer=1687222">了解详情</a></div><div></div><div><span style="display:inline-block !important;margin-top:8px !important;margin-right:104px !important;white-space:nowrap !important;"><span style="margin-right:28px !important;"><span style="font-weight:bold !important;">完整版本</span></span><span style="margin-right:28px !important;"><a href="http://webcache.googleusercontent.com/search?q=cache:QS6_710o2IYJ:https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/&amp;num=1&amp;hl=zh-CN&amp;gl=us&amp;strip=1&amp;vwsrc=0">纯文字版本</a></span><span style="margin-right:28px !important;"><a href="http://webcache.googleusercontent.com/search?q=cache:QS6_710o2IYJ:https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/&amp;num=1&amp;hl=zh-CN&amp;gl=us&amp;strip=0&amp;vwsrc=1">查看源代码</a></span></span><span style="display:inline-block !important;margin-top:8px !important;color:#717171 !important;">提示：要在此页面上快速找到您的搜索字词，请按 <b>Ctrl+F</b> 或者 <b>⌘-F</b>（Mac），然后使用查找栏搜索。</span></div></div><div style="position:relative;">
+
+   <title>instance failed to create due to block device setup timeout - Ask OpenStack: Q&amp;A Site for OpenStack Users and Developers</title> <meta name="description" content="Hi, Im using Icehouse with Ceph over 1G network interfaces. When I try to create instance with some big volume on RBD storage backend it fails with errors in log 2015-04-16 20:32:26.820 37847 ERROR nova.compute.manager [req-c6e71f84-41bb-4e88-acf8-ea0e85e5473f 7f14a7553320496da7a577966ab3b809 6901ba9f2a134fddae41aa8ee0da7faf] [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] Instance failed block device setup 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] Traceback (most recent call last): 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] File &quot;/usr/lib/python2.7/dist-packages/nova/compute/manager.py&quot;, line 1708, in _prep_block_device 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] self.driver, self._await_block_device_map_created)) 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] File &quot;/usr/lib/python2.7/dist-packages/nova/virt/block_device.py&quot;, line 378, in attach_block_devices 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] map(_log_and_attach, block_device_mapping) 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] File &quot;/usr/lib/python2.7/dist-packages/nova/virt/block_device.py&quot;, line 376, in _log_and_attach 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] bdm.attach(*attach_args, **attach_kwargs) 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] File &quot;/usr/lib/python2.7/dist-packages/nova/virt/block_device.py&quot;, line 328, in attach 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] wait_func(context, vol[&#39;id&#39;]) 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] File &quot;/usr/lib/python2.7/dist-packages/nova/compute/manager.py&quot;, line 1163, in _await_block_device_map_created 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] attempts=attempts) 2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] VolumeNotCreated: Volume 074bc092-b674-4254-b546-b23725137e62 did not finish being created even after we waited 203 seconds or 180 attempts. I see creating block device in Ceph takes much more time then Nova waits. How can I tune this timeout and attempts number in Nova?">  <meta http-equiv="X-UA-Compatible" content="IE=EDGE"> <meta name="keywords" content=",Ask, OpenStack,forum,community,cloud,iaas"> <meta name="referrer" content="always"> <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"> <link rel="shortcut icon" href="https://ask.openstack.org/upfiles/favicon.ico"> <link rel="alternate" type="application/rss+xml" title="RSS feed from Ask OpenStack" href="https://ask.openstack.org/en/feeds/rss/"> <link href="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/style.css" rel="stylesheet" type="text/css"> <link href="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/extra.css" rel="stylesheet" type="text/css"> <link href="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/font-awesome.css" rel="stylesheet" type="text/css"> <link href="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/bootstrap.css" rel="stylesheet" type="text/css"> <!--
+Copyright 2013 OpenStack Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+--> <link href="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/css" rel="stylesheet" type="text/css"> <link rel="canonical" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/"> <link rel="stylesheet" type="text/css" href="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/wmd.css"> <script type="text/javascript" async="" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/ga.js.下载"></script><script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/modernizr.custom.js.下载"></script> <script type="text/javascript">
+    var askbot = {};
+    askbot['data'] = {};
+    askbot['data']['userIsAuthenticated'] = false;
+    askbot['data']['languageCode'] = 'en';
+    
+        askbot['data']['userReputation'] = 0;
+        askbot['data']['userEmail'] = null;
+        askbot['data']['userIsReadOnly'] = false;//in principle we allow anon users to start posting
+    
+    askbot['urls'] = {};
+    askbot['settings'] = {};
+    askbot['messages'] = {};
+    
+</script> <script type="text/javascript" src="https://ask.openstack.org/en/jsi18n/"></script> <script type="text/javascript">
+        /*<![CDATA[*/
+        //below is pure cross-browser javascript, no jQuery
+        askbot['data']['userIsThreadModerator'] = false;
+        askbot['data']['oldestAnswerId'] = 65371;
+        askbot['data']['threadIsClosed'] = false;
+        
+        (function(){
+
+            var hasClass = function(node, selector) {
+                var classes = (" " + node.className + " ").split(' ');
+                for (var i = 0; i < classes.length; i++) {
+                    if (classes[i] === selector) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            var findClosestParentByClassName = function(node, className) {
+                if (hasClass(node, className)) {
+                    return node;
+                }
+                if (node.nodeName === 'BODY') {
+                    return false;
+                } else {
+                    return findClosestParentByClassName(node.parentNode, className);
+                }
+            };
+
+            var findChildrenByClassName = function(node, className) {
+                var nodes = [];
+                var walk = function(node) {
+                    if (hasClass(node, className)) {
+                        nodes.push(node);
+                    }
+                    if (node.childNodes) {
+                        for (var i=0; i < node.childNodes.length; i++) {
+                            walk(node.childNodes[i]);
+                        }
+                    }
+                };
+                walk(node);
+                return nodes;
+            };
+
+            var getTextContent = function(node) {
+                var text = node.innerText || node.textContent;
+                if (text === undefined) {
+                    return '';
+                } else {
+                    return text;
+                }
+            };
+
+            var hasAttribute = function(node, attrName) {
+                if (node.hasAttribute) {
+                    return node.hasAttribute(attrName);
+                } else {
+                    return (!(!(node.getAttribute(attrName))));
+                }
+            };
+
+            var findChildByAttribute = function(node, attrName, attrVal) {
+                var children = node.childNodes;
+                for (var i = 0; i < children.length; i++) {
+                    var child = children[i];
+                    if (child.getAttribute(attrName) === attrVal) {
+                        return child;
+                    }
+                };
+                return null;
+            };
+
+            var postIsComment = function(postId) {
+                if (document.getElementById('comment-' + postId)) {
+                    return true;
+                }
+                return false;
+            };
+
+            var getPost = function(postId) {
+                return document.getElementById('post-id-' + postId);
+            }
+
+            var postIsQuestion = function(postId) {
+                var content = getPost(postId);
+                if (content) {
+                    if (hasClass(content, 'js-comment')) {
+                        return false;
+                    }
+                    if (findClosestParentByClassName(content, 'js-question')) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            var removeNode = function(node) {
+                node.parentNode.removeChild(node);
+            };
+
+            var trim = function(text) {
+                return text.replace(/^\s+|\s+$/g, '');
+            };
+
+            var data = askbot['data'];
+            var isAuthorOfPost = function(post_id) {
+                return (data['user_posts'] && data['user_posts'][post_id]);
+            };
+
+            if (data['userIsAuthenticated']){
+                var votes = {};
+                
+                data['user_votes'] = votes;
+                var posts = {};
+                
+                data['user_posts'] = posts;
+            }
+
+            function render_vote_buttons(post_type, post_id){
+                var upvote_btn = document.getElementById(
+                    post_type + '-img-upvote-' + post_id
+                );
+                var downvote_btn = document.getElementById(
+                    post_type + '-img-downvote-' + post_id
+                );
+                if (data['userIsAuthenticated']){
+                    if (post_id in data['user_votes']){
+                        var vote = data['user_votes'][post_id];
+                        if (vote == -1){
+                            var btn = downvote_btn;
+                        } else if (vote == 1){
+                            var btn = upvote_btn;
+                        } else {
+                            return;
+                        }
+                        if (post_type == 'comment'){
+                            btn.className = btn.className + ' upvoted';
+                        } else {
+                            btn.className = btn.className + ' on';
+                        }
+                    }
+                }
+            }
+
+            function hide_convert_answer_links(post_id){
+                var id1 = 'post-' + post_id + '-convert';//for repost as Q comment
+                var repostAsQuestionComment = document.getElementById(id1);
+                var id2 = 'post-' + post_id + '-repost-as-comment-under-previous-answer';
+                var repostAsPrevAnsComment = document.getElementById(id2);
+                var extraOptsList = repostAsQuestionComment.parentNode;
+                var extraOpts = extraOptsList.parentNode;
+
+                var isAuthenticated = data['userIsAuthenticated'];
+                var isMod = data['userIsAdminOrMod'];
+                if (isAuthenticated && (isMod || isAuthorOfPost(post_id))) {
+                    //still may need to hide because answer may be too long
+                    var answer_container = getPost(post_id);
+                    var answerBody = findChildrenByClassName(answer_container, 'post-body')[0];
+                    //todo: this is not reliable
+                    var answerBodyNodes = answerBody.childNodes;
+                    var answerElement = answerBodyNodes[answerBodyNodes.length - 1];
+                    if (trim(getTextContent(answerElement)).length > askbot['data']['maxCommentLength']) {
+                        repostAsQuestionComment.parentNode.removeChild(repostAsQuestionComment);
+                        repostAsPrevAnsComment.parentNode.removeChild(repostAsPrevAnsComment);
+                    } else if (parseInt(post_id) === data['oldestAnswerId']) {
+                        repostAsPrevAnsComment.parentNode.removeChild(repostAsPrevAnsComment);
+                    }
+                } else {
+                    repostAsQuestionComment.parentNode.removeChild(repostAsQuestionComment);
+                    repostAsPrevAnsComment.parentNode.removeChild(repostAsPrevAnsComment);
+                }
+
+                //if the whole control is empty - remove it
+                if (extraOptsList.getElementsByTagName('li').length === 0) {
+                    extraOpts.parentNode.removeChild(extraOpts);
+                }
+            }
+
+            function hidePublishAnswerLink(postId) {
+                if (data['userIsThreadModerator'] === false) {
+                    //hide publish/unpublish answer links
+                    var answerId = 'post-' + postId + '-publish';
+                    var pubBtn = document.getElementById(answerId);
+                    if (pubBtn) {
+                        removeNode(pubBtn);
+                    }
+                }
+            }
+
+            function remove_all_controls(post_id) {
+                var deleteBtn = document.getElementById('post-' + post_id + '-delete');
+                var controls = deleteBtn.parentNode;
+                if (controls.className == 'comment-content') {
+                    removeNode(deleteBtn);
+                    var convertLinks = findChildrenByClassName(controls, 'convert-comment');
+                    if (convertLinks.length) {
+                        removeNode(convertLinks[0]);
+                    }
+                    var editLinks = findChildrenByClassName(controls, 'edit');
+                    if (editLinks.length) {
+                        removeNode(editLinks[0]);
+                    }
+                } else {
+                    var buttons = controls.childNodes;
+                    var numButtons = buttons.length;
+                    for (var i = numButtons - 1; i >= 0; i--) {
+                        removeNode(buttons[i]);
+                    }
+                }
+            };
+
+            function render_post_controls(post_id, is_wiki){
+
+                //in this case remove all post controls
+                if (askbot['settings']['readOnlyModeEnabled'] === true) {
+                    remove_all_controls(post_id);
+                    return;
+                }
+
+                var deleteBtn = document.getElementById('post-' + post_id + '-delete');
+                var controls = deleteBtn.parentNode;
+                var mergeBtn = findChildrenByClassName(controls, 'question-merge');
+                if (mergeBtn.length === 1 && data['userIsThreadModerator'] === false) {
+                    removeNode(mergeBtn[0]);
+                }
+
+                if (data['userIsAdminOrMod']) {
+                    return;//all remaining functions stay on
+                }
+
+                
+
+                if (isAuthorOfPost(post_id)) {
+                    if (postIsQuestion(post_id) && 5) {
+                        if (data['userReputation'] < 1) {
+                            if (!data['userIsAdminOrMod']) {
+                                removeNode(deleteBtn);
+                            }
+                        }
+                    }
+                    //todo: remove edit button from older comments
+                    return;
+                }
+
+                if (//maybe remove "delete" button
+                    (data['userReputation'] <
+                    200) || data['userIsReadOnly']
+                ) {
+                    removeNode(deleteBtn);
+                }
+
+                var canFlagPosts = data['userReputation'] >= 5;
+                var flags = findChildrenByClassName(controls, 'question-flag');
+                if (flags.length > 0 && !canFlagPosts) {
+                    for (var i = 0; i < flags.length; i++) {
+                        removeNode(flags[i]);
+                    }
+                }
+                var closeBtn = findChildrenByClassName(controls, 'question-close');
+                if (
+                    closeBtn.length === 1 &&
+                    (
+                        (data['userReputation'] < 200) ||
+                        data['userIsReadOnly']
+                    )
+                ) {
+                    removeNode(closeBtn[0]);
+                }
+                var enoughRep = (data['userReputation'] >= 100 ||
+                        (is_wiki && data['userReputation'] >= 75));
+                if (//maybe remove "edit" button
+                    !enoughRep || data['userIsReadOnly']//only authors edit comments
+                ){
+                    var editBtns = findChildrenByClassName(getPost(post_id), 'js-edit');
+                    var numBtns = editBtns.length;
+                    for (var i=0; i<numBtns; i++) {
+                        removeNode(editBtns[i]);
+                    }
+                }
+                if (//maybe remove retag button
+                    (!isAuthorOfPost(post_id)) &&
+                    postIsQuestion(post_id) &&
+                    ((data['userReputation'] <
+                    50) ||
+                    data['userIsReadOnly'])
+                ){
+                    var retagBtn = document.getElementById('retag');
+                    if (retagBtn) {
+                        removeNode(retagBtn);
+                    }
+                }
+            }
+
+            function render_add_answer_button(){
+                var add_answer_btn = document.getElementById('add-answer-btn');
+                if (askbot['data']['userIsAuthenticated']){
+                    if (askbot['data']['userId'] == 5763){
+                        add_answer_btn.className += ' answer-own-question';
+                        add_answer_btn.setAttribute(
+                            'value',
+                            'Answer Your Own Question'
+                        )
+                    } else {
+                        add_answer_btn.setAttribute(
+                           'value',
+                           'Post Your Answer'
+                        )
+                    }
+                } else {
+                    add_answer_btn.setAttribute(
+                        'value',
+                        'Login/Signup to Post'
+                    );
+                }
+            }
+
+            function hide_convert_links() {
+                var isAuthenticated = data['userIsAuthenticated'];
+                var isMod = data['userIsAdminOrMod'];
+                if (isAuthenticated && isMod) {
+                    return;
+                }
+                var convertForms = findChildrenByClassName(document, 'convert-comment');
+                for (var i = 0; i < convertForms.length; i++) {
+                    //get comment id
+                    var form = convertForms[i];
+                    var idInput = findChildByAttribute(form, 'name', 'comment_id');
+                    var commentId = idInput.getAttribute('value');
+                    if (! isAuthorOfPost(commentId) ) {
+                        form.setAttribute('style', 'display:none;');
+                    }
+                }
+            }
+
+            askbot['functions'] = askbot['functions'] || {};
+            askbot['functions']['renderPostVoteButtons'] = render_vote_buttons;
+            askbot['functions']['renderPostControls'] = render_post_controls;
+            askbot['functions']['renderAddAnswerButton'] = render_add_answer_button;
+            askbot['functions']['hideConvertLinks'] = hide_convert_links;
+            askbot['functions']['hideConvertAnswerLinks'] = hide_convert_answer_links;
+            askbot['functions']['hidePublishAnswerLink'] = hidePublishAnswerLink;
+        })();
+        /*]]>*/
+    </script> <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17511903-1']);
+  _gaq.push(['_setDomainName', 'openstack.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script> <meta name="google-site-verification" content="KopbwK-gwQmiTVr-iZbHQxBlM7gRjd3RkuIyGNi4bJE">   <div class="notify" style=""> <div class="content-wrapper"> <p class="notification">First time here? Check out the <a href="https://ask.openstack.org/faq/">FAQ</a>!</p> <a id="closeNotify" onclick="notify.close(true)"></a> </div> </div> <!-- template header.html --> <div id="header" class="with-logo"> <div class="content-wrapper"> <div id="userToolsNav"> <span class="lang-nav dropdown-toggle"> <ul class="dropdown-menu"> <li> <a href="https://ask.openstack.org/zh/" data-lang="zh">Chinese</a> </li> </ul> <i class="fa fa-globe"></i> <span class="curr-lang">English</span> <span class="toggle">▼</span> </span> </div> <a id="logo" href="https://ask.openstack.org/en/questions/"><img src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/openstack-logo-full-padded_pcWgUcp.png" alt="Ask OpenStack logo"> </a> <div id="metaNav"> <!--
+Copyright 2013 OpenStack Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+--> <a class="signin" href="https://ask.openstack.org/en/account/signin/?next=/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/">Hi there! Please sign in</a> <a id="navTags" href="https://ask.openstack.org/en/tags/">tags</a> <a id="navUsers" href="https://ask.openstack.org/en/users/">users</a> <a id="navBadges" href="https://ask.openstack.org/en/badges/">badges</a> <a class="help" href="https://ask.openstack.org/en/help/" title="help">help</a> </div> <div class="clean"></div> </div> </div> <!-- end template header.html --> <!-- template secondary_header.html --> <div id="secondaryHeader"> <div class="content-wrapper"> <form action="https://ask.openstack.org/en/questions/" id="searchForm" class="scopes-True-True-False" method="get"> <table width="100%"> <tbody><tr> <td width="1"><a id="homeButton" href="https://ask.openstack.org/en/questions/"><i class="fa fa-home"></i></a></td> <td width="1"><div id="scopeNav"> <a class="scope-selector " href="https://ask.openstack.org/en/questions/scope:all/sort:activity-desc/page:1/">ALL</a> <a class="scope-selector " href="https://ask.openstack.org/en/questions/scope:unanswered/sort:answers-asc/page:1/">UNANSWERED</a> </div></td> <td width="*" class="search-bar"> <div id="searchBar" class="search-bar"><input class="searchInput" type="text" autocomplete="off" value="" name="query" placeholder="search or ask your question" id="keywords"><input type="submit" value="" name="search" class="searchBtn"><input type="button" value="X" name="reset_query" class="cancelSearchBtn" style="display: none;"></div> </td> <td width="1"> <a id="askButton" class="button" href="https://ask.openstack.org/en/questions/ask/">
+            Ask Your Question
+        </a> </td> </tr> </tbody></table> </form> </div> </div> <div class="content-wrapper"> <div id="ContentLeft"> <div class="post js-question" data-post-id="65282"> <div class="vote-buttons"> <div id="question-img-upvote-65282" class="question-img-upvote post-vote upvote"> </div> <div id="question-vote-number-65282" class="vote-number" title="current number of votes">1</div> <div id="question-img-downvote-65282" class="question-img-downvote post-vote downvote"> </div> <script type="text/javascript">
+    askbot['functions']['renderPostVoteButtons']('question', '65282');
+</script> <a class="twitter-share icon" title="Share this content on twitter"></a> <a class="facebook-share icon" title="Share this content on facebook"></a> <a class="linkedin-share icon" title="Share this content on linkedin"></a> <g:plusone size="small" count="false"></g:plusone> </div> <div id="post-id-65282" class="post-content"> <h1 class="js-editable" id="js-question-title-65282" data-get-text-url="/en/get-question-title/?question_id=65282" data-save-text-url="/en/set-question-title/?question_id=65282" data-save-text-param-name="title" data-validated-text-param-name="title" data-min-lines="1" data-editor-type="plain" data-validator="askbot.validators.titleValidator"><div class="js-error"></div> <div class="js-editable-content">instance failed to create due to block device setup timeout</div><div></div> <div class="js-editable-controls">  </div> </h1> <ul id="question-tags" class="tags post-tags tags"> <li> <div class="js-tag "><a class="js-tag-name" rel="tag" href="https://ask.openstack.org/en/questions/scope:all/sort:activity-desc/tags:icehouse/page:1/" data-tag-name="icehouse">icehouse</a></div> </li> <li> <div class="js-tag "><a class="js-tag-name" rel="tag" href="https://ask.openstack.org/en/questions/scope:all/sort:activity-desc/tags:block-device-mapping/page:1/" data-tag-name="block-device-mapping">block-device-mapping</a></div> </li> </ul> <div class="clearfix"></div> <div class="post-body"> <div class="js-editable-hide-post-body-65282"> <div class="post-update-info-container"> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/questions/65282/revisions/">asked <strong><abbr class="timeago" title="2015-04-16 12:43:43 -0600">
+        2015-04-16 12:43:43 -0600
+    </abbr></strong></a> </p> <div class="user-card"> <a class="js-avatar-box" href="https://ask.openstack.org/en/users/5763/brussels/"><img class="js-avatar gravatar" width="32" height="32" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/ea67d1fb60a4dff9d037a8a28c922713" title="brussels" alt="brussels gravatar image" style="max-width: 685px; height: auto;"></a> <div class="user-info"> <a href="https://ask.openstack.org/en/users/5763/brussels/">brussels</a> <br> <span class="reputation-score">41</span> <span class="badges" title="brussels has 4 gold badges, 5 silver badges and 6 bronze badges"> <span class="badge1">●</span><span class="badgecount">4</span> <span class="badge2">●</span><span class="badgecount">5</span> <span class="badge3">●</span><span class="badgecount">6</span> </span> </div> </div> </div> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/questions/65282/revisions/">updated <strong><abbr class="timeago" title="2015-04-18 13:33:42 -0600">
+        2015-04-18 13:33:42 -0600
+    </abbr></strong></a> </p> <div class="user-card"> <a class="js-avatar-box" href="https://ask.openstack.org/en/users/3070/sgpj/"><img class="js-avatar gravatar" width="32" height="32" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/8c34a130c70414d95a2fe7ea2db92da6" title="SGPJ" alt="SGPJ gravatar image" style="max-width: 685px; height: auto;"></a> <div class="user-info"> <a href="https://ask.openstack.org/en/users/3070/sgpj/">SGPJ</a> <img class="flag" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/in.gif" alt="flag of India" title="SGPJ is from India" style="max-width: 685px; height: auto;"> <br> <span class="reputation-score">11239</span> <span class="badges" title="SGPJ has 69 gold badges, 120 silver badges and 172 bronze badges"> <span class="badge1">●</span><span class="badgecount">69</span> <span class="badge2">●</span><span class="badgecount">120</span> <span class="badge3">●</span><span class="badgecount">172</span> </span> <a href="https://in.linkedin.com/in/spillaiy" title="SGPJ&#39;s website is https://in.linkedin.com/in/spillaiy">
+        https://in.linkedin.co...
+        </a> </div> </div> </div> </div> </div> <div class="js-editable" id="js-post-body-65282" data-get-text-url="/en/get-post-body/?post_id=65282" data-save-text-url="/en/set-post-body/?post_id=65282" data-save-text-param-name="body_text" data-validated-text-param-name="body_html" data-min-lines="10" data-editor-type="markdown" data-validator="askbot.validators.questionDetailsValidator"> <div class="js-editable-content"><p>Hi,
+Im using Icehouse with Ceph over 1G network interfaces. 
+When I try to create instance with some big volume on RBD storage backend it fails with errors in log</p> <pre><code>2015-04-16 20:32:26.820 37847 ERROR nova.compute.manager [req-c6e71f84-41bb-4e88-acf8-ea0e85e5473f 7f14a7553320496da7a577966ab3b809 6901ba9f2a134fddae41aa8ee0da7faf] [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] Instance failed block device setup
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] Traceback (most recent call last):
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]   File "/usr/lib/python2.7/dist-packages/nova/compute/manager.py", line 1708, in _prep_block_device
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]     self.driver, self._await_block_device_map_created))
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]   File "/usr/lib/python2.7/dist-packages/nova/virt/block_device.py", line 378, in attach_block_devices
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]     map(_log_and_attach, block_device_mapping)
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]   File "/usr/lib/python2.7/dist-packages/nova/virt/block_device.py", line 376, in _log_and_attach
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]     bdm.attach(*attach_args, **attach_kwargs)
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]   File "/usr/lib/python2.7/dist-packages/nova/virt/block_device.py", line 328, in attach
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]     wait_func(context, vol['id'])
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]   File "/usr/lib/python2.7/dist-packages/nova/compute/manager.py", line 1163, in _await_block_device_map_created
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58]     attempts=attempts)
+2015-04-16 20:32:26.820 37847 TRACE nova.compute.manager [instance: e0fb3b5b-557b-4015-bab3-e95b9e2f2b58] VolumeNotCreated: Volume 074bc092-b674-4254-b546-b23725137e62 did not finish being created even after we waited 203 seconds or 180 attempts.
+</code></pre> <p>I see creating block device in Ceph takes much more time then Nova waits.
+How can I tune this timeout and attempts number in Nova? </p> </div> <div class="js-editable-controls"></div> </div> </div> <div id="question-controls" class="post-controls">   <span id="question-offensive-flag-65282" class="offensive-flag" title="report as offensive (i.e containing spam, advertising, malicious text, etc.)">  </span>    <script type="text/javascript">
+    askbot['functions']['renderPostControls']('65282');
+</script> </div> <h2 class="comment-title">Comments</h2><div class="clean"></div><div class="comments ordering-forward" data-parent-post-type="question" data-parent-post-id="65282"><div class="content"><div id="post-id-65290" class="comment js-comment" data-post-id="65290"><div class="comment-votes"><div id="comment-img-upvote-65290" class="upvote js-score"></div><script type="text/javascript">
+                askbot['functions']['renderPostVoteButtons']('comment', '65290');
+            </script></div><div class="comment-content"><div class="comment-body"><p>what's the current status of your ceph cluster? 'ceph -s' , 'rados df' and 'ceph osd tree' output could possibly help.</p></div><div class="comment-controls"><a class="js-avatar-box" href="https://ask.openstack.org/en/users/9425/omar-munoz/"><img class="js-avatar gravatar" width="16" height="16" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/8b767b9eaa68c77ae3aa0900f2251a91" title="omar-munoz" alt="omar-munoz gravatar image"></a><a class="author" href="https://ask.openstack.org/en/users/9425/omar-munoz/">omar-munoz</a><span class="age">&nbsp;(<abbr class="timeago" title="2015-04-16 19:29:45 -0600">
+        2015-04-16 19:29:45 -0600
+    </abbr>)</span><form action="https://ask.openstack.org/en/comment/convert/" method="POST" accept-charset="utf-8" class="convert-comment" style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="gS27Sa6zucGf9mueb808UUPbo9rsRMzq"><input type="hidden" value="65290" name="comment_id"><input type="submit" value="convert to answer"></form></div></div></div><script type="text/javascript">
+        askbot['functions']['hideConvertLinks']();
+        askbot['functions']['renderPostControls']('65290');
+    </script><div id="post-id-65313" class="comment js-comment" data-post-id="65313"><div class="comment-votes"><div id="comment-img-upvote-65313" class="upvote js-score"></div><script type="text/javascript">
+                askbot['functions']['renderPostVoteButtons']('comment', '65313');
+            </script></div><div class="comment-content"><div class="comment-body"><p>Ceph is ok and as I said problem is only with time it takes to download large images to/from ceph. This issue is connected to known bug #1332382. Sad to know its fixed only in latest versions and I need to manually fix this value in Python code now on all my compute nodes.</p></div><div class="comment-controls"><a class="js-avatar-box" href="https://ask.openstack.org/en/users/5763/brussels/"><img class="js-avatar gravatar" width="16" height="16" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/ea67d1fb60a4dff9d037a8a28c922713(1)" title="brussels" alt="brussels gravatar image"></a><a class="author" href="https://ask.openstack.org/en/users/5763/brussels/">brussels</a><span class="age">&nbsp;(<abbr class="timeago" title="2015-04-17 03:15:32 -0600">
+        2015-04-17 03:15:32 -0600
+    </abbr>)</span><form action="https://ask.openstack.org/en/comment/convert/" method="POST" accept-charset="utf-8" class="convert-comment" style="display:none;"><input type="hidden" name="csrfmiddlewaretoken" value="gS27Sa6zucGf9mueb808UUPbo9rsRMzq"><input type="hidden" value="65313" name="comment_id"><input type="submit" value="convert to answer"></form></div></div></div><script type="text/javascript">
+        askbot['functions']['hideConvertLinks']();
+        askbot['functions']['renderPostControls']('65313');
+    </script></div><div class="controls"><a class="js-open-editor-btn">add a comment</a></div></div> </div> </div> <div class="clean"></div> <div class="tabBar tabBar-answer"> <h2 id="questionCount">
+        5 answers
+    </h2> <div class="tabsA"> <span class="label">
+                    Sort by »
+                    </span> <a id="oldest" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/?sort=oldest#sort-top"><span>oldest</span></a> <a id="latest" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/?sort=latest#sort-top"><span>newest</span></a> <a id="votes" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/?sort=votes#sort-top"><span>most voted</span></a> </div> </div> <div class="clean"></div> <div class="pager"> </div> <div class="clean"></div> <a name="103731"></a> <div id="post-id-103731" data-post-id="103731" class="post answer   "> <div class="vote-buttons"> <div id="answer-img-upvote-103731" class="answer-img-upvote post-vote upvote"> </div> <div id="answer-vote-number-103731" class="vote-number" title="current number of votes">0</div> <div id="answer-img-downvote-103731" class="answer-img-downvote post-vote downvote"> </div> <script type="text/javascript">
+    askbot['functions']['renderPostVoteButtons']('answer', '103731');
+</script> <div id="answer-img-accept-103731" class="answer-img-accept" title="mark this answer as correct (click again to undo)"></div> </div> <div class="post-content"> <div class="post-body"> <div class="js-editable-hide-post-body-103731"> <div class="post-update-info-container"> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/answers/103731/revisions/">answered <strong><abbr class="timeago" title="2017-03-05 20:49:21 -0600">
+        2017-03-05 20:49:21 -0600
+    </abbr></strong></a> </p> <div class="user-card"> <a class="js-avatar-box" href="https://ask.openstack.org/en/users/16770/gray13/"><img class="js-avatar gravatar" width="32" height="32" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/deff28475f75ed709536cb8255c99a39" title="gray13" alt="gray13 gravatar image" style="max-width: 685px; height: auto;"></a> <div class="user-info"> <a href="https://ask.openstack.org/en/users/16770/gray13/">gray13</a> <br> <span class="reputation-score">1</span> <span class="badges" title="gray13 has one silver badge and one bronze badge"> <span class="badge2">●</span><span class="badgecount">1</span> <span class="badge3">●</span><span class="badgecount">1</span> </span> <a href="http://wenwen.rocks/" title="gray13&#39;s website is http://wenwen.rocks/" rel="nofollow">
+        http://wenwen.rocks/
+        </a> </div> </div> </div> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/answers/103731/revisions/">updated <strong><abbr class="timeago" title="2017-03-05 20:49:37 -0600">
+        2017-03-05 20:49:37 -0600
+    </abbr></strong></a> </p> </div> </div> </div> <div class="js-editable" id="js-post-body-103731" data-get-text-url="/en/get-post-body/?post_id=103731" data-save-text-url="/en/set-post-body/?post_id=103731" data-save-text-param-name="body_text" data-validated-text-param-name="body_html" data-min-lines="10" data-editor-type="markdown" data-validator="askbot.validators.answerValidator"> <div class="js-editable-content"><p>Hi all,
+  I tried to change the value in nova.conf of nova-controller node but it dosent work in icehouse version.
+The only way to fix it in my env is to change the value of the /usr/lib/python2.7/dist-packages/nova/compute/manager.py </p> <p>if anyone has idea about it..kindly help to update. </p> </div> <div class="js-editable-controls"></div> </div> </div> <div class="answer-controls post-controls"> <span class="action-link">  </span> <span id="answer-offensive-flag-103731" class="action-link offensive-flag" title="report as offensive (i.e containing spam, advertising, malicious text, etc.)">  </span>  <span class="action-link"> <a class="permant-link" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/?answer=103731#post-id-103731" title="permanent link">
+        link
+    </a> </span>  <script type="text/javascript">
+    askbot['functions']['hideConvertAnswerLinks']('103731');
+    askbot['functions']['hidePublishAnswerLink']('103731');
+    askbot['functions']['renderPostControls']('103731');
+</script> </div> <div class="comments empty ordering-forward" data-parent-post-type="answer" data-parent-post-id="103731"><div class="content"></div><div class="controls"><a class="js-open-editor-btn">add a comment</a></div></div> </div> <div class="clean"></div> </div> <div class="clean"></div> <a name="98482"></a> <div id="post-id-98482" data-post-id="98482" class="post answer   "> <div class="vote-buttons"> <div id="answer-img-upvote-98482" class="answer-img-upvote post-vote upvote"> </div> <div id="answer-vote-number-98482" class="vote-number" title="current number of votes">0</div> <div id="answer-img-downvote-98482" class="answer-img-downvote post-vote downvote"> </div> <script type="text/javascript">
+    askbot['functions']['renderPostVoteButtons']('answer', '98482');
+</script> <div id="answer-img-accept-98482" class="answer-img-accept" title="mark this answer as correct (click again to undo)"></div> </div> <div class="post-content"> <div class="post-body"> <div class="js-editable-hide-post-body-98482"> <div class="post-update-info-container"> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/answers/98482/revisions/">answered <strong><abbr class="timeago" title="2016-11-01 00:45:53 -0600">
+        2016-11-01 00:45:53 -0600
+    </abbr></strong></a> </p> <div class="user-card"> <a class="js-avatar-box" href="https://ask.openstack.org/en/users/18055/jiasir/"><img class="js-avatar gravatar" width="32" height="32" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/b1b68f416d0c00c4ec6334defe59f082" title="jiasir" alt="jiasir gravatar image" style="max-width: 685px; height: auto;"></a> <div class="user-info"> <a href="https://ask.openstack.org/en/users/18055/jiasir/">jiasir</a> <br> <span class="reputation-score">1</span> <span class="badges" title=""> </span> </div> </div> </div> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/answers/98482/revisions/">updated <strong><abbr class="timeago" title="2016-11-01 00:48:46 -0600">
+        2016-11-01 00:48:46 -0600
+    </abbr></strong></a> </p> </div> </div> </div> <div class="js-editable" id="js-post-body-98482" data-get-text-url="/en/get-post-body/?post_id=98482" data-save-text-url="/en/set-post-body/?post_id=98482" data-save-text-param-name="body_text" data-validated-text-param-name="body_html" data-min-lines="10" data-editor-type="markdown" data-validator="askbot.validators.answerValidator"> <div class="js-editable-content"><p>Increase the block device mapping timeout:</p> <blockquote> <p>Blockquote
+  block_device_allocate_retries = 60 (default) to 300</p> <p>Blockquote
+  block_device_allocate_retries_interval = 3(default) to 10 </p> <p>Blockquote
+  block_device_creation_timeout = 10(default) to 300</p> </blockquote> </div> <div class="js-editable-controls"></div> </div> </div> <div class="answer-controls post-controls"> <span class="action-link">  </span> <span id="answer-offensive-flag-98482" class="action-link offensive-flag" title="report as offensive (i.e containing spam, advertising, malicious text, etc.)">  </span>  <span class="action-link"> <a class="permant-link" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/?answer=98482#post-id-98482" title="permanent link">
+        link
+    </a> </span>  <script type="text/javascript">
+    askbot['functions']['hideConvertAnswerLinks']('98482');
+    askbot['functions']['hidePublishAnswerLink']('98482');
+    askbot['functions']['renderPostControls']('98482');
+</script> </div> <div class="comments empty ordering-forward" data-parent-post-type="answer" data-parent-post-id="98482"><div class="content"></div><div class="controls"><a class="js-open-editor-btn">add a comment</a></div></div> </div> <div class="clean"></div> </div> <div class="clean"></div> <a name="65378"></a> <div id="post-id-65378" data-post-id="65378" class="post answer   "> <div class="vote-buttons"> <div id="answer-img-upvote-65378" class="answer-img-upvote post-vote upvote"> </div> <div id="answer-vote-number-65378" class="vote-number" title="current number of votes">0</div> <div id="answer-img-downvote-65378" class="answer-img-downvote post-vote downvote"> </div> <script type="text/javascript">
+    askbot['functions']['renderPostVoteButtons']('answer', '65378');
+</script> <div id="answer-img-accept-65378" class="answer-img-accept" title="mark this answer as correct (click again to undo)"></div> </div> <div class="post-content"> <div class="post-body"> <div class="js-editable-hide-post-body-65378"> <div class="post-update-info-container"> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/answers/65378/revisions/">answered <strong><abbr class="timeago" title="2015-04-18 19:08:55 -0600">
+        2015-04-18 19:08:55 -0600
+    </abbr></strong></a> </p> <div class="user-card"> <a class="js-avatar-box" href="https://ask.openstack.org/en/users/9244/sfcloudman/"><img class="js-avatar gravatar" width="32" height="32" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/dc24d5cef77773092422b2d2d238c2ad" title="sfcloudman" alt="sfcloudman gravatar image" style="max-width: 685px; height: auto;"></a> <div class="user-info"> <a href="https://ask.openstack.org/en/users/9244/sfcloudman/">sfcloudman</a> <img class="flag" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/us.gif" alt="flag of United States of America" title="sfcloudman is from United States of America" style="max-width: 685px; height: auto;"> <br> <span class="reputation-score">1368</span> <span class="badges" title="sfcloudman has 8 silver badges and 19 bronze badges"> <span class="badge2">●</span><span class="badgecount">8</span> <span class="badge3">●</span><span class="badgecount">19</span> </span> <a href="https://twitter.com/sfcloudman" title="sfcloudman&#39;s website is https://twitter.com/sfcloudman">
+        https://twitter.com/sf...
+        </a> </div> </div> </div> </div> </div> <div class="js-editable" id="js-post-body-65378" data-get-text-url="/en/get-post-body/?post_id=65378" data-save-text-url="/en/set-post-body/?post_id=65378" data-save-text-param-name="body_text" data-validated-text-param-name="body_html" data-min-lines="10" data-editor-type="markdown" data-validator="askbot.validators.answerValidator"> <div class="js-editable-content"><p>You can and should configure block device timeout on nova-compute.</p> <p>In novative.conf on compute:</p> <pre><code>block_device_allocate_retries=600
+block_device_allocate_retries_interval=1
+</code></pre> <p>The above setting will force nova to wait up to 600 seconds checking every second.</p> <p>The default retries is set to 180 I think. Set it higher if needed than 600 if you want to support larger images as they can take more time to copy.</p> </div> <div class="js-editable-controls"></div> </div> </div> <div class="answer-controls post-controls"> <span class="action-link">  </span> <span id="answer-offensive-flag-65378" class="action-link offensive-flag" title="report as offensive (i.e containing spam, advertising, malicious text, etc.)">  </span>  <span class="action-link"> <a class="permant-link" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/?answer=65378#post-id-65378" title="permanent link">
+        link
+    </a> </span>  <script type="text/javascript">
+    askbot['functions']['hideConvertAnswerLinks']('65378');
+    askbot['functions']['hidePublishAnswerLink']('65378');
+    askbot['functions']['renderPostControls']('65378');
+</script> </div> <div class="comments empty ordering-forward" data-parent-post-type="answer" data-parent-post-id="65378"><div class="content"></div><div class="controls"><a class="js-open-editor-btn">add a comment</a></div></div> </div> <div class="clean"></div> </div> <div class="clean"></div> <a name="65371"></a> <div id="post-id-65371" data-post-id="65371" class="post answer   "> <div class="vote-buttons"> <div id="answer-img-upvote-65371" class="answer-img-upvote post-vote upvote"> </div> <div id="answer-vote-number-65371" class="vote-number" title="current number of votes">0</div> <div id="answer-img-downvote-65371" class="answer-img-downvote post-vote downvote"> </div> <script type="text/javascript">
+    askbot['functions']['renderPostVoteButtons']('answer', '65371');
+</script> <div id="answer-img-accept-65371" class="answer-img-accept" title="mark this answer as correct (click again to undo)"></div> </div> <div class="post-content"> <div class="post-body"> <div class="js-editable-hide-post-body-65371"> <div class="post-update-info-container"> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/answers/65371/revisions/">answered <strong><abbr class="timeago" title="2015-04-18 12:11:12 -0600">
+        2015-04-18 12:11:12 -0600
+    </abbr></strong></a> </p> <div class="user-card"> <a class="js-avatar-box" href="https://ask.openstack.org/en/users/10436/dodi/"><img class="js-avatar gravatar" width="32" height="32" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/be72eaf9b56eceb7c9c990959e161ca6" title="dodi" alt="dodi gravatar image" style="max-width: 685px; height: auto;"></a> <div class="user-info"> <a href="https://ask.openstack.org/en/users/10436/dodi/">dodi</a> <img class="flag" src="https://ask.openstack.org/m/default/media/images/flags/ca.gif?v=8" alt="flag of Canada" title="dodi is from Canada" style="max-width: 685px; height: auto;"> <br> <span class="reputation-score">31</span> <span class="badges" title="dodi has one gold badge, 2 silver badges and 2 bronze badges"> <span class="badge1">●</span><span class="badgecount">1</span> <span class="badge2">●</span><span class="badgecount">2</span> <span class="badge3">●</span><span class="badgecount">2</span> </span> </div> </div> </div> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/answers/65371/revisions/">updated <strong><abbr class="timeago" title="2015-04-18 13:34:05 -0600">
+        2015-04-18 13:34:05 -0600
+    </abbr></strong></a> </p> <div class="user-card"> <a class="js-avatar-box" href="https://ask.openstack.org/en/users/3070/sgpj/"><img class="js-avatar gravatar" width="32" height="32" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/8c34a130c70414d95a2fe7ea2db92da6" title="SGPJ" alt="SGPJ gravatar image" style="max-width: 685px; height: auto;"></a> <div class="user-info"> <a href="https://ask.openstack.org/en/users/3070/sgpj/">SGPJ</a> <img class="flag" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/in.gif" alt="flag of India" title="SGPJ is from India" style="max-width: 685px; height: auto;"> <br> <span class="reputation-score">11239</span> <span class="badges" title="SGPJ has 69 gold badges, 120 silver badges and 172 bronze badges"> <span class="badge1">●</span><span class="badgecount">69</span> <span class="badge2">●</span><span class="badgecount">120</span> <span class="badge3">●</span><span class="badgecount">172</span> </span> <a href="https://in.linkedin.com/in/spillaiy" title="SGPJ&#39;s website is https://in.linkedin.com/in/spillaiy">
+        https://in.linkedin.co...
+        </a> </div> </div> </div> </div> </div> <div class="js-editable" id="js-post-body-65371" data-get-text-url="/en/get-post-body/?post_id=65371" data-save-text-url="/en/set-post-body/?post_id=65371" data-save-text-param-name="body_text" data-validated-text-param-name="body_html" data-min-lines="10" data-editor-type="markdown" data-validator="askbot.validators.answerValidator"> <div class="js-editable-content"><p>You should use rbd for glance as well and enable the copy-on-write feature in /etc/glance/glance-api.conf</p> <p>change from False to True:</p> <pre><code>show_image_direct_url = True
+</code></pre> <p>restart the glance services and give it a go. If you don't it takes long as the cinder does the qemu-img convert from any type to raw which adds up to the deployment time.</p> </div> <div class="js-editable-controls"></div> </div> </div> <div class="answer-controls post-controls"> <span class="action-link">  </span> <span id="answer-offensive-flag-65371" class="action-link offensive-flag" title="report as offensive (i.e containing spam, advertising, malicious text, etc.)">  </span>  <span class="action-link"> <a class="permant-link" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/?answer=65371#post-id-65371" title="permanent link">
+        link
+    </a> </span>  <script type="text/javascript">
+    askbot['functions']['hideConvertAnswerLinks']('65371');
+    askbot['functions']['hidePublishAnswerLink']('65371');
+    askbot['functions']['renderPostControls']('65371');
+</script> </div> <div class="comments empty ordering-forward" data-parent-post-type="answer" data-parent-post-id="65371"><div class="content"></div><div class="controls"><a class="js-open-editor-btn">add a comment</a></div></div> </div> <div class="clean"></div> </div> <div class="clean"></div> <a name="103738"></a> <div id="post-id-103738" data-post-id="103738" class="post answer   "> <div class="vote-buttons"> <div id="answer-img-upvote-103738" class="answer-img-upvote post-vote upvote"> </div> <div id="answer-vote-number-103738" class="vote-number" title="current number of votes">0</div> <div id="answer-img-downvote-103738" class="answer-img-downvote post-vote downvote"> </div> <script type="text/javascript">
+    askbot['functions']['renderPostVoteButtons']('answer', '103738');
+</script> <div id="answer-img-accept-103738" class="answer-img-accept" title="mark this answer as correct (click again to undo)"></div> </div> <div class="post-content"> <div class="post-body"> <div class="js-editable-hide-post-body-103738"> <div class="post-update-info-container"> <div class="post-update-info"> <p style="line-height:12px;"> <a href="https://ask.openstack.org/en/answers/103738/revisions/">answered <strong><abbr class="timeago" title="2017-03-06 03:33:31 -0600">
+        2017-03-06 03:33:31 -0600
+    </abbr></strong></a> </p> <div class="user-card"> <a class="js-avatar-box" href="https://ask.openstack.org/en/users/18287/omkar_telee/"><img class="js-avatar gravatar" width="32" height="32" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/be4f4f1b9d9d44b7e47adead3df79487" title="omkar_telee" alt="omkar_telee gravatar image" style="max-width: 685px; height: auto;"></a> <div class="user-info"> <a href="https://ask.openstack.org/en/users/18287/omkar_telee/">omkar_telee</a> <br> <span class="reputation-score">1</span> <span class="badges" title="omkar_telee has one gold badge, 2 silver badges and 4 bronze badges"> <span class="badge1">●</span><span class="badgecount">1</span> <span class="badge2">●</span><span class="badgecount">2</span> <span class="badge3">●</span><span class="badgecount">4</span> </span> </div> </div> </div> </div> </div> <div class="js-editable" id="js-post-body-103738" data-get-text-url="/en/get-post-body/?post_id=103738" data-save-text-url="/en/set-post-body/?post_id=103738" data-save-text-param-name="body_text" data-validated-text-param-name="body_html" data-min-lines="10" data-editor-type="markdown" data-validator="askbot.validators.answerValidator"> <div class="js-editable-content"><p>This is not intended answer. So no downvoting plz.
+Some times, even if instance creation fails, the volume is created successfully.
+You can use that volume to boot new instance. </p> <p>Happens in my case mostly when I boot instance of size more than 100GB</p> </div> <div class="js-editable-controls"></div> </div> </div> <div class="answer-controls post-controls"> <span class="action-link">  </span> <span id="answer-offensive-flag-103738" class="action-link offensive-flag" title="report as offensive (i.e containing spam, advertising, malicious text, etc.)">  </span>  <span class="action-link"> <a class="permant-link" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/?answer=103738#post-id-103738" title="permanent link">
+        link
+    </a> </span>  <script type="text/javascript">
+    askbot['functions']['hideConvertAnswerLinks']('103738');
+    askbot['functions']['hidePublishAnswerLink']('103738');
+    askbot['functions']['renderPostControls']('103738');
+</script> </div> <div class="comments empty ordering-forward" data-parent-post-type="answer" data-parent-post-id="103738"><div class="content"></div><div class="controls"><a class="js-open-editor-btn">add a comment</a></div></div> </div> <div class="clean"></div> </div> <div class="clean"></div> <div class="pager"> </div> <div class="clean"></div> <form id="fmanswer" action="https://ask.openstack.org/en/questions/65282/answer/" method="post"><input type="hidden" name="csrfmiddlewaretoken" value="gS27Sa6zucGf9mueb808UUPbo9rsRMzq"> <div style="clear:both"></div> <div> <h2>
+                        
+                            Your Answer
+                        
+                    </h2> </div> <p class="message"> <span class="strong big">Please start posting anonymously</span> - your entry will be published after you log in or create a new account.
+            
+                
+            </p> <div class="folded-editor" tabindex="6"> <p class="prompt"><a>Add Answer</a></p> <div class="editor-proper"> <div class="form-group editor-placeholder"> </div> <div class="answer-options"> </div> <input id="add-answer-btn" type="submit" class="submit" value="Login/Signup to Post"> <script type="text/javascript">
+                        askbot['functions']['renderAddAnswerButton']();
+                    </script> </div> </div> </form> </div> <div id="ContentRight"> <div class="box"> <h1>Get to know Ask OpenStack</h1> <a href="https://wiki.openstack.org/wiki/Community/AskModerators">Resources for moderators</a> </div> <div class="box vote-buttons"> <h2>Question Tools</h2> <button class="js-follow-question button large" data-is-on="false" data-off-prompt-text="Unfollow" data-on-prompt-text="Follow" data-on-state-text="Following" data-off-state-text="Follow" data-toggle-url="/en/toggle-follow-question/">
+        
+            Follow
+        
+    </button> <div class="clearfix"></div> <div class="js-question-follower-count">
+        
+        
+            2 followers
+        
+    </div> <div class="notify-sidebar"> <p class="rss"> <a href="https://ask.openstack.org/en/feeds/question/65282/" title="subscribe to the rss feed">subscribe to rss feed</a> </p> </div> </div> <div class="clearfix"></div> <div class="box statsWidget"> <div class="clearfix"></div> <h2>Stats</h2> <p>
+        Asked: <strong><abbr class="timeago" title="2015-04-16 12:43:43 -0600">
+        2015-04-16 12:43:43 -0600
+    </abbr></strong> </p> <p> 
+        Seen: <strong>3,860 times</strong> </p> <p>
+        Last updated: <strong title="2017-03-06 03:33:31.965725">Mar 06</strong> </p> </div> <div class="box"> <h2>Related questions</h2> <div class="questions-related"> <p> <a href="https://ask.openstack.org/en/question/84651/error-sahara-create-cluster-error-attach-volume-to-instance/">Error Sahara create cluster: 'Error attach volume to instance [closed]</a> </p> <p> <a href="https://ask.openstack.org/en/question/32407/can-not-change-the-vm-password-with-nova-api-on-icehouse/">Can not change the VM password with nova API on icehouse</a> </p> <p> <a href="https://ask.openstack.org/en/question/29187/rdo-icehouse-floating-ip-action-not-automatic/">rdo icehouse floating ip action not automatic</a> </p> <p> <a href="https://ask.openstack.org/en/question/46620/what-are-the-steps-to-create-a-second-floating-ip-pool/">What are the steps to create a second floating ip pool?</a> </p> <p> <a href="https://ask.openstack.org/en/question/42884/openshift-origin-via-heat-icehouse-brokerwaitcondition-awscloudformationwaitcondition-create_failed/">Openshift-Origin via Heat Icehouse | BrokerWaitCondition | AWS::CloudFormation::WaitCondition | CREATE_FAILED</a> </p> <p> <a href="https://ask.openstack.org/en/question/28228/neutron-server-fails-to-start/">neutron-server fails to start</a> </p> <p> <a href="https://ask.openstack.org/en/question/57454/github-is-banned-in-my-countryindia-is-there-any-alternative-for-devstack-setup-for-icehouse/">github is banned in my country(india). Is there any alternative for devstack setup for Icehouse.</a> </p> <p> <a href="https://ask.openstack.org/en/question/55250/is-icehouse-supported-on-rhel-7-and-derivates-centos-7-in-particular/">Is Icehouse supported on RHEL 7 and derivates (CentOS 7 in particular) ?</a> </p> <p> <a href="https://ask.openstack.org/en/question/27772/rdo-icehouse-nova-compute-time-out/">rdo icehouse nova-compute time out [closed]</a> </p> <p> <a href="https://ask.openstack.org/en/question/55448/unable-to-start-openstack-glance-registry-serviceunicode-error/">unable to start openstack-glance-registry service(Unicode Error) [closed]</a> </p> </div> </div> </div> </div> <!--
+Copyright 2013 OpenStack Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+--> <div class="clearfix"></div> <div class="content-wrapper"> <div id="footer"> <div class="span-8"> <h3>Feedback About This Page</h3> <ul> <li><a href="https://bugs.launchpad.net/openstack-community/+bugs?field.tag=askproject">Report a bug</a></li> </ul> </div> <div class="span-4"> <h3>OpenStack</h3> <ul> <li><a href="http://www.openstack.org/projects/">Projects</a></li> <li><a href="http://www.openstack.org/openstack-security/">OpenStack Security</a></li> <li><a href="http://www.openstack.org/projects/openstack-faq/">Common Questions</a></li> <li><a href="http://www.openstack.org/blog/">Blog</a></li> </ul> </div> <div class="span-4"> <h3>Community</h3> <ul> <li><a href="http://www.openstack.org/community/">User Groups</a></li> <li><a href="http://www.openstack.org/events/">Events</a></li> <li><a href="http://www.openstack.org/jobs/">Jobs</a></li> <li><a href="http://www.openstack.org/companies/">Companies</a></li> <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li> </ul> </div> <div class="span-4"> <h3>Documentation</h3> <ul> <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li> <li><a href="http://www.openstack.org/software/start/">Getting Started</a></li> <li><a href="http://api.openstack.org/">API Documentation</a></li> <li><a href="https://wiki.openstack.org/">Wiki</a></li> </ul> </div> <div class="span-4 last"> <h3>Branding &amp; Legal</h3> <ul> <li><a href="http://www.openstack.org/brand/">Logos &amp; Guidelines</a></li> <li><a href="http://www.openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li> <li><a href="http://www.openstack.org/privacy/">Privacy Policy</a></li> <li><a href="https://wiki.openstack.org/wiki/CLA">OpenStack CLA</a></li> </ul> </div> <div class="clearfix"></div> <p>OpenStack is a trademark of OpenStack Foundation. This site is powered by <a href="http://askbot.com/">Askbot</a>. (<a href="https://www.gnu.org/licenses/gpl-3.0.html">GPLv3</a> or later; <a href="https://github.com/ASKBOT/askbot-devel">source</a>). Content on this site is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">CC-BY 3.0</a> license.</p> </div> </div> <div id="no-javascript"> <noscript class="noscript" style="padding: 0px; background-color: transparent;">
+        Please note: Ask OpenStack requires javascript to work properly, please enable javascript in your browser, &lt;a href="https://www.google.com/support/bin/answer.py?answer=23852"&gt;here is how&lt;/a&gt; </noscript> <script type="text/javascript">
+        //IE fix to hide the red margin
+        var noscript = document.getElementsByTagName('noscript')[0];
+        noscript.style.padding = '0px';
+        noscript.style.backgroundColor = 'transparent';
+    </script> </div> <script type="text/javascript">
+    askbot['urls']['mark_read_message'] = '/en/messages/markread/';
+    askbot['urls']['get_tags_by_wildcard'] = '/en/get-tags-by-wildcard/';
+    askbot['urls']['get_tag_list'] = '/en/get-tag-list/';
+    askbot['urls']['follow_user'] = '/followit/follow/user/{{userId}}/';
+    askbot['urls']['unfollow_user'] = '/followit/unfollow/user/{{userId}}/';
+    askbot['urls']['user_signin'] = '/en/account/signin/';
+    askbot['urls']['getEditor'] = '/en/get-editor/';
+    
+        askbot['urls']['translateUrl'] = '/en/translate-url/';
+    
+    askbot['urls']['apiGetQuestions'] = '/en/api/get_questions/';
+    askbot['urls']['ask'] = '/en/questions/ask/';
+	askbot['urls']['questions'] = '/en/questions/';
+    askbot['settings']['groupsEnabled'] = false;
+    askbot['settings']['static_url'] = '/m/';
+    askbot['settings']['minSearchWordLength'] = 4;
+    askbot['settings']['mathjaxEnabled'] = false;
+    askbot['settings']['sharingSuffixText'] = '';
+    askbot['settings']['errorPlacement'] = 'after-label';
+    askbot['data']['maxCommentLength'] = 300;
+    askbot['settings']['editorType'] = 'markdown';
+    
+    askbot['settings']['commentsEditorType'] = 'rich\u002Dtext';
+    askbot['messages']['askYourQuestion'] = 'Ask Your Question';
+    askbot['messages']['questionSingular'] = 'question';
+    askbot['messages']['answerSingular'] = 'answer';
+    askbot['messages']['acceptOwnAnswer'] = 'accept or unaccept your own answer';
+    askbot['messages']['followQuestions'] = 'follow questions';
+    
+        askbot['settings']['allowedUploadFileTypes'] = [
+            "jpg", "jpeg", "gif", "bmp", "png", "tiff"
+        ];
+    
+    askbot['data']['haveFlashNotifications'] = true;
+    askbot['data']['activeTab'] = 'questions';
+    askbot['settings']['csrfCookieName'] = '_csrf';
+    
+        askbot['data']['searchUrl'] = '';
+    
+</script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/jquery-1.7.2.min.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/bootstrap.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/timeago.js.下载"></script> <!-- History.js --> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/jquery.history.js.下载"></script> <!-- Utils.js --> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/utils.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/q_sutils.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/wrapped_element.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/wait_icon.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/paginator.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/limited_width_image.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/one_shot_form.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/link.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/widget.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/tipped_input.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/flash_alert.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/alert_box.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/simple_content.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/simple_control.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/post_expander.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/edit_link.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/comment_convert_link.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/delete_icon.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/modal_dialog.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/file_upload_dialog.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/text_property_editor.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/toggle.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/ajax_toggle.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/dropdown_select.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/box_item_content.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/select_box_item.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/select_box.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/group_dropdown.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/tag.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/hover_card.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/perms_hover_card.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/show_perms_trigger.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/autocompleter.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/lang_nav.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/se_hilite.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/json.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/jquery-fieldselection.js.下载"></script> <!-- End Utils.js --> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/live_search.js.下载"></script> <script type="text/javascript">
+    /*<![CDATA[*/
+    $('.mceStatusbar').remove();//a hack to remove the tinyMCE status bar
+    $(document).ready(function(){
+        // focus input on the search bar endcomment
+        var activeTab = askbot['data']['activeTab'];
+        if (inArray(activeTab, ['users', 'questions', 'tags', 'badges'])) {
+            var searchInput = $('#keywords');
+        } else if (activeTab === 'ask') {
+            var searchInput = $('#id_title');
+        } else {
+            var searchInput = undefined;
+            animateHashes();
+        }
+
+        if (searchInput) {
+            searchInput.focus();
+            putCursorAtEnd(searchInput);
+        }
+
+        var haveFullTextSearchTab = inArray(activeTab, ['questions', 'badges', 'ask']);
+        var haveUserProfilePage = $('body').hasClass('user-profile-page');
+        if ((haveUserProfilePage || haveFullTextSearchTab) && searchInput && searchInput.length) {
+            var search = new FullTextSearch();
+            askbot['controllers'] = askbot['controllers'] || {};
+            askbot['controllers']['fullTextSearch'] = search;
+            search.setSearchUrl(askbot['data']['searchUrl']);
+            if (activeTab === 'ask') {
+                search.setAskButtonEnabled(false);
+            }
+            search.decorate(searchInput);
+        } else if (activeTab === 'tags') {
+            var search = new TagSearch();
+            search.decorate(searchInput);
+        }
+
+        if (askbot['data']['userIsAdminOrMod']) {
+            $('body').addClass('admin');
+        }
+        if (askbot['settings']['groupsEnabled']) {
+            askbot['urls']['add_group'] = "/en/add-group/";
+            var group_dropdown = new GroupDropdown();
+            $('.groups-dropdown').append(group_dropdown.getElement());
+        }
+        var userRep = $('#userToolsNav .reputation');
+        if (userRep.length) {
+            var showPermsTrigger = new ShowPermsTrigger();
+            showPermsTrigger.decorate(userRep);
+        }
+    });
+    if (askbot['data']['haveFlashNotifications']) {
+        $('#validate_email_alert').click(function(){notify.close(true)})
+        notify.show();
+    }
+
+    var langNav = $('.lang-nav');
+    if (langNav.length) {
+        var nav = new LangNav();
+        nav.decorate(langNav);
+    }
+    /*]]>*/
+</script> <div class="js-templates" style="display: none;"><div id="post-id-0" class="comment js-comment" data-post-id="0"><div class="comment-votes"><div id="comment-img-upvote-0" class="upvote js-score"></div></div><div class="comment-content"><div id="post-0-delete" class="comment-delete"><span class="js-delete-icon" title="delete this comment"></span></div><div class="comment-body"></div><div class="comment-controls"><a class="js-avatar-box" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/"><img class="js-avatar gravatar" width="16" height="16" src="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/" title="" alt=" gravatar image"></a><a class="author" href="https://ask.openstack.org/en/question/65282/instance-failed-to-create-due-to-block-device-setup-timeout/"></a><span class="age">&nbsp;(<abbr class="timeago" title="2017-12-07 07:28:50 -0600">
+        2017-12-07 07:28:50 -0600
+    </abbr>)</span><a id="post-0-edit" class="js-edit">edit</a><form action="https://ask.openstack.org/en/comment/convert/" method="POST" accept-charset="utf-8" class="convert-comment"><input type="hidden" name="csrfmiddlewaretoken" value="None"><input type="hidden" value="0" name="comment_id"><input type="submit" value="convert to answer"></form></div></div></div><div class="js-simple-editor"><textarea></textarea><pre class="mirror"></pre></div><div class="js-tag  js-deletable-tag"><a class="js-tag-name" rel="tag" href="https://ask.openstack.org/en/questions/scope:all/sort:activity-desc/tags:none/page:1/" data-tag-name="none">none</a><span class="js-delete-icon">×</span></div></div> <script type="text/javascript">
+        
+        askbot['urls']['postComments'] = '/en/post_comments/';
+        askbot['urls']['editComment'] = '/en/edit_comment/';
+        askbot['urls']['deleteComment'] = '/en/comment/delete/';
+        askbot['urls']['convertComment'] = '/en/comment/convert/';
+        askbot['urls']['getComment'] = '/en/comment/get-text/';
+        askbot['urls']['saveDraftAnswer'] = '/en/save-draft-answer/';
+        askbot['urls']['vote_url'] = '/en/vote'
+        askbot['urls']['user_signin'] = '/en/account/signin/';
+        askbot['urls']['swap_question_with_answer'] = '/en/swap-question-with-answer/';
+        askbot['urls']['upvote_comment'] = '/en/comment/upvote/';
+        askbot['urls']['delete_post'] = '/en/post/delete/';
+        askbot['urls']['get_html_template'] = '/en/get-html-template/';
+        askbot['urls']['getGroupsList'] = '/en/get-groups-list/';
+        askbot['urls']['publishAnswer'] = '/en/answer/publish/';
+        askbot['urls']['apiV1Questions'] = '/en/api/v1/questions/';
+        askbot['urls']['mergeQuestions'] = '/en/merge-questions/';
+        
+        askbot['data']['questionAuthorId'] = 5763;
+        askbot['data']['answersSortTab'] = 'votes';
+        askbot['data']['questionId'] = 65282;
+        askbot['data']['threadSlug'] = 'instance-failed-to-create-due-to-block-device-setup-timeout';
+        askbot['messages']['addComment'] = 'add a comment';
+        askbot['messages']['userNamePrompt'] = 'User name:';
+        askbot['messages']['userEmailPrompt'] = 'Email address:';
+        askbot['messages']['mergeQuestions'] = 'Merge duplicate questions';
+        askbot['messages']['enterDuplicateQuestionId'] = 'Enter duplicate question ID';
+        
+        askbot['settings']['saveCommentOnEnter'] = false;
+        askbot['settings']['tagSource'] = 'user-input';
+        askbot['settings']['enableSharingGoogle'] = true;
+        askbot['settings']['enableEmailAlerts'] = true;
+    </script> <script type="text/javascript">
+    
+    askbot['settings']['tagsAreRequired'] = true
+    askbot['settings']['maxTagLength'] = 20;
+    askbot['messages']['maxTagLength'] = "each tag must be shorter than 20 characters";
+    askbot['settings']['maxTagsPerPost'] = 5;
+    askbot['messages']['maxTagsPerPost'] = "please use 5 tags or less";
+    askbot['messages']['tagLimits'] = "please use up to 5 tags, less than 20 characters each";
+    askbot['urls']['upload'] = '/en/upload/';
+    askbot['settings']['minTitleLength'] = 10;
+    askbot['settings']['minQuestionBodyLength'] = 10;
+    askbot['settings']['minAnswerBodyLength'] = 10;
+    askbot['settings']['minCommentBodyLength'] = 10;
+    askbot['settings']['tag_editor'] = '{\u0022tag_forbidden_first_chars\u0022: \u0022#\u0022, \u0022max_tag_length\u0022: 20, \u0022force_lowercase_tags\u0022: true, \u0022max_tags_per_post\u0022: 5, \u0022messages\u0022: {\u0022wrong_first_char\u0022: \u0022# is not a valid character at the beginning of tags, use only letters and numbers\u0022, \u0022wrong_chars\u0022: \u0022please use letters, numbers and characters \u005C\u0022\u002D+.#\u005C\u0022\u0022, \u0022required\u0022: \u0022tags are required\u0022}, \u0022tags_are_required\u0022: true}';
+    askbot['settings']['tinyMCEPlugins'] = JSON.parse('[]');
+</script> <script type="text/javascript">
+    (function() {
+        askbot['settings']['commentsReversed'] = false;
+        //make images always fit the screen
+        var images = $('.question-page .post-body img');
+        //these breakpoints must match those in css
+        //for explanation see utils.js:LimitedWidthImage
+        var breakpoints = [
+            [980, undefined],
+            [800, 55]
+        ];
+        var maxWidth = 685;
+        images.each(function(idx, item) {
+            var img = new LimitedWidthImage(breakpoints, maxWidth);
+            img.decorate($(item));
+        });
+    })();
+</script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/editor.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/bootstrap.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/Markdown.Converter.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/Markdown.Sanitizer.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/askbot_converter.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/wmd.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/jquery.validate.min.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/prettify.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/toggle.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/expander_toggle.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/post.js.下载"></script> <script type="text/javascript" src="./instance failed to create due to block device setup timeout - Ask OpenStack_ Q&amp;A Site for OpenStack Users and Developers_files/editable.js.下载"></script> <script type="text/javascript">
+    // define reputation needs for comments
+    askbot['urls']['getPostHtml'] = '/en/get-post-html/';
+    askbot['urls']['retag'] = "/en/questions/65282/retag/";
+
+    
+    
+    askbot['settings']['commentAvatarSize'] = 16;
+
+    $(document).ready(function(){
+        $("#nav_questions").attr('className',"on");
+        $("#" + askbot['data']['answersSortTab']).attr('className',"on");
+
+        Vote.init(
+            askbot['data']['questionId'],
+            askbot['data']['threadSlug'],
+            askbot['data']['questionAuthorId'],
+            askbot['data']['userId']
+        );
+
+        if ((askbot['data']['threadIsClosed'] === false) && askbot['data']['userIsAuthenticated']) {
+            initEditor();
+        }
+
+        lanai.highlightSyntax();
+        $('#btLogin').bind('click', function(){
+            window.location.href='/en/account/signin/';
+        });
+        if (window.location.hash === 'fmanswer'){
+            $('#fmanswer textarea').focus();
+        }
+
+        if (askbot['settings']['enableSharingGoogle']) {
+            $.getScript("//apis.google.com/js/plusone.js");
+        }
+
+        if (askbot['data']['userId'] === askbot['data']['questionAuthorId']) {
+            $("#fmanswer_button").click(function() {
+                $("#fmanswer").show();
+                $("#fmanswer_button").hide();
+            });
+        }
+
+        if (askbot['data']['userIsAuthenticated']) {
+            var draftHandler = new DraftAnswer();
+            draftHandler.setThreadId(23585);
+            draftHandler.decorate($('body'));
+        }
+
+        var expanders = $('.expander');
+        expanders.each(function(idx, item) {
+            var expanderElement = $(item);
+            var post = expanderElement.closest('.post,.comment');
+            if (post.length === 1) {
+                var expander = new PostExpander();
+                expander.setPostId(post.data('postId'));
+                expander.decorate(expanderElement);
+            }
+        });
+
+        var followBtn = $('.js-follow-question');
+        if (followBtn.length) {
+            var toggle = new AjaxToggle();
+            toggle.setPostData({'question_id': 65282 });
+            toggle.decorate(followBtn);
+            followBtn.bind('askbot.two-state-toggle.success', updateQuestionFollowerCount);
+        }
+    });
+
+    $(window).bind('hashchange', animate_hashes);
+
+    function animate_hashes(){
+      var id_value = window.location.hash;
+      if (id_value != ""){
+        var previous_color = $(id_value).css('background-color');
+        $(id_value).css('backgroundColor', '#FFF8C6');
+        $(id_value).animate(
+            {backgroundColor: '#ff7f2a'}, 1000
+        ).animate({backgroundColor: '#FFF8C6'}, 1000, function(){
+            $(id_value).css('backgroundColor', previous_color);
+        });
+      }
+    }
+
+
+    function initEditor(){
+        $('#editor').TextAreaResizer();
+        //highlight code synctax when editor has new text
+        $("#editor").typeWatch({highlight: false, wait: 3000,
+                         captureLength: 5, callback: lanai.highlightSyntax});
+
+        var display = true;
+        var txt = "[hide preview]";
+        $('#pre-collapse').text(txt);
+        $('#pre-collapse').bind('click', function(){
+            txt = display ? "[show preview]" : "[hide preview]";
+            display = !display;
+            $('#previewer').toggle();
+            $('#pre-collapse').text(txt);
+        });
+        setupFormValidation(
+            $("#fmanswer"),
+            CPValidator.getAnswerFormRules(),
+            CPValidator.getAnswerFormMessages()
+        );
+    }
+    (function() {
+        var editorBox = $('.folded-editor');
+        if (editorBox.length) {
+            var foldedEditor = new FoldedEditor();
+            foldedEditor.decorate(editorBox);
+        }
+    })();
+</script> <script type="text/javascript">
+            for (url_name in askbot['urls']){
+                askbot['urls'][url_name] = cleanUrl(askbot['urls'][url_name]);
+            }
+        </script>  </div></body></html>

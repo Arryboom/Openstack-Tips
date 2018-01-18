@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://bugs.launchpad.net/neutron/+bug/1669985 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" class="yui3-js-enabled" id="yui_3_10_3_1_1512711443846_1217"><div id="yui3-css-stamp" style="position: absolute !important; visibility: hidden !important" class=""></div><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script charset="utf-8" id="yui_3_10_3_1_1512711443846_2" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/saved_resource" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1512711443846_3" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/saved_resource(1)" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1512711443846_4" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/saved_resource(2)" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1512711443846_40" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/saved_resource(3)" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1512711443846_44" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/saved_resource(4)" async=""></script><!--<base href="https://bugs.launchpad.net/neutron/+bug/1669985/+index">--><base href=".">
+
+    
+    <title>Bug #1669985 “linuxbridge-agent    eValueError('I/O operation on...” : Bugs : neutron</title>
+    <link rel="shortcut icon" href="https://bugs.launchpad.net/@@/launchpad.png">
+    <link rel="canonical" href="https://bugs.launchpad.net/bugs/1669985">
+    
+      <link rel="alternate" type="application/atom+xml" href="http://feeds.launchpad.net/bugs/1669985/bug.atom" title="Bug 1669985 Feed">
+    
+
+    
+  
+  <link type="text/css" rel="stylesheet" media="screen, print" href="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/combo.css">
+
+
+    
+
+    
+      <meta name="description" content="compute  node
+openstack newton version
+
+[root@node1 ~]# tail -f /var/log/neutron/linuxbridge-agent.log
+2017-03-04 17:38:45.394 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent [req-abd694a7-2f77-40e9-9929-5b642ab7b071 - - - - -] Error in agent loop. Devices info: {&#39;current&#39;: set([&#39;tapad1d6370-19&#39;]), &#39;timestamps&#39;: {&#39;tapad1d6370-19&#39;: 1258}, &#39;removed&#39;: set([&#39;tap8c47f24c-97&#39;, &#39;tape3dd752e-25&#39;, &#39;tap6575acab-b9&#39;, &#39;tap1dce27f5-bd&#39;, &#39;tapbfd8c8e2-3c&#39;, &#39;tapefe15085-96&#39;, &#39;tape19050ac-97&#39;, &#39;ta...">
+    
+
+    
+  
+
+  
+  
+  <script type="text/javascript">
+    var LP = {
+        cache: {},
+        links: {}
+    };
+  </script>
+
+  
+
+  <script type="text/javascript">var cookie_scope = '; Path=/; Secure; Domain=.launchpad.net';</script>
+
+   <script type="text/javascript" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/saved_resource(5)"></script>
+   <script type="text/javascript">
+        var raw = null;
+        if (LP.devmode) {
+           raw = 'raw';
+        }
+        YUI.GlobalConfig = {
+            combine: true,
+            comboBase: '/+combo/rev18511/?',
+            root: 'yui/',
+            filter: raw,
+            debug: false,
+            fetchCSS: false,
+            maxURLLength: 2000,
+            groups: {
+                lp: {
+                    combine: true,
+                    base: '/+combo/rev18511/?lp/',
+                    comboBase: '/+combo/rev18511/?',
+                    root: 'lp/',
+                    // comes from including lp/meta.js
+                    modules: LP_MODULES,
+                    fetchCSS: false
+                }
+            }
+        }</script>
+
+  <script type="text/javascript">
+      // we need this to create a single YUI instance all events and code
+      // talks across. All instances of YUI().use should be based off of
+      // LPJS instead.
+      var LPJS = new YUI();
+  </script>
+
+
+
+    <script id="base-layout-load-scripts" type="text/javascript">
+        //<![CDATA[
+        LPJS.use('base', 'node', 'console', 'event',
+            'oop', 'lp', 'lp.app.foldables','lp.app.sorttable',
+            'lp.app.inlinehelp', 'lp.app.links', 'lp.app.longpoll',
+            'lp.bugs.bugtask_index', 'lp.bugs.subscribers',
+            'lp.app.ellipsis', 'lp.code.branchmergeproposal.diff',
+            'lp.views.global',
+             function(Y) {
+
+            Y.on("domready", function () {
+                var global_view = new Y.lp.views.Global();
+                global_view.render();
+
+                Y.lp.app.sorttable.SortTable.init();
+                Y.lp.app.inlinehelp.init_help();
+                Y.lp.activate_collapsibles();
+                Y.lp.app.foldables.activate();
+                Y.lp.app.links.check_valid_lp_links();
+                // Longpolling will only start if
+                // LP.cache.longpoll is populated.
+                // We use Y.later to work around a Safari/Chrome 'feature':
+                // The mouse cursor stays 'busy' until all the requests started during
+                // page load are finished.  Hence we want the long poll request to start
+                // right *after* the page has loaded.
+                Y.later(0, Y.lp.app.longpoll, Y.lp.app.longpoll.setupLongPollManager);
+
+            });
+
+            Y.on('lp:context:web_link:changed', function(e) {
+                  window.location = e.new_value;
+            });
+        });
+        //]]>
+    </script>
+    <script id="base-helper-functions" type="text/javascript">
+         //<![CDATA[
+        // This code is pulled from lp.js that needs to be available on every
+        // request. Pulling here to get it outside the scope of the YUI block.
+        function setFocusByName(name) {
+            // Focus the first element matching the given name which can be focused.
+            var nodes = document.getElementsByName(name);
+            var i, node;
+            for (i = 0; i < nodes.length; i++) {
+                node = nodes[i];
+                if (node.focus) {
+                    try {
+                        // Trying to focus a hidden element throws an error in IE8.
+                        if (node.offsetHeight !== 0) {
+                            node.focus();
+                        }
+                    } catch (e) {
+                        LPJS.use('console', function(Y) {
+                            Y.log('In setFocusByName(<' +
+                                node.tagName + ' type=' + node.type + '>): ' + e);
+                        });
+                    }
+                    break;
+                }
+            }
+        }
+
+        function selectWidget(widget_name, event) {
+          if (event && (event.keyCode === 9 || event.keyCode === 13)) {
+              // Avoid firing if user is tabbing through or simply pressing
+              // enter to submit the form.
+              return;
+          }
+          document.getElementById(widget_name).checked = true;
+        }
+        //]]>
+    </script>
+
+    
+      
+      <script type="text/javascript" id="available-official-tags-js">var available_official_tags = ["access-control", "api", "api-ref", "auto-allocated-topology", "baremetal", "db", "deprecation", "dns", "doc", "fullstack", "functional-tests", "fwaas", "gate-failure", "in-stable-icehouse", "ipv6", "l2-pop", "l3-bgp", "l3-dvr-backlog", "l3-ha", "l3-ipam-dhcp", "lbaas", "lib", "linuxbridge", "loadimpact", "logging", "low-hanging-fruit", "metering", "mitaka-backport-potential", "needs-attention", "newton-backport-potential", "newton-rc-potential", "ocata-backport-potential", "ocata-rc-potential", "opnfv", "ops", "ovs", "ovs-fw", "ovs-lib", "pike-backport-potential", "py34", "qos", "rfe", "rfe-approved", "rfe-postponed", "sg-fw", "sriov-pci-pt", "tempest", "troubleshooting", "trunk", "unittest", "usability", "vpnaas", "xenial"];</script>
+      <script type="text/javascript">
+        LPJS.use('base', 'node', 'oop', 'event', 'lp.bugs.bugtask_index',
+                  'lp.bugs.subscribers', 'lp.code.branchmergeproposal.diff',
+                  'lp.app.comment', function(Y) {
+            Y.on('domready', function() {
+                Y.lp.code.branchmergeproposal.diff.connect_diff_links();
+                Y.lp.bugs.bugtask_index.setup_bugtask_index();
+                Y.lp.bugs.bugtask_index.setup_bugtask_table();
+                LP.cache.comment_context = LP.cache.bug;
+                var cl = new Y.lp.app.comment.CommentList();
+                cl.render();
+                var sl = new Y.lp.bugs.subscribers.createBugSubscribersLoader({
+                    container_box: '#other-bug-subscribers',
+                    subscribers_details_view:
+                        '/+bug-portlet-subscribers-details',
+                    subscribe_someone_else_link: '.menu-link-addsubscriber'
+                }, window);
+            });
+         });
+      </script>
+      <style type="text/css">
+        /* Align the 'add comment' link to the right of the comment box. */
+        #add-comment-form textarea { width: 100%; }
+        #add-comment-form { max-width: 60em; padding-bottom: 4em; }
+        #add-comment-form .actions {float: right;}
+        .buglink-summary dd { font-size: 10px; }
+        a#privacy-link:link:hover, a#privacy-link:visited:hover {text-decoration:none;}
+      </style>
+      <style type="text/css">
+        .yui3-overlay .value label  {
+          /* It normally makes sense for form labels to be bold, but since
+          this form consists only of radio buttons, there's nothing but labels
+          so we just get wall-to-wall bold. */
+          font-weight: normal !important;
+        }
+      </style>
+    
+    
+  </head>
+
+  <body id="document" itemscope="" itemtype="http://schema.org/WebPage" class="tab-bugs
+      main_side
+      public
+      yui3-skin-sam"><div id="yui_3_10_3_1_1512711443846_93" class="yui3-widget yui3-commentlist"><div id="yui_3_10_3_1_1512711443846_95" class="yui3-commentlist-content"></div></div>
+          
+          
+    <div class="yui-d0" id="yui_3_10_3_1_1512711443846_1196">
+      <div id="locationbar" class="login-logout">
+        
+
+<div id="logincontrol"><a href="https://bugs.launchpad.net/neutron/+bug/1669985/+login">Log in / Register</a></div>
+
+
+
+      </div><!--id="locationbar"-->
+
+      <div id="watermark" class="watermark-apps-portlet">
+        <div>
+          <a href="https://launchpad.net/neutron"><img alt="" width="64" height="64" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/OpenStack_Project_Neutron_mascot_64x64.png"></a>
+        </div>
+        <div class="wide">
+          <h2 id="watermark-heading"><a href="https://launchpad.net/neutron">neutron</a></h2>
+        </div>
+        
+  <!-- Application Menu -->
+  <ul class="facetmenu">
+    
+      
+      <li class="overview"><a href="https://launchpad.net/neutron">Overview</a></li>
+      
+    
+    
+      
+      <li class="branches"><a href="https://code.launchpad.net/neutron">Code</a></li>
+      
+    
+    
+      <li class="bugs active"><a href="https://bugs.launchpad.net/neutron">Bugs</a></li>
+      
+      
+    
+    
+      
+      <li class="specifications"><a href="https://blueprints.launchpad.net/neutron">Blueprints</a></li>
+      
+    
+    
+      
+      <li class="translations"><a href="https://translations.launchpad.net/neutron">Translations</a></li>
+      
+    
+    
+      
+      <li class="answers"><a href="https://answers.launchpad.net/neutron">Answers</a></li>
+      
+    
+  </ul>
+
+      </div>
+
+      <div class="yui-t4" id="yui_3_10_3_1_1512711443846_1195">
+        <div id="maincontent" class="yui-main">
+          <div class="yui-b" dir="ltr" id="yui_3_10_3_1_1512711443846_1194">
+            <div class="context-publication">
+              
+      <h1 id="edit-title">
+<span style="max-width: 95%;" class="yui3-editable_text-text ellipsis">
+    linuxbridge-agent    eValueError('I/O operation on closed file
+</span>
+  
+</h1>
+
+
+
+    
+              
+
+              <div id="registration" class="registering">
+                
+      Bug #1669985 reported by
+      <a href="https://launchpad.net/~keyi" class="sprite person">men</a>
+      <span title="2017-03-04 09:40:49 UTC">on 2017-03-04</span>
+    
+              </div>
+            </div>
+
+            
+            <div id="request-notifications">
+              
+            </div>
+
+            
+              <div id="yui_3_10_3_1_1512711443846_1193">
+
+      
+
+      <div id="bug-is-duplicate">
+          
+      </div>
+      
+
+      <div style="float: right;">
+        <span><a href="https://bugs.launchpad.net/+help-bugs/bug-heat.html" target="help" class="sprite flame help">12</a></span>
+      </div>
+
+      
+
+
+  
+  
+    <div class="actions">
+      <span id="affectsmetoo" style="display: inline">This bug affects 3 people</span>
+    </div>
+  
+
+
+
+    <table id="affected-software" class="listing">
+      <thead>
+        <tr>
+          <th colspan="2">Affects</th>
+          <th>Status</th>
+          <th>Importance</th>
+          <th>Assigned to</th>
+          <th>Milestone</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        
+          
+  <tr class="highlight" id="tasksummary2210987">
+    <td>
+      <a class="bugtask-expander treeCollapsed sprite" href="https://bugs.launchpad.net/neutron/+bug/1669985/+editstatus" style="cursor: pointer;">
+        ​
+      </a>
+    </td>
+    
+    <td>
+      <span id="bugtarget-picker-tasksummary2210987">
+        <span class="yui3-activator-data-box">
+            <a href="https://bugs.launchpad.net/neutron" class="sprite product">neutron</a>
+        </span>
+        <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+          Edit
+        </button>
+        <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        
+      </span>
+    </td>
+
+    
+
+    
+    <td style="width: 20%; vertical-align: middle">
+      <div class="status-content" style="width: 100%; float: left">
+        
+        
+          <a href="https://bugs.launchpad.net/neutron/+bug/1669985/+editstatus" style="float: left" class="value statusINVALID">Invalid</a>
+          <a href="https://bugs.launchpad.net/neutron/+bug/1669985/+editstatus" style="margin-left: 3px">
+            <img class="editicon" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/edit">
+          </a>
+        
+      </div>
+    </td>
+
+    
+    <td style="width: 15em; vertical-align: middle">
+      <div class="importance-content" style="width: 100%; float: left">
+        <span style="float: left" class="value importanceUNDECIDED">Undecided</span>
+      </div>
+    </td>
+
+    <td style="width:20%; margin: 0; padding: 0;
+               vertical-align: middle; padding-left: 0.5em">
+      
+
+      
+        <span id="assignee-picker-tasksummary2210987">
+          <span class="yui3-activator-data-box">
+            
+            
+              Unassigned
+            
+          </span>
+          
+          <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+            Edit
+          </button>
+          <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        </span>
+      
+    </td>
+
+    <td style="width: 20%; vertical-align: middle">
+      <div class="milestone-content" style="width: 100%; float: left">
+        
+        <a class="value" href="https://bugs.launchpad.net/neutron/+bug/1669985/+index"></a>
+        
+      </div>
+    </td>
+
+    
+  </tr>
+
+  
+    <tr class="bugtask-collapsible-content hidden" id="task2210987">
+     <td colspan="7"><form action="https://bugs.launchpad.net/neutron/+bug/1669985/+editstatus" method="post" enctype="multipart/form-data" class="lazr-closed" style="height: 0px; overflow: hidden;">
+  
+
+  <p class="error message">
+    You need to log in to change this bug's status.
+  </p>
+  
+  <table class="summary" style="float: right; margin-left: 1em;">
+    <tbody><tr>
+      <th>Affecting:</th>
+      <td><a href="https://bugs.launchpad.net/neutron">neutron</a></td>
+    </tr>
+    <tr>
+      <th>Filed here by:</th>
+      <td><a href="https://launchpad.net/~keyi" class="sprite person">men</a></td>
+    </tr>
+    <tr>
+      <th>When:</th>
+      <td>
+        <span title="2017-03-04 09:40:49 UTC">2017-03-04</span>
+      </td>
+    </tr>
+    
+    
+    
+    <tr>
+      <th>Completed:</th>
+      <td>
+        <span title="2017-03-09 02:17:53 UTC">2017-03-09</span>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="field">
+    <table>
+      <tbody><tr>
+        <td>
+          <label for="neutron.target">Target</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+  <tbody><tr>
+    <td>
+      <label>
+        <input class="radioType" id="neutron.target.option.package" name="neutron.target" type="radio" value="package">
+        Distribution
+      </label>
+    </td>
+    <td>
+      <select id="neutron.target.distribution" name="neutron.target.distribution" size="1">
+<option value="baltix">Baltix</option>
+<option value="boss">BOSS</option>
+<option value="charms">Juju Charms Collection</option>
+<option value="elbuntu">Elbuntu</option>
+<option value="guadalinex">Guadalinex</option>
+<option value="guadalinexedu">Guadalinex Edu</option>
+<option value="kiwilinux">Kiwi Linux</option>
+<option value="nubuntu">nUbuntu</option>
+<option value="pld-linux">PLD Linux</option>
+<option value="tilix">Tilix</option>
+<option value="tuxlab">tuXlab</option>
+<option selected="selected" value="ubuntu">Ubuntu</option>
+<option value="ubuntu-leb">Ubuntu Linaro Evaluation Build</option>
+<option value="ubuntu-rtm">Ubuntu RTM</option>
+</select>
+<input name="neutron.target.distribution-empty-marker" type="hidden" value="1">
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <label for="neutron.target.option.package">
+        Package
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="" id="neutron.target.package" name="neutron.target.package" size="20" maxlength="" onkeypress="selectWidget(&#39;neutron.target.option.package&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('neutron.target.package');
+              var select_menu = Y.DOM.byId('neutron.target.package-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/neutron/+bug/1669985/+index#" class="sprite search-icon action-icon js-action" id="show-widget-neutron-target-package">Choose…</a></span>
+    <script>
+  LPJS.use('node', 'lp.app.picker', function(Y) {
+      var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a package", "selected_value_metadata": null, "vocabulary_name": "DistributionSourcePackage", "show_widget_id": "show-widget-neutron-target-package", "selected_value": null, "input_element": "neutron.target.package", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search by name"};
+      var distribution_name = '';
+      var distribution_id = 'neutron.target.distribution';
+      var distroseries_id = '';
+      if (distribution_name !== '') {
+          config.getContextPath = function() {
+              return '/' + distribution_name;
+          }
+      } else if (distribution_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distribution_id).value;
+          };
+      } else if (distroseries_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distroseries_id).value.split('/', 2)[0];
+          };
+      }
+      var show_widget_id = 'show-widget-neutron-target-package';
+      Y.on('domready', function(e) {
+          Y.lp.app.picker.addPicker(config, show_widget_id);
+      });
+  });
+  </script>
+  
+
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <label>
+        <input class="radioType" checked="checked" id="neutron.target.option.product" name="neutron.target" type="radio" value="product">
+       Project 
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="neutron" id="neutron.target.product" name="neutron.target.product" size="20" maxlength="" onkeypress="selectWidget(&#39;neutron.target.option.product&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('neutron.target.product');
+              var select_menu = Y.DOM.byId('neutron.target.product-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/neutron/+bug/1669985/+index#" class="sprite search-icon action-icon js-action" id="show-widget-neutron-target-product">Choose…</a></span>
+    <script>
+    LPJS.use('node', 'lp.app.picker', function(Y) {
+        var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a project", "selected_value_metadata": null, "vocabulary_name": "Product", "show_widget_id": "show-widget-neutron-target-product", "selected_value": "neutron", "input_element": "neutron.target.product", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search"};
+        var show_widget_id = 'show-widget-neutron-target-product';
+        Y.on('domready', function(e) {
+            Y.lp.app.picker.addPicker(config, show_widget_id);
+        });
+    });
+    </script>
+  
+
+
+
+    </td>
+  </tr>
+</tbody></table>
+
+          
+        </td>
+      </tr>
+    </tbody></table>
+    
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="neutron.status">Status</label>
+        </td>
+        <td>
+          <label style="font-weight: bold" for="neutron.importance">Importance</label>
+        </td>
+        
+      </tr>
+      <tr>
+        <td><div>
+<div class="value">
+<select id="neutron.status" name="neutron.status" size="1">
+<option selected="selected" value="Invalid">Invalid</option>
+</select>
+</div>
+<input name="neutron.status-empty-marker" type="hidden" value="1">
+</div></td>
+        <td title="Changeable only by a project maintainer or bug supervisor">
+          <span class="sprite read-only"></span>
+          <span class="importanceUNDECIDED">Undecided</span>
+        </td>
+        
+      </tr>
+    </tbody></table>
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="neutron.assignee">Assigned to</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="white-space: nowrap">
+
+  <table>
+    <tbody><tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" checked="checked" name="neutron.assignee.option" value="neutron.assignee.assign_to_nobody" id="neutron.assignee.assign_to_nobody">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="neutron.assignee.assign_to_nobody">
+          Nobody
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" name="neutron.assignee.option" value="neutron.assignee.assign_to_me" id="neutron.assignee.assign_to_me">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="neutron.assignee.assign_to_me">
+          Me
+        </label>
+      </td>
+    </tr>
+    
+    
+  </tbody></table>
+
+
+</td>
+      </tr>
+    </tbody></table>
+    
+  </div>
+  <div class="field">
+    <div>
+      <label style="font-weight: bold" for="neutron.comment_on_change">Comment on this change (optional)</label>
+      <textarea cols="62" rows="4" id="neutron.comment_on_change" name="neutron.comment_on_change"></textarea>
+    </div>
+    <div>
+      <label style="font-weight: normal">
+        <input type="checkbox" name="subscribe" id="subscribe" value="Subscribe">
+        Email me about changes to this bug report
+      </label>
+    </div>
+  </div>
+  
+</form>
+</td>
+    </tr>
+  
+
+
+        
+      </tbody>
+
+    </table>
+
+
+
+<div class="actions">
+  
+    <span id="also-affects-product" class="">
+    <a href="https://bugs.launchpad.net/neutron/+bug/1669985/+choose-affected-product" class="menu-link-addupstream sprite add">Also affects project</a>
+        <a href="https://bugs.launchpad.net/+help-bugs/also-affects-project-help.html" target="help" class="sprite maybe action-icon help">(?)</a>
+    </span>
+    <span id="also-affects-package" class="">
+    <a href="https://bugs.launchpad.net/neutron/+bug/1669985/+distrotask" class="menu-link-adddistro sprite add">Also affects distribution/package</a>
+    </span>
+    <a href="https://bugs.launchpad.net/neutron/+bug/1669985/+nominate" class="menu-link-nominate sprite milestone">Nominate for series</a>
+    
+  
+
+</div>
+
+
+
+
+      <div id="maincontentsub">
+        <div class="top-portlet">
+
+      <div itemprop="mainContentOfPage" class="report">
+        
+
+        <div>
+  <div id="edit-description" class="lazr-multiline-edit">
+  <div class="clearfix">
+    
+
+    <h3>Bug Description</h3>
+  </div>
+
+  <div class="yui3-editable_text-text"><p>compute  node<br>
+openstack newton version</p>
+<p>[root@node1 ~]# tail -f /var/log/<wbr>neutron/<wbr>linuxbridge-<wbr>agent.log<br>
+2017-03-04 17:38:45.394 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent [req-abd694a7-<wbr>2f77-40e9-<wbr>9929-5b642ab7b0<wbr>71 - - - - -] Error in agent loop. Devices info: {'current': set(['tapad1d63<wbr>70-19']<wbr>), 'timestamps': {'tapad1d6370-19': 1258}, 'removed': set(['tap8c47f2<wbr>4c-97', 'tape3dd752e-25', 'tap6575acab-b9', 'tap1dce27f5-bd', 'tapbfd8c8e2-3c', 'tapefe15085-96', 'tape19050ac-97', 'tapfab348e4-3e', 'tapfd528967-e6', 'tap93bddc4a-74', 'tap949c7c81-24', 'tap444571a3-dd', 'tapda41ad51-d2', 'tapcfcab1a6-8a', 'tapdd5330f9-47', 'tapa9cd3d90-45', 'tap35f3820d-44', 'tap95bb9241-e0', 'tapc0e33010-44', 'tap421d25c5-92', 'tap0753a059-b5', 'tap6a6754b3-a2', 'tap039c9322-c2', 'tap09df307e-33', 'tapccae4ec5-3d', 'tap1a3a376d-ba', 'tapcc81a48f-f3', 'tapbb555cdd-3d', 'tap5d5f50f0-cd', 'tap2274cf1d-fb', 'tapf4357e9b-c2', 'tap5683264f-fc', 'tapce7e3b23-75', 'tap8dfdfaef-55', 'tap06c9112d-27', 'tapc2fe9044-bc', 'tapf9d01072-bb', 'tap7ac1ad8f-c1', 'tapa4ee562e-fb', 'tap290292f4-37', 'tap853106fc-ad', 'tap1443d1dc-67', 'tapceb2dc8f-81', 'tap15c131b5-f9', 'tap9fc9b069-cd', 'tapdc8be820-0b', 'tapf1212ebf-ae', 'tap5730c7f8-be', 'tapa2e43cb0-fd', 'tap2f56f3b1-b7', 'tap6e3fa571-89', 'tapc6e56577-06', 'tap01404725-41', 'tap07f2c8fd-28', 'tap9dbec9d4-f4', 'tap5d0ea5be-96', 'tap2c878077-73', 'tapb4cc646f-c8', 'tap5912513d-f6', 'tapf254051d-54', 'tap7e8fcfc6-99', 'tap063cabd0-ef', 'tap10216d05-48', 'tap8290d45b-0f', 'taped2997d4-fb', 'tapaf34f472-bd', 'tap01886a3f-c8', 'tapd9490849-17', 'tapabef7840-f2', 'tapad4eb233-99', 'tap6f452a23-09', 'tap4a19b66b-e3', 'tapc4b2d4b8-b1', 'tap8e9b28a4-6e', 'tapc096bfcb-8e', 'tap80731222-c7', 'tap9645bedf-16', 'tapbf6d5b68-7b', 'tap485fd80a-3f', 'tap982833a7-7f', 'tap006ca4eb-ec', 'tapd00cebd0-1a', 'tap1996b657-ca', 'tapa604d1c9-96', 'tap0df4f7b1-f0', 'tap221a09c6-ba', 'tapd14aeca9-99', 'tap33f9066e-81', 'tap16386362-92', 'tap9757b22e-4b', 'tap7efcc9e4-78', 'tapff1f4a59-7d']), 'added': set(['tapad1d63<wbr>70-19']<wbr>), 'updated': set(['tapdc8be8<wbr>20-0b', 'tapf1212ebf-ae', 'tap5d0ea5be-96', 'tap2f56f3b1-b7', 'tap8c47f24c-97', 'tapa2e43cb0-fd', 'tap1dce27f5-bd', 'tap2c878077-73', 'tapb4cc646f-c8', 'tape19050ac-97', 'tapfab348e4-3e', 'tapfd528967-e6', 'tapefe15085-96', 'tapa9cd3d90-45', 'tap10216d05-48', 'tapaf34f472-bd', 'tap6a6754b3-a2', 'tap01886a3f-c8', 'tap6e3fa571-89', 'tap09df307e-33', 'tap1a3a376d-ba', 'tap5d5f50f0-cd', 'tapc4b2d4b8-b1', 'tapf254051d-54', u'tap80731222-c7', 'tap9645bedf-16', 'tap221a09c6-ba', 'tap93bddc4a-74', 'tap1443d1dc-67', u'tap8dfdfaef-55', 'tap06c9112d-27', 'tapc2fe9044-bc', 'tap2274cf1d-fb', 'tap7ac1ad8f-c1', 'tap01404725-41', 'tap4a19b66b-e3', 'tap9757b22e-4b', 'tapbb555cdd-3d', 'tap15c131b5-f9'])}<br>
+2017-03-04 17:38:45.394 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent Traceback (most<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent Traceback (most recent call last):<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>plugins/<wbr>ml2/drivers/<wbr>agent/_<wbr>common_<wbr>agent.py"<wbr>, line 452, in daemon_loop<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     sync = self.process_<wbr>network_<wbr>devices(<wbr>device_<wbr>info)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>osprofiler/<wbr>profiler.<wbr>py", line 154, in wrapper<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     return f(*args, **kwargs)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>plugins/<wbr>ml2/drivers/<wbr>agent/_<wbr>common_<wbr>agent.py"<wbr>, line 212, in process_<wbr>network_<wbr>devices<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     resync_b = self.treat_<wbr>devices_<wbr>removed(<wbr>device_<wbr>info['removed'<wbr>])<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>osprofiler/<wbr>profiler.<wbr>py", line 154, in wrapper<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     return f(*args, **kwargs)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>plugins/<wbr>ml2/drivers/<wbr>agent/_<wbr>common_<wbr>agent.py"<wbr>, line 330, in treat_devices_<wbr>removed<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     self.sg_<wbr>agent.remove_<wbr>devices_<wbr>filter(<wbr>devices)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/securityg<wbr>roups_rpc.<wbr>py", line 226, in remove_<wbr>devices_<wbr>filter<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     self.firewall.<wbr>remove_<wbr>port_filter(<wbr>device)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>iptables_<wbr>firewall.<wbr>py", line 214, in remove_port_filter<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     self._remove_<wbr>conntrack_<wbr>entries_<wbr>from_port_<wbr>deleted(<wbr>port)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>iptables_<wbr>firewall.<wbr>py", line 185, in _remove_<wbr>conntrack_<wbr>entries_<wbr>from_port_<wbr>deleted<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     [device_info], ethertype, set())<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>ip_conntrack.<wbr>py", line 94, in delete_<wbr>conntrack_<wbr>state_by_<wbr>remote_<wbr>ips<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     self._delete_<wbr>conntrack_<wbr>state(device_<wbr>info_list, rule)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>ip_conntrack.<wbr>py", line 76, in _delete_<wbr>conntrack_<wbr>state<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     extra_ok_codes=[1])<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>utils.py"<wbr>, line 120, in execute<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     execute_<wbr>rootwrap_<wbr>daemon(<wbr>cmd, process_input, addl_env))<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>utils.py"<wbr>, line 107, in execute_<wbr>rootwrap_<wbr>daemon<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     return client.execute(cmd, process_input)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>oslo_rootwrap/<wbr>client.<wbr>py", line 128, in execute<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     res = proxy.run_<wbr>one_command(<wbr>cmd, stdin)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "&lt;string&gt;", line 2, in run_one_command<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib64/<wbr>python2.<wbr>7/multiprocessi<wbr>ng/managers.<wbr>py", line 773, in _callmethod<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     raise convert_<wbr>to_error(<wbr>kind, result)<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent RemoteError:<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent -------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-----<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent Unserializable message: ('#ERROR', ValueError('I/O operation on closed file',))<br>
+2017-03-04 17:25:19.928 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent -------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-------<wbr>-----</p>
+<p>[root@node1 ~]# egrep -v "^#|^$" /etc/neutron/<wbr>plugins/<wbr>ml2/linuxbridge<wbr>_agent.<wbr>ini<br>
+[DEFAULT]<br>
+[agent]<br>
+[linux_bridge]<br>
+physical_<wbr>interface_<wbr>mappings =provider:team1<br>
+[securitygroup]<br>
+enable_<wbr>security_<wbr>group = True<br>
+firewall_driver = neutron.<wbr>agent.linux.<wbr>iptables_<wbr>firewall.<wbr>IptablesFirewal<wbr>lDriver<br>
+[vxlan]<br>
+enable_vxlan = False</p>
+<p>[root@node1 ~]# egrep -v "^#|^$" /etc/neutron/<wbr>neutron.<wbr>conf<br>
+[DEFAULT]<br>
+auth_strategy = keystone<br>
+[agent]<br>
+[cors]<br>
+[cors.subdomain]<br>
+[database]<br>
+[keystone_<wbr>authtoken]<br>
+auth_uri = <a rel="nofollow" href="http://172.16.21.100:5000/">http://<wbr>172.16.<wbr>21.100:<wbr>5000</a><br>
+auth_url = <a rel="nofollow" href="http://172.16.21.100:35357/">http://<wbr>172.16.<wbr>21.100:<wbr>35357</a><br>
+memcached_servers = 172.16.<wbr>21.4:11211,<wbr>172.16.<wbr>21.5:11211<br>
+auth_type = password<br>
+project_domain_name = Default<br>
+user_domain_name = Default<br>
+project_name = service<br>
+username = neutron<br>
+password = 123456<br>
+[matchmaker_redis]<br>
+[nova]<br>
+[oslo_concurrency]<br>
+lock_path = /var/lib/<wbr>neutron/<wbr>tmp<br>
+[oslo_messaging<wbr>_amqp]<br>
+[oslo_messaging<wbr>_notifications]<br>
+[oslo_messaging<wbr>_rabbit]<br>
+rabbit_<wbr>hosts=172.<wbr>16.21.4:<wbr>5673, 172.16.21.5:5673<br>
+rabbit_<wbr>userid=<wbr>openstack<br>
+rabbit_<wbr>password=<wbr>RABBIT_<wbr>PASS<br>
+rabbit_ha_queues = true<br>
+[oslo_messaging<wbr>_zmq]<br>
+[oslo_middleware]<br>
+[oslo_policy]<br>
+[qos]<br>
+[quotas]<br>
+[ssl]</p></div>
+  </div>
+
+  
+</div>
+
+
+        <div style="margin:-10px 0 20px 5px" class="clearfix">
+          <span>See <a href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/0">original description</a></span>
+        </div>
+
+        <div id="bug-tags">
+          <span id="tags-heading">
+            Tags:
+          </span>
+          <span id="tag-list">
+            <a class="official-tag" href="https://bugs.launchpad.net/neutron/+bugs?field.tag=linuxbridge">linuxbridge</a>
+            <a class="unofficial-tag" href="https://bugs.launchpad.net/neutron/+bugs?field.tag=error">error</a>
+          </span>
+          
+          <a href="https://bugs.launchpad.net/neutron/+bug/1669985/+edit" title="Edit tags" id="tags-trigger" class="sprite edit action-icon">Edit</a>
+          <a href="https://bugs.launchpad.net/+help-bugs/tag-help.html" target="help" class="sprite maybe action-icon help">Tag help</a>
+        </div>
+
+        <script type="text/javascript">
+          LPJS.use('event', 'node', 'lp.bugs.tags_entry', function(Y) {
+              Y.on('domready',
+                   function(e) {
+                       Y.lp.bugs.tags_entry.setup_tag_entry(
+                           available_official_tags);
+                   },
+                   window);
+          });
+        </script>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div id="branches-and-cves">
+        <div id="bug-branches-container" style="float: left">
+          
+        </div><!-- bug-branch-container -->
+
+        
+
+        <div class="clearfix"></div>
+      </div> <!-- branches and CVEs -->
+
+      </div>
+
+      <div id="yui_3_10_3_1_1512711443846_1192">
+      
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~keyi" class="sprite person">men (keyi)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2017-03-04T09:40:49.321085+00:00" title="2017-03-04 09:40:49 UTC">on 2017-03-04</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/1"> #1</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    <ul style="margin-bottom: 1em">
+      <li class="download-attachment">
+        <a class="sprite download-icon" href="https://bugs.launchpad.net/neutron/+bug/1669985/+attachment/4831248/+files/linuxagent01.png">linuxagent01.png</a>
+        <a class="sprite edit action-icon" href="https://bugs.launchpad.net/neutron/+bug/1669985/+attachment/4831248">Edit</a>
+        (702.6 KiB,
+        image/png)
+      </li>
+    </ul>
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 " id="yui_3_10_3_1_1512711443846_1200">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~keyi" class="sprite person">men (keyi)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2017-03-04T09:41:58.007029+00:00" title="2017-03-04 09:41:58 UTC">on 2017-03-04</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/2"> #2</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody" id="yui_3_10_3_1_1512711443846_1199">
+    <ul style="margin-bottom: 1em">
+      <li class="download-attachment">
+        <a class="sprite download-icon" href="https://bugs.launchpad.net/neutron/+bug/1669985/+attachment/4831252/+files/linuxagent02.png">linuxagent02.png</a>
+        <a class="sprite edit action-icon" href="https://bugs.launchpad.net/neutron/+bug/1669985/+attachment/4831252">Edit</a>
+        (239.5 KiB,
+        image/png)
+      </li>
+    </ul>
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText" id="yui_3_10_3_1_1512711443846_1198"><p>2017-03-04 17:38:45.394 25876 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent [req-abd694a7-<wbr>2f77-40e9-<wbr>9929-5b642ab7b0<wbr>71 - - - - -] Error in agent loop. Devices info: {'current': set(['tapad1d63<wbr>70-19']<wbr>), 'timestamps': {'tapad1d6370-19': 1258}, 'removed': set(['tap8c47f2<wbr>4c-97', 'tape3dd752e-25', 'tap6575acab-b9', 'tap1dce27f5-bd', 'tapbfd8c8e2-3c', 'tapefe15085-96', 'tape19050ac-97', 'tapfab348e4-3e', 'tapfd528967-e6', 'tap93bddc4a-74', 'tap949c7c81-24', 'tap444571a3-dd', 'tapda41ad51-d2', 'tapcfcab1a6-8a', 'tapdd5330f9-47', 'tapa9cd3d90-45', 'tap35f3820d-44', 'tap95bb9241-e0', 'tapc0e33010-44', 'tap421d25c5-92', 'tap0753a059-b5', 'tap6a6754b3-a2', 'tap039c9322-c2', 'tap09df307e-33', 'tapccae4ec5-3d', 'tap1a3a376d-ba', 'tapcc81a48f-f3', 'tapbb555cdd-3d', 'tap5d5f50f0-cd', 'tap2274cf1d-fb', 'tapf4357e9b-c2', 'tap5683264f-fc', 'tapce7e3b23-75', 'tap8dfdfaef-55', 'tap06c9112d-27', 'tapc2fe9044-bc', 'tapf9d01072-bb', 'tap7ac1ad8f-c1', 'tapa4ee562e-fb', 'tap290292f4-37', 'tap853106fc-ad', 'tap1443d1dc-67', 'tapceb2dc8f-81', 'tap15c131b5-f9', 'tap9fc9b069-cd', 'tapdc8be820-0b', 'tapf1212ebf-ae', 'tap5730c7f8-be', 'tapa2e43cb0-fd', 'tap2f56f3b1-b7', 'tap6e3fa571-89', 'tapc6e56577-06', 'tap01404725-41', 'tap07f2c8fd-28', 'tap9dbec9d4-f4', 'tap5d0ea5be-96', 'tap2c878077-73', 'tapb4cc646f-c8', 'tap5912513d-f6', 'tapf254051d-54', 'tap7e8fcfc6-99', 'tap063cabd0-ef', 'tap10216d05-48', 'tap8290d45b-0f', 'taped2997d4-fb', 'tapaf34f472-bd', 'tap01886a3f-c8', 'tapd9490849-17', 'tapabef7840-f2', 'tapad4eb233-99', 'tap6f452a23-09', 'tap4a19b66b-e3', 'tapc4b2d4b8-b1', 'tap8e9b28a4-6e', 'tapc096bfcb-8e', 'tap80731222-c7', 'tap9645bedf-16', 'tapbf6d5b68-7b', 'tap485fd80a-3f', 'tap982833a7-7f', 'tap006ca4eb-ec', 'tapd00cebd0-1a', 'tap1996b657-ca', 'tapa604d1c9-96', 'tap0df4f7b1-f0', 'tap221a09c6-ba', 'tapd14aeca9-99', 'tap33f9066e-81', 'tap16386362-92', 'tap9757b22e-4b', 'tap7efcc9e4-78', 'tapff1f4a59-7d']), 'added': set(['tapad1d63<wbr>70-19']<wbr>), 'updated': set(['tapdc8be8<wbr>20-0b', 'tapf1212ebf-ae', 'tap5d0ea5be-96', 'tap2f56f3b1-b7', 'tap8c47f24c-97', 'tapa2e43cb0-fd', 'tap1dce27f5-bd', 'tap2c878077-73', 'tapb4cc646f-c8', 'tape19050ac-97', 'tapfab348e4-3e', 'tapfd528967-e6', 'tapefe15085-96', 'tapa9cd3d90-45', 'tap10216d05-48', 'tapaf34f472-bd', 'tap6a6754b3-a2', 'tap01886a3f-c8', 'tap6e3fa571-89', 'tap09df307e-33', 'tap1a3a376d-ba', 'tap5d5f50f0-cd', 'tapc4b2d4b8-b1', 'tapf254051d-54', u'tap80731222-c7', 'tap9645bedf-16', 'tap221a09c6-ba', 'tap93bddc4a-74', 'tap1443d1dc-67', u'tap8dfdfaef-55', 'tap06c9112d-27', 'tapc2fe9044-bc', 'tap2274cf1d-fb', 'tap7ac1ad8f-c1', 'tap01404725-41', 'tap4a19b66b-e3', 'tap9757b22e-4b', 'tapbb555cdd-3d', 'tap15c131b5-f9'])}</p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~keyi" class="sprite person">men (keyi)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2017-03-04T09:58:35.365068+00:00" title="2017-03-04 09:58:35 UTC">on 2017-03-04</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/3"> #3</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Delete a vm from the dashboard, the log(linuxbridge<wbr>-agent.<wbr>log) error，<br>
+Restart service   systemctl restart neutron-<wbr>linuxbridge-<wbr>agent.service  。Back to normal<br>
+Have the reason to know what everyone？</p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~kevinbenton" class="sprite person">Kevin Benton (kevinbenton)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2017-03-06T22:06:34.747083+00:00" title="2017-03-06 22:06:34 UTC">on 2017-03-06</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/4"> #4</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Do you have the 'conntrack' command available on your compute nodes?</p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+
+          
+              <div class="boardComment">
+  <div class="boardCommentDetails">
+    
+      <a href="https://launchpad.net/~anindita-das" class="sprite person">Anindita Das (anindita-das)</a>
+    
+    <span title="2017-03-08 18:30:58 UTC">on 2017-03-08</span>
+  </div>
+  <div class="boardCommentActivity">
+    <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in neutron: </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        New → Incomplete
+      </td>
+    </tr>
+  
+</tbody></table>
+  </div>
+</div>
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~keyi" class="sprite person">men (keyi)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2017-03-09T02:16:49.793347+00:00" title="2017-03-09 02:16:49 UTC">on 2017-03-09</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/5"> #5</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Thank you really is not installed this order       'conntrack</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in neutron: </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        Incomplete → Fix Released
+      </td>
+    </tr>
+  
+  
+    
+      
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>description</b>:
+      </td>
+      <td>
+        updated
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+
+          
+              <div class="boardComment">
+  <div class="boardCommentDetails">
+    
+      <a href="https://launchpad.net/~anindita-das" class="sprite person">Anindita Das (anindita-das)</a>
+    
+    <span title="2017-03-09 05:42:19 UTC">on 2017-03-09</span>
+  </div>
+  <div class="boardCommentActivity">
+    <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in neutron: </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        Fix Released → Invalid
+      </td>
+    </tr>
+  
+</tbody></table>
+  </div>
+</div>
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 " id="yui_3_10_3_1_1512711443846_1225">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~sinharnab" class="sprite person">Arnab Sinha (sinharnab)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2017-04-14T08:50:52.112643+00:00" title="2017-04-14 08:50:52 UTC">on 2017-04-14</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/6"> #6</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody" id="yui_3_10_3_1_1512711443846_1224">
+    
+
+    
+
+    
+
+  <a href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/6/+download">Download full text</a> (9.5 KiB)
+  <div class="comment-text" itemprop="commentText" id="yui_3_10_3_1_1512711443846_1223"><p>I'm getting this error below (openstack newton on centos 7):</p>
+<p>2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent Traceback (most recent call last):<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>plugins/<wbr>ml2/drivers/<wbr>agent/_<wbr>common_<wbr>agent.py"<wbr>, line 452, in daemon_loop<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     sync = self.process_<wbr>network_<wbr>devices(<wbr>device_<wbr>info)<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>osprofiler/<wbr>profiler.<wbr>py", line 154, in wrapper<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     return f(*args, **kwargs)<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>plugins/<wbr>ml2/drivers/<wbr>agent/_<wbr>common_<wbr>agent.py"<wbr>, line 212, in process_<wbr>network_<wbr>devices<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     resync_b = self.treat_<wbr>devices_<wbr>removed(<wbr>device_<wbr>info['removed'<wbr>])<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>osprofiler/<wbr>profiler.<wbr>py", line 154, in wrapper<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     return f(*args, **kwargs)<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>plugins/<wbr>ml2/drivers/<wbr>agent/_<wbr>common_<wbr>agent.py"<wbr>, line 330, in treat_devices_<wbr>removed<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     self.sg_<wbr>agent.remove_<wbr>devices_<wbr>filter(<wbr>devices)<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/securityg<wbr>roups_rpc.<wbr>py", line 226, in remove_<wbr>devices_<wbr>filter<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     self.firewall.<wbr>remove_<wbr>port_filter(<wbr>device)<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>iptables_<wbr>firewall.<wbr>py", line 214, in remove_port_filter<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     self._remove_<wbr>conntrack_<wbr>entries_<wbr>from_port_<wbr>deleted(<wbr>port)<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>iptables_<wbr>firewall.<wbr>py", line 185, in _remove_<wbr>conntrack_<wbr>entries_<wbr>from_port_<wbr>deleted<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     [device_info], ethertype, set())<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent   File "/usr/lib/<wbr>python2.<wbr>7/site-<wbr>packages/<wbr>neutron/<wbr>agent/linux/<wbr>ip_conntrack.<wbr>py", line 94, in delete_<wbr>conntrack_<wbr>state_by_<wbr>remote_<wbr>ips<br>
+2017-04-13 11:59:15.232 19623 ERROR neutron.<wbr>plugins.<wbr>ml2.drivers.<wbr>agent._<wbr>common_<wbr>agent     self._delete_<wbr>conntrack_<wbr>state(device_<wbr>info_list, rule)<br>
+2017-04-13 11:59:15.232 19623...</p></div>
+  
+  <p>
+    <a href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/6">Read more...</a>
+  </p>
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 " id="yui_3_10_3_1_1512711443846_1191">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~vanduc95" class="sprite person">Nguyen Van Duc (vanduc95)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2017-08-11T15:54:28.908994+00:00" title="2017-08-11 15:54:28 UTC">on 2017-08-11</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/neutron/+bug/1669985/comments/7"> #7</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody" id="yui_3_10_3_1_1512711443846_1190">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText" id="yui_3_10_3_1_1512711443846_1189"><p id="yui_3_10_3_1_1512711443846_1188">My solution is install contrack-tool package and restart all service:<br>
+"yum install conntrack-tools"</p>
+<p id="yui_3_10_3_1_1512711443846_1216"><a rel="nofollow" href="https://centos.pkgs.org/7/centos-updates-x86_64/conntrack-tools-1.4.4-3.el7_3.x86_64.rpm.html" id="yui_3_10_3_1_1512711443846_1215">https:/<wbr>/centos.<wbr>pkgs.org/<wbr>7/centos-<wbr>updates-<wbr>x86_64/<wbr>conntrack-<wbr>tools-1.<wbr>4.4-3.el7_<wbr>3.x86_64.<wbr>rpm.html</a></p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        <div style="float: right;">
+          <a href="https://bugs.launchpad.net/neutron/+bug/1669985/+activity" class="menu-link-activitylog">See full activity log</a>
+        </div>
+        <div class="clearfix"></div>
+
+        
+          
+
+          
+            <div align="center" id="add-comment-login-first">
+              To post a comment you must <a href="https://bugs.launchpad.net/neutron/+bug/1669985/+login?comments=all">log in</a>.
+            </div>
+          
+        
+        
+      
+
+      </div><!-- class="top-portlet" -->
+      </div><!--- id="maincontentsub"-->
+      <div>
+        <div id="duplicate-form-container"></div>
+        <div id="privacy-form-container"></div>
+      </div>
+    </div>
+            
+            
+          </div><!-- yui-b -->
+        </div><!-- yui-main -->
+
+        
+          <div id="side-portlets" class="yui-b side">
+            
+      <div id="involvement" class="portlet">
+        <ul class="involvement">
+          <li class="single">
+            <a class="sprite bugs" href="https://bugs.launchpad.net/neutron/+filebug">
+              Report a bug
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div id="privacy" class="first portlet public">
+  <div id="privacy-text">
+     <span id="information-type-summary" class="sprite public">This report contains
+         <strong id="information-type">Public</strong>
+         information
+     </span>&nbsp;<a class="sprite edit action-icon" id="privacy-link" href="https://bugs.launchpad.net/neutron/+bug/1669985/+secrecy">Edit</a>
+
+     <div id="information-type-description" style="padding-top: 5px">Everyone can see this information.
+</div>
+  </div>
+</div>
+
+      <div id="portlet-actions" class="portlet vertical">
+  <ul id="duplicate-actions">
+    <li class="sprite bug-dupe">
+    <span id="mark-duplicate-text">
+    <a class="menu-link-mark-dupe" href="https://bugs.launchpad.net/neutron/+bug/1669985/+duplicate">Mark as duplicate</a>
+    </span>
+    </li>
+    
+    <li><a href="https://bugs.launchpad.net/neutron/+bug/1669985/+create-question" class="menu-link-createquestion sprite add">Convert to a question</a></li>
+    
+    <li><a href="https://bugs.launchpad.net/neutron/+bug/1669985/+addbranch" class="menu-link-addbranch sprite add">Link a related branch</a></li>
+    <li><a href="https://bugs.launchpad.net/neutron/+bug/1669985/+linkcve" class="menu-link-linktocve sprite add">Link to <abbr title="Common Vulnerabilities and Exposures Index">CVE</abbr></a></li>
+    
+  </ul>
+</div>
+
+      
+
+      <div class="portlet vertical" id="portlet-subscription">
+  <div class="section">
+    <div id="current_user_subscription" class="False">
+      
+        <span>You are</span>
+        
+        <a class="menu-link-subscription sprite modify edit" href="https://bugs.launchpad.net/neutron/+bug/1669985/+subscribe">
+           
+           
+           
+           not directly subscribed to this bug's notifications.
+        </a>
+      
+      
+    </div>
+    <div id="sub-unsub-spinner">Subscribing...</div>
+    <ul>
+      
+      <li><a href="https://bugs.launchpad.net/neutron/+bug/1669985/+subscriptions" class="menu-link-editsubscriptions sprite modify edit" title="View and change your subscriptions to this bug">Edit bug mail</a></li>
+    </ul>
+  </div>
+  <script type="text/javascript">
+    LPJS.use('io-base', 'node',
+            'lp.bugs.bugtask_index.portlets.subscription', function(Y) {
+        Y.on('domready', function() {
+            Y.lp.bugs.bugtask_index.portlets.subscription.initialize();
+        });
+    });
+  </script>
+</div>
+
+      <div class="portlet vertical" id="portlet-subscribers">
+  <h2>Other bug subscribers</h2>
+  <div>
+    <div><a href="https://bugs.launchpad.net/neutron/+bug/1669985/+addsubscriber" class="menu-link-addsubscriber sprite add" title="Launchpad will email that person whenever this bugs changes">Subscribe someone else</a></div>
+  </div>
+  <div id="other-bug-subscribers"><div class="subscribers-section subscribers-section-maybe" id="yui_3_10_3_1_1512711443846_150"><h3>May be notified</h3><ul class="subscribers-list"><li class="subscriber" id="subscriber-abhiraj-butala"><a href="https://launchpad.net/~abhiraj-butala"><span class="sprite person">Abhiraj Butala</span></a></li><li class="subscriber" id="subscriber-shohel-csdu"><a href="https://launchpad.net/~shohel-csdu"><span class="sprite person">Abu Shohel Ahmed</span></a></li><li class="subscriber" id="subscriber-adnandzaferovic"><a href="https://launchpad.net/~adnandzaferovic"><span class="sprite person">Adnan Džaferović</span></a></li><li class="subscriber" id="subscriber-amos91"><a href="https://launchpad.net/~amos91"><span class="sprite person">Ahmed</span></a></li><li class="subscriber" id="subscriber-ahmed-ezzat"><a href="https://launchpad.net/~ahmed-ezzat"><span class="sprite person">Ahmed Ezzat</span></a></li><li class="subscriber" id="subscriber-aishwarya-m-v-deactivatedaccount"><a href="https://launchpad.net/~aishwarya-m-v-deactivatedaccount"><span class="sprite person">Aishwarya</span></a></li><li class="subscriber" id="subscriber-amotoki"><a href="https://launchpad.net/~amotoki"><span class="sprite person">Akihiro Motoki</span></a></li><li class="subscriber" id="subscriber-shakamunyi"><a href="https://launchpad.net/~shakamunyi"><span class="sprite person">Alex Baretto</span></a></li><li class="subscriber" id="subscriber-aermolov"><a href="https://launchpad.net/~aermolov"><span class="sprite person">Alex Ermolov</span></a></li><li class="subscriber" id="subscriber-lfrdznash"><a href="https://launchpad.net/~lfrdznash"><span class="sprite person">Alfredzo Nash</span></a></li><li class="subscriber" id="subscriber-jabbar-ali"><a href="https://launchpad.net/~jabbar-ali"><span class="sprite person">Ali Jabbar</span></a></li><li class="subscriber" id="subscriber-alihussnain"><a href="https://launchpad.net/~alihussnain"><span class="sprite person">Ali hussnain</span></a></li><li class="subscriber" id="subscriber-amir-sadoughi"><a href="https://launchpad.net/~amir-sadoughi"><span class="sprite person">Amir Sadoughi</span></a></li><li class="subscriber" id="subscriber-anand1712"><a href="https://launchpad.net/~anand1712"><span class="sprite person">Anand Shanmugam</span></a></li><li class="subscriber" id="subscriber-andrej-bielko"><a href="https://launchpad.net/~andrej-bielko"><span class="sprite person">Andrej</span></a></li><li class="subscriber" id="subscriber-drewboik"><a href="https://launchpad.net/~drewboik"><span class="sprite person">Andrew Boik</span></a></li><li class="subscriber" id="subscriber-angna-aggarwal"><a href="https://launchpad.net/~angna-aggarwal"><span class="sprite person">Angna Aggarwal</span></a></li><li class="subscriber" id="subscriber-anindita-das"><a href="https://launchpad.net/~anindita-das"><span class="sprite person">Anindita Das</span></a></li><li class="subscriber" id="subscriber-ankur-gupta-f"><a href="https://launchpad.net/~ankur-gupta-f"><span class="sprite person">Ankur</span></a></li><li class="subscriber" id="subscriber-annaphilips"><a href="https://launchpad.net/~annaphilips"><span class="sprite person">Anna</span></a></li><li class="subscriber" id="subscriber-alevesque"><a href="https://launchpad.net/~alevesque"><span class="sprite person">Anthony Levesque</span></a></li><li class="subscriber" id="subscriber-papaya213"><a href="https://launchpad.net/~papaya213"><span class="sprite person">April Wang</span></a></li><li class="subscriber" id="subscriber-aqsamm"><a href="https://launchpad.net/~aqsamm"><span class="sprite person">Aqsa Malik</span></a></li><li class="subscriber" id="subscriber-armando-migliaccio"><a href="https://launchpad.net/~armando-migliaccio"><span class="sprite person">Armando Migliaccio</span></a></li><li class="subscriber" id="subscriber-arpita-rathi"><a href="https://launchpad.net/~arpita-rathi"><span class="sprite person">Arpita Rathi</span></a></li><li class="subscriber" id="subscriber-arunain"><a href="https://launchpad.net/~arunain"><span class="sprite person">Arun Sharma</span></a></li><li class="subscriber" id="subscriber-akushwah"><a href="https://launchpad.net/~akushwah"><span class="sprite person">Aruna Kushwaha</span></a></li><li class="subscriber" id="subscriber-asghar-riahi"><a href="https://launchpad.net/~asghar-riahi"><span class="sprite person">Asghar Riahi</span></a></li><li class="subscriber" id="subscriber-ashish061291"><a href="https://launchpad.net/~ashish061291"><span class="sprite person">Ashish Kumar Singh</span></a></li><li class="subscriber" id="subscriber-ashokkumaran-b"><a href="https://launchpad.net/~ashokkumaran-b"><span class="sprite person">Ashok kumaran B</span></a></li><li class="subscriber" id="subscriber-amuller"><a href="https://launchpad.net/~amuller"><span class="sprite person">Assaf Muller</span></a></li><li class="subscriber" id="subscriber-m-a-aziz"><a href="https://launchpad.net/~m-a-aziz"><span class="sprite person">Aziz</span></a></li><li class="subscriber" id="subscriber-baofangyan"><a href="https://launchpad.net/~baofangyan"><span class="sprite person">Bao Fangyan</span></a></li><li class="subscriber" id="subscriber-baoli"><a href="https://launchpad.net/~baoli"><span class="sprite person">Baodong (Robert) Li</span></a></li><li class="subscriber" id="subscriber-mustbarki"><a href="https://launchpad.net/~mustbarki"><span class="sprite person">Barki Mustapha</span></a></li><li class="subscriber" id="subscriber-bathri-s"><a href="https://launchpad.net/~bathri-s"><span class="sprite person">Bathri Ajay Raj</span></a></li><li class="subscriber" id="subscriber-bbwang"><a href="https://launchpad.net/~bbwang"><span class="sprite person">Bibo Wang</span></a></li><li class="subscriber" id="subscriber-_8ha2"><a href="https://launchpad.net/~8ha2"><span class="sprite person">Brad Eckert</span></a></li><li class="subscriber" id="subscriber-brbowen"><a href="https://launchpad.net/~brbowen"><span class="sprite person">Brian Bowen</span></a></li><li class="subscriber" id="subscriber-brian-haley"><a href="https://launchpad.net/~brian-haley"><span class="sprite person">Brian Haley</span></a></li><li class="subscriber" id="subscriber-brian-shang-dev"><a href="https://launchpad.net/~brian-shang-dev"><span class="sprite person">Brian Shang</span></a></li><li class="subscriber" id="subscriber-openstack-csk"><a href="https://launchpad.net/~openstack-csk"><span class="sprite person">C Sasi Kanth</span></a></li><li class="subscriber" id="subscriber-canh-v-truong"><a href="https://launchpad.net/~canh-v-truong"><span class="sprite person">Canh Truong</span></a></li><li class="subscriber" id="subscriber-caraobrien95"><a href="https://launchpad.net/~caraobrien95"><span class="sprite person">Cara O'Brien</span></a></li><li class="subscriber" id="subscriber-chen-xing"><a href="https://launchpad.net/~chen-xing"><span class="sprite person">Chason Chan</span></a></li><li class="subscriber" id="subscriber-zuocheng2009"><a href="https://launchpad.net/~zuocheng2009"><span class="sprite person">Cheng Zuo</span></a></li><li class="subscriber" id="subscriber-csamson-deactivatedaccount-deactivatedaccount"><a href="https://launchpad.net/~csamson-deactivatedaccount-deactivatedaccount"><span class="sprite person">Chris Samson</span></a></li><li class="subscriber" id="subscriber-cfiehe"><a href="https://launchpad.net/~cfiehe"><span class="sprite person">Christoph Fiehe</span></a></li><li class="subscriber" id="subscriber-craigmiller"><a href="https://launchpad.net/~craigmiller"><span class="sprite person">Craig Miller</span></a></li><li class="subscriber" id="subscriber-caton_zwang"><a href="https://launchpad.net/~caton.wang"><span class="sprite person">Cunpeng Wang</span></a></li><li class="subscriber" id="subscriber-kam3bombh9kkx-dan"><a href="https://launchpad.net/~kam3bombh9kkx-dan"><span class="sprite person">Dan Sneddon</span></a></li><li class="subscriber" id="subscriber-dalvarezs"><a href="https://launchpad.net/~dalvarezs"><span class="sprite person">Daniel Alvarez</span></a></li><li class="subscriber" id="subscriber-dcahill-f"><a href="https://launchpad.net/~dcahill-f"><span class="sprite person">Dave Cahill</span></a></li><li class="subscriber" id="subscriber-dlapsley"><a href="https://launchpad.net/~dlapsley"><span class="sprite person">David Lapsley</span></a></li><li class="subscriber" id="subscriber-davishbhardwaj1986"><a href="https://launchpad.net/~davishbhardwaj1986"><span class="sprite person">Davish Bhardwaj</span></a></li><li class="subscriber" id="subscriber-dnair"><a href="https://launchpad.net/~dnair"><span class="sprite person">Deepak Nair</span></a></li><li class="subscriber" id="subscriber-dengboshenzhen"><a href="https://launchpad.net/~dengboshenzhen"><span class="sprite person">DengBO</span></a></li><li class="subscriber" id="subscriber-itzdilip"><a href="https://launchpad.net/~itzdilip"><span class="sprite person">Dilip S M</span></a></li><li class="subscriber" id="subscriber-dandrushko"><a href="https://launchpad.net/~dandrushko"><span class="sprite person">Dmitriy Andrushko</span></a></li><li class="subscriber" id="subscriber-donoldfashioned"><a href="https://launchpad.net/~donoldfashioned"><span class="sprite person">Don</span></a></li><li class="subscriber" id="subscriber-dongj"><a href="https://launchpad.net/~dongj"><span class="sprite person">Dong Jun</span></a></li><li class="subscriber" id="subscriber-ducnc"><a href="https://launchpad.net/~ducnc"><span class="sprite person">Duc Nguyen</span></a></li><li class="subscriber" id="subscriber-emagana"><a href="https://launchpad.net/~emagana"><span class="sprite person">Edgar Magana</span></a></li><li class="subscriber" id="subscriber-zhang-hare"><a href="https://launchpad.net/~zhang-hare"><span class="sprite person">Edward</span></a></li><li class="subscriber" id="subscriber-eezhova"><a href="https://launchpad.net/~eezhova"><span class="sprite person">Elena Ezhova</span></a></li><li class="subscriber" id="subscriber-ethanlynn"><a href="https://launchpad.net/~ethanlynn"><span class="sprite person">Ethan Lynn</span></a></li><li class="subscriber" id="subscriber-enikanorov"><a href="https://launchpad.net/~enikanorov"><span class="sprite person">Eugene Nikanorov</span></a></li><li class="subscriber" id="subscriber-euler-jiang"><a href="https://launchpad.net/~euler-jiang"><span class="sprite person">Euler Jiang</span></a></li><li class="subscriber" id="subscriber-evgenyf"><a href="https://launchpad.net/~evgenyf"><span class="sprite person">Evgeny Fedoruk</span></a></li><li class="subscriber" id="subscriber-flo-vinti"><a href="https://launchpad.net/~flo-vinti"><span class="sprite person">Florin Vinti</span></a></li><li class="subscriber" id="subscriber-gcerami"><a href="https://launchpad.net/~gcerami"><span class="sprite person">Gabriele Cerami</span></a></li><li class="subscriber" id="subscriber-gandharva-s"><a href="https://launchpad.net/~gandharva-s"><span class="sprite person">Gandharva</span></a></li><li class="subscriber" id="subscriber-meganeshkadam"><a href="https://launchpad.net/~meganeshkadam"><span class="sprite person">Ganesh Kadam</span></a></li><li class="subscriber" id="subscriber-garyk"><a href="https://launchpad.net/~garyk"><span class="sprite person">Gary Kotton</span></a></li><li class="subscriber" id="subscriber-gbraad"><a href="https://launchpad.net/~gbraad"><span class="sprite person">Gerard Braad</span></a></li><li class="subscriber" id="subscriber-gregory-althaus"><a href="https://launchpad.net/~gregory-althaus"><span class="sprite person">Greg Althaus</span></a></li><li class="subscriber" id="subscriber-jay-lau-513"><a href="https://launchpad.net/~jay-lau-513"><span class="sprite person">Guangya Liu (Jay ...</span></a></li><li class="subscriber" id="subscriber-hengz"><a href="https://launchpad.net/~hengz"><span class="sprite person">HENG ZHANG</span></a></li><li class="subscriber" id="subscriber-melon-haifeng"><a href="https://launchpad.net/~melon-haifeng"><span class="sprite person">HaifengLi</span></a></li><li class="subscriber" id="subscriber-hajay"><a href="https://launchpad.net/~hajay"><span class="sprite person">Hampapur Ajay</span></a></li><li class="subscriber" id="subscriber-sdn_zharikrishna"><a href="https://launchpad.net/~sdn.harikrishna"><span class="sprite person">Harikrishna S</span></a></li><li class="subscriber" id="subscriber-harinipradeep27"><a href="https://launchpad.net/~harinipradeep27"><span class="sprite person">Harini</span></a></li><li class="subscriber" id="subscriber-reachharkirat"><a href="https://launchpad.net/~reachharkirat"><span class="sprite person">Harkirat Singh</span></a></li><li class="subscriber" id="subscriber-prasad-tanay"><a href="https://launchpad.net/~prasad-tanay"><span class="sprite person">Harsh Prasad</span></a></li><li class="subscriber" id="subscriber-hr858f"><a href="https://launchpad.net/~hr858f"><span class="sprite person">Hemachandra Reddy</span></a></li><li class="subscriber" id="subscriber-hemant-world"><a href="https://launchpad.net/~hemant-world"><span class="sprite person">Hemant Jadhav</span></a></li><li class="subscriber" id="subscriber-hemanthraviml"><a href="https://launchpad.net/~hemanthraviml"><span class="sprite person">Hemanth Ravi</span></a></li><li class="subscriber" id="subscriber-ichihara-hirofumi"><a href="https://launchpad.net/~ichihara-hirofumi"><span class="sprite person">Hirofumi Ichihara</span></a></li><li class="subscriber" id="subscriber-xiaohhui"><a href="https://launchpad.net/~xiaohhui"><span class="sprite person">Hong Hui Xiao</span></a></li><li class="subscriber" id="subscriber-zhuhq"><a href="https://launchpad.net/~zhuhq"><span class="sprite person">Hongquan Zhu</span></a></li><li class="subscriber" id="subscriber-hao-1-wang"><a href="https://launchpad.net/~hao-1-wang"><span class="sprite person">Howard</span></a></li><li class="subscriber" id="subscriber-tonytkdk"><a href="https://launchpad.net/~tonytkdk"><span class="sprite person">Hugo Kou</span></a></li><li class="subscriber" id="subscriber-freedomhui"><a href="https://launchpad.net/~freedomhui"><span class="sprite person">Hui Cheng</span></a></li><li class="subscriber" id="subscriber-ianychoi"><a href="https://launchpad.net/~ianychoi"><span class="sprite person">Ian Y. Choi</span></a></li><li class="subscriber" id="subscriber-igordcard"><a href="https://launchpad.net/~igordcard"><span class="sprite person">Igor D.C.</span></a></li><li class="subscriber" id="subscriber-ihar-hrachyshka"><a href="https://launchpad.net/~ihar-hrachyshka"><span class="sprite person">Ihar Hrachyshka</span></a></li><li class="subscriber" id="subscriber-yamahata"><a href="https://launchpad.net/~yamahata"><span class="sprite person">Isaku Yamahata</span></a></li><li class="subscriber" id="subscriber-ivangr"><a href="https://launchpad.net/~ivangr"><span class="sprite person">Ivan Groenewald</span></a></li><li class="subscriber" id="subscriber-neoareslinux"><a href="https://launchpad.net/~neoareslinux"><span class="sprite person">Jack Lee</span></a></li><li class="subscriber" id="subscriber-jack-mccann"><a href="https://launchpad.net/~jack-mccann"><span class="sprite person">Jack McCann</span></a></li><li class="subscriber" id="subscriber-libosvar"><a href="https://launchpad.net/~libosvar"><span class="sprite person">Jakub Libosvar</span></a></li><li class="subscriber" id="subscriber-jamal-kenjam"><a href="https://launchpad.net/~jamal-kenjam"><span class="sprite person">Jamal Mitchell</span></a></li><li class="subscriber" id="subscriber-james-denton"><a href="https://launchpad.net/~james-denton"><span class="sprite person">James Denton</span></a></li><li class="subscriber" id="subscriber-jay-janardhan"><a href="https://launchpad.net/~jay-janardhan"><span class="sprite person">Jay Janardhan</span></a></li><li class="subscriber" id="subscriber-lo-jeff-h6-deactivatedaccount"><a href="https://launchpad.net/~lo-jeff-h6-deactivatedaccount"><span class="sprite person">Jeff Ward</span></a></li><li class="subscriber" id="subscriber-ljjjustin"><a href="https://launchpad.net/~ljjjustin"><span class="sprite person">Jiajun Liu</span></a></li><li class="subscriber" id="subscriber-wenjianhn"><a href="https://launchpad.net/~wenjianhn"><span class="sprite person">Jian Wen</span></a></li><li class="subscriber" id="subscriber-jieli2087"><a href="https://launchpad.net/~jieli2087"><span class="sprite person">Jie Li</span></a></li><li class="subscriber" id="subscriber-manpo29192"><a href="https://launchpad.net/~manpo29192"><span class="sprite person">Jinlai Shan</span></a></li><li class="subscriber" id="subscriber-joel-wineland"><a href="https://launchpad.net/~joel-wineland"><span class="sprite person">Joel wineland</span></a></li><li class="subscriber" id="subscriber-buswellj-s"><a href="https://launchpad.net/~buswellj-s"><span class="sprite person">John Buswell</span></a></li><li class="subscriber" id="subscriber-john-davidge"><a href="https://launchpad.net/~john-davidge"><span class="sprite person">John Davidge</span></a></li><li class="subscriber" id="subscriber-jckasper"><a href="https://launchpad.net/~jckasper"><span class="sprite person">John Kasperski</span></a></li><li class="subscriber" id="subscriber-john-lenihan-k"><a href="https://launchpad.net/~john-lenihan-k"><span class="sprite person">John Lenihan</span></a></li><li class="subscriber" id="subscriber-john-d-perkins"><a href="https://launchpad.net/~john-d-perkins"><span class="sprite person">John Perkins</span></a></li><li class="subscriber" id="subscriber-jonzhang"><a href="https://launchpad.net/~jonzhang"><span class="sprite person">Jon R Zhang</span></a></li><li class="subscriber" id="subscriber-jordanrinke"><a href="https://launchpad.net/~jordanrinke"><span class="sprite person">Jordan Rinke</span></a></li><li class="subscriber" id="subscriber-alejandroj-2486"><a href="https://launchpad.net/~alejandroj-2486"><span class="sprite person">Jose Guerrero</span></a></li><li class="subscriber" id="subscriber-mohdjunaid-54"><a href="https://launchpad.net/~mohdjunaid-54"><span class="sprite person">Junaid</span></a></li><li class="subscriber" id="subscriber-mkausal"><a href="https://launchpad.net/~mkausal"><span class="sprite person">Kausal Malladi</span></a></li><li class="subscriber" id="subscriber-kausum-kumar"><a href="https://launchpad.net/~kausum-kumar"><span class="sprite person">Kausum Kumar</span></a></li><li class="subscriber" id="subscriber-oomichi"><a href="https://launchpad.net/~oomichi"><span class="sprite person">Ken'ichi Ohmichi</span></a></li><li class="subscriber" id="subscriber-motohashikn"><a href="https://launchpad.net/~motohashikn"><span class="sprite person">Kenji Motohashi</span></a></li><li class="subscriber" id="subscriber-kurlez"><a href="https://launchpad.net/~kurlez"><span class="sprite person">Kent Liu</span></a></li><li class="subscriber" id="subscriber-kevinbenton"><a href="https://launchpad.net/~kevinbenton"><span class="sprite person">Kevin Benton</span></a></li><li class="subscriber" id="subscriber-kostiantyn-volenbovskyi"><a href="https://launchpad.net/~kostiantyn-volenbovskyi"><span class="sprite person">Kostiantyn Volenb...</span></a></li><li class="subscriber" id="subscriber-khadkusikh"><a href="https://launchpad.net/~khadkusikh"><span class="sprite person">Kunal.Yadav</span></a></li><li class="subscriber" id="subscriber-dragon889"><a href="https://launchpad.net/~dragon889"><span class="sprite person">LIU Yulong</span></a></li><li class="subscriber" id="subscriber-gpanda_y"><a href="https://launchpad.net/~gpanda+"><span class="sprite person">Le Tian Ren</span></a></li><li class="subscriber" id="subscriber-redheadflyundershadow"><a href="https://launchpad.net/~redheadflyundershadow"><span class="sprite person">Lei Zhang</span></a></li><li class="subscriber" id="subscriber-lixipeng"><a href="https://launchpad.net/~lixipeng"><span class="sprite person">Li Xipeng</span></a></li><li class="subscriber" id="subscriber-lionelz"><a href="https://launchpad.net/~lionelz"><span class="sprite person">Lionel Zerbib</span></a></li><li class="subscriber" id="subscriber-lfourie"><a href="https://launchpad.net/~lfourie"><span class="sprite person">Louis Fourie</span></a></li><li class="subscriber" id="subscriber-ilhaminus"><a href="https://launchpad.net/~ilhaminus"><span class="sprite person">MARZAK Ilham</span></a></li><li class="subscriber" id="subscriber-magesh-gv"><a href="https://launchpad.net/~magesh-gv"><span class="sprite person">Magesh GV</span></a></li><li class="subscriber" id="subscriber-mamtaj"><a href="https://launchpad.net/~mamtaj"><span class="sprite person">Mamta Jha</span></a></li><li class="subscriber" id="subscriber-manikanta777"><a href="https://launchpad.net/~manikanta777"><span class="sprite person">Manikanta Srinivas</span></a></li><li class="subscriber" id="subscriber-manikantha-tadi"><a href="https://launchpad.net/~manikantha-tadi"><span class="sprite person">Manikantha Sriniv...</span></a></li><li class="subscriber" id="subscriber-manishatyhoo"><a href="https://launchpad.net/~manishatyhoo"><span class="sprite person">Manish Godara</span></a></li><li class="subscriber" id="subscriber-manjeet-s-bhatia"><a href="https://launchpad.net/~manjeet-s-bhatia"><span class="sprite person">Manjeet Singh Bhatia</span></a></li><li class="subscriber" id="subscriber-mvgjorge"><a href="https://launchpad.net/~mvgjorge"><span class="sprite person">Marcus Vinicius G...</span></a></li><li class="subscriber" id="subscriber-margin2017"><a href="https://launchpad.net/~margin2017"><span class="sprite person">MarginHu</span></a></li><li class="subscriber" id="subscriber-markmcclain"><a href="https://launchpad.net/~markmcclain"><span class="sprite person">Mark McClain</span></a></li><li class="subscriber" id="subscriber-michaelrf-hunter"><a href="https://launchpad.net/~michaelrf-hunter"><span class="sprite person">Michael Rowland H...</span></a></li><li class="subscriber" id="subscriber-tietz"><a href="https://launchpad.net/~tietz"><span class="sprite person">Michael Tietz</span></a></li><li class="subscriber" id="subscriber-mthompson-n"><a href="https://launchpad.net/~mthompson-n"><span class="sprite person">Micheal Thompson</span></a></li><li class="subscriber" id="subscriber-minsel"><a href="https://launchpad.net/~minsel"><span class="sprite person">Miguel Lavalle</span></a></li><li class="subscriber" id="subscriber-mika-kohonen-1986"><a href="https://launchpad.net/~mika-kohonen-1986"><span class="sprite person">Mika Kohonen</span></a></li><li class="subscriber" id="subscriber-thefossgeek"><a href="https://launchpad.net/~thefossgeek"><span class="sprite person">Mohan L</span></a></li><li class="subscriber" id="subscriber-mohankumar-n"><a href="https://launchpad.net/~mohankumar-n"><span class="sprite person">Mohankumar</span></a></li><li class="subscriber" id="subscriber-mmalik4"><a href="https://launchpad.net/~mmalik4"><span class="sprite person">Mohit Malik</span></a></li><li class="subscriber" id="subscriber-muraliraju"><a href="https://launchpad.net/~muraliraju"><span class="sprite person">Murali Raju</span></a></li><li class="subscriber" id="subscriber-nazhu"><a href="https://launchpad.net/~nazhu"><span class="sprite person">Na Zhu</span></a></li><li class="subscriber" id="subscriber-nahian"><a href="https://launchpad.net/~nahian"><span class="sprite person">Nahian Chowdhury</span></a></li><li class="subscriber" id="subscriber-nat4net"><a href="https://launchpad.net/~nat4net"><span class="sprite person">Nate</span></a></li><li class="subscriber" id="subscriber-shahnavedali"><a href="https://launchpad.net/~shahnavedali"><span class="sprite person">Naved Ali</span></a></li><li class="subscriber" id="subscriber-naved-shah"><a href="https://launchpad.net/~naved-shah"><span class="sprite person">Naved Ali Shah</span></a></li><li class="subscriber" id="subscriber-slicknik"><a href="https://launchpad.net/~slicknik"><span class="sprite person">Nikhil Manchanda</span></a></li><li class="subscriber" id="subscriber-bestofnithish"><a href="https://launchpad.net/~bestofnithish"><span class="sprite person">Nitish</span></a></li><li class="subscriber" id="subscriber-numansiddique"><a href="https://launchpad.net/~numansiddique"><span class="sprite person">Numan Siddique</span></a></li><li class="subscriber" id="subscriber-obondarev"><a href="https://launchpad.net/~obondarev"><span class="sprite person">Oleg Bondarev</span></a></li><li class="subscriber" id="subscriber-lpmqtt2"><a href="https://launchpad.net/~lpmqtt2"><span class="sprite person">OpenStack Infra</span></a></li><li class="subscriber" id="subscriber-bugs_yopenstack"><a href="https://launchpad.net/~bugs+openstack"><span class="sprite person">Openstack Bugbot</span></a></li><li class="subscriber" id="subscriber-okaratas"><a href="https://launchpad.net/~okaratas"><span class="sprite person">Ozgur Karatas</span></a></li><li class="subscriber" id="subscriber-pallavi-s"><a href="https://launchpad.net/~pallavi-s"><span class="sprite person">Pallavi</span></a></li><li class="subscriber" id="subscriber-paul-halmos"><a href="https://launchpad.net/~paul-halmos"><span class="sprite person">Paul Halmos</span></a></li><li class="subscriber" id="subscriber-pcm"><a href="https://launchpad.net/~pcm"><span class="sprite person">Paul Michali</span></a></li><li class="subscriber" id="subscriber-pvo"><a href="https://launchpad.net/~pvo"><span class="sprite person">Paul Voccio</span></a></li><li class="subscriber" id="subscriber-perry-waldner"><a href="https://launchpad.net/~perry-waldner"><span class="sprite person">Perry Waldner</span></a></li><li class="subscriber" id="subscriber-pns005"><a href="https://launchpad.net/~pns005"><span class="sprite person">Piyanai Saowaratt...</span></a></li><li class="subscriber" id="subscriber-cyperxprt"><a href="https://launchpad.net/~cyperxprt"><span class="sprite person">Piyush Pathak</span></a></li><li class="subscriber" id="subscriber-naikpradeep89"><a href="https://launchpad.net/~naikpradeep89"><span class="sprite person">Pradeep Naik</span></a></li><li class="subscriber" id="subscriber-pradeeproy"><a href="https://launchpad.net/~pradeeproy"><span class="sprite person">Pradeep Roy Kandru</span></a></li><li class="subscriber" id="subscriber-pramod-raghavendra-jayathirth"><a href="https://launchpad.net/~pramod-raghavendra-jayathirth"><span class="sprite person">Pramod</span></a></li><li class="subscriber" id="subscriber-prashanth-prahal"><a href="https://launchpad.net/~prashanth-prahal"><span class="sprite person">Prashanth Prahalad</span></a></li><li class="subscriber" id="subscriber-openstack1192"><a href="https://launchpad.net/~openstack1192"><span class="sprite person">Prateek</span></a></li><li class="subscriber" id="subscriber-praveen-sm-kumar"><a href="https://launchpad.net/~praveen-sm-kumar"><span class="sprite person">Praveen Kumar SM</span></a></li><li class="subscriber" id="subscriber-praveena-sreevani"><a href="https://launchpad.net/~praveena-sreevani"><span class="sprite person">Praveena Adipudi</span></a></li><li class="subscriber" id="subscriber-prithiv"><a href="https://launchpad.net/~prithiv"><span class="sprite person">Prithiv</span></a></li><li class="subscriber" id="subscriber-nairrajivr-edu"><a href="https://launchpad.net/~nairrajivr-edu"><span class="sprite person">Rajeev Nair</span></a></li><li class="subscriber" id="subscriber-rajesh-battala"><a href="https://launchpad.net/~rajesh-battala"><span class="sprite person">Rajesh Battala</span></a></li><li class="subscriber" id="subscriber-rajesh_zmohan"><a href="https://launchpad.net/~rajesh.mohan"><span class="sprite person">Rajesh Mohan</span></a></li><li class="subscriber" id="subscriber-spurthi"><a href="https://launchpad.net/~spurthi"><span class="sprite person">Raju Alluri</span></a></li><li class="subscriber" id="subscriber-openstack-k"><a href="https://launchpad.net/~openstack-k"><span class="sprite person">Ralf Trezeciak</span></a></li><li class="subscriber" id="subscriber-ranjit-ray"><a href="https://launchpad.net/~ranjit-ray"><span class="sprite person">Ranjit Ray</span></a></li><li class="subscriber" id="subscriber-milo-frao"><a href="https://launchpad.net/~milo-frao"><span class="sprite person">RaoFei</span></a></li><li class="subscriber" id="subscriber-rluangkhot"><a href="https://launchpad.net/~rluangkhot"><span class="sprite person">Rattana Luangkhot</span></a></li><li class="subscriber" id="subscriber-ravivsn"><a href="https://launchpad.net/~ravivsn"><span class="sprite person">Ravi Chunduru</span></a></li><li class="subscriber" id="subscriber-jexbow"><a href="https://launchpad.net/~jexbow"><span class="sprite person">Rayman Lwo</span></a></li><li class="subscriber" id="subscriber-reedip-banerjee"><a href="https://launchpad.net/~reedip-banerjee"><span class="sprite person">Reedip</span></a></li><li class="subscriber" id="subscriber-ricyadav"><a href="https://launchpad.net/~ricyadav"><span class="sprite person">Richa</span></a></li><li class="subscriber" id="subscriber-rmelick650"><a href="https://launchpad.net/~rmelick650"><span class="sprite person">Rick Melick</span></a></li><li class="subscriber" id="subscriber-rwlove"><a href="https://launchpad.net/~rwlove"><span class="sprite person">Robert Love</span></a></li><li class="subscriber" id="subscriber-roncannella"><a href="https://launchpad.net/~roncannella"><span class="sprite person">Ron Cannella</span></a></li><li class="subscriber" id="subscriber-rrugge"><a href="https://launchpad.net/~rrugge"><span class="sprite person">Rudra Rugge</span></a></li><li class="subscriber" id="subscriber-shiyanch-8"><a href="https://launchpad.net/~shiyanch-8"><span class="sprite person">Ryo Shi</span></a></li><li class="subscriber" id="subscriber-ryu-midokura"><a href="https://launchpad.net/~ryu-midokura"><span class="sprite person">Ryu Ishimoto</span></a></li><li class="subscriber" id="subscriber-openstack-santosh"><a href="https://launchpad.net/~openstack-santosh"><span class="sprite person">SANTOSH KUMAR PAN...</span></a></li><li class="subscriber" id="subscriber-wangst321"><a href="https://launchpad.net/~wangst321"><span class="sprite person">ST Wang</span></a></li><li class="subscriber" id="subscriber-saisrikiran-mudigonda"><a href="https://launchpad.net/~saisrikiran-mudigonda"><span class="sprite person">Saisrikiran Mudig...</span></a></li><li class="subscriber" id="subscriber-samuelb"><a href="https://launchpad.net/~samuelb"><span class="sprite person">Samuel Bercovici</span></a></li><li class="subscriber" id="subscriber-samuel-madireddy"><a href="https://launchpad.net/~samuel-madireddy"><span class="sprite person">Samuel Vijaykumar</span></a></li><li class="subscriber" id="subscriber-bishtsanddev"><a href="https://launchpad.net/~bishtsanddev"><span class="sprite person">Sandeep Bisht</span></a></li><li class="subscriber" id="subscriber-sapana45"><a href="https://launchpad.net/~sapana45"><span class="sprite person">Sapana Jadhav</span></a></li><li class="subscriber" id="subscriber-satya-patibandla"><a href="https://launchpad.net/~satya-patibandla"><span class="sprite person">Satyanarayana Pat...</span></a></li><li class="subscriber" id="subscriber-sean-mccully"><a href="https://launchpad.net/~sean-mccully"><span class="sprite person">Sean McCully</span></a></li><li class="subscriber" id="subscriber-hartsock"><a href="https://launchpad.net/~hartsock"><span class="sprite person">Shawn Hartsock</span></a></li><li class="subscriber" id="subscriber-shraddha-pandhe"><a href="https://launchpad.net/~shraddha-pandhe"><span class="sprite person">Shraddha Pandhe</span></a></li><li class="subscriber" id="subscriber-aragon-shruthi"><a href="https://launchpad.net/~aragon-shruthi"><span class="sprite person">Shruthi Chari</span></a></li><li class="subscriber" id="subscriber-shweta-ap05"><a href="https://launchpad.net/~shweta-ap05"><span class="sprite person">Shweta P</span></a></li><li class="subscriber" id="subscriber-ssid"><a href="https://launchpad.net/~ssid"><span class="sprite person">Sid Sun</span></a></li><li class="subscriber" id="subscriber-xchenum"><a href="https://launchpad.net/~xchenum"><span class="sprite person">Simon</span></a></li><li class="subscriber" id="subscriber-sindhu-devale-3"><a href="https://launchpad.net/~sindhu-devale-3"><span class="sprite person">Sindhu Devale</span></a></li><li class="subscriber" id="subscriber-slaweq"><a href="https://launchpad.net/~slaweq"><span class="sprite person">Slawek Kaplonski</span></a></li><li class="subscriber" id="subscriber-somikbehera"><a href="https://launchpad.net/~somikbehera"><span class="sprite person">Somik Behera</span></a></li><li class="subscriber" id="subscriber-dellabee7"><a href="https://launchpad.net/~dellabee7"><span class="sprite person">Songhee Kang</span></a></li><li class="subscriber" id="subscriber-songlli"><a href="https://launchpad.net/~songlli"><span class="sprite person">Songlian Li</span></a></li><li class="subscriber" id="subscriber-soo"><a href="https://launchpad.net/~soo"><span class="sprite person">Soo Choi</span></a></li><li class="subscriber" id="subscriber-sridhargaddam"><a href="https://launchpad.net/~sridhargaddam"><span class="sprite person">Sridhar Gaddam</span></a></li><li class="subscriber" id="subscriber-srics-r"><a href="https://launchpad.net/~srics-r"><span class="sprite person">Sridhar Ramaswamy</span></a></li><li class="subscriber" id="subscriber-ruansx"><a href="https://launchpad.net/~ruansx"><span class="sprite person">Steve Ruan</span></a></li><li class="subscriber" id="subscriber-ssloka"><a href="https://launchpad.net/~ssloka"><span class="sprite person">Steve Sloka</span></a></li><li class="subscriber" id="subscriber-spavlon"><a href="https://launchpad.net/~spavlon"><span class="sprite person">Steven Pavlon</span></a></li><li class="subscriber" id="subscriber-shart-a"><a href="https://launchpad.net/~shart-a"><span class="sprite person">Stuart Hart</span></a></li><li class="subscriber" id="subscriber-snaiksat"><a href="https://launchpad.net/~snaiksat"><span class="sprite person">Sumit Naiksatam</span></a></li><li class="subscriber" id="subscriber-surajssd009005"><a href="https://launchpad.net/~surajssd009005"><span class="sprite person">Suraj Deshmukh</span></a></li><li class="subscriber" id="subscriber-sushma-korati"><a href="https://launchpad.net/~sushma-korati"><span class="sprite person">Sushma Korati</span></a></li><li class="subscriber" id="subscriber-swaminathan-vasudevan"><a href="https://launchpad.net/~swaminathan-vasudevan"><span class="sprite person">Swaminathan Vasud...</span></a></li><li class="subscriber" id="subscriber-t-torii"><a href="https://launchpad.net/~t-torii"><span class="sprite person">Takashi Torii</span></a></li><li class="subscriber" id="subscriber-tamas-kapolnasi"><a href="https://launchpad.net/~tamas-kapolnasi"><span class="sprite person">Tamas Kapolnasi</span></a></li><li class="subscriber" id="subscriber-angeloudy"><a href="https://launchpad.net/~angeloudy"><span class="sprite person">Tao Zhou</span></a></li><li class="subscriber" id="subscriber-taurus-cheung"><a href="https://launchpad.net/~taurus-cheung"><span class="sprite person">Taurus Cheung</span></a></li><li class="subscriber" id="subscriber-tayamino"><a href="https://launchpad.net/~tayamino"><span class="sprite person">Tayaa Med Amine</span></a></li><li class="subscriber" id="subscriber-tiago-ferraz_yopen"><a href="https://launchpad.net/~tiago-ferraz+open"><span class="sprite person">Tiago Everton Fer...</span></a></li><li class="subscriber" id="subscriber-tiagoor-l"><a href="https://launchpad.net/~tiagoor-l"><span class="sprite person">Tiago OR</span></a></li><li class="subscriber" id="subscriber-tonytan4ever"><a href="https://launchpad.net/~tonytan4ever"><span class="sprite person">Tony Tan</span></a></li><li class="subscriber" id="subscriber-ktrimu"><a href="https://launchpad.net/~ktrimu"><span class="sprite person">Trimurtulu</span></a></li><li class="subscriber" id="subscriber-tpatil"><a href="https://launchpad.net/~tpatil"><span class="sprite person">Tushar Patil</span></a></li><li class="subscriber" id="subscriber-umamohan"><a href="https://launchpad.net/~umamohan"><span class="sprite person">Uma</span></a></li><li class="subscriber" id="subscriber-vidhishanair"><a href="https://launchpad.net/~vidhishanair"><span class="sprite person">Vidhisha Nair</span></a></li><li class="subscriber" id="subscriber-vikasd"><a href="https://launchpad.net/~vikasd"><span class="sprite person">Vikas Deolaliker</span></a></li><li class="subscriber" id="subscriber-vill-srk"><a href="https://launchpad.net/~vill-srk"><span class="sprite person">Vil Surkin</span></a></li><li class="subscriber" id="subscriber-vinod-kumar5"><a href="https://launchpad.net/~vinod-kumar5"><span class="sprite person">Vinod Kumar</span></a></li><li class="subscriber" id="subscriber-vinbazster"><a href="https://launchpad.net/~vinbazster"><span class="sprite person">Vinu Pillai</span></a></li><li class="subscriber" id="subscriber-vishala"><a href="https://launchpad.net/~vishala"><span class="sprite person">Vishal Agarwal</span></a></li><li class="subscriber" id="subscriber-anandanvivopenstack"><a href="https://launchpad.net/~anandanvivopenstack"><span class="sprite person">Vivekanandan maha...</span></a></li><li class="subscriber" id="subscriber-wabmca"><a href="https://launchpad.net/~wabmca"><span class="sprite person">Wajid Baig</span></a></li><li class="subscriber" id="subscriber-xianghui"><a href="https://launchpad.net/~xianghui"><span class="sprite person">Xiang Hui</span></a></li><li class="subscriber" id="subscriber-zhangxiaolins"><a href="https://launchpad.net/~zhangxiaolins"><span class="sprite person">Xiaolin Zhang</span></a></li><li class="subscriber" id="subscriber-zhongxin"><a href="https://launchpad.net/~zhongxin"><span class="sprite person">Xin Zhong</span></a></li><li class="subscriber" id="subscriber-yamamoto"><a href="https://launchpad.net/~yamamoto"><span class="sprite person">YAMAMOTO Takashi</span></a></li><li class="subscriber" id="subscriber-yahoo-eng-team"><a href="https://launchpad.net/~yahoo-eng-team"><span class="sprite team">Yahoo! Engineerin...</span></a></li><li class="subscriber" id="subscriber-yuyangbj"><a href="https://launchpad.net/~yuyangbj"><span class="sprite person">Yang Yu</span></a></li><li class="subscriber" id="subscriber-yapengwu"><a href="https://launchpad.net/~yapengwu"><span class="sprite person">Yapeng Wu</span></a></li><li class="subscriber" id="subscriber-yiyang-pku"><a href="https://launchpad.net/~yiyang-pku"><span class="sprite person">Yi Yang</span></a></li><li class="subscriber" id="subscriber-yogeshgmulay"><a href="https://launchpad.net/~yogeshgmulay"><span class="sprite person">Yogesh Mulay</span></a></li><li class="subscriber" id="subscriber-xiaoqiangnk"><a href="https://launchpad.net/~xiaoqiangnk"><span class="sprite person">Yongqiang Yang</span></a></li><li class="subscriber" id="subscriber-y-furukawa-2"><a href="https://launchpad.net/~y-furukawa-2"><span class="sprite person">Yushiro FURUKAWA</span></a></li><li class="subscriber" id="subscriber-zhuangyuxin"><a href="https://launchpad.net/~zhuangyuxin"><span class="sprite person">Yuxin Zhuang</span></a></li><li class="subscriber" id="subscriber-zhangni"><a href="https://launchpad.net/~zhangni"><span class="sprite person">ZhangNi</span></a></li><li class="subscriber" id="subscriber-multi-task"><a href="https://launchpad.net/~multi-task"><span class="sprite person">Zhengwei Gao</span></a></li><li class="subscriber" id="subscriber-ziv-redhat"><a href="https://launchpad.net/~ziv-redhat"><span class="sprite person">Ziv</span></a></li><li class="subscriber" id="subscriber-zoukeke"><a href="https://launchpad.net/~zoukeke"><span class="sprite person">Zou Keke</span></a></li><li class="subscriber" id="subscriber-avinashsau"><a href="https://launchpad.net/~avinashsau"><span class="sprite person">avinashsau</span></a></li><li class="subscriber" id="subscriber-ayyalaraju-koundinya"><a href="https://launchpad.net/~ayyalaraju-koundinya"><span class="sprite person">ayyalaraju chalam...</span></a></li><li class="subscriber" id="subscriber-bailin-zhang"><a href="https://launchpad.net/~bailin-zhang"><span class="sprite person">bailin.zhang</span></a></li><li class="subscriber" id="subscriber-patnala003"><a href="https://launchpad.net/~patnala003"><span class="sprite person">balajipatnala</span></a></li><li class="subscriber" id="subscriber-brightsondevotta1"><a href="https://launchpad.net/~brightsondevotta1"><span class="sprite person">brightson</span></a></li><li class="subscriber" id="subscriber-bugtracker"><a href="https://launchpad.net/~bugtracker"><span class="sprite person">bugtracker@devshe...</span></a></li><li class="subscriber" id="subscriber-jsonkey"><a href="https://launchpad.net/~jsonkey"><span class="sprite person">bychyahoo@gmail.com</span></a></li><li class="subscriber" id="subscriber-chitu4293"><a href="https://launchpad.net/~chitu4293"><span class="sprite person">chitu</span></a></li><li class="subscriber" id="subscriber-chenchong80"><a href="https://launchpad.net/~chenchong80"><span class="sprite person">congge</span></a></li><li class="subscriber" id="subscriber-huangdenghui"><a href="https://launchpad.net/~huangdenghui"><span class="sprite person">denghui huang</span></a></li><li class="subscriber" id="subscriber-jtwmy-16"><a href="https://launchpad.net/~jtwmy-16"><span class="sprite person">devin.li</span></a></li><li class="subscriber" id="subscriber-diroguan"><a href="https://launchpad.net/~diroguan"><span class="sprite person">diroguan</span></a></li><li class="subscriber" id="subscriber-duquanglong"><a href="https://launchpad.net/~duquanglong"><span class="sprite person">dql</span></a></li><li class="subscriber" id="subscriber-gonglh17"><a href="https://launchpad.net/~gonglh17"><span class="sprite person">droom</span></a></li><li class="subscriber" id="subscriber-yfddht1573"><a href="https://launchpad.net/~yfddht1573"><span class="sprite person">fei Yang</span></a></li><li class="subscriber" id="subscriber-gsc-1993"><a href="https://launchpad.net/~gsc-1993"><span class="sprite person">gsccc</span></a></li><li class="subscriber" id="subscriber-herrold"><a href="https://launchpad.net/~herrold"><span class="sprite person">herrold</span></a></li><li class="subscriber" id="subscriber-takashima-hideki"><a href="https://launchpad.net/~takashima-hideki"><span class="sprite person">hideki takashima</span></a></li><li class="subscriber" id="subscriber-drdanhe"><a href="https://launchpad.net/~drdanhe"><span class="sprite person">iopenstack</span></a></li><li class="subscriber" id="subscriber-janonymous"><a href="https://launchpad.net/~janonymous"><span class="sprite person">janonymous</span></a></li><li class="subscriber" id="subscriber-jaychj"><a href="https://launchpad.net/~jaychj"><span class="sprite person">jaychj</span></a></li><li class="subscriber" id="subscriber-jsjtl"><a href="https://launchpad.net/~jsjtl"><span class="sprite person">jeff wang</span></a></li><li class="subscriber" id="subscriber-jyjiang2013"><a href="https://launchpad.net/~jyjiang2013"><span class="sprite person">jiangjunyong</span></a></li><li class="subscriber" id="subscriber-jinpengcheng"><a href="https://launchpad.net/~jinpengcheng"><span class="sprite person">jinpengcheng</span></a></li><li class="subscriber" id="subscriber-jiyifeng"><a href="https://launchpad.net/~jiyifeng"><span class="sprite person">jiyifeng</span></a></li><li class="subscriber" id="subscriber-jordan-tardif"><a href="https://launchpad.net/~jordan-tardif"><span class="sprite person">jordan tardif</span></a></li><li class="subscriber" id="subscriber-jsimms"><a href="https://launchpad.net/~jsimms"><span class="sprite person">justin thomas simms</span></a></li><li class="subscriber" id="subscriber-khuangkalim"><a href="https://launchpad.net/~khuangkalim"><span class="sprite person">kalim khuang</span></a></li><li class="subscriber" id="subscriber-kgrvamsi"><a href="https://launchpad.net/~kgrvamsi"><span class="sprite person">kgrvamsi</span></a></li><li class="subscriber" id="subscriber-lleelm"><a href="https://launchpad.net/~lleelm"><span class="sprite person">kieslee</span></a></li><li class="subscriber" id="subscriber-muktevi-kiriti"><a href="https://launchpad.net/~muktevi-kiriti"><span class="sprite person">kiriti</span></a></li><li class="subscriber" id="subscriber-kailong180"><a href="https://launchpad.net/~kailong180"><span class="sprite person">kkup</span></a></li><li class="subscriber" id="subscriber-an77577463"><a href="https://launchpad.net/~an77577463"><span class="sprite person">lanpi</span></a></li><li class="subscriber" id="subscriber-yibo-grace"><a href="https://launchpad.net/~yibo-grace"><span class="sprite person">laoyi</span></a></li><li class="subscriber" id="subscriber-liangy"><a href="https://launchpad.net/~liangy"><span class="sprite person">liang yan</span></a></li><li class="subscriber" id="subscriber-nanhai-liao"><a href="https://launchpad.net/~nanhai-liao"><span class="sprite person">liaonanhai</span></a></li><li class="subscriber" id="subscriber-lilintan"><a href="https://launchpad.net/~lilintan"><span class="sprite person">lilintan</span></a></li><li class="subscriber" id="subscriber-lin-victor"><a href="https://launchpad.net/~lin-victor"><span class="sprite person">lin_victor</span></a></li><li class="subscriber" id="subscriber-lololmarwa255"><a href="https://launchpad.net/~lololmarwa255"><span class="sprite person">lololmarwa255</span></a></li><li class="subscriber" id="subscriber-lpmqtt"><a href="https://launchpad.net/~lpmqtt"><span class="sprite person">lpmqtt</span></a></li><li class="subscriber" id="subscriber-zhleeee"><a href="https://launchpad.net/~zhleeee"><span class="sprite person">lzh</span></a></li><li class="subscriber" id="subscriber-maestropandy"><a href="https://launchpad.net/~maestropandy"><span class="sprite person">maestropandy</span></a></li><li class="subscriber" id="subscriber-manish_zyadav"><a href="https://launchpad.net/~manish.yadav"><span class="sprite person">manish</span></a></li><li class="subscriber" id="subscriber-mayu-xa-0101"><a href="https://launchpad.net/~mayu-xa-0101"><span class="sprite person">mayu</span></a></li><li class="subscriber" id="subscriber-mayu0101"><a href="https://launchpad.net/~mayu0101"><span class="sprite person">mayu</span></a></li><li class="subscriber" id="subscriber-mershard-frierson"><a href="https://launchpad.net/~mershard-frierson"><span class="sprite person">mershard frierson</span></a></li><li class="subscriber" id="subscriber-miralaunchpad"><a href="https://launchpad.net/~miralaunchpad"><span class="sprite person">miralaunchpad</span></a></li><li class="subscriber" id="subscriber-mohit_z048"><a href="https://launchpad.net/~mohit.048"><span class="sprite person">mohit.048</span></a></li><li class="subscriber" id="subscriber-monikaparkar25"><a href="https://launchpad.net/~monikaparkar25"><span class="sprite person">monika</span></a></li><li class="subscriber" id="subscriber-mekpro"><a href="https://launchpad.net/~mekpro"><span class="sprite person">nawawit kes</span></a></li><li class="subscriber" id="subscriber-_524722778-8"><a href="https://launchpad.net/~524722778-8"><span class="sprite person">neo</span></a></li><li class="subscriber" id="subscriber-pawansolanki"><a href="https://launchpad.net/~pawansolanki"><span class="sprite person">pawan</span></a></li><li class="subscriber" id="subscriber-pawnesh_zkumar"><a href="https://launchpad.net/~pawnesh.kumar"><span class="sprite person">pawnesh kumar</span></a></li><li class="subscriber" id="subscriber-jiangpch"><a href="https://launchpad.net/~jiangpch"><span class="sprite person">raja</span></a></li><li class="subscriber" id="subscriber-chris-techno1307"><a href="https://launchpad.net/~chris-techno1307"><span class="sprite person">ratalevolamena</span></a></li><li class="subscriber" id="subscriber-saigandham467"><a href="https://launchpad.net/~saigandham467"><span class="sprite person">sai</span></a></li><li class="subscriber" id="subscriber-satya-patibandla-k"><a href="https://launchpad.net/~satya-patibandla-k"><span class="sprite person">satyanarayana pat...</span></a></li><li class="subscriber" id="subscriber-satyanarayana-patibandla"><a href="https://launchpad.net/~satyanarayana-patibandla"><span class="sprite person">satyanarayana pat...</span></a></li><li class="subscriber" id="subscriber-_18314573-e"><a href="https://launchpad.net/~18314573-e"><span class="sprite person">sharko.cheng</span></a></li><li class="subscriber" id="subscriber-siucdude"><a href="https://launchpad.net/~siucdude"><span class="sprite person">siucdude</span></a></li><li class="subscriber" id="subscriber-remysiva12193"><a href="https://launchpad.net/~remysiva12193"><span class="sprite person">sivagnanam C</span></a></li><li class="subscriber" id="subscriber-sowmini-varadhan"><a href="https://launchpad.net/~sowmini-varadhan"><span class="sprite person">sowmini</span></a></li><li class="subscriber" id="subscriber-sunilcs6-deactivatedaccount"><a href="https://launchpad.net/~sunilcs6-deactivatedaccount"><span class="sprite person">sunil</span></a></li><li class="subscriber" id="subscriber-tangfx128"><a href="https://launchpad.net/~tangfx128"><span class="sprite person">tangfeixiong</span></a></li><li class="subscriber" id="subscriber-anil-venkata"><a href="https://launchpad.net/~anil-venkata"><span class="sprite person">venkata anil</span></a></li><li class="subscriber" id="subscriber-vikschw"><a href="https://launchpad.net/~vikschw"><span class="sprite person">vikram.choudhary</span></a></li><li class="subscriber" id="subscriber-vivekys"><a href="https://launchpad.net/~vivekys"><span class="sprite person">vivek.ys</span></a></li><li class="subscriber" id="subscriber-vividh"><a href="https://launchpad.net/~vividh"><span class="sprite person">vividh siddha</span></a></li><li class="subscriber" id="subscriber-huagong1988"><a href="https://launchpad.net/~huagong1988"><span class="sprite person">wanghuagong</span></a></li><li class="subscriber" id="subscriber-weitao"><a href="https://launchpad.net/~weitao"><span class="sprite person">weitao</span></a></li><li class="subscriber" id="subscriber-xianliangchi"><a href="https://launchpad.net/~xianliangchi"><span class="sprite person">xianliangchi</span></a></li><li class="subscriber" id="subscriber-ningxiaoli"><a href="https://launchpad.net/~ningxiaoli"><span class="sprite person">xiaoningli</span></a></li><li class="subscriber" id="subscriber-xreuze"><a href="https://launchpad.net/~xreuze"><span class="sprite person">xreuze</span></a></li><li class="subscriber" id="subscriber-yalei-wang"><a href="https://launchpad.net/~yalei-wang"><span class="sprite person">yalei wang</span></a></li><li class="subscriber" id="subscriber-yangbo-jiang"><a href="https://launchpad.net/~yangbo-jiang"><span class="sprite person">yangbo</span></a></li><li class="subscriber" id="subscriber-cdyangzhenyu"><a href="https://launchpad.net/~cdyangzhenyu"><span class="sprite person">yangzhenyu</span></a></li><li class="subscriber" id="subscriber-yilongx-y-sun"><a href="https://launchpad.net/~yilongx-y-sun"><span class="sprite person">yilong</span></a></li><li class="subscriber" id="subscriber-yinpeijun"><a href="https://launchpad.net/~yinpeijun"><span class="sprite person">yinpeijun</span></a></li><li class="subscriber" id="subscriber-wangyxv"><a href="https://launchpad.net/~wangyxv"><span class="sprite person">yongxiangwang</span></a></li><li class="subscriber" id="subscriber-zhaobo6"><a href="https://launchpad.net/~zhaobo6"><span class="sprite person">zhaobo</span></a></li><li class="subscriber" id="subscriber-zhuzhubj"><a href="https://launchpad.net/~zhuzhubj"><span class="sprite person">zhu zhu </span></a></li><li class="subscriber" id="subscriber-zzfancy"><a href="https://launchpad.net/~zzfancy"><span class="sprite person">zzfancy</span></a></li></ul></div></div>
+</div>
+
+      
+
+      
+
+      
+  
+  <div class="portlet" id="portlet-attachments">
+    <h2>Bug attachments</h2>
+    <ul>
+      <li class="download-attachment">
+        <a class="sprite download-icon" href="https://bugs.launchpad.net/neutron/+bug/1669985/+attachment/4831248/+files/linuxagent01.png">linuxagent01.png</a>
+        <small>
+          (<a href="https://bugs.launchpad.net/neutron/+bug/1669985/+attachment/4831248">edit</a>)
+        </small>
+      </li>
+      <li class="download-attachment">
+        <a class="sprite download-icon" href="https://bugs.launchpad.net/neutron/+bug/1669985/+attachment/4831252/+files/linuxagent02.png">linuxagent02.png</a>
+        <small>
+          (<a href="https://bugs.launchpad.net/neutron/+bug/1669985/+attachment/4831252">edit</a>)
+        </small>
+      </li>
+    </ul>
+    <ul>
+      <li>
+        <a class="sprite add" href="https://bugs.launchpad.net/neutron/+bug/1669985/+addcomment">Add attachment</a>
+      </li>
+    </ul>
+  </div>
+
+
+      
+
+    
+          </div><!-- yui-b side -->
+        
+      </div><!-- yui-t4 -->
+
+      
+  <div id="footer" class="footer">
+    <div class="lp-arcana">
+        <div class="lp-branding">
+          <a href="https://launchpad.net/"><img src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/launchpad-logo-and-name-hierarchy.png" alt="Launchpad"></a>
+          &nbsp;•&nbsp;
+          <a href="https://launchpad.net/+tour">Take the tour</a>
+          &nbsp;•&nbsp;
+          <a href="https://help.launchpad.net/">Read the guide</a>
+          &nbsp;
+          <form id="globalsearch" method="get" accept-charset="UTF-8" action="https://launchpad.net/+search">
+            <input type="search" id="search-text" name="field.text">
+            <input type="image" src="./Bug #1669985 “linuxbridge-agent eValueError(&#39;I_O operation on...” _ Bugs _ neutron_files/search" style="vertical-align:5%" alt="Search Launchpad">
+          </form>
+        </div>
+        
+  
+
+    </div>
+
+    <div class="colophon">
+      © 2004-2017
+      <a href="http://canonical.com/">Canonical&nbsp;Ltd.</a>
+      &nbsp;•&nbsp;
+      <a href="https://launchpad.net/legal">Terms of use</a>
+      &nbsp;•&nbsp;
+      <a href="https://bugs.launchpad.net/feedback">Contact Launchpad Support</a>
+      
+      &nbsp;•&nbsp;
+      <a href="http://blog.launchpad.net/">Blog</a>
+      
+	&nbsp;•&nbsp;
+	<a href="http://www.canonical.com/about-canonical/careers">Careers</a>
+      
+      &nbsp;•&nbsp;
+      <a href="https://twitter.com/launchpadstatus">System status</a>
+      <span id="lp-version">
+      &nbsp;•&nbsp;
+        r18511
+        
+        
+        (<a href="https://dev.launchpad.net/">Get the code!</a>)
+      </span>
+    </div>
+  </div>
+
+    </div><!-- yui-d0-->
+
+    
+  
+  
+  <script id="json-cache-script">LP.cache = {"bug_is_private": false, "related_features": {}, "bugtask_data": {"2210987": {"milestone_value": null, "form_row_id": "task2210987", "target_is_product": true, "importance_value": "Undecided", "prefix": "neutron", "hide_assignee_team_selection": true, "delete_link": "https://bugs.launchpad.net/neutron/+bug/1669985/+delete", "id": 2210987, "assignee_is_team": null, "milestone_widget_items": "[]", "assignee_vocabulary": "AllUserTeamsParticipation", "bug_title": "linuxbridge-agent    eValueError('I/O operation on closed file", "user_can_delete": false, "assignee_value": null, "user_can_edit_importance": false, "assignee_vocabulary_filters": [], "importance_widget_items": "[]", "status_value": "Invalid", "user_can_unassign": false, "user_can_edit_milestone": false, "user_can_edit_assignee": false, "user_can_edit_status": true, "status_widget_items": "[]", "bugtask_path": "/neutron/+bug/1669985", "row_id": "tasksummary2210987", "targetname": "neutron"}}, "total_comments_and_activity": 14, "context": {"date_closed": "2017-03-09T02:17:53.646857+00:00", "date_assigned": null, "title": "Bug #1669985 in neutron: \"linuxbridge-agent    eValueError('I/O operation on closed file\"", "bug_link": "https://bugs.launchpad.net/api/devel/bugs/1669985", "bug_watch_link": null, "milestone_link": null, "http_etag": "\"0242f5c01252e26ab0d561793010db196a490ebd-abd9e5066ea8f3160f2232224621564d144d590e\"", "date_left_closed": null, "date_fix_committed": null, "date_fix_released": null, "date_in_progress": null, "resource_type_link": "https://bugs.launchpad.net/api/devel/#bug_task", "status": "Invalid", "bug_target_name": "neutron", "importance": "Undecided", "assignee_link": null, "date_triaged": null, "self_link": "https://bugs.launchpad.net/api/devel/neutron/+bug/1669985", "target_link": "https://bugs.launchpad.net/api/devel/neutron", "bug_target_display_name": "neutron", "related_tasks_collection_link": "https://bugs.launchpad.net/api/devel/neutron/+bug/1669985/related_tasks", "date_confirmed": null, "date_left_new": "2017-03-08T18:30:59.444821+00:00", "web_link": "https://bugs.launchpad.net/neutron/+bug/1669985", "owner_link": "https://bugs.launchpad.net/api/devel/~keyi", "date_created": "2017-03-04T09:40:49.321085+00:00", "date_incomplete": null, "is_complete": true}, "information_type_data": {"PRIVATESECURITY": {"name": "Private Security", "value": "PRIVATESECURITY", "description_css_class": "choice-description", "order": 2, "is_private": true, "description": "Only the security group can see this information.\n "}, "USERDATA": {"name": "Private", "value": "USERDATA", "description_css_class": "choice-description", "order": 3, "is_private": true, "description": "Only shared with users permitted to see private user information.\n"}, "PUBLICSECURITY": {"name": "Public Security", "value": "PUBLICSECURITY", "description_css_class": "choice-description", "order": 1, "is_private": false, "description": "Everyone can see this security related information.\n"}, "PUBLIC": {"name": "Public", "value": "PUBLIC", "description_css_class": "choice-description", "order": 0, "is_private": false, "description": "Everyone can see this information.\n"}}, "subscribers_portlet_url_data": {"self_link": "https://bugs.launchpad.net/api/devel/bugs/1669985", "web_link": "https://bugs.launchpad.net/bugs/1669985"}, "initial_comment_batch_offset": 41, "bug": {"users_unaffected_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/users_unaffected", "latest_patch_uploaded": null, "users_affected_count_with_dupes": 3, "security_related": false, "private": false, "bug_watches_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/bug_watches", "date_made_private": null, "linked_branches_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/linked_branches", "subscriptions_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/subscriptions", "number_of_duplicates": 0, "id": 1669985, "users_unaffected_count": 0, "title": "linuxbridge-agent    eValueError('I/O operation on closed file", "other_users_affected_count_with_dupes": 3, "name": null, "http_etag": "\"1d2af3b3bebe556011feb503d08762a21cc77580-d0c2d51c5921f28742ffd2796291ec427f773359\"", "messages_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/messages", "self_link": "https://bugs.launchpad.net/api/devel/bugs/1669985", "information_type": "Public", "who_made_private_link": null, "attachments_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/attachments", "resource_type_link": "https://bugs.launchpad.net/api/devel/#bug", "activity_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/activity", "date_last_updated": "2017-08-11T15:54:30.083709+00:00", "description": "compute  node\nopenstack newton version\n\n[root@node1 ~]# tail -f /var/log/neutron/linuxbridge-agent.log\n2017-03-04 17:38:45.394 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent [req-abd694a7-2f77-40e9-9929-5b642ab7b071 - - - - -] Error in agent loop. Devices info: {'current': set(['tapad1d6370-19']), 'timestamps': {'tapad1d6370-19': 1258}, 'removed': set(['tap8c47f24c-97', 'tape3dd752e-25', 'tap6575acab-b9', 'tap1dce27f5-bd', 'tapbfd8c8e2-3c', 'tapefe15085-96', 'tape19050ac-97', 'tapfab348e4-3e', 'tapfd528967-e6', 'tap93bddc4a-74', 'tap949c7c81-24', 'tap444571a3-dd', 'tapda41ad51-d2', 'tapcfcab1a6-8a', 'tapdd5330f9-47', 'tapa9cd3d90-45', 'tap35f3820d-44', 'tap95bb9241-e0', 'tapc0e33010-44', 'tap421d25c5-92', 'tap0753a059-b5', 'tap6a6754b3-a2', 'tap039c9322-c2', 'tap09df307e-33', 'tapccae4ec5-3d', 'tap1a3a376d-ba', 'tapcc81a48f-f3', 'tapbb555cdd-3d', 'tap5d5f50f0-cd', 'tap2274cf1d-fb', 'tapf4357e9b-c2', 'tap5683264f-fc', 'tapce7e3b23-75', 'tap8dfdfaef-55', 'tap06c9112d-27', 'tapc2fe9044-bc', 'tapf9d01072-bb', 'tap7ac1ad8f-c1', 'tapa4ee562e-fb', 'tap290292f4-37', 'tap853106fc-ad', 'tap1443d1dc-67', 'tapceb2dc8f-81', 'tap15c131b5-f9', 'tap9fc9b069-cd', 'tapdc8be820-0b', 'tapf1212ebf-ae', 'tap5730c7f8-be', 'tapa2e43cb0-fd', 'tap2f56f3b1-b7', 'tap6e3fa571-89', 'tapc6e56577-06', 'tap01404725-41', 'tap07f2c8fd-28', 'tap9dbec9d4-f4', 'tap5d0ea5be-96', 'tap2c878077-73', 'tapb4cc646f-c8', 'tap5912513d-f6', 'tapf254051d-54', 'tap7e8fcfc6-99', 'tap063cabd0-ef', 'tap10216d05-48', 'tap8290d45b-0f', 'taped2997d4-fb', 'tapaf34f472-bd', 'tap01886a3f-c8', 'tapd9490849-17', 'tapabef7840-f2', 'tapad4eb233-99', 'tap6f452a23-09', 'tap4a19b66b-e3', 'tapc4b2d4b8-b1', 'tap8e9b28a4-6e', 'tapc096bfcb-8e', 'tap80731222-c7', 'tap9645bedf-16', 'tapbf6d5b68-7b', 'tap485fd80a-3f', 'tap982833a7-7f', 'tap006ca4eb-ec', 'tapd00cebd0-1a', 'tap1996b657-ca', 'tapa604d1c9-96', 'tap0df4f7b1-f0', 'tap221a09c6-ba', 'tapd14aeca9-99', 'tap33f9066e-81', 'tap16386362-92', 'tap9757b22e-4b', 'tap7efcc9e4-78', 'tapff1f4a59-7d']), 'added': set(['tapad1d6370-19']), 'updated': set(['tapdc8be820-0b', 'tapf1212ebf-ae', 'tap5d0ea5be-96', 'tap2f56f3b1-b7', 'tap8c47f24c-97', 'tapa2e43cb0-fd', 'tap1dce27f5-bd', 'tap2c878077-73', 'tapb4cc646f-c8', 'tape19050ac-97', 'tapfab348e4-3e', 'tapfd528967-e6', 'tapefe15085-96', 'tapa9cd3d90-45', 'tap10216d05-48', 'tapaf34f472-bd', 'tap6a6754b3-a2', 'tap01886a3f-c8', 'tap6e3fa571-89', 'tap09df307e-33', 'tap1a3a376d-ba', 'tap5d5f50f0-cd', 'tapc4b2d4b8-b1', 'tapf254051d-54', u'tap80731222-c7', 'tap9645bedf-16', 'tap221a09c6-ba', 'tap93bddc4a-74', 'tap1443d1dc-67', u'tap8dfdfaef-55', 'tap06c9112d-27', 'tapc2fe9044-bc', 'tap2274cf1d-fb', 'tap7ac1ad8f-c1', 'tap01404725-41', 'tap4a19b66b-e3', 'tap9757b22e-4b', 'tapbb555cdd-3d', 'tap15c131b5-f9'])}\n2017-03-04 17:38:45.394 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent Traceback (most\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent Traceback (most recent call last):\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/plugins/ml2/drivers/agent/_common_agent.py\", line 452, in daemon_loop\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     sync = self.process_network_devices(device_info)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/osprofiler/profiler.py\", line 154, in wrapper\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     return f(*args, **kwargs)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/plugins/ml2/drivers/agent/_common_agent.py\", line 212, in process_network_devices\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     resync_b = self.treat_devices_removed(device_info['removed'])\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/osprofiler/profiler.py\", line 154, in wrapper\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     return f(*args, **kwargs)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/plugins/ml2/drivers/agent/_common_agent.py\", line 330, in treat_devices_removed\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     self.sg_agent.remove_devices_filter(devices)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/agent/securitygroups_rpc.py\", line 226, in remove_devices_filter\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     self.firewall.remove_port_filter(device)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/agent/linux/iptables_firewall.py\", line 214, in remove_port_filter\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     self._remove_conntrack_entries_from_port_deleted(port)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/agent/linux/iptables_firewall.py\", line 185, in _remove_conntrack_entries_from_port_deleted\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     [device_info], ethertype, set())\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/agent/linux/ip_conntrack.py\", line 94, in delete_conntrack_state_by_remote_ips\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     self._delete_conntrack_state(device_info_list, rule)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/agent/linux/ip_conntrack.py\", line 76, in _delete_conntrack_state\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     extra_ok_codes=[1])\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/agent/linux/utils.py\", line 120, in execute\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     execute_rootwrap_daemon(cmd, process_input, addl_env))\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/neutron/agent/linux/utils.py\", line 107, in execute_rootwrap_daemon\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     return client.execute(cmd, process_input)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib/python2.7/site-packages/oslo_rootwrap/client.py\", line 128, in execute\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     res = proxy.run_one_command(cmd, stdin)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"\u003cstring\u003e\", line 2, in run_one_command\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent   File \"/usr/lib64/python2.7/multiprocessing/managers.py\", line 773, in _callmethod\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent     raise convert_to_error(kind, result)\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent RemoteError:\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent ---------------------------------------------------------------------------\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent Unserializable message: ('#ERROR', ValueError('I/O operation on closed file',))\n2017-03-04 17:25:19.928 25876 ERROR neutron.plugins.ml2.drivers.agent._common_agent ---------------------------------------------------------------------------\n\n[root@node1 ~]# egrep -v \"^#|^$\" /etc/neutron/plugins/ml2/linuxbridge_agent.ini\n[DEFAULT]\n[agent]\n[linux_bridge]\nphysical_interface_mappings =provider:team1\n[securitygroup]\nenable_security_group = True\nfirewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver\n[vxlan]\nenable_vxlan = False\n\n[root@node1 ~]# egrep -v \"^#|^$\" /etc/neutron/neutron.conf\n[DEFAULT]\nauth_strategy = keystone\n[agent]\n[cors]\n[cors.subdomain]\n[database]\n[keystone_authtoken]\nauth_uri = http://172.16.21.100:5000\nauth_url = http://172.16.21.100:35357\nmemcached_servers = 172.16.21.4:11211,172.16.21.5:11211\nauth_type = password\nproject_domain_name = Default\nuser_domain_name = Default\nproject_name = service\nusername = neutron\npassword = 123456\n[matchmaker_redis]\n[nova]\n[oslo_concurrency]\nlock_path = /var/lib/neutron/tmp\n[oslo_messaging_amqp]\n[oslo_messaging_notifications]\n[oslo_messaging_rabbit]\nrabbit_hosts=172.16.21.4:5673, 172.16.21.5:5673\nrabbit_userid=openstack\nrabbit_password=RABBIT_PASS\nrabbit_ha_queues = true\n[oslo_messaging_zmq]\n[oslo_middleware]\n[oslo_policy]\n[qos]\n[quotas]\n[ssl]", "duplicates_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/duplicates", "tags": ["error", "linuxbridge"], "message_count": 8, "heat": 12, "bug_tasks_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/bug_tasks", "duplicate_of_link": null, "linked_merge_proposals_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/linked_merge_proposals", "users_affected_with_dupes_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/users_affected_with_dupes", "cves_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/cves", "web_link": "https://bugs.launchpad.net/bugs/1669985", "users_affected_count": 3, "owner_link": "https://bugs.launchpad.net/api/devel/~keyi", "date_created": "2017-03-04T09:40:49.321085+00:00", "date_last_message": "2017-08-11T15:54:28.908994+00:00", "users_affected_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1669985/users_affected"}, "first visible_recent_comment": -33};</script>
+
+    
+  
+
+    
+  
+
+
+  <!--
+    Facet name: bugs
+    Page type: main_side
+    Has global search: True
+    Has application tabs: True
+    Has side portlets: True
+
+    At least 53 queries/external actions issued in 0.87 seconds
+
+    Features: {'app.mainsite_only.canonical_url': None, 'hard_timeout': u'9000', 'profiling.enabled': None, 'visible_render_time': None, 'disclosure.dsp_picker.enabled': u'on', 'bugs.affected_count_includes_dupes.disabled': None, 'js.yui_version': None, 'bugs.nominations.bug_supervisors_can_target': None, 'baselayout.careers_link.disabled': None}
+
+    r18511
+
+    -->
+
+
+
+</body></html>

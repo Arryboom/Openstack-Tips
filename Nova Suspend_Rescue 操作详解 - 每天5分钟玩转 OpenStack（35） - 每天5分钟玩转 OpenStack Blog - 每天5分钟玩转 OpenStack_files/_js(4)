@@ -1,0 +1,1901 @@
+
+;if(!dojo._hasResource["com.ibm.social.ee.bean.Comment"]){
+dojo._hasResource["com.ibm.social.ee.bean.Comment"]=true;
+dojo.provide("com.ibm.social.ee.bean.Comment");
+
+
+
+
+
+
+(function(){
+var du=com.ibm.social.incontext.util.dom;
+dojo.declare("com.ibm.social.ee.bean.Comment",[com.ibm.social.ee.bean.AtomBean,com.ibm.social.ee.bean.Moderated],{category:"comment",getDocumentId:function(){
+return du.getChildElementTextContentNS(this.e,"documentId",du.DOCUMENTS_ATOM_NAMESPACE);
+},isDeleted:function(){
+return (du.getChildElementTextContentNS(this.e,"deleteWithRecord",du.DOCUMENTS_ATOM_NAMESPACE)=="true");
+},getVersionLabel:function(){
+return du.getChildElementTextContentNS(this.e,"versionLabel",du.DOCUMENTS_ATOM_NAMESPACE);
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.CommentFeedDataStore"]){
+dojo._hasResource["com.ibm.social.ee.data.CommentFeedDataStore"]=true;
+dojo.provide("com.ibm.social.ee.data.CommentFeedDataStore");
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.data.CommentFeedDataStore",[com.ibm.social.ee.data.QCSFeedDataStore],{loadItem:function(_1){
+var _2={};
+if(dojo.isIE){
+_2.format="xml";
+}
+_2.includeTags=true;
+_2.acls=true;
+this.inherited(arguments,[_1,_2]);
+},itemFromDocElAndCat:function(el,_3,_4,_5){
+return this.itemFromDocEl(el,_3);
+},itemFromDocEl:function(el,_6){
+return new com.ibm.social.ee.bean.Comment(el,_6);
+},_fetch:function(_7){
+var _8=this._getParams(_7);
+var _9=com.ibm.social.incontext.util.uri.rewriteUri(this.url,_8);
+_7.url=_9;
+_7.params=_8;
+this.inherited(arguments,[_7]);
+},_getParams:function(_a){
+var _b=this.getStdParams(_a);
+_b.category=["comment"];
+return _b;
+},dataLoaded:function(_c,_d,_e){
+var _f={checkForNext:true};
+this.inherited(arguments,[_c,_d,_e,_f]);
+},_createNewItem:function(_10,_11){
+return new com.ibm.social.ee.bean.Comment(null);
+},_getSaveItemUrl:function(_12){
+var url=this.getValue(_12,"urlEntry");
+return this.rewriteUri(url,{acls:true});
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.bean.ECMUser"]){
+dojo._hasResource["com.ibm.social.ee.bean.ECMUser"]=true;
+dojo.provide("com.ibm.social.ee.bean.ECMUser");
+
+
+dojo.declare("com.ibm.social.ee.bean.ECMUser",null,{constructor:function(e){
+var _1=com.ibm.social.incontext.util.dom;
+this.userid=_1.getChildElementTextContentNS(e,"userid",_1.SNX_NAMESPACE)||_1.getChildElementTextContentNS(e,"principalid",_1.LCMIS_NAMESPACE);
+this.id=this.userid?this.userid:_1.getChildElementTextContentNS(e,"uid",_1.DOCUMENTS_ATOM_NAMESPACE);
+this.uri=_1.getChildElementTextContentNS(e,"uri",_1.DOCUMENTS_ATOM_NAMESPACE)||_1.getChildElementTextContentNS(e,"uri",_1.ATOM_NAMESPACE);
+this.name=_1.getChildElementTextContentNS(e,"name",_1.DOCUMENTS_ATOM_NAMESPACE)||_1.getChildElementTextContentNS(e,"name",_1.ATOM_NAMESPACE)||_1.getChildElementTextContentNS(e,"displayname",_1.LCMIS_NAMESPACE);
+this.state=_1.getChildElementTextContentNS(e,"userState",_1.SNX_NAMESPACE);
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.bean.ECMComment"]){
+dojo._hasResource["com.ibm.social.ee.bean.ECMComment"]=true;
+dojo.provide("com.ibm.social.ee.bean.ECMComment");
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.bean.ECMComment",[com.ibm.social.ee.bean.Comment],{getAuthor:function(){
+if(!this.author){
+this.author=new com.ibm.social.ee.bean.ECMUser(com.ibm.social.incontext.util.dom.getElementsByTagNameNS(this.e,"author",com.ibm.social.incontext.util.dom.ATOM_NAMESPACE)[0]);
+}
+return this.author;
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.ECMCommentsFeedDataStore"]){
+dojo._hasResource["com.ibm.social.ee.data.ECMCommentsFeedDataStore"]=true;
+dojo.provide("com.ibm.social.ee.data.ECMCommentsFeedDataStore");
+
+
+
+
+dojo.declare("com.ibm.social.ee.data.ECMCommentsFeedDataStore",com.ibm.social.ee.data.CommentFeedDataStore,{skipCount:0,forceDraftComments:false,_getParams:function(_1){
+var _2=this.inherited(arguments);
+_2.sK="created";
+if(this.forceDraftComments){
+_2.category=["draftcomment"];
+}
+this._startIndexToPage(_1,_2);
+return _2;
+},_startIndexToPage:function(_3,_4){
+var _5=_3.start;
+var _6=this.cmtCount=_3.count;
+var _7=_5+_6;
+if(_6<1){
+_6=1;
+}
+while(!this._isGoodPageSize(_5,_7,_6)){
+_6++;
+}
+_4.pageSize=_6;
+_4.page=Math.floor(_5/_6)+1;
+this.skipCount=_5%_6;
+},_isGoodPageSize:function(_8,_9,_a){
+var _b=Math.floor(_8/_a);
+var _c=_b*_a+_a;
+return _c>=_9;
+},getDataLoadedEntries:function(el){
+var _d=com.ibm.social.incontext.util;
+var _e=_d.dom.getChildElementsNS(el,"entry",_d.dom.ATOM_NAMESPACE);
+return _e.slice(this.skipCount,this.skipCount+this.cmtCount);
+},itemFromDocEl:function(el,_f){
+return new com.ibm.social.ee.bean.ECMComment(el,_f);
+},_createNewItem:function(_10,_11){
+return new com.ibm.social.ee.bean.ECMComment(null);
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.RecommendationsDataStore"]){
+dojo._hasResource["com.ibm.social.ee.data.RecommendationsDataStore"]=true;
+dojo.provide("com.ibm.social.ee.data.RecommendationsDataStore");
+
+
+dojo.declare("com.ibm.social.ee.data.RecommendationsDataStore",[com.ibm.social.ee.data.QCSFeedDataStore],{constructor:function(){
+this.baseCount=this.recommendCount-(this.hasRecommended?1:0);
+},_getIdentifierAttribute:function(){
+return "id";
+},fetchItemByIdentity:function(_1){
+if(!this.authUser.ds){
+this.authUser.isFullyLoaded=true;
+this.authUser.ds={isDirty:false,isDeleted:false,isNew:false,attributes:{}};
+}
+if(_1.onItem){
+_1.onItem.apply(this,[this.hasRecommended?this.authUser:null]);
+}
+},isItem:function(_2){
+if("id" in _2){
+return true;
+}
+return false;
+},getValue:function(_3,_4,_5){
+if(_4 in _3){
+return _3[_4];
+}
+return _5;
+},dataLoaded:function(_6,_7){
+var _8=_8?_8:{};
+var _9=_6.items?_6.items:[];
+for(var i=0;i<_7.items.length;i++){
+var _a=_7.items[i];
+_a.isFullyLoaded=true;
+_a.ds={isDirty:false,isDeleted:false,isNew:false,attributes:{}};
+_9.push(_a);
+}
+this.totalItems=_7.totalSize;
+var _b=(_6.scope)?_6.scope:dojo.global;
+if(_6.onBegin){
+_6.onBegin.call(_b,this.totalItems,_6);
+}
+if(_6.onItem){
+for(i=0;i<_9.length;i++){
+_6.onItem.call(_b,_9[i],_6);
+}
+}
+if(_6.onComplete){
+var _c=(_6.onItem)?null:_9;
+_6.onComplete.call(_b,_c,_6);
+}
+},getFetchHandleAs:function(){
+return "json";
+},_fetch:function(_d){
+if(!this.countOnly){
+var _e=this._addAddtlParams(_d);
+var _f=com.ibm.social.incontext.util.uri.rewriteUri(this.url,_e);
+_d.url=_f;
+_d.params=_e;
+this.inherited(arguments,[_d]);
+}else{
+this.dataLoaded(_d,{items:[],totalSize:this.recommendCount});
+}
+},_addAddtlParams:function(_10){
+_10.sort=[{attribute:"createdByName",descending:false}];
+var _11=this.getStdParams(_10);
+_11.format="json";
+return _11;
+},_getNewItemUrl:function(_12){
+return this.documentFeed;
+},_getPostBody:function(_13){
+return this.inherited(arguments,[{category:"recommendation"}]);
+},_newItem:function(_14,_15){
+_15.recommending=true;
+dojo.publish("com/ibm/social/ee/like/beforeLike");
+this.inherited(arguments);
+},_saveItemComplete:function(_16,_17,_18,_19,_1a){
+_16.isFullyLoaded=false;
+_16.ds.isDirty=false;
+_16.ds.isNew=false;
+if(_17.requests){
+_17.requests--;
+}
+var _1b=_17.scope?_17.scope:dojo.global;
+var _1c;
+if(typeof _18=="Error"||_18 instanceof Error){
+_1c=_18;
+}else{
+_1c=com.ibm.social.incontext.util.atom.getError(_18,_19);
+}
+if(_1c&&_1c.code){
+if(_17.onError){
+_17.onError.call(_1b,_1c);
+}
+return;
+}else{
+if(_16.setDocumentElement&&_18&&_18.documentElement){
+_16.setDocumentElement(_18.documentElement);
+}
+}
+if((!_17.requests||_17.requests===0)&&_17.onComplete){
+if(_17.recommending){
+this.hasRecommended=true;
+this.recommendCount=this.baseCount+1;
+this.captureResponseUrl(_18);
+dojo.publish("com/ibm/social/ee/like/liked");
+}else{
+this.hasRecommended=false;
+this.recommendCount=this.baseCount;
+dojo.publish("com/ibm/social/ee/like/unliked");
+}
+_17.onComplete.call(_1b,_18,_19);
+}
+},_deleteItem:function(_1d,_1e){
+_1e.recommending=false;
+dojo.publish("com/ibm/social/ee/like/beforeUnlike");
+this.inherited(arguments);
+},_getDeleteItemUrl:function(_1f){
+return this.entryUrl;
+},captureResponseUrl:function(_20){
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.ECMRecommendationsDataStore"]){
+dojo._hasResource["com.ibm.social.ee.data.ECMRecommendationsDataStore"]=true;
+dojo.provide("com.ibm.social.ee.data.ECMRecommendationsDataStore");
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.data.ECMRecommendationsDataStore",[com.ibm.social.ee.data.RecommendationsDataStore,com.ibm.social.ee.data._JsonRecommendationsMixin],{fetchItemByIdentity:function(_1){
+this._getRecommendation(_1);
+},_getNewItemUrl:function(_2){
+return this.url;
+},_addAddtlParams:function(_3){
+return {pageSize:"25"};
+},_getEmptyResult:function(){
+return {items:[],totalRecommendations:this.recommendCount};
+},_getList:function(_4){
+return _4.items;
+},_getAuthorName:function(_5){
+return _5.name;
+},_getAuthorId:function(_6){
+return _6.id;
+},_getTotalResults:function(_7){
+return _7.totalRecommendations;
+},itemFromDocEl:function(el,_8){
+return new com.ibm.social.ee.bean.AtomBean(el,_8);
+},captureResponseUrl:function(_9){
+var _a=_9.documentElement;
+if(_a){
+var _b=this.itemFromDocEl(_a).getUrlEntry();
+this.entryUrl=_b;
+}
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.bean.ECMAbstractDoc"]){
+dojo._hasResource["com.ibm.social.ee.bean.ECMAbstractDoc"]=true;
+dojo.provide("com.ibm.social.ee.bean.ECMAbstractDoc");
+
+
+
+
+
+
+
+
+(function(){
+var _1=com.ibm.social.incontext.util;
+dojo.declare("com.ibm.social.ee.bean.ECMAbstractDoc",[com.ibm.social.ee.bean.AtomBean],{getName:function(){
+if(!this.name){
+var s=_1.dom.getChildElementTextContentNS(this.e,"label",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+if(!s||s.length==0){
+s=_1.dom.getChildElementAttributeMatching(this.e,"link","rel","enclosure","title");
+}
+if(!s||s.length==0){
+s=_1.dom.getChildElementTextContent(this.e,"title");
+}
+this.name=s;
+}
+if(!this.name||this.name==""){
+this.throwRequiredPropertyError("name");
+}
+return this.name;
+},getLabel:function(){
+var _2=this.inherited(arguments);
+if(!_2||_2==""){
+this.throwRequiredPropertyError("label");
+}
+return _2;
+},getSize:function(){
+return _1.text.parseInt(_1.dom.getChildElementAttributeMatching(this.e,"link","rel","enclosure","length"));
+},getLockOwner:function(){
+if(!this.lockOwner){
+var el=_1.dom.getElementsByTagNameNS(this.e,"lockOwner",_1.dom.DOCUMENTS_ATOM_NAMESPACE)[0];
+if(el){
+this.lockOwner=new com.ibm.social.ee.bean.ECMUser(el);
+}
+}
+return this.lockOwner;
+},getWorkingCopyLink:function(){
+return this.getUrlEntry();
+},getCurrentVersionLink:function(){
+return this.getUrlEntry();
+},getNexusId:function(){
+return _1.dom.getChildElementTextContentNS(this.e,"nexusId",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+},getRatingCount:function(){
+if(typeof this.ratingCount=="undefined"){
+this.ratingCount=_1.text.parseInt(_1.dom.getChildElementMatchingAttributeTextContentNS(this.e,"rank",_1.dom.SNX_NAMESPACE,"scheme",null,"http://www.ibm.com/xmlns/prod/sn/recommendations"));
+}
+return this.ratingCount;
+},getUrlRecommendation:function(){
+if(!this.urlRec){
+var _3=_1.dom.getChildElementAttributeMatching(this.e,"link","rel","recommendation","href");
+_3=_3?_1.uri.makeAtomUrlIESafe(_3):null;
+this.urlRec=this.prependBase(_3);
+}
+return this.urlRec;
+},getUrlRecommendations:function(){
+if(!this.urlRecs){
+var _4=_1.dom.getChildElementAttributeMatching(this.e,"link","rel","recommenders","href");
+this.urlRecs=this.prependBase(_4);
+}
+return this.urlRecs;
+},isUserRecommended:function(){
+return this.getUrlRecommendation()?true:false;
+},getCommentCount:function(){
+if(!this.commentCount){
+this.commentCount=_1.text.parseInt(_1.dom.getChildElementMatchingAttributeTextContentNS(this.e,"rank",_1.dom.SNX_NAMESPACE,"scheme",null,"http://www.ibm.com/xmlns/prod/sn/comment"));
+}
+return this.commentCount;
+},isNotificationEnabled:function(){
+if(!this.notificationEnabled){
+this.notificationEnabled=false;
+var _5=_1.dom.getElementsByTagNameNS(this.e,"notifications",_1.dom.DOCUMENTS_ATOM_NAMESPACE)[0];
+if(_5){
+this.notificationEnabled=(_1.dom.getChildElementTextContentNS(_5,"media",_1.dom.DOCUMENTS_ATOM_NAMESPACE)=="on");
+}
+}
+return this.notificationEnabled;
+},getNotifications:function(){
+if(!this.notifications){
+var e=_1.dom.getChildElementNS(this.e,"notifications",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+if(e){
+var c;
+var n=this.notifications={};
+for(var i=0;c=e.childNodes[i];i++){
+if(c.nodeType==1){
+n[c.localName]=_1.dom.xmlText(c)=="on";
+}
+}
+}
+}
+return this.notifications;
+},getApprovalState:function(){
+if(!this.approvalState){
+this.approvalState=_1.dom.getChildElementTextContentNS(this.e,"approvalState",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+}
+return this.approvalState;
+},getUrlLandingPage:function(){
+if(!this.urlLand){
+this.urlLand=_1.uri.makeAtomUrlIESafe(_1.dom.getChildElementAttributeMatching(this.e,"link","rel","via","href"));
+}
+return this.urlLand;
+},getModifier:function(){
+if(!this.modifier){
+this.modifier=new com.ibm.social.ee.bean.ECMUser(_1.dom.getElementsByTagNameNS(this.e,"modifier",_1.dom.DOCUMENTS_ATOM_NAMESPACE)[0]);
+}
+return this.modifier;
+},getUrlMembers:function(){
+if(!this.urlMembers){
+var _6=_1.dom.getChildElementAttributeMatching(this.e,"link","rel","members","href");
+this.urlMembers=this.prependBase(_6);
+}
+return this.urlMembers;
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.bean.ECMPublishedDoc"]){
+dojo._hasResource["com.ibm.social.ee.bean.ECMPublishedDoc"]=true;
+dojo.provide("com.ibm.social.ee.bean.ECMPublishedDoc");
+
+
+(function(){
+var _1=com.ibm.social.incontext.util;
+dojo.declare("com.ibm.social.ee.bean.ECMPublishedDoc",[com.ibm.social.ee.bean.ECMAbstractDoc],{category:"document",getPath:function(){
+return _1.dom.getChildElementTextContentNS(this.e,"path",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+},getVisibility:function(){
+if(!this.visibility){
+this.visibility=_1.dom.getChildElementTextContentNS(this.e,"visibility",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+}
+return this.visibility;
+},isLocked:function(){
+return (_1.dom.getChildElementTextContentNS(this.e,"locked",_1.dom.DOCUMENTS_ATOM_NAMESPACE)=="true");
+},isPublic:function(){
+return this.getVisibility()=="public";
+},isPrivate:function(){
+return this.getVisibility()=="private";
+},getTags:function(){
+if(!this.tags){
+var _2=[];
+for(var i=0;i<this.e.childNodes.length;i++){
+var _3=this.e.childNodes[i];
+if(_3.nodeName=="category"&&_3.getAttribute("scheme")==null){
+_2.push(_3.getAttribute("term"));
+}
+}
+this.tags=_2;
+}
+return this.tags;
+},getMimeType:function(){
+return _1.dom.getChildElementAttributeMatching(this.e,"link","rel","enclosure","type");
+},getDocumentId:function(){
+return null;
+},getVersionId:function(){
+return _1.dom.getChildElementTextContentNS(this.e,"versionUuid",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+},getVersionLabel:function(){
+return _1.dom.getChildElementTextContentNS(this.e,"versionLabel",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+},getCurrentVersion:function(){
+var _4=_1.dom.getChildElementNS(this.e,"downloadInfo",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+if(_4){
+return _1.dom.getChildElementTextContentNS(_4,"versionLabel",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+}
+},getDocumentVersionId:function(){
+return _1.dom.getChildElementTextContentNS(this.e,"documentVersionUuid",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+},getDocumentVersionLabel:function(){
+return _1.dom.getChildElementTextContentNS(this.e,"documentVersionLabel",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+},getType:function(){
+return "file";
+},getDraftId:function(){
+if(!this.draftId){
+this.draftId=_1.dom.getChildElementTextContentNS(this.e,"draftUuid",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+}
+return this.draftId;
+},getDraftCreated:function(){
+if(!this.draftCreated){
+this.draftCreated=_1.dom.misc.date.convertAtomDate(_1.dom.getChildElementTextContentNS(this.e,"draftCreated",_1.dom.DOCUMENTS_ATOM_NAMESPACE));
+}
+return this.draftCreated;
+},getDraftModified:function(){
+if(!this.draftModified){
+this.draftModified=_1.dom.misc.date.convertAtomDate(_1.dom.getChildElementTextContentNS(this.e,"draftModified",_1.dom.DOCUMENTS_ATOM_NAMESPACE));
+}
+return this.draftModified;
+},isDraftAvail:function(){
+var _5=this.getDraftId();
+if(_5&&_5!=""){
+return true;
+}
+return false;
+},getUrlRendition:function(){
+return this.prependBase(_1.dom.getChildElementAttributeMatchingNS(this.e,"link",_1.dom.ATOM_NAMESPACE,"rel",null,"rendition","href"));
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.bean.ECMApprover"]){
+dojo._hasResource["com.ibm.social.ee.bean.ECMApprover"]=true;
+dojo.provide("com.ibm.social.ee.bean.ECMApprover");
+
+
+
+
+dojo.declare("com.ibm.social.ee.bean.ECMApprover",[com.ibm.social.ee.bean.AtomBean,com.ibm.social.ee.bean.ECMUser],{category:"user",constructor:function(e){
+this.inherited(arguments);
+this.scope=com.ibm.social.incontext.util.dom.getChildElementTextContentNS(e,"approvalScope",com.ibm.social.incontext.util.dom.DOCUMENTS_ATOM_NAMESPACE);
+this.status=com.ibm.social.incontext.util.dom.getChildElementTextContentNS(e,"approvalState",com.ibm.social.incontext.util.dom.DOCUMENTS_ATOM_NAMESPACE);
+this.isSelf=com.ibm.social.incontext.util.dom.getChildElementTextContentNS(e,"approverSelf",com.ibm.social.incontext.util.dom.DOCUMENTS_ATOM_NAMESPACE)=="true";
+this.type=com.ibm.social.incontext.util.dom.getChildElementTextContentNS(e,"approverType",com.ibm.social.incontext.util.dom.DOCUMENTS_ATOM_NAMESPACE);
+this.id=com.ibm.social.incontext.util.dom.getChildElementTextContentNS(e,"approverId",com.ibm.social.incontext.util.dom.DOCUMENTS_ATOM_NAMESPACE);
+this.submitUrl=this.getUrlEntry();
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.bean.ECMDraft"]){
+dojo._hasResource["com.ibm.social.ee.bean.ECMDraft"]=true;
+dojo.provide("com.ibm.social.ee.bean.ECMDraft");
+
+
+
+
+(function(){
+var _1=com.ibm.social.incontext.util;
+dojo.declare("com.ibm.social.ee.bean.ECMDraft",[com.ibm.social.ee.bean.ECMAbstractDoc],{category:"draft",getDocumentId:function(){
+return _1.dom.getChildElementTextContentNS(this.e,"documentUuid",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+},isLocked:function(){
+return true;
+},getType:function(){
+return "draft";
+},isCurrentVersionAvail:function(){
+var _2=this.getDocumentId();
+if(_2&&_2!=""){
+return true;
+}
+return false;
+},getDraftUuid:function(){
+if(!this.draftUuid){
+this.draftUuid=_1.dom.getChildElementTextContentNS(this.e,"uuid",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+}
+return this.draftUuid;
+},getApprovalType:function(){
+if(!this.approvalType){
+this.approvalType=_1.dom.getChildElementTextContentNS(this.e,"approvalType",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+}
+return this.approvalType;
+},getApprovers:function(){
+if(!this.approvers){
+var _3=_1.dom.getElementsByTagNameNS(this.e,"approver",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+this.approvers=[];
+for(var i=0;i<_3.length;i++){
+this.approvers.push(new com.ibm.social.ee.bean.ECMApprover(_3[i]));
+}
+}
+return this.approvers;
+},getCommunityOwnerGroupId:function(){
+if(!this.communityOwnerGroupId){
+this.communityOwnerGroupId=_1.dom.getChildElementTextContentNS(this.e,"communityOwnerGroupId",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+}
+return this.communityOwnerGroupId;
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.ECMEntryDataStore"]){
+dojo._hasResource["com.ibm.social.ee.data.ECMEntryDataStore"]=true;
+dojo.provide("com.ibm.social.ee.data.ECMEntryDataStore");
+
+
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.data.ECMEntryDataStore",com.ibm.social.ee.data.EntryDataStore,{loadItem:function(_1){
+var _2={includeCurrentVersion:true,acls:true,includeLocked:true,includeLockOwner:true};
+if(_1.addtlParams){
+_2=dojo.mixin(_2,_1.addtlParams);
+}
+if(dojo.isIE){
+_2.format="xml";
+}
+this.inherited(arguments,[_1,_2]);
+},itemFromDocElAndCat:function(el,_3,_4,_5){
+var _6;
+if(_4=="draft"||_4=="draftpage"){
+_6=new com.ibm.social.ee.bean.ECMDraft(el,_3);
+}else{
+_6=new com.ibm.social.ee.bean.ECMPublishedDoc(el,_3);
+}
+_6.isFullyLoaded=!_5.notificationsOnly;
+return _6;
+},getCategory:function(el){
+return com.ibm.social.incontext.util.dom.getChildElementAttribute(el,"category","term");
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.gadget._ECMEEGadgetWidget"]){
+dojo._hasResource["com.ibm.social.ee.gadget._ECMEEGadgetWidget"]=true;
+dojo.provide("com.ibm.social.ee.gadget._ECMEEGadgetWidget");
+
+
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.gadget._ECMEEGadgetWidget",[com.ibm.social.ee.gadget._EEGadgetWidget],{loadData:function(_1){
+_1=_1||{};
+this.ds=this.createDataStore();
+var _2=this.routes.getEntryUrl();
+var _3=new com.ibm.social.ee.bean.Bean();
+_3.ds={category:"document",isDirty:false,isDeleted:false,isNew:false,attributes:{}};
+_3.getUrlEntry=function(){
+return _2;
+};
+this.ds.loadItem({item:_3,addtlParams:_1.addtlParams,onError:dojo.hitch(this,this.onDataError),onItem:dojo.hitch(this,this.dataLoaded)});
+},dataLoaded:function(_4,_5){
+this.data=_4;
+this.initializeUI();
+this.onLoaded();
+},createDataStore:function(){
+return new com.ibm.social.ee.data.ECMEntryDataStore(this.getDsParams());
+},getDsParams:function(){
+return {net:this.network,url:this.routes.getEntryUrl(),routes:this.routes};
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.track.ecmfile"]){
+dojo._hasResource["com.ibm.social.ee.track.ecmfile"]=true;
+dojo.provide("com.ibm.social.ee.track.ecmfile");
+
+
+com.ibm.social.ee.track.ecmfile.read=function(_1,_2,_3,_4){
+var _5={ds:_1.ds,item:_1.item,authUser:_1.authUser,communityId:_1.communityid,getContentId:function(){
+return this.ds.getValue(this.item,"id");
+},getItemType:function(){
+return _4?"FILE":"FILESUMMARY";
+},getAuthUserId:function(){
+return this.authUser;
+},getCommunityId:function(){
+var id=this.communityId;
+return id?id.substring(id.length-36):null;
+},getLibraryId:function(){
+var _6=this.ds.getValue(this.item,"urlEntry");
+var _7=/\/atom\/library\/([^\/]*)\/document/;
+var _8=_7.exec(_6);
+if(_8){
+return _8[1];
+}
+return "";
+},getExtraMetrics:function(){
+var _9=this.ds.getValue(this.item,"published");
+var _a=this.ds.getValue(this.item,"author");
+return {contentTitle:this.ds.getValue(this.item,"title"),contentContainerId:this.getLibraryId(),contentCreatorId:_a?_a.id:null,contentCreateTs:_9?dojo.date.stamp.toISOString(_9):null,contentLink:this.ds.getValue(this.item,"urlAlternate")};
+}};
+try{
+if(dojo.config.isDebug){
+console.log("Send read event with itemType = "+_5.getItemType()+", contentId = "+_5.getContentId());
+console.log("Options="+dojo.toJson(_5.getExtraMetrics(),true));
+}
+com.ibm.lconn.layout.track.read(_5.getContentId(),_5.getItemType(),{context:"ee",network:_2,oauth:_3,source:"ECM",userId:_5.getAuthUserId(),community:_5.getCommunityId(),extra:_5.getExtraMetrics()});
+}
+catch(e){
+if(dojo.config.isDebug){
+console.debug(e);
+}
+}
+};
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.gadget._ECMEntry"]){
+dojo._hasResource["com.ibm.social.ee.gadget._ECMEntry"]=true;
+dojo.provide("com.ibm.social.ee.gadget._ECMEntry");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(function(){
+var uu=com.ibm.social.incontext.util.url;
+var ut=com.ibm.social.incontext.util.text;
+var g=com.ibm.social.ee.gadget;
+dojo.declare("com.ibm.social.ee.gadget._ECMEntry",[g._ECMEEGadgetWidget,g._WidgetTabsMixin,g._HistoryMixin,g._PreviewImageMixin,g._GadgetMessageMixin],{templatePath:null,initialTab:null,shouldUpdateRollup:false,getAddtlParams:function(){
+},widgetTabs:{},initSwitchEELink:function(){
+},noLoadDataOnInit:true,_ecmStrings:dojo.i18n.getLocalization("com.ibm.social.ee","socialEEStrings").ecm_file,loadData:function(_1){
+this.inherited(arguments,[{addtlParams:this.getAddtlParams()}]);
+},dataLoaded:function(_2,_3){
+this.initializeUI();
+this.onLoaded();
+},initializeUI:function(){
+this.inherited(arguments);
+this.setTitle();
+this.initTabContainer();
+this.initializeHistoryTab();
+this.initializeMetadata();
+this.setDescription();
+this.shouldUpdateRollup=this._isEventDifferentVersion();
+},initComplete:function(){
+},initializeMetadata:function(){
+var _4=ut.getExtension(this.getTitle());
+this.setFileTypeIcon(_4);
+if(com.ibm.social.ee.util.misc.isImage(_4)){
+this.initPreviewLink();
+dojo.addClass(this.previewCtnr,"lotusFirst");
+}else{
+dojo.addClass(this.downloadCtnr,"lotusFirst");
+}
+this.initDownloadLink();
+this.fileSize.appendChild(dojo.doc.createTextNode(ut.formatSize(this.value("size"))));
+this.initSwitchEELink();
+},getMissingErrorNode:function(){
+if(!this.missingErrorNode){
+this.missingErrorNode=dojo.create("div",null,this.gadgetBody,"first");
+}
+return this.missingErrorNode;
+},onMissingItem:function(){
+dojo.publish("com/ibm/social/ee/event/scrollTop",null);
+},getReadMoreStrings:function(){
+var _5=this.nls.file;
+_5=dojo.mixin({},_5);
+dojo.mixin(_5,this._ecmStrings);
+return _5;
+},getTabInitializers:function(){
+return {history:"initializeHistory"};
+},getTabStylePrefix:function(){
+return "file-ee";
+},getTabContainerId:function(){
+return this.tabContainerNode;
+},getTitle:function(){
+return this.value("name");
+},getItemUrl:function(){
+return this.value("urlAlternate");
+},getHistoryTab:function(){
+return this.historyTab;
+},getHistoryContainer:function(){
+return this.historyTabBody;
+},getId:function(){
+return this.context.id;
+},notifyLoaded:function(){
+var _6={item:this.data,ds:this.ds,authUser:this.authUser,community:this.context.communityid};
+dojo.publish("social/ee/ecm/load",[_6,this.network,this.routes.oauth]);
+},notifyDownload:function(){
+var _7={item:this.data,ds:this.ds,authUser:this.authUser,community:this.context.communityid};
+dojo.publish("social/ee/ecm/download",[_7,this.network,this.routes.oauth]);
+},setTitle:function(){
+var _8=this.nls;
+var _9=this.getTitle();
+dojo.attr(this.titleNode,"href",this.value("urlLandingPage"));
+ut.breakString(_9,dojo.doc,this.titleNode);
+var _a=this.getReadMoreStrings();
+this.titleNode.title=dojo.string.substitute(_a.tooltip,{"name":_9});
+this.titleNode.setAttribute("aria-label",dojo.string.substitute(_a.tooltip,{"name":_9}));
+},setDescription:function(){
+var d=dojo.doc;
+var _b=this.value("description");
+if(_b!=""){
+ut.breakString(_b,dojo.doc,this.contentArea);
+this.contentArea.style.display="";
+}
+},_getDownloadLink:function(_c){
+return this.routes.oauth?this.network.rewriteUrl(_c):_c;
+},initDownloadLink:function(){
+var _d=this.downloadLink;
+_d.href=this._getDownloadLink(this.value("urlDownload"));
+_d.title=dojo.string.substitute(this.nls.file.download_tooltip,[ut.formatSize(this.value("size"))]);
+dojo.connect(_d,"onclick",dojo.hitch(this,function(e){
+var _e=this.navigateToUrl(false,_d.href,this.checkExists,e);
+_e.addCallback(dojo.hitch(this,function(){
+this.notifyDownload();
+}));
+}));
+},initPreviewLink:function(){
+var _f=this.prevLink;
+_f.href=this.routes.getImagePreviewLink(this.value("id"),this.nls.file.PREVIEW.TITLE,this.getPreviewLink(this.value("urlDownload")));
+dojo.connect(_f,"onclick",dojo.hitch(this,"navigateToUrl",true,_f.href,this.checkExists));
+this.previewCtnr.style.display="";
+},getEntryUrl:function(){
+return this.routes.getEntryUrl();
+},checkExists:function(_10,_11){
+var _12={handleAs:"xml",url:_10.getEntryUrl(),preventCache:true,load:dojo.hitch(this,function(e){
+var _13=new com.ibm.social.ee.bean.ECMAbstractDoc(e.documentElement);
+_11(_13);
+}),error:function(){
+_11(null);
+}};
+_10.network.get(_12);
+},getPreviewLink:function(url){
+return this.routes.oauth?url.split("oauth/").join(""):url;
+},setFileTypeIcon:function(ext){
+dojo.addClass(this.fileIcon,"lconn-ftype16-"+ext);
+},setLockStatus:function(){
+var _14=this.value("lockOwner");
+var _15=this.authUser;
+if(_14){
+var img=dojo.create("img",{alt:"",role:"presentation",src:this._blankGif},this.lockCtnr);
+if(_15&&_14.id==_15.id){
+img.className="lconnSprite lconnSprite-iconCheckedOutMe";
+this.lockCtnr.appendChild(dojo.doc.createTextNode(this.nls.ecm_file.checkedout_you));
+}else{
+img.className="lconnSprite lconnSprite-iconCheckedOut";
+this.lockCtnr.appendChild(dojo.doc.createTextNode(dojo.string.substitute(this.nls.ecm_file.checkedout_other,{user:_14.name})));
+}
+this.lockCtnr.style.display="";
+}
+},_isEventDifferentVersion:function(){
+var _16=this.getCurrentId();
+_16=this.currentId=_16.substring(1,(_16.length-1));
+return (this.context.rollupUrl.indexOf(_16)==-1);
+},getRollupUrl:function(){
+var _17=this.context.rollupUrl;
+if(this.shouldUpdateRollup){
+var _18="filterValue=";
+var _19=_17.indexOf(_18);
+_17=_17.slice(0,_19+_18.length)+this.currentId;
+}
+return _17;
+},getCurrentId:function(){
+return this.value("id");
+},getMissingErrorMessage:function(){
+return this.getReadMoreStrings().error_404;
+},_getCommunityId:function(_1a){
+if(_1a){
+var u=_1a.activityUrl;
+if(!!u){
+var i1=u.indexOf("communityUuid=");
+if(i1>0){
+var i2=u.indexOf("&",i1);
+if(i2>0){
+return u.substring(i1,i2);
+}else{
+return u.substring(i1);
+}
+}
+}
+}
+return null;
+},getVisibilityCheckerArgs:function(){
+return {communityId:this._getCommunityId(this.context),ds:this.ds,file:this.data,net:this.network,routes:this.routes};
+},loadPublishedDocWidget:function(){
+},loadDraftWidget:function(){
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.bean.ECMDocumentUser"]){
+dojo._hasResource["com.ibm.social.ee.bean.ECMDocumentUser"]=true;
+(function(){
+dojo.provide("com.ibm.social.ee.bean.ECMDocumentUser");
+
+
+
+
+var _1=com.ibm.social.incontext.util;
+dojo.declare("com.ibm.social.ee.bean.ECMDocumentUser",[com.ibm.social.ee.bean.AtomBean,com.ibm.social.ee.bean.ECMUser],{category:"user",constructor:function(e){
+this.role=_1.dom.getChildElementTextContentNS(e,"role",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+this.type=_1.dom.getChildElementTextContentNS(e,"memberType",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+this.isSecurityInherited=_1.dom.getChildElementTextContentNS(e,"isSecurityInherited",_1.dom.DOCUMENTS_ATOM_NAMESPACE);
+},getRole:function(){
+return this.role;
+},getIsSecurityInherited:function(){
+this.isSecurityInherited=="true";
+},getType:function(){
+return this.type;
+},isGroup:function(){
+return (this.type=="group"||this.isCommunityMembers()||this.isCommunityOwners());
+},isPublic:function(){
+return this.id&&(this.id=="#AUTHENTICATED-USERS"||this.id.indexOf("$IC-T-I-")==0);
+},isCommunityMembers:function(){
+return !this.isPublic()&&(this.type=="communityMember");
+},isCommunityOwners:function(){
+return (this.type=="communityOwner");
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.ECMDocumentUsersDataStore"]){
+dojo._hasResource["com.ibm.social.ee.data.ECMDocumentUsersDataStore"]=true;
+(function(){
+dojo.provide("com.ibm.social.ee.data.ECMDocumentUsersDataStore");
+
+
+
+
+dojo.declare("com.ibm.social.ee.data.ECMDocumentUsersDataStore",[com.ibm.social.ee.data.FeedDataStore],{itemFromDocEl:function(el,_1){
+return new com.ibm.social.ee.bean.ECMDocumentUser(el,_1);
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.ECMFileAccessChecker"]){
+dojo._hasResource["com.ibm.social.ee.data.ECMFileAccessChecker"]=true;
+dojo.provide("com.ibm.social.ee.data.ECMFileAccessChecker");
+
+
+dojo.declare("com.ibm.social.ee.data.ECMFileAccessChecker",null,{warningMessageKey:"WARNING_PRIVATE_GENERIC",eventHandles:[],READER_ROLE:"Reader",EDITOR_ROLE:"Editor",CONTRIBUTOR_ROLE:"Contributor",OWNER_ROLE:"Owner",_cachedACL:false,_validatedUsers:[],aclObjects:{explicitUsers:[],communityMemberObj:null,communityOwnerObj:null,publicObj:null},constructor:function(_1){
+dojo.safeMixin(this,_1);
+this._setupDUDS(this.ds,this.file);
+},_setupDUDS:function(_2,_3){
+var _4=_2.getValue(_3,"urlMembers");
+var _5={url:_4,file:_3,net:this.net};
+this.DUDS=new com.ibm.social.ee.data.ECMDocumentUsersDataStore(_5);
+},checkAccess:function(_6){
+this._validateMention(_6,dojo.hitch(this,function(_7){
+this._validatedUsers[_6.getUserId()]=_7;
+if(_7==="invalid"){
+this._callHandler("notMember",_6);
+}else{
+this._callHandler("isMember",_6);
+}
+this._callHandler("onComplete",_6);
+}));
+},_callHandler:function(_8,_9){
+var _a=this;
+if(this.eventHandles[_8]){
+var _b=new dojo.Deferred();
+_b.addCallback(function(_c){
+_a.eventHandles[_8](_c);
+return _c;
+});
+_b.callback(_9);
+}
+},_validateMention:function(_d,_e){
+if(this._cachedACL){
+this._compareAgainstACL(_d,_e);
+}else{
+var _f={scope:this,onComplete:dojo.hitch(this,this._handleCompletedRequest,_d,_e),onError:dojo.hitch(this,this._handleRequestError,_d,_e)};
+this.DUDS.fetch(_f);
+}
+},_handleRequestError:function(_10,_11,_12,_13){
+this.onRequestsCompleted(_10,_11,_12);
+},_handleCompletedRequest:function(_14,_15,_16,_17){
+this.userRoles=_16;
+this._clearCachedVariables();
+this.onRequestsCompleted(_14,_15);
+},_clearCachedVariables:function(){
+this._cachedACL=true;
+this._validatedUsers=[];
+this.aclObjects.explicitUsers=[];
+this.aclObjects.communityMemberObj=null;
+this.aclObjects.communityOwnerObj=null;
+this.aclObjects.publicObj=null;
+},onRequestsError:function(_18){
+_18("invalid");
+},onRequestsCompleted:function(_19,_1a,_1b){
+if(_1b){
+this.onRequestsError(_1a);
+}
+this._parseACL();
+this._compareAgainstACL(_19,_1a);
+},_parseACL:function(){
+var _1c=this.DUDS;
+var _1d={};
+dojo.forEach(this.userRoles,function(_1e){
+_1d[_1c.getValue(_1e,"id")]=_1e;
+});
+for(var id in _1d){
+var _1f=_1c.getValue(_1d[id],"role");
+var _20=_1c.getValue(_1d[id],"type");
+if(_1d[id].isCommunityOwners()){
+this.aclObjects.communityOwnerObj=_1d[id];
+}else{
+if(_1d[id].isCommunityMembers()){
+this.aclObjects.communityMemberObj=_1d[id];
+}else{
+if(_1d[id].isPublic()){
+this.aclObjects.publicObj=_1d[id];
+}else{
+switch(_1f){
+case this.EDITOR_ROLE:
+case this.READER_ROLE:
+case this.CONTRIBUTOR_ROLE:
+case this.OWNER_ROLE:
+this.aclObjects.explicitUsers.push(_1d[id]);
+break;
+}
+}
+}
+}
+}
+},_compareAgainstACL:function(_21,_22){
+var _23="invalid";
+if(this._validatedUsers[_21.getUserId()]){
+_22(this._validatedUsers[_21.getUserId()]);
+return;
+}
+if(this.aclObjects.publicObj){
+_22("valid");
+return;
+}
+for(var i in this.aclObjects.explicitUsers){
+var _24=this.aclObjects.explicitUsers[i];
+if(_24&&_21.getUserId()===_24.id){
+_22("valid");
+return;
+}
+}
+var _25={url:this.routes.getUserCommunityRoleURL(this.communityId,_21.getUserId()),handleAs:"json",handle:dojo.hitch(this,function(_26){
+this._handleCommunityResponse(_21,_22,_26);
+})};
+if(!_25.url){
+_22("invalid");
+return;
+}
+if(this.routes.oauth){
+this.net.get(_25);
+}else{
+dojo.xhrGet(_25);
+}
+},_handleCommunityResponse:function(_27,_28,_29){
+if(!_29||_29 instanceof Error){
+_28("invalid");
+return;
+}
+if(!_29.canViewCommunity){
+_28("invalid");
+return;
+}
+switch(_29.role){
+case "owner":
+_28("valid");
+break;
+case "member":
+!!this.aclObjects.communityMemberObj?_28("valid"):_28("invalid");
+break;
+default:
+_28("invalid");
+}
+},addCallback:function(_2a,_2b){
+this.eventHandles[_2a]=_2b;
+}});
+}
+
+
+;dojo.cache("com.ibm.social.ee", "gadget/templates/ECMPublishdDocEntry.html", "<div class=\"lotusFlyoutInner\"> <div dojoAttachPoint=\"gadgetBody\"> <div class=\"lotusFlyoutContentArea\" style=\"display: none;\" dojoAttachPoint=\"msgNode\"></div> <div class=\"lotusHeadingChunk eeHeading\" dojoAttachPoint=\"headerNode\"> <h1 class=\"lotusHeading\"> <img dojoAttachPoint=\"fileIcon\" class=\"lconn-ftype16\" src=\"${_blankGif}\" role=\"presentation\" aria-hidden=\"true\" alt=\"\"></img> <a dojoAttachPoint=\"titleNode\" href=\"\" target=\"_blank\"></a> </h1> </div> <span dojoAttachPoint=\"sharedExternally\"></span> <div class=\"lotusChunk\" dojoAttachPoint=\"imgPrev\" style=\"display: none;\"></div> <div class=\"lotusChunk\" dojoAttachPoint=\"contentArea\" style=\"display: none;\"></div> <div class=\"lotusChunk\" style=\"display: none;\" dojoAttachPoint=\"lockCtnr\"></div> <div class=\"lotusChunk\"> <ul class=\"lotusInlinelist lotusMeta\" dojoAttachPoint=\"listCtnr\"> <li dojoAttachPoint=\"previewCtnr\" style=\"display: none;\"><a title=\"${nls.file.PREVIEW.TITLE}\" dojoAttachPoint=\"prevLink\" target=\"_blank\">${nls.file.PREVIEW.LINK}</a></li> <li dojoAttachPoint=\"downloadCtnr\"><a dojoAttachPoint=\"downloadLink\">${nls.file.download.DOWNLOAD_ALT}</a></li> <li style=\"display: none;\" dojoAttachPoint=\"switchEELink\"><a title=\"${nls.ecm_file.switch_ee_tooltip}\" href=\"javascript:;\" dojoAttachEvent=\"onclick:loadDraftWidget\">${_ecmStrings.switch_ee}</a></li> <li><span dojoAttachPoint=\"fileSize\"></span></li> <li class=\"lotusTags\" dojoAttachPoint=\"tagsCtnr\" style=\"display: none;\"> <span> <label>${nls.generic.tags}</label> <span dojoAttachPoint=\"tagsNode\" role=\"list\" tabindex=\"0\"></span> </span> </li> </ul> </div> <div class=\"lotusChunk\"> <span dojoAttachPoint=\"recommendationNode\"></span> </div> <div class=\"lotusBtnContainer\" style=\"display: none;\" dojoAttachPoint=\"btnContainer\"></div> <div class=\"lotusTabContainer lotusTabCondensed\" id=\"EEtabContainer\"> <ul class=\"lotusTabs\" role=\"tablist\" dojoAttachPoint=\"tabContainerNode\"> <li class=\"lotusFirst lotusSelected eeFirstTab file-ee-tab-comments\" dojoAttachPoint=\"commentsTab\" role=\"presentation\"> <a href=\"javascript:;\" role=\"tab\" aria-selected=\"true\" id=\"EEcomments_link\" class=\"file-ee-tablink\" dojoAttachPoint=\"commentsTabLink\"></a> </li> <li class=\"file-ee-tab-history\" dojoAttachPoint=\"historyTab\" role=\"presentation\"> <a href=\"javascript:;\" role=\"tab\" id=\"EEhistory_link\" aria-selected=\"false\" class=\"file-ee-tablink\" dojoAttachPoint=\"historyTabLink\">${nls.HISTORY.TAB_TITLE}</a> </li> </ul> </div> <div tabindex=\"0\" role=\"tabpanel\" aria-labelledby=\"EEcomments_link\" dojoAttachPoint=\"commentsTabBody\" class=\"eeTabBody file-ee-tab-comments-body file-ee-selected\"></div> <div tabindex=\"0\" role=\"tabpanel\" aria-labelledby=\"EEhistory_link\" dojoAttachPoint=\"historyTabBody\" class=\"eeTabBody file-ee-tab-history-body\" style=\"display:none\"></div> </div></div>");
+
+;if(!dojo._hasResource["com.ibm.social.ee.gadget.ECMPublishedDocEntry"]){
+dojo._hasResource["com.ibm.social.ee.gadget.ECMPublishedDocEntry"]=true;
+dojo.provide("com.ibm.social.ee.gadget.ECMPublishedDocEntry");
+
+
+
+
+
+
+
+
+
+
+(function(){
+var uu=com.ibm.social.incontext.util.url;
+var ut=com.ibm.social.incontext.util.text;
+var g=com.ibm.social.ee.gadget;
+dojo.declare("com.ibm.social.ee.gadget.ECMPublishedDocEntry",[g._ECMEntry,g._RecommendationsMixin,g._CommentsMixin,g._TagsMixin],{templatePath:dojo.moduleUrl("com.ibm.social.ee","gadget/templates/ECMPublishdDocEntry.html"),initializeUI:function(){
+this.inherited(arguments);
+this.setButtonActions();
+this.commentCountChange(this.value("commentCount"));
+this.initializeRecommendations();
+this.initializeComments();
+this.initComplete();
+this.notifyLoaded();
+},widgetTabs:{comments:{tab:"commentsTab",tabLink:"commentsTabLink",tabBody:"commentsTabBody"},history:{tab:"historyTab",tabLink:"historyTabLink",tabBody:"historyTabBody"}},initialTab:"comments",getTags:function(){
+return this.value("tags");
+},getTagsContainer:function(){
+return this.tagsCtnr;
+},getTagsNode:function(){
+return this.tagsNode;
+},getCommentOpts:function(){
+var _1=parseInt(this.value("commentCount"));
+var _2=this.value("urlFeed");
+return {commentCount:_1,url:this.authUser.id?uu.rewrite(_2,{acls:"true"}):_2,dsOpts:{totalItems:_1,anonymous:this.routes.anonymous},dsConstructor:"com.ibm.social.ee.data.ECMCommentsFeedDataStore",docTitle:this.value("name"),showVersion:true,currVersion:this.value("versionLabel"),mentionsEnabled:com.ibm.social.eeconfig.config.ecmMentionsEnabled,mentionsOpts:this.getMentionsOpts(),htmlComments:true,plainTextMentions:true,sendDocTitle:false};
+},getMentionsOpts:function(){
+var _3=this.getVisibilityCheckerArgs();
+return {communityId:this._getCommunityId(this.context),isPublic:true,visibilityChecker:new com.ibm.social.ee.data.ECMFileAccessChecker(_3)};
+},getCommentsTabLinkId:function(){
+return this.commentsTabLink;
+},getCommentsContainer:function(){
+return this.commentsTabBody;
+},getRecommendInlineDSClass:function(){
+return "com.ibm.social.ee.data.ECMRecommendationsDataStore";
+},getRecommendPopupDSClass:function(){
+return "com.ibm.social.ee.data.ECMRecommendationsDataStore";
+},getRecommendElement:function(){
+return this.recommendationNode;
+},getRecommendDSOptions:function(){
+var _4=this.value("UrlRecommendations");
+var _5=this.value("UrlRecommendation");
+var _6={url:_4,entryUrl:_5,hasRecommended:this.value("userRecommended"),recommendCount:this.value("ratingCount")};
+return _6;
+},initializeMetadata:function(){
+this.inherited(arguments);
+this.initializeTags();
+},getAddtlParams:function(){
+return com.ibm.social.ee.config.ecm.publishedParams;
+},initSwitchEELink:function(){
+if(this.value("draftId")||this.ecmDraftGadget){
+this.switchEELink.style.display="";
+}
+},dataLoaded:function(_7,_8){
+if(this.ecmDraftGadget||(!this.ecmDraftGadget&&!this.dontLoadAgain)){
+this.data=_7;
+}
+this.inherited(arguments);
+},setButtonActions:function(){
+var _9=this;
+var _a=this.nls;
+this.isFollowing=this.value("notificationEnabled")===true;
+var _b=[{name:this.isFollowing?_a.file.following.remove:_a.file.following.add,title:_a.file.following.title,isVisible:function(){
+if(!_9.routes.anonymous){
+return true;
+}else{
+return false;
+}
+},execute:function(){
+_9.toggleFollowing(_9.followBtn);
+},isFollow:true}];
+com.ibm.social.ee.util.misc.generateActionBtns(this,this.btnContainer,_b,_a);
+},toggleFollowing:function(_c){
+if(this.followingInProgress){
+return;
+}
+this.followingInProgress=true;
+var ds=new com.ibm.social.ee.data.FileFollowingDataStore({url:this.routes.getEntryUrl(),net:this.network});
+var _d=!this.isFollowing;
+var _e=ds.newItem({following:this.isFollowing});
+ds.revert();
+ds.setValue(_e,"following",_d);
+ds.setValue(_e,"id",this.data.id);
+ds.save({scope:this,onError:function(_f){
+this.onErrorMessage();
+this.followingInProgress=false;
+},onComplete:function(){
+this.followingInProgress=false;
+this.isFollowing=_d;
+dojo.html.set(_c,_d?this.nls.file.following.remove:this.nls.file.following.add);
+}});
+},isAuthUserReviewer:function(){
+if(this.value("approvalState")){
+dojo.some(this.value("approvers"),function(_10){
+if(_10.isSelf){
+return true;
+}
+});
+}
+return false;
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.gadget._ECMDraftEntryMixin"]){
+dojo._hasResource["com.ibm.social.ee.gadget._ECMDraftEntryMixin"]=true;
+dojo.provide("com.ibm.social.ee.gadget._ECMDraftEntryMixin");
+dojo.declare("com.ibm.social.ee.gadget._ECMDraftEntryMixin",null,{_draftStrings:dojo.i18n.getLocalization("com.ibm.social.ee","socialEEStrings").ecm_draft,eventType:null,draftDeleteStr:null,getDraftIdChangeMsg:function(){
+},initializeUI:function(){
+this.inherited(arguments);
+if(this.shouldUpdateRollup&&!this.ecmPublishedGadget){
+this.onInfoMessage(null,null,this.getDraftIdChangeMsg());
+}
+},getAddtlParams:function(){
+return com.ibm.social.ee.config.ecm.draftParams;
+},getCurrentId:function(){
+return this.value("draftUuid");
+},getReadMoreStrings:function(){
+var _1=this.inherited(arguments);
+dojo.mixin(_1,this._draftStrings);
+return _1;
+},initSwitchEELink:function(){
+if(this.value("documentId")||this.ecmPublishedGadget){
+this.switchEELink.style.display="";
+}
+},dataLoaded:function(_2,_3){
+var _4=false;
+if(this.ecmPublishedGadget){
+this.data=_2;
+if(this.data.category=="document"){
+_4=true;
+this.switchBackToPublished();
+}
+}
+if(!_4){
+this.inherited(arguments);
+}
+},switchBackToPublished:function(){
+this.showLoading();
+this.container.style.display="none";
+this.ecmPublishedGadget.onInfoMessage(null,null,this.draftDeleteStr);
+this.ecmPublishedGadget.switchEELink.style.display="none";
+this.hideLoading();
+this.publishedCtnr.style.display="";
+this.onSizeChange();
+}});
+}
+
+
+;dojo.cache("com.ibm.social.ee", "gadget/templates/ECMDraftEntry.html", "<div class=\"lotusFlyoutInner\"> <div dojoAttachPoint=\"gadgetBody\"> <div class=\"lotusFlyoutContentArea\" style=\"display: none;\" dojoAttachPoint=\"msgNode\"></div> <div class=\"lotusHeadingChunk eeHeading\" dojoAttachPoint=\"headerNode\"> <h1 class=\"lotusHeading\"> <img dojoAttachPoint=\"fileIcon\" class=\"lconn-ftype16\" src=\"${_blankGif}\" role=\"presentation\" aria-hidden=\"true\" alt=\"\"></img> <a dojoAttachPoint=\"titleNode\" href=\"\" target=\"_blank\"></a> <span title=\"${nls.ecm_draft.draft_tooltip}\" class=\"lotusNowrap eeDraftIndicator\">${nls.ecm_draft.draft}</span> </h1> </div> <span dojoAttachPoint=\"sharedExternally\"></span> <div class=\"lotusChunk\" dojoAttachPoint=\"imgPrev\" style=\"display: none;\"></div> <div class=\"lotusChunk\" dojoAttachPoint=\"contentArea\" style=\"display: none;\"></div> <div class=\"lotusChunk\" style=\"display: none;\" dojoAttachPoint=\"lockCtnr\"></div> <div class=\"lotusChunk\"> <ul class=\"lotusInlinelist lotusMeta\" dojoAttachPoint=\"listCtnr\"> <li dojoAttachPoint=\"previewCtnr\" style=\"display: none;\"><a title=\"${nls.file.PREVIEW.TITLE}\" dojoAttachPoint=\"prevLink\" target=\"_blank\">${nls.file.PREVIEW.LINK}</a></li> <li dojoAttachPoint=\"downloadCtnr\"><a dojoAttachPoint=\"downloadLink\">${nls.file.download.DOWNLOAD_ALT}</a></li> <li dojoAttachPoint=\"switchEELink\" style=\"display: none;\"><a title=\"${nls.ecm_draft.switch_ee_tooltip}\" href=\"javascript:;\" dojoAttachEvent=\"onclick:loadPublishedDocWidget\">${_draftStrings.switch_ee}</a></li> <li><span dojoAttachPoint=\"fileSize\"></span></li> </ul> </div> <div class=\"lotusBtnContainer\" style=\"display: none;\" dojoAttachPoint=\"btnContainer\"></div> <div class=\"lotusTabContainer lotusTabCondensed\" id=\"EEtabContainer\"> <ul class=\"lotusTabs\" role=\"tablist\" dojoAttachPoint=\"tabContainerNode\"> <li class=\"lotusFirst lotusSelected eeFirstTab file-ee-tab-history\" dojoAttachPoint=\"historyTab\" role=\"presentation\"> <a href=\"javascript:;\" role=\"tab\" id=\"EEhistory_link\" aria-selected=\"true\" class=\"file-ee-tablink\" dojoAttachPoint=\"historyTabLink\">${nls.HISTORY.TAB_TITLE}</a> </li> </ul> </div> <div tabindex=\"0\" role=\"tabpanel\" aria-labelledby=\"EEhistory_link\" dojoAttachPoint=\"historyTabBody\" class=\"eeTabBody file-ee-tab-history-body file-ee-selected\"></div> </div></div>");
+
+;if(!dojo._hasResource["com.ibm.social.ee.gadget.ECMDraftEntry"]){
+dojo._hasResource["com.ibm.social.ee.gadget.ECMDraftEntry"]=true;
+dojo.provide("com.ibm.social.ee.gadget.ECMDraftEntry");
+
+
+
+
+dojo.declare("com.ibm.social.ee.gadget.ECMDraftEntry",[com.ibm.social.ee.gadget._ECMEntry,com.ibm.social.ee.gadget._ECMDraftEntryMixin],{templatePath:dojo.moduleUrl("com.ibm.social.ee","gadget/templates/ECMDraftEntry.html"),initialTab:"history",widgetTabs:{history:{tab:"historyTab",tabLink:"historyTabLink",tabBody:"historyTabBody"}},initializeUI:function(){
+this.inherited(arguments);
+this.initializeHistory();
+this.initComplete();
+this.notifyLoaded();
+},getDraftIdChangeMsg:function(){
+return this._draftStrings.draft_general_info;
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.gadget._ECMDraftReviewCommentsMixin"]){
+dojo._hasResource["com.ibm.social.ee.gadget._ECMDraftReviewCommentsMixin"]=true;
+dojo.provide("com.ibm.social.ee.gadget._ECMDraftReviewCommentsMixin");
+
+
+
+
+dojo.declare("com.ibm.social.ee.gadget._ECMDraftReviewCommentsMixin",com.ibm.social.ee.gadget._CommentsMixin,{initializeComments:function(){
+var _1=0;
+var _2={net:this.network,url:this.value("urlFeed"),forceDraftComments:true};
+var _3=new com.ibm.social.ee.data.ECMCommentsFeedDataStore(_2);
+_3.fetch({start:0,count:0,query:{uuid:"12345"},sort:[{attribute:"published",descending:true}],onBegin:dojo.hitch(this,function(_4,_5){
+this.draftCommentCount=_4?parseInt(_4):0;
+com.ibm.social.ee.gadget._CommentsMixin.prototype.initializeComments.apply(this);
+})});
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.CommunityRoutes"]){
+dojo._hasResource["com.ibm.social.ee.data.CommunityRoutes"]=true;
+dojo.provide("com.ibm.social.ee.data.CommunityRoutes");
+dojo.declare("com.ibm.social.ee.data.CommunityRoutes",com.ibm.social.ee.data.AbstractRoutes,{service:"communities",getCommunityLink:function(id){
+return this.getServiceUrl()+"/service/html/communityview?communityUuid="+encodeURIComponent(id);
+},getTypeAheadUrl:function(){
+return this.getServiceUrl()+"/service/opensocial/"+(this.oauth?"oauth/":"")+"groups/@me";
+}});
+}
+
+
+;dojo.cache("com.ibm.social.ee", "widget/templates/ECMReview.html", "<div> <div dojoAttachPoint=\"main\" style=\"display: none;\" class=\"eeReviewTab\"> <div style=\"margin-bottom: 15px;\" dojoAttachPoint=\"draftInfo\"></div> <h3>${_strings.reviewers}</h3> <div class=\"lotusMeta eeGreyText\" dojoAttachPoint=\"helpTxt\"></div> <table role=\"presentation\"> <colgroup> <col style=\"width: 12px;\"></col> <col></col> </colgroup> <tbody dojoAttachPoint=\"mainTbody\"></tbody> </table> <span dojoAttachPoint=\"addtlReviewers\" style=\"display: none;\"> <h3 style=\"margin-top: 15px;\">${_strings.reviwers_addtl}</h3> <div class=\"lotusMeta eeGreyText\">${_strings.review_additional_required}</div> <table role=\"presentation\"> <colgroup> <col style=\"width: 12px;\"></col> <col></col> </colgroup> <tbody dojoAttachPoint=\"AddtlTbody\"></tbody> </table> </span> </div> <div dojoAttachPoint=\"empty\" style=\"display: none;\"></div> <div dojoAttachPoint=\"error\" style=\"display: none;\"></div> <div dojoAttachPoint=\"loading\" style=\"display: none;\"></div></div>");
+
+;if(!dojo._hasResource["com.ibm.social.ee.widget.ECMReview"]){
+dojo._hasResource["com.ibm.social.ee.widget.ECMReview"]=true;
+dojo.provide("com.ibm.social.ee.widget.ECMReview");
+
+
+
+
+
+
+
+
+
+
+dojo.requireLocalization("com.ibm.social.ee","socialEEStrings");
+(function(){
+var _1=com.ibm.social.incontext.util;
+dojo.declare("com.ibm.social.ee.widget.ECMReview",[dijit._Widget,dijit._Templated],{approvers:[],submitter:null,allLibraryApprovers:false,_blankGif:null,approvalState:null,_strings:dojo.i18n.getLocalization("com.ibm.social.ee","socialEEStrings").ecm_draft,templatePath:dojo.moduleUrl("com.ibm.social.ee","widget/templates/ECMReview.html"),postCreate:function(){
+this._showLoading();
+this.render();
+this.inherited(arguments);
+this.loading.style.display="none";
+this.main.style.display="";
+var _2=this;
+window.setTimeout(function(){
+_2.onDisplayChange();
+},1);
+},render:function(){
+var _3=[],_4=[],d=dojo.doc,_5=this;
+this.setReviewInfo(d,_5);
+dojo.forEach(this.approvers,function(_6){
+if(_6.scope=="library"){
+_3.push(_6);
+}else{
+_4.push(_6);
+}
+});
+this.helpTxt.appendChild(d.createTextNode(this.allLibraryApprovers?this._strings.review_required_all:this._strings.review_required_any));
+dojo.forEach(_3,function(_7){
+_5._renderApproverRow(_7,_5.mainTbody);
+});
+if(_4.length>0){
+dojo.forEach(_4,function(_8){
+_5._renderApproverRow(_8,_5.AddtlTbody);
+});
+this.addtlReviewers.style.display="";
+}
+dojo.publish("com/ibm/social/ee/data/loaded");
+},setReviewInfo:function(d,_9){
+var _a=new com.ibm.social.incontext.util.DateFormat(this.submitted).formatByAge(this._strings.reivew_submitted_date,d);
+_1.html.substitute(d,this.draftInfo,_a,{user:function(){
+var _b=d.createElement("span");
+_1.text.breakString(_9.submitter.name,d,_b);
+if(_9.generateLinkToPerson){
+_9.generateLinkToPerson(_9.submitter,_b);
+}
+return _b;
+}});
+},_renderApproverRow:function(_c,_d){
+var d=dojo.doc,_e;
+var tr=dojo.create("tr",{},_d);
+var td=dojo.create("td",{},tr);
+if(_c.status=="rejected"){
+_e=dojo.create("img",{title:this._strings.rejected,className:"otherVoting12 otherVoting12-VoteRejected12",alt:this._strings.rejected,src:this._blankGif},td);
+}else{
+if(_c.status=="approved"){
+_e=dojo.create("img",{title:this._strings.approved,className:"otherVoting12 otherVoting12-VoteAccepted12",alt:this._strings.approved,src:this._blankGif},td);
+}else{
+if(this.approvalState=="rejected"){
+_e=dojo.create("img",{title:this._strings.pending_rejected,className:"otherVoting12 otherVoting12-VoteNotRequired12",title:this._strings.pending_rejected,src:this._blankGif},td);
+}
+}
+}
+if(_e&&this.isApprover(_c)){
+dojo.addClass(_e,"authUserStatus");
+}
+var td=dojo.create("td",{},tr);
+if(_c.type=="group"&&_c.id.substring(0,7)=="$IC-C-O"){
+var _f=_c.id.split("$IC-C-O-")[1];
+var _10=this.getCommunityRoutes().getCommunityLink(_f);
+var _11=_10+"#fullpageWidgetId=Members";
+var a=dojo.create("a",{href:_11,title:this._strings.community_owners},td);
+dojo.attr(a,"target","_blank");
+a.appendChild(d.createTextNode(this._strings.community_owners));
+}else{
+if(this.generateLinkToPerson){
+this.generateLinkToPerson(_c,td);
+}else{
+td.appendChild(d.createTextNode(_c.name));
+}
+}
+},_showLoading:function(){
+dojo.empty(this.loading);
+_1.html.showLoading(this.loading);
+this.loading.style.display="";
+},getCommunityRoutes:function(){
+if(!this.communityRoutes){
+this.communityRoutes=new com.ibm.social.ee.data.CommunityRoutes(this.getRouteOptions());
+}
+return this.communityRoutes;
+},onDisplayChange:function(){
+},generateLinkToPerson:function(){
+},getRouteOptions:function(){
+}});
+})();
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.ECMDraftReviewDataStore"]){
+dojo._hasResource["com.ibm.social.ee.data.ECMDraftReviewDataStore"]=true;
+dojo.provide("com.ibm.social.ee.data.ECMDraftReviewDataStore");
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.data.ECMDraftReviewDataStore",com.ibm.social.ee.data.ECMEntryDataStore,{_fetch:function(_1){
+var q=_1.query;
+if(dojo.isObject(q)&&q.uuid){
+if(_1.onBegin){
+_1.onBegin.call(_1.scope,1,_1);
+}
+if(_1.onItem){
+_1.onItem.call(_1.scope,q,_1);
+}
+if(_1.onComplete){
+_1.onComplete.call(_1.scope,[_1],_1);
+}
+}
+},_setupRejectBodyBody:function(){
+return this._setupDraftSubmitBody(false);
+},_setupAcceptDraftBody:function(){
+return this._setupDraftSubmitBody(true);
+},_setupDraftSubmitBody:function(_2){
+var du=com.ibm.social.incontext.util.dom;
+var _3=du.newXMLDocument("entry",du.ATOM_NAMESPACE,[du.DOCUMENTS_ATOM_NAMESPACE]);
+var _4=_3.documentElement;
+var _5=du.createElementNS(_3,"approvalAction",du.DOCUMENTS_ATOM_NAMESPACE);
+_5.appendChild(_3.createTextNode(_2?"approve":"reject"));
+_4.appendChild(_5);
+var _6=du.XML_DECLARATION+du.serializeXMLDocument(_3);
+return com.ibm.social.incontext.util.text.trim(_6);
+},_acceptOccurred:function(_7){
+dojo.publish("com/ibm/social/ee/review/accepted");
+if(_7.onComplete){
+_7.onComplete.call(null);
+}
+},_acceptError:function(_8,_9){
+if(_8.onError){
+_8.onError.call(null);
+}
+},_rejectOccurred:function(_a){
+dojo.publish("com/ibm/social/ee/review/rejected");
+if(_a.onComplete){
+_a.onComplete.call(null);
+}
+},_rejectError:function(_b,_c){
+if(_b.onError){
+_b.onError.call(null);
+}
+},setValue:function(_d,_e){
+this._isApprove=_e?true:false;
+this._uuid=_d.uuid;
+},save:function(_f){
+var _10=this;
+var dfd=this.net.putXml({url:this.url,headers:{"Content-Type":"application/atom+xml"},postData:this._isApprove?this._setupAcceptDraftBody():this._setupRejectBodyBody(),noTimeout:true});
+var _11=function(){
+if(_10._isApprove){
+_10._acceptError(_f);
+}else{
+_10._rejectError(_f);
+}
+};
+var _12=function(){
+if(_10._isApprove){
+_10._acceptOccurred(_f);
+}else{
+_10._rejectOccurred(_f);
+}
+};
+dfd.addErrback(_11);
+dfd.addCallback(dojo.hitch(this,function(){
+if(this.altUrl){
+var _13=this.net.putXml({url:this.altUrl,headers:{"Content-Type":"application/atom+xml"},postData:this._isApprove?this._setupAcceptDraftBody():this._setupRejectBodyBody(),noTimeout:true});
+_13.addCallback(_12);
+_13.addErrback(_11);
+}else{
+_12();
+}
+}));
+}});
+}
+
+
+;dojo.cache("com.ibm.social.ee", "gadget/templates/ECMDraftReviewEntry.html", "<div class=\"lotusFlyoutInner\"> <div dojoAttachPoint=\"gadgetBody\"> <div class=\"lotusFlyoutContentArea\" style=\"display: none;\" dojoAttachPoint=\"msgNode\"></div> <div class=\"lotusHeadingChunk eeHeading\" dojoAttachPoint=\"headerNode\"> <h1 class=\"lotusHeading\"> <img dojoAttachPoint=\"fileIcon\" class=\"lconn-ftype16\" src=\"${_blankGif}\" role=\"presentation\" aria-hidden=\"true\" alt=\"\"></img> <a dojoAttachPoint=\"titleNode\" href=\"\" target=\"_blank\"></a> <span title=\"${nls.ecm_draft.in_review_tooltip}\" class=\"lotusNowrap eeDraftIndicator\">${nls.ecm_draft.in_review}</span> </h1> </div> <span dojoAttachPoint=\"sharedExternally\"></span> <div class=\"lotusChunk\" dojoAttachPoint=\"imgPrev\" style=\"display: none;\"></div> <div class=\"lotusChunk\" dojoAttachPoint=\"contentArea\" style=\"display: none;\"></div> <div class=\"lotusChunk\" style=\"display: none;\" dojoAttachPoint=\"lockCtnr\"></div> <div class=\"lotusChunk\"> <ul class=\"lotusInlinelist lotusMeta\" dojoAttachPoint=\"listCtnr\"> <li dojoAttachPoint=\"previewCtnr\" style=\"display: none;\"><a title=\"${nls.file.PREVIEW.TITLE}\" dojoAttachPoint=\"prevLink\" target=\"_blank\">${nls.file.PREVIEW.LINK}</a></li> <li dojoAttachPoint=\"downloadCtnr\"><a dojoAttachPoint=\"downloadLink\">${nls.file.download.DOWNLOAD_ALT}</a></li> <li dojoAttachPoint=\"switchEELink\" style=\"display: none;\"><a title=\"${nls.ecm_draft.switch_ee_tooltip}\" href=\"javascript:;\" dojoAttachEvent=\"onclick:loadPublishedDocWidget\">${_draftStrings.switch_ee}</a></li> <li><span dojoAttachPoint=\"fileSize\"></span></li> </ul> </div> <div class=\"lotusBtnContainer\" style=\"display: none;\" dojoAttachPoint=\"btnContainer\"></div> <div class=\"lotusTabContainer lotusTabCondensed\" id=\"EEtabContainer\"> <ul class=\"lotusTabs\" role=\"tablist\" dojoAttachPoint=\"tabContainerNode\"> <li class=\"lotusFirst lotusSelected eeFirstTab file-ee-tab-comments\" dojoAttachPoint=\"commentsTab\" role=\"presentation\"> <a href=\"javascript:;\" role=\"tab\" aria-selected=\"true\" id=\"EEcomments_link\" class=\"file-ee-tablink\" dojoAttachPoint=\"commentsTabLink\"></a> </li> <li class=\"file-ee-tab-history\" dojoAttachPoint=\"historyTab\" role=\"presentation\"> <a href=\"javascript:;\" role=\"tab\" id=\"EEhistory_link\" aria-selected=\"false\" class=\"file-ee-tablink\" dojoAttachPoint=\"historyTabLink\">${nls.HISTORY.TAB_TITLE}</a> </li> <li class=\"file-ee-tab-review\" dojoAttachPoint=\"reviewTab\" role=\"presentation\"> <a href=\"javascript:;\" role=\"tab\" id=\"EEreview_link\" aria-selected=\"false\" class=\"file-ee-tablink\" dojoAttachPoint=\"reviewTabLink\">${nls.ecm_draft.review}</a> </li> </ul> </div> <div tabindex=\"0\" role=\"tabpanel\" aria-labelledby=\"EEcomments_link\" dojoAttachPoint=\"commentsTabBody\" class=\"eeTabBody file-ee-tab-comments-body file-ee-selected\"></div> <div tabindex=\"0\" role=\"tabpanel\" aria-labelledby=\"EEhistory_link\" dojoAttachPoint=\"historyTabBody\" class=\"eeTabBody file-ee-tab-history-body\"></div> <div tabindex=\"0\" role=\"tabpanel\" aria-labelledby=\"EEreview_link\" dojoAttachPoint=\"reviewTabBody\" class=\"eeTabBody file-ee-tab-review-body\"></div> </div></div>");
+
+;if(!dojo._hasResource["com.ibm.social.ee.gadget.ECMDraftReviewEntry"]){
+dojo._hasResource["com.ibm.social.ee.gadget.ECMDraftReviewEntry"]=true;
+dojo.provide("com.ibm.social.ee.gadget.ECMDraftReviewEntry");
+
+
+
+
+
+
+
+
+
+
+
+
+(function(){
+var uu=com.ibm.social.incontext.util.url;
+var ut=com.ibm.social.incontext.util.text;
+var g=com.ibm.social.ee.gadget;
+dojo.declare("com.ibm.social.ee.gadget.ECMDraftReviewEntry",[g._ECMEntry,g._ECMDraftReviewCommentsMixin,g._ECMDraftEntryMixin],{templatePath:dojo.moduleUrl("com.ibm.social.ee","gadget/templates/ECMDraftReviewEntry.html"),selfApprover:null,isSelfApprover:false,forceRefresh:false,initialTab:"comments",REVIEW_ALL:"all",REVIEW_ANY:"any",approvalState:null,draftCommentCount:0,isCommunityOwner:false,allLibraryApprovers:false,widgetTabs:{comments:{tab:"commentsTab",tabLink:"commentsTabLink",tabBody:"commentsTabBody"},history:{tab:"historyTab",tabLink:"historyTabLink",tabBody:"historyTabBody"},review:{tab:"reviewTab",tabLink:"reviewTabLink",tabBody:"reviewTabBody"}},getTabInitializers:function(){
+return {history:"initializeHistory",review:"initializeReview"};
+},initializeUI:function(){
+this.checkIsSelfApprover();
+var _1=this.value("approvalType");
+this.allLibraryApprovers=(_1==this.REVIEW_ALL);
+this.approvalState=this.value("approvalState");
+this.checkEventType();
+this.inherited(arguments);
+this.setButtonActions();
+this.commentCountChange(0);
+this.initComplete();
+this.initializeComments();
+this.notifyLoaded();
+},commentCountChange:function(_2){
+dojo.html.set(dojo.byId(this.getCommentsTabLinkId()),this.nls.COMMENTS.ARIA_LABEL);
+},isApprover:function(_3){
+return (_3.isSelf||_3.id==this.authUser.id);
+},checkIsSelfApprover:function(){
+var _4=this,_5=this.value("approvers");
+dojo.forEach(_5,function(_6){
+if(_4.isApprover(_6)){
+if(_6.id==_4.authUser.id){
+_4.individualApprover=_6;
+}else{
+_4.communityApprover=_6;
+}
+_4.isSelfApprover=true;
+}
+});
+if(this.individualApprover){
+this.selfApprover=this.individualApprover;
+}else{
+if(this.communityApprover){
+this.selfApprover=this.communityApprover;
+}
+}
+},checkEventType:function(){
+var _7=this._draftStrings,_8=null;
+if(this.isSelfApprover){
+if(this.selfApprover.status=="pending"){
+_8=this.getPendingMessage();
+}else{
+if(this.selfApprover.status=="rejected"){
+_8=_7.reject_info;
+}else{
+_8=_7.accept_info;
+}
+}
+}
+if(_8){
+this.onInfoMessage(null,null,_8);
+}
+},getPendingMessage:function(_9){
+var _a=this._draftStrings;
+var _b=_a.draft_review_404_general_info;
+if(this.approvalState=="pending"){
+if(!this.selfApprover&&_9){
+_b=_a.draft_general_info;
+}else{
+if(this.selfApprover&&this.selfApprover.scope=="document"){
+_b=_9?_a.draft_review_404_require_info:_a.draft_review_require_info;
+}else{
+if(this.allLibraryApprovers){
+_b=_9?_a.draft_review_404_require_info:_a.draft_review_require_info;
+}else{
+_b=_9?_a.draft_review_404_request_info:_a.draft_review_request_info;
+}
+}
+}
+}
+return _b;
+},getCommentOpts:function(){
+var _c=this.draftCommentCount;
+var _d=this.value("urlFeed");
+return {commentCount:_c,url:uu.rewrite(_d,{acls:"true"}),dsOpts:{totalItems:_c,anonymous:this.routes.anonymous,forceDraftComments:true},dsConstructor:"com.ibm.social.ee.data.ECMCommentsFeedDataStore",docTitle:this.value("name"),showVersion:false,isDraft:true,currVersion:this.value("versionLabel"),noCountListener:true,mentionsEnabled:com.ibm.social.eeconfig.config.ecmMentionsEnabled,mentionsOpts:this.getMentionsOpts(),htmlComments:true,plainTextMentions:true,sendDocTitle:false};
+},getMentionsOpts:function(){
+var _e=this.getVisibilityCheckerArgs();
+return {communityId:this._getCommunityId(this.context),isPublic:true,visibilityChecker:new com.ibm.social.ee.data.ECMFileAccessChecker(_e)};
+},getCommentsTabLinkId:function(){
+return this.commentsTabLink;
+},getCommentsContainer:function(){
+return this.commentsTabBody;
+},initializeReview:function(){
+var _f=this.reviewTabBody;
+if(!this.reviewWidget){
+var _10=dojo.create("div",{},_f);
+this.reviewWidget=new com.ibm.social.ee.widget.ECMReview({_blankGif:this._blankGif,isApprover:dojo.hitch(this,this.isApprover),generateLinkToPerson:dojo.hitch(this,this.generateLinkToPerson),getRouteOptions:dojo.hitch(this,this.getRouteOptions),approvers:this.value("approvers"),allLibraryApprovers:this.allLibraryApprovers,approvalState:this.approvalState,submitter:this.value("modifier"),submitted:this.value("modified"),onDisplayChange:dojo.hitch(this,this.onSizeChange)},_10);
+}
+},setButtonActions:function(){
+var _11=null,_12=this;
+if(this.isSelfApprover&&this.selfApprover.status=="pending"&&this.approvalState=="pending"){
+_11=new com.ibm.social.ee.data.ECMDraftReviewDataStore({net:this.network,url:this.selfApprover.submitUrl});
+if(this.individualApprover&&this.communityApprover){
+_11.altUrl=this.communityApprover.submitUrl;
+}
+var _13=[{name:this._draftStrings.approve,title:this._draftStrings.approve_tooltip,optClasses:"eeReviewBtn",isVisible:function(){
+return true;
+},isDisabled:function(){
+return false;
+},execute:function(){
+_12.approveDraft(_11);
+}},{name:this._draftStrings.reject,title:this._draftStrings.reject_tooltip,optClasses:"eeReviewBtn",isVisible:function(){
+return true;
+},isDisabled:function(){
+return false;
+},execute:function(){
+_12.rejectDraft(_11);
+}}];
+com.ibm.social.ee.util.misc.generateActionBtns(this,this.btnContainer,_13,null);
+}
+},rejectDraft:function(ds){
+this._disableReviewBtns();
+this._getReviewItem(ds,{onItem:dojo.hitch(this,function(_14,_15){
+if(_14&&!(_14 instanceof Error)){
+ds.setValue(_14,false);
+ds.save({onComplete:dojo.hitch(this,function(){
+this._displayReviewMsg(false,true);
+this.btnContainer.style.display="none";
+this.updateReviewTab(false);
+}),onError:dojo.hitch(this,function(){
+this._displayReviewMsg(false,false);
+this._enableReviewBtns();
+})});
+}
+})});
+},approveDraft:function(ds){
+this._disableReviewBtns();
+this._getReviewItem(ds,{onItem:dojo.hitch(this,function(_16,_17){
+if(_16&&!(_16 instanceof Error)){
+ds.setValue(_16,true);
+ds.save({onComplete:dojo.hitch(this,function(){
+this._displayReviewMsg(true,true);
+this.btnContainer.style.display="none";
+this.updateReviewTab(true);
+}),onError:dojo.hitch(this,function(){
+this._displayReviewMsg(true,false);
+this._enableReviewBtns();
+})});
+}
+})});
+},_getReviewItem:function(ds,opt){
+ds.fetch({query:{uuid:"12345"},onItem:opt.onItem,onError:opt.onError,scope:null});
+},_disableReviewBtns:function(){
+dojo.query(".eeReviewBtn",this.domNode).forEach(function(btn){
+dojo.addClass(btn,"lotusBtnDisabled");
+btn.setAttribute("disabled","true");
+btn.setAttribute("aria-disabled","true");
+});
+},_enableReviewBtns:function(){
+dojo.query(".eeReviewBtn",this.domNode).forEach(function(btn){
+dojo.removeClass(btn,"lotusBtnDisabled");
+btn.removeAttribute("disabled");
+btn.removeAttribute("aria-disabled");
+});
+},_displayReviewMsg:function(_18,_19){
+var txt;
+if(_19){
+txt=_18?this._draftStrings.accept_success:this._draftStrings.reject_success;
+this.onSuccessMessage(null,null,txt);
+}else{
+txt=_18?this._draftStrings.accept_error:this._draftStrings.reject_error;
+this.onErrorMessage(null,null,txt);
+}
+this.msgNode.style.display="";
+dojo.publish("com/ibm/social/ee/event/scrollTop");
+},updateReviewTab:function(_1a){
+this.switchTab("review",this.reviewTab,this.reviewTabLink,this.reviewTabBody);
+dojo.query(".authUserStatus",this.reviewTabBody).forEach(function(img){
+dojo.removeClass(img);
+if(_1a){
+dojo.addClass(img,"otherVoting12 otherVoting12-VoteAccepted12");
+}else{
+dojo.addClass(img,"otherVoting12 otherVoting12-VoteRejected12");
+}
+});
+},getDraftIdChangeMsg:function(){
+return this.getPendingMessage(true);
+}});
+})();
+}
+
+
+;dojo.cache("com.ibm.social.ee", "gadget/templates/ECMGadgetLoader.html", "<div> <div dojoAttachPoint=\"loadingNode\" style=\"display: none;\"></div> <div dojoAttachPoint=\"publishedNode\" style=\"display: none;\"></div> <div dojoAttachPoint=\"draftNode\" style=\"display: none;\"></div></div>");
+
+;if(!dojo._hasResource["com.ibm.social.ee.gadget.ECMGadgetLoader"]){
+dojo._hasResource["com.ibm.social.ee.gadget.ECMGadgetLoader"]=true;
+dojo.provide("com.ibm.social.ee.gadget.ECMGadgetLoader");
+
+
+
+
+
+
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.gadget.ECMGadgetLoader",[com.ibm.social.ee.gadget._ECMEEGadgetWidget],{templatePath:dojo.moduleUrl("com.ibm.social.ee","gadget/templates/ECMGadgetLoader.html"),draftType:["draft","draftpage"],loadDraft:false,dontLoadAgain:false,loadData:function(_1){
+this.inherited(arguments,[{addtlParams:this.getAddtlParams()}]);
+},getAddtlParams:function(){
+return this.shouldLoadDraft()?com.ibm.social.ee.config.ecm.draftParams:com.ibm.social.ee.config.ecm.publishedParams;
+},initializeUI:function(){
+if(this.shouldLoadDraft()){
+if(dojo.indexOf(this.draftType,this.data.category)!=-1){
+this.loadDraft=this.dontLoadAgain=true;
+this.loadDraftWidget();
+}else{
+this.loadDraft=this.dontLoadAgain=false;
+var _2=(this.context.eventType=="ecm.review.task.cancelled"&&!this.isAuthUserDraftOwner())?this.nls.ecm_file.draft_review_canceled:this.nls.ecm_file.draft_404_info;
+this.loadPublishedDocWidget();
+this.ecmPublishedGadget.onInfoMessage(null,null,_2);
+}
+}else{
+this.loadDraft=false;
+this.dontLoadAgain=true;
+this.loadPublishedDocWidget();
+}
+},isAuthUserDraftOwner:function(){
+return this.value("draftId")?true:false;
+},shouldLoadDraft:function(){
+return ((this.context.eventType.indexOf("review")!=-1)&&(this.context.eventType.indexOf("document.approved")==-1));
+},initComplete:function(){
+this.hideLoading();
+if(this.loadDraft){
+this.publishedNode.style.display="none";
+this.draftNode.style.display="";
+}else{
+this.draftNode.style.display="none";
+this.publishedNode.style.display="";
+}
+},loadDraftWidget:function(){
+this.publishedNode.style.display="none";
+this.showLoading();
+this.loadDraft=true;
+if(!this.ecmDraftGadget){
+var _3=dojo.create("div",{},this.draftNode);
+var _4={loadPublishedDocWidget:dojo.hitch(this,this.loadPublishedDocWidget),initComplete:dojo.hitch(this,this.initComplete),showLoading:dojo.hitch(this,this.showLoading),hideLoading:dojo.hitch(this,this.hideLoading),ecmPublishedGadget:this.ecmPublishedGadget,eventType:this.context.eventType,draftDeleteStr:this.nls.ecm_file.draft_404_info,ds:this.ds,data:this.data,container:this.draftNode,publishedCtnr:this.publishedNode};
+var _5=dojo.mixin(this.params,_4);
+var _6=this.value("approvalState");
+var _7=this.ecmDraftGadget=_6?new com.ibm.social.ee.gadget.ECMDraftReviewEntry(_5,_3):new com.ibm.social.ee.gadget.ECMDraftEntry(_5,_3);
+if(!this.dontLoadAgain||this.ecmPublishedGadget){
+_7.loadData();
+}else{
+_7.dataLoaded();
+}
+}else{
+this.draftNode.style.display="";
+}
+this.hideLoading();
+this.onSizeChange();
+},loadPublishedDocWidget:function(){
+this.draftNode.style.display="none";
+this.showLoading();
+this.loadDraft=false;
+if(!this.ecmPublishedGadget){
+var _8=dojo.create("div",{},this.publishedNode);
+var _9={loadDraftWidget:dojo.hitch(this,this.loadDraftWidget),initComplete:dojo.hitch(this,this.initComplete),ecmDraftGadget:this.ecmDraftGadget,ds:this.ds,data:this.data,dontLoadAgain:this.dontLoadAgain};
+var _a=dojo.mixin(this.params,_9);
+var _b=this.ecmPublishedGadget=new com.ibm.social.ee.gadget.ECMPublishedDocEntry(_a,_8);
+if(!this.dontLoadAgain||this.ecmDraftGadget){
+_b.loadData();
+}else{
+_b.dataLoaded();
+}
+}else{
+this.hideLoading();
+this.publishedNode.style.display="";
+}
+this.onSizeChange();
+},showLoading:function(){
+dojo.empty(this.loadingNode);
+com.ibm.social.incontext.util.html.showLoading(this.loadingNode);
+this.loadingNode.style.display="";
+},hideLoading:function(){
+this.loadingNode.style.display="none";
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.data.ECMRoutes"]){
+dojo._hasResource["com.ibm.social.ee.data.ECMRoutes"]=true;
+dojo.provide("com.ibm.social.ee.data.ECMRoutes");
+
+
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.data.ECMRoutes",com.ibm.social.ee.data.AbstractRoutes,{service:"ecm_files",getRecommendationsFeed:function(){
+var _1=this.getEntryUrl();
+var _2=_1.substring(0,_1.lastIndexOf("/entry"));
+return _2+"/recommendedby/feed";
+},getRecommendationEntry:function(_3){
+var _4=this.getEntryUrl();
+var _5=_4.substring(0,_4.lastIndexOf("/entry"));
+var _6=_5+"/recommendation/"+_3+"/entry";
+return encodeURI(_6);
+},getUserCommunityRoleURL:function(_7,_8){
+if(!_7){
+return null;
+}
+var _9=this.getEntryUrl();
+var _a=this.getEntryUrl().split("/dm")[0];
+var _b="";
+if(this.oauth){
+_b="/communities/service/json/oauth/community/canviewcommunity?communityUuid=";
+}else{
+_b="/communities/service/json/community/canviewcommunity?communityUuid=";
+}
+var _c=_a+_b;
+_c+=_7.split("=")[1];
+_c+="&directoryUuid=";
+_c+=_8;
+_c+="&includeRole=true";
+return _c;
+},getEntryUrl:function(){
+var _d=this.context;
+if(this.anonymous){
+return this.getUpdatedUrl(_d.anonymousEntryUrl);
+}else{
+if(this.oauth){
+return this.getUpdatedUrl(_d.oauthEntryUrl);
+}else{
+return this.getUpdatedUrl(_d.entryUrl);
+}
+}
+},getDraftEntryUrl:function(_e){
+var _f=this.getEntryUrl();
+var _10=_f.substring(0,_f.lastIndexOf("/document"))+"/draft/"+encodeURIComponent(_e)+"/entry";
+return _10;
+},getUpdatedUrl:function(url){
+var _11=url.indexOf(com.ibm.social.ee.config.ecm.generatorName)!=-1;
+if(_11&&this.getServiceUrl(this.service)){
+return url.replace(com.ibm.social.ee.config.ecm.generatorName,this.getServiceUrl(this.service));
+}else{
+return url;
+}
+},getAuthUserUrl:function(){
+return this.getECMServer()+"/dm/atom"+(this.oauth?"/oauth":"")+"/people/feed?self=true&format=json";
+},getImagePreviewLink:function(id,_12,_13){
+var _14=lconn.core.config.services.webresources[this.isSecure()?"secureUrl":"url"];
+var uu=com.ibm.social.incontext.util.url;
+var _15=_14+"/web/com.ibm.social.ee/html/ecmFilePreview.html";
+return uu.rewrite(_15,{link:_13});
+},getECMServer:function(){
+var url=this.getEntryUrl();
+if(url){
+return this.getEntryUrl().split("/dm/atom")[0];
+}else{
+throw "Entry URL is not included in the context";
+}
+}});
+}
+
+
+;if(!dojo._hasResource["com.ibm.social.ee.widget.ECMEntryLoader"]){
+dojo._hasResource["com.ibm.social.ee.widget.ECMEntryLoader"]=true;
+dojo.provide("com.ibm.social.ee.widget.ECMEntryLoader");
+
+
+
+
+
+
+dojo.declare("com.ibm.social.ee.widget.ECMEntryLoader",[com.ibm.social.ee.widget.AuthUserEELoader],{gadgetClass:"com.ibm.social.ee.gadget.ECMGadgetLoader",createRoutes:function(){
+this.routesParams.context=this.context;
+return new com.ibm.social.ee.data.ECMRoutes(this.routesParams);
+},getGadgetErrorStrings:function(){
+var _1=this.nls.file;
+dojo.mixin(_1,this.nls.ecm_file);
+if(this.isDraftEvent()){
+dojo.mixin(_1,this.nls.ecm_draft);
+}
+return _1;
+},isDraftEvent:function(){
+return ((this.context.eventType.indexOf("review")!=-1)&&(this.context.eventType.indexOf("document.approved")==-1));
+},getLoadUrl:function(){
+return this.routes.getAuthUserUrl();
+},onDataLoaded:function(_2,_3){
+var _4=_2.items[0];
+this.network.getAuthenticatedUser=function(){
+return _4;
+};
+this.authUser={id:_4.id,name:_4.name,email:_4.email};
+this.initializeGadget();
+},onDataError:function(_5,_6){
+this.inherited(arguments);
+this.onSizeChange();
+}});
+}
+
+
+window['_js_modules']=(window['_js_modules']||[]).concat(["com.ibm.social.ee.widget.ECMEntryLoader"]);

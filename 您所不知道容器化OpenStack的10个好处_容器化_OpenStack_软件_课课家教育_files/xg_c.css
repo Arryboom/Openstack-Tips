@@ -1,0 +1,104 @@
+
+/*detail--/相关课程
+.related{margin-bottom:20px; border:1px solid #ccc;width:270px;}
+.related h3{height:30px; line-height:30px;position:relative;}
+.related h3 span{display:block; background:#00aeef; position:absolute;top:-4px;left:10px;color:#fff; text-align:center; padding:0 5px; font-size:16px; min-width:80px; max-width:184px}
+.live1-img{ position:absolute;left:8px;top:-4px;}
+.related ul {padding:5px 0px 8px 0px; font-size:14px}
+.related ul li{height:32px; line-height:32px; border-bottom:1px dashed #ccc;padding-left:5px;width:252px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; margin-left:5px} 
+.related ul li a:hover { color:#00aeef}
+*/
+
+/*该分类相关课程-图文版*/
+.relatedCourse {
+	margin-bottom:20px; border:1px solid #ccc;width:270px;
+}
+.relatedCourse h3{height:30px; line-height:30px;position:relative;}
+.relatedCourse h3 span{display:block; background:#00aeef; position:absolute;top:-4px;left:10px;color:#fff; text-align:center; padding:0 5px; font-size:16px; min-width:80px; max-width:184px}
+.live1-img{ position:absolute;left:8px;top:-4px;}
+.relatedCourse dl{
+	padding: 5px;
+	border-bottom: 1px dashed #ccc;
+	background: #FFFFFF;
+	/* height: 190px; */
+}
+.relatedCourse dt{
+	float:left;
+}
+.relatedCourse dd{
+	float:right;
+}
+.relatedCourse dt img{
+	width: 100px;
+}
+.relatedCourse dd{
+	padding: 5px;
+	background: #fff;
+	width: 140px;
+}
+
+.relatedCourse dd .c_title{
+	height: 40px;
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/* white-space: nowrap; */
+	/* line-height: 25px; */
+}
+
+.relatedCourse dd .c_other{
+	margin: 8px 0px 0px 0px;
+	height: 17px;
+}
+.relatedCourse dd .c_price{
+	min-width: 60px;
+  
+	height: 25px;
+  background: #edb51a;
+  color: #fff;
+  
+	font-size: 12px;
+  text-align: center;
+  
+	line-height: 25px;
+  float: left;
+}
+.relatedCourse dd .c_orPrice{
+	text-decoration:line-through; color:#999; margin-left:5px; font-size: 12px; float:left; margin-right:10px;
+	line-height: 25px;
+}
+.relatedCourse dd .c_number
+{  float: right;
+  font-size: 12px;
+  background: url(/Public/images/l_touxiang.png) no-repeat scroll 0 2px;
+  padding-left: 17px;
+  color: #AEB5C2;}
+
+/*detail--热门课程分类*/
+.hotClass{margin-bottom:20px; border:1px solid #ccc;width:270px;}
+.hotClass h3{height:30px; line-height:30px;position:relative;}
+.hotClass h3 span{display:block; background:#00aeef; position:absolute;top:-4px;left:10px;color:#fff; text-align:center; padding:0 5px; font-size:16px; min-width:80px; max-width:184px}
+.live1-img{ position:absolute;left:8px;top:-4px;}
+.hotClass ul{padding:5px 0px 8px 0px; font-size:14px}
+.hotClass ul li{height: 28px; line-height: 28px; /* border: 1px solid #ccc; */padding: 0px 0px;/* width: 122px; */ white-space:nowrap;overflow:hidden;text-overflow:ellipsis; margin: 2px 5px;float: left;/* background-color: rgb(248, 174, 31); */color: #fff;text-align: center;} 
+.hotClass ul li a:hover ,{ color:#00aeef}
+.hotClass ul li a{/* margin-right:20px */}
+/*相关文章*/
+.RelatedArticles{margin-bottom:20px; border:1px solid #ccc;width: 879px;}
+.RelatedArticles h3{height:30px; line-height:30px;position:relative;}
+.RelatedArticles h3 span{display:block; background:#00aeef; position:absolute;top:-4px;left:10px;color:#fff; text-align:center; padding:0 5px; font-size:16px; min-width:80px; max-width:184px}
+.live1-img{ position:absolute;left:8px;top:-4px;}
+.RelatedArticles ul {padding:5px 0px 8px 0px; font-size:14px}
+.RelatedArticles ul li{height:32px; line-height:32px; border-bottom:1px dashed #ccc;padding-left: 5px;width: 400px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; margin-left:5px;float: left;margin-right: 25px;} 
+.RelatedArticles ul li a:hover { color:#00aeef}
+.RelatedArticles ul li a{padding-right: 10px;}
+/*关键词分类*/
+.keyClass{margin-bottom:20px; border:1px solid #ccc;width: 270px;}
+.keyClass h3{height:30px; line-height:30px;position:relative;}
+.keyClass h3 span{display:block; background:#00aeef; position:absolute;top:-4px;left:10px;color:#fff; text-align:center; padding:0 5px; font-size:16px; min-width:80px; max-width:184px}
+.live1-img{position:absolute;left:8px;top:-4px;}
+.keyClass ul {padding:5px 0px 8px 0px; font-size:14px}
+.keyClass ul li{height:32px; line-height:32px; border-bottom:1px dashed #ccc;padding-left: 5px;/* width: 83px; */ white-space:nowrap;overflow:hidden;text-overflow:ellipsis; margin-left:5px;float: left;/* margin-right: 25px; */} 
+.keyClass ul li a:hover { color:#00aeef}
+.keyClass ul li a{padding-right: 10px;}
+

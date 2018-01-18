@@ -1,0 +1,58 @@
+﻿// JavaScript Document
+
+var bdShare_config = {
+	"type":"large",
+	"color":"blue",
+	"uid":"129359",
+	"share":"yes"
+};
+//document.getElementById("bdlike_shell").src="http://bdimg.share.baidu.com/static/js/like_shell.js?t=" + new Date().getHours();
+
+function analytics(){
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+  	(function (){
+		var hm = document.createElement('script'); hm.type = 'text/javascript'; hm.async = true;
+		hm.src = '//hm.baidu.com/h.js?943f3b6533f4e2f4138cc203c3a15cee';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(hm, s);
+	})();
+
+}
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33863012-1']);
+  _gaq.push(['_setDomainName', 'chenyudong.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+analytics();
+
+/**
+ *
+ 
+;(function($){
+
+jQuery(function() {
+
+    //平滑滚动
+    $('a[href*=#]:not([href=#])').click(function() {
+          if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.            hostname == this.hostname) {
+              var target = $(this.hash);
+              target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+              if (target.length) {
+                  $('html,body').animate({
+                      scrollTop: target.offset().top
+                  }, 1000);
+                  return false;
+              }
+          }
+      });
+      //end
+
+});
+
+})(jQuery); */

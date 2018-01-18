@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)http://www.cnblogs.com/elvi/p/7735881.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/bundle-BlackLowKey.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/bundle-BlackLowKey-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/elvi/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/elvi/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/elvi/wlwmanifest.xml">
+<script async="" src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/analytics.js.下载"></script><script type="text/javascript" src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/encoder.js.下载"></script><script src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/jquery.js.下载" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'elvi', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/elvi/"><img id="blogLogo" src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/elvi/">子隐</a></h1>
+<h2>默默前行</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/elvi/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%AD%90%E9%9A%90">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/elvi/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/elvi/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 65&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 2</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/elvi/p/7735881.html">cinder块存储 后端采用lvm、nfs安装配置</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>#cinder块存储 后端采用lvm、nfs安装配置</p>
+<p>&nbsp;openstack pike 安装 目录汇总&nbsp;<a href="http://www.cnblogs.com/elvi/p/7613861.html" target="_blank">http://www.cnblogs.com/elvi/p/7613861.html</a></p>
+<p>&nbsp;</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #000000">#cinder块存储
+#需要准备存储节点,可以使用LVM、NFS、分布式存储等
+#本次安装以LVM、NFS为例
+######################################################
+
+#基本配置
+# </span><span style="color: #0000ff">hostname</span><span style="color: #000000"> cinder1
+# IP </span><span style="color: #800080">192.168</span>.<span style="color: #800080">58.24</span><span style="color: #000000">
+# hostnamectl set</span>-<span style="color: #0000ff">hostname</span><span style="color: #000000"> cinder1
+#hosts设置</span>
+<span style="color: #000000">
+##############
+#添加硬盘……
+#fdisk快速分区,新建2个30G分区
+</span><span style="color: #0000ff">echo</span> -e <span style="color: #800000">'</span><span style="color: #800000">n\np\n1\n\n+30G\nw</span><span style="color: #800000">'</span> | fdisk /dev/<span style="color: #000000">sdb
+</span><span style="color: #0000ff">echo</span> -e <span style="color: #800000">'</span><span style="color: #800000">n\np\n2\n\n+30G\nw</span><span style="color: #800000">'</span> | fdisk /dev/<span style="color: #000000">sdb
+#格式化
+mkfs.ext4 </span>/dev/<span style="color: #000000">sdb1
+mkfs.ext4 </span>/dev/<span style="color: #000000">sdb2
+
+</span><span style="color: #0000ff">mkdir</span> -p /<span style="color: #0000ff">date</span>
+<span style="color: #0000ff">mount</span> -t ext4 /dev/sdb1 /<span style="color: #0000ff">date</span>
+<span style="color: #0000ff">df</span> -h|<span style="color: #0000ff">grep</span> /dev/<span style="color: #000000">sdb1
+#开机挂载磁盘
+</span><span style="color: #0000ff">echo</span> <span style="color: #800000">"</span><span style="color: #800000">mount -t ext4 /dev/sdb1 /date</span><span style="color: #800000">"</span> &gt;&gt;/etc/rc.d/<span style="color: #000000">rc.local
+</span><span style="color: #0000ff">tail</span> -<span style="color: #800080">1</span> /etc/rc.d/<span style="color: #000000">rc.local
+</span><span style="color: #0000ff">chmod</span> +x /etc/rc.d/<span style="color: #000000">rc.local
+
+##############
+#安装配置LVM，作为后端存储使用
+</span><span style="color: #0000ff">yum</span> <span style="color: #0000ff">install</span> -<span style="color: #000000">y lvm2
+systemctl enable lvm2</span>-<span style="color: #000000">lvmetad.service
+systemctl start lvm2</span>-<span style="color: #000000">lvmetad.service
+#创建LVM物理卷pv与卷组vg
+pvcreate </span>/dev/<span style="color: #000000">sdb2
+vgcreate cinder_lvm01 </span>/dev/<span style="color: #000000">sdb2
+vgdisplay #查看vg
+
+##############
+#安装配置NFS服务，作为后端存储使用
+</span><span style="color: #0000ff">yum</span> <span style="color: #0000ff">install</span> nfs-utils rpcbind -<span style="color: #000000">y
+</span><span style="color: #0000ff">mkdir</span> -p /<span style="color: #0000ff">date</span>/<span style="color: #000000">{cinder_nfs1,cinder_nfs2}
+</span><span style="color: #0000ff">chown</span> cinder:cinder /<span style="color: #0000ff">date</span>/<span style="color: #000000">cinder_nfs1
+</span><span style="color: #0000ff">chmod</span> <span style="color: #800080">777</span> /<span style="color: #0000ff">date</span>/<span style="color: #000000">cinder_nfs1
+#</span><span style="color: #0000ff">echo</span> <span style="color: #800000">"</span><span style="color: #800000">/date/cinder_nfs1 *(rw,no_root_squash,sync)</span><span style="color: #800000">"</span>&gt;/etc/<span style="color: #000000">exports
+</span><span style="color: #0000ff">echo</span> <span style="color: #800000">"</span><span style="color: #800000">/date/cinder_nfs1 *(rw,root_squash,sync,anonuid=165,anongid=165)</span><span style="color: #800000">"</span>&gt;/etc/<span style="color: #000000">exports
+exportfs </span>-<span style="color: #000000">r
+systemctl enable rpcbind nfs</span>-<span style="color: #000000">server
+systemctl restart rpcbind nfs</span>-<span style="color: #000000">server
+showmount </span>-<span style="color: #000000">e localhost
+
+######################################################
+
+#安装配置Cinder
+</span><span style="color: #0000ff">yum</span> <span style="color: #0000ff">install</span> -y openstack-cinder targetcli python-<span style="color: #000000">keystone lvm2
+</span><span style="color: #0000ff">cp</span> /etc/cinder/<span style="color: #000000">cinder.conf{,.bak}
+</span><span style="color: #0000ff">cp</span> /etc/lvm/<span style="color: #000000">lvm.conf{,.bak}
+
+#配置LVM过滤，只接收上面配置的lvm设备</span>/dev/<span style="color: #000000">sdb2
+#在devices {  }部分添加 filter </span>= [ <span style="color: #800000">"</span><span style="color: #800000">a/sdb2/</span><span style="color: #800000">"</span>, <span style="color: #800000">"</span><span style="color: #800000">r/.*/</span><span style="color: #800000">"</span><span style="color: #000000">]
+</span><span style="color: #0000ff">sed</span> -i <span style="color: #800000">'</span><span style="color: #800000">141a filter = [ "a/sdb2/", "r/.*/"]</span><span style="color: #800000">'</span> /etc/lvm/<span style="color: #000000">lvm.conf  #在141行后添加
+
+#NFS
+</span><span style="color: #0000ff">echo</span> <span style="color: #800000">'</span><span style="color: #800000">192.168.58.24:/date/cinder_nfs1</span><span style="color: #800000">'</span>&gt;/etc/cinder/<span style="color: #000000">nfs_shares
+</span><span style="color: #0000ff">chmod</span> <span style="color: #800080">640</span> /etc/cinder/<span style="color: #000000">nfs_shares
+</span><span style="color: #0000ff">chown</span> root:cinder /etc/cinder/<span style="color: #000000">nfs_shares
+
+#Cinder配置
+</span><span style="color: #0000ff">echo</span> <span style="color: #800000">'
+</span><span style="color: #000000">[DEFAULT]</span><span style="color: #000000">
+auth_strategy </span>=<span style="color: #000000"> keystone
+log_dir </span>= /var/log/<span style="color: #000000">cinder
+state_path </span>= /var/lib/<span style="color: #000000">cinder
+glance_api_servers </span>= http:<span style="color: #008000">//</span><span style="color: #008000">controller:9292</span>
+transport_url = rabbit:<span style="color: #008000">//</span><span style="color: #008000">openstack:openstack@controller</span>
+enabled_backends =<span style="color: #000000"> lvm,nfs
+
+[database]
+connection </span>= mysql+pymysql:<span style="color: #008000">//</span><span style="color: #008000">cinder:cinder@controller/cinder</span>
+<span style="color: #000000">
+[keystone_authtoken]
+auth_uri </span>= http:<span style="color: #008000">//</span><span style="color: #008000">controller:5000</span>
+auth_url = http:<span style="color: #008000">//</span><span style="color: #008000">controller:35357</span>
+memcached_servers = controller:<span style="color: #800080">11211</span><span style="color: #000000">
+auth_type </span>=<span style="color: #000000"> password
+project_domain_name </span>=<span style="color: #000000"> default
+user_domain_name </span>=<span style="color: #000000"> default
+project_name </span>=<span style="color: #000000"> service
+username </span>=<span style="color: #000000"> cinder
+password </span>=<span style="color: #000000"> cinder
+
+[oslo_concurrency]
+lock_path </span>= /var/lib/cinder/<span style="color: #000000">tmp
+
+[lvm]
+volume_driver </span>=<span style="color: #000000"> cinder.volume.drivers.lvm.LVMVolumeDriver
+iscsi_helper </span>=<span style="color: #000000"> lioadm
+iscsi_protocol </span>=<span style="color: #000000"> iscsi
+volume_group </span>=<span style="color: #000000"> cinder_lvm01
+iscsi_ip_address </span>= <span style="color: #800080">192.168</span>.<span style="color: #800080">58.24</span><span style="color: #000000">
+volumes_dir </span>= $state_path/<span style="color: #000000">volumes
+volume_backend_name </span>=<span style="color: #000000"> lvm01
+
+[nfs]
+volume_driver </span>=<span style="color: #000000"> cinder.volume.drivers.nfs.NfsDriver
+nfs_shares_config </span>= /etc/cinder/<span style="color: #000000">nfs_shares
+nfs_mount_point_base </span>= $state_path/<span style="color: #000000">mnt
+volume_backend_name </span>=<span style="color: #000000"> nfs01
+</span><span style="color: #800000">'</span><span style="color: #800000">&gt;/etc/cinder/cinder.conf</span>
+<span style="color: #0000ff">chmod</span> <span style="color: #800080">640</span> /etc/cinder/<span style="color: #000000">cinder.conf 
+</span><span style="color: #0000ff">chgrp</span> cinder /etc/cinder/<span style="color: #000000">cinder.conf 
+
+#启动Cinder卷服务
+systemctl enable openstack</span>-cinder-<span style="color: #000000">volume.service target.service
+systemctl start openstack</span>-cinder-volume.service target.service</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/elvi/category/1089575.html" target="_blank">虚拟化</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/elvi/tag/openstack/">openstack</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7735881,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;d2c8b15c-3aec-4b4c-d075-08d4ef52ecb5&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/elvi/" target="_blank"><img src="./cinder块存储 后端采用lvm、nfs安装配置 - 子隐 - 博客园_files/20170913234547.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/elvi/">子隐</a><br>
+            <a href="http://home.cnblogs.com/u/elvi/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/elvi/followers">粉丝 - 4</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;d2c8b15c-3aec-4b4c-d075-08d4ef52ecb5&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7735881,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(7735881,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/elvi/p/7718582.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/elvi/p/7718582.html" title="发布于2017-10-24 22:23">web管理kvm ，安装webvirtmgr</a><br><a href="http://www.cnblogs.com/elvi/p/7736521.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/elvi/p/7736521.html" title="发布于2017-10-26 20:23">openstack集群环境准备</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-10-26 13:08</span> <a href="http://www.cnblogs.com/elvi/">子隐</a> 阅读(<span id="post_view_count">119</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7735881" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/elvi/p/7735881.html#" onclick="AddToWz(7735881);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=381583,cb_entryId=7735881,cb_blogApp=currentBlogApp,cb_blogUserGuid='d2c8b15c-3aec-4b4c-d075-08d4ef52ecb5',cb_entryCreatedDate='2017/10/26 13:08:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/elvi/p/7735881.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/elvi/p/7735881.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/583195/" target="_blank">三星设立人工智能研发中心 并增加首席战略官职责</a><br> ·  <a href="http://news.cnblogs.com/n/583188/" target="_blank">特斯拉开始向普通预订者开放Model 3选配通道</a><br> ·  <a href="http://news.cnblogs.com/n/583194/" target="_blank">主要投资人出售大量股票 Facebook股价应声下跌</a><br> ·  <a href="http://news.cnblogs.com/n/583193/" target="_blank">三次停产引新飞电器倒戈：接入外资成引狼入室</a><br> ·  <a href="http://news.cnblogs.com/n/583192/" target="_blank">亚马逊网络服务的计算机视觉可以进行实时的脸部识别</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br> ·  <a href="http://kb.cnblogs.com/page/112506/" target="_blank">大道至简，职场上做人做事做管理</a><br> ·  <a href="http://kb.cnblogs.com/page/563790/" target="_blank">关于编程，你的练习是不是有效的？</a><br> ·  <a href="http://kb.cnblogs.com/page/581467/" target="_blank">改善程序员生活质量的 3+10 习惯</a><br> ·  <a href="http://kb.cnblogs.com/page/568841/" target="_blank">NASA的10条代码编写原则</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/elvi/">子隐</a><br>园龄：<a href="http://home.cnblogs.com/u/elvi/" title="入园时间：2017-09-13">2个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/elvi/followers/">4</a><br>关注：<a href="http://home.cnblogs.com/u/elvi/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;d2c8b15c-3aec-4b4c-d075-08d4ef52ecb5&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/10/01&#39;);return false;">&lt;</a></td><td align="center">2017年11月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/12/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center"><a href="http://www.cnblogs.com/elvi/archive/2017/11/02.html"><u>2</u></a></td><td align="center">3</td><td class="CalWeekendDay" align="center">4</td></tr><tr><td class="CalWeekendDay" align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center"><a href="http://www.cnblogs.com/elvi/archive/2017/11/08.html"><u>8</u></a></td><td align="center"><a href="http://www.cnblogs.com/elvi/archive/2017/11/09.html"><u>9</u></a></td><td align="center">10</td><td class="CalWeekendDay" align="center">11</td></tr><tr><td class="CalWeekendDay" align="center">12</td><td align="center">13</td><td align="center"><a href="http://www.cnblogs.com/elvi/archive/2017/11/14.html"><u>14</u></a></td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td class="CalWeekendDay" align="center">18</td></tr><tr><td class="CalWeekendDay" align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalTodayDay" align="center">23</td><td align="center">24</td><td class="CalWeekendDay" align="center">25</td></tr><tr><td class="CalWeekendDay" align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td></tr><tr><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/elvi/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/elvi/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/elvi/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/elvi/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/elvi/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/elvi/tag/openstack/">openstack</a>(32)</li><li><a href="http://www.cnblogs.com/elvi/tag/shell/">shell</a>(16)</li><li><a href="http://www.cnblogs.com/elvi/tag/nginx/">nginx</a>(5)</li><li><a href="http://www.cnblogs.com/elvi/tag/windows/">windows</a>(5)</li><li><a href="http://www.cnblogs.com/elvi/tag/HA/">HA</a>(4)</li><li><a href="http://www.cnblogs.com/elvi/tag/kvm/">kvm</a>(4)</li><li><a href="http://www.cnblogs.com/elvi/tag/bat/">bat</a>(3)</li><li><a href="http://www.cnblogs.com/elvi/tag/tomcat/">tomcat</a>(2)</li><li><a href="http://www.cnblogs.com/elvi/tag/apache/">apache</a>(2)</li><li><a href="http://www.cnblogs.com/elvi/tag/sql/">sql</a>(1)</li><li><a href="http://www.cnblogs.com/elvi/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/elvi/category/1095538.html">Linux(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/elvi/category/1098024.html">web(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/elvi/category/1101595.html">Windows(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/elvi/category/1083981.html">存储(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/elvi/category/1095159.html">高可用(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/elvi/category/1101558.html">监控</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/elvi/category/1095116.html">批量管理(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/elvi/category/1078781.html">随笔分类</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/elvi/category/1095134.html">同步(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/elvi/category/1089575.html">虚拟化(36)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/elvi/category/1095569.html">运维其它(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/elvi/archive/2017/11.html">2017年11月 (21)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/elvi/archive/2017/10.html">2017年10月 (33)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/elvi/archive/2017/09.html">2017年9月 (11)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/elvi/p/7613861.html#3840421">1. Re:openstack pike 集群高可用  安装 部署   目录汇总</a></li>
+        <li class="recent_comment_body">你的网络架构图能分享下吗？</li>
+        <li class="recent_comment_author">--wudabao</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/elvi/p/7736724.html#3840331">2. Re:Dashboard集群</a></li>
+        <li class="recent_comment_body">能否加QQ 316993107</li>
+        <li class="recent_comment_author">--wudabao</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/elvi/p/7613861.html">1. openstack pike 集群高可用  安装 部署   目录汇总(1172)</a></li><li><a href="http://www.cnblogs.com/elvi/p/7614035.html">2. ##1.Centos7环境准备-- openstack pike(756)</a></li><li><a href="http://www.cnblogs.com/elvi/p/7614057.html">3. ##2.基础服务(SQl,RabbitMQ)-- openstack pike(421)</a></li><li><a href="http://www.cnblogs.com/elvi/p/7614067.html">4. ##3.Keystone 验证服务--openstack(319)</a></li><li><a href="http://www.cnblogs.com/elvi/p/7614490.html">5. ##6.1 Neutron控制节点-- openstack pike(259)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/elvi/p/7736724.html">1. Dashboard集群(1)</a></li><li><a href="http://www.cnblogs.com/elvi/p/7613861.html">2. openstack pike 集群高可用  安装 部署   目录汇总(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/elvi/p/7811528.html">1. openstack pike 单机 一键安装 shell(1)</a></li><li><a href="http://www.cnblogs.com/elvi/p/7613861.html">2. openstack pike 集群高可用  安装 部署   目录汇总(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2017 子隐
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

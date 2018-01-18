@@ -1,0 +1,1033 @@
+@charset "UTF-8";
+.buttonsprite,.m-coverselect .haspics .toolbar .savebtn,.m-coverselect .haspics .toolbar .savebtn span,.m-coverselect .nopics .upbtn,.m-coverselect .nopics .upbtn span,.m-edititem .editopt a.editbtn,.m-edititem .editopt a.editbtn span,.m-myCloudCreatePlan .saveBtn,.m-myCloudCreatePlan .saveBtn span,.m-myCloudMyPapers .citem .btn,.m-myCloudMyPapers .citem .btn span,.m-myCloudMyPapers .citem .btn:hover,.m-myCloudMyPapers .citem .btn:hover span,.m-phaseContentItem .rich .bottom .btn,.m-phaseContentItem .rich .bottom .btn span,.m-plans1 .nexta .next,.m-plans1 .nexta .next span,.m-plans2 .toolbar .finish,.m-plans2 .toolbar .finish span,.m-plans2 .toolbar .preview,.m-plans2 .toolbar .preview span,.u-attach .btn,.u-attach .btn span,.u-coursePlanPayMsg .cancelBtn,.u-coursePlanPayMsg .cancelBtn span,.u-cover .draftStatusBtn,.u-cover .draftStatusBtn span,.u-indexPlanItem .btn,.u-indexPlanItem .btn span,.u-liveNotify .btn,.u-liveNotify .btn span,.u-mylive .btn,.u-mylive .btn span,.u-select .btn a,.u-select .btn a span,.u-setMail .main .setBox .saveBtn,.u-setMail .main .setBox .saveBtn span,.ui-richEditor .rich-wrap .rich-opt a.editbtn,.ui-richEditor .rich-wrap .rich-opt a.editbtn span{background:url(/Public/images/student/button.png) no-repeat scroll 4449px 4449px rgba(0,0,0,0)}
+.u-bindYoudaoDialog .sicon,.u-card .card.onlearn .status span.ic,.u-coursePlanPayMsg .courseLearnCount,.u-cover .continue .goImg,.u-cover .thumb .hot,.u-cover.u-index-plan .planflag,.u-rating .star,.u-recommendCourse .enroll .hot,.uisprite{background:url(/Public/images/student/ui_sprite.png) no-repeat scroll 4449px 4449px rgba(0,0,0,0)}
+.u-moocbtn{background-color:#e1e1e1;background-image:linear-gradient(#ebebeb,#e1e1e1);background-repeat:repeat-x;border:1px solid #999;border-radius:4px;box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 1px 2px rgba(0,0,0,.05);color:#666;cursor:pointer;display:inline-block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:28px;min-width:80px;padding:4px 9px;text-align:center;vertical-align:middle}
+.u-moocbtn.hvr,.u-moocbtn:hover{background-color:#ededed;background-image:linear-gradient(#f6f6f6,#ededed);background-repeat:repeat-x}
+.u-moocbtn-sm{font-size:12px;line-height:14px;min-width:50px;padding:5px 6px}
+.u-moocbtn{background-color:#e1e1e1;background-image:linear-gradient(#ebebeb,#e1e1e1);background-repeat:repeat-x;border:1px solid #999;border-radius:4px;box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 1px 2px rgba(0,0,0,.05);color:#666;cursor:pointer;display:inline-block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:28px;min-width:80px;padding:4px 9px;text-align:center;vertical-align:middle}
+.u-moocbtn.hvr,.u-moocbtn:hover{background-color:#ededed;background-image:linear-gradient(#f6f6f6,#ededed);background-repeat:repeat-x}
+.u-moocbtn-sm{font-size:12px;line-height:14px;min-width:50px;padding:5px 6px}
+.m-course .m-data-lists{margin-left:-20px}
+.u-cover{background-color:#fff;float:left;height:204px;margin:0 0 20px 20px;position:relative;width:225px}
+.u-cover .recommend{display:none}
+.u-cover .wrap{display:block;height:100%;overflow:hidden;position:relative;width:100%}
+.u-cover .continue{margin:5px 8px}
+.u-cover .continue .progs{background:none repeat scroll 0 0 #ccc;height:4px;width:100%}
+.u-cover .continue .progs div{background:none repeat scroll 0 0 #00aeef;height:100%}
+.u-cover .continue h4{color:#999;display:block;font-size:12px;line-height:30px;margin-top:10px;max-width:204px;text-align:center}
+.u-cover .continue .hRed{color:#d90000}
+.u-cover .continue .hGreen{color:#00aeef}
+.u-cover .continue .goOnArea{margin-top:15px;text-align:center;vertical-align:middle}
+.u-cover .continue .goTxt{display:inline;font-size:14px;}
+.u-cover .continue .goImg{background-position:-49px -389px;height:22px;vertical-align:middle;width:22px}
+.u-cover .sign{background:none repeat scroll 0 0 rgba(0,0,0,.5);color:#fff;font-size:12px;height:20px;line-height:20px;padding:0 4px;position:absolute;right:0;text-align:center;top:-25px;z-index:10}
+.u-cover .u-rating .star{float:left;height:12px;margin-top:0;width:12px}
+.u-cover .u-rating .half{background-position:-14px 0}
+.u-cover .u-rating .on{background-position:0 0}
+.u-cover .u-rating span{color:#00aeef;font-size:12px;margin-left:10px;vertical-align:text-top}
+.u-cover .img{height:124px;padding:1px 1px 0;position:relative;width:223px}
+.u-cover .pic{height:124px;overflow:hidden;position:relative;width:100%}
+.u-cover .pic .imgPic{height:124px;transition:all 1s ease 0s;width:223px}
+.u-cover .hRed{color:#a41f24}
+.u-cover .hGreen{color:#00aeef}
+.u-cover .tit{color:#333;height:1.4em;margin-top:5px;padding:0 8px;position:relative}
+.u-cover .tit h3{font-size:14px;line-height:1.4}
+.u-cover .descd{background:none repeat scroll 0 0 #fff;bottom:-136px;height:116px;left:0;padding:10px 5px;position:absolute;right:0;transition:bottom .2s ease-out 0s;z-index:11}
+.u-cover .descd .dtit{color:#333;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.4}
+.u-cover .descd .ddesc{color:#999;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;line-height:1.4;max-height:65px;overflow:hidden;word-break:break-all}
+.u-cover .descd .dbtn{background-color:#ff6700;bottom:10px;color:#fff;display:block;height:24px;left:65px;line-height:24px;position:absolute;text-align:center;width:90px}
+.u-cover .thumb{height:50px;padding:0 10px;position:relative}
+.u-cover .thumb span{color:#999}
+.u-cover .thumb .mark{float:left}
+.u-cover .thumb .cmt{float:left;line-height:100%}
+.u-cover .thumb .hot,.u-cover .thumb .trans{color:#999;line-height:100%}
+.u-cover .thumb .hot{background-position:-60px -352px;float:left;font-size:12px;padding-left:15px;width:40px}
+.u-cover .thumb .desc{margin-top:10px}
+.u-cover .thumb .name{color:#999;display:block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;height:14px;line-height:14px;margin:5px 0;width:150px}
+.u-cover .thumb .col{line-height:23px}
+.u-cover .thumb .btn{bottom:8px;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;line-height:21px;min-width:55px;position:absolute;right:8px;text-align:center}
+.u-cover .thumb .btn .normal{background:none repeat scroll 0 0 #8acd9f;color:#fff;height:21px}
+.u-cover .thumb .btn .discount{color:#999;text-decoration:line-through}
+.u-cover .thumb .btn2 .normal{background:none repeat scroll 0 0 #ff8000}
+.u-cover .thumb .btn3 .normal{background-color:#ccc}
+.u-cover .cstart,.u-cover .start{margin:0 100px}
+.u-cover .cstart h3,.u-cover .start h3{background-position:-54px -34px;display:block;float:left;font-size:16px;height:18px;width:75px}
+.u-cover .cstart div,.u-cover .start div{background-position:-2px -32px;float:right;height:18px;transition:all .3s linear 0s;width:18px}
+.u-cover .mask1{bottom:0;left:0;position:absolute;right:0;top:0;z-index:201}
+.u-cover .mask1 .delbtn{background:url(/Public/images/student/courselist_sprite.png) repeat-x scroll 0 -168px rgba(0,0,0,0);cursor:pointer;height:32px;position:absolute;right:-12px;top:-12px;width:32px}
+.u-cover .cstart{margin:0 90px}
+.u-cover .cstart h3{background-position:-44px -71px}
+.u-cover .draft .planInfo{margin-top:40px}
+.u-cover .draftStatus{background:none repeat scroll 0 0 #2c3032;color:#fff;font-size:12px;height:22px;line-height:22px;padding:0 3px;right:0;top:0;z-index:200}
+.u-cover .draftStatusTxt{color:#d40010;display:block;font-size:12px;height:14px;line-height:14px;margin-bottom:2px;text-align:center}
+.u-cover .draftStatusBtn{background-position:64px -150px;display:block;margin:0 auto;text-decoration:none;width:74px}
+.u-cover .draftStatusBtn span{background-position:-40px -150px;color:#444;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:54px}
+.u-cover .draftStatusBtn:hover{background-position:64px -200px}
+.u-cover .draftStatusBtn:hover span{background-position:-40px -200px}
+.u-cover .draftStatusBtn:active{background-position:64px -250px}
+.u-cover .draftStatusBtn:active span{background-position:-40px -250px}
+.u-cover .publicStatus{height:51px;left:-2px;top:-1px;width:51px;z-index:1}
+.u-cover:hover{box-shadow:0 2px 2px rgba(0,0,0,.3)}
+.u-cover:hover .pic .imgPic{transform:scale(1.2)}
+.u-cover:hover .btn{background-position:0 -60px;color:#fff}
+.u-cover:hover .s-fc8{color:#fff}
+.u-cover:hover .goImg{background-position:3px -1182px}
+.u-cover.u-find-cover:hover .descd{bottom:0}
+.u-cover.u-index-plan .planflag{background-position:-20px -1668px;height:50px;position:absolute;right:5px;top:0;width:50px}
+.j-hover{box-shadow:0 2px 2px rgba(0,0,0,.3)}
+.j-hover .btn{background-position:77px -50px}
+.j-hover .btn div{background-position:-40px -50px;color:#fff}
+.u-mocCover .over,.u-mocCover .time{bottom:53px;height:18px;line-height:18px;right:20px}
+.u-mocCover .over,.u-mocCover .time{background-color:#ff9326;border-radius:9px;padding:0 9px 0 2px}
+.u-mocCover .over .clock,.u-mocCover .time .clock{font-size:14px;line-height:18px;margin-right:5px}
+.u-mocCover .over .txt,.u-mocCover .time .txt{vertical-align:1px}
+.u-mocCover .over{background-color:#499e50}
+.u-recommend-cover{display:block;float:left;height:257px;margin:0 0 20px 20px;position:relative}
+.u-recommend-cover .u-cover{margin:0}
+.u-recommend-cover .descd{display:none}
+.u-recommend-cover .recommend{background:none repeat scroll 0 0 #fafafa;border-top:1px solid #ededed;bottom:0;color:#999;font-size:12px;height:32px;left:0;overflow:hidden;padding:10px;width:205px}
+.u-rating .star{background-position:-48px -200px;float:left;height:16px;margin-top:2px;width:16px}
+.u-rating .half{background-position:-24px -200px}
+.u-rating .on{background-position:0 -200px}
+.u-rating span{color:#00aeef;font-size:12px;margin-left:10px;vertical-align:text-top}
+.u-exportNoteDialog{width:420px}
+.u-exportNoteDialog .m-dialog{width:100%}
+.u-exportNoteDialog .confirmTxt{color:#666;font-size:13px;line-height:1.6;margin-left:100px;padding-right:20px}
+.u-exportNoteDialog .confirmTxt .warn{color:#c33}
+.u-bindYoudaoDialog{margin-top:-10px;padding:0 20px 20px;width:380px}
+.u-bindYoudaoDialog .sicon{background-position:0 -779px;float:left;height:18px;margin:6px 16px;width:18px}
+.u-bindYoudaoDialog .txt{color:#999;font-size:13px;line-height:1.6;margin-left:50px}
+.u-bindYoudaoDialog .txt .go{color:#333;font-size:14px;font-weight:700;line-height:32px}
+.u-bindYoudaoDialog .txt .bind{color:#6bc38f}
+.u-bindYoudaoDialog .txt .bind:hover{text-decoration:underline}
+.u-bindYoudaoDialog .txt .warn{color:#c33;margin:10px 0 20px}
+.u-moocbtn{background-color:#e1e1e1;background-image:linear-gradient(#ebebeb,#e1e1e1);background-repeat:repeat-x;border:1px solid #999;border-radius:4px;box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 1px 2px rgba(0,0,0,.05);color:#666;cursor:pointer;display:inline-block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:28px;min-width:80px;padding:4px 9px;text-align:center;vertical-align:middle}
+.u-moocbtn.hvr,.u-moocbtn:hover{background-color:#ededed;background-image:linear-gradient(#f6f6f6,#ededed);background-repeat:repeat-x}
+.u-moocbtn-sm{font-size:12px;line-height:14px;min-width:50px;padding:5px 6px}
+.u-coursePlanPayMsg{background:none repeat scroll 0 0 #f5f7fa;bottom:0;height:100%;left:0;overflow:hidden;text-align:left;top:0;width:100%}
+.u-coursePlanPayMsg .msg{left:50%;margin-left:-230px;top:50%;width:465px}
+.u-coursePlanPayMsg .msg-course{margin-top:-50px}
+.u-coursePlanPayMsg .msg-plan{margin-top:-100px}
+.u-coursePlanPayMsg .msg-anchor{margin-left:-190px;margin-top:-109px}
+.u-coursePlanPayMsg .wicon{height:57px;width:57px}
+.u-coursePlanPayMsg .wcon{padding-left:25px;width:380px}
+.u-coursePlanPayMsg .wconAnchor{width:380px}
+.u-coursePlanPayMsg .title{color:#333;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:20px;line-height:30px;padding:10px 0}
+.u-coursePlanPayMsg .smalltitle{color:#666;font-size:15px;line-height:20px}
+.u-coursePlanPayMsg .courseInfo{background:none repeat scroll 0 0 #fff;border:1px solid #eee;height:66px;padding:5px;width:370px}
+.u-coursePlanPayMsg .deInfo{color:#999;font-size:12px;height:66px;margin-left:14px;width:235px}
+.u-coursePlanPayMsg .courseName{color:#444;display:block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;height:22px;line-height:19px;padding-bottom:3px}
+.u-coursePlanPayMsg .courseRate{height:23px;line-height:19px}
+.u-coursePlanPayMsg .courseLearnCount{background-position:-60px -350px;padding-left:15px}
+.u-coursePlanPayMsg .courseFrom{line-height:20px}
+.u-coursePlanPayMsg .coursePrice{color:#ff8e1f;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:13px;font-weight:700}
+.u-coursePlanPayMsg del.coursePrice{color:#999}
+.u-coursePlanPayMsg .lessonInfo{color:#999;font-size:12px;line-height:32px}
+.u-coursePlanPayMsg .lessonInfo a{color:#00aeef;padding-left:15px}
+.u-coursePlanPayMsg .lessonInfo a:hover{text-decoration:underline}
+.u-coursePlanPayMsg .buybtn{cursor:pointer;height:41px;margin-left:2px;width:101px}
+.u-coursePlanPayMsg .joinBtn{cursor:pointer;height:41px;margin-left:80px;width:105px}
+.u-coursePlanPayMsg .joinBtn span{color:#fff;float:right;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;line-height:41px;text-align:center;width:74px}
+.u-coursePlanPayMsg .cancelBtn{background-position:60px -450px;display:block;margin-left:96px;text-decoration:none;width:70px}
+.u-coursePlanPayMsg .cancelBtn span{background-position:-40px -450px;color:#444;display:block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;height:44px;line-height:42px;padding-left:10px;text-align:center;width:50px}
+.u-coursePlanPayMsg .cancelBtn:hover{background-position:60px -500px}
+.u-coursePlanPayMsg .cancelBtn:hover span{background-position:-40px -500px}
+.u-coursePlanPayMsg .cancelBtn:active{background-position:60px -550px}
+.u-coursePlanPayMsg .cancelBtn:active span{background-position:-40px -550px}
+.u-coursePlanPayMsg .msg-p3 .title{font-size:26px;line-height:40px}
+.u-coursePlanPayMsg .priceList{float:left;height:41px;width:80px}
+.u-coursePlanPayMsg .priceList .originPrice,.u-coursePlanPayMsg .priceList .presentPrice{color:#ff8509;font-size:16px;line-height:20px}
+.u-coursePlanPayMsg .priceList .originPrice{color:#999}
+.u-coursePlanPayMsg .msg-plan{left:45%;width:535px}
+.u-coursePlanPayMsg .msg-plan .wcon{width:450px}
+.u-coursePlanPayMsg .wcon .courseInfo{width:440px}
+.u-coursePlanPayMsg .wcon .deInfo{width:305px}
+.u-img{border:1px solid #fff}
+.u-card{background:none repeat scroll 0 0 #fff;cursor:pointer;float:left;margin-bottom:20px;position:relative}
+.u-card .card{height:204px;width:225px}
+.u-card .card .u-img{height:124px;overflow:hidden;width:223px}
+.u-card .card .u-img .img{height:124px;transition:all 1s ease 0s;width:223px}
+.u-card .spoc{height:64px;left:0;top:0;width:64px;z-index:1}
+.u-card .t1{color:#333;font-size:14px;line-height:20px;margin-top:5px;max-height:40px;overflow:hidden;padding:0 5px;word-break:break-all}
+.u-card .t2{bottom:30px;left:5px;position:absolute;width:105px}
+.u-card .t21{margin-right:20px}
+.u-card .over,.u-card .time{bottom:10px;height:18px;left:5px;line-height:18px}
+.u-card .over .clock,.u-card .time .clock{font-size:14px;line-height:18px;margin-right:5px}
+.u-card .over .txt,.u-card .time .txt{font-size:12px;vertical-align:1px}
+.u-card .price{background:none repeat scroll 0 0 #ff8000;bottom:7px;color:#fff;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;height:21px;line-height:22px;min-width:55px;right:6px;text-align:center}
+.u-card .mocIc{display:block;height:20px;right:5px;top:101px;width:20px;z-index:1}
+.u-card .mask{bottom:0;left:0;position:absolute;right:0;top:0;z-index:201}
+.u-card .mask .delbtn{cursor:pointer;height:32px;position:absolute;right:-12px;top:-12px;width:32px}
+.u-card .card.onlearn .t2{display:none}
+.u-card .card.onlearn .price{display:none}
+.u-card .card.onlearn .over,.u-card .card.onlearn .time{border-radius:9px;left:4px;padding-right:6px;right:auto}
+.u-card .card.onlearn .status{bottom:7px;right:4px;width:84px}
+.u-card .card.onlearn .status span.ic{background-position:-51px -389px;display:inline-block;height:22px;vertical-align:middle;width:19px}
+.u-card .card.onlearn .linfo{bottom:11px;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;left:6px;position:absolute}
+.u-card .card.onlearn .linfo a:hover{text-decoration:underline}
+.u-card.u-recommend-cover{height:257px;position:relative}
+.u-card.u-recommend-cover .recommend{background:none repeat scroll 0 0 #fafafa;border-top:1px solid #ededed;bottom:0;color:#999;font-size:12px;height:32px;left:0;overflow:hidden;padding:10px;width:205px}
+.u-card:hover{box-shadow:0 2px 2px rgba(0,0,0,.3)}
+.u-card:hover .u-img .img{transform:scale(1.2)}
+.u-card:hover .onlearn .status span.ic{background-position:0 -1182px}
+.u-img{border:1px solid #fff}
+.u-card{background:none repeat scroll 0 0 #fff;cursor:pointer;float:left;margin-bottom:20px;position:relative}
+.u-card .card{height:204px;width:225px}
+.u-card .card .u-img{height:124px;overflow:hidden;width:223px}
+.u-card .card .u-img .img{height:124px;transition:all 1s ease 0s;width:223px}
+.u-card .spoc{height:64px;left:0;top:0;width:64px;z-index:1}
+.u-card .t1{color:#333;font-size:14px;line-height:20px;margin-top:5px;max-height:40px;overflow:hidden;padding:0 5px;word-break:break-all}
+.u-card .t2{bottom:30px;left:5px;position:absolute;width:105px}
+.u-card .t21{margin-right:20px}
+.u-card .over,.u-card .time{bottom:10px;height:18px;left:5px;line-height:18px}
+.u-card .over .clock,.u-card .time .clock{font-size:14px;line-height:18px;margin-right:5px}
+.u-card .over .txt,.u-card .time .txt{font-size:12px;vertical-align:1px}
+.u-card .price{background:none repeat scroll 0 0 #ff8000;bottom:7px;color:#fff;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;height:21px;line-height:22px;min-width:55px;right:6px;text-align:center}
+.u-card .mocIc{display:block;height:20px;right:5px;top:101px;width:20px;z-index:1}
+.u-card .mask{bottom:0;left:0;position:absolute;right:0;top:0;z-index:201}
+.u-card .mask .delbtn{cursor:pointer;height:32px;position:absolute;right:-12px;top:-12px;width:32px}
+.u-card .card.onlearn .t2{display:none}
+.u-card .card.onlearn .price{display:none}
+.u-card .card.onlearn .over,.u-card .card.onlearn .time{border-radius:9px;left:4px;padding-right:6px;right:auto}
+.u-card .card.onlearn .status{bottom:7px;right:4px;width:84px}
+.u-card .card.onlearn .status span{display:inline;font-size:14px}
+.u-card .card.onlearn .status span.ic{background-position:-51px -389px;display:inline-block;height:22px;vertical-align:middle;width:19px}
+.u-card .card.onlearn .linfo{bottom:11px;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;left:6px;position:absolute}
+.u-card .card.onlearn .linfo a:hover{text-decoration:underline}
+.u-card.u-recommend-cover{height:257px;position:relative}
+.u-card.u-recommend-cover .recommend{background:none repeat scroll 0 0 #fafafa;border-top:1px solid #ededed;bottom:0;color:#999;font-size:12px;height:32px;left:0;overflow:hidden;padding:10px;width:205px}
+.u-card:hover{box-shadow:0 2px 2px rgba(0,0,0,.3)}
+.u-card:hover .u-img .img{transform:scale(1.2)}
+.u-card:hover .onlearn .status span.ic{background-position:0 -1182px}
+.u-recommendCourse{border-bottom:1px dotted #e9e9e9;padding:25px 25px 25px 20px}
+.u-recommendCourse .cImg{height:66px;margin:3px 15px 0 0;width:120px}
+.u-recommendCourse .cImg .publicStatus{height:51px;left:-1px;top:-1px;width:51px;z-index:10}
+.u-recommendCourse .img{height:66px;width:120px}
+.u-recommendCourse .cInfo{height:69px;max-width:180px}
+.u-recommendCourse .courseTit{font:700 16px/22px "寰蒋闆呴粦";height:31px;max-width:190px;padding:0}
+.u-recommendCourse .tag{background:none repeat scroll 0 0 rgba(0,0,0,.5);color:#fff;font-size:12px;height:20px;line-height:20px;margin-left:5px;padding:0 4px;text-align:center}
+.u-recommendCourse .enroll{color:#999;font-size:12px;height:18px;line-height:18px;margin-bottom:8px;vertical-align:middle}
+.u-recommendCourse .enroll .li-1{margin-right:0}
+.u-recommendCourse .enroll .hot{background-position:-60px -350px;font-size:12px;padding-left:15px;width:40px}
+.u-recommendCourse .enroll .u-rating{margin-top:3px}
+.u-recommendCourse .enroll .u-rating .star{height:12px;margin-top:0;width:12px}
+.u-recommendCourse .enroll .u-rating .half{background-position:-14px 0}
+.u-recommendCourse .enroll .u-rating .on{background-position:0 0}
+.u-recommendCourse .enroll .u-rating span{color:#00aeef;font-size:12px;margin-left:10px;vertical-align:text-top}
+.u-recommendCourse .liclass{color:#999;font-size:12px;width:420px}
+.u-recommendCourse .joinTime{color:#999;float:right;font-size:12px;margin-top:54px;text-align:right;width:150px}
+.u-recommendCourse .price{bottom:20px;color:#fff;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;right:15px}
+.u-recommendCourse .price .d{color:#666;margin-right:10px;text-decoration:line-through}
+.u-recommendCourse .price .pay{background-color:#ff6b01;padding:3px 4px}
+.u-recommendCourse .price .free{background-color:#77c78c;padding:3px 13px}
+.u-recommendCourse .from{color:#999;font-size:12px}
+.u-recommendCourse:hover{background-color:#f6f6f6;cursor:pointer}
+.u-recommendCourse:hover .courseTit{color:#00aeef}
+@media screen and (min-width:1210px){.u-recommendCourse .cInfo{max-width:300px}
+.u-recommendCourse .courseTit{max-width:300px}
+}
+.recommedCourse .m-basepool .ui-pager{padding:0;position:absolute;right:13px;top:16px}
+.recommedCourse .m-basepool .ui-pager a.zpgi,.recommedCourse .m-basepool .ui-pager span.zdot{display:none}
+.recommedCourse .m-basepool .ui-pager a.zpgi{width:auto}
+.recommedCourse .m-basepool .ui-pager a.js-selected{background:none repeat scroll 0 0 rgba(0,0,0,0)}
+.recommedCourse .m-basepool .ui-pager a.zbtn{background-position:-112px -109px;border:medium none;display:block;float:left;height:20px;overflow:hidden;padding:0;text-indent:9999px;width:20px}
+.recommedCourse .m-basepool .ui-pager a.zprv{padding-right:7px}
+.recommedCourse .m-basepool .ui-pager a.zprv.js-disabled{background-position:-168px -109px}
+.recommedCourse .m-basepool .ui-pager a.zprv.js-disabled:hover{background-position:-168px -109px}
+.recommedCourse .m-basepool .ui-pager a.zprv:hover{background-position:-227px -109px}
+.recommedCourse .m-basepool .ui-pager a.znxt{background-position:-140px -109px;padding-left:7px}
+.recommedCourse .m-basepool .ui-pager a.znxt.js-disabled{background-position:-196px -109px}
+.recommedCourse .m-basepool .ui-pager a.znxt.js-disabled:hover{background-position:-196px -109px}
+.recommedCourse .m-basepool .ui-pager a.znxt:hover{background-position:-255px -109px}
+.recommedCourse .m-basepool .m-data-lists .last{border-bottom:medium none}
+.recommedCourse .m-basepool .m-data-lists .first{border-top:1px dotted #e9e9e9}
+.u-recMocCourseCard{border-bottom:1px dotted #e9e9e9;padding:25px 25px 25px 20px}
+.u-recMocCourseCard .cImg{height:66px;margin:3px 15px 0 0;width:120px}
+.u-recMocCourseCard .cImg .mocIc{bottom:2px;display:block;height:20px;right:2px;width:20px;z-index:1}
+.u-recMocCourseCard .tit{height:22px;line-height:22px}
+.u-recMocCourseCard .img{height:66px;width:120px}
+.u-recMocCourseCard .cInfo{height:69px;max-width:180px}
+.u-recMocCourseCard .courseTit{font:700 16px/22px "寰蒋闆呴粦";max-width:330px;padding:0}
+.u-recMocCourseCard .ing,.u-recMocCourseCard .time{background-color:#ff9326;border-bottom:1px solid #ffd24d;border-radius:9px;border-top:1px solid #ffd24d;bottom:-2px;height:18px;left:0;line-height:18px;padding:0 6px 0 3px}
+.u-recMocCourseCard .ing .clock,.u-recMocCourseCard .time .clock{font-size:14px;line-height:18px;margin-right:5px}
+.u-recMocCourseCard .ing .txt,.u-recMocCourseCard .time .txt{vertical-align:1px}
+.u-recMocCourseCard .ing{background-color:#499e50;border-bottom:1px solid #499e50;border-top:1px solid #499e50}
+.u-recMocCourseCard:hover{background-color:#f6f6f6;cursor:pointer}
+.u-recMocCourseCard:hover .courseTit{color:#00aeef}
+@media screen and (min-width:1210px){.u-recMocCourseCard .cInfo{max-width:300px}
+}
+.u-mycloudhead{background:url(/Public/images/student/mycloudheadbg.png) repeat scroll center center #fff;box-shadow:0 1px 2px #bbb;height:160px}
+.u-mycloudhead.u-head{background:url(/Public/images/student/mymanageheadbg.png) repeat scroll 0 0 rgba(0,0,0,0)}
+.u-mycloudhead .hc{padding-top:40px}
+.u-mycloudhead .hc .pic{background:none repeat scroll 0 0 #fff;border-radius:45px;box-shadow:0 1px 2px #999;cursor:pointer;height:80px;margin-right:12px;padding:5px;width:80px}
+.u-mycloudhead .hc .pic img{border-radius:40px;height:100%;width:100%}
+.u-mycloudhead .hc .con{max-width:480px}
+.u-mycloudhead .hc .name{color:#333;cursor:pointer;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:24px;font-weight:500;line-height:2;padding-top:10px}
+.u-mycloudhead .hc .name.normal{cursor:default}
+.u-mycloudhead .hc .info{color:#555;font-size:14px}
+.u-leftnav .tabul li.tabitem{border-bottom:1px solid #ddd;cursor:pointer;height:60px;clear:both}
+.u-leftnav .tabul li.tabitem a,.u-leftnav .tabul li.tabitem span{color:#333;font-size:16px;line-height:60px}
+.u-leftnav .tabul li.tabitem.tabitemhover{background:none repeat scroll 0 0 #f8f8f8;color:#00aeef}
+.u-leftnav .tabul li.tabitem.tabitemhover a{color:#00aeef}
+.u-leftnav .tabul li.tabitem.tabitemselect{background:none repeat scroll 0 0 #00aeef;color:#fff}
+.u-leftnav .tabul li.tabitem.tabitemselect a{color:#fff}
+.u-leftnav .tabul li.tabitem .tabicon{margin:12px 14px 0 20px;width:22px;height:22px}
+.u-leftnav .tabul li.tabitem .tabicon.ti0{background-position:0 0}
+.u-leftnav .tabul li.tabitem .tabicon.ti0hover{background-position:-40px 0}
+.u-leftnav .tabul li.tabitem .tabicon.ti0select{background-position:-80px 0}
+.u-leftnav .tabul li.tabitem .tabicon.ti1{background-position:0 -61px}
+.u-leftnav .tabul li.tabitem .tabicon.ti1hover{background-position:-40px -61px}
+.u-leftnav .tabul li.tabitem .tabicon.ti1select{background-position:-80px -61px}
+.u-leftnav .tabul li.tabitem .tabicon.ti2{background-position:0 -122px}
+.u-leftnav .tabul li.tabitem .tabicon.ti2hover{background-position:-40px -122px}
+.u-leftnav .tabul li.tabitem .tabicon.ti2select{background-position:-80px -122px}
+.u-leftnav .tabul li.tabitem .tabicon.ti3{background-position:0 -183px}
+.u-leftnav .tabul li.tabitem .tabicon.ti3hover{background-position:-40px -183px}
+.u-leftnav .tabul li.tabitem .tabicon.ti3select{background-position:-80px -183px}
+.u-leftnav .tabul li.tabitem .tabicon.ti4{background-position:0 -246px}
+.u-leftnav .tabul li.tabitem .tabicon.ti4hover{background-position:-40px -246px}
+.u-leftnav .tabul li.tabitem .tabicon.ti4select{background-position:-80px -246px}
+.u-leftnav .tabul li.tabitem .tabicon.ti5{background-position:0 -309px;margin-top:22px}
+.u-leftnav .tabul li.tabitem .tabicon.ti5hover{background-position:-40px -309px}
+.u-leftnav .tabul li.tabitem .tabicon.ti5select{background-position:-80px -309px}
+.u-leftnav .tabul li.tabitem .tabicon.ti6{background-position:0 -368px}
+.u-leftnav .tabul li.tabitem .tabicon.ti6hover{background-position:-40px -368px}
+.u-leftnav .tabul li.tabitem .tabicon.ti6select{background-position:-80px -368px}
+.u-leftnav .tabul li.tabitem .tabicon.ti7{background-position:0 -689px}
+.u-leftnav .tabul li.tabitem .tabicon.ti7hover{background-position:-40px -689px}
+.u-leftnav .tabul li.tabitem .tabicon.ti7select{background-position:-80px -689px}
+.u-leftnav .tabul li.tabitem .tabicon.ti8{background-position:0 -619px}
+.u-leftnav .tabul li.tabitem .tabicon.ti8hover{background-position:-40px -619px}
+.u-leftnav .tabul li.tabitem .tabicon.ti8select{background-position:-80px -619px}
+.u-leftnav .tabul li.tabitem .tabicon.ti9{background-position:0 -553px}
+.u-leftnav .tabul li.tabitem .tabicon.ti9hover{background-position:-40px -553px}
+.u-leftnav .tabul li.tabitem .tabicon.ti9select{background-position:-80px -553px}
+.u-leftnav .tabul li.tabitem .tabicon.ti10{background-position:0 -429px}
+.u-leftnav .tabul li.tabitem .tabicon.ti10hover{background-position:-40px -429px}
+.u-leftnav .tabul li.tabitem .tabicon.ti10select{background-position:-80px -429px}
+.u-leftnav .tabul li.tabitem .tabicon.ti11{background-position:0 -490px}
+.u-leftnav .tabul li.tabitem .tabicon.ti11hover{background-position:-40px -490px}
+.u-leftnav .tabul li.tabitem .tabicon.ti11select{background-position:-80px -490px}
+.u-morelink{color:#999;font-size:12px;height:16px;line-height:18px;padding-right:20px}
+.u-taskremind{border-top:1px solid #ccc;box-shadow:0 1px 2px #bbb;height:0;overflow:hidden}
+.u-taskremind .mwrap{background:none repeat scroll 0 0 #fbfed8;bottom:0;height:44px;left:0;width:100%}
+.u-taskremind .mcon{color:#666;font-size:14px;height:16px;line-height:16px;padding:14px 0}
+.u-taskremind .mcon .ic{height:12px;margin-right:10px;margin-top:2px;width:16px}
+.u-taskremind .mcon .slidcon{height:16px;overflow:hidden;width:800px}
+.u-taskremind .mcon .slidcon .tasktxt{height:16px;width:100%}
+.u-taskremind .mcon .slidcon .t{margin-left:5px;margin-right:3px}
+.u-cloudad{display:block;height:142px;margin-top:20px;width:225px}
+.u-cloudad .pic{height:100%;width:100%}
+.u-mounav{background:none repeat scroll 0 0 #fff;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:16px}
+.u-mounav .tab{color:#666;height:60px;line-height:60px;padding:0 18px}
+.u-mounav .tab.normal{cursor:default}
+.u-mounav .tab.current{color:#333;font-weight:700}
+.u-mounav .tab.current .arr{display:block}
+.u-mounav .arr{background:url(/Public/images/student/tab_arr.png) no-repeat scroll 0 0 rgba(0,0,0,0);display:none;height:9px;left:50%;margin-left:-6px;position:absolute;top:54px;width:12px}
+.u-mounav .split{background:none repeat scroll 0 0 #ddd;height:26px;margin:17px 0;width:1px}
+.u-mounav .reportTitle{color:#ff936f}
+.u-manfin{height:19px;margin:19px 20px 0 0}
+.u-manfin a{border-radius:4px;float:right;font-size:14px;height:30px;line-height:30px;text-align:center;width:60px}
+.u-manfin .manage{background:none repeat scroll 0 0 #eee;border:1px solid #ccc;color:#999}
+.u-manfin .manage:hover{color:#00aeef}
+.u-manfin .finish{background:none repeat scroll 0 0 #eee;border:1px solid #ccc;color:#999}
+.u-manfin .finish:hover{color:#00aeef}
+.u-submounav{height:30px;line-height:30px;padding:10px 20px}
+.u-submounav .tab{color:#999}
+.u-submounav .tab.current{color:#00aeef}
+.u-submounav .split{color:#999;margin:0 5px}
+.u-help{background:url(/Public/images/student/studyplan_sprite.png) no-repeat scroll 0 0 rgba(0,0,0,0);color:#444;display:block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;height:16px;line-height:16px;margin-right:20px;text-indent:20px}
+.u-help:hover{background-position:0 -20px;color:#00aeef}
+.u-reclist .rectit{border-bottom:1px solid #ddd;height:16px;padding:20px}
+.u-reclist .rectit h2{font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:16px}
+.u-reclist .rectit .u-morelink{margin-top:2px;font-size:14px}
+.u-reclist .list{padding:20px;padding-top: 0;}
+.u-reclist .list .item{border-bottom:1px solid #ddd;border-right:1px solid #ddd;padding:20px;width:316px}
+.u-reclist .list .item:hover{background:none repeat scroll 0 0 rgba(0,0,0,0)!important}
+.u-reclist .list .item.top{padding-top: 20px;}
+.u-reclist .list .item.bottom{border-bottom:medium none;padding-bottom: 20px;}
+.u-reclist .list .item.left{padding-left: 0px;}
+.u-reclist .list .item.right{border-right:medium none;padding-right:0}
+.u-reclist .list .item.bottom.right .price{/* bottom:0; */}
+div.u-mmask{position:fixed;top:0;width:100%;z-index:2000}
+div.u-mmask .u-menu .img{height:322px;right:0;top:50px;width:680px}
+div.u-mmask .u-menu .btn{background-color:#249600;color:#fff;cursor:pointer;font-size:14px;padding:6px 13px;right:236px;top:155px}
+div.u-mmask .u-menu .btn:hover{background-color:#258b04}
+.u-findMore{float:left;margin:0 20px 20px 0;position:relative}
+.findMoreOnly{margin-left:250px;margin-top:100px}
+.fst{background-color:#fff;color:#bbbec7;display:block;height:204px;overflow:hidden;position:relative;width:225px}
+.fst .btn{color:#bbbec7;margin-top:30px;width:100%}
+.fst .btn .icon{color:#bbbec7;font:bolder 100px/100px "寰蒋闆呴粦";text-align:center}
+.fst .btn .findTxt,.fst .btn .icon{transition:all .3s linear 0s}
+.fst .btn .findTxt{color:#bbbec7;font:700 16px "寰蒋闆呴粦";margin-top:35px;text-align:center}
+.fst:hover{box-shadow:0 2px 2px rgba(0,0,0,.3)}
+.fst:hover .icon{color:#999}
+.fst:hover .tit{opacity:.4}
+.fst:hover .findTxt{color:#999}
+.m-myCloudCreatePlan .u-backbtn,.m-myCloudCreatePlan .u-help{line-height:16px;margin-top:22px}
+.m-myCloudCreatePlan .u-backbtn{margin-right:20px}
+.u-lsnicon{height:15px;margin-left:5px;width:15px}
+.u-lsnicon.icon-1{background-position:-23px -232px}
+.u-lsnicon.icon-2{background-position:-23px -184px}
+.u-lsnicon.icon-3{background-position:-23px -232px}
+.u-lsnicon.icon-40{background-position:-23px -207px}
+.u-lsnicon.icon-20{background-position:-23px -255px}
+.u-lsnicon.icon-30{background-position:-23px -279px}
+.u-lsnicon.iconRes-1{background-position:-23px -327px}
+.u-lsnicon.iconRes-2{background-position:-23px -351px}
+.u-lsnicon.iconRes-3{background-position:-23px -327px}
+.u-lsnicon.iconRes-text{background-position:-23px -303px}
+.u-reficon{color:#666;font-size:12px}
+.f-createtit{color:#444;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;height:31px;line-height:33px;margin-right:22px;text-align:right;width:70px}
+.u-stepInfo .stepfirst,.u-stepInfo .stepsecond{background-color:#f6f6f6;color:#444;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;height:31px;line-height:31px;text-align:center;width:337px}
+.u-stepInfo .stepfirst{background-color:#3a3e4a;color:#fff}
+.u-stepInfo .claz{background:url(/Public/images/student/plantopbg.png) no-repeat scroll 0 0 rgba(0,0,0,0);height:31px;width:40px}
+.u-stepInfo2 .stepfirst{background-color:#f6f6f6;color:#444}
+.u-stepInfo2 .stepsecond{background-color:#3a3e4a;color:#fff}
+.u-stepInfo2 .claz{background-position:0 -34px}
+.m-plans1 .warning{margin-bottom:-10px}
+.m-plans1 .main{padding:15px 20px}
+.m-plans1 .typefb{margin-left:80px;margin-top:-50px}
+.m-plans1 .tip{color:#999;font-size:12px;margin-bottom:20px}
+.m-plans1 .type2{margin-left:10px}
+.m-plans1 .row{min-height:30px;padding-bottom:36px;width:670px}
+.m-plans1 .row .radio{color:#999;font-size:12px;height:21px;line-height:33px}
+.m-plans1 .row .radio input{vertical-align:text-bottom}
+.m-plans1 .row .radio2{margin-top:10px}
+.m-plans1 .row .ttt{margin-left:10px}
+.m-plans1 .row .ttt2{margin-left:23px}
+.m-plans1 .nexta{background-color:#f8f8f8;border-top:1px solid #f0f0f0;height:84px;width:100%}
+.m-plans1 .nexta .next{background-position:83px -300px;display:block;margin:20px 0 0 84px;text-decoration:none;width:93px}
+.m-plans1 .nexta .next span{background-position:-40px -300px;color:#fff;display:block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;height:44px;line-height:42px;padding-left:10px;text-align:center;width:73px}
+.m-plans1 .nexta .next:hover{background-position:83px -350px}
+.m-plans1 .nexta .next:hover span{background-position:-40px -350px}
+.m-plans1 .nexta .next:active{background-position:83px -400px}
+.m-plans1 .nexta .next:active span{background-position:-40px -400px}
+.f-bg{border-top:medium none}
+.m-plans2 .stip{background:none repeat scroll 0 0 #fff;color:#999;font-size:12px;padding:20px}
+.m-plans2 .addbox{background:none repeat scroll 0 0 #f8f8f8;color:#aaa;cursor:pointer;margin-top:-8px;padding:15px 25px;text-align:center}
+.m-plans2 .addbox .addphase{color:#333;cursor:pointer}
+.m-plans2 .addbox .phasefb{left:400px;position:absolute;top:7px}
+.m-plans2 .addbox em{font-size:16px;font-weight:700;line-height:14px;margin-right:2px}
+.m-plans2 .addbox:hover{background:none repeat scroll 0 0 #f2f2f2}
+.m-plans2 .setpic{border-bottom:1px dotted #ebebeb;margin-top:20px;padding:40px 0 40px 25px}
+.m-plans2 .toolbar{background-color:#f8f8f8;padding:20px 30px 20px 25px}
+.m-plans2 .toolbar .preview{background-position:80px -150px;display:block;text-decoration:none;width:90px}
+.m-plans2 .toolbar .preview span{background-position:-40px -150px;color:#444;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:70px}
+.m-plans2 .toolbar .preview:hover{background-position:80px -200px}
+.m-plans2 .toolbar .preview:hover span{background-position:-40px -200px}
+.m-plans2 .toolbar .preview:active{background-position:80px -250px}
+.m-plans2 .toolbar .preview:active span{background-position:-40px -250px}
+.m-plans2 .toolbar .pre{color:#666;display:block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:16px;height:40px;line-height:40px;margin-right:25px}
+.m-plans2 .toolbar .pre:hover{color:#00aeef;text-decoration:underline}
+.m-plans2 .toolbar .finish{background-position:80px -300px;display:block;height:44px;text-decoration:none;width:90px}
+.m-plans2 .toolbar .finish span{background-position:-40px -300px;color:#fff;display:block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;height:44px;line-height:42px;padding-left:10px;text-align:center;width:70px}
+.m-plans2 .toolbar .finish:hover{background-position:80px -350px}
+.m-plans2 .toolbar .finish:hover span{background-position:-40px -350px}
+.m-plans2 .toolbar .finish:active{background-position:80px -400px}
+.m-plans2 .toolbar .finish:active span{background-position:-40px -400px}
+.m-createPhase{margin-bottom:8px}
+.m-createPhase .bg{background-color:#36373e;height:20px;left:0;position:absolute;top:12px;width:6px}
+.m-createPhase .cpmcnt{padding:15px}
+.m-createPhase .topbar{border-bottom:1px dotted #ebebeb;padding:5px 25px}
+.m-createPhase .topbar.j-hover2{background-color:#f6f6f6}
+.m-createPhase .topbar .delphase,.m-createPhase .topbar .down,.m-createPhase .topbar .up{display:block;float:left;height:16px;margin:10px 6px 0 0;width:16px}
+.m-createPhase .topbar .up{background-position:0 0}
+.m-createPhase .topbar .up.disabled{background-position:0 -60px}
+.m-createPhase .topbar .down{background-position:-20px 0}
+.m-createPhase .topbar .down.disabled{background-position:-20px -60px}
+.m-createPhase .topbar .delphase:hover{background-position:-40px -30px}
+.m-createPhase .topbar .up:hover{background-position:0 -30px}
+.m-createPhase .topbar .up.disabled:hover{background-position:0 -60px}
+.m-createPhase .topbar .down:hover{background-position:-20px -30px}
+.m-createPhase .topbar .down.disabled:hover{background-position:-20px -60px}
+.m-createPhase .topbar .title{color:#000;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:16px;line-height:34px}
+.m-createPhase .content{z-index:200}
+.m-createPhase .time{z-index:0}
+.m-createPhase .row{margin-bottom:30px;position:relative}
+.m-createPhase .row.name{margin-top:15px}
+.m-createPhase .row.time .suf{margin-right:0;width:25px}
+.m-learnCnt{margin-top:10px}
+.m-learnCnt .tabs .tab{background-color:#efefef;color:#666;cursor:pointer;height:25px;line-height:25px;margin-right:1px;padding:0 10px}
+.m-learnCnt .tabs .js-selected{background-color:#fff;border-left:1px solid #efefef;border-right:1px solid #efefef;border-top:3px solid #00aeef;height:22px;margin-left:-1px;margin-right:0}
+.m-learnCnt .cnt{border:1px solid #efefef;margin-top:-1px;padding:8px;width:562px}
+.m-learnCnt .cnt .sel{margin-left:4px}
+.m-learnCnt .sugst{left:-4px;position:absolute;top:95px}
+.u-select{margin-bottom:20px}
+.u-select .up2{color:#999;font-size:14px;line-height:30px}
+.u-select .up2 .icon{height:30px;width:30px}
+.u-select .btn{padding:10px}
+.u-select .btn a{background-position:90px 0;display:block;text-decoration:none;width:100px}
+.u-select .btn a span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:80px}
+.u-select .btn a:hover{background-position:90px -50px}
+.u-select .btn a:hover span{background-position:-40px -50px}
+.u-select .btn a:active{background-position:90px -100px}
+.u-select .btn a:active span{background-position:-40px -100px}
+.u-select .list .txt1{margin:0 5px 0 0;width:auto}
+.u-select .list2{color:#999;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif}
+.u-select .act{background-color:#ececee}
+.u-select .js-selected{color:#ccc}
+.u-select .bought{background-position:0 -104px;height:16px;margin:10px 0 0;width:26px}
+.u-select .price{background-position:0 -80px;height:16px;margin:10px 0 0;width:26px}
+.u-select2 .nores{background:none repeat scroll 0 0 #fff;border:1px solid #ddd;color:#ccc;font-size:12px;left:0;padding:8px 15px;position:absolute;top:100%;width:246px}
+.m-phaseContentItem{border-top:1px solid #e5e5e5;width:572px}
+.m-phaseContentItem .noedit{padding:10px 15px 5px}
+.m-phaseContentItem .noedit .inputbox .tips{height:0;margin:0}
+.m-phaseContentItem .edit{background-color:#f6f6f6;padding:10px 4px}
+.m-phaseContentItem .edit .u-attach .attachCon{margin:2px 0 0;width:530px}
+.m-phaseContentItem .edit .u-attach .attachCon div.inputP,.m-phaseContentItem .edit .u-attach .attachCon div.resTextP{width:445px}
+.m-phaseContentItem .edit .u-attach .cancelbtn{color:#666;font-size:12px;line-height:30px;padding:0 20px 0 0}
+.m-phaseContentItem .edit .u-attach .cancelbtn:hover{color:#00aeef;text-decoration:underline}
+.m-phaseContentItem.hvr,.m-phaseContentItem.selected{background-color:#f6f6f6!important}
+.m-phaseContentItem .top{margin-right:140px}
+.m-phaseContentItem .side{float:right;margin-right:-140px;width:140px}
+.m-phaseContentItem .main{color:#444;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:30px}
+.m-phaseContentItem .main .sort .icon{cursor:pointer;float:left;height:16px;margin:9px 0 0 5px;width:16px}
+.m-phaseContentItem .main .sort .icon.up{background-position:0 0}
+.m-phaseContentItem .main .sort .icon.up:hover{background-position:0 -30px}
+.m-phaseContentItem .main .sort .icon.up.disabled,.m-phaseContentItem .main .sort .icon.up.disabled:hover{background-position:0 -60px;cursor:default}
+.m-phaseContentItem .main .sort .icon.down{background-position:-20px 0}
+.m-phaseContentItem .main .sort .icon.down:hover{background-position:-20px -30px}
+.m-phaseContentItem .main .sort .icon.down.disabled,.m-phaseContentItem .main .sort .icon.down.disabled:hover{background-position:-20px -60px;cursor:default}
+.m-phaseContentItem .main .sort .delbtn{cursor:pointer;float:left;height:16px;margin:9px 0 0 5px;width:16px}
+.m-phaseContentItem .main .sort .delbtn:hover{background-position:-40px -30px}
+.m-phaseContentItem .main .editbox{height:15px;margin:9px 0 0 5px;width:15px}
+.m-phaseContentItem .main .editbox .editbtn{cursor:pointer;height:15px;width:15px}
+.m-phaseContentItem .main .editbox .editbtn:hover{background-position:-30px -258px}
+.m-phaseContentItem .main .u-reficon{cursor:pointer;margin-left:5px}
+.m-phaseContentItem .main.type-30 .lesson{line-height:20px;max-width:370px;padding:5px 0;white-space:pre-wrap;word-wrap:break-word}
+.m-phaseContentItem .main.type-30 .lesson a{color:#00aeef}
+.m-phaseContentItem .main.type-30 .lesson a:hover{text-decoration:underline}
+.m-phaseContentItem .main.type-30 .u-lsnicon{margin-top:9px}
+.m-phaseContentItem .main.type-30 .course,.m-phaseContentItem .main.type-30 .time{display:none}
+.m-phaseContentItem .main.type-0 .lesson,.m-phaseContentItem .main.type-40 .lesson{cursor:pointer;max-width:330px}
+.m-phaseContentItem .main.type-0 .lesson:hover,.m-phaseContentItem .main.type-40 .lesson:hover{color:#00aeef;text-decoration:underline}
+.m-phaseContentItem .main.type-0 .course,.m-phaseContentItem .main.type-40 .course{color:#999;font-size:12px;line-height:14px;margin-left:15px;max-width:300px}
+.m-phaseContentItem .main.type-0 .u-lsnicon,.m-phaseContentItem .main.type-40 .u-lsnicon{margin-top:9px}
+.m-phaseContentItem .main.type-0 .time,.m-phaseContentItem .main.type-40 .time{color:#b3b3b3;font-size:12px;margin-left:5px;width:32px}
+.m-phaseContentItem .rich{border-top:1px solid #e5e5e5;margin-top:10px}
+.m-phaseContentItem .rich .tip{color:#999;font-size:12px;line-height:30px}
+.m-phaseContentItem .rich .introP{height:135px}
+.m-phaseContentItem .rich .introP .m-feedbackinfo{padding:8px 0}
+.m-phaseContentItem .rich .richedit{text-align:left}
+.m-phaseContentItem .rich .bottom .btn{background-position:40px 0;display:block;float:right;margin-top:-25px;text-decoration:none;width:50px}
+.m-phaseContentItem .rich .bottom .btn span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:30px}
+.m-phaseContentItem .rich .bottom .btn:hover{background-position:40px -50px}
+.m-phaseContentItem .rich .bottom .btn:hover span{background-position:-40px -50px}
+.m-phaseContentItem .rich .bottom .btn:active{background-position:40px -100px}
+.m-phaseContentItem .rich .bottom .btn:active span{background-position:-40px -100px}
+.u-attach{position:relative}
+.u-attach .tt{display:block;float:left;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;height:30px;margin:5px 5px 0 0;text-align:right;width:70px}
+.u-attach .ttP{margin:10px 0 0}
+.u-attach .ttP .inputP{height:60px;width:475px}
+.u-attach .resTextP{margin-bottom:10px;width:475px}
+.u-attach .in{margin-right:8px}
+.u-attach .indx{line-height:32px;padding-left:5px;width:16px}
+.u-attach .btn{background-position:60px 0;display:block;text-decoration:none;width:70px}
+.u-attach .btn span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:50px}
+.u-attach .btn:hover{background-position:60px -50px}
+.u-attach .btn:hover span{background-position:-40px -50px}
+.u-attach .btn:active{background-position:60px -100px}
+.u-attach .btn:active span{background-position:-40px -100px}
+.u-attach .feedback .m-feedbackinfo{padding:0}
+.m-setcover .img{height:124px;overflow:hidden;position:relative;text-align:center;width:220px}
+.m-setcover .noimg{background-color:#f8f8f8;cursor:pointer}
+.m-setcover .noimg:hover{background-color:#f2f2f2}
+.m-setcover .noimg .btn{color:#999;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;left:75px;position:absolute;top:52px}
+.m-setcover .hasimg .btn{color:#fff;cursor:pointer;display:none;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;height:26px;left:72px;line-height:26px;position:absolute;top:49px;width:76px}
+.m-setcover .hasimg:hover .btn{display:block}
+.m-setcover .hasimg:hover .show{background-color:#000;height:124px;left:0;opacity:.6;position:absolute;top:0;width:220px}
+.m-setCoverDialog .tabs{border-bottom:1px solid #e3e3e3;height:32px;margin:-10px 20px 0;width:536px}
+.m-setCoverDialog .tabs .tab{color:#000;cursor:pointer;font-size:12px;height:32px;line-height:32px;text-align:center;width:92px}
+.m-setCoverDialog .tabs .tab:hover{background-color:#f5f5f5;color:#000;text-decoration:none}
+.m-setCoverDialog .tabs .curTab{background-color:#e9e9e9;cursor:default}
+.m-setCoverDialog .tabs .curTab:hover{background-color:#e9e9e9;text-decoration:none}
+.m-setCoverDialog .box{height:365px;width:578px}
+.m-coverselect .haspics{position:relative}
+.m-coverselect .haspics .list{height:290px;margin:0 10px 0 20px;overflow:auto;position:relative}
+.m-coverselect .haspics .toolbar{background-color:#f8f8f8;height:68px;position:relative;width:100%}
+.m-coverselect .haspics .toolbar .savebtn{background-position:78px -150px;display:block;position:absolute;right:45px;text-decoration:none;top:17px;width:88px}
+.m-coverselect .haspics .toolbar .savebtn span{background-position:-40px -150px;color:#444;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:68px}
+.m-coverselect .haspics .toolbar .savebtn:hover{background-position:78px -200px}
+.m-coverselect .haspics .toolbar .savebtn:hover span{background-position:-40px -200px}
+.m-coverselect .haspics .toolbar .savebtn:active{background-position:78px -250px}
+.m-coverselect .haspics .toolbar .savebtn:active span{background-position:-40px -250px}
+.m-coverselect .nopics{padding:100px 0 0 60px}
+.m-coverselect .nopics .u-empty{margin:0;width:450px}
+.m-coverselect .nopics .upbtn{background-position:78px -150px;display:block;margin:-25px 0 0 60px;text-decoration:none;width:88px}
+.m-coverselect .nopics .upbtn span{background-position:-40px -150px;color:#444;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:68px}
+.m-coverselect .nopics .upbtn:hover{background-position:78px -200px}
+.m-coverselect .nopics .upbtn:hover span{background-position:-40px -200px}
+.m-coverselect .nopics .upbtn:active{background-position:78px -250px}
+.m-coverselect .nopics .upbtn:active span{background-position:-40px -250px}
+.m-coverselectItem{cursor:pointer;float:left;margin:20px 18px 0 2px;position:relative}
+.m-coverselectItem .img{height:87px;width:156px}
+.m-coverselectItem.selected .mask,.m-coverselectItem:hover .mask{border:2px solid #00aeef;height:87px;left:-2px;position:absolute;top:-2px;width:156px}
+.m-coverselectItem .mask{position:relative}
+.m-coverselectItem .mask .icon{bottom:0;display:none;height:18px;position:absolute;right:0;width:18px}
+.m-coverselectItem.selected .mask .icon{display:block}
+.u-insug .area{height:21px;padding:5px;position:relative}
+.u-insug .area .sug{left:-10px;top:100%;width:276px}
+.u-insug .area .ar{line-height:30px;text-indent:6px}
+.u-insug input{border:0 none;color:#333;float:left;font-size:12px;height:18px;line-height:18px;outline:medium none;padding:0;width:100%}
+.u-insug label{color:#999;cursor:text;font-size:14px;left:8px;position:absolute;top:0}
+.m-cloudClass .m-myCreatedPlan .manage{font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;margin:0 10px 0 0}
+.m-cloudClass .m-myCreatedPlan .finish{font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;margin-top:-4px}
+.m-myCloudCreatePlan .courseTip{color:#999;font-size:12px;padding:10px 10px 6px 2px}
+.m-myCloudCreatePlan .u-online{margin:20px auto 0;width:545px}
+.m-myCloudCreatePlan .u-online .webSite{margin:0 0 10px}
+.m-myCloudCreatePlan .u-online .tt{display:block;float:left;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;height:30px;margin:5px 5px 0 0;text-align:right;width:70px}
+.m-myCloudCreatePlan .u-online .linkP{width:430px}
+.m-myCloudCreatePlan .u-online .title{height:52px;margin:0;width:430px}
+.m-myCloudCreatePlan .u-online .feedback .m-feedbackinfo{padding:5px 0}
+.m-myCloudCreatePlan .tips{color:#999;font-size:12px;height:45px;margin:10px 0 0 147px;text-align:right;width:290px}
+.m-myCloudCreatePlan .saveBtn{background-position:58px 0;bottom:21px;display:block;position:absolute;right:35px;text-decoration:none;width:68px}
+.m-myCloudCreatePlan .saveBtn span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:48px}
+.m-myCloudCreatePlan .saveBtn:hover{background-position:58px -50px}
+.m-myCloudCreatePlan .saveBtn:hover span{background-position:-40px -50px}
+.m-myCloudCreatePlan .saveBtn:active{background-position:58px -100px}
+.m-myCloudCreatePlan .saveBtn:active span{background-position:-40px -100px}
+.m-myCloudCreatePlan .saveBtn span{font-size:14px}
+.m-myCloudPlan .conbox{margin-bottom:20px;margin-right:-20px}
+.m-myCloudPlan .conbox .ui-pager{margin-right:32px}
+.m-myCloudPlan .conbox .u-cover{margin:0 20px 20px 0}
+.u-indexPlanItem{border-bottom:1px dotted #e9e9e9;height:31px;padding:12px 10px 12px 30px}
+.u-indexPlanItem .taskNum{font-size:12px;height:23px;line-height:23px;margin-right:15px;margin-top:4px}
+.u-indexPlanItem .taskNum .numInner{width:56px}
+.u-indexPlanItem .status{color:#999;font-size:12px;margin-right:61px}
+.u-indexPlanItem .status .days{background-color:#fff;border:1px solid;height:22px;line-height:22px;margin-top:3px;text-align:center;width:54px}
+.u-indexPlanItem .status .days .num{font-size:16px;font-weight:700;margin-right:2px}
+.u-indexPlanItem .status .pro{line-height:31px;margin-right:8px}
+.u-indexPlanItem .cnt{height:31px;margin-right:88px;width:210px}
+.u-indexPlanItem .cnt a{display:block}
+.u-indexPlanItem .cnt .lesson{font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:16px;line-height:31px}
+.u-indexPlanItem .course{color:#666;font-size:12px;line-height:31px}
+.u-indexPlanItem .course:hover{color:#00aeef;text-decoration:underline}
+.u-indexPlanItem .btn{background-position:75px 0;display:block;text-decoration:none;width:85px}
+.u-indexPlanItem .btn span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:65px}
+.u-indexPlanItem .btn:hover{background-position:75px -50px}
+.u-indexPlanItem .btn:hover span{background-position:-40px -50px}
+.u-indexPlanItem .btn:active{background-position:75px -100px}
+.u-indexPlanItem .btn:active span{background-position:-40px -100px}
+.itemExc,.itemNor,.itemPre{background-color:#fff}
+.itemExc:hover,.itemNor:hover,.itemPre:hover{background-color:#f8f8f8}
+.itemExc .taskNum,.itemNor .taskNum,.itemPre .taskNum{color:#666}
+.itemExc .status .days,.itemNor .status .days,.itemPre .status .days{border-color:#f0f0f0}
+.itemExc .status .days .num,.itemNor .status .days .num,.itemPre .status .days .num{color:#00aeef}
+.itemExc .status .pro,.itemNor .status .pro,.itemPre .status .pro{color:#999}
+.itemExc .cnt .lesson,.itemNor .cnt .lesson,.itemPre .cnt .lesson{color:#666}
+.itemExc .cnt .lesson:hover,.itemNor .cnt .lesson:hover,.itemPre .cnt .lesson:hover{color:#00aeef;text-decoration:underline}
+.itemExc .cnt .course:hover,.itemNor .cnt .course:hover,.itemPre .cnt .course:hover{color:#00aeef;text-decoration:underline}
+.itemPre .status .days .num{color:#666}
+.itemExc .cnt .lesson:hover{color:#cb0000}
+.itemExc .status .days{border-color:#cb0000}
+.itemExc .status .days .num{color:#cb0000}
+.itemExc .status .pro{color:#de1515}
+.u-liveNotify,.u-mylive{background:none repeat scroll 0 0 #fff;border-bottom:1px dotted #e9e9e9;color:#666;font-size:12px;height:31px;line-height:31px;padding:12px 10px 12px 30px}
+.u-liveNotify .it,.u-mylive .it{float:left}
+.u-liveNotify .btn,.u-mylive .btn{background-position:75px 0;display:block;text-decoration:none;width:85px}
+.u-liveNotify .btn span,.u-mylive .btn span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:65px}
+.u-liveNotify .btn:hover,.u-mylive .btn:hover{background-position:75px -50px}
+.u-liveNotify .btn:hover span,.u-mylive .btn:hover span{background-position:-40px -50px}
+.u-liveNotify .btn:active,.u-mylive .btn:active{background-position:75px -100px}
+.u-liveNotify .btn:active span,.u-mylive .btn:active span{background-position:-40px -100px}
+.u-liveNotify:hover,.u-mylive:hover{background-color:#f8f8f8}
+.u-liveNotify .lesson{margin-right:15px;width:56px}
+.u-liveNotify .title{color:#666;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:16px;margin-right:15px;width:300px}
+.u-liveNotify .status{margin-right:22px}
+.u-liveNotify .status .t{margin-right:10px}
+.u-mylive .status{font-size:14px;line-height:35px;margin-right:15px;width:165px}
+.u-mylive .status .t{margin-right:15px}
+.u-mylive .course{color:#666;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:16px;line-height:36px;width:350px}
+.m-myCloudCourse .conbox .ui-pager{margin-right:32px}
+.m-myCloudCourse .conbox .u-card,.m-myCloudCourse .conbox .u-cover{margin:5px 8px 15px 7px}
+.m-delPayCourseTip .m-dialog .btn .slave.small{display:none}
+.m-delPayCourseTip .m-basewin .btn .left,.m-delPayCourseTip .m-dialog .btn .left{float:none}
+.m-delPayCourseTip .m-dialog .btn .main.small{margin:0 auto}
+.u-friendCard{background:none repeat scroll 0 0 #fff;border:1px solid #eee;border-radius:2px;height:52px;margin:0 20px 20px 0;padding:6px;width:300px}
+.u-friendCard:hover{background:none repeat scroll 0 0 #fafafa}
+.u-friendCard .face{height:52px;width:52px}
+.u-friendCard .info{height:52px;padding-left:6px;width:240px}
+.u-friendCard .info .namewrap{line-height:28px}
+.u-friendCard .info .namewrap a{color:#00aeef;margin-right:10px}
+.u-friendCard .info .name{color:#333;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;height:28px;line-height:28px;max-width:99px}
+.u-friendCard .info .des{color:#999;font-size:13px;line-height:24px}
+.u-friendCard .info .gz{height:21px;padding:2px}
+.u-friendCard .info .u-lectorVipIcon1,.u-friendCard .info .u-orgVipIcon1{margin-top:7px}
+.m-myfriends .friendcon{margin-top:20px;padding:20px 20px 0}
+.m-myfriends .listwrap{margin-right:-20px}
+.m-myfriends .ui-pager{margin-right:20px}
+.m-myfriends .u-friendCard{width:312px}
+.m-myfriends .u-friendCard .info{width:253px}
+.u-moocbtn{background-color:#e1e1e1;background-image:linear-gradient(#ebebeb,#e1e1e1);background-repeat:repeat-x;border:1px solid #999;border-radius:4px;box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 1px 2px rgba(0,0,0,.05);color:#666;cursor:pointer;display:inline-block;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:28px;min-width:80px;padding:4px 9px;text-align:center;vertical-align:middle}
+.u-moocbtn.hvr,.u-moocbtn:hover{background-color:#ededed;background-image:linear-gradient(#f6f6f6,#ededed);background-repeat:repeat-x}
+.u-moocbtn-sm{font-size:12px;line-height:14px;min-width:50px;padding:5px 6px}
+.m-edititem{width:100%}
+.m-edititem .editwrap{background:none repeat scroll 0 0 #fafafa;border:1px solid #dfdfdf;box-shadow:1px 1px 2px #dfdfdf inset;height:65px;padding:5px;position:relative}
+.m-edititem .editwrap .edittxt{background:none repeat scroll 0 0 transparent;border:medium none;font-size:12px;height:65px;line-height:16px;overflow-x:hidden;overflow-y:auto;width:100%}
+.m-edititem .editwrap .hint{color:#999;font-size:12px;left:5px;position:absolute;top:5px}
+.m-edititem .editopt{padding-top:8px}
+.m-edititem .editopt a{float:right}
+.m-edititem .editopt a.editbtn{background-position:50px 0;display:block;font-weight:700;text-decoration:none;width:60px}
+.m-edititem .editopt a.editbtn span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:40px}
+.m-edititem .editopt a.editbtn:hover{background-position:50px -50px}
+.m-edititem .editopt a.editbtn:hover span{background-position:-40px -50px}
+.m-edititem .editopt a.editbtn:active{background-position:50px -100px}
+.m-edititem .editopt a.editbtn:active span{background-position:-40px -100px}
+.m-edititem .editopt a.editbtn:hover{text-decoration:none}
+.m-edititem .editopt a.cancelbtn{color:#42423d;font-size:12px;line-height:30px;margin-right:15px}
+.m-edititem .editopt a.cancelbtn:hover{color:#00aeef}
+.m-comment-wrapper a{color:#999;font-size:12px}
+.m-comment-wrapper a:hover{color:#00aeef}
+.m-comment-wrapper .ui-pager a.zpgi{color:#444;height:32px;text-align:center;width:32px}
+.m-comment-wrapper .ui-pager a.zpgi:hover{background:none repeat scroll 0 0 #00aeef;color:#fff;text-decoration:none}
+.m-comment-wrapper .ui-pager a.js-selected,.m-comment-wrapper .ui-pager a.js-selected:hover{background:none repeat scroll 0 0 rgba(0,0,0,0);color:#00aeef;cursor:default;font-weight:bolder}
+.m-comment-wrapper .ui-pager a.js-disabled{background-color:#e4e4e4}
+.m-comment{border-bottom:1px dotted #dcdcdd;padding:10px 10px 15px}
+.m-comment .comment-photo{cursor:pointer;height:28px;margin-right:-28px;width:28px}
+.m-comment .comment-content{font-size:12px;margin-left:38px}
+.m-comment .comment-content .comment-opt{line-height:15px}
+.m-comment .comment-content .comment-opt .comment-info{margin-right:5px}
+.m-comment .comment-content .comment-opt .comment-info .comment-name{color:#00aeef;cursor:pointer}
+.m-comment .comment-content .comment-opt .comment-info .comment-name:hover{text-decoration:underline}
+.m-comment .comment-content .comment-opt .comment-info .vipIcon{background:url(/Public/images/course/ui_sprite.png) no-repeat scroll 0 -1528px rgba(0,0,0,0);height:14px;width:16px}
+.m-comment .comment-content .comment-opt .comment-info .comment-time{color:#999}
+.m-comment .comment-content .comment-opt .comment-delete,.m-comment .comment-content .comment-opt .comment-report{display:block;margin-left:10px}
+.m-comment .comment-content .comment-desc{color:#999;line-height:18px;white-space:pre-wrap;word-wrap:break-word}
+.m-comment-wrapper .m-comment-pool{position:relative;z-index:99}
+.m-comment-wrapper .m-data-lists{border:1px solid #d5d5d5;text-align:left}
+.m-comment-wrapper .m-data-lists .last{border-bottom:medium none}
+.m-comment-wrapper .u-comment{font-size:12px;margin-left:20px;width:70px}
+.m-comment-wrapper .toggle{margin-top:10px}
+.m-comment-wrapper .triangle{background-position:0 -200px;display:block;height:7px;left:45px;position:absolute;top:-5px;width:10px;z-index:100}
+.ques-bar .m-comment-wrapper .triangle{left:85px}
+.m-questionToolbar{position:relative}
+.m-questionToolbar .tlcnt{border-top:1px dashed #d9d9d9;margin:0 20px 0 35px;padding:20px 0 0 20px}
+.m-questionToolbar .sepwidth{width:400px}
+.m-questionToolbar .tlcntNoborder{border-top:medium none;margin:0 20px 0 35px;padding:5px 0 0 20px}
+.m-questionToolbar .j-result,.m-questionToolbar .j-selop{padding-bottom:20px}
+.m-questionToolbar .tbar{display:none}
+.m-questionToolbar .region{border-bottom:1px dashed #d9d0d0;color:#666;font-size:14px;margin:0 20px;padding:20px 0;text-indent:40px}
+.m-questionToolbar2{background:none repeat scroll 0 0 #fafafa;border-top:1px solid #e5e5e5}
+.m-questionToolbar2 .tlcnt{border-top:medium none}
+.m-questionToolbar2 .tbar{background-position:0 -549px;display:block;height:25px;left:50%;margin-left:-20px;position:absolute;top:-1px;width:40px}
+.m-questionToolbar2 .txt{color:#00aeef;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;margin-right:10px}
+.m-questionToolbar2 .txt1{color:#00aeef;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:20px;margin-right:30px;vertical-align:middle}
+.m-questionToolbar2 .txt2{color:#da3333;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;margin-right:10px}
+.m-questionToolbar2 .txt3{color:#999;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;height:24px;line-height:24px;margin-right:10px}
+.m-questionToolbar2 .textrefans{color:#00aeef;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:22px;vertical-align:middle;width:360px;word-break:break-all;word-wrap:break-word}
+.m-questionToolbar2 .textrefansfill{color:#00aeef;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:22px;max-width:235px;padding-right:10px;vertical-align:middle;word-break:break-all;word-wrap:break-word}
+.m-questionToolbar3{background:none repeat scroll 0 0 #fff4f4;border-top:1px solid #f8cccc}
+.m-questionToolbar3 .tbar{background-position:0 -587px;display:block}
+.m-questionToolbar3 .txt2{color:#da3333}
+.j-parses{padding:0 20px 30px}
+.m-tbanaly .anlapool{background:none repeat scroll 0 0 #fff;border:1px solid #eaeae8;padding:0 20px}
+.m-tbanaly .showBtn{background-color:#fff;border:1px solid #eaeaea;color:#999;cursor:pointer;font-size:12px;height:40px;line-height:40px;margin-top:10px;text-align:center}
+.u-tbanaly{border-top:1px dashed #d9d9d9;padding:20px 0}
+.u-tbanaly.first{border-top:medium none}
+.u-tbanaly .altxt{color:#999;font-size:12px;line-height:17px;margin-left:10px;width:540px;word-wrap:break-word}
+.u-tbanaly .altxt pre{white-space:pre-wrap}
+.u-tbanaly .shouqi,.u-tbanaly .zhankai{background-position:23px -473px;color:#00aeef;margin-left:10px;padding-right:10px;white-space:nowrap}
+.u-tbanaly .shouqi .j-txt,.u-tbanaly .zhankai .j-txt{white-space:pre-wrap;word-wrap:break-word}
+.u-tbanaly .shouqi{background-position:23px -452px}
+.m-tbualy{background:none repeat scroll 0 0 #fff;border:1px solid #eaeaea;margin-top:10px;padding:20px 20px 10px}
+.m-tbualy .noatit{color:#999;font-size:12px;margin-left:10px}
+.m-tbualy .uatit{color:#333;font-size:14px;padding-bottom:20px}
+.m-tbualy .hideBtn{text-align:center}
+.m-tbualy .hideBtn .j-hideBtn{background-position:23px -452px;color:#00aeef;font-size:12px;padding-right:12px}
+.ui-richEditor .rich-wrap .rich-opt{margin-top:5px}
+.ui-richEditor .rich-wrap .rich-opt a{float:right}
+.ui-richEditor .rich-wrap .rich-opt a.editbtn{background-position:50px 0;display:block;font-weight:700;text-decoration:none;width:60px}
+.ui-richEditor .rich-wrap .rich-opt a.editbtn span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:40px}
+.ui-richEditor .rich-wrap .rich-opt a.editbtn:hover{background-position:50px -50px}
+.ui-richEditor .rich-wrap .rich-opt a.editbtn:hover span{background-position:-40px -50px}
+.ui-richEditor .rich-wrap .rich-opt a.editbtn:active{background-position:50px -100px}
+.ui-richEditor .rich-wrap .rich-opt a.editbtn:active span{background-position:-40px -100px}
+.ui-richEditor .rich-wrap .rich-opt a.cancelbtn{color:#42423d;font-size:12px;line-height:30px;margin-right:15px}
+.ui-richEditor .rich-wrap .rich-opt a.cancelbtn:hover{color:#00aeef}
+.u-tbbtn{color:#999;font-size:12px;line-height:normal;margin-left:5px;padding-left:15px}
+.u-tbbtn:hover{color:#00aeef;text-decoration:underline}
+.u-tbbtn1{background-position:-2px -9px}
+.u-tbbtn1:hover{background-position:-2px -35px}
+.u-tbbtn1.active{background-position:-2px -63px}
+.u-tbbtn2{background-position:-2px -91px}
+.u-tbbtn2:hover{background-position:-2px -117px}
+.u-tbbtn2.active{background-position:-2px -146px}
+.u-tbbtn3{background-position:2px -492px}
+.u-tbbtn3:hover{background-position:2px -510px}
+.u-tbbtn4{background-position:-2px -172px}
+.u-tbbtn4:hover{background-position:-2px -198px}
+.u-tbbtn4.active{background-position:-2px -226px}
+.u-tbbtn5{background-position:-2px -615px}
+.u-tbbtn5:hover{background-position:-2px -636px}
+.u-tbi+.u-tbl{vertical-align:middle}
+.u-tbi[type=checkbox],.u-tbi[type=radio]{height:20px;opacity:0;position:relative;vertical-align:middle;width:20px;z-index:10}
+.u-tbi[type=radio]{height:20px;width:20px}
+.u-tbi+.u-tbl:before{content:" ";display:inline-block;height:30px;left:0;position:absolute;top:0;width:24px;z-index:5}
+.u-tbi[type=checkbox]+.u-tbl:before{background-position:left -420px}
+.u-tbi[type=radio]+.u-tbl:before{background-position:left -311px}
+.u-tbi[type=checkbox]+.u-tbl:hover:before,.u-tbi[type=checkbox]:hover+.u-tbl:before{background-position:left -350px}
+.u-tbi[type=checkbox]:focus+.u-tbl:before{background-position:left -350px}
+.u-tbi[type=radio]+.u-tbl:hover:before,.u-tbi[type=radio]:hover+.u-tbl:before{background-position:left -251px}
+.u-tbi[type=radio]:focus+.u-tbl:before{background-position:left -251px}
+.u-tbi[type=checkbox]:checked+.u-tbl:before{background-position:left -385px}
+.u-tbi[type=checkbox]:focus:checked+.u-tbl:before,.u-tbi[type=checkbox]:hover:checked+.u-tbl:before{background-position:left -385px}
+.u-tbi[type=checkbox]:active:checked+.u-tbl:before{background-position:left -385px}
+.u-tbi[type=radio]:checked+.u-tbl:before{background-position:left -280px}
+.u-tbi[type=radio]:focus:checked+.u-tbl:before,.u-tbi[type=radio]:hover:checked+.u-tbl:before{background-position:left -280px}
+.u-tbi[type=radio]:active:checked+.u-tbl:before{background-position:left -280px}
+.u-tbi[type=checkbox]:disabled+.u-tbl:before{background-position:left -96px}
+.u-tbi[type=radio]:disabled+.u-tbl:before{background-position:-36px -96px}
+.u-tbi[type=checkbox]:checked:disabled+.u-tbl:before{background-position:left -232px}
+.u-tbi[type=radio]:checked:disabled+.u-tbl:before{background-position:-36px -232px}
+.u-tbi{cursor:pointer}
+.u-tbl{color:#333;cursor:pointer;display:inline-block;margin-right:40px;padding-left:8px;width:5px}
+.u-tbi+.u-tbl:hover,.u-tbi:hover+.u-tbl{color:#333}
+.u-tbi:disabled+.u-tbl{color:#ccc}
+.u-questionItem{background-color:#fff;border-bottom:2px solid #eaeaea}
+.u-questionItem .matDes,.u-questionItem .questionDes{font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;padding:20px 15px 0 20px}
+.u-questionItem .fillblankDes{border-bottom:1px dashed #d9d9d9;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;margin:0 20px;padding:20px 0 0}
+.u-questionItem .inputtool{padding:17px 0 25px 58px}
+.u-questionItem .inputtool .m-questionToolbar .tlcnt{border-top:medium none;margin:0 20px 0 0;padding:5px 0 0}
+.u-questionItem .pafillblanktitle{color:#00aeef;left:15px;top:20px}
+.u-questionItem .writingtoolbar .m-questionToolbar .tlcnt{border-top:medium none}
+.u-questionItem .title{color:#00aeef;margin-bottom:13px}
+.u-questionItem .title .f-richEditorText div{margin:0}
+.u-questionItem .title .f-richEditorText p{margin:5px 0}
+.u-questionItem .position{font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:24px;line-height:26px;margin-top:-2px;width:40px}
+.u-questionItem .qaDescription{font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:24px;white-space:pre-line;width:600px;word-wrap:break-word}
+.u-questionItem .choices{border-top:1px dashed #d9d9d9;margin:0 0 0 30px;padding:10px 0}
+.u-questionItem .choices li{padding:6px 15px 6px 5px;transition:background .1s ease-in 0s}
+.u-questionItem .optionPos{color:#999;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:24px;width:35px}
+.u-questionItem .optionCnt{color:#666;font:14px/24px Helvetica;padding:0;white-space:pre-line;width:555px;word-wrap:break-word}
+.u-questionItem .sharebox{left:-63px;padding:8px 10px;position:absolute;top:16px;width:100px;z-index:100}
+.noContent .questionDes{position:relative}
+.noContent .title{margin-bottom:0}
+.noContent .position{left:15px;position:absolute;top:23px;z-index:9}
+.noContent .qaDescription{display:none}
+.noContent .choices{border-top:medium none;margin-top:-6px;padding:0 0 10px}
+.noContent .origText{border-bottom:1px dashed #d9d9d9;margin:0 auto;width:636px}
+.hideChoice .questionDes{padding:0 15px 0 20px}
+.hideChoice .position{top:7px}
+.hideChoice .m-questionToolbar2 .tbar,.hideChoice .m-questionToolbar3 .tbar{display:none}
+.examMode{transition:background .1s ease-in 0s}
+.examMode .choices li:hover{background-color:#cafcdc;cursor:pointer}
+.examMode:hover{background-color:#e9fff0}
+.analysisMode .title{color:#666}
+.analysisMode .position{color:#666}
+.analysisMode .choices .selected .optionCnt,.analysisMode .choices .selected .optionPos{color:#00aeef}
+.analysisMode .writingtoolbar{margin-top:20px}
+.m-analysisQuestion .title{margin-bottom:0;padding-bottom:13px}
+.m-analysisQuestion .qaDescription{color:#666}
+.m-analysisQuestion:hover{background-color:#fff}
+.m-materialQuestion{background:none repeat scroll 0 0 rgba(0,0,0,0);border-bottom:medium none;margin-bottom:10px;margin-top:10px}
+.m-materialQuestion .matDes{background:none repeat scroll 0 0 #fff;border-top:1px solid #ddd;color:#666;overflow:visible;padding-bottom:15px}
+.m-materialQuestion .childQuestion{background:none repeat scroll 0 0 #fff;border-top:2px solid #eaeaea}
+.m-materialQuestion .u-ctit{margin-top:0}
+.m-materialQuestion .folding,.m-materialQuestion .unfolding{background-color:#fafafa;cursor:pointer;height:40px;line-height:40px;margin-bottom:8px;text-align:center}
+.m-materialQuestion .shouqi,.m-materialQuestion .zhankai{background-position:56px -473px;color:#00aeef;margin-left:10px;padding-right:40px;white-space:nowrap}
+.m-materialQuestion .shouqi{background-position:56px -452px}
+.m-materialQuestion .m-analysisQuestion{border:medium none}
+.m-materialQuestion .m-analysisQuestion .title{border-bottom:1px dashed #eaeaea;margin:0 15px 0 20px;padding:20px 0 13px}
+.m-materialQuestion .last .title{border-bottom:medium none}
+.m-materialQuestion .answerBox .title{color:#00aeef;font-size:13px;font-weight:700}
+.m-materialQuestion .answerBox .u-optionsLayer .layer{display:none;left:0;top:10px}
+.m-materialQuestion .answerBox .u-optionsLayer .layer .tip{background-color:#ffc;color:#333;font-size:13px;height:100%;padding:5px 10px 5px 8px}
+.m-materialQuestion .answerBox .u-optionsLayer .layer .tip .close{background:url(/Public/images/course/ui_sprite.png) no-repeat scroll -6px -6px rgba(0,0,0,0);display:block;height:20px;right:3px;top:3px;width:20px}
+.m-materialQuestion .answerBox .u-optionsLayer .layer .tip .close:hover{background-position:5px -1483px}
+.m-materialQuestion .answerBox .u-optionsLayer .layer dt{border-bottom:1px solid #e5e5e5;color:#aaa;font-size:13px;height:33px;line-height:33px;padding:0 0 0 10px}
+.m-materialQuestion .answerBox .u-optionsLayer .layer dd{padding:7px 0 7px 7px}
+.m-materialQuestion .answerBox .u-optionsLayer .layer dd .option{color:#666;cursor:pointer;display:inline-block;font-size:13px;height:33px;line-height:33px;margin-right:3px;padding:0 3px;width:113px}
+.m-materialQuestion .answerBox .u-optionsLayer .layer dd .option.selected,.m-materialQuestion .answerBox .u-optionsLayer .layer dd .option:hover{background-color:#eaeaea;color:#00aeef}
+.m-materialQuestion .answerBox .u-optionsLayer.showLayer .layer{display:block}
+.m-materialQuestion .answerBox .u-optionsLayer.longOption .layer dd .option{width:480px}
+.m-materialQuestion .analysisWrap{background-color:#fff;padding:0 15px 20px 20px}
+.m-materialQuestion .analysisWrap .u-tbanaly{border:1px solid #eaeae8;padding:15px}
+.m-answerBox .last,.m-examBox .last{border:medium none;margin-bottom:0}
+.m-answerBox .first,.m-examBox .first{margin-top:0}
+.m-answerBox .first .matDes,.m-examBox .first .matDes{border-top:medium none}
+.u-usralyitem{border-bottom:1px dotted #d5d3c6;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif}
+.u-usralyitem.last{border-bottom:medium none}
+.u-usralyitem .triangle{display:block;height:7px;position:absolute;right:50px;top:-5px;width:10px;z-index:100}
+.u-usralyitem .m-comment-pool .m-data-lists{background-color:#fff;border:1px solid #d5d5d5;margin:10px 0 0}
+.u-usralyitem .m-comment-pool .m-data-lists .last{border-bottom:medium none}
+.u-usralyitem .m-comment-pool .m-data-lists .comment-delete,.u-usralyitem .m-comment-pool .m-data-lists .comment-report{color:#999}
+.u-usralyitem .vipIcon{background:url(/Public/images/course/ui_sprite.png) no-repeat scroll 0 -1525px rgba(0,0,0,0);height:20px;width:16px}
+.u-usralyitem .vipIcon.heighter{height:23px}
+.u-usralyitem .usralycnt{margin:.5em 0;word-wrap:break-word}
+.u-usralyitem .img{left:-64px;position:absolute;top:15px}
+.u-usralyitem .j-cmt-box{overflow:hidden;position:relative}
+.u-usralyitem .m-add-comment{margin-top:10px}
+.u-usralyitem .usr{color:#00aeef;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:26px}
+.u-usralyitem .usralylink,.u-usralyitem .usralyrep{color:#999;display:block;float:left;font-size:12px;margin-right:10px;overflow:hidden}
+.u-usralyitem .usralylink:hover,.u-usralyitem .usralyrep:hover{color:#00aeef}
+.u-usralyitem .usralyphoto{max-height:250px;max-width:250px}
+.u-usralyitem .togBtn{background-position:35px -411px;color:#00aeef;padding:0 1.5em 0 1em;white-space:pre-line}
+.u-usralyitem .togBtn1{background-position:35px -430px}
+.u-usralyitem .noedit{font-size:12px;line-height:20px;padding:10px 0;position:relative;text-align:left}
+.u-usralyitem .noedit .usralyct{color:#666;margin-top:5px;white-space:pre-wrap;word-wrap:break-word}
+.u-usralyitem .noedit .usralyinfo{color:#97958c}
+.u-usralyitem .noedit .usralyinfo .usralydate{float:left;margin-right:10px}
+.u-usralyitem .noedit .usralyinfo .usralyopt{float:left}
+.u-usralyitem .noedit .usralyinfo .usralyopt a{color:#999;cursor:pointer;display:block;float:left;padding-left:15px;width:35px}
+.u-usralyitem .noedit .usralyinfo .usralyopt a.usralyedit{background-position:0 -15px}
+.u-usralyitem .noedit .usralyinfo .usralyopt a.usralydel{background-position:0 -35px}
+.u-usralyitem .noedit .usralyinfo .usralyopt a:hover{color:#00aeef}
+.u-usralyitem .noedit .usralypriv{background-position:1px -119px;float:left;height:1em;margin:3px 10px 0 0;width:1em}
+.u-usralyitem .edit{padding:10px 0}
+.u-usralyitem .usralyact{position:relative;z-index:101}
+.u-usralyitem .usralyact .usralycmt,.u-usralyitem .usralyact .usralycol,.u-usralyitem .usralyact .usralydig,.u-usralyitem .usralyact .usralysh{color:#999;font-size:12px;margin-right:10px;padding-bottom:.2em;padding-left:1.5em}
+.u-usralyitem .usralyact .usralycmt:hover,.u-usralyitem .usralyact .usralycol:hover,.u-usralyitem .usralyact .usralydig:hover,.u-usralyitem .usralyact .usralysh:hover{color:#00aeef;text-decoration:none}
+.u-usralyitem .usralyact .usralydig{background-position:0 -246px}
+.u-usralyitem .usralyact .usralydig:hover{background-position:-1px -343px}
+.u-usralyitem .usralyact .usralydig.act{background-position:0 -343px;color:#00aeef}
+.u-usralyitem .usralyact .usralycol{background-position:0 -294px}
+.u-usralyitem .usralyact .usralycol:hover{background-position:0 -366px}
+.u-usralyitem .usralyact .usralycol.act{background-position:0 -366px}
+.u-usralyitem .usralyact .usralycol.disabled{background-position:0 -389px}
+.u-usralyitem .usralyact .usralysh{background-position:0 -315px}
+.u-usralyitem .usralyact .usralysh:hover{background-position:-1px -451px}
+.u-usralyitem .usralyact .usralycmt{background-position:0 -270px}
+.u-usralyitem .usralyact .usralycmt .m-comment-wrapper .u-comment{color:#999;font-size:12px;margin-left:0;width:auto}
+.u-usralyitem .usralyact .usralycmt .m-comment-wrapper .u-comment:hover{color:#00aeef;text-decoration:none}
+.u-usralyitem .usralyact .usralycmt:hover{background-position:-3px -523px}
+.u-usralyitem .usralyact .sharebox{background:none repeat scroll 0 0 #fff;border:1px solid #ddd;max-width:115px;padding:.5em;position:absolute;right:5px;top:100%;z-index:111}
+.u-usralyitem .usralyhead{position:relative}
+.u-usralyitem .usralyhead span{vertical-align:middle}
+.u-usralyitem .usralyimg{display:block}
+.u-usralyitem .usralyimg img{margin-top:10px;max-height:250px;max-width:250px}
+.u-usralyitem .noeditanchor{position:absolute;right:0;top:0}
+.u-usralyitem .m-comment .comment-content{width:470px}
+.uanlypool .m-usralyitem{border-bottom:0 none;border-top:1px solid #ececec}
+.uanlypool .m-usralyitem .comment-content{width:510px}
+.uanlypool .mnc{position:relative}
+.uanlypool .usralyhead{overflow:hidden}
+.uanlypool .usralyhead .noeditanchor{position:relative;top:0}
+.uanlypool .usralyhead .usralylesson{color:#999;cursor:pointer;line-height:16px;margin-right:15px}
+.uanlypool .noedit{margin-left:64px}
+.uanlypool .img{left:-64px;position:absolute;top:15px}
+.m-hearingMaterial{background-color:#fff;padding:0 15px 20px 20px}
+.m-hearingMaterial .hearingInfo{font-size:13px;line-height:20px;margin:0 0 10px}
+.m-hearingMaterial .hearing .more{display:block;float:left;height:27px;margin:0 10px 0 0;width:90px}
+.m-hearingMaterial .hearing .more:hover{background-position:0 -1174px}
+.m-hearingMaterial .hearing .more.close{background-position:0 -1208px}
+.m-hearingMaterial .hearing .more.close:hover{background-position:0 -1241px}
+.origText .m-hearingMaterial{padding:10px 0}
+.m-myCloudMyPapers .categoryW{overflow:hidden}
+.m-myCloudMyPapers .category{background:none repeat scroll 0 0 #fafafa;border-bottom:1px solid #eaeaea;border-top:1px solid #eaeaea;margin-right:-40px;padding:8px 20px}
+.m-myCloudMyPapers .category .c{color:#666;cursor:pointer;float:left;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:15px;line-height:28px;margin-right:40px;white-space:nowrap}
+.m-myCloudMyPapers .category .c:hover,.m-myCloudMyPapers .category .ccur{color:#00aeef}
+.m-myCloudMyPapers .category .ccur{cursor:default}
+.m-myCloudMyPapers .partsW{border-bottom:1px solid #eaeaea;margin:0 20px;overflow:hidden}
+.m-myCloudMyPapers .parts{margin-right:-20px;padding:12px 0}
+.m-myCloudMyPapers .parts .it{background:none repeat scroll 0 0 #e0ede3;border:1px solid #b7e3cb;border-radius:2px;color:#666;cursor:pointer;float:left;font-size:13px;height:20px;line-height:20px;margin:6px 20px 6px 0;min-width:66px;padding:0 9px;text-align:center}
+.m-myCloudMyPapers .parts .it:hover,.m-myCloudMyPapers .parts .itcur{background:none repeat scroll 0 0 #00aeef;border-color:#b2e1c7;color:#fff}
+.m-myCloudMyPapers .citem{border-bottom:1px solid #eaeaea;font-size:13px;height:36px;padding:30px 20px}
+.m-myCloudMyPapers .citem .left{width:420px}
+.m-myCloudMyPapers .citem .name{color:#000;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:15px;line-height:1}
+.m-myCloudMyPapers .citem .info{color:#999;line-height:1;padding-top:8px}
+.m-myCloudMyPapers .citem .btn{background-position:69px -150px;display:block;margin:1px 0;text-decoration:none;width:79px}
+.m-myCloudMyPapers .citem .btn span{background-position:-40px -150px;color:#444;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:59px}
+.m-myCloudMyPapers .citem .btn:hover{background-position:69px -200px}
+.m-myCloudMyPapers .citem .btn:hover span{background-position:-40px -200px}
+.m-myCloudMyPapers .citem .btn:active{background-position:69px -250px}
+.m-myCloudMyPapers .citem .btn:active span{background-position:-40px -250px}
+.m-myCloudMyPapers .citem .btn:hover{background-position:69px 0;display:block;text-decoration:none;width:79px}
+.m-myCloudMyPapers .citem .btn:hover span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:59px}
+.m-myCloudMyPapers .citem .btn:hover:hover{background-position:69px -50px}
+.m-myCloudMyPapers .citem .btn:hover:hover span{background-position:-40px -50px}
+.m-myCloudMyPapers .citem .btn:hover:active{background-position:69px -100px}
+.m-myCloudMyPapers .citem .btn:hover:active span{background-position:-40px -100px}
+.m-myCloudMyPapers .citem .txtBtn{color:#999;line-height:36px;margin-left:15px}
+.m-myCloudMyPapers .citem .txtBtn:hover{color:green}
+.m-myCloudMyPapers .citem:hover{background:none repeat scroll 0 0 #f9f9f9}
+.m-myCloudMyPapers .queslistEmpty{background:none repeat scroll 0 0 #fff;color:#999;display:none;font-size:15px;line-height:150px;text-align:center}
+.m-myCloudMyPapers .papersRecord .u-examItm .leftcon{margin-right:10px}
+.m-myCloudMyPapers .papersRecord .u-examItm .info{width:175px}
+.m-myCloudMyPapers .papersRecord .u-examItm .title{color:#333;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif}
+.m-myCloudMyPapers .papersRecord .u-examItm{height:67px}
+.m-myCloudMyPapers .papersRecord .u-examItm .title{color:#000}
+.m-myCloudMyPapers .papersRecord .u-examItm:hover .title{color:green}
+.m-myCloudMyPapers .papersRecord .nomright{margin-right:0}
+.m-myCloudMyPapers .papersRecord .u-examItm .des{color:#999;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:12px;height:35px;margin-top:10px;width:200px}
+.m-myCloudMyPapers .exportIntro{display:none;height:90px;margin-bottom:20px;padding:30px 0 30px 30px}
+.m-myCloudMyPapers .exportIntro .img{background:url(/Public/images/student/wrangQues_youdao.png) no-repeat scroll 0 0 rgba(0,0,0,0);height:90px;margin-right:40px;width:210px}
+.m-myCloudMyPapers .exportIntro p{color:#666;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;line-height:22px;padding-top:15px}
+.m-myCloudMyPapers .papersER .kulist{display:none}
+.m-myCloudMyPapers .papersER .lookWrap{display:none}
+.m-myCloudMyPapers .papersER .lookH{background:none repeat scroll 0 0 #fff;border-bottom:1px solid #eaeaea;height:20px;line-height:20px;margin:0 20px;padding:17px 0}
+.m-myCloudMyPapers .papersER h3{color:#333;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:15px}
+.m-myCloudMyPapers .papersER .count{color:#999;font-size:13px;margin-left:5px}
+.m-myCloudMyPapers .papersER .backBtn{color:#999;cursor:pointer;height:20px;padding:0 0 0 15px}
+.m-myCloudMyPapers .papersER .ui-pager{padding:15px}
+.u-setMail{background:none repeat scroll 0 0 rgba(0,0,0,.7);bottom:0;height:55px;left:0;right:0;z-index:99}
+.u-setMail .close{background:url(/Public/images/course/ui_sprite.png) no-repeat scroll 0 -508px rgba(0,0,0,0);cursor:pointer;height:15px;right:5px;top:5px;width:15px}
+.u-setMail .close:hover{background:url(/Public/images/course/ui_sprite.png) no-repeat scroll 0 -1485px rgba(0,0,0,0)}
+.u-setMail .main{margin:0 auto;width:960px}
+.u-setMail .main p{color:#fff;font-family:"Microsoft Yahei",Tahoma,Helvetica,Arial,sans-serif;font-size:14px;margin:18px 0 0}
+.u-setMail .main p a{color:#00aeef}
+.u-setMail .main .setBox{height:43px;right:0;top:-4px;width:347px}
+.u-setMail .main .setBox .inputP{margin:0 10px 0 0}
+.u-setMail .main .setBox .inputP .inputhint{top:8px}
+.u-setMail .main .setBox .saveBtn{background-position:75px 0;display:block;text-decoration:none;width:85px}
+.u-setMail .main .setBox .saveBtn span{background-position:-40px 0;color:#fff;display:block;font-size:12px;height:34px;line-height:33px;padding-left:10px;text-align:center;width:65px}
+.u-setMail .main .setBox .saveBtn:hover{background-position:75px -50px}
+.u-setMail .main .setBox .saveBtn:hover span{background-position:-40px -50px}
+.u-setMail .main .setBox .saveBtn:active{background-position:75px -100px}
+.u-setMail .main .setBox .saveBtn:active span{background-position:-40px -100px}
+.u-setMail .main .setBox .saveBtn span{font-size:13px}
+.g-ie-body .u-reclist .list .item{width:439px}
+.g-ie-body .u-stepInfo .stepfirst,.g-ie-body .u-stepInfo .stepsecond{width:460px}
+@media screen and (min-width:1210px){.u-reclist .list .item{width:439px}
+.u-stepInfo .stepfirst,.u-stepInfo .stepsecond{width:460px}
+.m-myfriends .u-friendCard{width:435px}
+.m-myfriends .u-friendCard .info{width:375px}
+}
+.u-topcr{background:none repeat scroll 0 0 #fff;border:1px solid #ddd}
+.u-topcr li{border-bottom:1px solid #ddd;height:38px;line-height:38px;padding:0 10px;font-size:14px}
+.u-topcr li.more{background:none repeat scroll 0 0 #f8f8f8;border:medium none}
+.u-usrAttOp{background:url(/Public/images/student/friendsUI.png) no-repeat scroll 0 -120px;color:#333;width:23px;font-size:12px;height:21px;text-align:left;line-height:21px;border:1px solid #ddd;border-radius:4px;float:left;margin-top:4px}
+.u-usrAttOp2{color:#333;padding-left:23px;font-size:12px;height:21px;text-align:left;line-height:21px;border:1px solid #ddd}
+.u-usrAttOp3{background:url(/Public/images/student/friendsUI.png) no-repeat scroll 0 -60px;width:40px;color:#333;padding-left:23px;font-size:12px;height:21px;text-align:left;line-height:19px}
+.u-usrAttOp4{background:url(/Public/images/student/friendsUI.png) no-repeat scroll 0 -90px;width:42px;color:#333;padding-left:23px;font-size:12px;height:21px;text-align:left;line-height:21px;border:1px solid #ddd}
+.u-leftnav .tabul li.tabitem .nav-on{color:#00aeef;font-weight:700}
+*{margin:0;padding:0}
+a{text-decoration:none}
+.m-data-lists{background:#fff}
+.m-comment{border-bottom:1px dotted #dcdcdd;padding:10px 10px 15px}
+.comment-photo{float:left;width:28px;height:28px}
+.comment-content{font-size:12px;margin-left:38px}
+.comment-name{color:#10ae58}
+.comment-desc{color:#444}
+.comment-report{display:none;float:right;color:#999}
+.comment-delete{display:none;float:right;color:#999;cursor:pointer;margin-left:5px}
+.m-data-lists:hover .comment-report{display:block}
+.m-data-lists:hover .comment-delete{display:block}
+.notedig{cursor:pointer;background:url(/Public/images/course/ding.png) no-repeat scroll left center transparent;padding-left:15px;margin-left:10px;float:left;color:#999;margin-top:4px}
+.notedig:hover{color:#00aeef}
+.u-comment{background:url(/Public/images/course/pinglun.png) no-repeat scroll left center transparent;padding-left:15px;margin-left:10px;float:left;color:#999;margin-top:4px}
+.u-ctit{font-size:18px;height:20px;line-height:19px;padding:15px 0 15px 15px}
+.infoBox{border-top:1px solid #dfdfdf}
+.rItem{padding:10px 20px;width:223px;display:block}
+.j-title{line-height:21px}
+.learning{background:#e8ebf0;color:#999;display:inline-block;font-size:13px;height:20px;padding:1px 5px;text-align:center}
+.users{color:#999;font-size:12px}
+.savebtn{float:right;margin-right:5px;background:none repeat scroll 0 0 #009AFF;width:60px;height:34px;text-align:center;line-height:34px;display:block;color:#FFF;border-radius:5px;cursor:pointer;margin-top:10px}
+.ui-pager{padding:20px 0 10px 10px;float:right}
+.ui-pager div *{height:20px;line-height:20px;vertical-align:middle}
+.ui-pager div a{float:left;margin:0 4px;border:none;padding:0;border-radius:50%;color:#999;text-align:center}
+.ui-pager .zpgi:hover{background:#009aff;color:#fff}
+.ui-pager a.js-selected,.ui-pager a.js-selected:hover{font-weight:bolder;color:#009aff;background:0 0;cursor:default}
+.ui-pager .zdot{display:inline-block;float:left}
+.ui-pager a.js-disabled{background-color:#ddd}
+.ui-pager .zprv{background:url(/Public/images/course/ui_sprite.png) no-repeat -44px -425px #ddd}
+.ui-pager .znxt{background:url(/Public/images/course/ui_sprite.png) no-repeat -42px -456px #009aff}
+.hui_next{background:url(/Public/images/course/ui_sprite.png) no-repeat scroll -42px -456px #ddd}
+.blue_last{background:url(/Public/images/course/ui_sprite.png) no-repeat -44px -425px #009aff}
+.edit{float:left;margin-left:10px}
+.edit a{cursor:pointer;color:#999;margin-right:10px}
+.edit a:hover{color:#009aff}
+.coursediscuss{margin-bottom:80px;display:none}
+.dis_hf{position:absolute;right:5px;bottom:1px;color:#666;background:url(/Public/images/course/pinglun.png) no-repeat scroll left center transparent;display:block;height:15px;padding-left:15px}
+.dis_hf:hover{color:#00aeef}
+.coursediscuss2{margin-top:10px}
