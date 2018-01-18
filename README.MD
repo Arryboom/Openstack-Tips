@@ -1,1 +1,1 @@
-![Tips](https://i.imgur.com/6YBc1rv.jpg)
+![Tips](https://github.com/Arryboom/Openstack-Tips/blob/master/DQB029JVwAALyEu.jpg)
