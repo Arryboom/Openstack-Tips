@@ -1,0 +1,1 @@
+![Tips](https://i.imgur.com/6YBc1rv.jpg)
