@@ -1,0 +1,1540 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script type="text/javascript" async="" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pr.js"></script>
+        <link rel="canonical" href="http://blog.csdn.net/fdipzone/article/details/34588803">
+
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <link rel="alternate" media="handheld" href="#">
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+
+    <title>linux 打开文件数 too many open files 解决方法 - 傲雪星枫 - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="linux 打开文件数 too many open files 解决方法too many open files">
+
+    <meta name="keywords" content="php,linux,lsof">
+    <script src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/hm.txt"></script><script type="text/javascript" async="" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/qkosouoh.js"></script><script src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog_static_head.js" type="text/javascript"></script>
+
+
+        <link rel="Stylesheet" type="text/css" href="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/style.css">
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/fdipzone/rss/list">
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/default.css">
+
+
+
+
+
+    <link href="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_public_blog_detail.css" type="text/css" rel="stylesheet">
+
+        <link rel="stylesheet" href="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_blog_detail.css">
+
+    <!-- 请置于所有广告位代码之前 -->
+    <script src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ds.js"></script>
+
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+
+
+<body><div id="MathJax_Message" style="display: none;"></div><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="https://pos.baidu.com/wh/o.htm?ltr=" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="icon-xiajiantou" viewBox="0 0 1024 1024"><path d="M328.208 346.062h368.494c20.393 0 36.887 16.366 36.887 36.757 0 9.484-3.637 18.056-9.483 24.55L541.873 650.522c-12.211 16.105-35.2 19.484-51.438 7.275-2.859-2.08-5.324-4.547-7.274-7.275L298.853 404.772c-12.08-16.106-8.83-39.225 7.404-51.306 6.626-5.066 14.289-7.404 21.95-7.404z"></path></symbol><symbol id="icon-shouji" viewBox="0 0 1024 1024"><path d="M537.754 795.889c-26.41 0-47.893 21.478-47.893 47.892s21.484 47.893 47.893 47.893 47.892-21.479 47.892-47.893-21.483-47.892-47.892-47.892z"></path><path d="M774.697 42.071H300.815c-39.864 0-72.3 32.43-72.3 72.3v795.264c0 39.869 32.43 72.3 72.3 72.3h473.872c39.87 0 72.3-32.431 72.3-72.3v-795.27c0.004-39.864-32.426-72.294-72.29-72.294zM300.815 90.266h473.872a24.125 24.125 0 0 1 24.1 24.1v595.809H276.72v-595.81a24.125 24.125 0 0 1 24.094-24.1z m473.882 843.463H300.815a24.125 24.125 0 0 1-24.1-24.1V762.501h522.072V909.63a24.115 24.115 0 0 1-24.09 24.1z"></path></symbol><symbol id="icon-tianxie" viewBox="0 0 1024 1024"><path d="M121.905 780.19h780.19v97.524h-780.19V780.19zM823.296 298.496l-68.974-68.974-344.795 344.796-34.475 103.448 103.424-34.475zM875.008 246.76l17.237-17.238-68.949-68.949-17.262 17.237-17.237 17.238 68.974 68.973z"></path></symbol><symbol id="icon-sousuo" viewBox="0 0 1024 1024"><path d="M1023.972002 964.002812l-59.981188 59.981189-271.443276-271.459276c-166.600191 136.489602-412.812649 126.986048-568.309361-28.494664-165.624236-165.624236-165.624236-434.187647 0-599.859881 165.624236-165.592238 434.187647-165.592238 599.827883 0 155.52871 155.52871 164.984266 401.789166 28.462666 568.389356L1023.972002 964.002812zM663.364906 184.007375c-132.585785-132.585785-347.327719-132.761777-479.705514-0.43198-132.329797 132.345796-132.121807 347.119729 0.463978 479.705514s347.375717 132.793775 479.705514 0.41598c132.329797-132.281799 132.169805-347.10373-0.463978-479.689514z"></path></symbol><symbol id="icon-guanbi" viewBox="0 0 1024 1024"><path d="M1002.211316 933.90818c24.46369 24.46369 29.007633 59.583246 10.159871 78.447007-18.863761 18.863761-53.983317 14.303819-78.447007-10.159871L21.807724 90.09486C-2.655966 65.631169-7.199909 30.495614 11.647853 11.647853c18.863761-18.863761 53.983317-14.303819 78.447007 10.159871L1002.211316 933.90818z"></path><path d="M933.92418 21.807724C958.38787-2.655966 993.507426-7.199909 1012.371187 11.647853c18.863761 18.863761 14.303819 53.983317-10.159871 78.447007L90.09486 1002.211316c-24.46369 24.46369-59.583246 29.007633-78.447007 10.159871-18.847761-18.863761-14.303819-53.983317 10.159871-78.463007L933.92418 21.807724z"></path></symbol><symbol id="icon-caidan" viewBox="0 0 1024 1024"><path d="M0 132.8a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 132.8s0-26.784 0 0zM0 512.016a48.48 48.48 0 0 0 48.48 48.48h927.04a48.48 48.48 0 0 0 0-96.96H48.48A48.48 48.48 0 0 0 0 512.016s0-26.784 0 0zM0 891.2a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 891.2s0-26.784 0 0z"></path></symbol><symbol id="icon-yonghudenglu" viewBox="0 0 1024 1024"><path d="M1022.26704 962.432c-43.888-157.584-162.16-281.216-312.064-340.144 92.8-61.376 153.92-164.496 153.92-281.168C864.12304 153.04 706.04304 0 511.70704 0 317.35504 0 159.19504 153.04 159.19504 341.136c0 116.704 61.152 219.84 154.064 281.184C164.13904 681.024 46.18704 803.792 1.80304 960.16c-7.344 26.016 8.464 52.864 35.36 60.032a52.016 52.016 0 0 0 38.4-4.608 49.072 49.072 0 0 0 23.712-29.568c50.768-178.96 220.352-303.92 412.448-303.92 193.04 0 362.848 125.712 412.944 305.744 7.296 26.048 34.992 41.456 61.952 34.48 26.912-7.04 42.88-33.824 35.648-59.888zM260.25104 341.136c0-134.256 112.816-243.424 251.472-243.424 138.576 0 251.328 109.184 251.328 243.424 0 133.904-112.768 242.864-251.328 242.864-138.672 0-251.472-108.976-251.472-242.864z m0 0"></path></symbol><symbol id="toolbar-csdnlogo" viewBox="0 0 1024 1024"><path d="M533.941333 419.264c14.709333-1.621333 37.290667-3.264 68.352-3.264 51.872 0 93.802667 9.152 119.776 28.416 23.338667 17.952 38.858667 47.008 34.56 89.130667-3.978667 39.189333-24.042667 66.634667-53.312 83.594666C676.544 633.152 642.837333 640 592.106667 640c-29.888 0-58.421333-1.642667-80.106667-4.896l21.941333-215.84z m42.869334 172.938667c4.981333 0.992 11.562667 1.973333 24.533333 1.973333 51.882667 0 88.469333-25.877333 92.16-62.24 5.333333-52.554667-27.125333-70.944-81.802667-70.624-7.072 0-16.917333 0-22.133333 0.970667L576.8 592.213333h0.010667z m223.498666-164.704c210.954667-39.872 229.162667 31.776 222.645334 95.189333L1010.656 640h-66.944l11.210667-106.986667c2.421333-23.562667 17.504-69.653333-55.338667-67.914666-25.184 0.608-37.706667 4.064-37.706667 4.064s-2.186667 28.469333-4.832 49.514666L844.32 640H778.666667l13.024-119.573333" fill="#231916"></path><path d="M226.634667 632.682667c-12.373333 4.341333-38.037333 7.317333-73.909334 7.317333C49.6 640-6.048 590.933333 0.522667 526.090667 8.416 448.810667 90.858667 405.333333 181.141333 405.333333c34.976 0 55.552 2.858667 74.858667 7.637334l-6.208 52.064c-12.821333-4.384-42.890667-8.405333-67.232-8.405334-53.141333 0-98.250667 16.042667-103.424 66.762667-4.608 45.354667 27.061333 67.04 86.816 67.04 20.8 0 51.477333-3.018667 65.653333-7.370667l-4.992 49.6 0.021334 0.021334z" fill="#C92027"></path><path d="M272.714667 580.021333c19.285333 6.762667 59.488 13.504 92 13.504 35.029333 0 54.528-9.333333 56.096-23.797333 1.418667-13.205333-12.928-14.986667-52.490667-24.010667-54.666667-12.896-89.546667-32.842667-86.133333-64.704C286.176 443.989333 337.685333 416 416.725333 416c38.56 0 75.914667 2.613333 95.274667 8.714667l-6.656 46.666666c-12.565333-4.202667-60.672-10.037333-93.205333-10.037333-32.992 0-50.069333 9.973333-51.253334 20.917333-1.493333 13.845333 15.658667 14.485333 58.528 25.450667 58.026667 14.154667 83.402667 34.090667 80.085334 64.992C495.605333 609.109333 449.258667 640 356.714667 640c-38.528 0-71.744-6.762667-90.048-13.525333l6.048-46.453334z" fill="#231916"></path></symbol><symbol id="icon-morentouxiang" viewBox="0 0 1024 1024"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#A0C3FF"></path><path d="M691.2 887.466667c-55.466667-25.6-123.733333-51.2-123.733333-51.2v-38.4c68.266667-25.6 119.466667-89.6 132.266666-166.4 12.8-4.266667 38.4-17.066667 46.933334-55.466667l8.533333-46.933333s4.266667-59.733333-42.666667-46.933334c4.266667-38.4 4.266667-81.066667 4.266667-115.2-4.266667-64-89.6-98.133333-89.6-98.133333l12.8-17.066667s-42.666667-12.8-59.733333-4.266666l12.8-29.866667s-85.333333 0-132.266667 38.4h-4.266667v-17.066667s-145.066667 21.333333-140.8 243.2c-46.933333-12.8-42.666667 46.933333-42.666666 46.933334l8.533333 46.933333c4.266667 38.4 29.866667 51.2 46.933333 55.466667 12.8 81.066667 64 145.066667 132.266667 166.4v38.4s-68.266667 29.866667-123.733333 51.2c-29.866667 12.8-59.733333 34.133333-81.066667 59.733333 68.266667 51.2 157.866667 76.8 256 76.8s187.733333-25.6 264.533333-72.533333c-21.333333-29.866667-51.2-46.933333-85.333333-64z" fill="#4374E0"></path></symbol><symbol id="icon-icon_boke" viewBox="0 0 1024 1024"><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m298.667-256H213.333v42.667h597.334V768z m-21.334-448L704 234.667 341.333 597.333l-42.666 128 128-42.666L789.333 320z"></path></symbol><symbol id="icon-icon_gitchatx" viewBox="0 0 1024 1024"><path d="M810.667 533.333v-64h-384v85.334h298.666v128h85.334V533.333zM256 810.667h426.667v-85.334h-384V298.667h426.666V384h85.334V213.333H213.333v597.334H256zM512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m213.333-298.667v85.334h85.334v-85.334h-85.334z"></path></symbol><symbol id="icon-guanbi1" viewBox="0 0 1024 1024"><path d="M512 1024A512 512 0 1 1 512 0a512 512 0 0 1 0 1024z m160-768L512 416 352 256l-96 96 160 160-160 160 96 96 160-160 160 160 96-96-160-160 160-160-96-96z"></path></symbol></svg><div class="csdn-toolbar csdn-toolbar tb_disnone ">        <div class="container row center-block ">          <ul class="pull-left left-menu clearfix">            <li>              <a href="http://www.csdn.net/" title="CSDN首页" target="_blank">              <svg class="icon" aria-hidden="true">                  <use xlink:href="#toolbar-csdnlogo"></use>              </svg>                </a>            </li>            <li><a href="http://blog.csdn.net/" class="toolbar_to_feed" title="博客" target="_blank">博客</a></li>            <li><a href="http://edu.csdn.net/" title="学院" target="_blank">学院</a></li>            <li><a href="http://download.csdn.net/" title="下载" target="_blank">下载</a></li>            <li><a href="http://gitbook.cn/?ref=csdn" title="GitChat" target="_blank">GitChat</a></li>            <li class="tb_is1090hide"><a href="http://bbs.csdn.net/" title="论坛" target="_blank">论坛</a></li>            <li class="tb_is1150hide"><a href="http://ask.csdn.net/" title="问答" target="_blank">问答</a></li>            <li class="tb_is1210hide"><a href="http://mall.csdn.net/" title="商城" target="_blank">商城</a></li>            <li class="tb_is1270hide"><a href="http://geek.csdn.net/" title="极客头条" target="_blank">头条</a></li>            <li class="tb_is1330hide"><a href="http://huiyi.csdn.net/" title="活动" target="_blank">活动</a></li>            <li class="tb_is1400hide"><a href="http://job.csdn.net/" title="招聘" target="_blank">招聘</a></li>            <li class="tb_is1452hide"><a href="http://www.iteye.com/" title="ITeye" target="_blank">ITeye</a></li>            <li class="tb_is1513hide"><a href="http://www.gitee.com/" title="码云" target="_blank">码云</a></li>            <li class="tb_is1513hide"><a href="http://www.csto.com/" title="CSTO" target="_blank">CSTO</a></li>            <li class="show-more">            <a href="javascript:;" class="show-more-a"><svg width="22" height="4" xmlns="http://www.w3.org/2000/svg"><path d="M2 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#4F4F4F" fill-rule="evenodd"></path></svg></a>              <div class="more">                <div class="tb_is1090show"><a href="http://bbs.csdn.net/" target="_blank">论坛</a></div>                <div class="tb_is1150show"><a href="http://ask.csdn.net/" target="_blank">问答</a></div>                <div class="tb_is1210show"><a href="http://mall.csdn.net/" target="_blank">商城</a></div>                <div class="tb_is1270show"><a href="http://geek.csdn.net/" target="_blank">极客头条</a></div>                <div class="tb_is1330show"><a href="http://huiyi.csdn.net/" target="_blank">活动</a></div>                <div class="tb_is1400show"><a href="http://job.csdn.net/" target="_blank">招聘</a></div>                <div class="tb_is1452show"><a href="http://www.iteye.com/" target="_blank">ITeye</a></div>                <div class="tb_is1513show"><a href="http://www.gitee.com/" target="_blank">码云</a></div>                <div class="tb_is1513show"><a href="http://www.csto.com/" target="_blank">CSTO</a></div>              </div>            </li>          </ul>          <div class="pull-right login-wrap unlogin">            <ul class="btns">            <li class="toolbar-tracking csdn-tracking-statistics tracking-click" data-mod="popu_369"><a href="#" style="padding:0" target="_blank"></a></li>              <li>                <div class="search_bar csdn-tracking-statistics tracking-click" data-mod="popu_366">                  <input class="input_search" name="" type="text">                  <a href="http://so.csdn.net/so/" target="_blank" class="btn-nobg-noborder btn-search"><i class="iconfont-toolbar toolbar-sousuo"></i></a>                </div>              </li>              <li class="write-bolg-btn csdn-tracking-statistics tracking-click" data-mod="popu_370"><a class="" href="http://mp.blog.csdn.net/postedit" target="_blank"><i class="iconfont-toolbar toolbar-icon_boke"></i><span>写博客</span></a></li>              <li class="gitChat"><a class="" href="http://gitbook.cn/new/gitchat/activity?utm_source=csdnblog1" target="_blank"><i class="iconfont-toolbar toolbar-icon_gitchatx"></i><span>发Chat</span></a></li>              <li class="userinfo"><a href="https://passport.csdn.net/account/login">登录</a><span></span><a href="https://passport.csdn.net/account/mobileregister?action=mobileRegister">注册</a></li>              <li class="userLogin">                <div class="loginCenter"><a href="http://my.csdn.net/" target="_blank"><img class="login_img" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/100x100.jpg"><div class="toolbar-circle"></div></a></div>                <div class="userControl">                  <div><a href="http://blog.csdn.net/" target="_blank">我的博客</a></div>                  <div><a class="xiaoxi" href="http://msg.csdn.net/" target="_blank">消息<span class="toolbar-newsL">(3)</span></a></div>                  <div><a href="http://my.csdn.net/my/account/changepwd" target="_blank">设置</a></div>                  <div><a href="http://bbs.csdn.net/forums/Service" target="_blank">反馈</a></div>                  <div><a href="http://oldblog.csdn.net/home/help.html" target="_blank">帮助</a></div>                  <div><a href="http://passport.csdn.net/account/logout">退出</a></div>                </div>              </li>            </ul>          </div>        </div>    </div><script class="toolbar-s" type="text/javascript" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/iconfont.js"></script>
+        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_72" data-mtp="62" data-order="40" data-con="ad_content_2072">
+            <script id="popuLayer_js_q" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/popuLayer.js" defer="defer" type="text/javascript"></script>
+            <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 -->
+                <div id="cpro_u2895327">
+                    <!-- 投放代码 -->
+                            <div id="_x2itc6h718e"><iframe scrolling="no" src="//pos.baidu.com/s?hei=250&amp;wid=300&amp;di=u2895327&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Ffdipzone%2Farticle%2Fdetails%2F34588803&amp;dtm=HTML_POST&amp;cce=true&amp;ti=linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2&amp;dri=0&amp;dai=1&amp;pcs=1903x968&amp;col=zh-CN&amp;cja=false&amp;pss=1903x4768&amp;ant=0&amp;ccd=24&amp;pis=-1x-1&amp;cec=UTF-8&amp;ari=2&amp;ltr=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DeQ54kKjwmQ9edEUdpwoA9f3Mfju-s6_fFGMKSOlWRZpLkEA0JUjI6V5iMayx1KqzwJAg-IKqcT1wGPYZKDXgMK%26wd%3D%26eqid%3Dab2f2b780001f314000000045a61b643&amp;cdo=-1&amp;dc=3&amp;drs=3&amp;ps=968x1879&amp;tcn=1516353154&amp;psr=1920x1080&amp;exps=111000&amp;cfv=27&amp;par=1920x1040&amp;dis=0&amp;cmi=2&amp;chi=1&amp;cpl=1&amp;tpr=1516353153933&amp;tlm=1516353153" width="300" height="250" frameborder="0"></iframe></div><script type="text/javascript" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ojylrgbyk.js"></script>
+
+
+
+                </div>
+            </div>
+            <script>
+                                document.getElementById("popuLayer_js_q").onload = function ()
+                                {
+                                    var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 };
+                                    window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 });
+                                }</script>
+
+
+        </div>
+
+
+    <!--new top-->
+    <script id="toolbar-tpl-scriptId" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/content_toolbar.js" type="text/javascript" domain="http://blog.csdn.net"></script>
+
+    <link rel="stylesheet" href="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/content_toolbar.css">
+    <!--new top-->
+    <div id="container">
+        
+<div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/fdipzone">傲雪星枫</a></h2>
+            <h3>世外悠悠隔人间，不忍凄凄乱世烟。推荐微信公众学习平台： fdipzone-idea ，名称为：破晓领域，欢迎大家学习关注！！！</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+    
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/fdipzone?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/fdipzone?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/fdipzone/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_rss.gif">订阅</span></a></li>                   
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "fdipzone";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/fdipzone";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                    <div class="ad_class">
+
+
+
+                    </div>
+
+                    
+
+ <script src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/main-1.js"></script>
+
+<script type="text/javascript" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=linux+%e6%89%93%e5%bc%80%e6%96%87%e4%bb%b6%e6%95%b0+too+many+open+files+%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95&u=http://blog.csdn.net/fdipzone/article/details/34588803"
+    </script>
+<div id="article_details" class="details">
+    
+<div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="http://blog.csdn.net/fdipzone/article/details/34588803">
+        linux 打开文件数 too many open files 解决方法        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+
+    
+    <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href="http://www.csdn.net/tag/php" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">php</a><a href="http://www.csdn.net/tag/linux" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">linux</a><a href="http://www.csdn.net/tag/lsof" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">lsof</a><a href="http://www.csdn.net/tag/ulimit" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">ulimit</a><a href="http://www.csdn.net/tag/too%20many%20open%20files" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">too many open files</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2014-06-26 00:48</span>
+            <span class="link_view" title="阅读次数">58256人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(3)</span>
+            <span class="link_collect csdn-tracking-statistics" data-pid="blog" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('linux+%e6%89%93%e5%bc%80%e6%96%87%e4%bb%b6%e6%95%b0+too+many+open+files+%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95','34588803');return false;" title="收藏" target="_blank">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(34588803,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label onclick="GetCategoryArticles('1313948','fdipzone','top','34588803');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">ubuntu<em>（20）</em></span>
+                      <img class="arrow-down" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle%2520_down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a href="http://blog.csdn.net/fdipzone/article/category/1313948" target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_1313948">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div class="bog_copyright">         
+            <p class="copyright_p">版权声明：本文为博主原创文章，未经博主允许不得转载。如需转载可私信或关注公众号fdipzone-idea与我联系。</p>
+        </div>
+
+
+
+
+
+
+<div id="article_content" class="article_content csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post" style="height: 1651px; overflow: hidden;">
+
+<p><strong><span style="font-size:14px">linux 打开文件数 too many open files 解决方法</span></strong></p>
+<p><span style="font-size:14px"><strong><span style="color:#ff0000"><br>
+</span></strong></span></p>
+<p><span style="font-size:14px"><strong><span style="color:#ff0000">too many open files</span></strong><br>
+</span></p>
+<p><span style="font-size:14px">出现这句提示的原因是程序打开的文件/socket连接数量超过系统设定值。<br>
+</span></p>
+<p><span style="font-size:14px"><br>
+</span></p>
+<p><strong><span style="font-size:14px">查看每个用户最大允许打开文件数量</span></strong></p>
+<p><strong><span style="font-size:14px; color:#ff0000">ulimit -a</span></strong></p>
+<div class="dp-highlighter bg_plain"><div class="bar"><div class="tools"><b>[plain]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><div style="position: absolute; left: 751px; top: 722px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_1" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_1" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=18&amp;height=18" wmode="transparent" align="middle" width="18" height="18"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a></div></div><ol start="1"><li class="alt"><span><span>fdipzone@ubuntu:~$&nbsp;ulimit&nbsp;-a&nbsp;&nbsp;</span></span></li><li class=""><span>core&nbsp;file&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(blocks,&nbsp;-c)&nbsp;0&nbsp;&nbsp;</span></li><li class="alt"><span>data&nbsp;seg&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-d)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class=""><span>scheduling&nbsp;priority&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-e)&nbsp;20&nbsp;&nbsp;</span></li><li class="alt"><span>file&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(blocks,&nbsp;-f)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class=""><span>pending&nbsp;signals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-i)&nbsp;16382&nbsp;&nbsp;</span></li><li class="alt"><span>max&nbsp;locked&nbsp;memory&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-l)&nbsp;64&nbsp;&nbsp;</span></li><li class=""><span>max&nbsp;memory&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-m)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class="alt"><span>open&nbsp;files&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-n)&nbsp;1024&nbsp;&nbsp;</span></li><li class=""><span>pipe&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(512&nbsp;bytes,&nbsp;-p)&nbsp;8&nbsp;&nbsp;</span></li><li class="alt"><span>POSIX&nbsp;message&nbsp;queues&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bytes,&nbsp;-q)&nbsp;819200&nbsp;&nbsp;</span></li><li class=""><span>real-time&nbsp;priority&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-r)&nbsp;0&nbsp;&nbsp;</span></li><li class="alt"><span>stack&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-s)&nbsp;8192&nbsp;&nbsp;</span></li><li class=""><span>cpu&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(seconds,&nbsp;-t)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class="alt"><span>max&nbsp;user&nbsp;processes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-u)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class=""><span>virtual&nbsp;memory&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-v)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class="alt"><span>file&nbsp;locks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-x)&nbsp;unlimited&nbsp;&nbsp;</span></li></ol></div><pre code_snippet_id="406390" snippet_file_name="blog_20140626_1_6879054" name="code" class="plain" style="display: none;">fdipzone@ubuntu:~$ ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 20
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 16382
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 1024
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) unlimited
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited</pre><br>
+<span style="font-size:14px">其中 <span style="color:#ff0000">open files (-n) 1024</span> 表示每个用户最大允许打开的文件数量是1024</span>
+<p></p>
+<p><br>
+</p>
+<p><strong><span style="font-size:14px">查看当前系统打开的文件数量</span></strong><br>
+</p>
+<p></p>
+<div class="dp-highlighter bg_plain"><div class="bar"><div class="tools"><b>[plain]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><div style="position: absolute; left: 751px; top: 1237px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_2" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_2" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=2&amp;width=18&amp;height=18" wmode="transparent" align="middle" width="18" height="18"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a></div></div><ol start="1"><li class="alt"><span><span>lsof&nbsp;|&nbsp;wc&nbsp;-l&nbsp;&nbsp;</span></span></li><li class=""><span>watch&nbsp;"lsof&nbsp;|&nbsp;wc&nbsp;-l"&nbsp;&nbsp;</span></li></ol></div><pre code_snippet_id="406390" snippet_file_name="blog_20140626_2_7893593" name="code" class="plain" style="display: none;">lsof | wc -l
+watch "lsof | wc -l"</pre><br>
+<strong><span style="font-size:14px">查看某一进程的打开文件数量</span></strong><br>
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_plain"><div class="bar"><div class="tools"><b>[plain]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><div style="position: absolute; left: 751px; top: 1412px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_3" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_3" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=3&amp;width=18&amp;height=18" wmode="transparent" align="middle" width="18" height="18"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a></div></div><ol start="1"><li class="alt"><span><span>lsof&nbsp;-p&nbsp;pid&nbsp;|&nbsp;wc&nbsp;-l&nbsp;&nbsp;</span></span></li><li class=""><span>lsof&nbsp;-p&nbsp;1234&nbsp;|&nbsp;wc&nbsp;-l&nbsp;&nbsp;</span></li></ol></div><pre code_snippet_id="406390" snippet_file_name="blog_20140626_3_3749918" name="code" class="plain" style="display: none;">lsof -p pid | wc -l
+lsof -p 1234 | wc -l</pre><br>
+<p><strong><span style="font-size:14px">设置open files数值方法</span></strong></p>
+<p><strong><span style="font-size:14px; color:#ff0000">ulimit -n 2048</span></strong></p>
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_plain"><div class="bar"><div class="tools"><b>[plain]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><div style="position: absolute; left: 751px; top: 1622px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_4" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_4" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=4&amp;width=18&amp;height=18" wmode="transparent" align="middle" width="18" height="18"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a></div></div><ol start="1"><li class="alt"><span><span>fdipzone@ubuntu:~$&nbsp;ulimit&nbsp;-n&nbsp;2048&nbsp;&nbsp;</span></span></li><li class=""><span>fdipzone@ubuntu:~$&nbsp;ulimit&nbsp;-a&nbsp;&nbsp;</span></li><li class="alt"><span>core&nbsp;file&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(blocks,&nbsp;-c)&nbsp;0&nbsp;&nbsp;</span></li><li class=""><span>data&nbsp;seg&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-d)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class="alt"><span>scheduling&nbsp;priority&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-e)&nbsp;20&nbsp;&nbsp;</span></li><li class=""><span>file&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(blocks,&nbsp;-f)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class="alt"><span>pending&nbsp;signals&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-i)&nbsp;16382&nbsp;&nbsp;</span></li><li class=""><span>max&nbsp;locked&nbsp;memory&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-l)&nbsp;64&nbsp;&nbsp;</span></li><li class="alt"><span>max&nbsp;memory&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-m)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class=""><span>open&nbsp;files&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-n)&nbsp;2048&nbsp;&nbsp;</span></li><li class="alt"><span>pipe&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(512&nbsp;bytes,&nbsp;-p)&nbsp;8&nbsp;&nbsp;</span></li><li class=""><span>POSIX&nbsp;message&nbsp;queues&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bytes,&nbsp;-q)&nbsp;819200&nbsp;&nbsp;</span></li><li class="alt"><span>real-time&nbsp;priority&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-r)&nbsp;0&nbsp;&nbsp;</span></li><li class=""><span>stack&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-s)&nbsp;8192&nbsp;&nbsp;</span></li><li class="alt"><span>cpu&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(seconds,&nbsp;-t)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class=""><span>max&nbsp;user&nbsp;processes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-u)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class="alt"><span>virtual&nbsp;memory&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(kbytes,&nbsp;-v)&nbsp;unlimited&nbsp;&nbsp;</span></li><li class=""><span>file&nbsp;locks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(-x)&nbsp;unlimited&nbsp;&nbsp;</span></li></ol></div><pre code_snippet_id="406390" snippet_file_name="blog_20140626_4_4622753" name="code" class="plain" style="display: none;">fdipzone@ubuntu:~$ ulimit -n 2048
+fdipzone@ubuntu:~$ ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 20
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 16382
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 2048
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) unlimited
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited</pre>
+<p><span style="font-size:14px">这样就可以把当前用户的最大允许打开文件数量设置为2048了，但这种设置方法在重启后会还原为默认值。</span></p>
+<p><br>
+</p>
+<p><strong><span style="font-size:14px">永久设置方法</span></strong><br>
+</p>
+<p></p>
+<div class="dp-highlighter bg_plain"><div class="bar"><div class="tools"><b>[plain]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><div style="position: absolute; left: 751px; top: 2120px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_5" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_5" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=5&amp;width=18&amp;height=18" wmode="transparent" align="middle" width="18" height="18"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a></div></div><ol start="1"><li class="alt"><span><span>vim&nbsp;/etc/security/limits.conf&nbsp;&nbsp;</span></span></li><li class=""><span>在最后加入&nbsp;&nbsp;</span></li><li class="alt"><span>*&nbsp;soft&nbsp;nofile&nbsp;4096&nbsp;&nbsp;</span></li><li class=""><span>*&nbsp;hard&nbsp;nofile&nbsp;4096&nbsp;&nbsp;</span></li></ol></div><pre code_snippet_id="406390" snippet_file_name="blog_20140626_5_7272711" name="code" class="plain" style="display: none;">vim /etc/security/limits.conf
+在最后加入
+* soft nofile 4096
+* hard nofile 4096</pre><span style="font-size:14px">最前的<span style="color:#ff0000"> * </span>
+表示所有用户，可根据需要设置某一用户，例如</span><br>
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_plain"><div class="bar"><div class="tools"><b>[plain]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><div style="position: absolute; left: 751px; top: 2296px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_6" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_6" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=6&amp;width=18&amp;height=18" wmode="transparent" align="middle" width="18" height="18"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a></div></div><ol start="1"><li class="alt"><span><span>fdipzone&nbsp;soft&nbsp;nofile&nbsp;8192&nbsp;&nbsp;</span></span></li><li class=""><span>fdipzone&nbsp;hard&nbsp;nofile&nbsp;8192&nbsp;&nbsp;</span></li></ol></div><pre code_snippet_id="406390" snippet_file_name="blog_20140626_6_7032731" name="code" class="plain" style="display: none;">fdipzone soft nofile 8192
+fdipzone hard nofile 8192</pre><span style="font-size:14px">改完后注销一下就能生效。</span>
+<p></p>
+<p><br>
+</p>
+   
+</div>
+
+
+
+
+
+
+
+
+    <div class="readall_box csdn-tracking-statistics tracking-click" data-pid="blog" data-mod="popu_596">
+        <div class="read_more_mask"></div>
+        <a class="btn btn-large btn-gray-fred read_more_btn" target="_self">阅读全文</a>
+    </div>
+
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_222"><a href="javascript:void(0);" target="_blank">&nbsp;</a>   </div>
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_223"> <a href="javascript:void(0);" target="_blank">&nbsp;</a></div>
+        <div id="digg" articleid="34588803">
+            <dl id="btnDigg" class="digg digg_disable" onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>7</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable" onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".csdn-tracking-statistics[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".csdn-tracking-statistics[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/fdipzone/article/details/30846529';">上一篇</span><a href="http://blog.csdn.net/fdipzone/article/details/30846529" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">php session 读写锁</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/fdipzone/article/details/35780561';">下一篇</span><a href="http://blog.csdn.net/fdipzone/article/details/35780561" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">php 求水仙花数优化</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+   
+      
+</div>
+
+     <div>
+         
+         <!-- 广告位：PC端-博客详情页底部banner-960*90 -->
+            <script>
+                (function() {
+                    var s = "_" + Math.random().toString(36).slice(2);
+                    document.write('<div id="' + s + '"></div>');
+                    (window.slotbydup=window.slotbydup || []).push({
+                        id: '4770928',
+                        container: s,
+                        size: '960,90',
+                        display: 'inlay-fix'
+                    });
+                })();
+            </script><div id="_s1oodq49u4"></div><script charset="utf-8" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/jcam"></script>
+    </div>
+
+<div id="suggest">
+
+
+
+</div>
+         <script language="javascript" type="text/javascript">     
+             $(function(){
+                 $.get("/fdipzone/svc/GetSuggestContent/34588803",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list"><dl class="comment_item comment_topic" id="comment_item_6788968"><dt class="comment_head" floor="2">2楼 <span class="user"><a class="username" href="http://blog.csdn.net/biaderbia" target="_blank">biaderbia</a> <span class="ptime">2017-04-28 18:31发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="6788968" username="biaderbia"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/biaderbia" target="_blank"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/3_biaderbia.gif" width="40" height="40"></a></dd><dd class="comment_body">可是limits.conf文件里的注释是这样写的<br>#&lt;item&gt; can be one of the following:<br>#        - core - limits the core file size (KB)<br>#        - data - max data size (KB)<br>而你的<br>fdipzone soft nofile 8192  <br>fdipzone hard nofile 8192  <br>中&lt;item&gt;字段的值是"nofile"，真的能生效吗？</dd></dl><dl class="comment_item comment_topic" id="comment_item_6735182"><dt class="comment_head" floor="1">1楼 <span class="user"><a class="username" href="http://blog.csdn.net/hjz19860123" target="_blank">hongjunzhi</a> <span class="ptime">2017-04-07 11:07发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="6735182" username="hjz19860123"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/hjz19860123" target="_blank"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/3_hjz19860123.jpg" width="40" height="40"></a></dd><dd class="comment_body">很通俗易懂，谢谢！</dd><dl class="comment_item comment_reply" id="comment_item_6736847"><dt class="comment_head" floor="1">Re: <span class="user"><a class="username" href="http://blog.csdn.net/fdipzone" target="_blank">傲雪星枫</a> <span class="ptime">2017-04-07 18:55发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="6736847" username="fdipzone"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/fdipzone" target="_blank"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/3_fdipzone.jpg" width="40" height="40"></a></dd><dd class="comment_body">回复hongjunzhi：谢谢。</dd></dl></dl><div class="clear"></div></div>
+    <div id="comment_bar" style="display: none;">
+    </div>
+<div class="commentform"><div class="panel_head">发表评论</div></div>
+    <div id="comment_form"><div class="guest_link">您还没有登录,请<a href="javascript:void(0);" onclick="javascript:loginbox();">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Ffdipzone%2Farticle%2Fdetails%2F34588803">[注册]</a></div></div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+<div class="recommend_list">
+
+    
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/shootyou/article/details/6579139" target="_blank" strategy="BlogCommendFromBaidu_0">
+                <dd>
+                    <h2>tomcat环境下服务器文件句柄耗尽（Too Many Open Files）的问题排查</h2>
+                    <div class="summary">
+                        
+转载注明出处，谢谢~http://blog.csdn.net/shootyou&nbsp;&nbsp;前段时间帮助公司解决了一次tomcat环境
+服务器的异常，今天有时间过来总结一下。&nbsp;问题的表现：tomcat服务在重启之...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_shootyou.jpg" alt="shootyou" title="shootyou"></li>
+                        <li class="user_name">shootyou</li>
+                        <li class="time">2011-07-01 11:48</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>25077</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/zzq900503/article/details/54881848" target="_blank" strategy="BlogCommendFromBaidu_1">
+                <dd>
+                    <h2>遇到问题----linux-----linux 打开文件数 too many open files 解决方法</h2>
+                    <div class="summary">
+                        在运行某些命令或者 tomcat等服务器持续运行 一段时间后可能遇到 
+&nbsp;&nbsp;too many open 
+files。出现这句提示的原因是程序打开的文件/socket连接数量超过系统设定值。查看每个用户最...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_q383965374.jpg" alt="q383965374" title="q383965374"></li>
+                        <li class="user_name">q383965374</li>
+                        <li class="time">2017-02-05 16:46</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2363</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            <script>(function() {var s = "_" + Math.random().toString(36).slice(2);document.write('<div id="' + s + '"></div>');(window.slotbydup = window.slotbydup || []).push({id: '4765209',container: s,size: '808,120',display: 'inlay-fix'});})();</script><div id="_heb6c4awsx"></div><script charset="utf-8" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/jcam_002"></script> 
+            <dl class="clearfix csdn-tracking-statistics downloadElement" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+        <a href="http://download.csdn.net/download/liyuan1978/4910880" target="_blank" strategy="BlogCommendFromBaidu_2">       
+		<dd class="floatL">
+			<div class="summary">
+				<h2>Too many open files 解决方法</h2>
+				<div class="summary">
+				  <ul>
+					  <li class="time">2012-12-20 17:42</li>
+					  <li class="visited_num fileSize">2KB</li>
+					  <li class="download_btn">下载</li>
+				  </ul>
+				</div> 
+			</div>
+		</dd>
+	</a><dt class="floatR"><a href="http://download.csdn.net/download/liyuan1978/4910880" target="_blank" strategy="BlogCommendFromBaidu_2"></a><a href="http://download.csdn.net/download/liyuan1978/4910880" target="_blank" strategy="BlogCommendFromBaidu_2"><img class="maxwidth" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/txt.svg" alt="" title=""></a></dt>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/yumushui/article/details/43969741" target="_blank" strategy="BlogCommendFromBaidu_3">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Too many open files 问题处理一例</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_yumushui.jpg" alt="yumushui" title="yumushui"></li>
+                        <li class="user_name">yumushui</li>
+                        <li class="time">2015-02-27 16:56</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2065</span></li>
+                    </ul><div class="summary">
+                        今天同事在测试CentOS系统中进行程序测试时，遇到一个问题：
+&nbsp; &nbsp; &nbsp; &nbsp;同事编写一个程序，配置在两台服务器上，一个作为服务器端，一个作为客户端，程序运行时，客户端会向服务器发起连接；
+&nbsp; &nbsp;...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/u014740338/article/details/76122459" target="_blank" strategy="BlogCommendFromBaidu_4">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">linux 打开文件数 too many open files 解决方法</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_u014740338.jpg" alt="u014740338" title="u014740338"></li>
+                        <li class="user_name">u014740338</li>
+                        <li class="time">2017-07-26 10:52</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>431</span></li>
+                    </ul><div class="summary">
+                        现象描述：
+
+由于生产系统网络的升级，导致F5负载均衡器无法使用。系统中正常情况下是起的双节点前置（A节点、B节点），所有客户端都访问F5的地址，然后通过F5转到A节点或B节点，由于F5无法起到负...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            <!-- 广告位：PC端-博客详情通栏7（feed流）-808*120 --><iframe style="width: 100%; height: 123px; border: 0px none;" scrolling="no"></iframe>
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/t227hou/article/details/39997403" target="_blank" strategy="BlogCommendFromBaidu_5">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">解决高并发中出现Too many open files问题</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_t227hou.jpg" alt="t227hou" title="t227hou"></li>
+                        <li class="user_name">t227hou</li>
+                        <li class="time">2014-10-11 17:36</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>5920</span></li>
+                    </ul><div class="summary">
+                        1.主要方向：。
+2.修改PMSeProfile类中的isAppPreload()，将此处读取过的Profile文件存储到内存中，下次再用时直接从内存中读取已有的配置文件，不再重新用流去读取。
+&nbsp;...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/x6582026/article/details/53463774" target="_blank" strategy="BlogCommendFromBaidu_6">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Tomcat类加载机制触发的Too many open files问题分析</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_x6582026.jpg" alt="x6582026" title="x6582026"></li>
+                        <li class="user_name">x6582026</li>
+                        <li class="time">2016-12-05 11:45</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1658</span></li>
+                    </ul><div class="summary">
+                        说起Too many open files这个报错，想必大家一定不陌生。在Linux系统下，如果程序打开文件句柄数（包括网络连接、本地文件等）超出系统设置，就会抛出这个错误。
+
+不过最近发现Tom...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/jiao_fuyou/article/details/47338651" target="_blank" strategy="BlogCommendFromBaidu_7">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">一次「Too many open files」故障</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_xtjsxtj.jpg" alt="xtjsxtj" title="xtjsxtj"></li>
+                        <li class="user_name">xtjsxtj</li>
+                        <li class="time">2015-08-07 14:19</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1580</span></li>
+                    </ul><div class="summary">
+                        昨天，项目的 ElasticSearch 服务挂了，我说的挂可不是进程没了，因为有 
+Supervisor 保护，而是服务不可用了。以前曾经出现过一次因为&nbsp;ES_HEAP_SIZE 设置不当导致的服务不...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/zangdongming/article/details/37729285" target="_blank" strategy="BlogCommendFromBaidu_8">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux "Too many open files" 问题分析</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_zangdongming.gif" alt="zangdongming" title="zangdongming"></li>
+                        <li class="user_name">zangdongming</li>
+                        <li class="time">2014-07-12 21:43</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1205</span></li>
+                    </ul><div class="summary">
+                        平台介绍：Linux3.10.40 + Android4.4.2
+&nbsp;
+事情的起因是压力测试过程中生成的tombstone日志异常，日志形式如下：
+========================...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/leili0806/article/details/7534985" target="_blank" strategy="BlogCommendFromBaidu_9">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux问题 open too many files</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_leili0806.gif" alt="leili0806" title="leili0806"></li>
+                        <li class="user_name">leili0806</li>
+                        <li class="time">2012-05-04 14:54</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>52853</span></li>
+                    </ul><div class="summary">
+                        部署到linux下的tomcat，今天发现包了“java.net.SocketException: Too many open files”，以前从来没有遇到过，在此记录一下：
+
+彻底解决问题的是...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/networkangle/article/details/51474987" target="_blank" strategy="BlogCommendFromBaidu_10">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">linux+weblogic  Too many open files解决方案</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_networkangle.jpg" alt="networkangle" title="networkangle"></li>
+                        <li class="user_name">networkangle</li>
+                        <li class="time">2016-05-22 14:31</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1226</span></li>
+                    </ul><div class="summary">
+                        逐个排查
+1、linux服务器： ulimit &nbsp; -a &nbsp; &nbsp;检查 &nbsp;open files 设置（建议65535：ulimit -n 65535）
+2、weblogic服务器：
+在***\wl...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/hfsu0419/article/details/6138599" target="_blank" strategy="BlogCommendFromBaidu_11">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Tomcat报Too many open files</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_hfsu0419.jpg" alt="hfsu0419" title="hfsu0419"></li>
+                        <li class="user_name">hfsu0419</li>
+                        <li class="time">2011-01-14 14:21</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>4164</span></li>
+                    </ul><div class="summary">
+                        今天发现运行好好的J2EE项目突然访问很慢，查看了一下日志报web.xml(Too many 
+open 
+files),google了一下发现时文件句柄数目不够所致。&nbsp;&nbsp;&nbsp;&nbsp;查看下一系统当前最大文件句柄...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/daleiwang/article/details/46387057" target="_blank" strategy="BlogCommendFromBaidu_12">
+                <dd>
+                    <h2>压力测试中出现：“Too many open files”异常导致weblogic无法继续正常访问</h2>
+                    <div class="summary">
+                        某项目投产前压力测试过程中：当并发达到50的时候出现系统无法访问并报错。如附图。
+“Too many open files”
+遇到此问题首先要检查系统本身允许打开文件最大数，然后weblogic本...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_daleiwang.jpg" alt="daleiwang" title="daleiwang"></li>
+                        <li class="user_name">daleiwang</li>
+                        <li class="time">2015-06-06 12:15</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1389</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/hexuan1/article/details/45191549" target="_blank" strategy="BlogCommendFromBaidu_13">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">运行ab测试时socket: Too many open files (24)的解决办法</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_u010584063.jpg" alt="u010584063" title="u010584063"></li>
+                        <li class="user_name">u010584063</li>
+                        <li class="time">2015-04-22 10:25</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>7013</span></li>
+                    </ul><div class="summary">
+                        今天在配置nginx优化时，使用ab测试5000个并发报错，错误内容如下：
+[root@localhost bin]# ./ab -n 5000 -c 5000 http://192.168.1.1...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/aeroleo/article/details/52955911" target="_blank" strategy="BlogCommendFromBaidu_14">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">linux服务器和mysql句柄数过多"too many open files"问题分析</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_aeroleo.jpg" alt="Aeroleo" title="Aeroleo"></li>
+                        <li class="user_name">Aeroleo</li>
+                        <li class="time">2016-10-28 15:49</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2872</span></li>
+                    </ul><div class="summary">
+                        问题说明：
+
+1) &nbsp;在Linux中查看日志时，发现有Can’t
+ open so many files信息。应该是虚拟机打开文件数或者sockets数太多了。在Linux下，我们使用ulimi...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/guoguo1980/article/details/2324413" target="_blank" strategy="BlogCommendFromBaidu_15">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">解决Linux中Too many open files问题</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_guoguo1980.jpg" alt="guoguo1980" title="guoguo1980"></li>
+                        <li class="user_name">guoguo1980</li>
+                        <li class="time">2008-04-24 17:43</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3035</span></li>
+                    </ul><div class="summary">
+                        Linux系统默认最大打开文件数为1024个。1、相关命令：ulimit –a //查看当前设置ulimit –n 2048 //即设成2048，按实际需要设置2、用户环境参数文件配置：在/etc/p...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/yetyongjin/article/details/7476860" target="_blank" strategy="BlogCommendFromBaidu_16">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Too many open files -- linux文件描述符的限制调整</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_yetyongjin.jpg" alt="yetyongjin" title="yetyongjin"></li>
+                        <li class="user_name">yetyongjin</li>
+                        <li class="time">2012-04-19 11:42</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>7505</span></li>
+                    </ul><div class="summary">
+                        这两天做asterisk的性能测试，经常碰到这样的错误：“Too many open files”。
+&nbsp; &nbsp; &nbsp; &nbsp; 我们知道，Linux下，文件描述符就是一个简单的整数值，习惯上，标准输入（sta...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/x6582026/article/details/51724977" target="_blank" strategy="BlogCommendFromBaidu_17">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">解决linux下too many open file问题</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_x6582026.jpg" alt="x6582026" title="x6582026"></li>
+                        <li class="user_name">x6582026</li>
+                        <li class="time">2016-06-21 09:37</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1064</span></li>
+                    </ul><div class="summary">
+                        解决linux下too
+ many file问题&nbsp;2009-09-24 14:38:12
+
+
+
+分类：&nbsp;LINUX
+
+
+
+
+
+解决linux下too many file问题
+
+...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/google0802/article/details/52302837" target="_blank" strategy="BlogCommendFromBaidu_18">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux的open file 与 file descriptor区别</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_google0802.jpg" alt="google0802" title="google0802"></li>
+                        <li class="user_name">google0802</li>
+                        <li class="time">2016-08-24 17:59</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>634</span></li>
+                    </ul><div class="summary">
+                        open file &amp; file descriptor
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/alangmei/article/details/23249829" target="_blank" strategy="BlogCommendFromBaidu_19">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux上修改open files数目</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_alangmei.jpg" alt="alangmei" title="alangmei"></li>
+                        <li class="user_name">alangmei</li>
+                        <li class="time">2014-04-09 09:52</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2860</span></li>
+                    </ul><div class="summary">
+                        Linux系统上默认的open files数目为1024, 有时应用程序会报Too many open files的错误，是因为open files 数目不够。
+
+
+用 ulimit -a 命令...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            </div>
+<script type="text/javascript">
+    var fileName = '34588803';
+    var commentscount = 3;
+    var islock = false
+document.domain = "csdn.net";
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop" style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])">         
+         <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='linux 打开文件数 too many open files 解决方法';
+
+</script>
+<script src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/appendMark.js" type="text/javascript"></script>
+<script type="text/javascript">
+    appendMark($('.recommend_list').children('a').find('dt'),$('.extension_other'))
+</script>
+
+
+
+
+
+
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="side">
+                
+
+    <div class="side">
+
+ 
+
+<div id="custom_column_37536009" class="panel">
+<ul class="panel_head"><span>微博</span></ul>
+<ul class="panel_body">
+
+<a href="http://weibo.com/fdipzone" target="_blank"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/20141229114841578.jpg"></a>
+
+</ul>
+</div>
+ 
+
+<div id="custom_column_37680795" class="panel">
+<ul class="panel_head"><span>微信公众号</span></ul>
+<ul class="panel_body">
+
+<div align="center"><b><font color="#ff0000">微信分享公众平台-破晓领域</font></b><br>
+<img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/20141224160911852.jpg" alt="破晓领域" width="180" height="180" border="0"><br>
+<b><font color="#ff0000">微信号：fdipzone-idea</font></b><br>
+<b><font color="#ff0000">名称：破晓领域</font></b><br>
+<div></div>
+<br>
+</div>
+
+</ul>
+</div>
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/fdipzone" target="_blank">
+    <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/1_fdipzone.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/fdipzone" class="user_name" target="_blank">傲雪星枫</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=fdipzone','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                         <div class="ico_expert" title="CSDN博客准专家" onclick="javascript:location='http://blog.csdn.net/experts/rule.html'" style=" cursor:pointer;width:54px;height:60px;background:url('http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhunzhuanjiamiddle.png') no-repeat"></div>
+                <div id="bms_box">
+                                            <a target="_blank">
+                                                    <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/zhuanlandaren.png" onmouseover="m_over_m(this,2)" onmouseout="m_out_m()" alt="2">
+                                            </a>
+                                            <a target="_blank">
+                                                    <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="2">
+                                            </a>
+               </div>
+
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>7710239次</span></li>
+    <li>积分：<span>46000</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+            <img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog8.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：46000 </div>
+        </span>  </li>
+    <li>排名：<span>第78名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>295篇</span></li>
+    <li>转载：<span>24篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>508条</span></li>
+</ul>
+</ul>
+</div>
+
+
+     
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" class="form_search csdn-tracking-statistics" data-pid="blog" target="_blank" data-mod="popu_306">
+        <span><input id="inputSearch" class="blogsearch" title="请输入关键字" type="text"></span>
+        <input id="btnSubmit" value="搜索" title="search in blog" type="button">
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + 
+encodeURIComponent($("#inputSearch").val()) + "&u=" + username + 
+"&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + 
+encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            var url = "/" + username + "?q=" + 
+encodeURIComponent($("#inputSearch").val());
+            window.location.href = url;
+        }   
+    });
+</script> 
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1054488" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">php class</a><span>(40)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1054493" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">名词解释</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1055061" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">server搭建</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1055081" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Node.JS</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1057389" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">算法分析</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1057958" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Apache</a><span>(17)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1453503" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">php</a><span>(123)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1453505" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">mysql</a><span>(39)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1085898" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">HTML5</a><span>(11)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1090705" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">MongoDB</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1096521" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">架构设计</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1172991" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">JS游戏</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1225803" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">站点安全</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1228540" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">前端开发</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1237951" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">软件介绍</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1248998" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">javascript</a><span>(13)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1313948" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">ubuntu</a><span>(21)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1317118" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">shell</a><span>(25)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/1344928" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">memcache</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/2012565" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">C语言</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/2693979" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">WordPress</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/2784559" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">windows</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/3187395" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Nginx</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/5699507" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">mac</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/5988697" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Git</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/6098235" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">程序人生</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/fdipzone/article/category/7191873" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">redis</a><span>(1)</span>
+                </li>
+</ul>
+</div>
+<div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>博客专栏</span></ul>
+    <ul class="panel_body" id="sp_column">
+    <table cellspacing="0" cellpadding="0"><tbody><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/php-class.html" target="_blank"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/20161205000015177.jpg" style="width:75px;height:75px;"></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/php-class.html" target="_blank">PHP工具类</a>
+    <p>文章：32篇</p>
+    <span>阅读：648927</span>
+    </td>
+    </tr></tbody></table>
+    </ul>
+</div>
+<div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="http://blog.csdn.net/fdipzone/article/month/2018/01">2018年01月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/12">2017年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/11">2017年11月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/10">2017年10月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/09">2017年09月</a><span>(4)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/08">2017年08月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/07">2017年07月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/06">2017年06月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/05">2017年05月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/04">2017年04月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/03">2017年03月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/02">2017年02月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2017/01">2017年01月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/12">2016年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/11">2016年11月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/10">2016年10月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/09">2016年09月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/08">2016年08月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/07">2016年07月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/06">2016年06月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/05">2016年05月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/04">2016年04月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/03">2016年03月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/02">2016年02月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2016/01">2016年01月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/12">2015年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/11">2015年11月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/10">2015年10月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/09">2015年09月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/08">2015年08月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/07">2015年07月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/06">2015年06月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/05">2015年05月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/04">2015年04月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/03">2015年03月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/02">2015年02月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2015/01">2015年01月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/12">2014年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/11">2014年11月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/10">2014年10月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/09">2014年09月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/08">2014年08月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/07">2014年07月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/06">2014年06月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/05">2014年05月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/04">2014年04月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/03">2014年03月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/02">2014年02月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2014/01">2014年01月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/12">2013年12月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/11">2013年11月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/10">2013年10月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/09">2013年09月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/08">2013年08月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/07">2013年07月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/06">2013年06月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/05">2013年05月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/04">2013年04月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/03">2013年03月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/02">2013年02月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2013/01">2013年01月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/12">2012年12月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/11">2012年11月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/10">2012年10月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/09">2012年09月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/08">2012年08月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/07">2012年07月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/06">2012年06月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/05">2012年05月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/04">2012年04月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/03">2012年03月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/02">2012年02月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2012/01">2012年01月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/fdipzone/article/month/2011/12">2011年12月</a><span>(5)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/9208221#comments">php 支持断点续传的文件下载类</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/yangshouzhang888" class="user_name">yangshouzhang888</a>:
+楼主您好 请问这个功能 要网页上如何体现  比如下载过程中  杀死浏览器 再打开浏览器点击下载 还会...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/52050471#comments">mysql 搜寻附近N公里内数据的实例</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/fdipzone" class="user_name">傲雪星枫</a>:
+@gusuccess:113.323568, 23.146436 时代广场113.332264, 2...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/37974511#comments">使用html5 FileReader获取图片，并异步上传到服务器(不使用iframe)</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/JMC13872389621" class="user_name">雨落忧伤丶</a>:
+很好
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/37974511#comments">mysql 搜寻附近N公里内数据的实例</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/gusuccess" class="user_name">gusuccess</a>:
+23.146436， 113.323568  这个经纬度地址是：华阳小学后侧，离广州地铁8百多米所以...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/37974511#comments">mysql 搜寻附近N公里内数据的实例</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/gusuccess" class="user_name">gusuccess</a>:
+广州东站，也在1公里范围内，为什么没有显示出来
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/37974511#comments">mysql 搜寻附近N公里内数据的实例</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/qq_27547733" class="user_name">紫珠状锥花</a>:
+@it_liuyong:没有错误，只是你把角度单位理解混了
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/37974511#comments">mysql 搜寻附近N公里内数据的实例</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/qq_27547733" class="user_name">紫珠状锥花</a>:
+为什么不能分享到其他网站啊
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/39915131#comments">php 上传图片保存到数据库例子</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/fdipzone" class="user_name">傲雪星枫</a>:
+@qq_36416487:header(&amp;#39;content-type:&amp;#39;.$threa...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/38284009#comments">linux使用flock文件锁解决crontab冲突问题</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/fdipzone" class="user_name">傲雪星枫</a>:
+@Xujian0000abcd:更多資訊請關注本人微信號：fdipzone-idea
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/fdipzone/article/details/17619673#comments">iframe与主框架跨域相互访问方法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/fdipzone" class="user_name">傲雪星枫</a>:
+@u011710489:没有操作权限，你如何在B域名加上Access-Control-Allow-O...
+    </p>
+    </li>
+</ul>
+</div>
+
+    </div>
+    <div class="clear">
+    </div>
+
+                        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_189" data-mtp="63" data-order="40" data-con="ad_content_1259" style="width: 250px; height: 250px;">
+                            <div id="nav_show_top_stop" style="width: 250px; height: 250px; z-index: 1000; position: fixed; top: 2874.77px;">
+
+                                <div id="cpro_u3031286" style="text-align:center;">
+                                    <!-- 投放代码 -->
+                                    <div style="width: 100%;"><ins style="width:0px;height:0px;"></ins><iframe scrolling="no" src="//pos.baidu.com/s?hei=250&amp;wid=250&amp;di=u3031286&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Ffdipzone%2Farticle%2Fdetails%2F34588803&amp;col=zh-CN&amp;dc=3&amp;tpr=1516353153933&amp;ps=3270x323&amp;exps=114022&amp;dis=0&amp;cdo=-1&amp;dai=2&amp;ti=linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2&amp;cce=true&amp;ant=0&amp;cfv=27&amp;pis=-1x-1&amp;ltr=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DeQ54kKjwmQ9edEUdpwoA9f3Mfju-s6_fFGMKSOlWRZpLkEA0JUjI6V5iMayx1KqzwJAg-IKqcT1wGPYZKDXgMK%26wd%3D%26eqid%3Dab2f2b780001f314000000045a61b643&amp;drs=3&amp;pss=1903x5712&amp;cpl=1&amp;cmi=2&amp;psr=1920x1080&amp;pcs=1903x968&amp;tcn=1516353155&amp;chi=1&amp;cja=false&amp;tlm=1516353154&amp;cec=UTF-8&amp;par=1920x1040&amp;dri=0&amp;ccd=24&amp;ari=2&amp;dtm=HTML_POST" width="250" height="250" frameborder="0"></iframe></div><script type="text/javascript" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/bwocoflyv.js"></script>
+                                    
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+
+                            setTimeout(function ()
+                            {
+                                var naviga_offsetTop = 0; function 
+naviga_stay_top()
+                                {
+                                    var scrollTop = 
+jQuery(document).scrollTop();
+                                    if (scrollTop > naviga_offsetTop) {
+                                        
+jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                                        
+jQuery("#nav_show_top_stop").css({ "top": "0px" });
+                                    } else { 
+jQuery("#nav_show_top_stop").css({ "position": "fixed" }); 
+jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop +
+ "px" }); }
+                                }
+                                function onload_function()
+                                {
+                                    naviga_offsetTop = 
+jQuery("#nav_show_top_stop").position().top;
+                                    jQuery(window).bind("scroll", 
+naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top);
+                                    jQuery(document).bind("scroll", 
+naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top);
+                                } 
+jQuery(document).ready(onload_function);
+                            }, 200);
+
+                        </script>
+
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='csdn-tracking-statistics' 
+data-pid=\"blog\"  data-mod='popu_167'><a 
+href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  
+style='text-indent:0;'><img 
+src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 
+alt='在CODE上查看代码片' 
+style='position:relative;top:1px;left:2px;'/></a></span>"
+                + "<span class='csdn-tracking-statistics' 
+data-pid=\"blog\"  data-mod='popu_170'><a 
+href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' 
+style='text-indent:0;'><img 
+src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 
+alt='派生到我的代码片' 
+style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && 
+parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+
+
+
+        <script type="text/javascript" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/MathJax.js"></script>
+
+    <script src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_blog_detail.js" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="javascript:void(0);" target="_blank" class="qq">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2251809102&amp;site=qq&amp;menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-660-0108</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏知之为计算机有限公司</span><span class="interval">|</span><span>江苏乐知网络技术有限公司</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2017, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/notify.js"></script><input id="aa_g_data_ids" type="hidden">
+
+    <script type="text/javascript" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_public_blog_detail.js"></script>
+
+    <script type="text/javascript" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/showblogmedal.js"></script>
+
+
+    <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+        <script id="adJs52b5334" src="linux%20%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%20too%20many%20open%20files%20%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%20-%20%E5%82%B2%E9%9B%AA%E6%98%9F%E6%9E%AB%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/52b5334.js"></script>
+        <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+    </div>
+
+    <div class="pop_CA_cover" style="display:none"></div>
+    <div class="pop pop_CA" style="display:none">
+        <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon" id="fapancle" onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+        </div>
+        <iframe src="" id="fa" scrolling="no" width="100%" height="360" frameborder="0"></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function ()
+            {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function ()
+                    {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function ()
+            {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+
+
+
+<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" id="focus_retriever" readonly="true" type="text"></div></body></html>

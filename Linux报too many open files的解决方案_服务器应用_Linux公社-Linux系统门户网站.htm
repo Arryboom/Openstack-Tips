@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head>
+<style id="znBdcsStyle" type="text/css">.bdcs-container .bdcs-main,.bdcs-container .bdcs-main *{box-sizing:content-box;margin:0;padding:0;float:none;clear:none;overflow:hidden;white-space:nowrap;word-wrap:normal;border:0;background:0 0;width:auto;height:auto;max-width:none;min-width:none;max-height:none;min-height:none;border-radius:0;box-shadow:none;transition:none;text-align:left}.bdcs-container .bdcs-clearfix:after{content:'';display:block;clear:both;height:0}.bdcs-container .bdcs-clearfix{zoom:1}.bdcs-container .bdcs-main{overflow:visible}.bdcs-container .bdcs-search{display:block;overflow:visible;position:relative;border-style:solid}.bdcs-container .bdcs-search-form-input-wrap{display:inline-block}.bdcs-container .bdcs-search-form-input{border-width:1px;border-style:solid;display:inline-block;vertical-align:top;text-indent:5px;background-color:#fff;float:left}.bdcs-container .bdcs-search-form-input:focus{border-width:1px;border-style:solid;outline:0}.bdcs-container .bdcs-search-form-submit-wrap{display:inline-block}.bdcs-container .bdcs-search-form-submit{display:inline-block;cursor:pointer;border-width:1px;border-style:solid;vertical-align:top;text-align:center;width:50px;//_overflow:hidden}.bdcs-container .bdcs-search-form-submit-magnifier{width:45px;padding:0;text-indent:-999em;overflow:hidden;background:url(http://znsv.baidu.com/static/customer-search/component/search/magnifier-icon.png) no-repeat center center;_background:url(http://znsv.baidu.com/static/customer-search/component/search/magnifier-icon_ie6.png) no-repeat center center}div#default-searchbox .default-channel-meun{position:relative;width:75px;display:inline-block;vertical-align:middle;cursor:pointer;background:#fff;float:left;overflow:visible}div#default-searchbox .default-channel-current{border:1px solid;position:relative;width:100%;border-right:0}div#default-searchbox .default-channel-current span{margin-left:8px}div#default-searchbox .default-channel-current i{overflow:hidden;width:0;height:0;border-width:6px 6px 0;border-color:#9E9E9E #fff;border-style:solid;display:block;position:absolute;right:10px;top:11px}div.cse-default-channel-container{display:block;position:absolute;z-index:30061000000}div.cse-default-channel-container .default-channel-list{display:none;width:99%;list-style:none;background:#fff;border:1px solid #DDD;border-top:0;margin:0;padding:0}div.cse-default-channel-container .default-channel-list li{background:0 0;line-height:24px;list-style:none;display:block;padding-left:7px;cursor:pointer}div.cse-default-channel-container .default-channel-list li:hover{background:#DDD}.bdcs-container .bdcs-search-form-input-wrap{}.bdcs-container .bdcs-search-form-input-notspan{margin-left:0px;font-family:Arial,SimSun,sans-serif;color:#000000;font-size:14px;}.bdcs-container .bdcs-search-form-input .icon-nofocus{left:;right:;top:;height:;width:;}.bdcs-container .bdcs-search{width:291px;height:25px;overflow:hidden;border-color:#eeffe6;border-radius:0px;border-width:5px;box-shadow:none;background-color:#eeffe6;}.bdcs-container .bdcs-search-form-input{border-color:#c9eeb7;margin-right:0px;width:188px;height:23px;line-height:23px;font-family:Arial,SimSun,sans-serif;color:#000000;font-size:14px;border-radius:0px;background-color:#FFFFFF;}.bdcs-container .bdcs-search-form-input:focus{border-color:#f79646;}.bdcs-container .bdcs-search-form-submit-wrap{}.bdcs-container .bdcs-search-form-submit{border-color:#82e059;height:23px;width:100px;background-color:#82e059;color:#ffffff;font-family:Arial,SimSun,sans-serif;font-size:14px;border-radius:0px;}.bdcs-container .bdcs-search-form-submit{*height:25px;*margin-top:1px;}.bdcs-container .bdcs-search-form-submit{height:25px;}.bdcs-container .bdcs-search-form-submit{line-height:23px;}.bdcs-container .bdcs-search-form-input{margin-right:-1px;}#bdcs-rec{display:none;}</style><title>Linux报too many open files的解决方案_服务器应用_Linux公社-Linux系统门户网站</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="icon" href="http://www.linuxidc.com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://www.linuxidc.com/favicon.ico" type="image/x-icon">
+<meta name="description" content="今天系统中有一台Linux服务器出现异常，有时连简单的shell命令都无法执行，各种奇怪的报错，有的时候又可以成功执行,如：-bash:">
+<meta name="keywords" content="too many open files,Linux报too many open files的解决方案,服务器,Linux服务器,Apache,Hadoop,集群,分布式,Nginx,Tomcat,分布式系统">
+<link rel="canonical" href="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/126516.htm">
+<meta name="generator" content="Linux公社">
+<meta name="generator" content="Linux">
+<link rel="stylesheet" href="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/style.css" type="text/css">
+<meta name="generator" content="专业的Linux网站">
+<script type="text/javascript" async="" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/js"></script><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/jquery.js"></script>
+<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/iwms.js"></script>
+<script type="text/javascript">iwms.urlPrefix="../../";</script>
+
+<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/show.js"></script>
+<script src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/share.js"></script><style></style></head>
+<body>
+<div class="topBar">
+	<div class="twidth">
+	
+	<div style="float:right">
+		<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/language.js"></script> <a id="StranLink" href="javascript:StranBody()" title="點擊以繁體中文方式浏覽">繁體</a>
+	</div>
+	
+	<div id="topUser">你好，游客 <a href="#" onclick="iwms.logPop()">登录</a>
+	<a href="http://www.linuxidc.com/memberreg.aspx" rel="nofollow">注册</a>
+	<a href="http://www.linuxidc.com/search.aspx" rel="nofollow">搜索</a>
+	</div>
+	</div>
+</div>
+<div class="twidth">
+<div id="sitehead">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<table width="100%">
+	<tbody><tr align="center"><td width="160">
+	<a href="http://www.linuxidc.com/"><img style="filter: chroma(color=#FFFFFF);" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/logo.jpg" alt="Linux公社" width="155" height="53" border="0"></a>
+	</td><td>
+	<div align="center"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux.js"></script></div>
+	</td>
+	</tr></tbody></table>
+</div>
+</div>
+<div id="navbar">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<a href="http://www.linuxidc.com/index.htm" class="first">首页</a><a href="http://www.linuxidc.com/it/">Linux新闻</a><a href="http://www.linuxidc.com/Linuxit/">Linux教程</a><a href="http://www.linuxidc.com/MySql/">数据库技术</a><a href="http://www.linuxidc.com/RedLinux/">Linux编程</a><a href="http://www.linuxidc.com/Apache/" class="thisclass">服务器应用</a><a href="http://www.linuxidc.com/Unix/">Linux安全</a><a href="http://www.linuxidc.com/download/">Linux下载</a><a href="http://www.linuxidc.com/Linuxrz/">Linux认证</a><a href="http://www.linuxidc.com/theme/">Linux主题</a><a href="http://www.linuxidc.com/Linuxwallpaper/">Linux壁纸</a><a href="http://www.linuxidc.com/linuxsoft/">Linux软件</a><a href="http://www.linuxidc.com/digi/">数码</a><a href="http://www.linuxidc.com/mobile/">手机</a><a href="http://www.linuxidc.com/diannao/">电脑</a>
+
+</div>
+</div>
+
+<div id="navsub">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<a href="http://www.linuxidc.com/index.htm">首页</a> → <a href="http://www.linuxidc.com/Apache/">服务器应用</a>
+</div>
+</div>
+<div class="linuxe1"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linuxe1.htm"></script></div>
+<div class="linux1"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux1.htm"></script></div>
+<div class="linuxa"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linuxa.htm"></script></div>
+<div class="linuxa1"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linuxa1.htm"></script></div>
+<table id="middle" style="table-layout:fixed" width="100%" cellspacing="0" cellpadding="0">
+<tbody><tr valign="top"><td>
+
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<div class="moreR">
+			背景：<script type="text/javascript">WriteBg()</script><img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#EDF0F5" alt="#EDF0F5" onclick='ContentBg("#EDF0F5")'> <img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FAFBE6" alt="#FAFBE6" onclick='ContentBg("#FAFBE6")'> <img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FFF2E2" alt="#FFF2E2" onclick='ContentBg("#FFF2E2")'> <img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FDE6E0" alt="#FDE6E0" onclick='ContentBg("#FDE6E0")'> <img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#F3FFE1" alt="#F3FFE1" onclick='ContentBg("#F3FFE1")'> <img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#DAFAF3" alt="#DAFAF3" onclick='ContentBg("#DAFAF3")'> <img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#EAEAEF" alt="#EAEAEF" onclick='ContentBg("#EAEAEF")'> <img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FFF" alt="默认" onclick='ContentBg("")'> 
+		</div>
+		<span class="tt">阅读新闻</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm" id="bodyTd">
+		<div id="printBody" style="word-break:break-all;">
+			<div style="text-align:center"><h1 class="aTitle">Linux报too many open files的解决方案</h1></div>
+			
+			<table align="center" width="97%">
+				<tbody><tr>
+				<td width="140">[日期：2015-12-20]</td>
+				<td align="center">来源：Linux社区&nbsp;
+				作者：haoshikui</td>
+				<td align="right" width="160">[字体：<a href="javascript:ContentSize(16)">大</a> <a href="javascript:ContentSize(0)">中</a> <a href="javascript:ContentSize(12)">小</a>]
+				</td></tr>
+			</tbody></table>
+<div id="li_all">
+<div id="li_1"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux201.js"></script><script async="" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/adsbygoogle.js"></script>
+<!-- Linux公社336*280上左 -->
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-5195587195407606" data-ad-slot="8487173177"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div id="li_2"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux2.js"></script><script async="" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/adsbygoogle.js"></script>
+<!-- Linux����336*280���� -->
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-5195587195407606" data-ad-slot="4266779067"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+			<div id="content" style="overflow-x: hidden; word-break: break-all;"><p>今天系统中有一台Linux服务器出现异常，有时连简单的shell命令都无法执行，各种奇怪的报错，有的时候又可以成功执行</p>
+<p>如：</p>
+<p>-bash: error while loading shared libraries: libncurses.so.5: cannot open shared object file: Error 23</p>
+<p>-bash: /etc/profile: Too many open files in system</p>
+<p>查看当前操作系统允许打开的文件数</p>
+<p><strong><span style="color: #ff0000;">ulimit -n</span></strong></p>
+<p>发现设置为163840，执行<span style="color: #ff0000;"><strong>lsof|wc -l</strong></span>命令为65528，和设定的值还有很大差距，为什么还会报too many open files呢，突然想起还有一个地方设置最大文件数</p>
+<p>使用命令</p>
+<p><strong><span style="color: #ff0000;">cat /proc/sys/fs/file-max</span></strong></p>
+<p>65536,这个时候知道为啥出现偶发的异常了，当前系统使用的文件数和最大数相隔很近</p>
+<p>echo 131072&nbsp;&gt; /proc/sys/fs/file-max直接增大一倍，这样可以马上生效，但是如果操作系统重启，又会失效</p>
+<p>如果需要永久生效，<span style="color: #ff0000;"><strong>修改/etc/sysctl.conf文件，后面加上fs.file-max = 131072，执行sysctl -p生效</strong></span></p>
+<p>所以当系统中出现too many open files时候有2个地方都需要看下</p>
+<p>问题解决。</p>
+<p><span style="font-size: small;"><strong>本文永久更新链接地址</strong></span>：<a href="http://www.linuxidc.com/Linux/2015-12/126516.htm">http://www.linuxidc.com/Linux/2015-12/126516.htm</a></p><a href="http://www.linuxidc.com/" target="_blank"><img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/logo.gif" alt="linux" width="15" height="17"></a></div><a href="http://www.linuxidc.com/" target="_blank">
+<div class="linux3"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux3.js"></script><script async="" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid" data-ad-layout="in-article" data-ad-client="ca-pub-5195587195407606" data-ad-slot="8123243321"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</a><div class="linux302"><a href="http://www.linuxidc.com/" target="_blank"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux302.js"></script></a><div class="bdsharebuttonbox"><a href="http://www.linuxidc.com/" target="_blank"></a><a class="bds_more" href="http://share.baidu.com/code#" data-cmd="more"></a><a title="分享到QQ空间" class="bds_qzone" href="http://share.baidu.com/code#" data-cmd="qzone"></a><a title="分享到新浪微博" class="bds_tsina" href="http://share.baidu.com/code#" data-cmd="tsina"></a><a title="分享到腾讯微博" class="bds_tqq" href="http://share.baidu.com/code#" data-cmd="tqq"></a><a title="分享到人人网" class="bds_renren" href="http://share.baidu.com/code#" data-cmd="renren"></a><a title="分享到百度新首页" class="bds_bdhome" href="http://share.baidu.com/code#" data-cmd="bdhome"></a><a title="分享到微信" class="bds_weixin" href="http://share.baidu.com/code#" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</div>		
+			
+			
+		</div>
+<div class="linuxfx"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/fx.htm"></script></div>	
+<div class="linux8"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux8.js"></script><script async="" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/adsbygoogle.js"></script>
+<!-- Google匹配内容 -->
+<ins class="adsbygoogle" style="display:inline-block;width:760px;height:410px" data-ad-client="ca-pub-5195587195407606" data-ad-slot="7446930524"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div class="linux801"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux801.js"></script><p style="text-align: center;"><a href="http://www.linuxidc.com/Linux/2014-08/106019.htm" target="_blank"><span style="color: #ff0000; font-size: medium;"><strong>关注Linux公社（LinuxIDC.com）官方微信与QQ群，随机发放邀请码</strong></span></a></p>
+<script>document.write(unescape('%3Cdiv id="hm_t_3126"%3E%3C/div%3E%3Cscript charset="utf-8" src="http://crs.baidu.com/t.js?siteId=05ff9e4b77acc9197fb1fe12f47d29fb&planId=3126&async=0&referer=') + encodeURIComponent(document.referrer) + '&title=' + encodeURIComponent(document.title) + '&rnd=' + (+new Date) + unescape('"%3E%3C/script%3E'));</script><div id="hm_t_3126"><div style="display: block; margin: 0px; padding: 0px; float: none; clear: none; overflow: hidden; position: relative; border: 0px none; background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; max-width: none; max-height: none; border-radius: 0px; box-shadow: none; transition: none 0s ease 0s; text-align: left; box-sizing: content-box; width: 602px; height: 206px;"><iframe scrolling="no" style="display: block; margin: 0px; padding: 0px; float: none; clear: none; overflow: hidden; position: relative; border: 0px none; background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; max-width: none; max-height: none; border-radius: 0px; box-shadow: none; transition: none 0s ease 0s; text-align: left; box-sizing: content-box; width: 100%; height: 100%;" frameborder="0"></iframe></div></div><script charset="utf-8" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/t.js"></script>
+ <!-- 广告位：linux公社linuxidc.com（600*60） -->
+<script type="text/javascript">BAIDU_CLB_SLOT_ID = "961561";</script>
+<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/o.js"></script>
+</div>
+		<div class="nearNews">
+			<div class="prevNews"><a href="http://www.linuxidc.com/Linux/2015-12/126504.htm">部署 Docker 前必须问自己的四个问题</a></div>
+			<div class="nextNews"><a href="http://www.linuxidc.com/Linux/2015-12/126517.htm">源码安装SaltStack时遇到问题及解决</a></div>
+		</div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+<div class="linux809"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux809.htm"></script></div>
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">相关资讯</span> &nbsp; &nbsp; &nbsp;
+		<a href="http://www.linuxidc.com/search.aspx?where=nkey&amp;keyword=19457" target="_blank">Too many open files</a>&nbsp; 
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<table width="100%"><tbody><tr><td width="50%" valign="top"><ul class="nl"><li><a href="http://www.linuxidc.com/Linux/2017-08/146285.htm" target="_blank">Too many open files 问题解决方法</a>&nbsp; <span class="gray">(<span class="time">今 10:56</span>)</span></li>
+<li><a href="http://www.linuxidc.com/Linux/2014-12/110891.htm" target="_blank" title="Nginx: Too Many Open Files解决方案汇总">Nginx: Too Many Open Files解决方</a>&nbsp; <span class="gray">(12/26/2014 19:21:02)</span></li>
+<li><a href="http://www.linuxidc.com/Linux/2013-03/80463.htm" target="_blank" title="flume写入Hadoop hdfs报错 Too many open files">flume写入Hadoop hdfs报错 Too </a>&nbsp; <span class="gray">(03/06/2013 09:06:24)</span></li>
+</ul></td><td width="50%" valign="top"><ul class="nl"><li><a href="http://www.linuxidc.com/Linux/2016-04/129816.htm" target="_blank">Too many open files解决办法</a>&nbsp; <span class="gray">(04/04/2016 07:05:40)</span></li>
+<li><a href="http://www.linuxidc.com/Linux/2014-03/98035.htm" target="_blank" title="Linux中的错误：too many open files">Linux中的错误：too many open </a>&nbsp; <span class="gray">(03/11/2014 15:11:15)</span></li>
+</ul></td></tr></tbody></table>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+<div class="linux808"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux808.htm"></script></div>
+	
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">本文评论</span>
+		 	　　<a href="http://www.linuxidc.com/remark.aspx?id=126516" target="_blank">查看全部评论</a> <span class="gray">(0)</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<table style="margin:6px" width="100%">		
+		<tbody><tr><td width="50%">
+			<form action="" name="fmRemarkSt" onsubmit="return remark.post(this);">
+			<input value="1" name="face" type="hidden">
+			表情： <img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/b.gif" alt="表情" class="face1" style="cursor:pointer;vertical-align:middle" onclick="remark.dispFace(this)" onmouseout="remark.hideFace()">
+			姓名： <input name="username" value="匿名" maxlength="15" style="width:60px" class="inputbg" disabled="disabled" type="text">
+			<input id="rmAnonymitySt" onclick="remark.anony(this)" checked="checked" type="checkbox"><label for="rmAnonymitySt">匿名</label>
+			字数 <input id="bodyLen" size="3" readonly="readonly" style="border-width:0;background:transparent;vertical-align:middle" value="0" type="text">
+			<br>
+			<textarea name="body" cols="40" rows="4" onkeydown="remark.dispLen(this)" onkeyup="remark.handle(event,this);remark.dispLen(this)" style="width:39em;height:100px;margin:3px 0;overflow-y:auto"></textarea>
+				<br>
+		　　　<input checked="checked" id="rmAgreeSt" type="checkbox"><label for="rmAgreeSt">同意评论声明</label>
+		　　　<button type="submit" style="width:50px">发表</button>
+			</form><br>
+			评论声明
+			<ul style="list-style-type:square;margin:5px 0 0 1em;padding:0">
+			<li>尊重网上道德，遵守中华人民共和国的各项有关法律法规</li>
+			<li>承担一切因您的行为而直接或间接导致的民事或刑事法律责任</li>
+			<li>本站管理人员有权保留或删除其管辖留言中的任意内容</li>
+			<li>本站有权在网站内转载或引用您的评论</li>
+			<li>参与本评论即表明您已经阅读并接受上述条款</li>
+			</ul>
+		</td>
+		<td width="50%"><div class="linux799"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux799.htm"></script></div></td></tr>
+		</tbody></table>
+		<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/remark.js"></script>
+		<script type="text/javascript">
+			remark.maxSize=500;
+			remark.minSize=2;
+			remark.sourceEle=$(document.fmRemarkSt).find("button").get(0);
+			iwms.vCode="CC74440A";
+			iwms.user.name.length==0 ? $i("rmAnonymitySt").click() : $i("rmAnonymitySt").form.username.value=iwms.user.name;
+		</script>
+		<div class="reCont" id="reContainer"></div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	
+</td><td width="300" valign="top">
+<div class="linux901"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux901.js"></script><div id="bdcs"><div class="bdcs-container"><meta http-equiv="x-ua-compatible" content="IE=9">   <!-- 嵌入式 -->  <div class="bdcs-main bdcs-clearfix" id="default-searchbox">      <div class="bdcs-search bdcs-clearfix" id="bdcs-search-inline">          <form action="http://so.linuxidc.com/cse/search" method="get" target="_blank" class="bdcs-search-form" autocomplete="off" id="bdcs-search-form">              <input name="s" value="6547409854000425422" type="hidden">              <input name="entry" value="1" type="hidden">                                                                        <input name="q" class="bdcs-search-form-input" id="bdcs-search-form-input" placeholder="Linux公社" style="height: 25px; line-height: 25px;" type="text">              <input class="bdcs-search-form-submit " id="bdcs-search-form-submit" value="Linux公社搜索" type="submit">                       </form>      </div>                  </div>                           </div></div></div>
+<div class="linux902"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux902.js"></script><a href="http://www.linuxprobe.com/chapter-00.html" target="_blank"><img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/lws.jpg" alt="" width="300" height="300"></a>
+</div>
+<div class="linux903"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux903.js"></script><img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/wx.png" alt="" width="300" height="225">
+</div>
+<div class="linux905"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux905.htm"></script></div>
+	
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">最新资讯</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<ul class="nl">
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146285.htm" target="_blank">Too many open files 问题解决方法</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146284.htm" target="_blank">CentOS系统 上下文切换的检查思路</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146283.htm" target="_blank" title="使用Spring Cloud Function框架进行面向函数的编程">使用Spring Cloud Function框架进行面向函</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146282.htm" target="_blank">.NET Core 2.0最终版本发布了</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146281.htm" target="_blank">Linux awk命令解析</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146280.htm" target="_blank" title="Apache Sling Servlets Post跨站脚本漏洞（CVE-2017-9802）">Apache Sling Servlets Post跨站脚本漏洞（</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146279.htm" target="_blank" title="Fortinet FortiManager SQL注入漏洞（CVE-2015-3616）">Fortinet FortiManager SQL注入漏洞（CVE-</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146278.htm" target="_blank">Latte Dock 0.7发布与Wayland技术预览</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146277.htm" target="_blank">YouTube 正测试手机版直播观众人数显示功能</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2017-08/146276.htm" target="_blank" title="看来 Google 日历桌面版终于准备要改头换面啦！">看来 Google 日历桌面版终于准备要改头换面</a></li>
+</ul>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	<div class="u70"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/u70.htm"></script></div>
+	<div class="u80"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/u80.htm"></script></div>
+	<div class="u90"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/u90.htm"></script></div>
+	<div class="space"></div>
+	<div id="pin" style="position: static; top: 0px;">
+	<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/pin.js"></script><script async="" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/adsbygoogle.js"></script>
+<!-- 右侧粘性自适应 -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5195587195407606" data-ad-slot="7669622914" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+	</div>
+</td></tr>
+</tbody></table>
+<div class="linux906"><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linux906.htm"></script></div>
+<div id="footer">
+<a href="http://www.linuxidc.com/aboutus.htm">Linux公社简介</a> - <a href="http://www.linuxidc.com/adsense.htm">广告服务</a> - <a href="http://www.linuxidc.com/sitemap.aspx">网站地图</a> - <a href="http://www.linuxidc.com/help.htm">帮助信息</a> - <a href="http://www.linuxidc.com/contactus.htm">联系我们</a><br>本站（LinuxIDC）所刊载文章不代表同意其说法或描述，仅为提供更多信息，也不构成任何建议。<br><script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/qq.js"></script>主编：漏网的鱼 联系邮箱:<img src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/email.png" alt="" width="138" height="20"> (如有合作请联系)
+<br>
+<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/foot.js"></script>本站带宽由[<font color="red">808.Ai</font>]友情提供<br>关注Linux，关注LinuxIDC.com，<font color="red">请向您的QQ好友宣传LinuxIDC.com</font>，多谢支持！
+<br>Copyright © 2006-2016　<a href="http://www.linuxidc.com/">Linux公社</a>　All rights reserved 沪ICP备15008072号-1号
+	<script type="text/javascript">iwms.aId=126516;$(function(){iwms.imgCont=$i('content');iwms.imgResize();InitContStyle();iwms.getVars();})</script>
+	
+</div>
+</div>
+<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linuxren1.js"></script><script type="text/javascript">
+document.body.oncopy = function () { setTimeout( function () { var text = clipboardData.getData("text"); if (text) { text = text + "\r\n本篇文章来源于 Linux公社网站(www.linuxidc.com)  原文链接："+location.href; clipboardData.setData("text", text); } }, 100 ) }
+</script>
+
+<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linuxren2.js"></script>
+<script type="text/javascript" src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/linuxren3.js"></script><script src="Linux%E6%8A%A5too%20many%20open%20files%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/h.txt" type="text/javascript"></script>
+
+</body></html>
