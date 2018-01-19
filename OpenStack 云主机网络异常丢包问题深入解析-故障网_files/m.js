@@ -1,0 +1,1 @@
+(function(){var isMobile=/Android|webOS|iPhone|Windows Phone|iPod|BlackBerry|SymbianOS/i.test(navigator.userAgent);if(isMobile&&window.location.hash!='#fromapp'){var e=window.location.href;var a=window.location.host;f=e.replace("http://"+a,"");window.location.href='http://m.ai-dy.com'+f}})();

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html class="ie lt-ie8"><![endif]-->
+<!--[if IE 7]><html class="ie lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="ie ie8"><![endif]-->
+<!--[if IE 9]><html class="ie ie9"><![endif]-->
+<!--[if !IE]><!-->
+<html><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=https://www.jianshu.com/p/d087d3a566f4">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="qcow2 镜像格式是 QEMU 模拟器支持的一种磁盘镜像。它也是可以用一个文件的形式来表示一块固定大小的块设备磁盘。与普通的 raw 格式的镜像相比，有以下特性： 更小的空间占用，即使文件系统不支持空洞(holes)； 支持写时拷贝（COW, copy-on-write），镜像文件只反映底层磁盘的变化； 支持快照（snapshot），镜像文件能够包含多个快照的历史； 可选择基于 zlib ...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=https://www.jianshu.com/p/d087d3a566f4">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/4972953">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="qcow2 文件格式详解（I）" property="twitter:title">
+  <meta content="qcow2 镜像格式是 QEMU 模拟器支持的一种磁盘镜像。它也是可以用一个文件的形式来表示一块固定大小的块设备磁盘。与普通的 raw 格式的镜像相比，有以下特性： 更小的空间占用，即使文件系统不支持空洞(holes)； 支持写时拷贝（COW, copy-on-write），镜像文件只反映底层磁盘的变化； 支持快照（snapshot），镜像文件能够包含多个快照的历史； 可选择基于 zlib 的压缩方式 可以选择 AES 加密 目前网上可以百度到一些对qcow2文件的中文解析，但大多语焉不详，索性自己看qemu官方的文档，顺便在这里记下自己的理解。虚拟化新手，理解可能有误，见谅。 下文是对..." property="twitter:description">
+  <meta content="https://www.jianshu.com/p/d087d3a566f4" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="qcow2 文件格式详解（I）">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.jianshu.com/p/d087d3a566f4">
+  <meta property="og:description" content="qcow2 镜像格式是 QEMU 模拟器支持的一种磁盘镜像。它也是可以用一个文件的形式来表示一块固定大小的块设备磁盘。与普通的 raw 格式的镜像相比，有以下特性： 更小的空间占用，即使文件系统...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/4972953">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/4972953">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>qcow2 文件格式详解（I） - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="KjtS0N8PxO+zIdvQu2/DtVns8CAQFajY3e8qJMAwj/drpVQq7wmYRk5ad9tQDpvvGvstk+Iid60e8w5+pYm2TA==">
+
+  <link rel="stylesheet" media="all" href="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/web-b902b38f60020358f549.css">
+  
+  <link rel="stylesheet" media="all" href="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/entry-cce16e51495a87f95c7a.css">
+
+  <link href="https://cdn2.jianshu.io/assets/favicons/favicon-03411b154a430b85d807b4366489c21122fb983a38f3d7ca926f882e6367b13e.ico" rel="icon">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/57-a6f1f1ee62ace44f6dc2f6a08575abd3c3b163288881c78dd8d75247682a4b27.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/72-fb9834bcfce738fd7b9c5e31363e79443e09a81a8e931170b58bc815387c1562.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/76-49d88e539ff2489475d603994988d871219141ecaa0b1a7a9a1914f4fe3182d6.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/114-24252fe693524ed3a9d0905e49bff3cbd0228f25a320aa09053c2ebb4955de97.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/120-1bb7371f5e87f93ce780a5f1a05ff1b176828ee0d1d130e768575918a2e05834.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/152-bf209460fc1c17bfd3e2b84c8e758bc11ca3e570fd411c3bbd84149b97453b99.png" sizes="152x152">
+
+  <!-- Start of 访问统计 -->
+    <script src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/push.js"></script><script src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/hm.txt"></script><script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <!-- End of 访问统计 -->
+<style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.main {
+  position: relative;
+  margin: 0 auto;
+  padding: 0 0 30px 0;
+  width: 620px;
+}
+.main .title {
+    padding-left: 8px;
+    border-left: 3px solid #EA6F5A;
+    line-height: 1;
+    font-size: 15px;
+}
+.main .collection-settings {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    font-size: 13px;
+    color: #A0A0A0;
+}
+.main .collection-settings span {
+      padding-left: 4px;
+}
+.main .include-collection {
+    width: 100%;
+    padding-top: 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+}
+.main .include-collection .item {
+      display: inline-block;
+      margin: 0 12px 12px 0;
+      min-height: 32px;
+      background-color: white;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+      vertical-align: top;
+      overflow: hidden;
+}
+.main .include-collection .item img {
+        width: 32px;
+        height: 32px;
+}
+.main .include-collection .item .name {
+        display: inline-block;
+        padding: 0 10px;
+        font-size: 14px;
+}
+.main .include-collection .add-collection-wrap {
+      margin: 0 12px 12px 0;
+}
+.main .include-collection .add-collection {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+}
+.main .include-collection .add-collection i {
+        margin-right: 4px;
+        color: #969696;
+}
+.main .recommend-note a {
+    position: relative;
+    margin: 20px 2px 0 0;
+    width: 200px;
+    height: 160px;
+    display: inline-block;
+}
+.main .recommend-note a:after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 160px;
+      border-radius: 0 0 4px 4px;
+      -webkit-box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+              box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+      top: 0;
+      left: 0;
+      z-index: 1;
+}
+.main .recommend-note .name {
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    right: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 2;
+}
+.main .recommend-note .author {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+}
+.main .recommend-note .avatar {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.main .recommend-note .avatar img {
+      border-radius: 50%;
+}
+.main .recommend-note .author-name {
+    font-size: 12px;
+    color: #ffffff;
+    display: inline-block;
+    vertical-align: -1px;
+}
+.main .show-more {
+    margin: 0 12px 12px 0;
+    font-size: 14px;
+    color: #A0A0A0;
+}
+</style></head>
+
+  <body class="reader-black-font" lang="zh-CN">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="https://www.jianshu.com/"><img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/nav-logo-4c7bbafe27adc892f3046e6978459bac.png" alt="Nav logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="https://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" href="https://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" href="https://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="tab ">
+              <a href="https://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="tab ">
+              <a id="web-nav-app-download-btn" class="app-download-btn" href="https://www.jianshu.com/apps?utm_medium=desktop&amp;utm_source=navbar-apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden">
+              <input name="q" id="q" autocomplete="off" placeholder="搜索" class="search-input" type="text">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <a target="_blank" href="https://www.jianshu.com/apps/download?utm_source=sbc" id="web-note-ad-fixed" style="left: 1331.5px; display: inline;"><span class="close">×</span></a>
+  <div class="post">
+    <div class="article">
+        <h1 class="title">qcow2 文件格式详解（I）</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="https://www.jianshu.com/u/b5c5790f371b">
+            <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/9a31333915f3.jpg" alt="96">
+</a>          <div class="info">
+            <span class="name"><a href="https://www.jianshu.com/u/b5c5790f371b">卡塞尔</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="最后编辑于 2017.12.03 14:49">2016.07.26 19:15*</span>
+              <span class="wordage">字数 3156</span>
+            <span class="views-count">阅读 4210</span><span class="comments-count">评论 0</span><span class="likes-count">喜欢 3</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 416px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 52.0%;"></div>
+<div class="image-view" data-width="800" data-height="416"><img data-original-src="//upload-images.jianshu.io/upload_images/2526764-382b933fb0762ba2.png" data-original-width="800" data-original-height="416" data-original-format="image/png" data-original-filesize="227675" style="cursor: zoom-in;" class="" src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/2526764-382b933fb0762ba2.png"></div>
+</div>
+<div class="image-caption">castle/文</div>
+</div>
+<p>qcow2 镜像格式是 QEMU 模拟器支持的一种磁盘镜像。它也是可以用一个文件的形式来表示一块固定大小的块设备磁盘。与普通的 raw 格式的镜像相比，有以下特性：</p>
+<ul>
+<li>更小的空间占用，即使文件系统不支持空洞(holes)；</li>
+<li>支持写时拷贝（COW, copy-on-write），镜像文件只反映底层磁盘的变化；</li>
+<li>支持快照（snapshot），镜像文件能够包含多个快照的历史；</li>
+<li>可选择基于 zlib 的压缩方式</li>
+<li>可以选择 AES 加密</li>
+</ul>
+<p>目前网上可以百度到一些对qcow2文件的中文解析，但大多语焉不详，索性自己看qemu官方的文档，顺便在这里记下自己的理解。<br>
+虚拟化新手，理解可能有误，见谅。</p>
+<p>下文是对qcow2官方文档的翻译。以及自己的一些理解。</p>
+<p><a href="https://link.jianshu.com/?t=http://git.qemu.org/?p=qemu.git;a=blob;f=docs/specs/qcow2.txt" target="_blank" rel="nofollow">原文地址</a></p>
+<h2>概述</h2>
+<blockquote>
+<p>A qcow2 image file is organized in units of constant size, which are called<br>
+(host) clusters.</p>
+</blockquote>
+<p>qcow2 镜像文件是由多个固定大小的单元组织构成，这些单元被称为 （host）clusters 。</p>
+<blockquote>
+<p>A cluster is the unit in which all allocations are done,<br>
+both for actual guest data and for image metadata.</p>
+</blockquote>
+<p>无论是实际用户数据（guest data）还是镜像的元数据（metadata），都在一个 cluster 单元中进行存储。</p>
+<blockquote>
+<p>Likewise, the virtual disk as seen by the guest is divided into (guest)<br>
+clusters of the same size.</p>
+</blockquote>
+<p>同样的，用户所见到的虚拟磁盘也是被分割为多个同样大小的 cluesters 。</p>
+<blockquote>
+<p>All numbers in qcow2 are stored in Big Endian byte order.</p>
+</blockquote>
+<p>qcow2里所有的数都是Big Endian的。</p>
+<h2>文件头</h2>
+<blockquote>
+<p>The first cluster of a qcow2 image contains the file header:</p>
+</blockquote>
+<p>qcow2 镜像的第一个 cluster 内容包含了文件头信息，文件头在源代码里的定义如下：</p>
+<pre class="hljs cpp"><code class="cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">QCowHeader</span> {</span>
+    <span class="hljs-keyword">uint32_t</span> magic;
+    <span class="hljs-keyword">uint32_t</span> version;
+    <span class="hljs-keyword">uint64_t</span> backing_file_offset;
+    <span class="hljs-keyword">uint32_t</span> backing_file_size;
+    <span class="hljs-keyword">uint32_t</span> cluster_bits;
+    <span class="hljs-keyword">uint64_t</span> size; <span class="hljs-comment">/* in bytes */</span>
+    <span class="hljs-keyword">uint32_t</span> crypt_method;
+    <span class="hljs-keyword">uint32_t</span> l1_size; <span class="hljs-comment">/* <span class="hljs-doctag">XXX:</span> save number of clusters instead ? */</span>
+    <span class="hljs-keyword">uint64_t</span> l1_table_offset;
+    <span class="hljs-keyword">uint64_t</span> refcount_table_offset;
+    <span class="hljs-keyword">uint32_t</span> refcount_table_clusters;
+    <span class="hljs-keyword">uint32_t</span> nb_snapshots;
+    <span class="hljs-keyword">uint64_t</span> snapshots_offset;
+
+    <span class="hljs-comment">/* The following fields are only valid for version &gt;= 3 */</span>
+    <span class="hljs-keyword">uint64_t</span> incompatible_features;
+    <span class="hljs-keyword">uint64_t</span> compatible_features;
+    <span class="hljs-keyword">uint64_t</span> autoclear_features;
+
+    <span class="hljs-keyword">uint32_t</span> refcount_order;
+    <span class="hljs-keyword">uint32_t</span> header_length;
+} QEMU_PACKED QCowHeader;
+</code></pre>
+<p>文件头结构体里的具体含义如下：</p>
+<h3>字节 0 -  3 ：magic</h3>
+<blockquote>
+<p>QCOW magic string ("QFI\xfb")</p>
+</blockquote>
+<p>4个字节固定的标识符</p>
+<h3>4 -  7 version</h3>
+<blockquote>
+<p>Version number (valid values are 2 and 3)</p>
+</blockquote>
+<p>版本号，2或者3</p>
+<h3>8 - 15 backing_file_offset</h3>
+<blockquote>
+<p>Offset into the image file at which the backing file name is stored 
+(NB: The string is not null terminated). 0 if the image doesn't have a 
+backing file.</p>
+</blockquote>
+<p>backing_file 文件路径字符串相对于文件起始位置的偏移地址，这个字符串不是以0结束的。该值为0时，表示该镜像没有 backing file</p>
+<p>什么是backing file就不解释了，知道qcow2的人自然知道。</p>
+<h3>16 - 19 backing_file_size</h3>
+<blockquote>
+<p>Length of the backing file name in bytes. Must not be longer than 
+1023 bytes. Undefined if the image doesn't have a backing file.</p>
+</blockquote>
+<p>backing file 文件路径字符串长度，单位是字节数。必须小于1023字节。镜像没有backing file时，该值无意义</p>
+<h3>20 - 23  cluster_bits</h3>
+<blockquote>
+<p>Number of bits that are used for addressing an offset within a 
+cluster (1 &lt;&lt; cluster_bits is the cluster size). Must not be less 
+than 9 (i.e. 512 byte clusters). Note: qemu as of today has an 
+implementation limit of 2 MB  as the maximum cluster size and won't be 
+able to open images with larger cluster sizes.</p>
+</blockquote>
+<p>cluster 位数，代表了 cluster 大小（1 &lt;&lt; cluster_bits 就是 cluster 
+的大小）。不能小于9，也就是每个 cluster 大小不能小于 512个字节。  Note：新版本的qemu启用了最大 2MB 的 
+cluster 大小。</p>
+<h3>24 - 31 size</h3>
+<blockquote>
+<p>Virtual disk size in bytes</p>
+</blockquote>
+<p>虚拟磁盘的大小，单位字节。应该就是镜像文件总的大小。</p>
+<h3>32 - 35 crypt_method</h3>
+<blockquote>
+<p>0 for no encryption 1 for AES encryption</p>
+</blockquote>
+<p>0 - 未加密；1 - AES加密</p>
+<h3>36 - 39 l1_size</h3>
+<blockquote>
+<p>Number of entries in the active L1 table</p>
+</blockquote>
+<p>L1 table的入口个数。<br>
+<strong>L1 table 是什么鬼？目前不理解，以后再说</strong></p>
+<h3>40 - 47 l1_table_offset</h3>
+<blockquote>
+<p>Offset into the image file at which the active L1 table starts. Must be aligned to a cluster boundary.</p>
+</blockquote>
+<p>L1 table 相对于镜像文件起始位置的偏移。 必须与 cluster 对齐</p>
+<h3>48 - 55 refcount_table_offset</h3>
+<blockquote>
+<p>Offset into the image file at which the refcount table starts. Must be aligned to a cluster boundary.</p>
+</blockquote>
+<p>refcount table 相对于镜像文件起始位置的偏移。必须与 cluster 对齐<br>
+<strong>refcount table 在后文有解释？</strong></p>
+<h3>56 - 59 refcount_table_clusters</h3>
+<blockquote>
+<p>Number of clusters that the refcount table occupies</p>
+</blockquote>
+<p>refcount table 占用了多少个 cluster</p>
+<h3>60 - 63 nb_snapshots</h3>
+<blockquote>
+<p>Number of snapshots contained in the image</p>
+</blockquote>
+<p>镜像文件中包含了多少个快照。</p>
+<h3>64 - 71 snapshots_offset</h3>
+<blockquote>
+<p>Offset into the image file at which the snapshot table starts. Must be aligned to a cluster boundary.</p>
+</blockquote>
+<p>快照 table 相对于镜像文件起始位置的偏移。必须与 cluster 对齐</p>
+<blockquote>
+<p>If the version is 3 or higher, the header has the following additional fields.<br>
+For version 2, the values are assumed to be zero, unless specified otherwise<br>
+in the description of a field.</p>
+</blockquote>
+<p>如果版本是3或更高（目前最高就是3），文件头还会包含以下的信息。在版本2中，这些值都是0，除非特别说明.</p>
+<h3>72 -  79 incompatible_features</h3>
+<blockquote>
+<p>Bitmask of incompatible features.<br>
+An implementation must fail to open an image if an unknown bit is set.</p>
+</blockquote>
+<p>未实现的特征的位掩码<br>
+在解析文件的时候，如果发现某个未知的位被设置为1，就是需要报错的时候了。</p>
+<blockquote>
+<p>Bit 0:</p>
+<blockquote>
+<p>Dirty bit.  If this bit is set then refcounts may be inconsistent, 
+make sure to scan L1/L2 tables to repair refcounts before accessing the 
+image.</p>
+</blockquote>
+</blockquote>
+<p>脏位。如果该位为1，refcounts可能和实际情况是不一致的，在解析的时候需要扫描一遍 L1/L2 table 来修复 refcounts。</p>
+<blockquote>
+<p>Bit 1:</p>
+<blockquote>
+<p>Corrupt bit.  If this bit is set then any data structure may be 
+corrupt and the image must not be written to (unless for regaining 
+consistency).</p>
+</blockquote>
+</blockquote>
+<p>损坏位。如果该位为1，任何数据结构可能损坏，且镜像不应该被写。<br>
+好吧，如果读到这一位为1，我不想管了……</p>
+<blockquote>
+<p>Bits 2-63:</p>
+<blockquote>
+<p>Reserved (set to 0)</p>
+</blockquote>
+</blockquote>
+<p>保留，应该为0。</p>
+<h3>80 -  87:  compatible_features</h3>
+<blockquote>
+<p>Bitmask of compatible features. An implementation can safely ignore any unknown bits that are set.</p>
+</blockquote>
+<p>兼容特征的位掩码。解析的时候完全可以忽略这些位。</p>
+<blockquote>
+<p>Bit 0:</p>
+<blockquote>
+<p>Lazy refcounts bit.<br>
+If this bit is set then lazy refcount updates can be used.  This means 
+marking the image file dirty and postponing refcount metadata updates.</p>
+</blockquote>
+</blockquote>
+<p>该位为1，则 lazy refcount 更新可以被使用。 意味着 dirty bit 为1，并且推迟refcount 元数据的更新。</p>
+<blockquote>
+<p>Bits 1-63:  Reserved (set to 0)</p>
+</blockquote>
+<h3>88 -  95:  autoclear_features</h3>
+<blockquote>
+<p>Bitmask of auto-clear features. An implementation may only write to 
+an image with unknown auto-clear features if it clears the respective 
+bits from this field first.</p>
+</blockquote>
+<p>我的理解是…… 对于这些autoclear feature，在处理镜像时，如果某一位含义未知，则应该先将其设置为0，再进行写镜像操作。</p>
+<blockquote>
+<p>Bit 0:</p>
+<blockquote>
+<p>Bitmaps extension bit<br>
+This bit indicates consistency for the bitmaps extension data. It is an 
+error if this bit is set without the bitmaps extension present. If the 
+bitmaps extension is present but this bit is unset, the bitmaps 
+extension data must be considered inconsistent.</p>
+</blockquote>
+</blockquote>
+<p>这一位表示 bitmap extension 数据一致性。 如果这一位为1，但不存在 bitmaps 
+extension，则应该报错；如果存在 bitmap extension 但这一位为0，则应认为 bitmap extension data 
+不一致（存在问题？）。</p>
+<blockquote>
+<p>Bits 1-63:  Reserved (set to 0)</p>
+</blockquote>
+<h3>96 -  99:  refcount_order</h3>
+<blockquote>
+<p>Describes the width of a reference count block entry (width in bits: 
+refcount_bits = 1 &lt;&lt; refcount_order). For version 2 images, the 
+order is always assumed to be 4 (i.e. refcount_bits = 16). This value 
+may not exceed 6 (i.e. refcount_bits = 64).</p>
+</blockquote>
+<p>refcount block 入口的宽度。<br>
+<strong>抱歉写到这里的时候，我还不明白refcount是什么含义，无法做出更多解释，不过反正版本2的时候是个固定值16，应该影响不大</strong><br>
+<strong>后文有详细解释</strong></p>
+<pre class="hljs undefined"><code>refcount_bits = 1 &lt;&lt; refcount_order
+</code></pre>
+<p>版本2时，固定为4，也就是说 refcount_bits = 16.<br>
+该值不超过6，也就是 refcount_bits 不超过 64</p>
+<h3>100 - 103:  header_length</h3>
+<blockquote>
+<p>Length of the header structure in bytes. For version 2 images, the length is always assumed to be 72 bytes.</p>
+</blockquote>
+<p>文件头结构体的长度，版本2时，长度固定为72字节。</p>
+<h3>header extensions</h3>
+<blockquote>
+<p>Directly after the image header, optional sections called header extensions can<br>
+be stored. Each extension has a structure like the following:</p>
+</blockquote>
+<p>紧接着镜像的文件头，存储的是<strong>可选的</strong>多个 header extensions。<br>
+源代码里header extension的结构体定义如下：</p>
+<pre class="hljs cpp"><code class="cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Qcow2UnknownHeaderExtension</span> {</span>
+    <span class="hljs-keyword">uint32_t</span> magic;
+    <span class="hljs-keyword">uint32_t</span> len;
+    QLIST_ENTRY(Qcow2UnknownHeaderExtension) next;
+    <span class="hljs-keyword">uint8_t</span> data[];
+} Qcow2UnknownHeaderExtension;
+</code></pre>
+<p>每一个结构如下：</p>
+<blockquote>
+<p>Byte  0 -  3:   Header extension type:</p>
+<blockquote>
+<p>0x00000000 - End of the header extension area<br>
+0xE2792ACA - Backing file format name<br>
+0x6803f857 - Feature name table<br>
+0x23852875 - Bitmaps extension<br>
+other      - Unknown header extension, can be safely ignored</p>
+</blockquote>
+</blockquote>
+<p>几个固定的，extension的类型，没啥可说的。</p>
+<blockquote>
+<p>4 -  7:   Length of the header extension data</p>
+</blockquote>
+<p>数据长度</p>
+<blockquote>
+<p>8 -  n:   Header extension data</p>
+</blockquote>
+<p>数据内容</p>
+<blockquote>
+<p>n -  m:   Padding to round up the header extension size to the next multiple of 8.</p>
+</blockquote>
+<p>填充到8字节对齐</p>
+<blockquote>
+<p>Unless stated otherwise, each header extension type shall appear at most once<br>
+in the same image.<br>
+If the image has a backing file then the backing file name should be stored in<br>
+the remaining space between the end of the header extension area and the end of<br>
+the first cluster. It is not allowed to store other data here, so that an<br>
+implementation can safely modify the header and add extensions without harming<br>
+data of compatible features that it doesn't support. Compatible features that<br>
+need space for additional data can use a header extension.</p>
+</blockquote>
+<p>除非特别说明，每个extension类型在一个镜像里应该只会出现一次。</p>
+<p>下面是 Feature name table 和 Bitmaps extension 两种 extension 类型结构的说明。</p>
+<h4>Feature name table</h4>
+<p>The feature name table is an optional header extension that contains the name<br>
+for features used by the image. It can be used by applications that don't know<br>
+the respective feature (e.g. because the feature was introduced only later) to<br>
+display a useful error message.</p>
+<p>The number of entries in the feature name table is determined by the length of<br>
+the header extension data. Each entry look like this:</p>
+<pre class="hljs javascript"><code class="javascript">Byte       <span class="hljs-number">0</span>:   Type <span class="hljs-keyword">of</span> feature (select feature bitmap)
+                    <span class="hljs-number">0</span>: Incompatible feature
+                    <span class="hljs-number">1</span>: Compatible feature
+                    <span class="hljs-number">2</span>: Autoclear feature
+
+           <span class="hljs-number">1</span>:   Bit number within the selected feature bitmap (valid
+                values: <span class="hljs-number">0</span><span class="hljs-number">-63</span>)
+
+      <span class="hljs-number">2</span> - <span class="hljs-number">47</span>:   Feature name (padded <span class="hljs-keyword">with</span> zeros, but not necessarily <span class="hljs-literal">null</span>
+                terminated <span class="hljs-keyword">if</span> it has full length)
+</code></pre>
+<h4>Bitmaps extension</h4>
+<p>The bitmaps extension is an optional header extension. It provides the ability<br>
+to store bitmaps related to a virtual disk. For now, there is only one bitmap<br>
+type: the dirty tracking bitmap, which tracks virtual disk changes from some<br>
+point in time.</p>
+<p>The data of the extension should be considered consistent only if the<br>
+corresponding auto-clear feature bit is set, see autoclear_features above.</p>
+<p>The fields of the bitmaps extension are:</p>
+<pre class="hljs javascript"><code class="javascript">Byte  <span class="hljs-number">0</span> -  <span class="hljs-number">3</span>:  nb_bitmaps
+               The number <span class="hljs-keyword">of</span> bitmaps contained <span class="hljs-keyword">in</span> the image. Must be
+               greater than or equal to <span class="hljs-number">1.</span>
+
+               Note: Qemu currently only supports up to <span class="hljs-number">65535</span> bitmaps per
+               image.
+
+      <span class="hljs-number">4</span> -  <span class="hljs-number">7</span>:  Reserved, must be zero.
+
+      <span class="hljs-number">8</span> - <span class="hljs-number">15</span>:  bitmap_directory_size
+               Size <span class="hljs-keyword">of</span> the bitmap directory <span class="hljs-keyword">in</span> bytes. It is the cumulative
+               size <span class="hljs-keyword">of</span> all (nb_bitmaps) bitmap headers.
+
+     <span class="hljs-number">16</span> - <span class="hljs-number">23</span>:  bitmap_directory_offset
+               Offset into the image file at which the bitmap directory
+               starts. Must be aligned to a cluster boundary.
+</code></pre>
+<h2>Host cluster management</h2>
+<p>看到这里，发现似乎有 host cluster 和 guest cluster 的区别，权且这么认为，先继续看吧。</p>
+<blockquote>
+<p>qcow2 manages the allocation of host clusters by maintaining a reference count<br>
+for each host cluster. A refcount of 0 means that the cluster is free, 1 means<br>
+that it is used, and &gt;= 2 means that it is used and any write access must<br>
+perform a COW (copy on write) operation.</p>
+</blockquote>
+<p>这里解释了前面一直提到的refcount。对于每一个host 
+cluster，qcow2维护了一个refcount表，应该是引用计数的概念，当refcount为0时，表示该cluster是未分配的，1表示是
+在使用的，&gt;=2时表示在被使用，并且所有的写操作都要进行COW(copy on write)操作。</p>
+<blockquote>
+<p>The refcounts are managed in a two-level table. The first level is called<br>
+refcount table and has a variable size (which is stored in the header). The<br>
+refcount table can cover multiple clusters, however it needs to be contiguous<br>
+in the image file.</p>
+</blockquote>
+<p>采用了<strong>两层表</strong>来维护管理 refcounts，第一层叫 refcount 
+table，是可变大小的（refcount table 的 size 存储在header里），refcount table 的每一项覆盖多个 
+cluster，当然，在镜像文件中refcount table是连续存储的。</p>
+<blockquote>
+<p>It contains pointers to the second level structures which are called refcount<br>
+blocks and are exactly one cluster in size.</p>
+</blockquote>
+<p>refcount table 包含了多个指针，指向了<strong>第二层</strong>结构体，第二层结构被称为 refcount block，一个refcount block在大小上就是一个cluster。（意思就是，block也是存在一个个cluster里的）</p>
+<blockquote>
+<p>Given a offset into the image file, the refcount of its cluster can be obtained<br>
+as follows:</p>
+</blockquote>
+<p>以下是根据镜像偏移量 offset，获得某个cluster对应引用计数的方法：</p>
+<pre class="hljs bash"><code class="bash">    refcount_block_entries = (cluster_size * 8 / refcount_bits)
+
+    refcount_block_index = (offset / cluster_size) % refcount_block_entries
+    refcount_table_index = (offset / cluster_size) / refcount_block_entries
+
+    refcount_block = load_cluster(refcount_table[refcount_table_index]);
+    <span class="hljs-built_in">return</span> refcount_block[refcount_block_index];
+</code></pre>
+<p><strong>注：各种变量前文有述，这里回顾一下</strong></p>
+<pre class="hljs cpp"><code class="cpp">cluster_size = <span class="hljs-number">1</span> &lt;&lt; cluster_bits  <span class="hljs-comment">//最小 512 bytes</span>
+refcount_bits = <span class="hljs-number">16</span> <span class="hljs-comment">//in version 2</span>
+</code></pre>
+<p>怎么理解呢？<br>
+以版本2为例</p>
+<ol>
+<li>cluster_size是一个cluster的字节数，对于一个qcow2文件来说，每个cluster都是固定大小的，比如512字节。</li>
+<li>refcount_bits固定是16，因为refcount block也要按照cluster的大小来存储，所以每个cluster能够存储的block个数： refcount_block_entries = cluster_size / 2 = 256 。<br>
+refcount_table 的一个单元对应 256 个 refcount_block，存在一个cluster里。<br>
+每个block里有2个字节（16位），记录了某个cluster的引用计数。</li>
+</ol>
+<p>所以计算某个 offset 所在的 cluster 引用计数的办法，先 offset / cluster_size 
+得到这个offset对应的是第几个cluster，然后在refcount 
+table里找，存在table的第几个单元里，最后在这个单元里找是第几个block存着引用计数。</p>
+<p><strong>因为一开始没有区分原文里offset所在的cluster和存储block的cluster，理解这个refcount table 颇费了一番功夫，年纪大了脑子真的不好使了？</strong></p>
+<p>下面是 refcount table 和 refcount block 的结构体定义，理解了上面这段的话，这里挺简单的了。</p>
+<blockquote>
+<p>Refcount table entry:</p>
+</blockquote>
+<pre class="hljs cpp"><code class="cpp">    Bit  <span class="hljs-number">0</span> -  <span class="hljs-number">8</span>:    Reserved (<span class="hljs-built_in">set</span> to <span class="hljs-number">0</span>)
+
+         <span class="hljs-number">9</span> - <span class="hljs-number">63</span>:    Bits <span class="hljs-number">9</span><span class="hljs-number">-63</span> of the offset into the image file at which the
+                    refcount block starts. Must be aligned to a cluster
+                    boundary.
+
+                    If <span class="hljs-keyword">this</span> is <span class="hljs-number">0</span>, the corresponding refcount block has <span class="hljs-keyword">not</span> yet
+                    been allocated. All refcounts managed by <span class="hljs-keyword">this</span> refcount block
+                    are <span class="hljs-number">0.</span>
+</code></pre>
+<blockquote>
+<p>Refcount block entry (x = refcount_bits - 1):</p>
+</blockquote>
+<pre class="hljs javascript"><code class="javascript">    Bit  <span class="hljs-number">0</span> -  x:    Reference count <span class="hljs-keyword">of</span> the cluster. If refcount_bits implies a
+                    sub-byte width, note that bit <span class="hljs-number">0</span> means the least significant
+                    bit <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span> context.
+</code></pre>
+<p>先写到这里吧，后面还有很重要的 cluster mapping的解读和快照的解读，明天有精力再写。</p>
+
+        </div>
+    </div>
+
+      <div class="support-author"></div>
+
+      <div class="show-foot">
+        <a class="notebook" href="https://www.jianshu.com/nb/5220556">
+          <i class="iconfont ic-search-notebook"></i>
+          <span>随笔</span>
+</a>        <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+          © 著作权归作者所有
+        </div>
+        <div class="modal-wrap" data-report-note="">
+          <a id="report-modal">举报文章</a>
+        </div>
+      </div>
+
+    <!-- 文章底部作者信息 -->
+      <div class="follow-detail">
+        <div class="info">
+          <a class="avatar" href="https://www.jianshu.com/u/b5c5790f371b">
+            <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/9a31333915f3.jpg" alt="96">
+</a>          <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+          <a class="title" href="https://www.jianshu.com/u/b5c5790f371b">卡塞尔</a>
+          
+        <p>写了 4069 字，被 4 人关注，获得了 7 个喜欢</p></div>
+          <div class="signature">一直想学着码字的IT男</div>
+      </div>
+
+    <div class="meta-bottom">
+      <div class="like"><div class="btn like-group"><div class="btn-like"><a href="https://www.jianshu.com/sign_in?utm_source=desktop&amp;utm_medium=not-signed-in-like-button"><i class="iconfont ic-like"></i>喜欢</a></div> <div class="modal-wrap"><a>3</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=1881139527',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;source=',e(r),'&amp;sourceUrl=',e(l),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','',%20'%E6%8E%A8%E8%8D%90%20@%E9%99%88castle%20%E7%9A%84%E6%96%87%E7%AB%A0%E3%80%8Aqcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%E3%80%8B%EF%BC%88%20%E5%88%86%E4%BA%AB%E8%87%AA%20@%E7%AE%80%E4%B9%A6%20%EF%BC%89','https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo','%E9%A1%B5%E9%9D%A2%E7%BC%96%E7%A0%81gb2312|utf-8%E9%BB%98%E8%AE%A4gb2312'));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+          <a class="share-circle" data-toggle="tooltip" href="http://cwb.assets.jianshu.io/notes/images/4972953/weibo/image_5c12ab7a8633.jpg" target="_blank" data-original-title="下载长微博图片">
+            <i class="iconfont ic-picture"></i>
+          </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+e('https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone')+'&amp;title='+e('推荐 卡塞尔 的文章《qcow2 文件格式详解（I）》'),x=function(){if(!window.open(r,'qzone','toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://twitter.com/share?url='+e('https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter')+'&amp;text='+e('推荐 卡塞尔 的文章《qcow2 文件格式详解（I）》（ 分享自 @jianshucom ）')+'&amp;related='+e('jianshucom'),x=function(){if(!window.open(r,'twitter','toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook',x=function(){if(!window.open(r,'facebook','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://plus.google.com/share?url='+e('https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus'),x=function(){if(!window.open(r,'google_plus','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e('https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban')+'&amp;title='+e('qcow2 文件格式详解（I）')+'&amp;sel='+e(s)+'&amp;v=1',x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r+'&amp;r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+      <a id="web-note-ad-1" target="_blank" href="https://www.jianshu.com/apps/download?utm_source=nbc"><img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/web-note-ad-1-10f08e404d3887d2d45a4bc8f1831403.png" alt="Web note ad 1"></a>
+    <div id="vue_comment"></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style=""><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class='share-list'&gt;
+                &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=1881139527',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;source=',e(r),'&amp;sourceUrl=',e(l),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','', '推荐 @陈castle 的文章《qcow2 文件格式详解（I）》（ 分享自 @简书 ）','https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo','页面编码gb2312|utf-8默认gb2312'));&quot;&gt;&lt;i class='social-icon-sprite social-icon-weibo'&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+e('https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone')+'&amp;title='+e('推荐 卡塞尔 的文章《qcow2 文件格式详解（I）》'),x=function(){if(!window.open(r,'qzone','toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class='social-icon-sprite social-icon-zone'&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://twitter.com/share?url='+e('https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter')+'&amp;text='+e('推荐 卡塞尔 的文章《qcow2 文件格式详解（I）》（ 分享自 @jianshucom ）')+'&amp;related='+e('jianshucom'),x=function(){if(!window.open(r,'twitter','toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class='social-icon-sprite social-icon-twitter'&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook',x=function(){if(!window.open(r,'facebook','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class='social-icon-sprite social-icon-facebook'&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://plus.google.com/share?url='+e('https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus'),x=function(){if(!window.open(r,'google_plus','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class='social-icon-sprite social-icon-google'&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e('https://www.jianshu.com/p/d087d3a566f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban')+'&amp;title='+e('qcow2 文件格式详解（I）')+'&amp;sel='+e(s)+'&amp;v=1',x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r+'&amp;r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class='social-icon-sprite social-icon-douban'&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+              &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li> <!----></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="https://www.jianshu.com/c/NEt52a?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/computer_guy.jpg"><div class="name">程序员</div></a><a href="https://www.jianshu.com/c/cc8da2046a61?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/v.png"><div class="name">虚拟化技术</div></a> <!----></div></div> <!----> <!----></div>
+  <div data-vcomp="recommended-notes" data-note-id="4972953"></div>
+  <!-- 相关文章 -->
+  <div class="seo-recommended-notes">
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/27770f164b96?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">why stoc,</a>
+          <p class="description">Why Stock Markets CrashThis page 
+intentionally left blankWhy Stock Markets CrashCritical Events in 
+ComplexFinancial SystemsD i d i e r S ...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/45b83aea7859?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/048129535ef2.jpg" alt="48">
+            </div>
+            <span class="name">Adam_潜</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/d86b136b3f41?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">今日学术视野(2017.11.16)</a>
+          <p class="description">cs.AI - 人工智能cs.CL - 计算与语言cs.CR - 
+加密与安全cs.CV - 机器视觉与模式识别cs.CY - 计算与社会cs.DC - 分布式、并行与集群计算cs.DS - 
+数据结构与算法cs.HC - 人机接口cs.IR - 信息检索cs.IT - 信息论...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/ZQtGe6?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/4a2ea682281d.jpg" alt="48">
+            </div>
+            <span class="name">爱可可_爱生活</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/98964e0bdf04?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">今日学术视野(2017.06.14)</a>
+          <p class="description">cs.AI - 人工智能cs.CG - 计算几何学cs.CL - 
+计算与语言cs.CR - 加密与安全cs.CV - 机器视觉与模式识别cs.CY - 计算与社会cs.DB - 数据库cs.DC - 
+分布式、并行与集群计算cs.DS - 数据结构与算法cs.HC - 人机接...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/ZQtGe6?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/4a2ea682281d.jpg" alt="48">
+            </div>
+            <span class="name">爱可可_爱生活</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/85bcb2620f37?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">今日学术视野(2017.11.1)</a>
+          <p class="description">cs.AI - 人工智能cs.CL - 计算与语言cs.CV - 
+机器视觉与模式识别cs.CY - 计算与社会cs.DC - 分布式、并行与集群计算cs.DL - 数字图书馆cs.IR - 信息检索cs.IT -
+ 信息论cs.LG - 自动学习cs.LO - 计算逻辑cs....</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/ZQtGe6?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/4a2ea682281d.jpg" alt="48">
+            </div>
+            <span class="name">爱可可_爱生活</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/756920811328?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">今日学术视野(2017.11.23)</a>
+          <p class="description">cs.AI - 人工智能cs.CL - 计算与语言cs.CR - 
+加密与安全cs.CV - 机器视觉与模式识别cs.CY - 计算与社会cs.DC - 分布式、并行与集群计算cs.GT - 
+计算机科学与博弈论cs.HC - 人机接口cs.IR - 信息检索cs.IT - 信...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/ZQtGe6?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/4a2ea682281d.jpg" alt="48">
+            </div>
+            <span class="name">爱可可_爱生活</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="https://www.jianshu.com/p/520a9055536f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/2596054-4ccb59db5230ced8.png" alt="240">
+</a>          <a class="title" target="_blank" href="https://www.jianshu.com/p/520a9055536f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">优雅的调试手机中的数据库：SQLiteStudio</a>
+          <p class="description">前言 
+调试Android中的数据库有多种方式，目前比较流行的是：借助电脑端浏览器来调试，可以使用如下两个玩意： Stetho 
+Android-Debug-Database 博主在调试sqlite的时候，发现了个更加简单和强大的工具来调试sqlite数据库。这个工具叫 
+SQL...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/ec67eba2c89e?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/7bba367b9b9f.jpg" alt="48">
+            </div>
+            <span class="name">linheimx</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/3e37410034a1?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">简年11：小孩子</a>
+          <p class="description">小哥哥带着两个妹妹在奶奶家写作业，其中个子高的女孩是姐姐，妹妹个子矮一些。姐姐
+把妹妹的橡皮扔到了杂物堆里。 
+妹妹说：“待会我妈妈带我们下楼玩，不带你去。”“不带你去。”姐姐说。“是我妈妈，又不是你妈妈”妹妹回了一句。这时，姐姐朝妹妹吐了一口吐沫，落在妹
+妹的鞋子上。妹妹气得嘟...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/5d1f289e3c2c?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/dd43f718f483.jpg" alt="48">
+            </div>
+            <span class="name">李唐明</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="https://www.jianshu.com/p/dba3baf2142e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/3672980-997cfaf4075117ba.png" alt="240">
+</a>          <a class="title" target="_blank" href="https://www.jianshu.com/p/dba3baf2142e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">红楼梦中人：俏平儿</a>
+          <p class="description">《红楼梦》中的女子，我最喜欢的就是平儿。 
+平儿在贾府的身份很特殊，曹公对她的定义是“凤姐的一个心腹通房大丫头”。通房丫头没有正式的名分，至多算是半个妾。 
+贾琏窝囊好色，凤姐威严跋扈，平儿夹在中间，必定受了很多委屈。 能够周旋于贾琏和凤姐之间，平儿必定是世故的。但这是一份存在...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/b617bf44fd47?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/65c7ee59-ca4f-420a-b75b-b6a39935d7bb.jpg" alt="48">
+            </div>
+            <span class="name">月亮上开出花儿</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/59403f660239?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">4.11晨读</a>
+          <p class="description">身边的东西越多，压力会越大。比如没用的物品：买回来就起灰的书，一年难得用一回的
+工具，一两年都不穿一两回的衣服。 该丢的丢了，可以捐的捐给需要的人，可以送的送给需要的朋友。给自己减一减负，身心愉快，一身轻松多好呀。 
+今天江书记也说了，不要给自己背那么大的包袱。 各种各样的包袱...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/aff7bd3a139e?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/24f56d973313.jpg" alt="48">
+            </div>
+            <span class="name">晴天小宇</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="https://www.jianshu.com/p/302d4557485d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/1819218-956df199d8f4bb4b.JPG" alt="240">
+</a>          <a class="title" target="_blank" href="https://www.jianshu.com/p/302d4557485d?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">专访EEGSmartCEO和CTO——脑电产业的应用展望和技术实现</a>
+          <p class="description">由中国科学院深圳先进技术研究院和EEGSmart联合主办的中国第一届脑电产业峰
+会于2016年5月5日圆满落下帷幕。在本次会议上，脑电学术界专家、产业领军企业、相关医疗领域资深临床专家以及资本领域投资人对于脑电产业做了深入而
+广泛的探讨，通过专业而精彩的演讲和讨论，共同展望和发...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/34b2c3ea3d14?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/3-9a2bcc21a5d89e21dafc73b39dc5f582.jpg" alt="48">
+            </div>
+            <span class="name">EEGSmart</span>
+</a>        </div>
+  </div>
+</div>
+
+    <script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"windows","read_mode":"day","read_font":"font2","note_show":{"is_martin_user":false,"is_author":false,"is_following_author":false,"is_liked_note":false,"follow_state":0,"uuid":"b10922a7-5bc3-4f2f-92f9-43df12229ac5"},"note":{"id":4972953,"slug":"d087d3a566f4","user_id":2526764,"notebook_id":5220556,"commentable":true,"likes_count":3,"views_count":4210,"public_wordage":3156,"comments_count":0,"total_rewards_count":0,"is_author":false,"author":{"nickname":"卡塞尔","total_wordage":4069,"followers_count":4,"total_likes_count":7}}}</script>
+    
+    <script src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/babel-polyfill-6c366ba2893c6a87f1f8.js" crossorigin="anonymous"></script>
+    <script src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/web-base-00b9754187055a2548be.js" crossorigin="anonymous"></script>
+<script src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/web-88217e3760237428cbad.js" crossorigin="anonymous"></script>
+    
+    <script src="qcow2%20%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3%EF%BC%88I%EF%BC%89%20-%20%E7%AE%80%E4%B9%A6_files/entry-f666df8eabdd170bd9f6.js" crossorigin="anonymous"></script>
+    <script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----></body></html>

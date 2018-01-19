@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head id="Head1"><style id="znBdcsStyle" type="text/css">.bdcs-container .bdcs-main,.bdcs-container .bdcs-main *{box-sizing:content-box;margin:0;padding:0;float:none;clear:none;overflow:hidden;white-space:nowrap;word-wrap:normal;border:0;background:0 0;width:auto;height:auto;max-width:none;min-width:none;max-height:none;min-height:none;border-radius:0;box-shadow:none;transition:none;text-align:left}.bdcs-container .bdcs-clearfix:after{content:'';display:block;clear:both;height:0}.bdcs-container .bdcs-clearfix{zoom:1}.bdcs-container .bdcs-main{overflow:visible}.bdcs-container .bdcs-search{display:block;overflow:visible;position:relative;border-style:solid}.bdcs-container .bdcs-search-form-input-wrap{display:inline-block}.bdcs-container .bdcs-search-form-input{border-width:1px;border-style:solid;display:inline-block;vertical-align:top;text-indent:5px;background-color:#fff;float:left}.bdcs-container .bdcs-search-form-input:focus{border-width:1px;border-style:solid;outline:0}.bdcs-container .bdcs-search-form-submit-wrap{display:inline-block}.bdcs-container .bdcs-search-form-submit{display:inline-block;cursor:pointer;border-width:1px;border-style:solid;vertical-align:top;text-align:center;width:50px;//_overflow:hidden}.bdcs-container .bdcs-search-form-submit-magnifier{width:45px;padding:0;text-indent:-999em;overflow:hidden;background:url(http://znsv.baidu.com/static/customer-search/component/search/magnifier-icon.png) no-repeat center center;_background:url(http://znsv.baidu.com/static/customer-search/component/search/magnifier-icon_ie6.png) no-repeat center center}div#default-searchbox .default-channel-meun{position:relative;width:75px;display:inline-block;vertical-align:middle;cursor:pointer;background:#fff;float:left;overflow:visible}div#default-searchbox .default-channel-current{border:1px solid;position:relative;width:100%;border-right:0}div#default-searchbox .default-channel-current span{margin-left:8px}div#default-searchbox .default-channel-current i{overflow:hidden;width:0;height:0;border-width:6px 6px 0;border-color:#9E9E9E #fff;border-style:solid;display:block;position:absolute;right:10px;top:11px}div.cse-default-channel-container{display:block;position:absolute;z-index:30061000000}div.cse-default-channel-container .default-channel-list{display:none;width:99%;list-style:none;background:#fff;border:1px solid #DDD;border-top:0;margin:0;padding:0}div.cse-default-channel-container .default-channel-list li{background:0 0;line-height:24px;list-style:none;display:block;padding-left:7px;cursor:pointer}div.cse-default-channel-container .default-channel-list li:hover{background:#DDD}.bdcs-container .bdcs-search-form-input-wrap{}.bdcs-container .bdcs-search-form-input-notspan{margin-left:0px;font-family:Arial,SimSun,sans-serif;color:#000000;font-size:14px;}.bdcs-container .bdcs-search-form-input .icon-nofocus{left:;right:;top:;height:;width:;}.bdcs-container .bdcs-search{width:299px;height:36px;overflow:hidden;border-color:#1a89ed;border-radius:5px;border-width:2px;box-shadow:none;background-color:none;}.bdcs-container .bdcs-search-form-input{border-color:#ffffff;margin-right:0px;width:246px;height:34px;line-height:34px;font-family:Arial,SimSun,sans-serif;color:#000000;font-size:14px;border-radius:1px;background-color:#FFFFFF;}.bdcs-container .bdcs-search-form-input:focus{border-color:#1a89ed;}.bdcs-container .bdcs-search-form-submit-wrap{}.bdcs-container .bdcs-search-form-submit{border-color:#1c89ea;height:34px;width:50px;background-color:#1c89ea;color:#ffffff;font-family:Arial,SimSun,sans-serif;font-size:14px;border-radius:0px;}.bdcs-container .bdcs-search-form-submit{*height:36px;*margin-top:1px;}.bdcs-container .bdcs-search-form-submit{height:36px;}.bdcs-container .bdcs-search-form-submit{line-height:34px;}.bdcs-container .bdcs-search-form-input{margin-right:-1px;}#bdcs-rec{display:none;}</style><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="keywords" content="码迷,mamicode.com,互联网,软件开发,开源,asp,asp.net,android,apple,jsp,php,Windows,数据库,HTML,JS,CSS,技术文章,游戏,手机相关"><meta name="description" content="一、场景：openstack虚拟机存放于ceph存储，由于用户将系统的grub误删除，导致系统无法正常引导。现在用户要求抢救文件。二、可行的方案：1、将虚拟机保存为镜像，将镜像转换成云硬盘，将云硬盘挂载到其他虚拟机上镜像抢救。优点：依赖默认的dashboard就能完成操作，较为简单，.."><title>
+	openstack虚拟机内文件遭破坏的急救方案
+</title><link href="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/css.css" type="text/css" rel="stylesheet">
+<script src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/push.js"></script><script type="text/javascript" async="" src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/js"></script><script src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/hm.txt"></script><script src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/mamicode_adload.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?408b7cb341bcbccbc03cf31a305b01dd";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<link rel="stylesheet" type="text/css" href="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/prettify.css">
+    <script type="text/javascript" charset="utf-8" src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/prettify.js"></script>
+</head>
+<body>
+    <div class="width100bi height23px divbackgroundcolor overflowauto">
+    <div class="width1000px divmargin0auto">
+        <div class="divfloatleft">
+        </div>
+        <div class="divfloatright">
+            <div id="logintopdescription" class="paddingtop3"><a href="http://member.mamicode.com/login.aspx">[登录]</a>&nbsp;&nbsp;<a href="http://member.mamicode.com/reg.aspx">[注册]</a></div>
+        </div>
+    </div>
+</div>
+<div class="width1000px divmargin0auto margintop20bottom20 overflowauto">
+    <div class="width120px divfloatleft">
+        <a href="http://www.mamicode.com/" title="码迷，mamicode.com">
+            <img src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/logo.png" alt="码迷，mamicode.com" width="109" height="60" border="0">
+        </a>
+    </div>
+    <div class="width880px divfloatright">
+        <div class="menuDiv">
+            <ul>
+                <li class="bottomline width10px">&nbsp;</li>
+                <li id="default-aspx" class="title0"><a href="http://www.mamicode.com/" title="码迷，mamicode.com">首页</a></li>
+                <li id="infolist-2" class="title1"><a href="http://www.mamicode.com/info-list-2-1.html" title="Web开发">Web开发</a></li>
+                <li id="infolist-3" class="title1"><a href="http://www.mamicode.com/info-list-3-1.html" title="Windows程序">Windows程序</a></li>
+                <li id="infolist-4" class="title1"><a href="http://www.mamicode.com/info-list-4-1.html" title="编程语言">编程语言</a></li>
+                <li id="infolist-5" class="title1"><a href="http://www.mamicode.com/info-list-5-1.html" title="数据库">数据库</a></li>
+                <li id="infolist-6" class="title1"><a href="http://www.mamicode.com/info-list-6-1.html" title="移动开发">移动开发</a></li>
+                <li id="infolist-8" class="title1"><a href="http://www.mamicode.com/info-list-8-1.html" title="系统相关">系统相关</a></li>
+                <li id="infolist-9" class="title1"><a href="http://www.mamicode.com/info-list-9-1.html" title="微信">微信</a></li>
+                <li id="infolist-11" class="title1"><a href="http://www.mamicode.com/info-list-11-1.html" title="其他好文">其他好文</a></li>
+                <li id="memberhtml" class="title1"><a href="http://www.mamicode.com/member.html" title="会员">会员</a></li>
+                <li class="bottomline width10px">&nbsp;</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">        mamicode_adload('top_menu');</script>
+    <div class="divdaohang">
+        <div class="divtitlefont">
+            <a href="http://www.mamicode.com/" title="码迷首页">首页</a>
+            <span id="lbltitle"> &gt; <a href="http://www.mamicode.com/infolist-11-1.html">其他好文</a> &gt; 详细</span>
+        </div>
+    </div>
+    <div class="divmain">
+        <div class="width70bi divfloatleft" style="min-height: 2000px;">
+            <div class="marginright20">
+                <script type="text/javascript">                    mamicode_adload('title_before');</script>
+                <div class="detailtitle divtextaligncenter divborderbottomdotted">
+                    <h1 id="Htitle" class="detailtitle">openstack虚拟机内文件遭破坏的急救方案</h1>
+                </div>
+                <div class="detail1 divtextaligncenter">
+                    时间：<span id="Label2" class="colorlv">2017-07-13 18:51:59</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 阅读：<span id="Label1" class="colorCheng">159</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 评论：<span id="lblcommentcount" class="colorCheng">0</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 收藏：<span id="lblfavorite" class="colorCheng">0</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp; <a id="infofavorite" class="acursorpointer" onclick="infofavorite_click();">[点我收藏+]</a>
+                </div>
+                <script type="text/javascript">                    mamicode_adload('content_before');</script>
+                <div class="detailcontennt">
+                    <span id="Label3"><p>标签：<a href="http://www.mamicode.com/so/1/openstack" title="openstack">openstack</a></p><p style="margin-top:0px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">一、场景：</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; openstack虚拟机存放于ceph存储，由于用户将系统的grub误删除，导致系统无法正常引导。现在用户要求抢救文件。</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">二、可行的方案：</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; 1、将虚拟机保存为镜像，将镜像转换成云硬盘，将云硬盘挂载到其他虚拟机上镜像抢救。</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; &nbsp; &nbsp; 优点：依赖默认的dashboard就能完成操作，较为简单，不需要openstack命令行基础；</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; &nbsp; &nbsp; 缺点：只能抢救文件，不能修复原系统。</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; 2、将ceph中 虚拟机对应的rbd映射到到本地，挂载为本机的一个目录，进行抢救工作</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; &nbsp; &nbsp;优点：可以直接修复原虚拟机的系统；</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; &nbsp; &nbsp;缺点：需要一定的openstack命令行技能。</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">三、修复经过</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; 本文主要介绍 第二种的修复方法</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; (一)、找出虚拟机对应的rbd</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; &nbsp; 1、查找虚拟机的宿主机</span></p><table style="width:718px;" width="1494" cellspacing="0" cellpadding="0"><tbody style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><tr style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><td class="code" style="border-width:0px;background:0px center;float:none;line-height:20px;margin:0px;padding:0px 0px 0px 15px;vertical-align:baseline;" width="1479"><div class="line number1 index0 alt2" style="margin:0px;padding:0px 1em 0px 0px;background:0px center;border:0px;float:none;height:auto;line-height:20px;vertical-align:baseline;width:auto;white-space:nowrap;"><pre class="brush:bash;toolbar:false"><span style="font-size:14px;">nova&nbsp;show&nbsp;a7584a2f-7b37-4a21-ae2f-3f244da49686&nbsp;|grep&nbsp;hypervisor<br>|&nbsp;OS-EXT-SRV-ATTR:hypervisor_hostname&nbsp;&nbsp;|&nbsp;server-85.105.nanshu.polex.io<br></span></pre><code class="java plain" style="font-family:Consolas, ‘Bitstream Vera Sans Mono‘, ‘Courier New‘, Courier, monospace;background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;color:rgb(0,0,0);"></code></div></td></tr></tbody></table><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; &nbsp; &nbsp; 2、关闭该虚拟机、</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp;<span style="font-family:Consolas, ‘Bitstream Vera Sans Mono‘, ‘Courier New‘, Courier, monospace;font-size:12px;background-color:rgb(255,255,255);"></span></span></p><pre class="brush:bash;toolbar:false"><span style="font-size:14px;"> nova&nbsp;stop&nbsp;a7584a2f-7b37-4a21-ae2f-3f244da49686<br></span></pre><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-family:Consolas, ‘Bitstream Vera Sans Mono‘, ‘Courier New‘, Courier, monospace;font-size:12px;background-color:rgb(255,255,255);"><br></span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp; &nbsp; &nbsp; 3、登陆宿主机，查看xml文件 &nbsp;</span></p><table style="width:718px;" width="21368" cellspacing="0" cellpadding="0"><tbody style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><tr style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><td class="code" style="border-width:0px;background:0px center;float:none;line-height:20px;margin:0px;padding:0px 0px 0px 15px;vertical-align:baseline;" width="21353"><div class="line number1 index0 alt2" style="margin:0px;padding:0px 1em 0px 0px;background:0px center;border:0px;float:none;height:auto;line-height:20px;vertical-align:baseline;width:auto;white-space:nowrap;"><pre class="brush:bash;toolbar:false"><span style="font-size:14px;">ps&nbsp;-ef&nbsp;|grep&nbsp;a7584a2f-7b37-4a21-ae2f-3f244da49686<br>qemu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67511&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;17&nbsp;14:17&nbsp;?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00:17:32&nbsp;/usr/libexec/qemu-kvm&nbsp;-name&nbsp;instance-0000444a&nbsp;-S&nbsp;-machine&nbsp;pc-i440fx-rhel7.0.0,accel=kvm,usb=off&nbsp;-cpu&nbsp;Broadwell,+abm,+pdpe1gb,+rdrand,+f16c,+osxsave,+dca,+pdcm,+xtpr,+tm2,+est,+smx,+vmx,+ds_cpl,+monitor,+dtes64,+pbe,+tm,+ht,+ss,+acpi,+ds,+vme,+rtm,+hle&nbsp;-m&nbsp;1024&nbsp;-realtime&nbsp;mlock=off&nbsp;-smp&nbsp;1,sockets=1,cores=1,threads=1&nbsp;-uuid&nbsp;a7584a2f-7b37-4a21-ae2f-3f244da49686&nbsp;-smbios&nbsp;type=1,manufacturer=Fedora&nbsp;Project,product=OpenStack&nbsp;Nova,version=13.1.2-1.el7.centos,serial=8153ba5c-de78-47c7-bc4c-c86b0d429f75,uuid=a7584a2f-7b37-4a21-ae2f-3f244da49686,family=Virtual&nbsp;Machine&nbsp;-no-user-config&nbsp;-nodefaults&nbsp;-chardev&nbsp;socket,id=charmonitor,path=/var/lib/libvirt/qemu/domain-instance-0000444a/monitor.sock,server,nowait&nbsp;-mon&nbsp;chardev=charmonitor,id=monitor,mode=control&nbsp;-rtc&nbsp;base=utc,driftfix=slew&nbsp;-global&nbsp;kvm-pit.lost_tick_policy=discard&nbsp;-no-hpet&nbsp;-no-shutdown&nbsp;-boot&nbsp;strict=on&nbsp;-device&nbsp;piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2&nbsp;-device&nbsp;virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x4&nbsp;-drive&nbsp;file=rbd:pool-3aae4178cb8a470aab3dfcea9307e5c9/a7584a2f-7b37-4a21-ae2f-3f244da49686_disk:id=admin:key=AQAG1vlXEVDPIhAAyi0tZ3qZwt1HewbQHh731A==:auth_supported=cephx\;none:mon_host=10.48.106.247\:6789\;10.48.106.248\:6789\;10.48.106.249\:6789\;10.48.106.250\:6789\;10.48.106.251\:6789,if=none,id=drive-virtio-disk0,format=raw,cache=writeback,bps_rd=104857600,bps_wr=31457280,iops_rd=2000,iops_wr=500&nbsp;-device&nbsp;virtio-blk-pci,scsi=off,bus=pci.0,addr=0x5,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1&nbsp;-drive&nbsp;file=rbd:pool-3aae4178cb8a470aab3dfcea9307e5c9/a7584a2f-7b37-4a21-ae2f-3f244da4968_disk.config:id=admin:key=AQAG1vlXEVDPIhAAyi0tZ3qZwt1HewbQHh731A==:auth_supported=cephx\;none:mon_host=10.48.106.247\:6789\;10.48.106.248\:6789\;10.48.106.249\:6789\;10.48.106.250\:6789\;10.48.106.251\:6789,if=none,id=drive-ide0-1-1,readonly=on,format=raw,cache=writeback,bps_rd=104857600,bps_wr=31457280,iops_rd=2000,iops_wr=500&nbsp;-device&nbsp;ide-cd,bus=ide.1,unit=1,drive=drive-ide0-1-1,id=ide0-1-1&nbsp;-netdev&nbsp;tap,fd=32,id=hostnet0,vhost=on,vhostfd=34&nbsp;-device&nbsp;virtio-net-pci,netdev=hostnet0,id=net0,mac=fa:16:3e:4d:5e:ad,bus=pci.0,addr=0x3&nbsp;-chardev&nbsp;file,id=charserial0,path=/var/lib/nova/instances/a7584a2f-7b37-4a21-ae2f-3f244da49686/console.log&nbsp;-device&nbsp;isa-serial,chardev=charserial0,id=serial0&nbsp;-chardev&nbsp;pty,id=charserial1&nbsp;-device&nbsp;isa-serial,chardev=charserial1,id=serial1&nbsp;-chardev&nbsp;socket,id=charchannel0,path=/var/lib/libvirt/qemu/org.qemu.guest_agent.0.instance-0000444a.sock,server,nowait&nbsp;-device&nbsp;virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=org.qemu.guest_agent.0&nbsp;-device&nbsp;usb-tablet,id=input0&nbsp;-vnc&nbsp;0.0.0.0:5&nbsp;-k&nbsp;en-us&nbsp;-vga&nbsp;cirrus&nbsp;-incoming&nbsp;fd:25&nbsp;-device&nbsp;virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x6&nbsp;-msg&nbsp;timestamp=on<br>&nbsp;<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;<br>cat&nbsp;/run/libvirt/qemu/instance-0000444a.xml&nbsp;|grep&nbsp;rbd<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;source&nbsp;protocol=‘rbd‘&nbsp;name=‘pool-3aae4178cb8a470aab3dfcea9307e5c9/a7584a2f-7b37-4a21-ae2f-3f244da49686_disk‘&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;source&nbsp;protocol=‘rbd‘&nbsp;name=‘pool-3aae4178cb8a470aab3dfcea9307e5c9/a7584a2f-7b37-4a21-ae2f-3f244da49686_disk.config‘&gt;<br></span></pre><code class="java plain" style="font-family:Consolas, ‘Bitstream Vera Sans Mono‘, ‘Courier New‘, Courier, monospace;background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;color:rgb(0,0,0);"></code></div></td></tr></tbody></table><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">可以看到 虚拟机对应是ceph中 叫 pool-3aae4178cb8a470aab3dfcea9307e5c9/a7584a2f-7b37-4a21-ae2f-3f244da49686_disk 的 rbd</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp;4 挂载 rbd到本地的/dev/rbd0</span></p><table style="width:718px;" width="1494" cellspacing="0" cellpadding="0"><tbody style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><tr style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><td class="code" style="border-width:0px;background:0px center;float:none;line-height:20px;margin:0px;padding:0px 0px 0px 15px;vertical-align:baseline;" width="1479"><pre class="brush:bash;toolbar:false"><span style="font-size:14px;">rbd&nbsp;map&nbsp;pool-3aae4178cb8a470aab3dfcea9307e5c9/a7584a2f-7b37-4a21-ae2f-3f244da49686_disk&nbsp;<br>&nbsp;/dev/rbd0<br></span></pre></td></tr></tbody></table><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><br><span style="font-size:14px;">5、 挂载本地的/dev/rbd0 到 目录</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;color:rgb(51,51,51);font-family:Arial, sans-serif;font-size:14px;white-space:normal;background-color:rgb(255,255,255);"><span style="font-size:14px;">&nbsp; &nbsp;虚拟机是以raw格式的虚拟磁盘存放在ceph中，在挂在时候要计算偏移量，</span></p><p><span style="font-size:14px;">&nbsp; 偏移量计算 参考文章&nbsp;</span><a href="http://smilejay.com/2012/08/mount-an-image-file/" class="external-link" style="color:rgb(53,114,176);font-size:14px;text-decoration:underline;" target="_blank"><span style="font-size:14px;">http://smilejay.com/2012/08/mount-an-image-file/</span></a></p><p style="margin-top:0px;margin-bottom:0px;padding:0px;"><span style="font-size:14px;">&nbsp;</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;"><span style="font-size:14px;">&nbsp;</span></p><table style="width:718px;" width="1494" cellspacing="0" cellpadding="0"><tbody style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><tr style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><td class="code" style="border-width:0px;background:0px center;float:none;line-height:20px;margin:0px;padding:0px 0px 0px 15px;vertical-align:baseline;" width="1479"><div class="line number1 index0 alt2" style="margin:0px;padding:0px 1em 0px 0px;background:0px center;border:0px;float:none;height:auto;line-height:20px;vertical-align:baseline;width:auto;white-space:nowrap;"><pre class="brush:bash;toolbar:false"><span style="font-size:14px;">mount&nbsp;-o&nbsp;offset=<br>1048576<br>&nbsp;<br>/dev/rbd0&nbsp;/mnt<br></span></pre><code class="java plain" style="font-family:Consolas, ‘Bitstream Vera Sans Mono‘, ‘Courier New‘, Courier, monospace;background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;color:rgb(0,0,0);"></code></div></td></tr></tbody></table><p style="margin-top:10px;margin-bottom:0px;padding:0px;"><span style="font-size:14px;">&nbsp;</span></p><p><span style="font-size:14px;">至此 虚拟机的硬盘已经变成了我们节点上的一个目录，可以进去修复文件了。</span></p><p><span style="font-size:14px;">6 撤退工作</span></p><p style="margin-top:0px;margin-bottom:0px;padding:0px;"><span style="font-size:14px;">&nbsp;</span></p><p style="margin-top:10px;margin-bottom:0px;padding:0px;"><span style="font-size:14px;">&nbsp;</span></p><table style="width:718px;" width="1494" cellspacing="0" cellpadding="0"><tbody style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><tr style="background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><td class="code" style="border-width:0px;background:0px center;float:none;line-height:20px;margin:0px;padding:0px 0px 0px 15px;vertical-align:baseline;" width="1479"><div class="line number1 index0 alt2" style="margin:0px;padding:0px 1em 0px 0px;background:0px center;border:0px;float:none;height:auto;line-height:20px;vertical-align:baseline;width:auto;white-space:nowrap;"><code class="java spaces" style="font-family:Consolas, ‘Bitstream Vera Sans Mono‘, ‘Courier New‘, Courier, monospace;background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;"><span style="font-size:14px;">&nbsp;&nbsp;&nbsp;</span></code><pre class="brush:bash;toolbar:false"><span style="font-size:14px;">&nbsp;<br>umount&nbsp;/mnt&nbsp;&nbsp;&nbsp;&nbsp;rbd&nbsp;unmap&nbsp;/dev/rbd0<br></span></pre><code class="java plain" style="font-family:Consolas, ‘Bitstream Vera Sans Mono‘, ‘Courier New‘, Courier, monospace;background:0px center;border:0px;float:none;height:auto;line-height:20px;margin:0px;padding:0px;vertical-align:baseline;width:auto;color:rgb(0,0,0);"></code></div></td></tr></tbody></table><p style="margin-top:10px;margin-bottom:0px;padding:0px;"><span style="font-size:14px;">&nbsp;</span></p><p><span style="font-size:14px;">四、需要注意的地方</span></p><p><span style="font-size:14px;">&nbsp; &nbsp; 1、虚拟机一定要关机，不然文件系统在两处同时挂载的话会产生脏数据</span></p><p><span style="font-size:14px;">&nbsp; &nbsp; 2、偏移量的计算</span></p><p><span style="font-size:14px;">&nbsp; &nbsp; 3、快速迭代的虚拟机还是不要使用lvm</span></p><p><br></p><p><br></p><p><a href="http://www.mamicode.com/info-detail-1902875.html" title="openstack虚拟机内文件遭破坏的急救方案,mamicode.com" style="color:#ffffff" target="_blank">openstack虚拟机内文件遭破坏的急救方案</a></p><p>标签：<a href="http://www.mamicode.com/so/1/openstack" title="openstack">openstack</a></p><p>原文地址：http://superbigsea.blog.51cto.com/6862263/1947192</p></span>
+                </div>
+                <div id="divcomment">
+                    <div>
+                        <div class="divtextaligncenter paddingright2 overflowauto">
+                            <div class="detailcai" id="infono" onclick="infono_click();">
+                                <div class="detailcai1 colorboldlan">
+                                    踩</div>
+                                <div class="detailcai2 colorboldlan">
+                                    (<span id="spanNo">0</span>)</div>
+                            </div>
+                            <div class="detailzan" id="infoyes" onclick="infoyes_click();">
+                                <div class="detailzan1 colorboldHong">
+                                    赞</div>
+                                <div class="detailzan2 colorboldHong">
+                                    (<span id="spanYes">0</span>)</div>
+                            </div>
+                        </div>
+                        <div class="divtextalignright margintop10">
+                            <div class="width100bi paddingleft10right10">
+                                <span id="spanYesContent" class="colorboldHong"></span>&nbsp; <span id="spanNoContent" class="colorboldlan"></span>&nbsp; <span id="spanBadContent" class="colorboldHong">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divtextalignright margintop10">
+                        <span class="detailjubao" id="infobad" onclick="infobad_click();">举报</span>
+                    </div>
+                    <script type="text/javascript">                        mamicode_adload('content_after');</script>
+                    <div id="comment" class="divtextalignleft margintop20">
+                        <div class="detailpinglun1">
+                            <span class="detailpinglun2 title6">评论</span> <span class="detailpinglun3">一句话评论（<span id="commentCount" class="colorboldHong">0</span>）</span>
+                        </div>
+                        <div class="paddingtop20">
+                            
+                            <div id="commentlistend" name="commentlistend" class="divtextaligncenter margintop20">
+                                <span id="lblpage">共<span class="pagecolorc">0</span>条&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                        <div class="margintop20">
+                            <form method="post" action="/ajaxjs/info_detail_commentadd.aspx">
+                            <div class="divtextalignleft paddingtop20">
+                                <div id="commenthf" class="divbackgroundcolor1">
+                                </div>
+                                <div>
+                                    <textarea name="tbcommentcontent" id="tbcommentcontent" class="tb" style="width: 680px;
+                                        height: 120px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="divtextalignright paddingtop10 ">
+                                <span id="addCommentTishi" class="colorboldHong">登录后才能评论！</span>
+                                <span id="loginno"><input class="mbtn1" value="登录" onclick="location.href='http://member.mamicode.com/login.aspx?returnUrl='+document.URL.replace(new RegExp('&amp;', 'g'), '(_)')" type="button"></span>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">                    mamicode_adload('content_bottom');</script>
+            </div>
+        </div>
+        <div class="width30bi divfloatright">
+            
+            <div class="paddingbottom20">
+    <script type="text/javascript">        (function () { 
+document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E')); var bdcs = 
+document.createElement('script'); bdcs.type = 'text/javascript'; 
+bdcs.async = true; bdcs.src = 
+'http://znsv.baidu.com/customer_search/api/js?sid=7490613033886828738' +
+ '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + 
+Math.ceil(new Date() / 3600000); var s = 
+document.getElementsByTagName('script')[0]; 
+s.parentNode.insertBefore(bdcs, s); })();</script><div id="bdcs"><div class="bdcs-container"><meta http-equiv="x-ua-compatible" content="IE=9">   <!-- 嵌入式 -->  <div class="bdcs-main bdcs-clearfix" id="default-searchbox">      <div class="bdcs-search bdcs-clearfix" id="bdcs-search-inline">          <form action="http://zhannei.baidu.com/cse/search" method="get" target="_blank" class="bdcs-search-form" autocomplete="off" id="bdcs-search-form">              <input name="s" value="7490613033886828738" type="hidden">              <input name="entry" value="1" type="hidden">                                                                        <input name="q" class="bdcs-search-form-input" id="bdcs-search-form-input" placeholder="请输入关键词" style="height: 36px; line-height: 36px;" type="text">              <input class="bdcs-search-form-submit " id="bdcs-search-form-submit" value="搜索" type="submit">                       </form>      </div>                  </div>                           </div></div>
+</div>
+
+            <script type="text/javascript">                mamicode_adload('right_top');</script>
+            
+<div class="width99bi divborder">
+    <div class="divtitle">
+        <div id="infofile1_div1" class="divfloatleft divtitlefont">
+            分享档案</div>
+        <div class="divfloatright">
+            <a href="http://www.mamicode.com/infotimemore.html" title="分享档案更多" class="colorCheng">更多&gt;</a>
+        </div>
+    </div>
+    <div class="divtextalignleft paddingleft10right10 margintop10bottom10 heightline30px">
+        
+                <a class="taga" href="http://www.mamicode.com/info-time-20180119-1.html" target="_blank" title="2018年01月19日技术分享文章">
+                        2018年01月19日
+                        (491)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180118-1.html" target="_blank" title="2018年01月18日技术分享文章">
+                        2018年01月18日
+                        (1151)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180117-1.html" target="_blank" title="2018年01月17日技术分享文章">
+                        2018年01月17日
+                        (1675)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180116-1.html" target="_blank" title="2018年01月16日技术分享文章">
+                        2018年01月16日
+                        (935)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180115-1.html" target="_blank" title="2018年01月15日技术分享文章">
+                        2018年01月15日
+                        (1212)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180114-1.html" target="_blank" title="2018年01月14日技术分享文章">
+                        2018年01月14日
+                        (997)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180113-1.html" target="_blank" title="2018年01月13日技术分享文章">
+                        2018年01月13日
+                        (1455)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180112-1.html" target="_blank" title="2018年01月12日技术分享文章">
+                        2018年01月12日
+                        (1071)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180111-1.html" target="_blank" title="2018年01月11日技术分享文章">
+                        2018年01月11日
+                        (1132)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180110-1.html" target="_blank" title="2018年01月10日技术分享文章">
+                        2018年01月10日
+                        (1206)</a><br>
+            
+    </div>
+</div>
+
+            
+<div class="width99bi margintop20 divborder">
+    <div class="divtitle">
+        <div id="infotop2_divtitle" class="divfloatleft divtitlefont">周排行</div>
+        <div class="divfloatright">
+            <img src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/j01.jpg" alt="mamicode.com排行更多图片" width="14" height="14"></div>
+        <div class="divfloatright">
+            <a href="http://www.mamicode.com/info-toplist-11-2-1.html" id="infotop2_amore" title="周排行更多">更多</a></div>
+    </div>
+    <div>
+        <ul>
+            <li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-2147137.html" title="Idea 2017.3以后版本的破解" target="_blank">
+                        Idea 2017.3以后版本的破解
+                        &nbsp;<span class="colorlan">2018-01-06</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-611316.html" title="【转】console.log 用法" target="_blank">
+                        【转】console.log 用法
+                        &nbsp;<span class="colorlan">2015-05-05</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1610029.html" title="在深圳有娃的家长必须要懂的社保少儿医保，不然亏大了！（收藏）" target="_blank">
+                        在深圳有娃的家长必须要懂的社保少儿医保，不然亏大了！（收藏）
+                        &nbsp;<span class="colorlan">2016-11-16</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1180317.html" title="numpy数据类型dtype转换" target="_blank">
+                        numpy数据类型dtype转换
+                        &nbsp;<span class="colorlan">2016-01-14</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1008288.html" title="Echarts-axislabel文字过长导致显示不全或重叠" target="_blank">
+                        Echarts-axislabel文字过长导致显示不全或重叠
+                        &nbsp;<span class="colorlan">2015-08-27</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1464146.html" title="tailf、tail -f、tail -F三者区别" target="_blank">
+                        tailf、tail -f、tail -F三者区别
+                        &nbsp;<span class="colorlan">2016-08-02</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1059108.html" title="关于POE供电的优缺点" target="_blank">
+                        关于POE供电的优缺点
+                        &nbsp;<span class="colorlan">2015-09-25</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-63266.html" title="彻底解决_OBJC_CLASS_$_某文件名&quot;, referenced from:问题（转）" target="_blank">
+                        彻底解决_OBJC_CLASS_$_某文件名", referenced from:问题（转）
+                        &nbsp;<span class="colorlan">2014-06-15</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-628608.html" title="Monkey测试" target="_blank">
+                        Monkey测试
+                        &nbsp;<span class="colorlan">2015-05-13</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1249251.html" title="ASCLL表" target="_blank">
+                        ASCLL表
+                        &nbsp;<span class="colorlan">2016-03-26</span> </a></li>
+        </ul>
+    </div>
+</div>
+
+            <script type="text/javascript">                mamicode_adload('right_bottom');</script>
+        </div>
+        <div class="divfloatclear">
+        </div>
+    </div>
+    <script type="text/javascript">        mamicode_adload('bottom');</script>
+    <div class="width1000px divmargin0auto paddingtop20bottom20">
+    <div class="width1000px divborder margintop20">
+        <div class="youqingtitle">
+            <a title="友情链接">友情链接</a>
+        </div>
+        <div class="youqingcontent">
+            <a href="http://www.lightinit.com/" target="_blank" title="互联网产品定制开发专家">兰亭集智</a>&nbsp;&nbsp;<a href="http://www.guozhihua.net/" target="_blank">国之画</a>&nbsp;&nbsp;<a href="http://tongji.baidu.com/" target="_blank">百度统计</a>&nbsp;&nbsp; <a href="http://www.cnzz.com/" target="_blank">
+                        站长统计</a>&nbsp;&nbsp;<a href="http://www.aliyun.com/" target="_blank">阿里云</a>&nbsp;&nbsp;<a href="http://www.cnplugins.com/" target="_blank">chrome插件</a>&nbsp;&nbsp;<a href="https://www.trustauth.cn/" target="_blank" title="数安时代,GDCA,SSL证书">数安时代</a>
+        </div>
+    </div>
+</div>
+<div class="bottomdiv">
+    <div class="width1000px divmargin0auto paddingtop20">
+        <div class="height30px divtextalignleft">
+            <a href="http://www.mamicode.com/about.html" title="mamicode.com关于我们">关于我们</a> - <a href="http://www.mamicode.com/contactus.html" title="mamicode.com联系我们">联系我们</a> - <a href="http://www.mamicode.com/guest.html" title="mamicode.com留言反馈">留言反馈</a>
+        </div>
+        <div class="height30px divtextalignleft">
+            © 2014 <a href="http://www.mamicode.com/" target="_blank" title="mamicode.com,技术分享">mamicode.com</a>
+            版权所有 京ICP备13008772号-2
+        </div>
+        <div class="divtextalignleft">
+            <span class="colorlan">迷上了代码！</span>
+        </div>
+        <div class="paddingtop20">
+            <script type="text/javascript">                var 
+cnzz_protocol = (("https:" == document.location.protocol) ? " https://" :
+ " http://"); document.write(unescape("%3Cspan 
+id='cnzz_stat_icon_1254666564'%3E%3C/span%3E%3Cscript src='" + 
+cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1254666564%26show%3Dpic1'
+ type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_1254666564"></span><script src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/z_stat.php" type="text/javascript"></script>
+            <script>
+                (function () {
+                    var bp = document.createElement('script');
+                    var curProtocol = window.location.protocol.split(':')[0];
+                    if (curProtocol === 'https') {
+                        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+                    }
+                    else {
+                        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                    }
+                    var s = document.getElementsByTagName("script")[0];
+                    s.parentNode.insertBefore(bp, s);
+                })();
+            </script>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">        var mid = ''; var id = 
+'1902875'; var idm = '0fb6bb'; var commentitemcount = '0'; var 
+memberhost = 'http://member.mamicode.com/'; prettyPrint(); </script>
+    <script src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/infodetail.js" type="text/javascript" charset="utf-8"></script>
+    <script src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/member.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/mamicodejs.js"></script>
+<script type="text/javascript" src="openstack%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E6%96%87%E4%BB%B6%E9%81%AD%E7%A0%B4%E5%9D%8F%E7%9A%84%E6%80%A5%E6%95%91%E6%96%B9%E6%A1%88_files/su.js"></script>
+
+
+</body></html>

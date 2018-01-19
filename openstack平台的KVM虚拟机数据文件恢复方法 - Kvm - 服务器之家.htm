@@ -1,0 +1,426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=GBK">
+    </head><body><div style="display:none">
+        <script type="text/javascript" async="" src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/a.htm"></script><script type="text/javascript" async="" src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/js"></script><script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/hm.txt"></script><script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/hm_002.txt"></script><script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/stat.js"></script><script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/z_stat.php" language="JavaScript"></script><script>var _hmt = _hmt || [];(function() {  var hm = document.createElement("script");  hm.src = "https://hm.baidu.com/hm.js?d77a30d296c22136b990adf155ee0fff";  var s = document.getElementsByTagName("script")[0];   s.parentNode.insertBefore(hm, s);})();</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?af627b72baaffd0ba9e2ae9a832ffe5b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+    </div>
+    <meta http-equiv="Content-Type" content="text/html; charset=GBK">
+    <title>openstack平台的KVM虚拟机数据文件恢复方法 - Kvm - 服务器之家</title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="stylesheet" href="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/base.css">
+    <link rel="stylesheet" href="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/cunchu2.css">
+    <link rel="stylesheet" href="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/cunchu1.css">
+    <script language="javascript" type="text/javascript" src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/jquery.js"></script>
+    <script>
+    $(".bannerbox").slide({ titCell:".num ul" , mainCell:".bannerpic" , effect:"leftLoop", autoPlay:true, delayTime:500 ,interTime:6000, autoPage: true });
+    </script>
+    <script type="text/javascript">
+    var is_mobi = navigator.userAgent.toLowerCase().match(/(ipod|iphone|android|coolpad|mmp|smartphone|midp|wap|xoom|symbian|j2me|blackberry|wince)/i) != null;  
+    if (is_mobi) {  
+        window.location.href = "//m.server110.com/kvm/201402/6173.html";  
+    }
+    </script>
+
+  
+    <div class="site-bar">
+        <div class="site-bar-bd clearfix">
+            <div class="left-col">
+                <h1>
+                    <a class="home" href="https://www.server110.com/" title="服务器之家">
+                        服务器之家
+                    </a>
+                </h1>专注于服务器技术!
+            </div>
+            <div class="right-col">
+                <div class="login-area">
+                    <a class="login" href="#">我要投稿</a> 
+                    <a class="login" href="#" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('//www.server110.com/');return(false);" style="behavior: url(#default#homepage)">设为首页</a>
+                    <a class="login" href="#"> <span style="CURSOR: hand" onclick="window.external.AddFavorite('//www.server110.com/', '服务器之家')">加入收藏</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blank5"></div>
+    <div class="brandbg area">
+        <div class="logo">
+            <a target="_self" href="https://www.server110.com/">
+            <img alt="" src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/logo.png" title="服务器之家" width="218" height="60" border="0"></a>
+        </div>
+        <div style="width:728px;float:right;">
+            <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/quan_zhan_dao_hang_shang.htm"></script>
+        </div>
+    </div>
+    <div class="blank5"></div>
+    <div class="navbg">
+        <div class="area nav clearfix">
+            <a href="https://www.server110.com/">首页</a>
+            <a href="https://www.server110.com/cloud/">云计算<span class="arrow"></span></a>
+            <a href="https://www.server110.com/database/">数据库服务器<span class="arrow"></span></a>
+            <a href="https://www.server110.com/web/">Web服务器<span class="arrow"></span></a>
+            <a href="https://www.server110.com/ftp/">FTP服务器<span class="arrow"></span></a>
+            <a href="https://www.server110.com/mail/">邮件服务器<span class="arrow"></span></a>
+            <a href="https://www.server110.com/system/">服务器系统<span class="arrow"></span></a>
+            <a href="https://www.server110.com/security/">服务器安全<span class="arrow"></span></a>
+            <a href="https://www.server110.com/script/">脚本编程<span class="arrow"></span></a>
+            <a href="https://www.server110.com/software/">建站程序<span class="arrow"></span></a>
+            <a href="https://www.server110.com/webpage/">网页前端<span class="arrow"></span></a>
+            <a href="https://www.server110.com/news/">业界资讯<span class="arrow"></span></a>
+        </div>
+    </div>
+    <div class="navsub">
+        <div class="nav11 clearfix">
+            <a href="https://www.server110.com/python/">Python<span class="arrow"></span></a>
+            <a href="https://www.server110.com/shell/">Bash<span class="arrow"></span></a>
+            <a href="https://www.server110.com/nginx/">Nginx<span class="arrow"></span></a>
+            <a href="https://www.server110.com/mysql/">MySQL<span class="arrow"></span></a>
+            <a href="https://www.server110.com/vsftpd/">vsFTPd<span class="arrow"></span></a>
+            <a href="https://www.server110.com/apache/">Apache<span class="arrow"></span></a>
+        </div>
+    </div>
+    <div class="blank1"></div>
+    <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/quan_zhan_dao_hang_xia.htm"></script>
+    <div class="blank5"></div>
+
+    <!--=S 页面内容-->
+    <div class="blank10"></div>
+    <div class="wrap">
+        <div class="col-l">
+            <div class="posi">当前位置：<a href="https://www.server110.com/">首页</a>&nbsp;&gt;&nbsp;<a href="https://www.server110.com/cloud/">云和虚拟化</a>&nbsp;&gt;&nbsp;<a href="https://www.server110.com/kvm/">Kvm</a></div>
+            <div class="artitlez">
+                <h1>openstack平台的KVM虚拟机数据文件恢复方法</h1>
+                <p style="font-size:14px;text-align:center;line-height:10px">
+                    <span style="margin-right:10px">发布时间：2014-02-17</span> 
+                    <span style="margin-right:10px">来源：服务器之家</span> 
+                </p>
+                <div class="blank10"></div>
+                <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/article_content_above.htm"></script>
+                <p>
+	本文描述了在OpenStack环境下的kvm虚拟机数据文件损坏后，如何找回数据非系统盘的数据
+</p>
+<b>故障现象：</b> 
+<p>
+	&nbsp;
+&nbsp;在物理机非法关闭之后，虚拟机连接不上了，ssh连接是总提示超时，novashow查看实例，其中status
+行是snapshoting。因为没有手动的做snapshot，因此直接reboot实例，重启之后status是active的，但是还是连接不上。
+</p>
+<p>
+	&nbsp; &nbsp;首先查看VNC的端口:
+</p>
+<p>
+	nova list | grep &nbsp;172.0.0.1（得到实例的id，name，ip信息）
+</p>
+<p>
+	novaget-vnc-console &nbsp;instance_name
+&nbsp;novnc（得到vnc的地址）
+</p>
+<p>
+	使用VNC连接，查看到&lt;0&gt;Kernel panic – not syncing :Fatal
+exception（服务器系统盘坏了）
+</p>
+<b>处理方案和操作过程：</b> 
+<p>
+	经确认，主要的数据在额外挂在的vdb盘下面（非EBS盘，没有使用EBS技术，这里实体机显示的名称为disk.local），系统盘坏了，那么我就需要把之前实例的vdb盘数据恢复就OK了，首先尝试修改
+instance的libvirt.xml文件
+</p>
+<p>
+	1、把disk挂在到一个正常的实例下面，看看能不能看到数据
+</p>
+<p>
+	2、修改毁坏的实例libvirtd.xml，将引导盘设置成一个没有毁坏的实例的disk盘（物理机显示名称是disk）,看能不能启动实例
+</p>
+<p>
+	3、设置iso启动实例，以linuxrescue方式进入系统，配置IP，挂载disk.local盘，scp出数据
+</p>
+<table>
+	<tbody>
+		<tr>
+			<td>
+				<table width="100%">
+					<tbody>
+						<tr>
+							<td>
+								<p>
+									几个命令的介绍：
+								</p>
+								<p>
+									①查看实例的信息：nova list &nbsp;| grep &nbsp; &nbsp; ip或者nova show
+&nbsp;uuid
+								</p>
+								<p>
+									②编辑libvirtd.xml的方法：Virsh &nbsp; &nbsp; edit &nbsp; uuid
+								</p>
+								<p>
+									③强制删除实例：use nova
+								</p>
+								<p>
+									Delete &nbsp; &nbsp;from
+nova.security_group_instance_association where id=
+								</p>
+								<p>
+									Delete &nbsp; &nbsp;from &nbsp;nova.instance_info_caches where
+&nbsp; &nbsp;id=
+								</p>
+								<p>
+									Delete &nbsp; &nbsp;from &nbsp;nova.instances &nbsp;where
+uuid=
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	上面方案1、2的方法就不介绍了，和正常恢复了数据的方案3差不多，修改相关的路径即可，但是1、2两种方案不可行
+</p>
+<p>
+	方案3：设置iso启动实例，以linuxrescue方式进入系统，配置IP，挂载disk.local盘，scp出数据。
+</p>
+<p>
+	1、edit &nbsp;实例uuid
+</p>
+<p>
+	将原来的启动盘部分删除掉，在现有&lt;disk&gt;…&lt;/disk&gt;标签段后再添加如下代码段，以添加光驱设备并挂载iso：
+</p>
+<p>
+	&lt;disktype=’file’ device=’cdrom’&gt;<br>
+&lt;driver name=’qemu’ type=’raw’/&gt;<br>
+&lt;source
+file=’/home/openstack/rhel-server-5.3-x86_64-dvd.iso’/&gt;<br>
+&lt;target dev=’hdc’ bus=’ide’/&gt;<br>
+&lt;readonly/&gt;<br>
+&lt;/disk&gt;
+</p>
+<p>
+	再在&lt;os&gt;…&lt;/os&gt;标签内，&lt;bootdev=’hd’/&gt;之前添加一行：
+</p>
+<p>
+	&lt;boot dev=’cdrom’/&gt;
+</p>
+<p>
+	2. &nbsp; 此时再将该实例destroy再start就会从光盘启动了
+</p>
+<p>
+	# destroy &nbsp;old_instance_domain
+</p>
+<p>
+	# start &nbsp;old_instance_domain
+</p>
+<p>
+	注：救援模式如何配置IP之类的就不再说了，网上很多。
+</p>
+<p>
+	那现在进入救援模式，fdisk
+–l查看现有的盘，建立新的目录，将sdb盘挂载上去，之后就可以使用scp将数据拷出去，此时sdb盘的数据便恢复了。
+</p>
+<p>
+	新建实例，将数据恢复到新的实例上面去；
+</p>
+<p>
+	1、先nova show uuid
+查看毁坏的instance的详细信息，比如：flavor的类型，使用哪个image、在那个实体机上面等，
+</p>
+<p>
+	Glance index查看镜像的信息
+</p>
+<p>
+	Nova flavor-list 查看实例类型
+</p>
+<p>
+	2、之后删除原先的实例，新建实例
+</p>
+<p>
+	Nova boot &nbsp;--flavor 7 &nbsp;--image image_id &nbsp;
+instance_name &nbsp;--availability_zone nova:compute_name
+</p>
+<p>
+	3、分配floating ip
+</p>
+<p>
+	Nova &nbsp; add-floating-ip &nbsp; uuid 172.0.0.2
+</p>
+<p>
+	SCP 备份的数据到新的实例即可
+</p>                <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/article_content_below.htm"></script>
+                <div class="blank10"></div>
+                <div class="pagelist"></div>
+            </div>
+            <div class="blank14"></div>
+            <div class="left1">
+                <div class="hdl">
+                    <h3>相关文章</h3>
+                </div>
+                <div class="mod">
+                    <div class="blank10"></div>
+                    <ul class="art ranking1" style="height:175px;overflow:hidden">
+
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201308/152.html" title="$bqr[title]" target="_blank">CentOS 6使用yum安装KVM虚拟机</a>
+                        </li>
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201312/3805.html" title="$bqr[title]" target="_blank">KVM虚拟机中解决Windows系统的硬盘i/o问</a>
+                        </li>
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201312/3807.html" title="$bqr[title]" target="_blank">KVM虚拟机如何备份和还原</a>
+                        </li>
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201403/8163.html" title="$bqr[title]" target="_blank">Linux KVM虚拟机的网络配置</a>
+                        </li>
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201404/10411.html" title="$bqr[title]" target="_blank">KVM虚拟机如何进行在线迁移</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="left2">
+                <div class="hdl">
+                    <h3>推荐阅读</h3>
+                </div>
+                <div class="mod">
+                    <div class="blank10"></div>
+                    <ul class="art ranking1">
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201311/3294.html" title="$bqr[title]" target="_blank">Debian系统安装KVM虚拟机过程详解</a>
+                        </li>
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201312/4577.html" title="$bqr[title]" target="_blank">在KVM虚拟机中使用debootstrap快速安装</a>
+                        </li>
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201312/4579.html" title="$bqr[title]" target="_blank">Ubuntu系统配置KVM虚拟机桥接网络</a>
+                        </li>
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201401/5283.html" title="$bqr[title]" target="_blank">Xen虚拟机如何迁移到KVM</a>
+                        </li>
+                                                <li class="libgdot">
+                        <a href="https://www.server110.com/kvm/201403/8377.html" title="$bqr[title]" target="_blank">CentOS系统安装KVM虚拟机详细过程</a>
+                        </li>
+                                            </ul>
+                </div>
+            </div>
+            <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/article_left_bottom.htm"></script>
+        </div>
+
+
+        <div class="col-r">
+
+            <div class="cn-search">
+                <script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=9149198320401485197' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script><div id="bdcs"></div>
+            </div>
+            <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/article_right_1.htm"></script>
+            <div class="blank10"></div>
+            <div class="mod">
+                <div class="hd">
+                    <h3>热点推荐</h3>
+                </div>
+                <ul class="picTxtList splitLine">
+                    SQL Error: select * from ***_***_news where id in ()                </ul>
+            </div>
+            <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/article_right_2.htm"></script>
+            <div class="blank10"></div>
+            <div class="mod">
+                <div class="hd">
+                    <h3>点击排行</h3>
+                </div>
+                <div class="blank10"></div>
+                <ul class="art ranking">
+                                        <li>
+                        <a href="https://www.server110.com/kvm/201309/1678.html" target="_blank" title="KVM虚拟机安装方法和管理命令">
+                            KVM虚拟机安装方法和管理命令                        </a>
+                    </li>
+                                        <li>
+                        <a href="https://www.server110.com/kvm/201403/6903.html" target="_blank" title="使用virt-install创建KVM虚拟机">
+                            使用virt-install创建KVM虚拟机                        </a>
+                    </li>
+                                        <li>
+                        <a href="https://www.server110.com/kvm/201403/7248.html" target="_blank" title="libvirt管理KVM虚拟机的使用方法">
+                            libvirt管理KVM虚拟机的使用方法                        </a>
+                    </li>
+                                        <li>
+                        <a href="https://www.server110.com/kvm/201403/7780.html" target="_blank" title="KVM虚拟机使用过程中遇到过的一些问题">
+                            KVM虚拟机使用过程中遇到过的一些问题                        </a>
+                    </li>
+                                        <li>
+                        <a href="https://www.server110.com/kvm/201403/8321.html" target="_blank" title="KVM虚拟机的安装和使用方法">
+                            KVM虚拟机的安装和使用方法                        </a>
+                    </li>
+                                        <li>
+                        <a href="https://www.server110.com/kvm/201404/10036.html" target="_blank" title="在VMware workstation9中安装KVM虚拟机">
+                            在VMware workstation9中安装KVM虚拟机                        </a>
+                    </li>
+                                        <li>
+                        <a href="https://www.server110.com/kvm/201404/10342.html" target="_blank" title="CentOS 6.5系统中KVM虚拟机的安装及配置">
+                            CentOS 6.5系统中KVM虚拟机的安装及配置                        </a>
+                    </li>
+                                        <li>
+                        <a href="https://www.server110.com/kvm/201404/10467.html" target="_blank" title="CentOS 6.5系统如何安装 KVM 虚拟机">
+                            CentOS 6.5系统如何安装 KVM 虚拟机                        </a>
+                    </li>
+                                    </ul>
+            </div>
+            <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/article_right_3.htm"></script>
+            <div class="blank10"></div>
+            <div class="mod">
+                <div class="hd"><h3>随机浏览</h3>
+                </div>
+                <div class="blank10"></div>
+                <ul class="art ranking1">
+    <li><a href="https://www.server110.com/kvm/201311/3295.html" target="_blank">Debian和Ubuntu系统中KVM虚拟机如何设置</a></li>
+    <li><a href="https://www.server110.com/kvm/201311/3303.html" target="_blank">fedora系统安装装KVM虚拟机的方法</a></li>
+    <li><a href="https://www.server110.com/kvm/201312/3797.html" target="_blank">IBM将支持开源KVM虚拟化技术</a></li>
+    <li><a href="https://www.server110.com/kvm/201312/3808.html" target="_blank">KVM虚拟机使用snapshot快照备份和还原</a></li>
+    <li><a href="https://www.server110.com/kvm/201402/5540.html" target="_blank">KVM虚拟机技术学习笔记</a></li>
+    <li><a href="https://www.server110.com/kvm/201402/6446.html" target="_blank">KVM (Kernel-based Virtual Machine)虚</a></li>
+    <li><a href="https://www.server110.com/kvm/201403/8321.html" target="_blank">KVM虚拟机的安装和使用方法</a></li>
+    <li><a href="https://www.server110.com/kvm/201404/10026.html" target="_blank">KVM虚拟机正确的关闭方法</a></li>
+                </ul>
+            </div>
+            <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/article_right_4.htm"></script>
+            <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/article_right_5.htm"></script>
+        </div>
+    </div>
+    <div class="blank10"></div>
+    <div class="mod-links area">
+    <script src="openstack%E5%B9%B3%E5%8F%B0%E7%9A%84KVM%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95%20-%20Kvm%20-%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E5%AE%B6_files/quan_zhan_di_bu.htm"></script>
+    <div class="solidline"></div>
+    <div class="copys">
+      <p>
+        <a href="#">关于我们</a>  |  
+        <a href="#">网站声明</a>  |  
+        <a href="#">意见反馈</a>  |  
+        <a href="#">业务合作</a>  |  
+        <a href="#">友情链接</a>  |  
+        <a href="#">联系我们</a>  |  
+        <a href="#">收费服务</a>
+      </p>
+      <p><span class="en-code" style="font-family: arial;">Copyright &#169; 2002-2017</span>.<a href="http://www.server110.com/" target="_blank">服务器之家</a> 版权所有 <a href="http://www.miitbeian.gov.cn/" target="_blank">辽ICP备13009196号</a></p>
+      <br>
+    </div>
+  </div>
+  <script type="text/javascript">
+    (function() {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = "/e/public/ViewClick/?classid=31&id=6173&addclick=1";
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    })();
+  </script>
+
+</body></html>

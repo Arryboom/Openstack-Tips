@@ -1,0 +1,68 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0}
+fieldset,img{border:0 none}
+:focus{outline:0}
+address,caption,cite,code,dfn,em,b,i,th,var,optgroup{font-style:normal;font-weight:400}
+abbr,acronym{border:0;font-variant:normal}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
+textarea{overflow:auto}
+ol,ul{list-style:none}
+table{border-collapse:collapse;border-spacing:0}
+caption,th{text-align:left}
+sup,sub{font-size:100%;vertical-align:baseline}
+:link,:visited,ins{text-decoration:none}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:none}
+.clearfix:after{content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden}
+.clearfix{zoom:1}
+.fr{display:inline;float:right!important}
+.fl{display:inline;float:left!important}
+.show{display:block}
+.hide{display:none}
+.center{text-align:center!important}
+h1,h2,h3,h4,h5,h6,code,kbd,samp,tt,input,button,textarea,select{font-size:100%}
+button,input[type=reset],input[type=button],input[type=submit]{cursor:pointer;overflow:visible}
+.blank5,.blank8,.blank10{clear:both;overflow:hidden}
+.blank5{height:5px}
+.blank8{height:8px}
+.blank10{height:10px}
+.blank20{clear:both;margin:15px 0;*margin:0 0 15px;_margin:15px 0;border-bottom:1px dashed #ddd;overflow:hidden;position:relative}
+body{font:400 12px/1.5 'ËÎÌו',arial}
+a{color:#000}
+a:focus,a:hover{text-decoration:underline;color:#BD0A01}
+html{overflow-y:scroll;background:#fff}
+.wrap{margin:0 auto;width:980px}
+.area{margin:0 auto;width:980px}
+.h-nav{width:100%;height:34px;line-height:34px;color:#ccc;font-size:14px;overflow:hidden;clear:both}
+.h-nav a{color:#010101;margin:0 7px}
+.topbarbg{background:none;width:100%;min-width:980px;height:34px;line-height:34px}
+.topbar .h-nav{font-size:12px;float:left;width:800px}
+.topbar .h-nav a{margin:0 5px}
+.topbar .user-links{float:right;line-height:34px;height:34px}
+.user-links .sep{margin:0 8px}
+.topbar .user-links .j_ucenter{display:block}
+.topbar .user-links .ico-ucenter{border-color:#fff;display:inline-block;border-left-color:#E12335;border-style:dashed dashed dashed solid;border-width:4px;margin-left:5px;height:0;width:0;font-size:0;line-height:0;overflow:hidden}
+.topbar .h-nav{width:780px}
+.topbar .h-nav a{margin:0 3px}
+.site-bar{background-color:#F4F4F4;height:35px}
+.site-bar-bd{width:980px;margin:0 auto;line-height:35px;color:#666;background-color:#F4F4F4}
+.site-bar .left-col{float:left;width:400px}
+.site-bar .left-col h1{margin:0;padding:0;font-size:12px;float:left;font-weight:normal}
+.site-bar .left-col h2{margin:0;padding:0;font-size:12px;font-weight:normal}
+.site-bar .left-col a{float:left;display:inline-block;padding-left:15px;padding-right:10px;color:#666;border-right:0px solid #DDD;}
+.site-bar .left-col a:hover{text-decoration:underline;color:#000}
+.site-bar .right-col{float:right}
+.site-bar .login-area{float:left;}
+.site-bar .login-area .login,.site-bar .login-area .logout{display:inline-block;float:left;padding-left:10px;color:#666;}
+.site-bar .login-area .login:hover,.site-bar .login-area .logout:hover{text-decoration:underline;color:#000}
+.site-nav{width:100%;height:34px;line-height:34px;color:#ccc;font-size:12px;overflow:hidden;clear:both;text-align:center;min-width:980px}
+.site-nav .site-nav-bd{width:980px;margin:0 auto;clear:both;overflow:hidden}
+.site-nav span{float:left;padding:0 13px}
+.site-nav a{color:#252525;float:left}
+.site-nav a:hover{color:#BD0A01}
+.h-gg{border:1px solid #ddd;background:#F7F7F7;height:100px;overflow:hidden;padding:9px 0 9px 9px;width:969px;margin:0 auto}
+.h-gg img{float:left;margin-right:9px}
+.footer{height:100px;color:#000;text-align:center;padding-top:15px}
+.footer p{padding-top:5px}
+.footer a{color:#000}
+.footer a:hover{color:#f00}
+.page-box{text-align:center;font-size:14px}
