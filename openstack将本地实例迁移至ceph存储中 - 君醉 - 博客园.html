@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.cnblogs.com/pycode/p/6494890.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/bundle-SimpleMemory.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/bundle-SimpleMemory-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/pycode/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/pycode/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/pycode/wlwmanifest.xml">
+<script async="" src="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/analytics.js.下载"></script><script src="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'pycode', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/pycode/"><img id="blogLogo" src="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/pycode/">君醉</a></h1>
+<h2>Just Do IT，Not At ALL</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/pycode/">首页</a></li>
+<li></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%90%9B%E9%86%89">联系</a></li>
+<li>
+<!----></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 80&nbsp; </span>
+<span id="stats_article_count">文章 - 5&nbsp; </span>
+<span id="stats-comment_count">评论 - 7</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/pycode/p/6494890.html">openstack将本地实例迁移至ceph存储中</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown"><h1 id="需求">需求：</h1>
+<p>最近在openstack上线了ceph存储，创建虚拟机和云硬盘都基于ceph卷进行存储和创建，但是之前openstack用的是本地存储，创建的所有实例都在本地文件中，当实例重启之后，openstack nova 自动会将libvirt.xml（实例的配置文件）渲染为使用ceph 卷磁盘.所以，就无法启动实例，因为此时实例中是没有disk的</p>
+<ul>
+<li>基于本地存储的实例</li>
+</ul>
+<pre><code class="hljs fsharp">
+disk <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"file"</span> device=<span class="hljs-string">"disk"</span>&gt;
+
+      &lt;driver name=<span class="hljs-string">"qemu"</span> <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"qcow2"</span> cache=<span class="hljs-string">"none"</span>/&gt;
+
+      &lt;source file=<span class="hljs-string">"/var/lib/nova/instances/dc2b76cc-9c9e-4ed0-925e-4a1d7306d183/disk"</span>/&gt;
+
+      &lt;target bus=<span class="hljs-string">"virtio"</span> dev=<span class="hljs-string">"vda"</span>/&gt;
+
+    &lt;/disk&gt;
+</code></pre>
+<ul>
+<li>基于ceph存储的实例</li>
+</ul>
+<pre><code class="hljs django"><span class="xml">
+ <span class="hljs-tag">&lt;<span class="hljs-name">disk</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"network"</span> <span class="hljs-attr">device</span>=<span class="hljs-string">"disk"</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">driver</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"raw"</span> <span class="hljs-attr">cache</span>=<span class="hljs-string">"writeback"</span>/&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">"rbd"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"vms/49704562-e043-47fa-affb-b4e9f1ff1359_disk"</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">host</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"172.16.206.16"</span> <span class="hljs-attr">port</span>=<span class="hljs-string">"6789"</span>/&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">host</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"172.16.206.19"</span> <span class="hljs-attr">port</span>=<span class="hljs-string">"6789"</span>/&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">host</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"172.16.206.20"</span> <span class="hljs-attr">port</span>=<span class="hljs-string">"6789"</span>/&gt;</span>
+
+      <span class="hljs-tag">&lt;/<span class="hljs-name">source</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">auth</span> <span class="hljs-attr">username</span>=<span class="hljs-string">"cinder"</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">secret</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"ceph"</span> <span class="hljs-attr">uuid</span>=<span class="hljs-string">"3ca66ec4-dd87-4a3d-b7f9-f62a6662489f"</span>/&gt;</span>
+
+      <span class="hljs-tag">&lt;/<span class="hljs-name">auth</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">target</span> <span class="hljs-attr">bus</span>=<span class="hljs-string">"virtio"</span> <span class="hljs-attr">dev</span>=<span class="hljs-string">"vda"</span>/&gt;</span>
+
+    <span class="hljs-tag">&lt;/<span class="hljs-name">disk</span>&gt;</span>
+</span></code></pre>
+<h1 id="前期准备">前期准备：</h1>
+<h2 id="了解ceph中存储的实例disk里面究竟是什么">了解ceph中存储的实例disk里面究竟是什么？</h2>
+<ul>
+<li>导出ceph中的disk</li>
+</ul>
+<pre><code class="hljs coffeescript">
+<span class="hljs-comment"># 查看目前ceph中的disk</span>
+
+[root@ceph-node02 ~]<span class="hljs-comment"># rbd -p vms ls</span>
+
+<span class="hljs-number">35</span>ae9849<span class="hljs-number">-093</span>d<span class="hljs-number">-4</span>ffc<span class="hljs-number">-8453</span><span class="hljs-number">-3</span>de46ecdef86_disk
+
+<span class="hljs-comment">#导出disk</span>
+
+
+[root@ceph-node02 ~]<span class="hljs-comment"># rbd -p vms export 35ae9849-093d-4ffc-8453-3de46ecdef86_disk vm.raw</span>
+
+Exporting image: <span class="hljs-number">100</span>% complete...done.
+
+[root@ceph-node02 ~]<span class="hljs-comment"># mkdir vms</span>
+
+<span class="hljs-comment"># 查看导出的disk的分区信息</span>
+
+[root@ceph-node02 ~]<span class="hljs-comment"># fdisk -lu vm.raw</span>
+
+
+
+磁盘 vm.raw：<span class="hljs-number">21.5</span> GB, <span class="hljs-number">21474836480</span> 字节，<span class="hljs-number">41943040</span> 个扇区
+
+Units = 扇区 <span class="hljs-keyword">of</span> <span class="hljs-number">1</span> * <span class="hljs-number">512</span> = <span class="hljs-number">512</span> bytes
+
+扇区大小(逻辑<span class="hljs-regexp">/物理)：512 字节 /</span> <span class="hljs-number">512</span> 字节
+
+I<span class="hljs-regexp">/O 大小(最小/</span>最佳)：<span class="hljs-number">512</span> 字节 / <span class="hljs-number">512</span> 字节
+
+磁盘标签类型：dos
+
+磁盘标识符：<span class="hljs-number">0x000e6c16</span>
+
+
+
+ 设备 Boot      Start         End      Blocks   Id  System
+
+vm.raw1   *        <span class="hljs-number">2048</span>      <span class="hljs-number">411647</span>      <span class="hljs-number">204800</span>   <span class="hljs-number">83</span>  Linux
+
+vm.raw2          <span class="hljs-number">411648</span>     <span class="hljs-number">8800255</span>     <span class="hljs-number">4194304</span>   <span class="hljs-number">82</span>  Linux swap / Solaris
+
+vm.raw3         <span class="hljs-number">8800256</span>    <span class="hljs-number">41943039</span>    <span class="hljs-number">16571392</span>   <span class="hljs-number">83</span>  Linux
+
+
+
+<span class="hljs-comment">#计算偏移量，只挂载指定的分区，由于这个磁盘有多个分区，所以，如果挂载指定的分区，需计算挂载的偏移量</span>
+
+[root@ceph-node02 ~]<span class="hljs-comment"># echo "8800256*512" | bc</span>
+
+<span class="hljs-number">4505731072</span>
+
+
+<span class="hljs-comment">#挂载</span>
+
+[root@ceph-node02 ~]<span class="hljs-comment"># mount -o offset=4505731072 vm.raw vms</span>
+
+[root@ceph-node02 ~]<span class="hljs-comment"># ls vms</span>
+
+bin   cgroup  dev  home  lib64       media  opt   root  sbin     srv  tmp  var
+
+boot  data    etc  lib   lost+found  mnt    proc  run   selinux  sys  usr
+</code></pre>
+<p>发现，其实ceph中存储的disk里面就是linux系统的文件</p>
+<h2 id="用同样的方法查看本地实例disk中是否和ceph的disk一样">用同样的方法，查看本地实例disk中是否和ceph的disk一样</h2>
+<pre><code class="hljs sql">
+[root@compute2 <span class="hljs-keyword">backup</span>]# fdisk -lu disk
+
+磁盘 disk：<span class="hljs-number">50</span> MB, <span class="hljs-number">50659328</span> 字节，<span class="hljs-number">98944</span> 个扇区
+
+Units = 扇区 <span class="hljs-keyword">of</span> <span class="hljs-number">1</span> * <span class="hljs-number">512</span> = <span class="hljs-number">512</span> <span class="hljs-keyword">bytes</span>
+
+扇区大小(逻辑/物理)：<span class="hljs-number">512</span> 字节 / <span class="hljs-number">512</span> 字节
+
+<span class="hljs-keyword">I</span>/O 大小(最小/最佳)：<span class="hljs-number">512</span> 字节 / <span class="hljs-number">512</span> 字节
+
+#发现没有disk里没有逻辑信息，突然想到disk里的数据是基于base来增量存储的，下面合并一下数据试试
+
+
+
+[root@compute2 <span class="hljs-keyword">backup</span>]#  qemu-img <span class="hljs-keyword">convert</span> -<span class="hljs-keyword">p</span> -<span class="hljs-keyword">f</span> qcow2 disk -O qcow2 disk-boot.img            #合并disk和base
+
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# fdisk -lu disk-boot.img
+
+磁盘 disk-boot.img：<span class="hljs-number">965</span> MB, <span class="hljs-number">965148672</span> 字节，<span class="hljs-number">1885056</span> 个扇区
+
+Units = 扇区 <span class="hljs-keyword">of</span> <span class="hljs-number">1</span> * <span class="hljs-number">512</span> = <span class="hljs-number">512</span> <span class="hljs-keyword">bytes</span>
+
+扇区大小(逻辑/物理)：<span class="hljs-number">512</span> 字节 / <span class="hljs-number">512</span> 字节
+
+<span class="hljs-keyword">I</span>/O 大小(最小/最佳)：<span class="hljs-number">512</span> 字节 / <span class="hljs-number">512</span> 字节
+
+
+#发现仍然没有，尝试将磁盘格式从qcow2转换为<span class="hljs-keyword">raw</span>试试
+
+
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# qemu-img <span class="hljs-keyword">convert</span> -<span class="hljs-keyword">f</span> qcow2 -O <span class="hljs-keyword">raw</span> disk-boot.img disk-boot.<span class="hljs-keyword">raw</span>  #转换成<span class="hljs-keyword">raw</span>格式
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# fdisk -lu disk-boot.<span class="hljs-keyword">raw</span>
+
+磁盘 disk-boot.<span class="hljs-keyword">raw</span>：<span class="hljs-number">21.5</span> GB, <span class="hljs-number">21474836480</span> 字节，<span class="hljs-number">41943040</span> 个扇区
+
+Units = 扇区 <span class="hljs-keyword">of</span> <span class="hljs-number">1</span> * <span class="hljs-number">512</span> = <span class="hljs-number">512</span> <span class="hljs-keyword">bytes</span>
+
+扇区大小(逻辑/物理)：<span class="hljs-number">512</span> 字节 / <span class="hljs-number">512</span> 字节
+
+<span class="hljs-keyword">I</span>/O 大小(最小/最佳)：<span class="hljs-number">512</span> 字节 / <span class="hljs-number">512</span> 字节
+
+磁盘标签类型：dos
+
+磁盘标识符：<span class="hljs-number">0x000e6c16</span>
+
+
+
+        设备 Boot      <span class="hljs-keyword">Start</span>         <span class="hljs-keyword">End</span>      Blocks   <span class="hljs-keyword">Id</span>  <span class="hljs-keyword">System</span>
+
+disk-boot.raw1   *        <span class="hljs-number">2048</span>      <span class="hljs-number">411647</span>      <span class="hljs-number">204800</span>   <span class="hljs-number">83</span>  Linux
+
+disk-boot.raw2          <span class="hljs-number">411648</span>     <span class="hljs-number">8800255</span>     <span class="hljs-number">4194304</span>   <span class="hljs-number">82</span>  Linux swap / Solaris
+
+disk-boot.raw3         <span class="hljs-number">8800256</span>    <span class="hljs-number">41943039</span>    <span class="hljs-number">16571392</span>   <span class="hljs-number">83</span>  Linux
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# mkdir <span class="hljs-keyword">test</span>
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# <span class="hljs-keyword">mount</span> -o <span class="hljs-keyword">offset</span>=<span class="hljs-number">4505731072</span> disk-boot.<span class="hljs-keyword">raw</span> <span class="hljs-keyword">test</span>/
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# ls <span class="hljs-keyword">test</span>/
+
+<span class="hljs-keyword">bin</span>  boot  cgroup  dev  etc  home  lib  lib64  lost+<span class="hljs-keyword">found</span>  media  mnt  opt  proc  root  run  sbin  selinux  srv  <span class="hljs-keyword">sys</span>  tmp  usr  <span class="hljs-keyword">var</span>
+</code></pre>
+<p>发现一摸一样。所以，了解到这些之后，理论上，我们把本地实例的disk导入到ceph中，是可行的</p>
+<h1 id="操作步骤">操作步骤：</h1>
+<h2 id="生成数据盘">生成数据盘</h2>
+<ul>
+<li>查看实例的磁盘信息：</li>
+</ul>
+<pre><code class="hljs sql">
+[root@compute2 <span class="hljs-keyword">backup</span>]#ls
+
+console.<span class="hljs-keyword">log</span>  disk  disk.info  libvirt.<span class="hljs-keyword">xml</span>
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# qemu-img info disk
+
+image: disk
+
+<span class="hljs-keyword">file</span> <span class="hljs-keyword">format</span>: qcow2
+
+<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">size</span>: <span class="hljs-number">20</span><span class="hljs-keyword">G</span> (<span class="hljs-number">21474836480</span> <span class="hljs-keyword">bytes</span>)
+
+disk <span class="hljs-keyword">size</span>: <span class="hljs-number">48</span><span class="hljs-keyword">M</span>
+
+cluster_size: <span class="hljs-number">65536</span>
+
+backing <span class="hljs-keyword">file</span>: /<span class="hljs-keyword">var</span>/lib/nova/instances/_base/d2d88bd0b8587d35602451d91cf9f3902756caaf
+
+<span class="hljs-keyword">Format</span> specific information:
+
+    compat: <span class="hljs-number">1.1</span>
+
+    lazy refcounts: <span class="hljs-literal">false</span>
+</code></pre>
+<p>发现磁盘格式为qcow2，磁盘逻辑大小为20G，实际大小为48M。由于disk是基于base来增量存储数据的，。所以，disk实例大小很小，。现在需要将增量数据和base数据进行合并</p>
+<pre><code class="hljs sql">
+[root@compute2 <span class="hljs-keyword">backup</span>]#  qemu-img <span class="hljs-keyword">convert</span> -<span class="hljs-keyword">p</span> -<span class="hljs-keyword">f</span> qcow2 disk -O qcow2 disk-boot.img
+
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# ll -h disk-boot.img
+
+-rw-r<span class="hljs-comment">--r-- 1 root root 921M 10月 18 11:05 disk-boot.img</span>
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# qemu-img info disk-boot.img
+
+image: disk-boot.img
+
+<span class="hljs-keyword">file</span> <span class="hljs-keyword">format</span>: qcow2
+
+<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">size</span>: <span class="hljs-number">20</span><span class="hljs-keyword">G</span> (<span class="hljs-number">21474836480</span> <span class="hljs-keyword">bytes</span>)
+
+disk <span class="hljs-keyword">size</span>: <span class="hljs-number">920</span><span class="hljs-keyword">M</span>
+
+cluster_size: <span class="hljs-number">65536</span>
+
+<span class="hljs-keyword">Format</span> specific information:
+
+    compat: <span class="hljs-number">1.1</span>
+
+    lazy refcounts: <span class="hljs-literal">false</span>
+</code></pre>
+<ul>
+<li>转换磁盘格式</li>
+</ul>
+<p>由于ceph存储只支持raw格式，所以需要将qcow2转换为raw</p>
+<pre><code class="hljs sql">
+[root@compute2 <span class="hljs-keyword">backup</span>]# qemu-img <span class="hljs-keyword">convert</span> -<span class="hljs-keyword">f</span> qcow2 -O <span class="hljs-keyword">raw</span> disk-boot.img disk-boot.<span class="hljs-keyword">raw</span>
+
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# ll -h disk-boot.<span class="hljs-keyword">raw</span>
+
+-rw-r<span class="hljs-comment">--r-- 1 root root 20G 10月 18 11:05 disk-boot.raw</span>
+
+[root@compute2 <span class="hljs-keyword">backup</span>]# qemu-img info disk-boot.<span class="hljs-keyword">raw</span>
+
+image: disk-boot.<span class="hljs-keyword">raw</span>
+
+<span class="hljs-keyword">file</span> <span class="hljs-keyword">format</span>: <span class="hljs-keyword">raw</span>
+
+<span class="hljs-keyword">virtual</span> <span class="hljs-keyword">size</span>: <span class="hljs-number">20</span><span class="hljs-keyword">G</span> (<span class="hljs-number">21474836480</span> <span class="hljs-keyword">bytes</span>)
+
+disk <span class="hljs-keyword">size</span>: <span class="hljs-number">911</span><span class="hljs-keyword">M</span>
+</code></pre>
+<h2 id="将磁盘导入ceph中">将磁盘导入ceph中</h2>
+<pre><code class="hljs perl">
+<span class="hljs-comment">#查看本实例的ID： 49704562-e043-47fa-affb-b4e9f1ff1359，所以生成的disk 为vms/49704562-e043-47fa-affb-b4e9f1ff1359_disk</span>
+
+<span class="hljs-comment">#将disk文件copy到ceph服务器上</span>
+
+<span class="hljs-comment">#导入：</span>
+
+[root@ceph-node02 ~]<span class="hljs-comment">#  rbd -p vms import disk-boot.raw --image 49704562-e043-47fa-affb-b4e9f1ff1359_disk</span>
+
+查看：
+
+[root@ceph-node02 ~]<span class="hljs-comment"># rbd -p vms ls</span>
+
+<span class="hljs-number">49704562</span>-e043-<span class="hljs-number">47</span>fa-affb-b4e9f1ff1359_disk
+</code></pre>
+<p>最后重启启动实例即可</p>
+<h1 id="期间遇到的种种问题">期间遇到的种种问题：</h1>
+<p>## 由于ceph版本和python-rdb库和ceph服务器的版本不一致，导致启动失败：</p>
+<pre><code class="hljs sql">
+libvirtError: internal error: early <span class="hljs-keyword">end</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">file</span> <span class="hljs-keyword">from</span> monitor: possible problem:
+<span class="hljs-number">2016</span><span class="hljs-number">-10</span><span class="hljs-number">-17</span> <span class="hljs-number">18</span>:<span class="hljs-number">01</span>:<span class="hljs-number">24.682</span> <span class="hljs-number">15412</span> <span class="hljs-keyword">ERROR</span> oslo_messaging.rpc.dispatcher <span class="hljs-number">2016</span><span class="hljs-number">-10</span><span class="hljs-number">-17</span>T10:<span class="hljs-number">01</span>:<span class="hljs-number">24.051680</span>Z qemu-kvm: -drive <span class="hljs-keyword">file</span>=rbd:test_vms/c9f4dc2b<span class="hljs-number">-82</span>c7<span class="hljs-number">-49</span>d9-aca9<span class="hljs-number">-57</span>c36c765f53_disk:<span class="hljs-keyword">id</span>=test_cinder:<span class="hljs-keyword">key</span>=AQDrw/<span class="hljs-number">1</span>XGO34MBAAitTih7agTaNISDG2dYZ90w==:auth_supported=cephx;none:mon_host=172.16.206.16:6789;172.16.206.19:6789;172.16.206.20:6789,if=none,id=drive-virtio-disk0,format=raw,<span class="hljs-keyword">cache</span>=writeback: <span class="hljs-keyword">error</span> reading header <span class="hljs-keyword">from</span> c9f4dc2b<span class="hljs-number">-82</span>c7<span class="hljs-number">-49</span>d9-aca9<span class="hljs-number">-57</span>c36c765f53_disk
+</code></pre>
+<p>解决办法：将本地ceph 和python-rdb的版本升级到ceph服务器版本即可解决</p>
+<p>附ceph 源：</p>
+<pre><code class="hljs ini"><span class="hljs-section">
+[ceph]</span>
+
+<span class="hljs-attr">name</span>=ceph
+
+<span class="hljs-attr">baseurl</span>=http://download.ceph.com/rpm-jewel/el7/x<span class="hljs-number">86_64</span>/
+
+<span class="hljs-attr">gpgcheck</span>=<span class="hljs-number">0</span>
+
+<span class="hljs-attr">enabled</span>=<span class="hljs-number">1</span>
+<span class="hljs-section">
+
+
+[ceph-deploy]</span>
+
+<span class="hljs-attr">name</span>=ceph-deploy
+
+<span class="hljs-attr">baseurl</span>=http://download.ceph.com/rpm-jewel/el7/noarch/
+
+<span class="hljs-attr">gpgcheck</span>=<span class="hljs-number">0</span>
+
+<span class="hljs-attr">enabled</span>=<span class="hljs-number">1</span>
+</code></pre>
+</div><div id="MySignature" style="display: block;">学习提高自己，能力证明自己，技能创造价值</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/pycode/tag/openstack/">openstack</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6494890,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;d344d6af-9415-e611-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/pycode/" target="_blank"><img src="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/20160509113900.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/pycode/">君醉</a><br>
+            <a href="http://home.cnblogs.com/u/pycode/followees">关注 - 12</a><br>
+            <a href="http://home.cnblogs.com/u/pycode/followers">粉丝 - 35</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;d344d6af-9415-e611-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6494890,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6494890,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/pycode/p/6494885.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/pycode/p/6494885.html" title="发布于2017-03-03 10:18">openstack的glance、nova、cinder使用ceph做后端存储</a><br><a href="http://www.cnblogs.com/pycode/p/6508401.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/pycode/p/6508401.html" title="发布于2017-03-06 09:33">linux制作RPM包</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-03-03 10:19</span> <a href="http://www.cnblogs.com/pycode/">君醉</a> 阅读(<span id="post_view_count">1211</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6494890" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/pycode/p/6494890.html#" onclick="AddToWz(6494890);return false;">收藏</a></div>
+	</div>
+	<script src="./openstack将本地实例迁移至ceph存储中 - 君醉 - 博客园_files/highlight.min.js.下载"></script><script>markdown_highlight();</script><script type="text/javascript">var allowComments=true,cb_blogId=284251,cb_entryId=6494890,cb_blogApp=currentBlogApp,cb_blogUserGuid='d344d6af-9415-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2017/3/3 10:19:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/pycode/p/6494890.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/pycode/p/6494890.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/587914/" target="_blank">干货分享：《欢乐坦克大战》微信小游戏开发总结</a><br> ·  <a href="https://news.cnblogs.com/n/587913/" target="_blank">2017年谷歌热搜旅游目的地榜单出炉，TOP1居然是这里!</a><br> ·  <a href="https://news.cnblogs.com/n/587910/" target="_blank">张小龙不谈情怀，那什么才是谈情怀的正确姿势？</a><br> ·  <a href="https://news.cnblogs.com/n/587909/" target="_blank">小鹏汽车何小鹏：时间是所有车企共同的核心问题</a><br> ·  <a href="https://news.cnblogs.com/n/587908/" target="_blank">被抄成风口的直播答题节目鼻祖HQ在美国如何炼成？</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/pycode/">君醉</a><br>园龄：<a href="https://home.cnblogs.com/u/pycode/" title="入园时间：2016-05-09">1年8个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/pycode/followers/">35</a><br>关注：<a href="https://home.cnblogs.com/u/pycode/followees/">12</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;d344d6af-9415-e611-9fc1-ac853d9f53cc&#39;)">+加关注</a></div><script>getFollowStatus('d344d6af-9415-e611-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/12/01&#39;);return false;">&lt;</a></td><td align="center">2018年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td class="CalTodayDay" align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/pycode/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/pycode/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/pycode/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/pycode/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/pycode/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/pycode/tag/python-study/">python-study</a>(20)</li><li><a href="http://www.cnblogs.com/pycode/tag/python-module/">python-module</a>(10)</li><li><a href="http://www.cnblogs.com/pycode/tag/%E7%9B%91%E6%8E%A7/">监控</a>(8)</li><li><a href="http://www.cnblogs.com/pycode/tag/django/">django</a>(8)</li><li><a href="http://www.cnblogs.com/pycode/tag/django%20restframwork/">django restframwork</a>(6)</li><li><a href="http://www.cnblogs.com/pycode/tag/nginx/">nginx</a>(5)</li><li><a href="http://www.cnblogs.com/pycode/tag/openstack/">openstack</a>(5)</li><li><a href="http://www.cnblogs.com/pycode/tag/php/">php</a>(2)</li><li><a href="http://www.cnblogs.com/pycode/tag/html/">html</a>(2)</li><li><a href="http://www.cnblogs.com/pycode/tag/linux/">linux</a>(2)</li><li><a href="http://www.cnblogs.com/pycode/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+</div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 君醉
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
