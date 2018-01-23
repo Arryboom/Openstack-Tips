@@ -1,0 +1,3560 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450 -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" class="yui3-js-enabled"><div id="yui3-css-stamp" style="position: absolute !important; visibility: hidden !important" class=""></div><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script charset="utf-8" id="yui_3_10_3_1_1516701096949_2" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/saved_resource" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1516701096949_3" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/saved_resource(1)" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1516701096949_4" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/saved_resource(2)" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1516701096949_40" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/saved_resource(3)" async=""></script><script charset="utf-8" id="yui_3_10_3_1_1516701096949_50" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/saved_resource(4)" async=""></script><!--<base href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index">--><base href=".">
+
+    
+    <title>Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” : Bugs : conntrack package : Ubuntu</title>
+    <link rel="shortcut icon" href="https://bugs.launchpad.net/@@/launchpad.png">
+    <link rel="canonical" href="https://bugs.launchpad.net/bugs/1381450">
+    
+      <link rel="alternate" type="application/atom+xml" href="http://feeds.launchpad.net/bugs/1381450/bug.atom" title="Bug 1381450 Feed">
+    
+
+    
+  
+  <link type="text/css" rel="stylesheet" media="screen, print" href="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/combo.css">
+
+
+    
+
+    
+      <meta name="description" content="conntrack:
+
+Availability: in universe
+Rationale: new dependency for openstack neutron to support HA routers with connection state tracking
+Security: Looks OK - http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=conntrack
+Quality assurance: No upstream test suite, packaging generally looks OK
+Dependencies: all in main aside from those on this bug report.
+Standards compliance: OK
+Maintenance: Server Team
+
+libnetfilter-cttimeout:
+
+Availability: in universe
+Rationale: dependency for conntrack
+Securi...">
+    
+
+    
+  
+
+  
+  
+  <script type="text/javascript">
+    var LP = {
+        cache: {},
+        links: {}
+    };
+  </script>
+
+  
+
+  <script type="text/javascript">var cookie_scope = '; Path=/; Secure; Domain=.launchpad.net';</script>
+
+   <script type="text/javascript" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/saved_resource(5)"></script>
+   <script type="text/javascript">
+        var raw = null;
+        if (LP.devmode) {
+           raw = 'raw';
+        }
+        YUI.GlobalConfig = {
+            combine: true,
+            comboBase: '/+combo/rev18532/?',
+            root: 'yui/',
+            filter: raw,
+            debug: false,
+            fetchCSS: false,
+            maxURLLength: 2000,
+            groups: {
+                lp: {
+                    combine: true,
+                    base: '/+combo/rev18532/?lp/',
+                    comboBase: '/+combo/rev18532/?',
+                    root: 'lp/',
+                    // comes from including lp/meta.js
+                    modules: LP_MODULES,
+                    fetchCSS: false
+                }
+            }
+        }</script>
+
+  <script type="text/javascript">
+      // we need this to create a single YUI instance all events and code
+      // talks across. All instances of YUI().use should be based off of
+      // LPJS instead.
+      var LPJS = new YUI();
+  </script>
+
+
+
+    <script id="base-layout-load-scripts" type="text/javascript">
+        //<![CDATA[
+        LPJS.use('base', 'node', 'console', 'event',
+            'oop', 'lp', 'lp.app.foldables','lp.app.sorttable',
+            'lp.app.inlinehelp', 'lp.app.links', 'lp.app.longpoll',
+            'lp.bugs.bugtask_index', 'lp.bugs.subscribers',
+            'lp.app.ellipsis', 'lp.code.branchmergeproposal.diff',
+            'lp.views.global',
+             function(Y) {
+
+            Y.on("domready", function () {
+                var global_view = new Y.lp.views.Global();
+                global_view.render();
+
+                Y.lp.app.sorttable.SortTable.init();
+                Y.lp.app.inlinehelp.init_help();
+                Y.lp.activate_collapsibles();
+                Y.lp.app.foldables.activate();
+                Y.lp.app.links.check_valid_lp_links();
+                // Longpolling will only start if
+                // LP.cache.longpoll is populated.
+                // We use Y.later to work around a Safari/Chrome 'feature':
+                // The mouse cursor stays 'busy' until all the requests started during
+                // page load are finished.  Hence we want the long poll request to start
+                // right *after* the page has loaded.
+                Y.later(0, Y.lp.app.longpoll, Y.lp.app.longpoll.setupLongPollManager);
+
+            });
+
+            Y.on('lp:context:web_link:changed', function(e) {
+                  window.location = e.new_value;
+            });
+        });
+        //]]>
+    </script>
+    <script id="base-helper-functions" type="text/javascript">
+         //<![CDATA[
+        // This code is pulled from lp.js that needs to be available on every
+        // request. Pulling here to get it outside the scope of the YUI block.
+        function setFocusByName(name) {
+            // Focus the first element matching the given name which can be focused.
+            var nodes = document.getElementsByName(name);
+            var i, node;
+            for (i = 0; i < nodes.length; i++) {
+                node = nodes[i];
+                if (node.focus) {
+                    try {
+                        // Trying to focus a hidden element throws an error in IE8.
+                        if (node.offsetHeight !== 0) {
+                            node.focus();
+                        }
+                    } catch (e) {
+                        LPJS.use('console', function(Y) {
+                            Y.log('In setFocusByName(<' +
+                                node.tagName + ' type=' + node.type + '>): ' + e);
+                        });
+                    }
+                    break;
+                }
+            }
+        }
+
+        function selectWidget(widget_name, event) {
+          if (event && (event.keyCode === 9 || event.keyCode === 13)) {
+              // Avoid firing if user is tabbing through or simply pressing
+              // enter to submit the form.
+              return;
+          }
+          document.getElementById(widget_name).checked = true;
+        }
+        //]]>
+    </script>
+
+    
+      
+      <script type="text/javascript" id="available-official-tags-js">var available_official_tags = ["a11y", "appstream", "artful", "bisect-done", "bitesize", "cherry-pick", "desktop-file", "dist-upgrade", "ftbfs", "gnome-17.10", "hw-specific", "kernel-bug", "manpage", "metabug", "multiarch", "needs-bisect", "needs-design", "needs-packaging", "needs-reassignment", "package-conflict", "packaging", "patch", "patch-accepted-debian", "patch-accepted-upstream", "patch-forwarded-debian", "patch-forwarded-upstream", "patch-needswork", "patch-rejected", "patch-rejected-debian", "patch-rejected-upstream", "performing-bisect", "regression-proposed", "regression-release", "regression-update", "string-fix", "suspend-resume", "systemd-boot", "testcase", "touch", "trusty", "unmetdeps", "upgrade-software-version", "verification-done-trusty", "verification-done-xenial", "verification-done-zesty", "verification-failed-trusty", "verification-failed-xenial", "verification-failed-zesty", "wayland", "xenial", "zesty"];</script>
+      <script type="text/javascript">
+        LPJS.use('base', 'node', 'oop', 'event', 'lp.bugs.bugtask_index',
+                  'lp.bugs.subscribers', 'lp.code.branchmergeproposal.diff',
+                  'lp.app.comment', function(Y) {
+            Y.on('domready', function() {
+                Y.lp.code.branchmergeproposal.diff.connect_diff_links();
+                Y.lp.bugs.bugtask_index.setup_bugtask_index();
+                Y.lp.bugs.bugtask_index.setup_bugtask_table();
+                LP.cache.comment_context = LP.cache.bug;
+                var cl = new Y.lp.app.comment.CommentList();
+                cl.render();
+                var sl = new Y.lp.bugs.subscribers.createBugSubscribersLoader({
+                    container_box: '#other-bug-subscribers',
+                    subscribers_details_view:
+                        '/+bug-portlet-subscribers-details',
+                    subscribe_someone_else_link: '.menu-link-addsubscriber'
+                }, window);
+            });
+         });
+      </script>
+      <style type="text/css">
+        /* Align the 'add comment' link to the right of the comment box. */
+        #add-comment-form textarea { width: 100%; }
+        #add-comment-form { max-width: 60em; padding-bottom: 4em; }
+        #add-comment-form .actions {float: right;}
+        .buglink-summary dd { font-size: 10px; }
+        a#privacy-link:link:hover, a#privacy-link:visited:hover {text-decoration:none;}
+      </style>
+      <style type="text/css">
+        .yui3-overlay .value label  {
+          /* It normally makes sense for form labels to be bold, but since
+          this form consists only of radio buttons, there's nothing but labels
+          so we just get wall-to-wall bold. */
+          font-weight: normal !important;
+        }
+      </style>
+    
+    
+  </head>
+
+  <body id="document" itemscope="" itemtype="http://schema.org/WebPage" class="tab-bugs
+      main_side
+      public
+      yui3-skin-sam"><div id="yui_3_10_3_1_1516701096949_174" class="yui3-widget yui3-commentlist"><div id="yui_3_10_3_1_1516701096949_176" class="yui3-commentlist-content"></div></div>
+          
+          
+    <div class="yui-d0" id="yui_3_10_3_1_1516701096949_415">
+      <div id="locationbar" class="login-logout">
+        
+
+<div id="logincontrol"><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+login">Log in / Register</a></div>
+
+
+
+      </div><!--id="locationbar"-->
+
+      <div id="watermark" class="watermark-apps-portlet">
+        <div>
+          <a href="https://launchpad.net/ubuntu"><img alt="" width="64" height="64" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/64_logo.png"></a>
+        </div>
+        <div class="wide">
+          <h2 id="watermark-heading"><a href="https://launchpad.net/ubuntu">Ubuntu</a><br><a href="https://launchpad.net/ubuntu/+source/conntrack">conntrack package</a></h2>
+        </div>
+        
+  <!-- Application Menu -->
+  <ul class="facetmenu">
+    
+      
+      <li class="overview"><a href="https://launchpad.net/ubuntu/+source/conntrack">Overview</a></li>
+      
+    
+    
+      
+      <li class="branches"><a href="https://code.launchpad.net/ubuntu/+source/conntrack">Code</a></li>
+      
+    
+    
+      <li class="bugs active"><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack">Bugs</a></li>
+      
+      
+    
+    
+      
+      
+      <li class="specifications disabled-tab"><span>Blueprints</span></li>
+    
+    
+      
+      <li class="translations"><a href="https://translations.launchpad.net/ubuntu/+source/conntrack">Translations</a></li>
+      
+    
+    
+      
+      <li class="answers"><a href="https://answers.launchpad.net/ubuntu/+source/conntrack">Answers</a></li>
+      
+    
+  </ul>
+
+      </div>
+
+      <div class="yui-t4" id="yui_3_10_3_1_1516701096949_414">
+        <div id="maincontent" class="yui-main">
+          <div class="yui-b" dir="ltr" id="yui_3_10_3_1_1516701096949_413">
+            <div class="context-publication" id="yui_3_10_3_1_1516701096949_412">
+              
+      <h1 id="edit-title">
+<span style="max-width: 95%;" class="yui3-editable_text-text ellipsis" id="yui_3_10_3_1_1516701096949_417">
+    [MIR] conntrack, libnetfilter-queue, libnetfilter-cttimeout, libnetfilter-cthelper
+</span>
+  
+</h1>
+
+
+
+    
+              
+
+              <div id="registration" class="registering">
+                
+      Bug #1381450 reported by
+      <a href="https://launchpad.net/~james-page" class="sprite person">James Page</a>
+      <span title="2014-10-15 10:10:02 UTC">on 2014-10-15</span>
+    
+              </div>
+            </div>
+
+            
+            <div id="request-notifications">
+              
+            </div>
+
+            
+              <div id="yui_3_10_3_1_1516701096949_422">
+
+      
+
+      <div id="bug-is-duplicate">
+          
+      </div>
+      
+
+      <div style="float: right;">
+        <span><a href="https://bugs.launchpad.net/+help-bugs/bug-heat.html" target="help" class="sprite flame help">18</a></span>
+      </div>
+
+      
+
+
+  
+  
+    <div class="actions">
+      <span id="affectsmetoo" style="display: inline">This bug affects 2 people</span>
+    </div>
+  
+
+
+
+    <table id="affected-software" class="listing">
+      <thead>
+        <tr>
+          <th colspan="2">Affects</th>
+          <th>Status</th>
+          <th>Importance</th>
+          <th>Assigned to</th>
+          <th>Milestone</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        
+          
+  <tr class="highlight" id="tasksummary1699462">
+    <td>
+      <a class="bugtask-expander treeCollapsed sprite" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+editstatus" style="cursor: pointer;">
+        ​
+      </a>
+    </td>
+    
+    <td>
+      <span id="bugtarget-picker-tasksummary1699462">
+        <span class="yui3-activator-data-box">
+            <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack" title="Latest release: 1:1.4.1-1ubuntu1, uploaded to universe on 2013-12-15 14:56:10.738686+00:00 by Bhavani Shankar (bhavi), maintained by Ubuntu Developers (ubuntu-devel-discuss-lists)" class="sprite package-source">conntrack (Ubuntu)</a>
+        </span>
+        <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+          Edit
+        </button>
+        <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        
+      </span>
+    </td>
+
+    
+
+    
+    <td style="width: 20%; vertical-align: middle">
+      <div class="status-content" style="width: 100%; float: left">
+        
+        
+          <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+editstatus" style="float: left" class="value statusFIXRELEASED">Fix Released</a>
+          <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+editstatus" style="margin-left: 3px">
+            <img class="editicon" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/edit">
+          </a>
+        
+      </div>
+    </td>
+
+    
+    <td style="width: 15em; vertical-align: middle">
+      <div class="importance-content" style="width: 100%; float: left">
+        <span style="float: left" class="value importanceMEDIUM">Medium</span>
+      </div>
+    </td>
+
+    <td style="width:20%; margin: 0; padding: 0;
+               vertical-align: middle; padding-left: 0.5em">
+      
+
+      
+        <span id="assignee-picker-tasksummary1699462">
+          <span class="yui3-activator-data-box">
+            
+            
+              Unassigned
+            
+          </span>
+          
+          <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+            Edit
+          </button>
+          <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        </span>
+      
+    </td>
+
+    <td style="width: 20%; vertical-align: middle">
+      <div class="milestone-content" style="width: 100%; float: left">
+        
+        <a class="value" href="https://launchpad.net/ubuntu/+milestone/ubuntu-15.01">Ubuntu ubuntu-15.01</a>
+        
+      </div>
+    </td>
+
+    
+  </tr>
+
+  
+    <tr class="bugtask-collapsible-content hidden" id="task1699462">
+     <td colspan="7"><form action="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+editstatus" method="post" enctype="multipart/form-data" class="lazr-closed" style="height: 0px; overflow: hidden;">
+  
+
+  <p class="error message">
+    You need to log in to change this bug's status.
+  </p>
+  
+  <table class="summary" style="float: right; margin-left: 1em;">
+    <tbody><tr>
+      <th>Affecting:</th>
+      <td><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack">conntrack (Ubuntu)</a></td>
+    </tr>
+    <tr>
+      <th>Filed here by:</th>
+      <td><a href="https://launchpad.net/~james-page" class="sprite person">James Page</a></td>
+    </tr>
+    <tr>
+      <th>When:</th>
+      <td>
+        <span title="2014-10-15 10:10:02 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Confirmed:</th>
+      <td>
+        <span title="2015-03-09 12:37:47 UTC">2015-03-09</span>
+      </td>
+    </tr>
+    
+    <tr>
+      <th>Started work:</th>
+      <td>
+        <span title="2015-04-23 14:56:44 UTC">2015-04-23</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Completed:</th>
+      <td>
+        <span title="2015-05-29 11:51:27 UTC">2015-05-29</span>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="field">
+    <table>
+      <tbody><tr>
+        <td>
+          <label for="ubuntu_conntrack.target">Target</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+  <tbody><tr>
+    <td>
+      <label>
+        <input class="radioType" checked="checked" id="ubuntu_conntrack.target.option.package" name="ubuntu_conntrack.target" type="radio" value="package">
+        Distribution
+      </label>
+    </td>
+    <td>
+      <select id="ubuntu_conntrack.target.distribution" name="ubuntu_conntrack.target.distribution" size="1">
+<option value="baltix">Baltix</option>
+<option value="boss">BOSS</option>
+<option value="charms">Juju Charms Collection</option>
+<option value="elbuntu">Elbuntu</option>
+<option value="guadalinex">Guadalinex</option>
+<option value="guadalinexedu">Guadalinex Edu</option>
+<option value="kiwilinux">Kiwi Linux</option>
+<option value="nubuntu">nUbuntu</option>
+<option value="pld-linux">PLD Linux</option>
+<option value="tilix">Tilix</option>
+<option value="tuxlab">tuXlab</option>
+<option selected="selected" value="ubuntu">Ubuntu</option>
+<option value="ubuntu-leb">Ubuntu Linaro Evaluation Build</option>
+<option value="ubuntu-rtm">Ubuntu RTM</option>
+</select>
+<input name="ubuntu_conntrack.target.distribution-empty-marker" type="hidden" value="1">
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <label for="ubuntu_conntrack.target.option.package">
+        Package
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="conntrack" id="ubuntu_conntrack.target.package" name="ubuntu_conntrack.target.package" size="20" maxlength="" onkeypress="selectWidget(&#39;ubuntu_conntrack.target.option.package&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('ubuntu_conntrack.target.package');
+              var select_menu = Y.DOM.byId('ubuntu_conntrack.target.package-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index#" class="sprite search-icon action-icon js-action" id="show-widget-ubuntu_conntrack-target-package">Choose…</a></span>
+    <script>
+  LPJS.use('node', 'lp.app.picker', function(Y) {
+      var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a package", "selected_value_metadata": null, "vocabulary_name": "DistributionSourcePackage", "show_widget_id": "show-widget-ubuntu_conntrack-target-package", "selected_value": "conntrack", "input_element": "ubuntu_conntrack.target.package", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search by name"};
+      var distribution_name = '';
+      var distribution_id = 'ubuntu_conntrack.target.distribution';
+      var distroseries_id = '';
+      if (distribution_name !== '') {
+          config.getContextPath = function() {
+              return '/' + distribution_name;
+          }
+      } else if (distribution_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distribution_id).value;
+          };
+      } else if (distroseries_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distroseries_id).value.split('/', 2)[0];
+          };
+      }
+      var show_widget_id = 'show-widget-ubuntu_conntrack-target-package';
+      Y.on('domready', function(e) {
+          Y.lp.app.picker.addPicker(config, show_widget_id);
+      });
+  });
+  </script>
+  
+
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <label>
+        <input class="radioType" id="ubuntu_conntrack.target.option.product" name="ubuntu_conntrack.target" type="radio" value="product">
+       Project 
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="" id="ubuntu_conntrack.target.product" name="ubuntu_conntrack.target.product" size="20" maxlength="" onkeypress="selectWidget(&#39;ubuntu_conntrack.target.option.product&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('ubuntu_conntrack.target.product');
+              var select_menu = Y.DOM.byId('ubuntu_conntrack.target.product-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index#" class="sprite search-icon action-icon js-action" id="show-widget-ubuntu_conntrack-target-product">Choose…</a></span>
+    <script>
+    LPJS.use('node', 'lp.app.picker', function(Y) {
+        var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a project", "selected_value_metadata": null, "vocabulary_name": "Product", "show_widget_id": "show-widget-ubuntu_conntrack-target-product", "selected_value": null, "input_element": "ubuntu_conntrack.target.product", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search"};
+        var show_widget_id = 'show-widget-ubuntu_conntrack-target-product';
+        Y.on('domready', function(e) {
+            Y.lp.app.picker.addPicker(config, show_widget_id);
+        });
+    });
+    </script>
+  
+
+
+
+    </td>
+  </tr>
+</tbody></table>
+
+          
+        </td>
+      </tr>
+    </tbody></table>
+    
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_conntrack.status">Status</label>
+        </td>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_conntrack.importance">Importance</label>
+        </td>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_conntrack.milestone">Milestone</label>
+        </td>
+      </tr>
+      <tr>
+        <td><div>
+<div class="value">
+<select id="ubuntu_conntrack.status" name="ubuntu_conntrack.status" size="1">
+<option selected="selected" value="Fix Released">Fix Released</option>
+</select>
+</div>
+<input name="ubuntu_conntrack.status-empty-marker" type="hidden" value="1">
+</div></td>
+        <td title="Changeable only by a project maintainer or bug supervisor">
+          <span class="sprite read-only"></span>
+          <span class="importanceMEDIUM">Medium</span>
+        </td>
+        <td title="Changeable only by a project maintainer or bug supervisor">
+          <span class="sprite read-only"></span>
+          Ubuntu ubuntu-15.01
+        </td>
+      </tr>
+    </tbody></table>
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_conntrack.assignee">Assigned to</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="white-space: nowrap">
+
+  <table>
+    <tbody><tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" checked="checked" name="ubuntu_conntrack.assignee.option" value="ubuntu_conntrack.assignee.assign_to_nobody" id="ubuntu_conntrack.assignee.assign_to_nobody">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="ubuntu_conntrack.assignee.assign_to_nobody">
+          Nobody
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" name="ubuntu_conntrack.assignee.option" value="ubuntu_conntrack.assignee.assign_to_me" id="ubuntu_conntrack.assignee.assign_to_me">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="ubuntu_conntrack.assignee.assign_to_me">
+          Me
+        </label>
+      </td>
+    </tr>
+    
+    
+  </tbody></table>
+
+
+</td>
+      </tr>
+    </tbody></table>
+    
+  </div>
+  <div class="field">
+    <div>
+      <label style="font-weight: bold" for="ubuntu_conntrack.comment_on_change">Comment on this change (optional)</label>
+      <textarea cols="62" rows="4" id="ubuntu_conntrack.comment_on_change" name="ubuntu_conntrack.comment_on_change"></textarea>
+    </div>
+    <div>
+      <label style="font-weight: normal">
+        <input type="checkbox" name="subscribe" id="subscribe" value="Subscribe">
+        Email me about changes to this bug report
+      </label>
+    </div>
+  </div>
+  
+</form>
+</td>
+    </tr>
+  
+
+
+        
+        
+          
+  <tr id="tasksummary1699467">
+    <td>
+      <a class="bugtask-expander treeCollapsed sprite" href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cthelper/+bug/1381450/+editstatus" style="cursor: pointer;">
+        ​
+      </a>
+    </td>
+    
+    <td>
+      <span id="bugtarget-picker-tasksummary1699467">
+        <span class="yui3-activator-data-box">
+            <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cthelper" title="Latest release: 1.0.0-1ubuntu1, uploaded to universe on 2014-01-03 01:13:14.222027+00:00 by Logan Rosen (logan), maintained by Ubuntu Developers (ubuntu-devel-discuss-lists)" class="sprite package-source">libnetfilter-cthelper (Ubuntu)</a>
+        </span>
+        <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+          Edit
+        </button>
+        <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        
+      </span>
+    </td>
+
+    
+
+    
+    <td style="width: 20%; vertical-align: middle">
+      <div class="status-content" style="width: 100%; float: left">
+        
+        
+          <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cthelper/+bug/1381450/+editstatus" style="float: left" class="value statusFIXRELEASED">Fix Released</a>
+          <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cthelper/+bug/1381450/+editstatus" style="margin-left: 3px">
+            <img class="editicon" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/edit">
+          </a>
+        
+      </div>
+    </td>
+
+    
+    <td style="width: 15em; vertical-align: middle">
+      <div class="importance-content" style="width: 100%; float: left">
+        <span style="float: left" class="value importanceMEDIUM">Medium</span>
+      </div>
+    </td>
+
+    <td style="width:20%; margin: 0; padding: 0;
+               vertical-align: middle; padding-left: 0.5em">
+      
+
+      
+        <span id="assignee-picker-tasksummary1699467">
+          <span class="yui3-activator-data-box">
+            
+            
+              Unassigned
+            
+          </span>
+          
+          <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+            Edit
+          </button>
+          <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        </span>
+      
+    </td>
+
+    <td style="width: 20%; vertical-align: middle">
+      <div class="milestone-content" style="width: 100%; float: left">
+        
+        <a class="value" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index"></a>
+        
+      </div>
+    </td>
+
+    
+  </tr>
+
+  
+    <tr class="bugtask-collapsible-content hidden" id="task1699467">
+     <td colspan="7"><form action="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cthelper/+bug/1381450/+editstatus" method="post" enctype="multipart/form-data" class="lazr-closed" style="height: 0px; overflow: hidden;">
+  
+
+  <p class="error message">
+    You need to log in to change this bug's status.
+  </p>
+  
+  <table class="summary" style="float: right; margin-left: 1em;">
+    <tbody><tr>
+      <th>Affecting:</th>
+      <td><a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cthelper">libnetfilter-cthelper (Ubuntu)</a></td>
+    </tr>
+    <tr>
+      <th>Filed here by:</th>
+      <td><a href="https://launchpad.net/~james-page" class="sprite person">James Page</a></td>
+    </tr>
+    <tr>
+      <th>When:</th>
+      <td>
+        <span title="2014-10-15 10:12:55 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Confirmed:</th>
+      <td>
+        <span title="2014-10-15 13:29:48 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    
+    <tr>
+      <th>Started work:</th>
+      <td>
+        <span title="2014-10-15 13:29:48 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Completed:</th>
+      <td>
+        <span title="2015-05-29 11:51:28 UTC">2015-05-29</span>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="field">
+    <table>
+      <tbody><tr>
+        <td>
+          <label for="ubuntu_libnetfilter-cthelper.target">Target</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+  <tbody><tr>
+    <td>
+      <label>
+        <input class="radioType" checked="checked" id="ubuntu_libnetfilter-cthelper.target.option.package" name="ubuntu_libnetfilter-cthelper.target" type="radio" value="package">
+        Distribution
+      </label>
+    </td>
+    <td>
+      <select id="ubuntu_libnetfilter-cthelper.target.distribution" name="ubuntu_libnetfilter-cthelper.target.distribution" size="1">
+<option value="baltix">Baltix</option>
+<option value="boss">BOSS</option>
+<option value="charms">Juju Charms Collection</option>
+<option value="elbuntu">Elbuntu</option>
+<option value="guadalinex">Guadalinex</option>
+<option value="guadalinexedu">Guadalinex Edu</option>
+<option value="kiwilinux">Kiwi Linux</option>
+<option value="nubuntu">nUbuntu</option>
+<option value="pld-linux">PLD Linux</option>
+<option value="tilix">Tilix</option>
+<option value="tuxlab">tuXlab</option>
+<option selected="selected" value="ubuntu">Ubuntu</option>
+<option value="ubuntu-leb">Ubuntu Linaro Evaluation Build</option>
+<option value="ubuntu-rtm">Ubuntu RTM</option>
+</select>
+<input name="ubuntu_libnetfilter-cthelper.target.distribution-empty-marker" type="hidden" value="1">
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <label for="ubuntu_libnetfilter-cthelper.target.option.package">
+        Package
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="libnetfilter-cthelper" id="ubuntu_libnetfilter-cthelper.target.package" name="ubuntu_libnetfilter-cthelper.target.package" size="20" maxlength="" onkeypress="selectWidget(&#39;ubuntu_libnetfilter-cthelper.target.option.package&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('ubuntu_libnetfilter-cthelper.target.package');
+              var select_menu = Y.DOM.byId('ubuntu_libnetfilter-cthelper.target.package-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index#" class="sprite search-icon action-icon js-action" id="show-widget-ubuntu_libnetfilter-cthelper-target-package">Choose…</a></span>
+    <script>
+  LPJS.use('node', 'lp.app.picker', function(Y) {
+      var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a package", "selected_value_metadata": null, "vocabulary_name": "DistributionSourcePackage", "show_widget_id": "show-widget-ubuntu_libnetfilter-cthelper-target-package", "selected_value": "libnetfilter-cthelper", "input_element": "ubuntu_libnetfilter-cthelper.target.package", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search by name"};
+      var distribution_name = '';
+      var distribution_id = 'ubuntu_libnetfilter-cthelper.target.distribution';
+      var distroseries_id = '';
+      if (distribution_name !== '') {
+          config.getContextPath = function() {
+              return '/' + distribution_name;
+          }
+      } else if (distribution_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distribution_id).value;
+          };
+      } else if (distroseries_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distroseries_id).value.split('/', 2)[0];
+          };
+      }
+      var show_widget_id = 'show-widget-ubuntu_libnetfilter-cthelper-target-package';
+      Y.on('domready', function(e) {
+          Y.lp.app.picker.addPicker(config, show_widget_id);
+      });
+  });
+  </script>
+  
+
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <label>
+        <input class="radioType" id="ubuntu_libnetfilter-cthelper.target.option.product" name="ubuntu_libnetfilter-cthelper.target" type="radio" value="product">
+       Project 
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="" id="ubuntu_libnetfilter-cthelper.target.product" name="ubuntu_libnetfilter-cthelper.target.product" size="20" maxlength="" onkeypress="selectWidget(&#39;ubuntu_libnetfilter-cthelper.target.option.product&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('ubuntu_libnetfilter-cthelper.target.product');
+              var select_menu = Y.DOM.byId('ubuntu_libnetfilter-cthelper.target.product-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index#" class="sprite search-icon action-icon js-action" id="show-widget-ubuntu_libnetfilter-cthelper-target-product">Choose…</a></span>
+    <script>
+    LPJS.use('node', 'lp.app.picker', function(Y) {
+        var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a project", "selected_value_metadata": null, "vocabulary_name": "Product", "show_widget_id": "show-widget-ubuntu_libnetfilter-cthelper-target-product", "selected_value": null, "input_element": "ubuntu_libnetfilter-cthelper.target.product", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search"};
+        var show_widget_id = 'show-widget-ubuntu_libnetfilter-cthelper-target-product';
+        Y.on('domready', function(e) {
+            Y.lp.app.picker.addPicker(config, show_widget_id);
+        });
+    });
+    </script>
+  
+
+
+
+    </td>
+  </tr>
+</tbody></table>
+
+          
+        </td>
+      </tr>
+    </tbody></table>
+    
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-cthelper.status">Status</label>
+        </td>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-cthelper.importance">Importance</label>
+        </td>
+        
+      </tr>
+      <tr>
+        <td><div>
+<div class="value">
+<select id="ubuntu_libnetfilter-cthelper.status" name="ubuntu_libnetfilter-cthelper.status" size="1">
+<option selected="selected" value="Fix Released">Fix Released</option>
+</select>
+</div>
+<input name="ubuntu_libnetfilter-cthelper.status-empty-marker" type="hidden" value="1">
+</div></td>
+        <td title="Changeable only by a project maintainer or bug supervisor">
+          <span class="sprite read-only"></span>
+          <span class="importanceMEDIUM">Medium</span>
+        </td>
+        
+      </tr>
+    </tbody></table>
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-cthelper.assignee">Assigned to</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="white-space: nowrap">
+
+  <table>
+    <tbody><tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" checked="checked" name="ubuntu_libnetfilter-cthelper.assignee.option" value="ubuntu_libnetfilter-cthelper.assignee.assign_to_nobody" id="ubuntu_libnetfilter-cthelper.assignee.assign_to_nobody">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="ubuntu_libnetfilter-cthelper.assignee.assign_to_nobody">
+          Nobody
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" name="ubuntu_libnetfilter-cthelper.assignee.option" value="ubuntu_libnetfilter-cthelper.assignee.assign_to_me" id="ubuntu_libnetfilter-cthelper.assignee.assign_to_me">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="ubuntu_libnetfilter-cthelper.assignee.assign_to_me">
+          Me
+        </label>
+      </td>
+    </tr>
+    
+    
+  </tbody></table>
+
+
+</td>
+      </tr>
+    </tbody></table>
+    
+  </div>
+  <div class="field">
+    <div>
+      <label style="font-weight: bold" for="ubuntu_libnetfilter-cthelper.comment_on_change">Comment on this change (optional)</label>
+      <textarea cols="62" rows="4" id="ubuntu_libnetfilter-cthelper.comment_on_change" name="ubuntu_libnetfilter-cthelper.comment_on_change"></textarea>
+    </div>
+    <div>
+      <label style="font-weight: normal">
+        <input type="checkbox" name="subscribe" id="subscribe" value="Subscribe">
+        Email me about changes to this bug report
+      </label>
+    </div>
+  </div>
+  
+</form>
+</td>
+    </tr>
+  
+
+
+        
+        
+          
+  <tr id="tasksummary1699466">
+    <td>
+      <a class="bugtask-expander treeCollapsed sprite" href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cttimeout/+bug/1381450/+editstatus" style="cursor: pointer;">
+        ​
+      </a>
+    </td>
+    
+    <td>
+      <span id="bugtarget-picker-tasksummary1699466">
+        <span class="yui3-activator-data-box">
+            <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cttimeout" title="Latest release: 1.0.0-2ubuntu1, uploaded to universe on 2014-01-03 01:21:11.218028+00:00 by Logan Rosen (logan), maintained by Ubuntu Developers (ubuntu-devel-discuss-lists)" class="sprite package-source">libnetfilter-cttimeout (Ubuntu)</a>
+        </span>
+        <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+          Edit
+        </button>
+        <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        
+      </span>
+    </td>
+
+    
+
+    
+    <td style="width: 20%; vertical-align: middle">
+      <div class="status-content" style="width: 100%; float: left">
+        
+        
+          <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cttimeout/+bug/1381450/+editstatus" style="float: left" class="value statusFIXRELEASED">Fix Released</a>
+          <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cttimeout/+bug/1381450/+editstatus" style="margin-left: 3px">
+            <img class="editicon" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/edit">
+          </a>
+        
+      </div>
+    </td>
+
+    
+    <td style="width: 15em; vertical-align: middle">
+      <div class="importance-content" style="width: 100%; float: left">
+        <span style="float: left" class="value importanceMEDIUM">Medium</span>
+      </div>
+    </td>
+
+    <td style="width:20%; margin: 0; padding: 0;
+               vertical-align: middle; padding-left: 0.5em">
+      
+
+      
+        <span id="assignee-picker-tasksummary1699466">
+          <span class="yui3-activator-data-box">
+            
+            
+              Unassigned
+            
+          </span>
+          
+          <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+            Edit
+          </button>
+          <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        </span>
+      
+    </td>
+
+    <td style="width: 20%; vertical-align: middle">
+      <div class="milestone-content" style="width: 100%; float: left">
+        
+        <a class="value" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index"></a>
+        
+      </div>
+    </td>
+
+    
+  </tr>
+
+  
+    <tr class="bugtask-collapsible-content hidden" id="task1699466">
+     <td colspan="7"><form action="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cttimeout/+bug/1381450/+editstatus" method="post" enctype="multipart/form-data" class="lazr-closed" style="height: 0px; overflow: hidden;">
+  
+
+  <p class="error message">
+    You need to log in to change this bug's status.
+  </p>
+  
+  <table class="summary" style="float: right; margin-left: 1em;">
+    <tbody><tr>
+      <th>Affecting:</th>
+      <td><a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cttimeout">libnetfilter-cttimeout (Ubuntu)</a></td>
+    </tr>
+    <tr>
+      <th>Filed here by:</th>
+      <td><a href="https://launchpad.net/~james-page" class="sprite person">James Page</a></td>
+    </tr>
+    <tr>
+      <th>When:</th>
+      <td>
+        <span title="2014-10-15 10:12:42 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Confirmed:</th>
+      <td>
+        <span title="2014-10-15 13:14:19 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    
+    <tr>
+      <th>Started work:</th>
+      <td>
+        <span title="2014-10-15 13:14:19 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Completed:</th>
+      <td>
+        <span title="2015-05-29 11:51:31 UTC">2015-05-29</span>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="field">
+    <table>
+      <tbody><tr>
+        <td>
+          <label for="ubuntu_libnetfilter-cttimeout.target">Target</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+  <tbody><tr>
+    <td>
+      <label>
+        <input class="radioType" checked="checked" id="ubuntu_libnetfilter-cttimeout.target.option.package" name="ubuntu_libnetfilter-cttimeout.target" type="radio" value="package">
+        Distribution
+      </label>
+    </td>
+    <td>
+      <select id="ubuntu_libnetfilter-cttimeout.target.distribution" name="ubuntu_libnetfilter-cttimeout.target.distribution" size="1">
+<option value="baltix">Baltix</option>
+<option value="boss">BOSS</option>
+<option value="charms">Juju Charms Collection</option>
+<option value="elbuntu">Elbuntu</option>
+<option value="guadalinex">Guadalinex</option>
+<option value="guadalinexedu">Guadalinex Edu</option>
+<option value="kiwilinux">Kiwi Linux</option>
+<option value="nubuntu">nUbuntu</option>
+<option value="pld-linux">PLD Linux</option>
+<option value="tilix">Tilix</option>
+<option value="tuxlab">tuXlab</option>
+<option selected="selected" value="ubuntu">Ubuntu</option>
+<option value="ubuntu-leb">Ubuntu Linaro Evaluation Build</option>
+<option value="ubuntu-rtm">Ubuntu RTM</option>
+</select>
+<input name="ubuntu_libnetfilter-cttimeout.target.distribution-empty-marker" type="hidden" value="1">
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <label for="ubuntu_libnetfilter-cttimeout.target.option.package">
+        Package
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="libnetfilter-cttimeout" id="ubuntu_libnetfilter-cttimeout.target.package" name="ubuntu_libnetfilter-cttimeout.target.package" size="20" maxlength="" onkeypress="selectWidget(&#39;ubuntu_libnetfilter-cttimeout.target.option.package&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('ubuntu_libnetfilter-cttimeout.target.package');
+              var select_menu = Y.DOM.byId('ubuntu_libnetfilter-cttimeout.target.package-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index#" class="sprite search-icon action-icon js-action" id="show-widget-ubuntu_libnetfilter-cttimeout-target-package">Choose…</a></span>
+    <script>
+  LPJS.use('node', 'lp.app.picker', function(Y) {
+      var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a package", "selected_value_metadata": null, "vocabulary_name": "DistributionSourcePackage", "show_widget_id": "show-widget-ubuntu_libnetfilter-cttimeout-target-package", "selected_value": "libnetfilter-cttimeout", "input_element": "ubuntu_libnetfilter-cttimeout.target.package", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search by name"};
+      var distribution_name = '';
+      var distribution_id = 'ubuntu_libnetfilter-cttimeout.target.distribution';
+      var distroseries_id = '';
+      if (distribution_name !== '') {
+          config.getContextPath = function() {
+              return '/' + distribution_name;
+          }
+      } else if (distribution_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distribution_id).value;
+          };
+      } else if (distroseries_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distroseries_id).value.split('/', 2)[0];
+          };
+      }
+      var show_widget_id = 'show-widget-ubuntu_libnetfilter-cttimeout-target-package';
+      Y.on('domready', function(e) {
+          Y.lp.app.picker.addPicker(config, show_widget_id);
+      });
+  });
+  </script>
+  
+
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <label>
+        <input class="radioType" id="ubuntu_libnetfilter-cttimeout.target.option.product" name="ubuntu_libnetfilter-cttimeout.target" type="radio" value="product">
+       Project 
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="" id="ubuntu_libnetfilter-cttimeout.target.product" name="ubuntu_libnetfilter-cttimeout.target.product" size="20" maxlength="" onkeypress="selectWidget(&#39;ubuntu_libnetfilter-cttimeout.target.option.product&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('ubuntu_libnetfilter-cttimeout.target.product');
+              var select_menu = Y.DOM.byId('ubuntu_libnetfilter-cttimeout.target.product-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index#" class="sprite search-icon action-icon js-action" id="show-widget-ubuntu_libnetfilter-cttimeout-target-product">Choose…</a></span>
+    <script>
+    LPJS.use('node', 'lp.app.picker', function(Y) {
+        var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a project", "selected_value_metadata": null, "vocabulary_name": "Product", "show_widget_id": "show-widget-ubuntu_libnetfilter-cttimeout-target-product", "selected_value": null, "input_element": "ubuntu_libnetfilter-cttimeout.target.product", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search"};
+        var show_widget_id = 'show-widget-ubuntu_libnetfilter-cttimeout-target-product';
+        Y.on('domready', function(e) {
+            Y.lp.app.picker.addPicker(config, show_widget_id);
+        });
+    });
+    </script>
+  
+
+
+
+    </td>
+  </tr>
+</tbody></table>
+
+          
+        </td>
+      </tr>
+    </tbody></table>
+    
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-cttimeout.status">Status</label>
+        </td>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-cttimeout.importance">Importance</label>
+        </td>
+        
+      </tr>
+      <tr>
+        <td><div>
+<div class="value">
+<select id="ubuntu_libnetfilter-cttimeout.status" name="ubuntu_libnetfilter-cttimeout.status" size="1">
+<option selected="selected" value="Fix Released">Fix Released</option>
+</select>
+</div>
+<input name="ubuntu_libnetfilter-cttimeout.status-empty-marker" type="hidden" value="1">
+</div></td>
+        <td title="Changeable only by a project maintainer or bug supervisor">
+          <span class="sprite read-only"></span>
+          <span class="importanceMEDIUM">Medium</span>
+        </td>
+        
+      </tr>
+    </tbody></table>
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-cttimeout.assignee">Assigned to</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="white-space: nowrap">
+
+  <table>
+    <tbody><tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" checked="checked" name="ubuntu_libnetfilter-cttimeout.assignee.option" value="ubuntu_libnetfilter-cttimeout.assignee.assign_to_nobody" id="ubuntu_libnetfilter-cttimeout.assignee.assign_to_nobody">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="ubuntu_libnetfilter-cttimeout.assignee.assign_to_nobody">
+          Nobody
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" name="ubuntu_libnetfilter-cttimeout.assignee.option" value="ubuntu_libnetfilter-cttimeout.assignee.assign_to_me" id="ubuntu_libnetfilter-cttimeout.assignee.assign_to_me">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="ubuntu_libnetfilter-cttimeout.assignee.assign_to_me">
+          Me
+        </label>
+      </td>
+    </tr>
+    
+    
+  </tbody></table>
+
+
+</td>
+      </tr>
+    </tbody></table>
+    
+  </div>
+  <div class="field">
+    <div>
+      <label style="font-weight: bold" for="ubuntu_libnetfilter-cttimeout.comment_on_change">Comment on this change (optional)</label>
+      <textarea cols="62" rows="4" id="ubuntu_libnetfilter-cttimeout.comment_on_change" name="ubuntu_libnetfilter-cttimeout.comment_on_change"></textarea>
+    </div>
+    <div>
+      <label style="font-weight: normal">
+        <input type="checkbox" name="subscribe" id="subscribe" value="Subscribe">
+        Email me about changes to this bug report
+      </label>
+    </div>
+  </div>
+  
+</form>
+</td>
+    </tr>
+  
+
+
+        
+        
+          
+  <tr id="tasksummary1699465">
+    <td>
+      <a class="bugtask-expander treeCollapsed sprite" href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-queue/+bug/1381450/+editstatus" style="cursor: pointer;">
+        ​
+      </a>
+    </td>
+    
+    <td>
+      <span id="bugtarget-picker-tasksummary1699465">
+        <span class="yui3-activator-data-box">
+            <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-queue" title="Latest release: 1.0.2-2, uploaded to main on 2014-04-16 10:18:08.802876+00:00 by Alexander Wirt (formorer), maintained by Alexander Wirt (formorer)" class="sprite package-source">libnetfilter-queue (Ubuntu)</a>
+        </span>
+        <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+          Edit
+        </button>
+        <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        
+      </span>
+    </td>
+
+    
+
+    
+    <td style="width: 20%; vertical-align: middle">
+      <div class="status-content" style="width: 100%; float: left">
+        
+        
+          <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-queue/+bug/1381450/+editstatus" style="float: left" class="value statusFIXRELEASED">Fix Released</a>
+          <a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-queue/+bug/1381450/+editstatus" style="margin-left: 3px">
+            <img class="editicon" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/edit">
+          </a>
+        
+      </div>
+    </td>
+
+    
+    <td style="width: 15em; vertical-align: middle">
+      <div class="importance-content" style="width: 100%; float: left">
+        <span style="float: left" class="value importanceMEDIUM">Medium</span>
+      </div>
+    </td>
+
+    <td style="width:20%; margin: 0; padding: 0;
+               vertical-align: middle; padding-left: 0.5em">
+      
+
+      
+        <span id="assignee-picker-tasksummary1699465">
+          <span class="yui3-activator-data-box">
+            
+            
+              Unassigned
+            
+          </span>
+          
+          <button class="lazr-btn yui3-activator-act yui3-activator-hidden">
+            Edit
+          </button>
+          <div class="yui3-activator-message-box yui3-activator-hidden"></div>
+        </span>
+      
+    </td>
+
+    <td style="width: 20%; vertical-align: middle">
+      <div class="milestone-content" style="width: 100%; float: left">
+        
+        <a class="value" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index"></a>
+        
+      </div>
+    </td>
+
+    
+  </tr>
+
+  
+    <tr class="bugtask-collapsible-content hidden" id="task1699465">
+     <td colspan="7"><form action="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-queue/+bug/1381450/+editstatus" method="post" enctype="multipart/form-data" class="lazr-closed" style="height: 0px; overflow: hidden;">
+  
+
+  <p class="error message">
+    You need to log in to change this bug's status.
+  </p>
+  
+  <table class="summary" style="float: right; margin-left: 1em;">
+    <tbody><tr>
+      <th>Affecting:</th>
+      <td><a href="https://bugs.launchpad.net/ubuntu/+source/libnetfilter-queue">libnetfilter-queue (Ubuntu)</a></td>
+    </tr>
+    <tr>
+      <th>Filed here by:</th>
+      <td><a href="https://launchpad.net/~james-page" class="sprite person">James Page</a></td>
+    </tr>
+    <tr>
+      <th>When:</th>
+      <td>
+        <span title="2014-10-15 10:12:24 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Confirmed:</th>
+      <td>
+        <span title="2014-10-15 12:56:24 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    
+    <tr>
+      <th>Started work:</th>
+      <td>
+        <span title="2014-10-15 12:56:24 UTC">2014-10-15</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Completed:</th>
+      <td>
+        <span title="2015-05-29 11:51:32 UTC">2015-05-29</span>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="field">
+    <table>
+      <tbody><tr>
+        <td>
+          <label for="ubuntu_libnetfilter-queue.target">Target</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+  <tbody><tr>
+    <td>
+      <label>
+        <input class="radioType" checked="checked" id="ubuntu_libnetfilter-queue.target.option.package" name="ubuntu_libnetfilter-queue.target" type="radio" value="package">
+        Distribution
+      </label>
+    </td>
+    <td>
+      <select id="ubuntu_libnetfilter-queue.target.distribution" name="ubuntu_libnetfilter-queue.target.distribution" size="1">
+<option value="baltix">Baltix</option>
+<option value="boss">BOSS</option>
+<option value="charms">Juju Charms Collection</option>
+<option value="elbuntu">Elbuntu</option>
+<option value="guadalinex">Guadalinex</option>
+<option value="guadalinexedu">Guadalinex Edu</option>
+<option value="kiwilinux">Kiwi Linux</option>
+<option value="nubuntu">nUbuntu</option>
+<option value="pld-linux">PLD Linux</option>
+<option value="tilix">Tilix</option>
+<option value="tuxlab">tuXlab</option>
+<option selected="selected" value="ubuntu">Ubuntu</option>
+<option value="ubuntu-leb">Ubuntu Linaro Evaluation Build</option>
+<option value="ubuntu-rtm">Ubuntu RTM</option>
+</select>
+<input name="ubuntu_libnetfilter-queue.target.distribution-empty-marker" type="hidden" value="1">
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <label for="ubuntu_libnetfilter-queue.target.option.package">
+        Package
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="libnetfilter-queue" id="ubuntu_libnetfilter-queue.target.package" name="ubuntu_libnetfilter-queue.target.package" size="20" maxlength="" onkeypress="selectWidget(&#39;ubuntu_libnetfilter-queue.target.option.package&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('ubuntu_libnetfilter-queue.target.package');
+              var select_menu = Y.DOM.byId('ubuntu_libnetfilter-queue.target.package-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index#" class="sprite search-icon action-icon js-action" id="show-widget-ubuntu_libnetfilter-queue-target-package">Choose…</a></span>
+    <script>
+  LPJS.use('node', 'lp.app.picker', function(Y) {
+      var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a package", "selected_value_metadata": null, "vocabulary_name": "DistributionSourcePackage", "show_widget_id": "show-widget-ubuntu_libnetfilter-queue-target-package", "selected_value": "libnetfilter-queue", "input_element": "ubuntu_libnetfilter-queue.target.package", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search by name"};
+      var distribution_name = '';
+      var distribution_id = 'ubuntu_libnetfilter-queue.target.distribution';
+      var distroseries_id = '';
+      if (distribution_name !== '') {
+          config.getContextPath = function() {
+              return '/' + distribution_name;
+          }
+      } else if (distribution_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distribution_id).value;
+          };
+      } else if (distroseries_id !== '') {
+          config.getContextPath = function() {
+              return '/' + Y.DOM.byId(distroseries_id).value.split('/', 2)[0];
+          };
+      }
+      var show_widget_id = 'show-widget-ubuntu_libnetfilter-queue-target-package';
+      Y.on('domready', function(e) {
+          Y.lp.app.picker.addPicker(config, show_widget_id);
+      });
+  });
+  </script>
+  
+
+
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <label>
+        <input class="radioType" id="ubuntu_libnetfilter-queue.target.option.product" name="ubuntu_libnetfilter-queue.target" type="radio" value="product">
+       Project 
+      </label>
+    </td>
+    <td>
+      
+
+
+    <input type="text" value="" id="ubuntu_libnetfilter-queue.target.product" name="ubuntu_libnetfilter-queue.target.product" size="20" maxlength="" onkeypress="selectWidget(&#39;ubuntu_libnetfilter-queue.target.option.product&#39;, event)" style="" class="">
+
+    
+      
+      <script type="text/javascript">
+          LPJS.use('node', 'lp.app.picker', function(Y) {
+              var text_input = Y.DOM.byId('ubuntu_libnetfilter-queue.target.product');
+              var select_menu = Y.DOM.byId('ubuntu_libnetfilter-queue.target.product-suggestions');
+              Y.lp.app.picker.connect_select_menu(
+                  select_menu, text_input);
+          });</script>
+    
+
+    <span class=""><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+index#" class="sprite search-icon action-icon js-action" id="show-widget-ubuntu_libnetfilter-queue-target-product">Choose…</a></span>
+    <script>
+    LPJS.use('node', 'lp.app.picker', function(Y) {
+        var config = {"show_remove_button": false, "show_assign_me_button": false, "assign_me_text": "Pick me", "remove_person_text": "Remove person", "header": "Select a project", "selected_value_metadata": null, "vocabulary_name": "Product", "show_widget_id": "show-widget-ubuntu_libnetfilter-queue-target-product", "selected_value": null, "input_element": "ubuntu_libnetfilter-queue.target.product", "remove_team_text": "Remove team", "extra_no_results_message": null, "vocabulary_filters": [], "show_create_team": false, "picker_type": "default", "step_title": "Search"};
+        var show_widget_id = 'show-widget-ubuntu_libnetfilter-queue-target-product';
+        Y.on('domready', function(e) {
+            Y.lp.app.picker.addPicker(config, show_widget_id);
+        });
+    });
+    </script>
+  
+
+
+
+    </td>
+  </tr>
+</tbody></table>
+
+          
+        </td>
+      </tr>
+    </tbody></table>
+    
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-queue.status">Status</label>
+        </td>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-queue.importance">Importance</label>
+        </td>
+        
+      </tr>
+      <tr>
+        <td><div>
+<div class="value">
+<select id="ubuntu_libnetfilter-queue.status" name="ubuntu_libnetfilter-queue.status" size="1">
+<option selected="selected" value="Fix Released">Fix Released</option>
+</select>
+</div>
+<input name="ubuntu_libnetfilter-queue.status-empty-marker" type="hidden" value="1">
+</div></td>
+        <td title="Changeable only by a project maintainer or bug supervisor">
+          <span class="sprite read-only"></span>
+          <span class="importanceMEDIUM">Medium</span>
+        </td>
+        
+      </tr>
+    </tbody></table>
+    <table>
+      <tbody><tr>
+        <td>
+          <label style="font-weight: bold" for="ubuntu_libnetfilter-queue.assignee">Assigned to</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="white-space: nowrap">
+
+  <table>
+    <tbody><tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" checked="checked" name="ubuntu_libnetfilter-queue.assignee.option" value="ubuntu_libnetfilter-queue.assignee.assign_to_nobody" id="ubuntu_libnetfilter-queue.assignee.assign_to_nobody">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="ubuntu_libnetfilter-queue.assignee.assign_to_nobody">
+          Nobody
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 0 2px 2px 0">
+        <input type="radio" name="ubuntu_libnetfilter-queue.assignee.option" value="ubuntu_libnetfilter-queue.assignee.assign_to_me" id="ubuntu_libnetfilter-queue.assignee.assign_to_me">
+      </td>
+      <td style="padding: 0">
+        <label style="font-weight: normal" for="ubuntu_libnetfilter-queue.assignee.assign_to_me">
+          Me
+        </label>
+      </td>
+    </tr>
+    
+    
+  </tbody></table>
+
+
+</td>
+      </tr>
+    </tbody></table>
+    
+  </div>
+  <div class="field">
+    <div>
+      <label style="font-weight: bold" for="ubuntu_libnetfilter-queue.comment_on_change">Comment on this change (optional)</label>
+      <textarea cols="62" rows="4" id="ubuntu_libnetfilter-queue.comment_on_change" name="ubuntu_libnetfilter-queue.comment_on_change"></textarea>
+    </div>
+    <div>
+      <label style="font-weight: normal">
+        <input type="checkbox" name="subscribe" id="subscribe" value="Subscribe">
+        Email me about changes to this bug report
+      </label>
+    </div>
+  </div>
+  
+</form>
+</td>
+    </tr>
+  
+
+
+        
+      </tbody>
+
+    </table>
+
+
+
+<div class="actions">
+  
+    <span id="also-affects-product" class="">
+    <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+choose-affected-product" class="menu-link-addupstream sprite add">Also affects project</a>
+        <a href="https://bugs.launchpad.net/+help-bugs/also-affects-project-help.html" target="help" class="sprite maybe action-icon help">(?)</a>
+    </span>
+    <span id="also-affects-package" class="">
+    <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+distrotask" class="menu-link-adddistro sprite add">Also affects distribution/package</a>
+    </span>
+    <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+nominate" class="menu-link-nominate sprite milestone">Nominate for series</a>
+    
+  
+
+</div>
+
+
+
+
+      <div id="maincontentsub">
+        <div class="top-portlet">
+
+      <div itemprop="mainContentOfPage" class="report">
+        
+
+        <div>
+  <div id="edit-description" class="lazr-multiline-edit">
+  <div class="clearfix">
+    
+
+    <h3>Bug Description</h3>
+  </div>
+
+  <div class="yui3-editable_text-text"><p>conntrack:</p>
+<p>Availability: in universe<br>
+Rationale: new dependency for openstack neutron to support HA routers with connection state tracking<br>
+Security: Looks OK - <a rel="nofollow" href="http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=conntrack">http://<wbr>cve.mitre.<wbr>org/cgi-<wbr>bin/cvekey.<wbr>cgi?keyword=<wbr>conntrack</a><br>
+Quality assurance: No upstream test suite, packaging generally looks OK<br>
+Dependencies: all in main aside from those on this bug report.<br>
+Standards compliance: OK<br>
+Maintenance: Server Team</p>
+<p>libnetfilter-<wbr>cttimeout:</p>
+<p>Availability: in universe<br>
+Rationale: dependency for conntrack<br>
+Security: Looks OK - <a rel="nofollow" href="http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=netfilter-cttimeout">http://<wbr>cve.mitre.<wbr>org/cgi-<wbr>bin/cvekey.<wbr>cgi?keyword=<wbr>netfilter-<wbr>cttimeout</a><br>
+Quality assurance: No upstream test suite, packaging generally looks OK<br>
+Dependencies: all in main aside from those on this bug report.<br>
+Standards compliance: OK<br>
+Maintenance: Server Team</p>
+<p>libnetfilter-<wbr>cthelper:</p>
+<p>Availability: in universe<br>
+Rationale: dependency for conntrack<br>
+Security: Looks OK - <a rel="nofollow" href="http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=netfilter-cthelper">http://<wbr>cve.mitre.<wbr>org/cgi-<wbr>bin/cvekey.<wbr>cgi?keyword=<wbr>netfilter-<wbr>cthelper</a><br>
+Quality assurance: No upstream test suite, packaging generally looks OK<br>
+Dependencies: all in main aside from those on this bug report.<br>
+Standards compliance: OK<br>
+Maintenance: Server Team</p>
+<p>libnetfilter-queue:</p>
+<p>Availability: in universe<br>
+Rationale: dependency for conntrack<br>
+Security: Looks OK - <a rel="nofollow" href="http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=netfilter-queue">http://<wbr>cve.mitre.<wbr>org/cgi-<wbr>bin/cvekey.<wbr>cgi?keyword=<wbr>netfilter-<wbr>queue</a><br>
+Quality assurance: No upstream test suite, packaging generally looks OK<br>
+Dependencies: all in main aside from those on this bug report.<br>
+Standards compliance: OK<br>
+Maintenance: Server Team</p></div>
+  </div>
+
+  
+</div>
+
+
+        <div style="margin:-10px 0 20px 5px" class="clearfix">
+          <span>See <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/0">original description</a></span>
+        </div>
+
+        <div id="bug-tags">
+          <span id="tags-heading">
+            Tags:
+          </span>
+          <span id="tag-list">
+            <a class="official-tag" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bugs?field.tag=regression-release">regression-release</a>
+            <a class="unofficial-tag" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bugs?field.tag=verification-done">verification-done</a>
+          </span>
+          
+          <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+edit" title="Edit tags" id="tags-trigger" class="sprite edit action-icon">Edit</a>
+          <a href="https://bugs.launchpad.net/+help-bugs/tag-help.html" target="help" class="sprite maybe action-icon help">Tag help</a>
+        </div>
+
+        <script type="text/javascript">
+          LPJS.use('event', 'node', 'lp.bugs.tags_entry', function(Y) {
+              Y.on('domready',
+                   function(e) {
+                       Y.lp.bugs.tags_entry.setup_tag_entry(
+                           available_official_tags);
+                   },
+                   window);
+          });
+        </script>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div id="branches-and-cves">
+        <div id="bug-branches-container" style="float: left">
+          
+
+            <div id="bug-branches">
+              <h2>Related branches</h2>
+
+              
+                
+
+ 
+
+ <div class="buglink-summary">
+
+  <a href="https://code.launchpad.net/~ubuntu-server-dev/neutron/kilo" class="sprite branch">lp:~ubuntu-server-dev/neutron/kilo</a>
+  
+  
+</div>
+
+
+
+              
+              
+                
+
+ 
+
+ <div class="buglink-summary">
+
+  <a href="https://code.launchpad.net/~ubuntu-branches/ubuntu/wily/neutron/wily" class="sprite branch">lp:ubuntu/wily/neutron</a>
+  
+  
+</div>
+
+
+
+              
+            </div>
+          
+        </div><!-- bug-branch-container -->
+
+        
+
+        <div class="clearfix"></div>
+      </div> <!-- branches and CVEs -->
+
+      </div>
+
+      <div id="yui_3_10_3_1_1516701096949_421">
+      
+        
+          
+
+          
+              <div class="boardComment">
+  <div class="boardCommentDetails">
+    
+      <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+    
+    <span title="2014-10-15 10:11:18 UTC">on 2014-10-15</span>
+  </div>
+  <div class="boardCommentActivity">
+    <table class="bug-activity">
+  
+    
+      
+    
+    <tbody><tr>
+      <td style="text-align: right;">
+        <b>description</b>:
+      </td>
+      <td>
+        updated
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: right;">
+        <b>description</b>:
+      </td>
+      <td>
+        updated
+      </td>
+    </tr>
+  
+</tbody></table>
+  </div>
+</div>
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 " id="yui_3_10_3_1_1516701096949_425">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T10:18:14.753655+00:00" title="2014-10-15 10:18:14 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/1"> #1</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>All packages are pretty much up-to-date with upstream aside from conntrack itself which is a patch release older than that in Debian/upstream.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity" id="yui_3_10_3_1_1516701096949_424">
+    
+      <table class="bug-activity">
+  
+    
+      
+    
+    <tbody><tr>
+      <td style="text-align: right;">
+        <b>description</b>:
+      </td>
+      <td>
+        updated
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 " id="yui_3_10_3_1_1516701096949_420">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T10:24:16.688254+00:00" title="2014-10-15 10:24:16 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/2"> #2</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody" id="yui_3_10_3_1_1516701096949_419">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>ubuntu-server subscribed to bug mail for all packages.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      
+    
+    <tbody><tr>
+      <td style="text-align: right;">
+        <b>description</b>:
+      </td>
+      <td>
+        updated
+      </td>
+    </tr>
+  
+  
+    
+      <tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>importance</b>:
+      </td>
+      <td>
+        Undecided → Medium
+      </td>
+    </tr>
+  
+  
+    
+      <tr>
+        <td colspan="2">Changed in libnetfilter-cthelper (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>importance</b>:
+      </td>
+      <td>
+        Undecided → Medium
+      </td>
+    </tr>
+  
+  
+    
+      <tr>
+        <td colspan="2">Changed in libnetfilter-cttimeout (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>importance</b>:
+      </td>
+      <td>
+        Undecided → Medium
+      </td>
+    </tr>
+  
+  
+    
+      <tr>
+        <td colspan="2">Changed in libnetfilter-queue (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>importance</b>:
+      </td>
+      <td>
+        Undecided → Medium
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T10:27:25.205974+00:00" title="2014-10-15 10:27:25 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/3"> #3</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Holding off adding this as a package dependency until the MIR team ack that can accommodate this so late in cycle (apologies for that).  This is to support a new feature in neutron which is important from an HA perspective; users can obviously still just install conntrack manually but it would be nice to have this added to main to get security support etc...</p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T10:37:31.963471+00:00" title="2014-10-15 10:37:31 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/4"> #4</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>I've bumped in the 1.4.2 release of conntrack into utopic.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~mterry" class="sprite person">Michael Terry (mterry)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T12:56:22.580460+00:00" title="2014-10-15 12:56:22 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/5"> #5</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>libnetfilter-queue: is fine.  Would be nice to see tests, but upstream doesn't provide them.  It also should use ${misc:Pre-Depends} instead of hardcoding its pre-depends, since it is missing "Pre-Depends: multiarch-support" for the library package.  But not a blocker, just a bit of sloppiness.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in libnetfilter-queue (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        New → Fix Committed
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~mterry" class="sprite person">Michael Terry (mterry)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T13:14:18.135624+00:00" title="2014-10-15 13:14:18 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/6"> #6</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>libnetfilter-<wbr>cttimeout is fine too.  Again, small package that could easily have a few tests, but upstream doesn't provide them, so ah well.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in libnetfilter-cttimeout (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        New → Fix Committed
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~mterry" class="sprite person">Michael Terry (mterry)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T13:15:46.760378+00:00" title="2014-10-15 13:15:46 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/7"> #7</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Oh also, for all three of these libraries, it would be great if they provided symbols files.  Could you maybe suggest that to the Debian maintainers / file bugs?</p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~mterry" class="sprite person">Michael Terry (mterry)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T13:29:46.698792+00:00" title="2014-10-15 13:29:46 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/8"> #8</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>cthelper is also fine.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in libnetfilter-cthelper (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        New → Fix Committed
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~mterry" class="sprite person">Michael Terry (mterry)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2014-10-15T13:34:59.023983+00:00" title="2014-10-15 13:34:59 UTC">on 2014-10-15</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/9"> #9</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>conntrack seems like it'll need a security team look.  Passing to Jamie.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>assignee</b>:
+      </td>
+      <td>
+        nobody → Jamie Strandboge (jdstrand)
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+
+          
+              <div class="boardComment">
+  <div class="boardCommentDetails">
+    
+      <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+    
+    <span title="2014-12-01 11:39:26 UTC">on 2014-12-01</span>
+  </div>
+  <div class="boardCommentActivity">
+    <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>milestone</b>:
+      </td>
+      <td>
+        none → ubuntu-15.02
+      </td>
+    </tr>
+  
+</tbody></table>
+  </div>
+</div>
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2015-01-08T11:47:34.633821+00:00" title="2015-01-08 11:47:34 UTC">on 2015-01-08</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/10"> #10</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>@Jamie</p>
+<p>Please can conntrack be reviewed; I'd like to enable this feature for Vivid/Kilo asap.</p>
+<p>Thanks!</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>milestone</b>:
+      </td>
+      <td>
+        ubuntu-15.02 → ubuntu-15.01
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+
+          
+              <div class="boardComment">
+  <div class="boardCommentDetails">
+    
+      <a href="https://launchpad.net/~jdstrand" class="sprite person">Jamie Strandboge (jdstrand)</a>
+    
+    <span title="2015-01-08 21:10:41 UTC">on 2015-01-08</span>
+  </div>
+  <div class="boardCommentActivity">
+    <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>assignee</b>:
+      </td>
+      <td>
+        Jamie Strandboge (jdstrand) → Seth Arnold (seth-arnold)
+      </td>
+    </tr>
+  
+</tbody></table>
+  </div>
+</div>
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~janitor" class="sprite person-inactive">Launchpad Janitor (janitor)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2015-03-09T12:37:46.731093+00:00" title="2015-03-09 12:37:46 UTC">on 2015-03-09</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/11"> #11</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Status changed to 'Confirmed' because the bug affects multiple users.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        New → Confirmed
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~seth-arnold" class="sprite person">Seth Arnold (seth-arnold)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2015-04-23T02:54:57.825311+00:00" title="2015-04-23 02:54:57 UTC">on 2015-04-23</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/12"> #12</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>I reviewed conntrack version 1:1.4.2-2ubuntu1 sa checked into ubuntu<br>
+vivid. This should not be considered a full security audit but rather a<br>
+quick gauge of maintainability.</p>
+<p>- conntrack provides both a connection tracking daemon that can interface<br>
+&nbsp;&nbsp;with the Linux kernel's netfilter interfaces as well as an<br>
+&nbsp;&nbsp;information-<wbr>publishing tool that can provide better filtering of flow<br>
+&nbsp;&nbsp;information than the /proc/ interfaces. The connection tracking daemon<br>
+&nbsp;&nbsp;can be used to support HA stateful firewalls.<br>
+- Build-Depends: autotools-dev, bison, debhelper, dh-systemd, flex,<br>
+&nbsp;&nbsp;libmnl-dev, libnetfilter-<wbr>conntrack-<wbr>dev, libnetfilter-<wbr>cthelper0-<wbr>dev,<br>
+&nbsp;&nbsp;libnetfilter-<wbr>cttimeout-<wbr>dev, libnetfilter-<wbr>queue-dev, libnfnetlink-dev<br>
+- pre/post inst/rm scripts have complicated mechanisms to handle previous<br>
+&nbsp;&nbsp;configuration file locations and init.d vs systemd handling. Review by<br>
+&nbsp;&nbsp;domain expert would be welcome.<br>
+- initscript and systemd service file look reasonable enough<br>
+- No dbus services<br>
+- No setuid binaries<br>
+- Provides conntrack, conntrackd, nfct binaries<br>
+- No sudo fragments<br>
+- No udev rules<br>
+- No cronjobs<br>
+- No test suite run during build</p>
+<p>- No subprocesses spawned<br>
+- Memory management looks careful<br>
+- Few files opened; log files, configuration file,<br>
+&nbsp;&nbsp;/proc/<wbr>sys/net/<wbr>netfilter/<wbr>nf_conntrack_<wbr>count<br>
+- Logging looked careful<br>
+- No environment variable use<br>
+- A handful of privileged operations are used, but the entirety of the<br>
+&nbsp;&nbsp;package does privileged operations<br>
+- No cryptography<br>
+- Extensive netlink use; conntrackd can communicate with other conntrackd<br>
+&nbsp;&nbsp;instances on other hosts, requires a private privileged network. Can<br>
+&nbsp;&nbsp;spawn helpers to inspect and modify packets -- helpers are provided for<br>
+&nbsp;&nbsp;ftp, rpc, and tns. (Helpers looked careful, though this kind of code is<br>
+&nbsp;&nbsp;prone to mistakes. I'd love to see privilege separation / seccomp kinds<br>
+&nbsp;&nbsp;of things for userspace helpers.)<br>
+- No tempory file handling<br>
+- No webkit<br>
+- No javascript<br>
+- No policykit<br>
+- Clean cppcheck</p>
+<p>Here's a few issues I found while reviewing this package, in the hopes<br>
+these findings are useful:</p>
+<p>- nfct_helper_free() in libnetfilter-<wbr>cthelper has a use-after-free bug<br>
+&nbsp;&nbsp;that may result in sigsegv:<br>
+&nbsp;&nbsp;<a rel="nofollow" href="http://www.openwall.com/lists/oss-security/2015/04/22/5">http://<wbr>www.openwall.<wbr>com/lists/<wbr>oss-security/<wbr>2015/04/<wbr>22/5</a><br>
+&nbsp;&nbsp;A fix has already been pushed to upstream git, this may be worth an SRU</p>
+<p>- nfq_queue_cb() leaks myct if pktb_alloc(), helper_run(), or<br>
+&nbsp;&nbsp;pkt_verdict_<wbr>issue() return failures</p>
+<p>- fork_process_new() will leak struct child_process c if the fork() fails</p>
+<p>- I'm concerned that the daemon closes stderr and stdout before starting<br>
+&nbsp;&nbsp;its main loop; there are many printf() and printf(stderr) calls in<br>
+&nbsp;&nbsp;the codebase. Making sure that stdout and stderr refer to something<br>
+&nbsp;&nbsp;useful at any given point is difficult. I suggest duping /dev/null to<br>
+&nbsp;&nbsp;those descriptors if they are truly not going to used in the life of<br>
+&nbsp;&nbsp;the daemon.</p>
+<p>There's also an issue in the packaging, the binaries are not built PIE. I<br>
+realize it is too late to make them PIE before the release of vivid, so<br>
+please ensure this is handled shortly after the U series is opened, so<br>
+that it is not forgotten.</p>
+<p>Security team ACK for promoting conntrack to main.</p>
+<p>Thanks</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>assignee</b>:
+      </td>
+      <td>
+        Seth Arnold (seth-arnold) → nobody
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~mterry" class="sprite person">Michael Terry (mterry)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2015-04-23T14:56:39.235403+00:00" title="2015-04-23 14:56:39 UTC">on 2015-04-23</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/13"> #13</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Conntrack is fine from my POV too.  Approved.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      <tbody><tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        Confirmed → Fix Committed
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2015-04-23T20:55:42.988696+00:00" title="2015-04-23 20:55:42 UTC">on 2015-04-23</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/14"> #14</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Thanks guys</p>
+<p>I'll see if the SRU team will let me squeeze this in as part of the stable release update for OpenStack Kilo next week.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~arges" class="sprite person">Chris J Arges (arges)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2015-05-04T17:05:34.456678+00:00" title="2015-05-04 17:05:34 UTC">on 2015-05-04</time>:
+              <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/15">
+                <strong>Please test proposed package</strong>
+              </a>
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/15"> #15</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Hello James, or anyone else affected,</p>
+<p>Accepted neutron into vivid-proposed. The package will build now and be available at <a rel="nofollow" href="http://launchpad.net/ubuntu/+source/neutron/1:2015.1.0-0ubuntu1">http://<wbr>launchpad.<wbr>net/ubuntu/<wbr>+source/<wbr>neutron/<wbr>1:2015.<wbr>1.0-0ubuntu1</a> in a few hours, and then in the -proposed repository.</p>
+<p>Please help us by testing this new package.  See <a rel="nofollow" href="https://wiki.ubuntu.com/Testing/EnableProposed">https:/<wbr>/wiki.ubuntu.<wbr>com/Testing/<wbr>EnableProposed</a> for documentation how to enable and use -proposed.  Your feedback will aid us getting this update out to other Ubuntu users.</p>
+<p>If this package fixes the bug for you, please add a comment to this bug, mentioning the version of the package you tested, and change the tag from verification-needed to verification-done. If it does not fix the bug for you, please add a comment stating that, and change the tag to verification-<wbr>failed.  In either case, details of your testing will help us make a better decision.</p>
+<p>Further information regarding the verification process can be found at <a rel="nofollow" href="https://wiki.ubuntu.com/QATeam/PerformingSRUVerification">https:/<wbr>/wiki.ubuntu.<wbr>com/QATeam/<wbr>PerformingSRUVe<wbr>rification</a> .  Thank you in advance!</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      
+    
+    <tbody><tr>
+      <td style="text-align: right;">
+        <b>tags</b>:
+      </td>
+      <td>
+        added: verification-needed
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+
+          
+              <div class="boardComment">
+  <div class="boardCommentDetails">
+    
+      <a href="https://launchpad.net/~james-page" class="sprite person">James Page (james-page)</a>
+    
+    <span title="2015-05-12 13:48:25 UTC">on 2015-05-12</span>
+  </div>
+  <div class="boardCommentActivity">
+    <table class="bug-activity">
+  
+    
+      
+    
+    <tbody><tr>
+      <td style="text-align: right;">
+        <b>tags</b>:
+      </td>
+      <td>
+        added: verification-done<br>removed: verification-needed
+      </td>
+    </tr>
+  
+</tbody></table>
+  </div>
+</div>
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~arges" class="sprite person">Chris J Arges (arges)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2015-05-12T14:12:16.360305+00:00" title="2015-05-12 14:12:16 UTC">on 2015-05-12</time>:
+              <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/16">
+                <strong>Update Released</strong>
+              </a>
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/16"> #16</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>The verification of the Stable Release Update for neutron has completed successfully and the package has now been released to -updates.  Subsequently, the Ubuntu Stable Release Updates Team is being unsubscribed and will not receive messages about this bug report.  In the event that you encounter a regression using the package from -updates please report a new bug using ubuntu-bug and tag the bug report regression-update so we can easily find any regressions.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        
+          
+            <div xmlns="http://www.w3.org/1999/xhtml" itemscope="" itemtype="http://schema.org/UserComments" class="boardComment 
+                 ">
+
+  <div class="boardCommentDetails">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a href="https://launchpad.net/~pitti" class="sprite person">Martin Pitt (pitti)</a>
+            wrote
+            <time itemprop="commentTime" datetime="2015-05-29T11:50:18.058824+00:00" title="2015-05-29 11:50:18 UTC">on 2015-05-29</time>:
+              
+          </td>
+          
+
+          <td class="bug-comment-index">
+          <a itemprop="url" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/comments/17"> #17</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="boardCommentBody">
+    
+
+    
+
+    
+
+  
+  <div class="comment-text" itemprop="commentText"><p>Note that this shouldn't have been released to -updates: conntrack is in universe in vivid, making neutron uninstallable within main.</p>
+<p>I promoted conntrack in wily now.</p></div>
+  
+  
+  
+
+
+  </div>
+
+  <div class="boardCommentActivity">
+    
+      <table class="bug-activity">
+  
+    
+      
+    
+    <tbody><tr>
+      <td style="text-align: right;">
+        <b>tags</b>:
+      </td>
+      <td>
+        added: regression-release
+      </td>
+    </tr>
+  
+  
+    
+      <tr>
+        <td colspan="2">Changed in conntrack (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        Fix Committed → Fix Released
+      </td>
+    </tr>
+  
+  
+    
+      <tr>
+        <td colspan="2">Changed in libnetfilter-cthelper (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        Fix Committed → Fix Released
+      </td>
+    </tr>
+  
+  
+    
+      <tr>
+        <td colspan="2">Changed in libnetfilter-cttimeout (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        Fix Committed → Fix Released
+      </td>
+    </tr>
+  
+  
+    
+      <tr>
+        <td colspan="2">Changed in libnetfilter-queue (Ubuntu): </td>
+      </tr>
+    
+    <tr>
+      <td style="text-align: right;">
+        <b>status</b>:
+      </td>
+      <td>
+        Fix Committed → Fix Released
+      </td>
+    </tr>
+  
+</tbody></table>
+    
+    
+  </div>
+  
+</div>
+
+          
+
+          
+
+          
+
+        
+        <div style="float: right;">
+          <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+activity" class="menu-link-activitylog">See full activity log</a>
+        </div>
+        <div class="clearfix"></div>
+
+        
+          
+
+          
+            <div align="center" id="add-comment-login-first">
+              To post a comment you must <a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+login?comments=all">log in</a>.
+            </div>
+          
+        
+        
+      
+
+      </div><!-- class="top-portlet" -->
+      </div><!--- id="maincontentsub"-->
+      <div>
+        <div id="duplicate-form-container"></div>
+        <div id="privacy-form-container"></div>
+      </div>
+    </div>
+            
+            
+          </div><!-- yui-b -->
+        </div><!-- yui-main -->
+
+        
+          <div id="side-portlets" class="yui-b side">
+            
+      <div id="involvement" class="portlet">
+        <ul class="involvement">
+          <li class="single">
+            <a class="sprite bugs" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+filebug">
+              Report a bug
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div id="privacy" class="first portlet public">
+  <div id="privacy-text">
+     <span id="information-type-summary" class="sprite public">This report contains
+         <strong id="information-type">Public</strong>
+         information
+     </span>&nbsp;<a class="sprite edit action-icon" id="privacy-link" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+secrecy">Edit</a>
+
+     <div id="information-type-description" style="padding-top: 5px">Everyone can see this information.
+</div>
+  </div>
+</div>
+
+      <div id="portlet-actions" class="portlet vertical">
+  <ul id="duplicate-actions">
+    <li class="sprite bug-dupe">
+    <span id="mark-duplicate-text">
+    <a class="menu-link-mark-dupe" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+duplicate">Mark as duplicate</a>
+    </span>
+    </li>
+    
+    <li><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+create-question" class="menu-link-createquestion sprite add">Convert to a question</a></li>
+    
+    <li><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+addbranch" class="menu-link-addbranch sprite add">Link a related branch</a></li>
+    <li><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+linkcve" class="menu-link-linktocve sprite add">Link to <abbr title="Common Vulnerabilities and Exposures Index">CVE</abbr></a></li>
+    
+  </ul>
+</div>
+
+      
+
+      <div class="portlet vertical" id="portlet-subscription">
+  <div class="section">
+    <div id="current_user_subscription" class="False">
+      
+        <span>You are</span>
+        
+        <a class="menu-link-subscription sprite modify edit" href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+subscribe">
+           
+           
+           
+           not directly subscribed to this bug's notifications.
+        </a>
+      
+      
+    </div>
+    <div id="sub-unsub-spinner">Subscribing...</div>
+    <ul>
+      
+      <li><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+subscriptions" class="menu-link-editsubscriptions sprite modify edit" title="View and change your subscriptions to this bug">Edit bug mail</a></li>
+    </ul>
+  </div>
+  <script type="text/javascript">
+    LPJS.use('io-base', 'node',
+            'lp.bugs.bugtask_index.portlets.subscription', function(Y) {
+        Y.on('domready', function() {
+            Y.lp.bugs.bugtask_index.portlets.subscription.initialize();
+        });
+    });
+  </script>
+</div>
+
+      <div class="portlet vertical" id="portlet-subscribers">
+  <h2>Other bug subscribers</h2>
+  <div>
+    <div><a href="https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+addsubscriber" class="menu-link-addsubscriber sprite add" title="Launchpad will email that person whenever this bugs changes">Subscribe someone else</a></div>
+  </div>
+  <div id="other-bug-subscribers"><div class="subscribers-section subscribers-section-discussion" id="yui_3_10_3_1_1516701096949_273"><h3>Notified of all changes</h3><ul class="subscribers-list"><li class="subscriber" id="subscriber-james-page"><a href="https://launchpad.net/~james-page" title="Self-subscribed"><span class="sprite person">James Page</span></a></li><li class="subscriber" id="subscriber-ubuntu-mir"><a href="https://launchpad.net/~ubuntu-mir" title="Subscribed by James Page (james-page)"><span class="sprite team">MIR approval team</span></a></li><li class="subscriber" id="subscriber-nobuto"><a href="https://launchpad.net/~nobuto" title="Self-subscribed"><span class="sprite person">Nobuto Murata</span></a></li><li class="subscriber" id="subscriber-sru-verification"><a href="https://launchpad.net/~sru-verification" title="Subscribed by Chris J Arges (arges)"><span class="sprite team">SRU Verification</span></a></li><li class="subscriber" id="subscriber-seth-arnold"><a href="https://launchpad.net/~seth-arnold" title="Self-subscribed"><span class="sprite person">Seth Arnold</span></a></li></ul></div><div class="subscribers-section subscribers-section-maybe" id="yui_3_10_3_1_1516701096949_292"><h3>May be notified</h3><ul class="subscribers-list"><li class="subscriber" id="subscriber-alvarez-ciencia"><a href="https://launchpad.net/~alvarez-ciencia"><span class="sprite person">Alejandro J. Alva...</span></a></li><li class="subscriber" id="subscriber-shani2k8"><a href="https://launchpad.net/~shani2k8"><span class="sprite person">Ashani Holland</span></a></li><li class="subscriber" id="subscriber-bruno2112"><a href="https://launchpad.net/~bruno2112"><span class="sprite person">Bruno Garcia</span></a></li><li class="subscriber" id="subscriber-crc-error-mail"><a href="https://launchpad.net/~crc-error-mail"><span class="sprite person">CRC</span></a></li><li class="subscriber" id="subscriber-cjsmo"><a href="https://launchpad.net/~cjsmo"><span class="sprite person">Charlie_Smotherman</span></a></li><li class="subscriber" id="subscriber-debianpts"><a href="https://launchpad.net/~debianpts"><span class="sprite person">Debian PTS</span></a></li><li class="subscriber" id="subscriber-barkerashley36"><a href="https://launchpad.net/~barkerashley36"><span class="sprite person">Doraann2</span></a></li><li class="subscriber" id="subscriber-huananhu"><a href="https://launchpad.net/~huananhu"><span class="sprite person">Franko Fang</span></a></li><li class="subscriber" id="subscriber-haysaycheese"><a href="https://launchpad.net/~haysaycheese"><span class="sprite person">HaySayCheese</span></a></li><li class="subscriber" id="subscriber-hidagawa"><a href="https://launchpad.net/~hidagawa"><span class="sprite person">Hidagawa</span></a></li><li class="subscriber" id="subscriber-jesse-jones123"><a href="https://launchpad.net/~jesse-jones123"><span class="sprite person">Jesse Jones</span></a></li><li class="subscriber" id="subscriber-ftprj45"><a href="https://launchpad.net/~ftprj45"><span class="sprite person">José Alfonso</span></a></li><li class="subscriber" id="subscriber-ja3k3l"><a href="https://launchpad.net/~ja3k3l"><span class="sprite person">Matt j</span></a></li><li class="subscriber" id="subscriber-imhell99"><a href="https://launchpad.net/~imhell99"><span class="sprite person">Mr. MInhaj</span></a></li><li class="subscriber" id="subscriber-b1130560"><a href="https://launchpad.net/~b1130560"><span class="sprite person">Name Changed</span></a></li><li class="subscriber" id="subscriber-pcfixupllc"><a href="https://launchpad.net/~pcfixupllc"><span class="sprite person">PCTeacher012</span></a></li><li class="subscriber" id="subscriber-donkavo"><a href="https://launchpad.net/~donkavo"><span class="sprite person">Paolo Topa</span></a></li><li class="subscriber" id="subscriber-skyluc00mind"><a href="https://launchpad.net/~skyluc00mind"><span class="sprite person">Peter Bullert</span></a></li><li class="subscriber" id="subscriber-anubhavgupta1990"><a href="https://launchpad.net/~anubhavgupta1990"><span class="sprite person">Punnsa</span></a></li><li class="subscriber" id="subscriber-b-launchpad-transubuntu-ca"><a href="https://launchpad.net/~b-launchpad-transubuntu-ca"><span class="sprite person">Richard Seguin</span></a></li><li class="subscriber" id="subscriber-rkwill"><a href="https://launchpad.net/~rkwill"><span class="sprite person">Richard Williams</span></a></li><li class="subscriber" id="subscriber-tsimonq2"><a href="https://launchpad.net/~tsimonq2"><span class="sprite person">Simon Quigley</span></a></li><li class="subscriber" id="subscriber-thomas-r-weiss"><a href="https://launchpad.net/~thomas-r-weiss"><span class="sprite person">Tom Weiss</span></a></li><li class="subscriber" id="subscriber-ubuntu-bugs"><a href="https://launchpad.net/~ubuntu-bugs"><span class="sprite team">Ubuntu Bugs</span></a></li><li class="subscriber" id="subscriber-ubuntu-openstack"><a href="https://launchpad.net/~ubuntu-openstack"><span class="sprite team">Ubuntu OpenStack</span></a></li><li class="subscriber" id="subscriber-ubuntu-server"><a href="https://launchpad.net/~ubuntu-server"><span class="sprite team">Ubuntu Server Team</span></a></li><li class="subscriber" id="subscriber-mail-vasanth"><a href="https://launchpad.net/~mail-vasanth"><span class="sprite person">Vasanth</span></a></li><li class="subscriber" id="subscriber-v-parker2"><a href="https://launchpad.net/~v-parker2"><span class="sprite person">Vic Parker</span></a></li><li class="subscriber" id="subscriber-zzou"><a href="https://launchpad.net/~zzou"><span class="sprite person">ahepas</span></a></li><li class="subscriber" id="subscriber-vgavrilubuntu"><a href="https://launchpad.net/~vgavrilubuntu"><span class="sprite person">basilisgabri</span></a></li><li class="subscriber" id="subscriber-geawaifr"><a href="https://launchpad.net/~geawaifr"><span class="sprite person">dsfkj dfjx</span></a></li><li class="subscriber" id="subscriber-eoininmoran"><a href="https://launchpad.net/~eoininmoran"><span class="sprite person">eoininmoran</span></a></li><li class="subscriber" id="subscriber-ganeshredcobra"><a href="https://launchpad.net/~ganeshredcobra"><span class="sprite person">ganesh</span></a></li><li class="subscriber" id="subscriber-gi--js"><a href="https://launchpad.net/~gi--js"><span class="sprite person">linuxgijs</span></a></li><li class="subscriber" id="subscriber-nikonikic42"><a href="https://launchpad.net/~nikonikic42"><span class="sprite person">nikonikic42</span></a></li><li class="subscriber" id="subscriber-projevie"><a href="https://launchpad.net/~projevie"><span class="sprite person">projevie@hotmail.com</span></a></li><li class="subscriber" id="subscriber-juniorlhkaceh"><a href="https://launchpad.net/~juniorlhkaceh"><span class="sprite person">qadir</span></a></li><li class="subscriber" id="subscriber-payyoormana"><a href="https://launchpad.net/~payyoormana"><span class="sprite person">sankaran</span></a></li><li class="subscriber" id="subscriber-angeles-van-deactivatedaccount"><a href="https://launchpad.net/~angeles-van-deactivatedaccount"><span class="sprite person">van</span></a></li></ul></div></div>
+</div>
+
+      
+
+      <div class="portlet vertical" id="portlet-blueprints">
+  <h2>Related blueprints</h2>
+  <ul>
+    <li><a href="https://blueprints.launchpad.net/ubuntu/+spec/servercloud-v-openstack-kilo" class="sprite blueprint-high">OpenStack Kilo for Ubuntu Vivid</a></li>
+  </ul>
+</div>
+
+      
+  
+  
+
+
+      
+
+    
+          </div><!-- yui-b side -->
+        
+      </div><!-- yui-t4 -->
+
+      
+  <div id="footer" class="footer">
+    <div class="lp-arcana">
+        <div class="lp-branding">
+          <a href="https://launchpad.net/"><img src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/launchpad-logo-and-name-hierarchy.png" alt="Launchpad"></a>
+          &nbsp;•&nbsp;
+          <a href="https://launchpad.net/+tour">Take the tour</a>
+          &nbsp;•&nbsp;
+          <a href="https://help.launchpad.net/">Read the guide</a>
+          &nbsp;
+          <form id="globalsearch" method="get" accept-charset="UTF-8" action="https://launchpad.net/+search">
+            <input type="search" id="search-text" name="field.text">
+            <input type="image" src="./Bug #1381450 “[MIR] conntrack, libnetfilter-queue, libnetfilter-...” _ Bugs _ conntrack package _ Ubuntu_files/search" style="vertical-align:5%" alt="Search Launchpad">
+          </form>
+        </div>
+        
+  
+
+    </div>
+
+    <div class="colophon">
+      © 2004-2018
+      <a href="http://canonical.com/">Canonical&nbsp;Ltd.</a>
+      &nbsp;•&nbsp;
+      <a href="https://launchpad.net/legal">Terms of use</a>
+      &nbsp;•&nbsp;
+      <a href="https://bugs.launchpad.net/feedback">Contact Launchpad Support</a>
+      
+      &nbsp;•&nbsp;
+      <a href="http://blog.launchpad.net/">Blog</a>
+      
+	&nbsp;•&nbsp;
+	<a href="http://www.canonical.com/about-canonical/careers">Careers</a>
+      
+      &nbsp;•&nbsp;
+      <a href="https://twitter.com/launchpadstatus">System status</a>
+      <span id="lp-version">
+      &nbsp;•&nbsp;
+        r18532
+        
+        
+        (<a href="https://dev.launchpad.net/">Get the code!</a>)
+      </span>
+    </div>
+  </div>
+
+    </div><!-- yui-d0-->
+
+    
+  
+  
+  <script id="json-cache-script">LP.cache = {"bug_is_private": false, "related_features": {}, "bugtask_data": {"1699465": {"milestone_value": null, "form_row_id": "task1699465", "target_is_product": false, "importance_value": "Medium", "prefix": "ubuntu_libnetfilter-queue", "hide_assignee_team_selection": true, "delete_link": "https://bugs.launchpad.net/ubuntu/+source/libnetfilter-queue/+bug/1381450/+delete", "id": 1699465, "assignee_is_team": null, "milestone_widget_items": "[]", "assignee_vocabulary": "AllUserTeamsParticipation", "bug_title": "[MIR] conntrack, libnetfilter-queue, libnetfilter-cttimeout, libnetfilter-cthelper", "user_can_delete": false, "assignee_value": null, "user_can_edit_importance": false, "assignee_vocabulary_filters": [], "importance_widget_items": "[]", "status_value": "Fix Released", "user_can_unassign": false, "user_can_edit_milestone": false, "user_can_edit_assignee": false, "user_can_edit_status": true, "status_widget_items": "[]", "bugtask_path": "/ubuntu/+source/libnetfilter-queue/+bug/1381450", "row_id": "tasksummary1699465", "targetname": "libnetfilter-queue (Ubuntu)"}, "1699466": {"milestone_value": null, "form_row_id": "task1699466", "target_is_product": false, "importance_value": "Medium", "prefix": "ubuntu_libnetfilter-cttimeout", "hide_assignee_team_selection": true, "delete_link": "https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cttimeout/+bug/1381450/+delete", "id": 1699466, "assignee_is_team": null, "milestone_widget_items": "[]", "assignee_vocabulary": "AllUserTeamsParticipation", "bug_title": "[MIR] conntrack, libnetfilter-queue, libnetfilter-cttimeout, libnetfilter-cthelper", "user_can_delete": false, "assignee_value": null, "user_can_edit_importance": false, "assignee_vocabulary_filters": [], "importance_widget_items": "[]", "status_value": "Fix Released", "user_can_unassign": false, "user_can_edit_milestone": false, "user_can_edit_assignee": false, "user_can_edit_status": true, "status_widget_items": "[]", "bugtask_path": "/ubuntu/+source/libnetfilter-cttimeout/+bug/1381450", "row_id": "tasksummary1699466", "targetname": "libnetfilter-cttimeout (Ubuntu)"}, "1699467": {"milestone_value": null, "form_row_id": "task1699467", "target_is_product": false, "importance_value": "Medium", "prefix": "ubuntu_libnetfilter-cthelper", "hide_assignee_team_selection": true, "delete_link": "https://bugs.launchpad.net/ubuntu/+source/libnetfilter-cthelper/+bug/1381450/+delete", "id": 1699467, "assignee_is_team": null, "milestone_widget_items": "[]", "assignee_vocabulary": "AllUserTeamsParticipation", "bug_title": "[MIR] conntrack, libnetfilter-queue, libnetfilter-cttimeout, libnetfilter-cthelper", "user_can_delete": false, "assignee_value": null, "user_can_edit_importance": false, "assignee_vocabulary_filters": [], "importance_widget_items": "[]", "status_value": "Fix Released", "user_can_unassign": false, "user_can_edit_milestone": false, "user_can_edit_assignee": false, "user_can_edit_status": true, "status_widget_items": "[]", "bugtask_path": "/ubuntu/+source/libnetfilter-cthelper/+bug/1381450", "row_id": "tasksummary1699467", "targetname": "libnetfilter-cthelper (Ubuntu)"}, "1699462": {"milestone_value": "https://bugs.launchpad.net/api/devel/ubuntu/+milestone/ubuntu-15.01", "form_row_id": "task1699462", "target_is_product": false, "importance_value": "Medium", "prefix": "ubuntu_conntrack", "hide_assignee_team_selection": true, "delete_link": "https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450/+delete", "id": 1699462, "assignee_is_team": null, "milestone_widget_items": "[]", "assignee_vocabulary": "AllUserTeamsParticipation", "bug_title": "[MIR] conntrack, libnetfilter-queue, libnetfilter-cttimeout, libnetfilter-cthelper", "user_can_delete": false, "assignee_value": null, "user_can_edit_importance": false, "assignee_vocabulary_filters": [], "importance_widget_items": "[]", "status_value": "Fix Released", "user_can_unassign": false, "user_can_edit_milestone": false, "user_can_edit_assignee": false, "user_can_edit_status": true, "status_widget_items": "[]", "bugtask_path": "/ubuntu/+source/conntrack/+bug/1381450", "row_id": "tasksummary1699462", "targetname": "conntrack (Ubuntu)"}}, "total_comments_and_activity": 52, "context": {"date_closed": "2015-05-29T11:51:27.078251+00:00", "date_assigned": null, "title": "Bug #1381450 in conntrack (Ubuntu): \"[MIR] conntrack, libnetfilter-queue, libnetfilter-cttimeout, libnetfilter-cthelper\"", "bug_link": "https://bugs.launchpad.net/api/devel/bugs/1381450", "bug_watch_link": null, "milestone_link": "https://bugs.launchpad.net/api/devel/ubuntu/+milestone/ubuntu-15.01", "http_etag": "\"8eb4f82c8c74faa47bb4f528e25f3ac2c091d991-457c62caa1b0f97f7807b7dcd956b471001189bb\"", "date_left_closed": null, "date_fix_committed": "2015-04-23T14:56:44.385877+00:00", "date_fix_released": "2015-05-29T11:51:27.078251+00:00", "date_in_progress": "2015-04-23T14:56:44.385877+00:00", "resource_type_link": "https://bugs.launchpad.net/api/devel/#bug_task", "status": "Fix Released", "bug_target_name": "conntrack (Ubuntu)", "importance": "Medium", "assignee_link": null, "date_triaged": "2015-04-23T14:56:44.385877+00:00", "self_link": "https://bugs.launchpad.net/api/devel/ubuntu/+source/conntrack/+bug/1381450", "target_link": "https://bugs.launchpad.net/api/devel/ubuntu/+source/conntrack", "bug_target_display_name": "conntrack (Ubuntu)", "related_tasks_collection_link": "https://bugs.launchpad.net/api/devel/ubuntu/+source/conntrack/+bug/1381450/related_tasks", "date_confirmed": "2015-03-09T12:37:47.892959+00:00", "date_left_new": "2015-03-09T12:37:47.892959+00:00", "web_link": "https://bugs.launchpad.net/ubuntu/+source/conntrack/+bug/1381450", "owner_link": "https://bugs.launchpad.net/api/devel/~james-page", "date_created": "2014-10-15T10:10:02.157250+00:00", "date_incomplete": null, "is_complete": true}, "information_type_data": {"PRIVATESECURITY": {"name": "Private Security", "value": "PRIVATESECURITY", "description_css_class": "choice-description", "order": 2, "is_private": true, "description": "Only the security group can see this information.\n "}, "USERDATA": {"name": "Private", "value": "USERDATA", "description_css_class": "choice-description", "order": 3, "is_private": true, "description": "Only shared with users permitted to see private user information.\n"}, "PUBLICSECURITY": {"name": "Public Security", "value": "PUBLICSECURITY", "description_css_class": "choice-description", "order": 1, "is_private": false, "description": "Everyone can see this security related information.\n"}, "PUBLIC": {"name": "Public", "value": "PUBLIC", "description_css_class": "choice-description", "order": 0, "is_private": false, "description": "Everyone can see this information.\n"}}, "subscribers_portlet_url_data": {"self_link": "https://bugs.launchpad.net/api/devel/bugs/1381450", "web_link": "https://bugs.launchpad.net/bugs/1381450"}, "initial_comment_batch_offset": 41, "bug": {"users_unaffected_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/users_unaffected", "latest_patch_uploaded": null, "users_affected_count_with_dupes": 2, "security_related": false, "private": false, "bug_watches_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/bug_watches", "date_made_private": null, "linked_branches_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/linked_branches", "subscriptions_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/subscriptions", "number_of_duplicates": 0, "id": 1381450, "users_unaffected_count": 0, "title": "[MIR] conntrack, libnetfilter-queue, libnetfilter-cttimeout, libnetfilter-cthelper", "other_users_affected_count_with_dupes": 2, "name": null, "http_etag": "\"dc89371ba7942f6f79a5eb9f8238fc75d1cb63ee-9cae920b508fa114a143b1c9054b3c4994f46766\"", "messages_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/messages", "self_link": "https://bugs.launchpad.net/api/devel/bugs/1381450", "information_type": "Public", "who_made_private_link": null, "attachments_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/attachments", "resource_type_link": "https://bugs.launchpad.net/api/devel/#bug", "activity_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/activity", "date_last_updated": "2015-05-29T11:51:33.710792+00:00", "description": "conntrack:\n\nAvailability: in universe\nRationale: new dependency for openstack neutron to support HA routers with connection state tracking\nSecurity: Looks OK - http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=conntrack\nQuality assurance: No upstream test suite, packaging generally looks OK\nDependencies: all in main aside from those on this bug report.\nStandards compliance: OK\nMaintenance: Server Team\n\nlibnetfilter-cttimeout:\n\nAvailability: in universe\nRationale: dependency for conntrack\nSecurity: Looks OK - http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=netfilter-cttimeout\nQuality assurance: No upstream test suite, packaging generally looks OK\nDependencies: all in main aside from those on this bug report.\nStandards compliance: OK\nMaintenance: Server Team\n\nlibnetfilter-cthelper:\n\nAvailability: in universe\nRationale: dependency for conntrack\nSecurity: Looks OK - http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=netfilter-cthelper\nQuality assurance: No upstream test suite, packaging generally looks OK\nDependencies: all in main aside from those on this bug report.\nStandards compliance: OK\nMaintenance: Server Team\n\nlibnetfilter-queue:\n\nAvailability: in universe\nRationale: dependency for conntrack\nSecurity: Looks OK - http://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=netfilter-queue\nQuality assurance: No upstream test suite, packaging generally looks OK\nDependencies: all in main aside from those on this bug report.\nStandards compliance: OK\nMaintenance: Server Team", "duplicates_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/duplicates", "tags": ["regression-release", "verification-done"], "message_count": 18, "heat": 18, "bug_tasks_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/bug_tasks", "duplicate_of_link": null, "linked_merge_proposals_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/linked_merge_proposals", "users_affected_with_dupes_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/users_affected_with_dupes", "cves_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/cves", "web_link": "https://bugs.launchpad.net/bugs/1381450", "users_affected_count": 2, "owner_link": "https://bugs.launchpad.net/api/devel/~james-page", "date_created": "2014-10-15T10:10:02.157250+00:00", "date_last_message": "2015-05-29T11:50:18.058824+00:00", "users_affected_collection_link": "https://bugs.launchpad.net/api/devel/bugs/1381450/users_affected"}, "first visible_recent_comment": -23};</script>
+
+    
+  
+
+    
+  
+
+
+  <!--
+    Facet name: bugs
+    Page type: main_side
+    Has global search: True
+    Has application tabs: True
+    Has side portlets: True
+
+    At least 81 queries/external actions issued in 0.82 seconds
+
+    Features: {'app.mainsite_only.canonical_url': None, 'hard_timeout': u'9000', 'profiling.enabled': None, 'visible_render_time': None, 'disclosure.dsp_picker.enabled': u'on', 'bugs.affected_count_includes_dupes.disabled': None, 'js.yui_version': None, 'bugs.nominations.bug_supervisors_can_target': None, 'baselayout.careers_link.disabled': None}
+
+    r18532
+
+    -->
+
+
+
+</body></html>
