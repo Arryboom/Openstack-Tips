@@ -1,0 +1,19 @@
+.content-index{background:#FFF;max-width:30%;margin:0 0 20px 20px;padding:15px;border:1px solid #EEE;}
+.content-index-title{border-bottom:1px dotted #D0D0D0;padding:0 0 5px 0;margin-bottom:5px;font-weight:bold}
+.content-index-toctoggle{color:#999;font-size:12px}
+.content-index-toctoggle a{color:#999 !important;}
+.content-index-toctoggle a:hover{color:#000 !important;text-decoration:none!important;}
+.content-index ul{padding-left:0 !important; margin-bottom:0 !important}
+.content-index ul.children{padding-left:1em;list-style:none inside none}
+.content-index li{font-size:12px;line-height:20px}
+.content-index a {text-decoration:none!important;border:none!important;padding:0px!important}
+.content-index a:hover {border:none!important;padding:0px!important}
+.content-index li a em{font-size:68%;font-style:normal;font-weight:700;padding-right:5px}
+.content-index li a.hide{display:none}
+.content-index-heading em{font-size:85%;font-style:normal;font-weight:700;margin-right:5px}
+.content-index .content-index-level-1{background:none;list-style:disc inside none;margin-bottom:0;display:list-item; padding:0;}
+.content-index .content-index-level-2{background:none;list-style:circle inside none;margin-bottom:0;display:list-item; padding:0 0 0 15px;}
+.content-index .content-index-level-3{background:none;list-style:decimal inside none;margin-bottom:0;display:list-item; padding:0 0 0 15px;}
+.content-index .content-index-level-4{background:none;list-style:upper-alpha inside none;margin-bottom:0;display:list-item; padding:0 0 0 15px;}
+.content-index .content-index-level-5{background:none;list-style:lower-alpha inside none;margin-bottom:0;display:list-item; padding:0 0 0 15px;}
+.content-index .content-index-level-6{}

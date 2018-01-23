@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="same-origin">
+<title>sed命令详解 - 为爱奋斗不息 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-ThinkInside.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-ThinkInside-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/ctaixw/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/ctaixw/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/ctaixw/wlwmanifest.xml">
+<script async="" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'ctaixw', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/ctaixw/"><img id="blogLogo" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/ctaixw/">为爱奋斗不息</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/ctaixw/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/ctaixw/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/ctaixw/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 66&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 2</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/ctaixw/p/5860221.html">sed命令详解</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>sed：Stream Editor文本流编辑，sed是一个“非交互式的”面向字符流的编辑器。能同时处理多个文件多行的内容，可以不对原文件改动，把整个文件输入到屏幕,可以把只匹配到模式的内容输入到屏幕上。还可以对原文件改动，但是不会再屏幕上返回结果。</p>
+<p><strong>sed命令的语法格式：</strong></p>
+<p>sed的命令格式： sed [option] 'sed command'filename</p>
+<p>sed的脚本格式：sed [option] -f 'sed script'filename</p>
+<p><strong>sed命令的选项(option)：</strong></p>
+<p>-n ：只打印模式匹配的行</p>
+<p>-e ：直接在命令行模式上进行sed动作编辑，此为默认选项</p>
+<p>-f ：将sed的动作写在一个文件内，用–f filename 执行filename内的sed动作</p>
+<p>-r ：支持扩展表达式</p>
+<p>-i ：直接修改文件内容</p>
+<p><strong>sed在文件中查询文本的方式：</strong></p>
+<p><strong>1)使用行号，可以是一个简单数字，或是一个行号范围</strong></p>
+<table style="width: 494px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="168">
+<p>x</p>
+</td>
+<td width="303">
+<p>x为行号</p>
+</td>
+</tr>
+<tr>
+<td width="168">
+<p>x,y</p>
+</td>
+<td width="303">
+<p>表示行号从x到y</p>
+</td>
+</tr>
+<tr>
+<td width="168">
+<p>/pattern</p>
+</td>
+<td width="303">
+<p>查询包含模式的行</p>
+</td>
+</tr>
+<tr>
+<td width="168">
+<p>/pattern /pattern</p>
+</td>
+<td width="303">
+<p>查询包含两个模式的行</p>
+</td>
+</tr>
+<tr>
+<td width="168">
+<p>pattern/,x</p>
+</td>
+<td width="303">
+<p>在给定行号上查询包含模式的行</p>
+</td>
+</tr>
+<tr>
+<td width="168">
+<p>x,/pattern/</p>
+</td>
+<td width="303">
+<p>通过行号和模式查询匹配的行</p>
+</td>
+</tr>
+<tr>
+<td width="168">
+<p>x,y!</p>
+</td>
+<td width="303">
+<p>查询不包含指定行号x和y的行</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><img title="1.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309060851.png" alt="\"></p>
+<p><img title="2.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309060952.png" alt="\"></p>
+<p><img title="3.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061053.png" alt="\"></p>
+<p><strong>2)使用正则表达式、扩展正则表达式(必须结合-r选项)</strong></p>
+<table style="width: 568px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="115">
+<p>^</p>
+</td>
+<td width="431">
+<p>锚点行首的符合条件的内容，用法格式"^pattern"</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>$</p>
+</td>
+<td width="431">
+<p>锚点行首的符合条件的内容，用法格式"pattern$"</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>^$</p>
+</td>
+<td width="431">
+<p>空白行</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>.</p>
+</td>
+<td width="431">
+<p>匹配任意单个字符</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p lang="en-US">*</p>
+</td>
+<td width="431">
+<p>匹配紧挨在前面的字符任意次(0,1,多次)</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>.*</p>
+</td>
+<td width="431">
+<p>匹配任意长度的任意字符</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>\？</p>
+</td>
+<td width="431">
+<p>匹配紧挨在前面的字符0次或1次</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>\{m,n\}</p>
+</td>
+<td width="431">
+<p>匹配其前面的字符至少m次，至多n次</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>\{m,\}</p>
+</td>
+<td width="431">
+<p>匹配其前面的字符至少m次</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>\{m\}</p>
+</td>
+<td width="431">
+<p>精确匹配前面的m次\{0,n\}:0到n次</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>\&lt;</p>
+</td>
+<td width="431">
+<p>锚点词首----相当于 \b，用法格式：\&lt;pattern</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>\&gt;</p>
+</td>
+<td width="431">
+<p>锚点词尾，用法格式:\&gt;pattern</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>\&lt;pattern\&gt;</p>
+</td>
+<td width="431">
+<p>单词锚点</p>
+</td>
+</tr>
+<tr>
+<td width="115">&nbsp;</td>
+<td width="431">
+<p>分组，用法格式：<span class="MathJax_Preview"><span id="MathJax-Element-2-Frame" class="MathJax"><span id="MathJax-Span-3" class="math"><span id="MathJax-Span-4" class="mrow"><span id="MathJax-Span-5" class="mi">p<span id="MathJax-Span-6" class="mi">a<span id="MathJax-Span-7" class="mi">t<span id="MathJax-Span-8" class="mi">t<span id="MathJax-Span-9" class="mi">e<span id="MathJax-Span-10" class="mi">r<span id="MathJax-Span-11" class="mi">n</span></span></span></span></span></span></span></span></span>，引用\1,\2</span></span></p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[]</p>
+</td>
+<td width="431">
+<p>匹配指定范围内的任意单个字符</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[^]</p>
+</td>
+<td width="431">
+<p>匹配指定范围外的任意单个字符</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[:digit:]</p>
+</td>
+<td width="431">
+<p>所有数字, 相当于0-9， [0-9]---&gt; [[:digit:]]</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[:lower:]</p>
+</td>
+<td width="431">
+<p>所有的小写字母</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[:upper:]</p>
+</td>
+<td width="431">
+<p>所有的大写字母</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[:alpha:]</p>
+</td>
+<td width="431">
+<p>所有的字母</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[:alnum:]</p>
+</td>
+<td width="431">
+<p>相当于0-9a-zA-Z</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[:space:]</p>
+</td>
+<td width="431">
+<p>空白字符</p>
+</td>
+</tr>
+<tr>
+<td width="115">
+<p>[:punct:]</p>
+</td>
+<td width="431">
+<p>所有标点符号</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="dp-highlighter bg_java">
+<div class="bar">
+<div class="tools"><strong>[java]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">copy</a></span></span>
+<div>&nbsp;</div>
+</div>
+</div>
+<ol class="dp-j" start="1">
+<li class="alt">#######sed的匹配模式支持正则表达式#####################&nbsp;&nbsp;</li>
+<li>sed<span class="string">'5&nbsp;q'/etc/passwd#打印前<span class="number">5行&nbsp;&nbsp;</span></span></li>
+<li class="alt">sed-n&nbsp;<span class="string">'/r*t/p'/etc/passwd#打印匹配r有<span class="number">0个或者多个，后接一个t字符的行&nbsp;&nbsp;</span></span></li>
+<li>sed-n&nbsp;<span class="string">'/.r.*/p'/etc/passwd#打印匹配有r的行并且r后面跟任意字符&nbsp;&nbsp;</span></li>
+<li class="alt">sed-n&nbsp;<span class="string">'/o*/p'/etc/passwd#打印o字符重复任意次&nbsp;&nbsp;</span></li>
+<li>sed-n&nbsp;<span class="string">'/o\{1,\}/p'/etc/passwd#打印o字重复出现一次以上&nbsp;&nbsp;</span></li>
+<li class="alt">sed-n&nbsp;<span class="string">'/o\{1,3\}/p'/etc/passwd#打印o字重复出现一次到三次之间以上&nbsp;&nbsp;</span></li>
+</ol></div>
+<p><strong>sed的编辑命令(sed command)：</strong></p>
+<table style="width: 640px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="97">
+<p>p</p>
+</td>
+<td width="520">
+<p>打印匹配行（和-n选项一起合用）</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>=</p>
+</td>
+<td width="520">
+<p>显示文件行号</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>a\</p>
+</td>
+<td width="520">
+<p>在定位行号后附加新文本信息</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>i\</p>
+</td>
+<td width="520">
+<p>在定位行号后插入新文本信息</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>d</p>
+</td>
+<td width="520">
+<p>删除定位行</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>c\</p>
+</td>
+<td width="520">
+<p>用新文本替换定位文本</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>w filename</p>
+</td>
+<td width="520">
+<p>写文本到一个文件，类似输出重定向 &gt;</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p lang="en-US">r filename</p>
+</td>
+<td width="520">
+<p>从另一个文件中读文本，类似输入重定向 &lt;</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>s</p>
+</td>
+<td width="520">
+<p>使用替换模式替换相应模式</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>q</p>
+</td>
+<td width="520">
+<p>第一个模式匹配完成后退出或立即退出</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>l</p>
+</td>
+<td width="520">
+<p>显示与八进制ACSII代码等价的控制符</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>{}</p>
+</td>
+<td width="520">
+<p>在定位行执行的命令组，用分号隔开</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>n</p>
+</td>
+<td width="520">
+<p>从另一个文件中读文本下一行，并从下一条命令而不是第一条命令开始对其的处理</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p lang="en-US">N</p>
+</td>
+<td width="520">
+<p>在数据流中添加下一行以创建用于处理的多行组</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>g</p>
+</td>
+<td width="520">
+<p>将模式2粘贴到/pattern n/</p>
+</td>
+</tr>
+<tr>
+<td width="97">
+<p>y</p>
+</td>
+<td width="520">
+<p>传送字符，替换单个字符</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>对文件的操作无非就是”增删改查“，怎样用sed命令实现对文件的”增删改查“，玩转sed是写自动化脚本必须的基础之一。</strong></p>
+<p><strong>sed命令打印文件信息(查询)：</strong></p>
+<div class="dp-highlighter bg_java">
+<div class="bar">
+<div class="tools"><strong>[java]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">copy</a></span></span>
+<div>&nbsp;</div>
+</div>
+</div>
+<ol class="dp-j" start="1">
+<li class="alt">####用sed打印文件的信息的例子的命令######&nbsp;&nbsp;</li>
+<li>sed&nbsp;-n&nbsp;<span class="string">'/^#/!p'&nbsp;&nbsp;/etc/vsftpd/vsftpd.conf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li class="alt">sed&nbsp;-n&nbsp;<span class="string">'/^#/!{/^$/!p}'&nbsp;&nbsp;/etc/vsftpd/vsftpd.conf&nbsp;&nbsp;</span></li>
+<li>sed&nbsp;-e&nbsp;<span class="string">'/^#/d'&nbsp;-e&nbsp;<span class="string">'/^$/d'&nbsp;&nbsp;/etc/vsftpd/vsftpd.conf&nbsp;&nbsp;</span></span></li>
+<li class="alt">sed&nbsp;-n&nbsp;<span class="string">'1,/adm/p'&nbsp;/etc/passwd&nbsp;&nbsp;</span></li>
+<li>sed&nbsp;-n&nbsp;<span class="string">'/adm/,6p'&nbsp;/etc/passwd&nbsp;&nbsp;</span></li>
+<li class="alt">sed&nbsp;-n&nbsp;<span class="string">'/adm/,4p'&nbsp;/etc/passwd&nbsp;&nbsp;</span></li>
+<li>sed&nbsp;-n&nbsp;<span class="string">'/adm/,2p'&nbsp;/etc/passwd&nbsp;&nbsp;</span></li>
+<li class="alt">###以下图片是对这些sed命令例子的解释和显示结果&nbsp;&nbsp;</li>
+</ol></div>
+<p><strong><img title="1.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061054.png" alt="\"></strong></p>
+<p><img title="2.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061055.png" alt="\"></p>
+<p><img title="3.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061056.png" alt="\"></p>
+<p><img title="4.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061157.png" alt="\"></p>
+<p><strong>sed命令实现对文件内容的添加：(对源文件添加的话就用-i参数):</strong></p>
+<div class="dp-highlighter bg_java">
+<div class="bar">
+<div class="tools"><strong>[java]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">copy</a></span></span>
+<div>&nbsp;</div>
+</div>
+</div>
+<ol class="dp-j" start="1">
+<li class="alt">####sed命令可以实现的添加######&nbsp;&nbsp;</li>
+<li>#<span class="number">1）匹配行的行首添加，添加在同行&nbsp;&nbsp;</span></li>
+<li class="alt">#<span class="number">2）匹配行的行中的某个字符后添加&nbsp;&nbsp;</span></li>
+<li>#<span class="number">3）匹配行的行尾添加字符&nbsp;&nbsp;</span></li>
+<li class="alt">#<span class="number">4）匹配行的行前面行添加&nbsp;&nbsp;</span></li>
+<li>#<span class="number">5）匹配行的行后面行添加&nbsp;&nbsp;</span></li>
+<li class="alt">#<span class="number">6）文件的行首添加一行&nbsp;&nbsp;</span></li>
+<li>&nbsp;&nbsp;[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'1&nbsp;i\sed&nbsp;command&nbsp;start'&nbsp;myfile&nbsp;&nbsp;</span></span></li>
+<li class="alt">#<span class="number">7）文件的行尾追加一行&nbsp;&nbsp;</span></li>
+<li>&nbsp;&nbsp;[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'$a&nbsp;\sed&nbsp;command&nbsp;end'&nbsp;myfile&nbsp;&nbsp;</span></span></li>
+</ol></div>
+<p><strong><img title="5.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061358.png" alt="\"></strong></p>
+<p>&nbsp;</p>
+<p><img title="6.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061459.png" alt="\"></p>
+<p>&nbsp;</p>
+<p><img title="7.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061460.png" alt="\"></p>
+<p><img title="8.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061461.png" alt="\"></p>
+<p><img title="9.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061462.png" alt="\"></p>
+<p><img title="10.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061563.png" alt="\"></p>
+<p><img title="10.1.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061564.png" alt="\"></p>
+<p><img title="11.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061665.png" alt="\"></p>
+<p><img title="12.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061766.png" alt="\"></p>
+<p><strong>sed命令实现对文件内容的删除：(对源文件直接删除用-i参数):</strong></p>
+<p>sed的删除操作是针对文件的行，如果想删除行中的某个字符，那就用替换(别急，替换稍后就讲，而且替换是sed最常用的)</p>
+<p><strong><img title="20.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061767.png" alt="\"></strong></p>
+<p><strong><img title="21.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061868.png" alt="\"></strong></p>
+<p><img title="22.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061969.png" alt="\"></p>
+<p><strong><img title="23.png" src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2014061309061970.png" alt="\"></strong></p>
+<p>&nbsp;<strong>重点：<strong>sed命令实现对文件内容的替换（替换是在shell自动化脚本中用到最多的操作）</strong></strong></p>
+<div class="dp-highlighter bg_java">
+<div class="bar">
+<div class="tools"><strong>[java]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">copy</a></span></span>
+<div>&nbsp;</div>
+</div>
+</div>
+<ol class="dp-j" start="1">
+<li class="alt">#================源文件里面的内容===============================&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;test&nbsp;&nbsp;</span></li>
+<li class="alt">anonymous_enable=YES&nbsp;&nbsp;</li>
+<li>write_enable=YES&nbsp;&nbsp;</li>
+<li class="alt">local_umask=<span class="number">022&nbsp;&nbsp;</span></li>
+<li>xferlog_enable=YES&nbsp;&nbsp;</li>
+<li class="alt">connect_from_port_20=YES&nbsp;&nbsp;</li>
+<li>root:x:<span class="number">0:<span class="number">0:root:/root:/bin/bash&nbsp;&nbsp;</span></span></li>
+<li class="alt">bin:x:<span class="number">1:<span class="number">1:bin:/bin:/sbin/nologin&nbsp;&nbsp;</span></span></li>
+<li>daemon:x:<span class="number">2:<span class="number">2:daemon:/sbin:/sbin/nologin&nbsp;&nbsp;</span></span></li>
+<li class="alt">adm:x:<span class="number">3:<span class="number">4:adm:/var/adm:/sbin/nologin&nbsp;&nbsp;</span></span></li>
+<li>lp:x:<span class="number">4:<span class="number">7:lp:/var/spool/lpd:/sbin/nologin&nbsp;&nbsp;</span></span></li>
+<li class="alt">DEVICE=<span class="string">"eth0"&nbsp;&nbsp;</span></li>
+<li>BOOTPROTO=<span class="string">"static"&nbsp;&nbsp;</span></li>
+<li class="alt">HWADDR=<span class="string">"00:0C:29:90:79:78"&nbsp;&nbsp;</span></li>
+<li>ONBOOT=<span class="string">"yes"&nbsp;&nbsp;</span></li>
+<li class="alt">IPADDR=<span class="number">172.16.<span class="number">22.1&nbsp;&nbsp;</span></span></li>
+<li>NETMASK=<span class="number">255.255.<span class="number">0.0&nbsp;&nbsp;</span></span></li>
+<li class="alt">#======================================================================&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'/DEVICE/c\Ethernet'&nbsp;test&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#匹配DEVICE的行，替换成Ethernet这行&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'s/static/dhcp/'&nbsp;test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#把<span class="keyword">static替换成dhcp(/,@,#都是前面所说的地址定界符)&nbsp;&nbsp;</span></li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'/IPADDR/s@22\.1@10.12@'&nbsp;test&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#匹配IPADDR的行，把<span class="number">22.1替换成<span class="number">10.12由于.号有特殊意义所有需要转义&nbsp;&nbsp;</span></span></li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'/connect/s#YES#NO#'&nbsp;test&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#匹配connect的行，把YES替换成NO&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'s/bin/tom/2g'&nbsp;test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#把所有匹配到bin的行中第二次及第二次之后出现bin替换成tom&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'s/daemon/jerry/2p'&nbsp;test&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#把所有匹配到bin的行中第二次出现的daemon替换成jerry，并在生产与匹配行同样的行&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'s/adm/boss/2'&nbsp;test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#把所有匹配到adm的行中仅仅只是第二次出现的adm替换成boss&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'/root/{s/bash/nologin/;s/0/1/g}'&nbsp;test&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#匹配root的行，把bash替换成nologin，且把<span class="number">0替换成<span class="number">1&nbsp;&nbsp;</span></span></li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'s/root/(&amp;)/g'&nbsp;test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#把root用括号括起来，&amp;表示引用前面匹配的字符&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'s/BOOTPROTO/#BOOTPROTO/'&nbsp;test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#匹配BOOTPROTO替换成#BOOTPROTO，在配置文件中一般用于注释某行&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'s/ONBOOT/#&amp;/'&nbsp;test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#匹配ONBOOT的行的前面添加#号，在配置文件中也表示注释某行&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'/ONBOOT/s/#//'&nbsp;test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#匹配ONBOOT的行，把#替换成空，即去掉#号，也一般用作去掉#注释&nbsp;&nbsp;</li>
+<li>#================执行以上sed命令之后文件显示的内容====================&nbsp;&nbsp;</li>
+<li class="alt">[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;test&nbsp;&nbsp;</span></li>
+<li>anonymous_enable=YES&nbsp;&nbsp;</li>
+<li class="alt">write_enable=YES&nbsp;&nbsp;</li>
+<li>local_umask=<span class="number">022&nbsp;&nbsp;</span></li>
+<li class="alt">xferlog_enable=YES&nbsp;&nbsp;</li>
+<li>connect_from_port_20=NO&nbsp;&nbsp;</li>
+<li class="alt">(root):x:<span class="number">1:<span class="number">1:(root):/(root):/bin/nologin&nbsp;&nbsp;</span></span></li>
+<li>bin:x:<span class="number">1:<span class="number">1:tom:/tom:/stom/nologin&nbsp;&nbsp;</span></span></li>
+<li class="alt">daemon:x:<span class="number">2:<span class="number">2:jerry:/sbin:/stom/nologin&nbsp;&nbsp;</span></span></li>
+<li>daemon:x:<span class="number">2:<span class="number">2:jerry:/sbin:/stom/nologin&nbsp;&nbsp;</span></span></li>
+<li class="alt">adm:x:<span class="number">3:<span class="number">4:boss:/var/adm:/sbin/nologin&nbsp;&nbsp;</span></span></li>
+<li>lp:x:<span class="number">4:<span class="number">7:lp:/var/spool/lpd:/sbin/nologin&nbsp;&nbsp;</span></span></li>
+<li class="alt">Ethernet&nbsp;&nbsp;</li>
+<li>#BOOTPROTO=<span class="string">"dhcp"&nbsp;&nbsp;</span></li>
+<li class="alt">HWADDR=<span class="string">"00:0C:29:90:79:78"&nbsp;&nbsp;</span></li>
+<li>ONBOOT=<span class="string">"yes"&nbsp;&nbsp;</span></li>
+<li class="alt">IPADDR=<span class="number">172.16.<span class="number">10.12&nbsp;&nbsp;</span></span></li>
+<li>NETMASK=<span class="number">255.255.<span class="number">0.0&nbsp;&nbsp;</span></span></li>
+</ol></div>
+<p><strong>sed引用变量：（在自动化shell脚本 中也经常会使用到变量）</strong></p>
+<p><strong>第一种当sed命令里面没有默认的变量时可以把单引号改成双引号；</strong></p>
+<p><strong>第二种当sed命令里面有默认的变量时，那自己定义的变量需要加单引号，且sed里面的语句必须用单引</strong></p>
+<div class="dp-highlighter bg_java">
+<div class="bar">
+<div class="tools"><strong>[java]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">copy</a></span></span>
+<div>&nbsp;</div>
+</div>
+</div>
+<ol class="dp-j" start="1">
+<li class="alt">[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;&gt;&gt;&nbsp;myfile&nbsp;&lt;&lt;&nbsp;EOF&nbsp;&nbsp;</span></li>
+<li>&gt;&nbsp;hello&nbsp;world&nbsp;&nbsp;</li>
+<li class="alt">&gt;&nbsp;i&nbsp;am&nbsp;jie&nbsp;&nbsp;</li>
+<li>&gt;&nbsp;how&nbsp;are&nbsp;you&nbsp;&nbsp;</li>
+<li class="alt">&gt;&nbsp;EOF&nbsp;&nbsp;&nbsp;#先生成一个文件&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;myfile&nbsp;&nbsp;</span></li>
+<li class="alt">hello&nbsp;world&nbsp;&nbsp;</li>
+<li>i&nbsp;am&nbsp;jie&nbsp;&nbsp;</li>
+<li class="alt">how&nbsp;are&nbsp;you&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;name=li&nbsp;&nbsp;</span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#定义一个变量，且给变量赋值&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">"s/jie/$name/"&nbsp;myfile&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#把匹配jie的字符替换成变量的值&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;myfile&nbsp;&nbsp;</span></li>
+<li class="alt">hello&nbsp;world&nbsp;&nbsp;</li>
+<li>i&nbsp;am&nbsp;li&nbsp;&nbsp;</li>
+<li class="alt">how&nbsp;are&nbsp;you&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">"$a&nbsp;$name"&nbsp;myfile&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#当sed命令也有默认变量时，在去引用自己定义的变量会出现语法错误&nbsp;&nbsp;</li>
+<li>sed:&nbsp;-e&nbsp;expression&nbsp;#<span class="number">1,&nbsp;<span class="keyword">char&nbsp;<span class="number">3:&nbsp;extra&nbsp;characters&nbsp;after&nbsp;command&nbsp;&nbsp;</span></span></span></li>
+<li class="alt">[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'$a&nbsp;'$name<span class="string">''&nbsp;myfile&nbsp;&nbsp;</span></span></span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#在引用自定义的变量时，sed语句必须用单引引住，然后把自定义的变量也用单引号引住&nbsp;&nbsp;</li>
+<li class="alt">[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;myfile&nbsp;&nbsp;</span></li>
+<li>hello&nbsp;world&nbsp;&nbsp;</li>
+<li class="alt">i&nbsp;am&nbsp;li&nbsp;&nbsp;</li>
+<li>how&nbsp;are&nbsp;you&nbsp;&nbsp;</li>
+<li class="alt">li&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;&nbsp;</span></li>
+</ol></div>
+<p><strong>sed的其它高级使用：</strong></p>
+<p><strong>1）把正在用sed操作的文件的内容写到例外一个文件中</strong></p>
+<div class="dp-highlighter bg_java">
+<div class="bar">
+<div class="tools"><strong>[java]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">copy</a></span></span>
+<div>&nbsp;</div>
+</div>
+</div>
+<ol class="dp-j" start="1">
+<li class="alt">[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;test&nbsp;&nbsp;&nbsp;#sed操作的文件中的内容&nbsp;&nbsp;</span></li>
+<li>Ethernet&nbsp;&nbsp;</li>
+<li class="alt">#BOOTPROTO=<span class="string">"dhcp"&nbsp;&nbsp;</span></li>
+<li>HWADDR=<span class="string">"00:0C:29:90:79:78"&nbsp;&nbsp;</span></li>
+<li class="alt">ONBOOT=<span class="string">"yes"&nbsp;&nbsp;</span></li>
+<li>IPADDR=<span class="number">172.16.<span class="number">10.12&nbsp;&nbsp;</span></span></li>
+<li class="alt">NETMASK=<span class="number">255.255.<span class="number">0.0&nbsp;&nbsp;</span></span></li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;-i&nbsp;<span class="string">'s/IPADDR/ip/w&nbsp;ip.txt'&nbsp;test&nbsp;&nbsp;</span></span></li>
+<li class="alt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#把sed操作的文件内容保存到另外一个文件中，w表示保存，ip.txt文件名&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;ip.txt&nbsp;&nbsp;#查看新文件的内容&nbsp;&nbsp;</span></li>
+<li class="alt">ip=<span class="number">172.16.<span class="number">10.12&nbsp;&nbsp;</span></span></li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;&nbsp;</span></li>
+</ol></div>
+<p><strong>2）读取一个文件到正在用sed操作的文件中</strong></p>
+<div class="dp-highlighter bg_java">
+<div class="bar">
+<div class="tools"><strong>[java]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">copy</a></span></span>
+<div>&nbsp;</div>
+</div>
+</div>
+<ol class="dp-j" start="1">
+<li class="alt">[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;myfile&nbsp;&nbsp;&nbsp;#文件内容&nbsp;&nbsp;</span></li>
+<li>hello&nbsp;world&nbsp;&nbsp;</li>
+<li class="alt">i&nbsp;am&nbsp;li&nbsp;&nbsp;</li>
+<li>how&nbsp;are&nbsp;you&nbsp;&nbsp;</li>
+<li class="alt">li&nbsp;&nbsp;</li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;test&nbsp;&nbsp;#将用sed操作的文件的内容&nbsp;&nbsp;</span></li>
+<li class="alt">Ethernet&nbsp;&nbsp;</li>
+<li>#BOOTPROTO=<span class="string">"dhcp"&nbsp;&nbsp;</span></li>
+<li class="alt">HWADDR=<span class="string">"00:0C:29:90:79:78"&nbsp;&nbsp;</span></li>
+<li>ONBOOT=<span class="string">"yes"&nbsp;&nbsp;</span></li>
+<li class="alt">IPADDR=<span class="number">172.16.<span class="number">10.12&nbsp;&nbsp;</span></span></li>
+<li>NETMASK=<span class="number">255.255.<span class="number">0.0&nbsp;&nbsp;</span></span></li>
+<li class="alt">[root<span class="annotation">@jie1&nbsp;~]#&nbsp;sed&nbsp;&nbsp;-i&nbsp;<span class="string">'/Ethernet/r&nbsp;myfile'&nbsp;test&nbsp;&nbsp;</span></span></li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#在匹配Ethernet的行，读进来另一个文件的内容，读进来的文件的内容会插入到匹配Ethernet的行后&nbsp;&nbsp;</li>
+<li class="alt">[root<span class="annotation">@jie1&nbsp;~]#&nbsp;cat&nbsp;test&nbsp;&nbsp;#再次查看用sed命令操作的行&nbsp;&nbsp;</span></li>
+<li>Ethernet&nbsp;&nbsp;</li>
+<li class="alt">hello&nbsp;world&nbsp;&nbsp;</li>
+<li>i&nbsp;am&nbsp;li&nbsp;&nbsp;</li>
+<li class="alt">how&nbsp;are&nbsp;you&nbsp;&nbsp;</li>
+<li>li&nbsp;&nbsp;</li>
+<li class="alt">#BOOTPROTO=<span class="string">"dhcp"&nbsp;&nbsp;</span></li>
+<li>HWADDR=<span class="string">"00:0C:29:90:79:78"&nbsp;&nbsp;</span></li>
+<li class="alt">ONBOOT=<span class="string">"yes"&nbsp;&nbsp;</span></li>
+<li>IPADDR=<span class="number">172.16.<span class="number">10.12&nbsp;&nbsp;</span></span></li>
+<li class="alt">NETMASK=<span class="number">255.255.<span class="number">0.0&nbsp;&nbsp;</span></span></li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;&nbsp;</span></li>
+</ol></div>
+<p><strong>sed的经典例子：</strong></p>
+<div class="dp-highlighter bg_java">
+<div class="bar">
+<div class="tools"><strong>[java]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/linuxarmsummary/article/details/45066909#">copy</a></span></span>
+<div>&nbsp;</div>
+</div>
+</div>
+<ol class="dp-j" start="1">
+<li class="alt">##<span class="number">1）、处理以下文件内容,将域名取出并进行计数排序,如处理:&nbsp;&nbsp;</span></li>
+<li>http:<span class="comment">//www.baidu.com/index.&lt;a&nbsp;target="_blank"&nbsp;href="http://www.2cto.com/kf/qianduan/css/"&nbsp;class="keylink"&nbsp;style="border:none;&nbsp;padding:0px;&nbsp;margin:0px;&nbsp;color:rgb(51,51,51);&nbsp;text-decoration:none;&nbsp;font-size:14px"&gt;html&lt;/a&gt;&nbsp;&nbsp;</span></li>
+<li class="alt">http:<span class="comment">//www.baidu.com/1.html&nbsp;&nbsp;</span></li>
+<li>http:<span class="comment">//post.baidu.com/index.html&nbsp;&nbsp;</span></li>
+<li class="alt">http:<span class="comment">//mp3.baidu.com/index.html&nbsp;&nbsp;</span></li>
+<li>http:<span class="comment">//www.baidu.com/3.html&nbsp;&nbsp;</span></li>
+<li class="alt">http:<span class="comment">//post.baidu.com/2.html&nbsp;&nbsp;</span></li>
+<li>得到如下结果:&nbsp;&nbsp;</li>
+<li class="alt">域名的出现的次数&nbsp;域名&nbsp;&nbsp;</li>
+<li><span class="number">3&nbsp;www.baidu.com&nbsp;&nbsp;</span></li>
+<li class="alt"><span class="number">2&nbsp;post.baidu.com&nbsp;&nbsp;</span></li>
+<li><span class="number">1&nbsp;mp3.baidu.com&nbsp;&nbsp;</span></li>
+<li class="alt">[root<span class="annotation">@localhost&nbsp;shell]#&nbsp;cat&nbsp;file&nbsp;|&nbsp;sed&nbsp;-e&nbsp;<span class="string">'&nbsp;s/http:\/\///'&nbsp;-e&nbsp;<span class="string">'&nbsp;s/\/.*//'&nbsp;|&nbsp;sort&nbsp;|&nbsp;uniq&nbsp;-c&nbsp;|&nbsp;sort&nbsp;-rn&nbsp;&nbsp;</span></span></span></li>
+<li><span class="number">3&nbsp;www.baidu.com&nbsp;&nbsp;</span></li>
+<li class="alt"><span class="number">2&nbsp;post.baidu.com&nbsp;&nbsp;</span></li>
+<li><span class="number">1&nbsp;mp3.baidu.com&nbsp;&nbsp;</span></li>
+<li class="alt">[root<span class="annotation">@codfei4&nbsp;shell]#&nbsp;awk&nbsp;-F/&nbsp;<span class="string">'{print&nbsp;$3}'&nbsp;file&nbsp;|sort&nbsp;-r|uniq&nbsp;-c|awk&nbsp;<span class="string">'{print&nbsp;$1"\t",$2}'&nbsp;&nbsp;</span></span></span></li>
+<li><span class="number">3&nbsp;www.baidu.com&nbsp;&nbsp;</span></li>
+<li class="alt"><span class="number">2&nbsp;post.baidu.com&nbsp;&nbsp;</span></li>
+<li><span class="number">1&nbsp;mp3.baidu.com&nbsp;&nbsp;</span></li>
+<li class="alt">##<span class="number">2）、用grep结合sed取出网卡的ip地址&nbsp;&nbsp;</span></li>
+<li>[root<span class="annotation">@jie1&nbsp;~]#&nbsp;ifconfig&nbsp;|&nbsp;grep&nbsp;-B1&nbsp;<span class="string">"inet&nbsp;addr"&nbsp;|grep&nbsp;-v&nbsp;<span class="string">"\-\-"&nbsp;|sed&nbsp;-n&nbsp;-e&nbsp;<span class="string">'N;s/<span class="MathJax_Preview"><span id="MathJax-Element-3-Frame" class="MathJax"><span id="MathJax-Span-12" class="math"><span id="MathJax-Span-13" class="mrow"><span id="MathJax-Span-14" class="mi">e<span id="MathJax-Span-15" class="mi">t<span id="MathJax-Span-16" class="mi">h<span id="MathJax-Span-17" class="mo">[<span id="MathJax-Span-18" class="mn">0<span id="MathJax-Span-19" class="mo">−<span id="MathJax-Span-20" class="mn">9<span id="MathJax-Span-21" class="mo">]</span></span></span></span></span></span></span></span></span></span>.*\n.*addr:<span class="MathJax_Preview"><span id="MathJax-Element-4-Frame" class="MathJax"><span id="MathJax-Span-22" class="math"><span id="MathJax-Span-23" class="mrow"><span id="MathJax-Span-24" class="mo">[<span id="MathJax-Span-25" class="mn">0<span id="MathJax-Span-26" class="mo">−<span id="MathJax-Span-27" class="mn">9<span id="MathJax-Span-28" class="mo">]<span id="MathJax-Span-29" class="mo">{<span id="MathJax-Span-30" class="mn">1<span id="MathJax-Span-31" class="mo">,<span id="MathJax-Span-32" class="mn">3<span id="MathJax-Span-33" class="mo">}<span id="MathJax-Span-34" class="mtext">\.<span id="MathJax-Span-35" class="mo">[<span id="MathJax-Span-36" class="mn">0<span id="MathJax-Span-37" class="mo">−<span id="MathJax-Span-38" class="mn">9<span id="MathJax-Span-39" class="mo">]<span id="MathJax-Span-40" class="mo">{<span id="MathJax-Span-41" class="mn">1<span id="MathJax-Span-42" class="mo">,<span id="MathJax-Span-43" class="mn">3<span id="MathJax-Span-44" class="mo">}<span id="MathJax-Span-45" class="mtext">\.<span id="MathJax-Span-46" class="mo">[<span id="MathJax-Span-47" class="mn">0<span id="MathJax-Span-48" class="mo">−<span id="MathJax-Span-49" class="mn">9<span id="MathJax-Span-50" class="mo">]<span id="MathJax-Span-51" class="mo">{<span id="MathJax-Span-52" class="mn">1<span id="MathJax-Span-53" class="mo">,<span id="MathJax-Span-54" class="mn">3<span id="MathJax-Span-55" class="mo">}<span id="MathJax-Span-56" class="mtext">\.<span id="MathJax-Span-57" class="mo">[<span id="MathJax-Span-58" class="mn">0<span id="MathJax-Span-59" class="mo">−<span id="MathJax-Span-60" class="mn">9<span id="MathJax-Span-61" class="mo">]<span id="MathJax-Span-62" class="mo">{<span id="MathJax-Span-63" class="mn">1<span id="MathJax-Span-64" class="mo">,<span id="MathJax-Span-65" class="mn">3<span id="MathJax-Span-66" class="mo">}</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>.*/\1&nbsp;\2/p'&nbsp;&nbsp;</span></span></span></span></span></span></span></span></li>
+</ol></div>
+<p><strong>学会sed的使用是写自动化shell脚本的基础，sed也是一个非常有用且重要的命令，是文本处理工具之一，以上是我自己学习总结的sed命令简单的用法，sed还有更高级的用法，也还在学习中。</strong></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/ctaixw/category/876231.html" target="_blank">Linux</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5860221,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('d9d9e016-c4a6-e511-9fc1-ac853d9f53cc');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/ctaixw/" target="_blank"><img src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20151220105630.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/ctaixw/">为爱奋斗不息</a><br>
+            <a href="http://home.cnblogs.com/u/ctaixw/followees">关注 - 20</a><br>
+            <a href="http://home.cnblogs.com/u/ctaixw/followers">粉丝 - 4</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('d9d9e016-c4a6-e511-9fc1-ac853d9f53cc');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5860221,'Digg')">
+        <span class="diggnum" id="digg_count">2</span>
+    </div>
+    <div class="buryit" onclick="votePost(5860221,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/ctaixw/p/5832759.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/ctaixw/p/5832759.html" title="发布于2016-09-02 11:14">MySQL的语句执行顺序</a><br><a href="http://www.cnblogs.com/ctaixw/p/5860777.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/ctaixw/p/5860777.html" title="发布于2016-09-11 00:11">JVM  内存模型</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-09-10 20:43</span> <a href="http://www.cnblogs.com/ctaixw/">为爱奋斗不息</a> 阅读(<span id="post_view_count">15777</span>) 评论(<span id="post_comment_count">2</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5860221" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(5860221);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=259536,cb_entryId=5860221,cb_blogApp=currentBlogApp,cb_blogUserGuid='d9d9e016-c4a6-e511-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/9/10 20:43:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3678141" class="layer">#1楼</a><a name="3678141" id="comment_anchor_3678141"></a>  <span class="comment_date">2017-04-27 02:38</span> <a id="a_comment_author_3678141" href="http://www.cnblogs.com/scar-and-me/" target="_blank">前端怪兽</a> <a href="http://msg.cnblogs.com/send/%E5%89%8D%E7%AB%AF%E6%80%AA%E5%85%BD" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3678141" class="blog_comment_body">非常好，学习了，希望能够转发。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3678141,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3678141,'Bury',this)">反对(0)</a></div><span id="comment_3678141_avatar" style="display:none;">http://pic.cnblogs.com/face/1043077/20161124184629.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3744875" class="layer">#2楼</a><a name="3744875" id="comment_anchor_3744875"></a><span id="comment-maxId" style="display:none;">3744875</span><span id="comment-maxDate" style="display:none;">2017/7/27 16:07:31</span>  <span class="comment_date">2017-07-27 16:07</span> <a id="a_comment_author_3744875" href="http://www.cnblogs.com/dahu-daqing/" target="_blank">dahu1</a> <a href="http://msg.cnblogs.com/send/dahu1" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3744875" class="blog_comment_body">-r这个命令好</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3744875,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3744875,'Bury',this)">反对(0)</a></div><span id="comment_3744875_avatar" style="display:none;">http://pic.cnblogs.com/face/1099781/20170502110106.png</span>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://dnspod.cloud.tencent.com/act/weapp?fromSource=gwzcw.741360.741360.741360" target="_blank">【腾讯云】小程序普惠节精美模板1元起</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/act/first_purchase?fromSource=gwzcw.741358.741358.741358" target="_blank"><img src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20180122123322209-1359966176.jpg" alt="tencent0122" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/588005/" target="_blank">阿里巴巴2017日均纳税超1亿、创造就业3300万</a><br> ·  <a href="https://news.cnblogs.com/n/588040/" target="_blank">Wine 3.0新玩法：让Android手机运行Windows应用</a><br> ·  <a href="https://news.cnblogs.com/n/588039/" target="_blank">微软向ID2020机构注资100万 基于区块链推进数字身份认证网络</a><br> ·  <a href="https://news.cnblogs.com/n/587990/" target="_blank">谁在乡下为阿里腾讯百度京东们刷墙？</a><br> ·  <a href="https://news.cnblogs.com/n/588038/" target="_blank">五张图表揭示电动汽车面临艰巨挑战</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="sed%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20-%20%E4%B8%BA%E7%88%B1%E5%A5%8B%E6%96%97%E4%B8%8D%E6%81%AF%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/ctaixw/">为爱奋斗不息</a><br>园龄：<a href="https://home.cnblogs.com/u/ctaixw/" title="入园时间：2015-12-20">2年1个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/ctaixw/followers/">4</a><br>关注：<a href="https://home.cnblogs.com/u/ctaixw/followees/">20</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('d9d9e016-c4a6-e511-9fc1-ac853d9f53cc')">+加关注</a></div><script>getFollowStatus('d9d9e016-c4a6-e511-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2017/12/01');return false;">&lt;</a></td><td align="center">2018年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/02/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td class="CalTodayDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/ctaixw/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/ctaixw/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/ctaixw/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/ctaixw/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/ctaixw/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/ctaixw/category/769771.html">Java(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/ctaixw/category/1123431.html">java 多线程(18)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/ctaixw/category/771227.html">JavaWeb(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/ctaixw/category/880791.html">JVM(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/ctaixw/category/876231.html">Linux(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/ctaixw/category/770883.html">Mybatis(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/ctaixw/category/929338.html">大数据(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/ctaixw/category/770632.html">九度基础算法——字符串处理</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/ctaixw/category/848240.html">面试题(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/ctaixw/category/775675.html">数据库(11)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/ctaixw/archive/2017/12.html">2017年12月 (21)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/ctaixw/archive/2017/11.html">2017年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/ctaixw/archive/2017/02.html">2017年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/ctaixw/archive/2017/01.html">2017年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/ctaixw/archive/2016/12.html">2016年12月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/ctaixw/archive/2016/11.html">2016年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/ctaixw/archive/2016/09.html">2016年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/ctaixw/archive/2016/07.html">2016年7月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/ctaixw/archive/2016/06.html">2016年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/ctaixw/archive/2016/05.html">2016年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/ctaixw/archive/2016/04.html">2016年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/ctaixw/archive/2016/03.html">2016年3月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/ctaixw/archive/2016/02.html">2016年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/ctaixw/archive/2016/01.html">2016年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/ctaixw/archive/2015/12.html">2015年12月 (5)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/ctaixw/p/5860221.html#3744875">1. Re:sed命令详解</a></li>
+        <li class="recent_comment_body">-r这个命令好</li>
+        <li class="recent_comment_author">--dahu1</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/ctaixw/p/5860221.html#3678141">2. Re:sed命令详解</a></li>
+        <li class="recent_comment_body">非常好，学习了，希望能够转发。</li>
+        <li class="recent_comment_author">--前端怪兽</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/ctaixw/p/5075727.html">1. 常见web错误码 404 500(18695)</a></li><li><a href="http://www.cnblogs.com/ctaixw/p/5860221.html">2. sed命令详解(15777)</a></li><li><a href="http://www.cnblogs.com/ctaixw/p/5867414.html">3. 数据库事务隔离级别(2345)</a></li><li><a href="http://www.cnblogs.com/ctaixw/p/6213910.html">4. java 反序列化PHP(632)</a></li><li><a href="http://www.cnblogs.com/ctaixw/p/6181713.html">5. 完整mybatis应用(297)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/ctaixw/p/5860221.html">1. sed命令详解(2)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/ctaixw/p/5075727.html">1. 常见web错误码 404 500(2)</a></li><li><a href="http://www.cnblogs.com/ctaixw/p/5860221.html">2. sed命令详解(2)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 为爱奋斗不息
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
