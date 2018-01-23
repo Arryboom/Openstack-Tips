@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)http://www.linuxidc.com/Linux/2013-03/81262.htm -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站</title>
+
+<link rel="icon" href="http://www.linuxidc.com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://www.linuxidc.com/favicon.ico" type="image/x-icon">
+<meta name="description" content="今天重启Linux时，系统自检报LV加载错误。提示做fsck磁盘修复，在网上查了一些资料，都没有解决，想进单用户模式都进不了，最后实">
+<meta name="keywords" content="LVM磁盘管理,LVM扩展,LVM缩小,LVM磁盘管理之扩展与缩小LV,Linux,Linux教程,Linux系统,Linux安装,Ubuntu,Fedora,RedHat,SUSE,CentOS,红旗Linux">
+<link rel="canonical" href="http://www.linuxidc.com/Linux/2013-03/81262.htm">
+<meta name="generator" content="Linux公社">
+<meta name="generator" content="Linux">
+<link rel="stylesheet" href="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/style.css" type="text/css">
+<meta name="generator" content="专业的Linux网站">
+<script charset="utf-8" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/s.js.下载"></script><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/jquery.js.下载"></script>
+<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/iwms.js.下载"></script>
+<script type="text/javascript">iwms.urlPrefix="../../";</script>
+
+<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/show.js.下载"></script>
+<style>html #hm_t_undefined .hm-t-go-top {position:fixed;right:2px;bottom:2px;z-index:99998;cursor:pointer;width:40px;height:37px!important;text-align:center;white-space:normal;font-size:14px;line-height:17px;padding-top:3px;color:#fff;background:#404040;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAAAXCAYAAABH92JbAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExODA4M0UyNDA4ODdDRTZBQiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjc5RkRFNkI5ODMxMUUzQkZGNDhENEJFQjM2OTcyRiIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjc5RkRFNUI5ODMxMUUzQkZGNDhENEJFQjM2OTcyRiIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDI4MDExNzQwNzIwNjgxMTgwODNFMjQwODg3Q0U2QUIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMTgwODNFMjQwODg3Q0U2QUIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5HPYM5AAACC0lEQVR42uyZTSgEYRjH90NoqaVcpDblvKW2XOSkNh8H5Yac9sBBDqQokiJKSMpNTi5OPo6Ktsgu67JcUHIXWfK1u3b8Xx6Zxuzu+64dM83uv34zNfu8b8/8Z+d5P8YqSZLFJNLsRmyWvIRMKgVD4AhEwA3YAV0pzGwEqyAEwmAddIICHe7FqhnsdQM14FxKLj+ooFiGE2ykiD8GVbJ4I1ELAnTmasMODnAhpVcIFIMicMgRH6Z4IxnUAh4pP3Zu5TVpUOLXDJgWiB8wkEF9IK7IL07X05oUFLjpZ4JXQQOYYwfzafJcoDjVPqw43KE4lWtUTF+AQ8eBqQSsgTaO2E0apJ7URrdCDZOM62hQJfBzGmShOD+1+2XSiYaJ7utkkBsEgEewnYfauZUmzWmU6DuY0sEgLzgArgzbu6i992cu/1WclqXsa1iHIt0DYlnKP0b9fRZu5pWdZs7dWXqa7B80+s//oF5aMSjflGqBPq5BQnFtVv4UmGHjIPEH96PAZ6C5kVMwf6daPzbFKnqCqvx9Bk/yFjSBFTMvcL+1DerAmUA/p9Rm1+y7AHJdgnqwx9EHm1s0gKtc2CpR6gE00/ZHMm3RKxbJlf0kNb2BDrCk8hsbDdvBay5tuiUTGxL7waTs2iLw0YTR9BLZQRwDUVqwjuTS9q3VRB8C1OQUnM6UqdXX/IcADn0IMADs2AqDOPSutQAAAABJRU5ErkJggg==) no-repeat -42px center #666;*background-image:url(http://ecma.bdimg.com/holmes/t-popup-icons-png8.png);_position:absolute;_top:expression(eval(document.documentElement.scrollTop+(document.documentElement.clientHeight||document.body.clientHeight)-this.offsetHeight-2));}</style></head>
+<body>
+<div class="topBar">
+	<div class="twidth">
+	
+	<div style="float:right">
+		<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/language.js.下载"></script> <a id="StranLink" href="javascript:StranBody()" title="點擊以繁體中文方式浏覽">繁體</a>
+	</div>
+	
+	<div id="topUser">你好，游客 <a href="http://www.linuxidc.com/Linux/2013-03/81262.htm#" onclick="iwms.logPop()">登录</a>
+	<a href="http://www.linuxidc.com/memberreg.aspx" rel="nofollow">注册</a>
+	<a href="http://www.linuxidc.com/search.aspx" rel="nofollow">搜索</a>
+	</div>
+	</div>
+</div>
+<div class="twidth">
+<div id="sitehead">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<table width="100%">
+	<tbody><tr align="center"><td width="160">
+	<a href="http://www.linuxidc.com/"><img style="filter: chroma(color=#FFFFFF);" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/logo.jpg" alt="Linux公社" width="155" height="53" border="0"></a>
+	</td><td>
+	<div align="center"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux.js.下载"></script></div>
+	</td>
+	</tr></tbody></table>
+</div>
+</div>
+<div id="navbar">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<a href="http://www.linuxidc.com/index.htm" class="first">首页</a><a href="http://www.linuxidc.com/it/">Linux新闻</a><a href="http://www.linuxidc.com/Linuxit/" class="thisclass">Linux教程</a><a href="http://www.linuxidc.com/MySql/">数据库技术</a><a href="http://www.linuxidc.com/RedLinux/">Linux编程</a><a href="http://www.linuxidc.com/Apache/">服务器应用</a><a href="http://www.linuxidc.com/Unix/">Linux安全</a><a href="http://www.linuxidc.com/download/">Linux下载</a><a href="http://www.linuxidc.com/Linuxrz/">Linux认证</a><a href="http://www.linuxidc.com/theme/">Linux主题</a><a href="http://www.linuxidc.com/Linuxwallpaper/">Linux壁纸</a><a href="http://www.linuxidc.com/linuxsoft/">Linux软件</a><a href="http://www.linuxidc.com/digi/">数码</a><a href="http://www.linuxidc.com/mobile/">手机</a><a href="http://www.linuxidc.com/diannao/">电脑</a>
+
+</div>
+</div>
+
+<div id="navsub">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<a href="http://www.linuxidc.com/index.htm">首页</a> → <a href="http://www.linuxidc.com/Linuxit/">Linux教程</a>
+</div>
+</div>
+<div class="linuxe1"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linuxe1.js.下载"></script></div>
+<div class="linux1"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux1.js.下载"></script></div>
+<div class="linuxa"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linuxa.js.下载"></script></div>
+<div class="linuxa1"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linuxa1.js.下载"></script></div>
+<table id="middle" width="100%" cellspacing="0" cellpadding="0" style="table-layout:fixed">
+<tbody><tr valign="top"><td>
+
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<div class="moreR">
+			背景：<script type="text/javascript">WriteBg()</script><img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#EDF0F5" alt="#EDF0F5" onclick="ContentBg(&quot;#EDF0F5&quot;)"> <img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FAFBE6" alt="#FAFBE6" onclick="ContentBg(&quot;#FAFBE6&quot;)"> <img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FFF2E2" alt="#FFF2E2" onclick="ContentBg(&quot;#FFF2E2&quot;)"> <img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FDE6E0" alt="#FDE6E0" onclick="ContentBg(&quot;#FDE6E0&quot;)"> <img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#F3FFE1" alt="#F3FFE1" onclick="ContentBg(&quot;#F3FFE1&quot;)"> <img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#DAFAF3" alt="#DAFAF3" onclick="ContentBg(&quot;#DAFAF3&quot;)"> <img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#EAEAEF" alt="#EAEAEF" onclick="ContentBg(&quot;#EAEAEF&quot;)"> <img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" style="cursor:pointer;width:7px;height:6px;border:1px solid #999;background:#FFF" alt="默认" onclick="ContentBg(&quot;&quot;)"> 
+		</div>
+		<span class="tt">阅读新闻</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm" id="bodyTd">
+		<div id="printBody" style="word-break:break-all;">
+			<div style="text-align:center"><h1 class="aTitle">LVM磁盘管理之扩展与缩小LV</h1></div>
+			
+			<table width="97%" align="center">
+				<tbody><tr>
+				<td width="140">[日期：2013-03-20]</td>
+				<td align="center">来源：Linux社区&nbsp;
+				作者：crazy123</td>
+				<td width="160" align="right">[字体：<a href="javascript:ContentSize(16)">大</a> <a href="javascript:ContentSize(0)">中</a> <a href="javascript:ContentSize(12)">小</a>]
+				</td></tr>
+			</tbody></table>
+<div id="li_all">
+<div id="li_1"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux201.js.下载"></script></div>
+<div id="li_2"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux2.js.下载"></script></div>
+</div>
+			<div id="content" style="overflow-x: hidden; word-break: break-all;"><p>今天重启Linux时，系统自检报LV加载错误。提示做fsck磁盘修复，在网上查了一些资料，都没有解决，想进单用户模式都进不了，最后实在没有办法了，用急救盘进入系统后，将/etc/fstab表中启动加载LV的项删掉了，重启系统后，才正常引导进来。但是问题并没有解决，我的LV上都有很多重要数据，必须要修复才行。经过一番折腾终于找到问题所在，是昨天对LV01做了调整，增加了LV容量，但是没有重建文件系统。所以在fsck检查老是报错，也没办法修复。</p>
+<p>　　解决的办法是在网上找到了，将其调整到原始大小，然后再重建下文件系统，再用fsck -f检查就正常了。大汗！！！我后面总结了下，出错的关键原因是我没有把实施LV扩展与缩小的顺序理清楚，犯了想当然的错误。</p>
+<p>这里总结下扩展与缩小LV的实施顺序：</p>
+<p>扩展LV</p>
+<p>1、卸载LV</p>
+<p>命令：umount&nbsp; “挂载目录”</p>
+<p>2、扩展LV</p>
+<p>命令：lvextend -L +500m&nbsp; /dev/lv00/lv01　或者　lvresize -L 5G&nbsp; /dev/lv00/lv01</p>
+<p>lvextend 表示增加500M，lvresize表示增加到5G，是调整后的容量。</p>
+<p>3、检查文件系统</p>
+<p>命令：fsck -f&nbsp; /dev/vg00/lv01</p>
+<p>4、重建文件系统</p>
+<p>　　命令：resize2fs&nbsp; /dev/lv00/lv01</p>
+<p>这一步很关键，重建文件系统不用担心LV的数据会丢失，当然，以防万一，也可以先备份下LV里的数据。</p>
+<p>5、挂载LV</p>
+<p>命令：mount&nbsp; /dev/lv001/lv01&nbsp; /opt</p>
+<p>缩小LV</p>
+<p>　　缩小LV需要事先知道LV中的数据容量大小，缩小容量值不应超过剩余空间容量，而且要知道减少LV容量后的新大小。可以通过lvscan来查看LV容量，通过vgdisplay来查看剩余容量。</p>
+<p>1、卸载LV</p>
+<p>命令：umount&nbsp; “挂载目录”</p>
+<p>2、检查文件系统</p>
+<p>命令：fsck -f&nbsp; /dev/lv00/lv01</p>
+<p>3、调整LV大小并重建文件系统</p>
+<p>命令：resize2fs&nbsp; /dev/vg00/lv01&nbsp; 2G</p>
+<p>4、减小LV容量</p>
+<p>命令：lvreduce -L -3G&nbsp; /dev/vg00/lv01</p>
+<p>5、挂载LV</p>
+<p>　　命令：mount&nbsp; /dev/lv001/lv01&nbsp; /opt</p><a href="http://www.linuxidc.com/" target="_blank"><img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/logo.gif" alt="linux" width="15" height="17"></a></div><a href="http://www.linuxidc.com/" target="_blank">
+<div class="linux3"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux3.js.下载"></script></div>
+<div class="linux302"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux302.js.下载"></script></div>		
+			
+			
+		</a></div><a href="http://www.linuxidc.com/" target="_blank">
+<div class="linuxfx"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/fx.js.下载"></script></div>	
+<div class="linux8"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux8.js.下载"></script></div>
+<div class="linux801"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux801.js.下载"></script></div>
+		</a><div class="nearNews"><a href="http://www.linuxidc.com/" target="_blank">
+			</a><div class="prevNews"><a href="http://www.linuxidc.com/" target="_blank"></a><a href="http://www.linuxidc.com/Linux/2013-03/81236.htm">RHEL 6.0内核升级 【2.6.32-71.el6.x86_64 –&gt; linux-3.8】</a></div>
+			<div class="nextNews"><a href="http://www.linuxidc.com/Linux/2013-03/81263.htm">虚拟机上实施ASM</a></div>
+		</div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+<div class="linux809"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux809.js.下载"></script></div>
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">相关资讯</span> &nbsp; &nbsp; &nbsp;
+		<a href="http://www.linuxidc.com/search.aspx?where=nkey&amp;keyword=19903" target="_blank">LVM磁盘管理</a>&nbsp; <a href="http://www.linuxidc.com/search.aspx?where=nkey&amp;keyword=19904" target="_blank">LVM扩展</a>&nbsp; <a href="http://www.linuxidc.com/search.aspx?where=nkey&amp;keyword=19905" target="_blank">LVM缩小</a>&nbsp; 
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+<div class="linux808"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux808.js.下载"></script></div>
+	
+	<div class="mframe mR">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">本文评论</span>
+		 	　　<a href="http://www.linuxidc.com/remark.aspx?id=81262" target="_blank">查看全部评论</a> <span class="gray">(0)</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<table width="100%" style="margin:6px">		
+		<tbody><tr><td width="50%">
+			<form action="http://www.linuxidc.com/Linux/2013-03/81262.htm" name="fmRemarkSt" onsubmit="return remark.post(this);">
+			<input type="hidden" value="1" name="face">
+			表情： <img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/b.gif" alt="表情" class="face1" style="cursor:pointer;vertical-align:middle" onclick="remark.dispFace(this)" onmouseout="remark.hideFace()">
+			姓名： <input type="text" name="username" value="" maxlength="15" style="width:60px" class="inputbg" disabled="disabled">
+			<input type="checkbox" id="rmAnonymitySt" onclick="remark.anony(this)"><label for="rmAnonymitySt">匿名</label>
+			字数 <input type="text" id="bodyLen" size="3" readonly="readonly" style="border-width:0;background:transparent;vertical-align:middle" value="0">
+			<br>
+			<textarea name="body" cols="40" rows="4" onkeydown="remark.dispLen(this)" onkeyup="remark.handle(event,this);remark.dispLen(this)" style="width:39em;height:100px;margin:3px 0;overflow-y:auto"></textarea>
+				<br>
+		　　　<input type="checkbox" checked="checked" id="rmAgreeSt"><label for="rmAgreeSt">同意评论声明</label>
+		　　　<button type="submit" style="width:50px">发表</button>
+			</form><br>
+			评论声明
+			<ul style="list-style-type:square;margin:5px 0 0 1em;padding:0">
+			<li>尊重网上道德，遵守中华人民共和国的各项有关法律法规</li>
+			<li>承担一切因您的行为而直接或间接导致的民事或刑事法律责任</li>
+			<li>本站管理人员有权保留或删除其管辖留言中的任意内容</li>
+			<li>本站有权在网站内转载或引用您的评论</li>
+			<li>参与本评论即表明您已经阅读并接受上述条款</li>
+			</ul>
+		</td>
+		<td width="50%"><div class="linux799"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux799.js.下载"></script></div></td></tr>
+		</tbody></table>
+		<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/remark.js.下载"></script>
+		<script type="text/javascript">
+			remark.maxSize=500;
+			remark.minSize=2;
+			remark.sourceEle=$(document.fmRemarkSt).find("button").get(0);
+			iwms.vCode="D2BDA41E";
+			iwms.user.name.length==0 ? $i("rmAnonymitySt").click() : $i("rmAnonymitySt").form.username.value=iwms.user.name;
+		</script>
+		<div class="reCont" id="reContainer"></div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	
+</td><td width="300" valign="top">
+<div class="linux901"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux901.js.下载"></script></div>
+<div class="linux902"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux902.js.下载"></script></div>
+<div class="linux903"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux903.js.下载"></script></div>
+<div class="linux905"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux905.js.下载"></script></div>
+	
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">最新资讯</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<ul class="nl">
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134461.htm" target="_blank">Nagios 监控 SNMP 温度计</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134460.htm" target="_blank">JavaScript函数定义与函数作用域详解</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134459.htm" target="_blank">Java培训：对象和类</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134458.htm" target="_blank">Java培训：基本数据类型</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134457.htm" target="_blank">Java培训：变量类型</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134456.htm" target="_blank">Java培训：增强for循环、switch</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134455.htm" target="_blank">Java培训：Number类、Character类</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134454.htm" target="_blank">Python 操作消息队列</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134453.htm" target="_blank">Python迭代器和生成器</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2016-08/134452.htm" target="_blank">Spark源码分析之SparkContext概述</a></li>
+</ul>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	<div class="u70"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/u70.js.下载"></script></div>
+	<div class="u80"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/u80.js.下载"></script></div>
+	<div class="u90"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/u90.js.下载"></script></div>
+	<div class="space"></div>
+	<div id="pin" style="position: static; top: 0px;">
+	<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/pin.js.下载"></script><script async="" src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 右侧粘性自适应 -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5195587195407606" data-ad-slot="7669622914" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+	</div>
+</td></tr>
+</tbody></table>
+<div class="linux906"><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linux906.js.下载"></script></div>
+<div id="footer">
+<a href="http://www.linuxidc.com/aboutus.htm">Linux公社简介</a> - <a href="http://www.linuxidc.com/adsense.htm">广告服务</a> - <a href="http://www.linuxidc.com/sitemap.aspx">网站地图</a> - <a href="http://www.linuxidc.com/help.htm">帮助信息</a> - <a href="http://www.linuxidc.com/contactus.htm">联系我们</a><br>本站（LinuxIDC）所刊载文章不代表同意其说法或描述，仅为提供更多信息，也不构成任何建议。<br><script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/qq.js.下载"></script>主编：漏网的鱼 联系邮箱:<img src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/email.png" alt="" width="138" height="20"> (如有合作请联系)
+<br>
+<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/foot.js.下载"></script>本站带宽由[<font color="red">808.Ai</font>]友情提供<br>关注Linux，关注LinuxIDC.com，<font color="red">请向您的QQ好友宣传LinuxIDC.com</font>，多谢支持！
+<br>Copyright © 2006-2016　<a href="http://www.linuxidc.com/">Linux公社</a>　All rights reserved 沪ICP备15008072号-1号
+	<script type="text/javascript">iwms.aId=81262;$(function(){iwms.imgCont=$i('content');iwms.imgResize();InitContStyle();iwms.getVars();})</script>
+	
+</div>
+</div>
+<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linuxren1.js.下载"></script><script type="text/javascript">
+document.body.oncopy = function () { setTimeout( function () { var text = clipboardData.getData("text"); if (text) { text = text + "\r\n本篇文章来源于 Linux公社网站(www.linuxidc.com)  原文链接："+location.href; clipboardData.setData("text", text); } }, 100 ) }
+</script>
+
+<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linuxren2.js.下载"></script>
+<script type="text/javascript" src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/linuxren3.js.下载"></script><script src="./LVM磁盘管理之扩展与缩小LV_Linux教程_Linux公社-Linux系统门户网站_files/h.js.下载" type="text/javascript"></script>
+
+<div id="hm_t_undefined" class="hm-t-container"><div class="hm-t-go-top" style="display: block;"></div></div></body></html>

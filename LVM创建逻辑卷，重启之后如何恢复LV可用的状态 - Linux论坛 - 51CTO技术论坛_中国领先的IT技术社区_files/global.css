@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+body{margin:0 auto;padding:0;color:#000;font:12px/1.5 "宋体",Arial, Helvetica, san-serif;text-align:center;}
+body>div{margin-right:auto;margin-left:auto;text-align:center;}
+div,form,ul,ol,li,span,p,dl,dt,dd,img{margin:0;padding:0;border:0;}
+h1,h2,h3,h4,h5,h6{margin:0;padding:0;font-size:12px;font-weight:normal;}
+ul,ol,li{list-style:none}
+table,td,input,textarea{font-size:12px}
+.dle { clear:both;}
+
+a:active, a:focus {outline:none;}
+.fl{ float:left;}
+.fr{ float:right;}
+.clear{ clear:both; font-size:0;}
+
+input,button,select,textarea{ outline:none;} 
+textarea{ font-size:13px; resize:none;}
+.vip_big{ display:inline-block;position:absolute; right:0; bottom:0; width:26px; height:26px; background: url(../images/vip1.png) no-repeat center center;z-index:9;}
+.vip_middle{display:inline-block; position:absolute; right:0; bottom:0; width:22px; height:22px; background: url(../images/vip2.png) no-repeat center center;z-index:9;}
+.vip_small{display:inline-block; position:absolute; right:0; bottom:0; width:20px; height:20px; background: url(../images/vip3.png) no-repeat center center;z-index:9;}
+.position_r{
+    position: relative;
+}

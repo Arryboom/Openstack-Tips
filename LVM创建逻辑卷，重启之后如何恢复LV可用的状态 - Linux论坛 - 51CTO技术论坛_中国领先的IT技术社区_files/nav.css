@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*菜单*/
+.navbox{width:960px;height:38px;background:url(../images/navbg.jpg) no-repeat;margin:0 auto;}
+.navbox ul{width:940px; margin:0 auto;}
+.navbox ul li{float:left;height:38px; line-height:38px; overflow:hidden;}
+.navbox ul li.libg{width:2px; height:35px; background:url(../images/libg02.gif) no-repeat center center;}
+.navbox ul li a{display:block; padding:0 16px; text-align:center; color:#fff; font-size:14px; font-weight:bold;}
+.navbox ul li a:visited{ color:#fff; }
+.navbox ul li a:hover{background:url(../images/nava.gif) repeat-x; color:#d6ff2c; text-decoration:none;}
+.navbox ul li a:active{ color:#fff; }

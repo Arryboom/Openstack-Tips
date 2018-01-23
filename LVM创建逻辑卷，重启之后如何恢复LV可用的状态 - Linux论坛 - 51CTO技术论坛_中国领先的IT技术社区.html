@@ -1,0 +1,3318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0044)http://bbs.51cto.com/thread-1028925-1-1.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title>LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 -  51CTO技术论坛_中国领先的IT技术社区 </title>
+		<meta name="keywords" content="IT论坛">
+<meta name="description" content="  51CTO技术论坛_中国领先的IT技术社区">
+<meta name="MSSmartTagsPreventParsing" content="True">
+<meta http-equiv="MSThemeCompatible" content="Yes">
+		<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/global.css" rel="stylesheet" type="text/css">
+		<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/viewthread.css" rel="stylesheet" type="text/css">
+		<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/map_menu.css" rel="stylesheet" type="text/css">
+		<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/add.css" rel="stylesheet" type="text/css">
+		<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/nav.css" rel="stylesheet" type="text/css">
+        <script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/hm.js.下载"></script><script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/jquery.min.js.下载" type="text/javascript"></script>
+		<script type="text/javascript">
+		function AD_random(){return new String(Math.random()).substring(2,11);}
+		if (!document.phpAds_used) document.phpAds_used = ',';
+		</script>
+		<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/art_master_top.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+#home_top .top_nav .right .login2 {padding:0;}
+</style>
+<style type="text/css">
+.defaultpost { height: auto !important; height:260px; min-height:337px !important; }
+.signatures { height: expression(signature(this)); max-height: 100px; }
+</style>
+
+
+
+
+<style type="text/css">
+DIV.jing {
+    background: url(images/stamp/jing.png) no-repeat !important;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src="images/stamp/jing.png"); background:none;
+	shou
+    float: left;
+    height: 107px;
+    position: absolute;
+    width: 107px;
+    z-index: 10;
+    left:1120px;
+    top:446px;
+}
+.edit_shou ,.jian{
+    float: left;
+    height: 78px;
+    position: absolute;
+    left:1100px;
+    top:346px;
+    width: 133px;
+    z-index: 10;
+}
+.edit_shou{    background: url(images/stamp/shou.png) no-repeat!important;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src="images/stamp/shou.png"); background:none;
+}
+.jian {
+	background: url(images/stamp/jian.png) no-repeat !important;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src="images/stamp/jian.png"); 
+	background:none;
+}
+
+.postbtn{ height:30px; display:block;}
+</style>
+
+
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/jquery-1.4.4.min.js.下载" type="text/javascript"></script>
+<script type="text/javascript">
+	jQuery.noConflict();
+</script>
+		
+		
+		<script type="text/javascript">
+			var discuz_uid = 0;var IMGDIR = 'images/default';var attackevasive = '0';var gid = 0;var STYLEID = '9';
+			gid = parseInt('27');var fid = parseInt('38');var tid = parseInt('1028925');
+		</script>
+		<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/common.min.js.下载" type="text/javascript"></script>
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/common.js.下载" type="text/javascript"></script>
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/show.js.下载" type="text/javascript"></script>
+
+<script src="http://bbs.51cto.com/include/guanggao.php" type="text/javascript"></script>
+
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1);</script>
+<script type="text/javascript">
+    var favor_url = 'http://bbs.51cto.com/viewthread.php?tid=1028925';
+    var favor_title = 'LVM创建逻辑卷，重启之后如何恢复LV可用的状态';
+    var favor_fuid = '2070690';
+</script>
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/favorbox.js.下载" type="text/javascript"></script>
+<!-- 2013060606 -->
+<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shCore.css" type="text/css" rel="stylesheet">   
+<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shThemeDefault.css" type="text/css" rel="stylesheet">   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shCore.js.下载" type="text/javascript"></script>   
+<script class="javascript">   
+SyntaxHighlighter.config.clipboardSwf = 'plugins/syntaxhighlighter/scripts/clipboard.swf';    
+</script>
+	
+<script type="text/javascript">
+function Check() {
+    if (jQuery("#srchtxt").val() == '' || jQuery("#srchtxt").val() =='搜索话题、问题...') {
+        alert('请输入需要搜索的关键词!');
+        return false;
+    }	
+	jQuery("#search").submit();
+}
+(function($){
+
+	$(function(){
+	
+		$('#show_table tr').each(function(){
+			var tr = this;		
+			$(this).hover(function(){
+				$(tr).addClass('trhover');
+			
+			}, function(){
+				$(tr).removeClass('trhover');
+			});
+	
+		});
+	
+	
+		var show_name = '搜索话题、问题...';
+		//alert('d');
+		$("#srchtxt").one('click', function(){
+			$(this).val('').css({color:'#000'});
+		});
+			
+		$('#srchtxt').bind('blur', function(){	
+			if ('' == $(this).val()) {
+				$(this).val(show_name).css({color:'#ccc'});
+			}
+		}).bind('focus', function(){
+			$(this).val('').css({color:'#000'});		
+		});
+
+	});
+})(jQuery);
+
+</script>
+<style>
+.t_l, .t_c, .t_r, .m_l, .m_r, .b_l, .b_c, .b_r {
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.2;
+    overflow: hidden;
+	filter:alpha(opacity=20);
+	-moz-opacity:0.2;
+	-khtml-opacity: 0.2;
+}
+
+.flbc {
+    background: url("/images/forum/cls.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 20px;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 20px;
+}
+
+.autosave {
+
+	overflow:hidden;
+}
+
+body {
+	font-size:12px;
+}
+.fl {
+	float:left;
+}
+.fr {
+	float:right;
+}
+.formbox {
+	width:600px; padding:10px; text-align:left;
+}
+.formbox a {
+	color:#333;
+	text-decoration:none;
+}
+.formbox h1 {
+	height: 20px;
+	line-height: 20px;
+	cursor:move;
+}
+.formbox h1 em {
+	font-size: 14px;
+	font-weight: 700;
+	font-style:normal;
+	color: #336699;
+	float:left;
+}
+.formbox h1 span {
+	float:right;
+}
+
+.flbc:hover {
+	background-position: 0 -20px;
+}
+.re_box {
+	line-height:25px;
+	padding-bottom:10px;
+}
+.formbox .quote_box {
+	background: url(/images/forum/qa.gif) no-repeat left top;
+	color: #666666;
+	margin: 10px 0;
+	overflow: hidden;
+	padding:0 0 10px 16px;
+}
+.formbox .quote_box blockquote {
+	background: url(/images/forum/qz.gif) no-repeat scroll 100% 100% transparent;
+	display: inline;
+	margin: 0;
+	padding-right: 16px;
+}
+.formbox .blockcode {
+	background: none repeat scroll 0 0 #F7F7F7;
+	color: #666666;
+	margin: 10px 0;
+	overflow: hidden;
+	padding: 5px 10px;
+}
+.formbox .blockcode code {
+	font-family: Monaco, Consolas, "Lucida Console", "Courier New", serif;
+	font-size: 12px;
+	line-height: 1.8em;
+}
+* html .blockcode code {
+	font-family: "Courier New", serif;
+}
+
+.tedt {
+	border-color: #999999 #CCCCCC #CCCCCC #999999;
+	border-style: solid;
+	border-width: 1px;
+	width: 98%;
+	margin:0 auto;
+}
+.tedt .pt {
+	background:#FFF;
+	border: medium none;
+	padding: 0 !important;
+	width: 100%;
+}
+.tedt .bar {
+	background:#F2F2F2;
+	border-bottom:1px solid #CDCDCD;
+	height: 25px;
+	line-height: 25px;
+	padding: 0 10px 0 0;
+	clear:both;
+}
+.tedt {
+	width: 600px;
+}
+.btns {
+	background:#F2F2F2;
+	border-top: 1px solid #CCCCCC;
+	height: 26px;
+	padding: 8px 10px;
+	text-align:left;
+}
+.pn {
+	background:  #E5EDF2;
+	border-color: #C2D5E3 #336699 #336699 #C2D5E3;
+	border-style: solid;
+	border-width: 1px;
+	color: #336699;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 700;
+	height: 26px;
+	line-height: 26px;
+	margin-right: 3px;
+	vertical-align: middle;
+}
+.ie6 .pn {
+	line-height: 20px;
+}
+
+/**相关帖子的样式 */
+.relate_subject{ border:1px solid #94cfdd; background:#eef7fc; padding:9px 10px 10px; width:700px; margin:10px auto; height:auto; overflow:hidden;}
+.relate_subject h3{ font-size:13px; color:#333; font-weight:bold; height:25px; line-height:25px; text-align:left;}
+.rel_bor{border-right:1px dashed #b5bcc0;}
+.relate_subject ul{ height:auto; overflow:hidden;}
+.relate_subject ul li{ font-size:12px; padding:0 20px; width:300px; background:url(/images/forum/idot.jpg) no-repeat 5px center; line-height:22px; height:22px; overflow:hidden;}
+.relate_subject ul li a{ color:#000; line-height:22px; }
+
+/*文字广告*/
+.top-ad-bar{text-align:center;margin:0px auto 2px auto;clear:both;background:url(http://home.51cto.com/public/images/notice/sogou_se_tgbar_bg_final1.gif) repeat-x;width:950px;color:#000;font-size:13px;height:36px;z-index:21474836471;}
+.top-ad-bar-txt{ float:left;cursor:pointer;width:920px;text-align:center;height:32px; line-height:32px;txt-align:center;border-left:solid #efbf00 1px;}
+.top-ad-bar-txt a:link,.top-ad-bar-txt a:visited{color:#000;}
+.top-ad-bar-txt a:hover{ color:#cc0000;}
+.top-ad-bar-close{float:right;width:15px;cursor:pointer;height:28px;padding:4px 5px; border-right:solid #efbf00 1px;}
+
+
+.Postban a{ color:#1470a1;}
+.Postban {
+    color: #000000;
+    line-height: 164px;
+    text-align: center;
+}
+.hftxtarea, .Postban {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DDDDDD;
+    height: 164px;
+    width: 499px;
+}
+
+/*end jacena*/
+
+
+.ipadFload{ position:fixed; width:136px; height:194px; background:url(http://bbs.51cto.com/images/IPad-bg.png) left top no-repeat #fff; font-family:"微软雅黑"; padding-left:18px;}
+.ipadClose{ text-align:right; font-size:14px; line-height:20px;}
+.ipadImg{ padding-top:38px;}
+.ipadImg img{ width:105px; height:105px;}
+.iPadair2{ font-size:12px;}
+.iPadair2 a{ color:#659b01; text-decoration:none; background:url(http://bbs.51cto.com/images/51CTO-IPAD-BOTTOM.png) right center no-repeat; display:block; line-height:30px;}
+
+</style>
+	<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/share.js.下载"></script><link rel="stylesheet" href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/share_style0_32.css"></head>
+	
+	<body><div class="fixed_div">
+<a class="gotop" href="javascript:scroll(0,0)"></a>
+	<a class="feedback jsFeedCallBack" href="javascript:void(0);"></a>
+   <a class="num" href="http://home.51cto.com/index.php?s=/Notify/index" target="_blank" title="有0个邀请讨论通知"><em>0</em></a>
+</div>
+
+	<div id="append_parent"></div><div id="ajaxwaitid"></div>
+		<div id="home_top" style="">
+	<div class="top_nav">
+		<div class="left" style="width:360px">
+		
+			<a href="http://www.51cto.com/">
+				51CTO首页
+			</a>
+			<img height="25" align="absmiddle" width="16" style="padding-top: 2px;" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/top_bg_xian.gif">
+			<a target="_blank" href="http://www.51cto.com/col/35/" onmouseout="popupClose();" onmouseover="show(1,this);">
+				技术频道
+				<img align="absmiddle" style="padding-left: 4px;" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/nav_ico1.gif">
+			</a>
+			<img height="25" align="absmiddle" width="16" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/top_bg_xian.gif">
+			<a target="_blank" href="http://www.51cto.com/" onmouseout="popupClose();" onmouseover="show(2,this);">
+				51CTO旗下网站
+				<img align="absmiddle" style="padding-left: 4px;" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/nav_ico1.gif">
+			</a>
+			<img height="25" align="absmiddle" width="16" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/top_bg_xian.gif">
+			<a target="_blank" href="http://www.51cto.com/about/map.htm">
+				地图
+			</a>
+		</div>
+		<div class="right">
+			<div class="more">
+				<img height="16" align="absmiddle" width="27" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/top_shequ.gif">
+				<a target="_blank" style="color:#C00;" href="http://wot.51cto.com/?bbs">
+					WOT峰会
+				</a>
+				<a target="_blank" href="http://edu.51cto.com/" style="color: rgb(204, 0, 0);">
+					学院
+				</a>
+				<a target="_blank" href="http://bbs.51cto.com/">
+					论坛
+				</a>
+				<a target="_blank" href="http://blog.51cto.com/">
+					博客
+				</a>
+				<a target="_blank" href="http://down.51cto.com/">
+					下载
+				</a>
+				
+				<a href="javascript:viod(0);" onmouseout="popupClose()" onmouseover="show(3,this)">
+					更多
+					<img align="absmiddle" style="padding-left: 4px;" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/nav_ico1.gif">
+				</a>
+			</div>
+			<span id="login_status"><div class="login" style="padding-top:8px; text-align:right;"><a href="http://home.51cto.com/index?reback=http://bbs.51cto.com/thread-1028925-1-1.html" target="_self">登录</a><a href="http://home.51cto.com/user/register?reback=http://bbs.51cto.com/thread-1028925-1-1.html" target="_self">注册</a><a href="http://home.51cto.com/members/in-fo?down" target="_blank"><span class="jsVipDrop" style="position: relative;"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/vip_grey2.png" style="float:right; margin-top:5px"><div id="vip_mes_top" style="display:none;position: absolute;right:-75px;top: 17px;width: 137px;z-index: 99;"><div style="background: #faf7e6 none repeat scroll 0 0;border: 1px solid #ecb7a5;color: #666;font-size: 12px;padding: 3px 5px;position: relative;"><span style="background: rgba(0, 0, 0, 0) url(https://static5.51cto.com/home/web/images/hidearro.png) no-repeat scroll center center;display: inline-block;height: 7px;position: absolute;right: 57px;top: -6px;width: 12px;"></span><div style="color:#f60; text-align:center;">一个会员，全站特权</div></div></div></span></a></div></span>
+		</div>
+	</div>
+</div>
+<div class="subMenu1" id="s1" onmouseover="popupNoClose();" onmouseout="popupClose();">
+	<ul>
+		<li>
+			<a href="http://network.51cto.com/" target="_blank">
+				网络
+			</a>
+		</li>
+		<li>
+			<a href="http://netsecurity.51cto.com/" target="_blank">
+				安全
+			</a>
+		</li>
+		<li>
+			<a href="http://developer.51cto.com/" target="_blank">
+				开发
+			</a>
+		</li>
+		<li>
+			<a href="http://database.51cto.com/" target="_blank">
+				数据库
+			</a>
+		</li>
+		<li>
+			<a href="http://server.51cto.com/" target="_blank">
+				服务器
+			</a>
+		</li>
+		<li>
+			<a href="http://os.51cto.com/" target="_blank">
+				系统
+			</a>
+		</li>
+		<li>
+			<a href="http://virtual.51cto.com/" target="_blank">
+				虚拟化
+			</a>
+		</li>
+		<li>
+			<a href="http://cloud.51cto.com/" target="_blank">
+				云计算
+			</a>
+		</li>
+		<li>
+			<a href="http://developer.51cto.com/embed/" target="_blank">
+				嵌入式
+			</a>
+		</li>
+		<li>
+			<a href="http://mobile.51cto.com/" target="_blank">
+				移动开发
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="subMenu2" id="s2" onmouseover="popupNoClose()" onmouseout="popupClose()">
+	<ul>
+		<li>
+			<a href="http://www.51cto.com/" target="_blank" title="中国领先的IT技术网站">
+				51CTO.COM
+			</a>
+		</li>
+		<li>
+			<a href="http://www.cioage.com/" target="_blank" title="中国首个专门服务于CIO的专业网站">
+				CIOage.com
+			</a>
+		</li>
+		<li>
+			<a href="http://www.watchstor.com/" target="_blank" title="领先的中文存储网络媒体">
+				WatchStor.com
+			</a>
+		</li>
+		<li>
+			<a href="http://www.hc3i.cn/" target="_blank" title="中国首家专注于数字医疗及医疗信息化的专业网站">
+				HC3i.cn
+			</a>
+		</li>
+	
+	</ul>
+</div>
+<div class="subMenu3" id="s3" onmouseover="popupNoClose()" onmouseout="popupClose()" style="z-index:9999;position: absolute;">
+	<ul>
+		<li>
+			<a href="http://home.51cto.com/" target="_blank">
+				家园
+			</a>
+		</li>
+		<li>
+			<a href="http://edu.51cto.com/" target="_blank">
+				学院
+			</a>
+		</li>
+		<li>
+			<a href="http://blog.51cto.com/" target="_blank">
+				博客
+			</a>
+		</li>
+		<li>
+			<a href="http://bbs.51cto.com/" target="_blank">
+				论坛
+			</a>
+		</li>
+		<li>
+			<a href="http://down.51cto.com/" target="_blank">
+				下载
+			</a>
+		</li>
+		
+		<li>
+			<a href="http://selftest.51cto.com/" target="_blank">
+				自测
+			</a>
+		</li>
+		<li>
+			<a href="http://doctor.51cto.com/" target="_blank">
+				门诊
+			</a>
+		</li>
+		<li>
+			<a href="http://blog.51cto.com/newsletter/" target="_blank">
+				周刊
+			</a>
+		</li>
+		<li>
+			<a href="http://book.51cto.com/" target="_blank">
+				读书
+			</a>
+		</li>
+		<li>
+			<a href="http://t.51cto.com/" style="color:red;" target="_blank">
+				题库
+			</a>
+		</li>
+		<li>
+			<a href="http://gaozhao.51cto.com/" target="_blank">
+				招聘
+			</a>
+		</li>
+		<li>
+			<a target="_blank" href="http://wot.51cto.com/?bbs">
+				WOT峰会
+			</a>
+		</li>
+	</ul>
+</div>
+
+<div id="append_parent"></div>
+<!--简导航结束-->
+<style>
+.vbox {
+background:#ebf3f8;
+margin-bottom:10px;
+}
+.vlist {
+	width:218px;
+	padding:10px 0 10px 14px;
+	float:left;
+}
+.vlist img {
+	float:left;
+	margin-right:10px;
+}
+.vlist dl {
+	text-align:left;
+	width:122px;
+	float:left;
+}
+.vlist dl dt {
+	height:38px;
+	overflow:hidden;
+	padding-top:5px;
+}
+.vlist dl dt, .vlist dl dt a {
+	color:#262626;
+}
+.vlist dl dd, .vlist dl dd a {
+	color:#777;
+}
+.vbox_tit {
+	font-size:14px;
+	
+	color:#666;
+	margin-top:10px;
+	border-bottom:1px solid #b3d0e6;
+	text-align:left;
+}
+.video-icon{
+    position: relative;
+}
+.video-icon a.i_video {
+    background: url("http://www.51cto.com/images/homepage/Images/eduplay.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    height: 25px;
+    left:46px;
+    position: absolute;
+    top:29px;
+    width: 25px;
+    z-index: 10;
+}
+		</style>
+ 
+  
+
+	<!--印章-->
+
+<div class="clear"></div>
+	
+		
+	
+		<div class="first">
+			<a href="http://bbs.51cto.com/"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/logo.jpg"></a>
+			<form action="http://so.51cto.com/" method="get" name="search" id="search">
+			<div class="soso">
+				<input type="text" name="keywords" id="srchtxt" class="soso_input">
+				<a class="soso_r" href="http://bbs.51cto.com/thread-1028925-1-1.html###" onclick="Check()"></a>
+			</div>
+			<input type="hidden" value="bbs" name="project">
+             <input type="hidden" value="time" name="sort">
+			</form>
+			
+		</div>
+		
+				<ul class="popupmenu_popup1 newspecialmenu" id="newspecial_menu" style="position: absolute; z-index: 1000; clip: rect(auto auto auto auto); left: 1331px; top: 232px; display: none;">
+		<li><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra=">发新话题</a></li>
+		<li class="poll"><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=1">发布投票</a></li>		<li class="trade"><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=2">发布商品</a></li>		<li class="reward"><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=3">发布悬赏</a></li>		<li class="activity"><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=4">发布活动</a></li>		<li class="debate"><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=5">发布辩论</a></li>		<li class="video"><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=6">发布视频</a></li>			</ul>
+<link href="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/bbspass.css" rel="stylesheet" type="text/css">
+<div class="navbox" style="position:relative;margin-top:5px;overflow:hidden;"><span style="position:absolute;display:block:width:24px;height:15px;left:640px; top:2px;"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/iconew.gif"></span><!--<a style="cursor:pointer" class="row01next">
+</a>--><ul><!--<a style="cursor:pointer" class="row01next">
+</a>--><li><!--<a style="cursor:pointer" class="row01next"></a>--><a href="http://bbs.51cto.com/">首页</a></li>
+<li class="libg">&nbsp;</li>
+<li><a target="_blank" href="http://bbs.51cto.com/moderator.html">版主墙</a></li>
+<li class="libg">&nbsp;</li>
+<li><a target="_blank" href="http://bbs.51cto.com/valuefans.html">最有价值午饭</a></li>
+<li class="libg">&nbsp;</li>
+<li><a target="_blank" href="http://bbs.51cto.com/hothread.php">最新热帖</a></li>
+<li class="libg">&nbsp;</li>
+<li><a target="_blank" href="http://bbs.51cto.com/commend.php">推荐帖子</a></li>
+<li class="libg">&nbsp;</li>
+<li><a target="_blank" href="http://down.51cto.com/">资料下载</a></li>
+<li class="libg">&nbsp;</li>
+<li><a target="_blank" href="http://home.51cto.com/members/in-fo?bbs">加入会员</a></li>
+<li class="libg">&nbsp;</li>
+<li><a target="_blank" href="http://edu.51cto.com/?edu_recommend_adid=147">视频学院</a></li>
+<li class="libg">&nbsp;</li>
+ <li><a target="_blank" href="http://bbs.51cto.com/index.php">旧版首页</a></li>
+<li class="libg">&nbsp;</li>
+<li><a target="_blank" href="http://bbs.51cto.com/thread-1128364-1.html">申请版主</a></li>
+</ul>
+</div>
+<div class="subnav" id="bbsTag" style="display:none">
+    <div class="subnav01"> <!--  style="position:absolute; left:10"-->
+        <dl>
+            <dt>网络、安全</dt>
+            <dd><a href="http://bbs.51cto.com/forum-57-1.html" style="color: #ff0000">网络管理</a></dd>
+            <!--<dd><a href="http://bbs.51cto.com/forum-47-1.html">网络工程展</a></dd>-->
+            <dd><a href="http://bbs.51cto.com/forum-149-1.html">企业级安全</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-203-1.html">系统攻防</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-192-1.html">病毒查杀</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01">
+        <dl>
+            <dt>企业技术</dt>
+            <dd><a href="http://bbs.51cto.com/forum-58-1.html" style="color: #ff0000">思科技术</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-282-1.html">H3C技术</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-59-1.html">华为技术</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-344-1.html">Juniper</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01">
+        <dl>
+            <dt>操作系统</dt>
+            <dd><a href="http://bbs.51cto.com/forum-99-1.html">PC应用</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-38-1.html" style="color: #ff0000">Linux</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-326-1.html">Office</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01">
+        <dl>
+            <dt>移动开发</dt>
+            <dd><a href="http://bbs.51cto.com/forum-291-1.html" style="color: #ff0000">Android开发</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-292-1.html">iOS开发</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-294-1.html">WinPhone开发</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01">
+        <dl>
+            <dt>数据库开发</dt>
+            <dd><a href="http://bbs.51cto.com/forum-43-1.html" style="color: #ff0000">MS-SQL Server</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-42-1.html" style="color: #ff0000">Oracle</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-44-1.html">Mysql</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-142-1.html">DB2</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01">
+        <dl>
+            <dt>开发语言</dt>
+            <dd><a href="http://bbs.51cto.com/forum-134-1.html" style="color: #ff0000">C/C++</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-135-1.html">.NET</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-133-1.html" style="color: #ff0000">Java</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-340-1.html" style="color: #ff0000">Python</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-332-1.html">Web开发</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01">
+        <dl>
+            <dt>服务器</dt>
+            <dd><a href="http://bbs.51cto.com/forum-319-1.html">Exchange</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-302-1.html">服务器</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-261-1.html" style="color: #ff0000">虚拟化</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-333-1.html" style="color: #ff0000">Lync</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-35-1.html" style="color: #ff0000">WinServer</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01">
+        <dl>
+            <dt>考试认证</dt>
+            <dd><a href="http://bbs.51cto.com/forum-211-1.html">思科认证</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-212-1.html">H3C认证</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-213-1.html">微软认证</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-336-1.html">华为认证</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-74-1.html" style="color: #ff0000">软考</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01">
+        <dl>
+            <dt>午饭大本营</dt>
+            <dd><a href="http://bbs.51cto.com/forum-221-1.html" style="color: #ff0000">职场人生</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-21-1.html" style="color: #ff0000">挨踢生活</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-153-1.html">活动专区</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-324-1.html">下载中心</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-338-1.html">51CTO学院</a></dd>
+        </dl>
+    </div>
+    <div class="subnav01" style="background:none;">
+        <dl>
+            <dt>站务管理</dt>
+            <dd><a href="http://bbs.51cto.com/forum-248-1.html">版主招募</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-272-1.html">公告/帮助</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-249-1.html">建议/反馈</a></dd>
+            <dd><a href="http://bbs.51cto.com/forum-247-1.html">市场合作</a></dd>
+            <dd style="display:none" id="bbs_bz_display"><a href="http://bbs.51cto.com/forum-1-1.html">版主茶馆</a></dd>
+        </dl>
+    </div>
+    <div class="show_all"><a href="http://bbs.51cto.com/index.php" style="color: #268100;"> 查看所有版块&gt;&gt;</a>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</div>
+<div class="subnav_t">
+    <p class="flod_btn" id="showTag"></p>
+</div>
+<script>
+    jQuery(function() {
+        jQuery.ajax({
+            type:'post',
+            url:'/plugins/index/service.sy.php',
+            success: function(msg){
+                if(msg == 1 || msg == 2 || msg == 3) {
+                    jQuery('#bbs_bz_display').css('display','block');
+                } else {
+                    jQuery('#bbs_bz_display').css('display','none');
+                }
+            }
+        })
+        jQuery('#showTag').bind('click',function() {
+            var dis = jQuery('#bbsTag').css('display');
+            var jTop = jQuery('.jing').css('top');
+            var jian = jQuery('.jian').css('top');
+            var edit_shou = jQuery('.edit_shou').css('top');
+
+            if(dis == 'block') {
+                jQuery('#bbsTag').slideUp('slow');
+                jQuery('#showTag').removeClass('un_flod_btn');
+                jQuery('#showTag').addClass('flod_btn');
+            } else {
+                jQuery('#bbsTag').slideDown('slow');
+                jQuery('#showTag').removeClass('flod_btn');
+                jQuery('#showTag').addClass('un_flod_btn');
+            }
+            if(jTop || jian || edit_shou) {
+                jTop = parseInt(jTop);
+                jian = parseInt(jian);
+                edit_shou = parseInt(edit_shou);
+                if(jTop == 246) {
+                    jQuery('.jing').css('top',416);
+                } else {
+                    jQuery('.jing').css('top',246);
+                }
+                if(jian == 346) {
+                    jQuery('.jian').css('top',516);
+                } else {
+                    jQuery('.jian').css('top',346);
+                }
+                if(edit_shou == 346) {
+                    jQuery('.edit_shou').css('top',516);
+                } else {
+                    jQuery('.edit_shou').css('top',346);
+                }
+            }
+        });
+    })
+</script>
+<div class="hr8 clear"></div>
+<!--<div class="adboxa" id="banner_down">-->
+<!--<div style="position:relative;display:inline-block;width:auto;">--><!--</div></div>-->
+<div class="hr8 clear"></div><div id="ad_viewthread_banner">
+	<script type="text/javascript"><!--//<![CDATA[
+    var m3_u = (location.protocol=='https:'?'https://gg.51cto.com/www/delivery/ajs.php':'http://gg.51cto.com/www/delivery/ajs.php');
+    var m3_r = Math.floor(Math.random()*99999999999);
+    if (!document.MAX_used) document.MAX_used = ',';
+    document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+    document.write ("?zoneid=917");
+    document.write ('&amp;cb=' + m3_r);
+    if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+    document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+    document.write ("&amp;loc=" + escape(window.location));
+    if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+    if (document.context) document.write ("&context=" + escape(document.context));
+    if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+    document.write ("'><\/scr"+"ipt>");
+    //]]>--></script><script type="text/javascript" src="http://gg.51cto.com/www/delivery/ajs.php?zoneid=917&amp;cb=62258356434&amp;charset=UTF-8&amp;loc=http%3A//bbs.51cto.com/thread-1028925-1-1.html&amp;referer=https%3A//www.baidu.com/link%3Furl%3D8LrtmYMp5QkgJbXwdlYXJw6pcU7TM5WVQopWqngyajBw1027c3cfwXC6MUlrX3xbnsYxMdvnnALqg9q7cS18uq%26wd%3D%26eqid%3Db37ac50400075642000000055a66e1a7"></script><noscript>&amp;lt;a href='//gg3.51cto.com/www/delivery/ck.php?n=a89141bd&amp;amp;amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'&amp;gt;&amp;lt;img src='//gg3.51cto.com/www/delivery/avw.php?zoneid=917&amp;amp;amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;amp;amp;n=a89141bd' border='0' alt='' /&amp;gt;&amp;lt;/a&amp;gt;</noscript>
+</div>
+		<div class="position">
+
+			<div id="page">
+				<div class="chl-poster simple" id="header">
+					<div id="site-nav">
+						<ul class="quick-menu">
+							<li class="lt_index"><a href="http://bbs.51cto.com/">论坛首页</a></li>
+							<li class="lt_line"></li>
+							<li class="lt_index"><a href="http://bbs.51cto.com/index.php?gid=27">操作系统</a></li>
+														<li class="lt_line"></li>
+							<li class="lt_index"><a href="http://bbs.51cto.com/forum-38-1.html"></a><a href="http://bbs.51cto.com/forum-38-1.html">Linux论坛</a></li>
+							<li class="lt_line"></li>
+							<li class="lt_index" style="overflow:hidden;width:300px">LVM创建逻辑卷，重启之后如何恢复LV可用的状态 ...</li>
+					</ul>
+					</div>
+				</div>
+			</div>
+
+		  <div class="pt_02">
+			<p class="ico_tz"><a target="_blank" href="http://home.51cto.com/bbs/get-user-threads">我的帖子</a></p>
+			<p class="ico_pc"><a target="_blank" href="http://home.51cto.com/index.php?s=/home">个人中心</a></p>
+			<p class="ico_sz"><a target="_blank" href="http://bbs.51cto.com/memcp.php">设置</a></p>
+		  </div>
+		</div>
+		
+		
+		
+		<div class="position" style="display:none;">
+			<div class="pt_01">
+				你当前的位置 :&nbsp;
+				<a href="http://bbs.51cto.com/">论坛首页</a><span><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/ico_jt.jpg" alt=""></span>
+				<a href="http://bbs.51cto.com/forum-38-1.html">Linux论坛</a><span><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/ico_jt.jpg" alt=""></span>正文
+			</div>
+			
+			
+			<div id="page" style="display:none;">
+				<div class="chl-poster simple" id="header">
+					<div id="site-nav">
+						<ul class="quick-menu">
+							<li class="lt_map menu-item">
+								<div class="menu"> <span class="menu-hd" href="#" target="_top" rel="nofollow"><a href="http://bbs.51cto.com/map.html">论坛地图</a><b></b></span>
+									<div class="menu-bd">
+										<div class="menu-bd-panel">
+											<div class="submenu">
+												<table width="100%" id="show_table" border="0" cellspacing="0" cellpadding="0">
+												<!-- 板块列表 开始-->
+												<tbody><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=56">网络技术</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-57-1.html">网络管理论坛</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=147">安全技术</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-242-1.html">ISA/TMG论坛</a><a href="http://bbs.51cto.com/forum-149-1.html">企业级安全论坛</a><a href="http://bbs.51cto.com/forum-203-1.html">系统攻防论坛</a><a href="http://bbs.51cto.com/forum-192-1.html">病毒查杀论坛</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=125">企业技术</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-58-1.html">思科技术论坛</a><a href="http://bbs.51cto.com/forum-282-1.html">H3C技术论坛</a><a href="http://bbs.51cto.com/forum-59-1.html">华为技术论坛</a><a href="http://bbs.51cto.com/forum-344-1.html">Juniper</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=27">操作系统</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-38-1.html">Linux论坛</a><a href="http://bbs.51cto.com/forum-99-1.html">PC应用论坛</a><a href="http://bbs.51cto.com/forum-326-1.html">Office论坛</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=317">开发语言</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-134-1.html">C/C++论坛</a><a href="http://bbs.51cto.com/forum-340-1.html">Python论坛</a><a href="http://bbs.51cto.com/forum-135-1.html">.Net论坛</a><a href="http://bbs.51cto.com/forum-133-1.html">Java论坛</a><a href="http://bbs.51cto.com/forum-132-1.html">Delphi论坛</a><a href="http://bbs.51cto.com/forum-318-1.html">PowerBuilder论坛</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=131">WEB开发</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-332-1.html">Web开发综合讨论区</a><a href="http://bbs.51cto.com/forum-138-1.html">PHP论坛</a><a href="http://bbs.51cto.com/forum-312-1.html">Asp论坛</a><a href="http://bbs.51cto.com/forum-301-1.html">HTML5论坛</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=41">数据库</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-341-1.html">NoSQL论坛</a><a href="http://bbs.51cto.com/forum-43-1.html">SQL Server论坛</a><a href="http://bbs.51cto.com/forum-42-1.html">Oracle论坛</a><a href="http://bbs.51cto.com/forum-44-1.html">MySQL论坛</a><a href="http://bbs.51cto.com/forum-142-1.html">DB2论坛</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=289">移动平台</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-291-1.html">Android开发论坛</a><a href="http://bbs.51cto.com/forum-292-1.html">iOS开发论坛</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=49">服务器</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-319-1.html">Exchange论坛</a><a href="http://bbs.51cto.com/forum-35-1.html">winServer论坛</a><a href="http://bbs.51cto.com/forum-302-1.html">服务器论坛</a><a href="http://bbs.51cto.com/forum-333-1.html">Lync</a><a href="http://bbs.51cto.com/forum-261-1.html">虚拟化论坛</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=105">考试认证</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-211-1.html">思科认证论坛</a><a href="http://bbs.51cto.com/forum-212-1.html">H3C认证论坛</a><a href="http://bbs.51cto.com/forum-213-1.html">微软认证论坛</a><a href="http://bbs.51cto.com/forum-74-1.html">软考论坛</a><a href="http://bbs.51cto.com/forum-336-1.html">华为认证</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=19">午饭大本营</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-221-1.html">职场人生</a><a href="http://bbs.51cto.com/forum-21-1.html">挨踢生活</a><a href="http://bbs.51cto.com/forum-153-1.html">活动专区</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=78">51CTO服务区</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-324-1.html">下载中心论坛</a><a href="http://bbs.51cto.com/forum-338-1.html">51CTO学院论坛</a><a href="http://bbs.51cto.com/forum-224-1.html">招聘/51CTO高招</a></td></tr><tr><th><span><a href="http://bbs.51cto.com/index.php?gid=287">站务管理</a></span> ：</th><td><a href="http://bbs.51cto.com/forum-248-1.html">版主招募</a><a href="http://bbs.51cto.com/forum-249-1.html">建议/反馈</a><a href="http://bbs.51cto.com/forum-272-1.html">公告</a><a href="http://bbs.51cto.com/forum-247-1.html">市场合作</a></td></tr>												<!-- 板块列表 结束-->
+												</tbody></table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="lt_index"><a href="http://bbs.51cto.com/">论坛首页</a></li>
+							<li class="lt_line"></li>
+							
+							<li class="lt_index"><a href="http://bbs.51cto.com/thread-1028925-1-1.html#">操作系统</a></li>
+							<li class="lt_line"></li>
+							<li class="lt_index"><a href="http://bbs.51cto.com/forum-38-1.html"></a><a href="http://bbs.51cto.com/forum-38-1.html">Linux论坛</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div class="pt_02">
+				<p class="ico_tz"><a target="_blank" href="http://home.51cto.com/bbs/get-user-threads">我的帖子</a></p>
+				<p class="ico_pc"><a target="_blank" href="http://home.51cto.com/index.php?s=/home">个人中心</a></p>
+				<p class="ico_sz"><a target="_blank" href="http://bbs.51cto.com/memcp.php">设置</a></p>
+			</div>
+		</div>
+		
+	
+		<div class="w960">
+			<div class="pagebox">
+				<ul>
+					<li><a href="http://bbs.51cto.com/forum-38-1.html" class="pre">返回列表</a></li>
+									</ul>
+			</div>
+			
+
+
+			<div class="btnbox">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tbody><tr>
+						<td>
+							&nbsp;
+						</td>
+						
+						<td>
+							<span class="postbtn"><a href="http://bbs.51cto.com/post.php?action=reply&amp;fid=38&amp;tid=1028925&amp;extra="><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/reply.gif" onmouseover="this.src=&#39;images/default/reply_hov.gif&#39;" onmouseout="this.src=&#39;images/default/reply.gif&#39;" border="0" alt=""></a></span>						</td>
+						<td>
+															<span class="postbtn" id="newspecial" onmouseover="$(&#39;newspecial&#39;).id = &#39;newspecialtmp&#39;;this.id = &#39;newspecial&#39;;showMenu(this.id)"><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra="><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/newtopic.gif" onmouseover="this.src=&#39;images/default/newtopic_hov.gif&#39;" onmouseout="this.src=&#39;images/default/newtopic.gif&#39;" border="0" alt="发新话题" title="发新话题"></a></span>
+													</td>
+						
+					</tr>
+				</tbody></table>	
+					
+			</div>
+		</div>
+		
+		
+		<div class="clear hr10"></div>
+		
+		
+		
+
+		
+		
+		<div class="tz_main">
+		
+		
+			<form method="post" name="modactions">
+		<input type="hidden" name="formhash" value="1aa1d12d">						<table id="pid5202091" summary="pid5202091" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5202091_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>363&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-8-28&nbsp;</dd>
+							<dt>最后登录</dt><dd>2016-12-20&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-2070690.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<div class="author01 bd4b"> 查看:<span>12629</span><em>|</em>回复：<span>12</span></div>
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="userinfo5202091" class="dropmenu" onmouseover="showMenu(this.id)">
+																glaciya															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_2070690" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar.php"><span class=""></span></b></div>												<p class="post_zw">助理工程师 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level2.gif" alt="Rank: 3"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 3"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=2070690" style="color:#336699;text-decoration: underline;" target="_blank">148</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=2070690" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="747">747 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="2070690" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=2070690" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="ajax_buddy_0">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=2070690">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/2070690">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-2070690.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/2070690" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												<div class="postinfo01 bd4">
+		
+								<h2 style="float: left;font-size:16px;vertical-align:middle">&nbsp;&nbsp;<strong><a title="LVM创建逻辑卷，重启之后如何恢复LV可用的状态" href="http://bbs.51cto.com/thread-1028925-1.html">LVM创建逻辑卷，重启之后如何恢复LV可用的状态 ...</a></strong>&nbsp;&nbsp;<a style="text-decoration: none;font-size:12px;color:grey" href="javascript:setcopy(&#39;http://bbs.51cto.com/thread-1028925-1.html&#39;,&#39;复制帖子链接到剪贴板&#39;);">[复制链接]</a></h2>
+			
+		
+							<p class="fr">
+							<!-- 	<a class="sc_ico" onmouseover="this.className='sc_ico02'"   onmouseout="this.className='sc_ico'" href="javascript:favorBox('open');" title="一键收藏，随时查看，分享好友！">收藏</a> -->
+							
+							
+								
+						
+						</p></div>
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-17 23:58&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=2070690" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5202091&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							楼主							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5202091"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_0"></div><div id="ad_thread4_0"></div>
+							
+						
+													
+																															<div id="postmessage_5202091" class="t_msgfont">
+
+								
+								利用LVM创建了，逻辑卷：<br>
+<br>
+这是我重启后显示的<br>
+Suse-linux:/opt/dataspace # lvdisplay<br>
+&nbsp;&nbsp;--- Logical volume ---<br>
+&nbsp;&nbsp;LV Name&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /dev/dataspace/db2<br>
+&nbsp;&nbsp;VG Name&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; dataspace<br>
+&nbsp;&nbsp;LV UUID&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; MvSeQH-TnNJ-WOX5-0Ga2-aLBa-WFS5-6ZFAjm<br>
+&nbsp;&nbsp;LV Write Access&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;read/write<br>
+<font color="Red">&nbsp;&nbsp;LV Status&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;NOT available</font><br>
+&nbsp;&nbsp;LV Size&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 4.98 GiB<br>
+&nbsp;&nbsp;Current LE&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 1275<br>
+&nbsp;&nbsp;Segments&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;5<br>
+&nbsp;&nbsp;Allocation&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; inherit<br>
+&nbsp;&nbsp;Read ahead sectors&nbsp; &nbsp;&nbsp;&nbsp;auto<br>
+<br>
+<br>
+但是重启后，df -h<br>
+Suse-linux:/opt/dataspace # df -h<br>
+Filesystem&nbsp; &nbsp;&nbsp; &nbsp;Size&nbsp;&nbsp;Used Avail Use% Mounted on<br>
+/dev/sda2&nbsp; &nbsp;&nbsp; &nbsp; 9.1G&nbsp;&nbsp;2.8G&nbsp;&nbsp;5.9G&nbsp;&nbsp;32% /<br>
+devtmpfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;496M&nbsp;&nbsp;392K&nbsp;&nbsp;496M&nbsp; &nbsp;1% /dev<br>
+tmpfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;496M&nbsp; &nbsp;88K&nbsp;&nbsp;496M&nbsp; &nbsp;1% /dev/shm<br>
+/dev/sda1&nbsp; &nbsp;&nbsp; &nbsp; 2.0G&nbsp; &nbsp;36M&nbsp;&nbsp;1.9G&nbsp; &nbsp;2% /tmp<br>
+原先的卷标没有了<br>
+<br>
+Suse-linux:/opt/dataspace # mount /dev/dataspace/db2 /opt/dataspace/<br>
+mount: special device /dev/dataspace/db2 does not exist<br>
+<br>
+我想是我忘记将信息写入到/etc/fstab里面<br>
+<br>
+请问此时如何将LV状态恢复才能正常的挂载？								</div>
+
+								
+								
+
+								
+																	<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/tag.php" type="text/javascript"></script>
+	
+
+								
+																	<div id="post_rate_div_5202091"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+												<div style="color:#a3a3a3;font-size:12px;text-align:right;height:30px;line-height:30px;"></div>
+						
+						<div class="postinfo05" style="margin:5px auto">
+							<div class="postinfo05a">
+								<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/ssk.png" alt="分享至" style="float:left;"><div class="bdsharebuttonbox bdshare-button-style0-32" data-bd-bind="1516692099615"><a href="http://bbs.51cto.com/thread-1028925-1-1.html#" class="bds_more" data-cmd="more"></a><a href="http://bbs.51cto.com/thread-1028925-1-1.html#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="http://bbs.51cto.com/thread-1028925-1-1.html#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="http://bbs.51cto.com/thread-1028925-1-1.html#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="http://bbs.51cto.com/thread-1028925-1-1.html#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="http://bbs.51cto.com/thread-1028925-1-1.html#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a></div><table width="90%" border="0" cellspacing="0" cellpadding="0" align="left">
+										
+									<tbody><tr>
+											<!-- Baidu Button BEGIN -->
+										
+                                        
+                                        <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["evernotecn","youdao","tieba","print","mail","mshare"],"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+	<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=559183"></script>
+	<!--<script type="text/javascript" id="bdshell_js"></script>-->
+	<!--<script type="text/javascript">-->
+		<!--var bds_config = {'wbUid':1888399833};-->
+		<!--document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();-->
+	<!--</script>-->
+	<!-- Baidu Button END -->
+
+									</tr>
+																	</tbody></table>
+							</div>
+														<p class="postinfo05b"><a title="一键收藏，随时查看，分享好友！" href="javascript:favorBox(&#39;open&#39;);"><img width="76" height="24" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/favorite_add.gif"></a></p>
+														
+						
+							
+						</div>
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+	
+	
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+								<a href="http://edu.51cto.com/px/train/94?bbstzwzl" target="_blank"><span style="color:#3fa701;font-family:&#39;microsoft yahei&#39;;font-size:12px;">零基础开始，8周掌握硅谷流行的编程语言—Python！</span></a>							</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5202743" summary="pid5202743" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5202743_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>363&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-8-28&nbsp;</dd>
+							<dt>最后登录</dt><dd>2016-12-20&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-2070690.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="userinfo5202743" class="dropmenu" onmouseover="showMenu(this.id)">
+																glaciya															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_2070690" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar.php"><span class=""></span></b></div>												<p class="post_zw">助理工程师 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level2.gif" alt="Rank: 3"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 3"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=2070690" style="color:#336699;text-decoration: underline;" target="_blank">148</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=2070690" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="747">747 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="2070690" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=2070690" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="ajax_buddy_1">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=2070690">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/2070690">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-2070690.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/2070690" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-18 13:17&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=2070690" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5202743&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							沙发							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5202743"></span>
+						<div class="postmessage defaultpost">
+															<span class="postratings"><a href="http://bbs.51cto.com/misc.php?action=viewratings&amp;tid=1028925&amp;pid=5202743" title="评分 5"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/agree.gif" border="0" alt=""></a></span>
+																					<div id="ad_thread3_1"></div><div id="ad_thread4_1"></div>
+							
+						
+													
+																															<div id="postmessage_5202743" class="t_msgfont">
+
+								
+								<div class="quote"><h5>引用:</h5><blockquote>原帖由 <i>glaciya</i> 于 2013-4-17 23:58 发表 <a href="http://bbs.51cto.com/redirect.php?goto=findpost&amp;pid=5202091&amp;ptid=1028925" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/back.gif" border="0" onclick="zoom(this, this.src)" onload="attachimg(this, &#39;load&#39;)" alt=""></a><br>
+利用LVM创建了，逻辑卷：<br>
+<br>
+这是我重启后显示的<br>
+Suse-linux:/opt/dataspace # lvdisplay<br>
+&nbsp;&nbsp;--- Logical volume ---<br>
+&nbsp;&nbsp;LV Name&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /dev/dataspace/db2<br>
+&nbsp;&nbsp;VG Name&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; dataspace<br>
+&nbsp;&nbsp;LV UUID&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ... </blockquote></div>原来是这样，看来需要先激活卷组，才可以。<br>
+<br>
+Suse-linux:~ # vgdisplay<br>
+&nbsp;&nbsp;--- Volume group ---<br>
+&nbsp;&nbsp;VG Name&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;dataspace<br>
+&nbsp;&nbsp;System ID<br>
+&nbsp;&nbsp;Format&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; lvm2<br>
+&nbsp;&nbsp;Metadata Areas&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;5<br>
+&nbsp;&nbsp;Metadata Sequence No&nbsp;&nbsp;6<br>
+&nbsp;&nbsp;VG Access&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; read/write<br>
+&nbsp;&nbsp;VG Status&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; resizable<br>
+&nbsp;&nbsp;MAX LV&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0<br>
+&nbsp;&nbsp;Cur LV&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 1<br>
+&nbsp;&nbsp;Open LV&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;0<br>
+&nbsp;&nbsp;Max PV&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0<br>
+&nbsp;&nbsp;Cur PV&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 5<br>
+&nbsp;&nbsp;Act PV&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 5<br>
+&nbsp;&nbsp;VG Size&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;4.98 GiB<br>
+&nbsp;&nbsp;PE Size&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;4.00 MiB<br>
+&nbsp;&nbsp;Total PE&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1275<br>
+&nbsp;&nbsp;Alloc PE / Size&nbsp; &nbsp;&nbsp; &nbsp; 1275 / 4.98 GiB<br>
+&nbsp;&nbsp;Free&nbsp;&nbsp;PE / Size&nbsp; &nbsp;&nbsp; &nbsp; 0 / 0<br>
+&nbsp;&nbsp;VG UUID&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;WSZQVa-oiDI-9JEv-P03w-iKBr-ur3w-EoFRuK<br>
+<br>
+Suse-linux:~ # vgchange -a y dataspace<br>
+&nbsp;&nbsp;1 logical volume(s) in volume group "dataspace" now active<br>
+Suse-linux:~ # lvdisplay<br>
+&nbsp;&nbsp;--- Logical volume ---<br>
+&nbsp;&nbsp;LV Name&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /dev/dataspace/db2<br>
+&nbsp;&nbsp;VG Name&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; dataspace<br>
+&nbsp;&nbsp;LV UUID&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; MvSeQH-TnNJ-WOX5-0Ga2-aLBa-WFS5-6ZFAjm<br>
+&nbsp;&nbsp;LV Write Access&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;read/write<br>
+&nbsp;&nbsp;<font color="Red">LV Status&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;available</font><br>
+&nbsp;&nbsp;# open&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0<br>
+&nbsp;&nbsp;LV Size&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 4.98 GiB<br>
+&nbsp;&nbsp;Current LE&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 1275<br>
+&nbsp;&nbsp;Segments&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;5<br>
+&nbsp;&nbsp;Allocation&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; inherit<br>
+&nbsp;&nbsp;Read ahead sectors&nbsp; &nbsp;&nbsp;&nbsp;auto<br>
+&nbsp;&nbsp;- currently set to&nbsp; &nbsp;&nbsp;&nbsp;1024<br>
+&nbsp;&nbsp;Block device&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;253:0								</div>
+
+								
+								
+
+								
+								
+																	<fieldset>
+										<legend><a href="http://bbs.51cto.com/misc.php?action=viewratings&amp;tid=1028925&amp;pid=5202743" title="查看评分记录">本帖最近评分记录</a></legend>
+
+										<ul>
+										<div id="post_rate_5202743"></div>											<li>
+												<cite><a href="http://bbs.51cto.com/space-uid-1930562.html" target="_blank">gm100861</a></cite>
+												无忧币												<strong>+5</strong>
+												<em>感谢楼主分享自己的经验！</em>
+												2013-4-18 17:41											</li>
+										</ul>
+									</fieldset>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+								<a href="http://edu.51cto.com/px/train/94?bbstzwzl" target="_blank"><span style="color:#3fa701;font-family:&#39;microsoft yahei&#39;;font-size:12px;">零基础开始，8周掌握硅谷流行的编程语言—Python！</span></a>							</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5203335" summary="pid5203335" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5203335_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>7873&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-1-14&nbsp;</dd>
+							<dt>最后登录</dt><dd>2017-2-17&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-1170427.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/1170427" target="_blank" id="userinfo5203335" class="dropmenu" onmouseover="showMenu(this.id)">
+																dn833															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_1170427" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar(1).php"><span class=""></span></b></div>												<p class="post_zw">荣誉会员 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=1170427" style="color:#336699;text-decoration: underline;" target="_blank">6407</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=1170427" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="16467">16467 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="1170427" class="medalsbox"><a href="http://bbs.51cto.com/medal/index.php?uid=1170427" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/9_small.gif" alt="9_small.gif" title="荣誉会员勋章" width="30"></a></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=1170427" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/1170427" target="_blank" id="ajax_buddy_2">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=1170427">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/1170427">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-1170427.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/1170427" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-18 19:23&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=1170427" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5203335&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							板凳							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5203335"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_2"></div><div id="ad_thread4_2"></div>
+							
+						
+													
+																															<div id="postmessage_5203335" class="t_msgfont">
+
+								
+								<a href="http://bbs.51cto.com/thread-808219-1.html" target="_blank">http://bbs.51cto.com/thread-808219-1.html</a><br>
+LZ可以参考这个帖子								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_5203335"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+								<a href="http://edu.51cto.com/px/train/94?bbstzwzl" target="_blank"><span style="color:#3fa701;font-family:&#39;microsoft yahei&#39;;font-size:12px;">零基础开始，8周掌握硅谷流行的编程语言—Python！</span></a>							</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5203369" summary="pid5203369" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5203369_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>363&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-8-28&nbsp;</dd>
+							<dt>最后登录</dt><dd>2016-12-20&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-2070690.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="userinfo5203369" class="dropmenu" onmouseover="showMenu(this.id)">
+																glaciya															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_2070690" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar.php"><span class=""></span></b></div>												<p class="post_zw">助理工程师 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level2.gif" alt="Rank: 3"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 3"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=2070690" style="color:#336699;text-decoration: underline;" target="_blank">148</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=2070690" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="747">747 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="2070690" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=2070690" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="ajax_buddy_3">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=2070690">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/2070690">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-2070690.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/2070690" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-18 20:03&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=2070690" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5203369&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							地板							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5203369"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_3"></div><div id="ad_thread4_3"></div>
+							
+						
+													
+																															<div id="postmessage_5203369" class="t_msgfont">
+
+								
+								<div class="quote"><h5>引用:</h5><blockquote>原帖由 <i>dn833</i> 于 2013-4-18 19:23 发表 <a href="http://bbs.51cto.com/redirect.php?goto=findpost&amp;pid=5203335&amp;ptid=1028925" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/back.gif" border="0" onclick="zoom(this, this.src)" onload="attachimg(this, &#39;load&#39;)" alt=""></a><br>
+<a href="http://bbs.51cto.com/thread-808219-1.html" target="_blank">http://bbs.51cto.com/thread-808219-1.html</a><br>
+LZ可以参考这个帖子 </blockquote></div>我看了您提供的链接，知道了问题的解决方法，非常感谢。<br>
+我还有个问题，请问如何让系统自动将逻辑卷挂载到系统上。<br>
+我尝试了修改/etc/fstab/<br>
+但不知为何重新启动时出错。<br>
+请参考这个链接：<br>
+<a href="http://bbs.51cto.com/viewthread.php?tid=1029069" target="_blank">http://bbs.51cto.com/viewthread.php?tid=1029069</a><br>
+<br>
+Suse-linux:~ # cat /etc/fstab<br>
+/dev/sda3&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;swap&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;swap&nbsp; &nbsp;&nbsp; &nbsp; defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0 0<br>
+/dev/sda2&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ext3&nbsp; &nbsp;&nbsp; &nbsp; acl,user_xattr&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1 1<br>
+/dev/sda1&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/tmp&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ext3&nbsp; &nbsp;&nbsp; &nbsp; acl,user_xattr&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1 2<br>
+proc&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/proc&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; proc&nbsp; &nbsp;&nbsp; &nbsp; defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0 0<br>
+sysfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /sys&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;sysfs&nbsp; &nbsp;&nbsp; &nbsp;noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+debugfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/sys/kernel/debug&nbsp; &nbsp; debugfs&nbsp; &nbsp; noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+usbfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /proc/bus/usb&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;usbfs&nbsp; &nbsp;&nbsp; &nbsp;noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+devpts&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/dev/pts&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; devpts&nbsp; &nbsp;&nbsp;&nbsp;mode=0620,gid=5&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+/dev/dataspace/db2&nbsp; &nbsp;/opt/dataspace&nbsp; &nbsp;&nbsp; &nbsp; ext3&nbsp; &nbsp;&nbsp; &nbsp;defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;0 0<br>
+Suse-linux:~ #<br>
+<br>
+<br>
+修改之后：<br>
+Suse-linux:~ # cat /etc/fstab<br>
+/dev/sda3&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;swap&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;swap&nbsp; &nbsp;&nbsp; &nbsp; defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0 0<br>
+/dev/sda2&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ext3&nbsp; &nbsp;&nbsp; &nbsp; acl,user_xattr&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1 1<br>
+/dev/sda1&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/tmp&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ext3&nbsp; &nbsp;&nbsp; &nbsp; acl,user_xattr&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1 2<br>
+proc&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/proc&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; proc&nbsp; &nbsp;&nbsp; &nbsp; defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0 0<br>
+sysfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /sys&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;sysfs&nbsp; &nbsp;&nbsp; &nbsp;noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+debugfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/sys/kernel/debug&nbsp; &nbsp; debugfs&nbsp; &nbsp; noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+usbfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /proc/bus/usb&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;usbfs&nbsp; &nbsp;&nbsp; &nbsp;noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+devpts&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/dev/pts&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; devpts&nbsp; &nbsp;&nbsp;&nbsp;mode=0620,gid=5&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+/dev/dataspace/db2&nbsp; &nbsp;/opt/dataspace&nbsp; &nbsp;&nbsp; &nbsp; ext3&nbsp; &nbsp;&nbsp; &nbsp;defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;0 1<br>
+Suse-linux:~ #<br>
+<br>
+重新启动：<br>
+<br>
+<br>
+问题出现：<br>
+<br>
+								</div>
+
+																	<div class="box postattachlist">
+										
+										
+	<dl class="t_attachlist">
+	
+		<dt>
+			<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/image.gif" border="0" class="absmiddle" alt="">
+			<a href="http://bbs.51cto.com/attachment.php?aid=249641&amp;k=c454eca6d51a349b9492e31ca71ef43a&amp;t=1516692035&amp;nothumb=yes" class="bold" target="_blank">suse.bmp</a>
+			<em>(1.5 MB)</em>
+		</dt>
+		<dd>
+			<p>
+				2013-4-18 20:15
+				
+				
+			</p>
+			<p>系统重启出现问题</p>
+			
+				<p>
+				
+					
+							
+						<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/wKioL1OrkB3TUUBTABft1qzGcQQ689.bmp" onload="attachimg(this, &#39;load&#39;)" onmouseover="attachimg(this, &#39;mouseover&#39;)" onclick="zoom(this, &#39;http://s3.51cto.com/wyfs02/M00/36/14/wKioL1OrkB3TUUBTABft1qzGcQQ689.bmp&#39;)" alt="suse.bmp" width="720" style="cursor: pointer;">
+					
+				
+				</p>
+			
+		</dd>
+	
+	</dl>
+									</div>
+								
+								
+
+								
+								
+																	<div id="post_rate_div_5203369"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+												<div style="color:#a3a3a3;font-size:12px;text-align:right;height:30px;line-height:30px;"> 本帖最后由 glaciya 于 2013-4-18 20:15 编辑 </div>
+					
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+								<a href="http://edu.51cto.com/px/train/94?bbstzwzl" target="_blank"><span style="color:#3fa701;font-family:&#39;microsoft yahei&#39;;font-size:12px;">零基础开始，8周掌握硅谷流行的编程语言—Python！</span></a>							</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5203400" summary="pid5203400" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5203400_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>7873&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-1-14&nbsp;</dd>
+							<dt>最后登录</dt><dd>2017-2-17&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-1170427.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/1170427" target="_blank" id="userinfo5203400" class="dropmenu" onmouseover="showMenu(this.id)">
+																dn833															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_1170427" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar(1).php"><span class=""></span></b></div>												<p class="post_zw">荣誉会员 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=1170427" style="color:#336699;text-decoration: underline;" target="_blank">6407</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=1170427" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="16467">16467 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="1170427" class="medalsbox"><a href="http://bbs.51cto.com/medal/index.php?uid=1170427" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/9_small.gif" alt="9_small.gif" title="荣誉会员勋章" width="30"></a></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=1170427" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/1170427" target="_blank" id="ajax_buddy_4">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=1170427">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/1170427">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-1170427.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/1170427" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-18 20:38&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=1170427" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5203400&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							5<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5203400"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_4"></div><div id="ad_thread4_4"></div>
+							
+						
+													
+																															<div id="postmessage_5203400" class="t_msgfont">
+
+								
+								LZ你自己去google一下fstab里最后两个数字代表啥，然后就明白了。								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_5203400"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+								<a href="http://edu.51cto.com/px/train/94?bbstzwzl" target="_blank"><span style="color:#3fa701;font-family:&#39;microsoft yahei&#39;;font-size:12px;">零基础开始，8周掌握硅谷流行的编程语言—Python！</span></a>							</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5203620" summary="pid5203620" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5203620_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>363&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-8-28&nbsp;</dd>
+							<dt>最后登录</dt><dd>2016-12-20&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-2070690.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="userinfo5203620" class="dropmenu" onmouseover="showMenu(this.id)">
+																glaciya															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_2070690" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar.php"><span class=""></span></b></div>												<p class="post_zw">助理工程师 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level2.gif" alt="Rank: 3"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 3"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=2070690" style="color:#336699;text-decoration: underline;" target="_blank">148</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=2070690" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="747">747 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="2070690" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=2070690" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="ajax_buddy_5">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=2070690">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/2070690">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-2070690.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/2070690" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-18 23:48&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=2070690" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5203620&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							6<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5203620"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_5"></div><div id="ad_thread4_5"></div>
+							
+						
+													
+																															<div id="postmessage_5203620" class="t_msgfont">
+
+								
+								<div class="quote"><h5>引用:</h5><blockquote>原帖由 <i>dn833</i> 于 2013-4-18 20:38 发表 <a href="http://bbs.51cto.com/redirect.php?goto=findpost&amp;pid=5203400&amp;ptid=1028925" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/back.gif" border="0" onclick="zoom(this, this.src)" onload="attachimg(this, &#39;load&#39;)" alt=""></a><br>
+LZ你自己去google一下fstab里最后两个数字代表啥，然后就明白了。 </blockquote></div>修改后还是有问题<br>
+<br>
+请给与指点，还是LVM创建的逻辑卷，不能使用在自动挂载上								</div>
+
+																	<div class="box postattachlist">
+										
+										
+	<dl class="t_attachlist">
+	
+		<dt>
+			<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/image.gif" border="0" class="absmiddle" alt="">
+			<a href="http://bbs.51cto.com/attachment.php?aid=249667&amp;k=90638f60ccc37670b7548019d78b965a&amp;t=1516692035&amp;nothumb=yes" class="bold" target="_blank">New Bitmap Image.bmp</a>
+			<em>(1.52 MB)</em>
+		</dt>
+		<dd>
+			<p>
+				2013-4-18 23:48
+				
+				
+			</p>
+			
+			
+				<p>
+				
+					
+							
+						<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/wKiom1OrkE_TuSGlABhCNp0NgBI040.bmp" onload="attachimg(this, &#39;load&#39;)" onmouseover="attachimg(this, &#39;mouseover&#39;)" onclick="zoom(this, &#39;http://s3.51cto.com/wyfs02/M00/36/16/wKiom1OrkE_TuSGlABhCNp0NgBI040.bmp&#39;)" alt="New Bitmap Image.bmp" width="720" style="cursor: pointer;">
+					
+				
+				</p>
+			
+		</dd>
+	
+	</dl>
+
+	<dl class="t_attachlist">
+	
+		<dt>
+			<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/image.gif" border="0" class="absmiddle" alt="">
+			<a href="http://bbs.51cto.com/attachment.php?aid=249668&amp;k=318a2de7b7ba025263a01156fb5d7c5f&amp;t=1516692035&amp;nothumb=yes" class="bold" target="_blank">New Bitmap Image (2).bmp</a>
+			<em>(1.33 MB)</em>
+		</dt>
+		<dd>
+			<p>
+				2013-4-18 23:48
+				
+				
+			</p>
+			
+			
+				<p>
+				
+					
+							
+						<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/wKioL1OrkCHQ1xONABVbtlUXZb0498.bmp" onload="attachimg(this, &#39;load&#39;)" onmouseover="attachimg(this, &#39;mouseover&#39;)" onclick="zoom(this, &#39;http://s3.51cto.com/wyfs02/M02/36/15/wKioL1OrkCHQ1xONABVbtlUXZb0498.bmp&#39;)" alt="New Bitmap Image (2).bmp" width="720" style="cursor: pointer;">
+					
+				
+				</p>
+			
+		</dd>
+	
+	</dl>
+									</div>
+								
+								
+
+								
+								
+																	<div id="post_rate_div_5203620"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+															</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5203660" summary="pid5203660" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5203660_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>7873&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-1-14&nbsp;</dd>
+							<dt>最后登录</dt><dd>2017-2-17&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-1170427.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/1170427" target="_blank" id="userinfo5203660" class="dropmenu" onmouseover="showMenu(this.id)">
+																dn833															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_1170427" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar(1).php"><span class=""></span></b></div>												<p class="post_zw">荣誉会员 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level3.gif" alt="Rank: 12"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=1170427" style="color:#336699;text-decoration: underline;" target="_blank">6407</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=1170427" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="16467">16467 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="1170427" class="medalsbox"><a href="http://bbs.51cto.com/medal/index.php?uid=1170427" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/9_small.gif" alt="9_small.gif" title="荣誉会员勋章" width="30"></a></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=1170427" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/1170427" target="_blank" id="ajax_buddy_6">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=1170427">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/1170427">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-1170427.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/1170427" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-19 00:58&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=1170427" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5203660&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							7<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5203660"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_6"></div><div id="ad_thread4_6"></div>
+							
+						
+													
+																															<div id="postmessage_5203660" class="t_msgfont">
+
+								
+								你的系统很多文件都报错？？？你干了神马，不光是装了个LVM的事吧。好好的备份下系统重要文件，然后逐个分区FSCK一下吧。休息很可能FSCK之后就彻底挂了……这是死马当活马医的命令								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_5203660"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+															</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5205006" summary="pid5205006" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5205006_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>363&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-8-28&nbsp;</dd>
+							<dt>最后登录</dt><dd>2016-12-20&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-2070690.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="userinfo5205006" class="dropmenu" onmouseover="showMenu(this.id)">
+																glaciya															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_2070690" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar.php"><span class=""></span></b></div>												<p class="post_zw">助理工程师 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level2.gif" alt="Rank: 3"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 3"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=2070690" style="color:#336699;text-decoration: underline;" target="_blank">148</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=2070690" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="747">747 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="2070690" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=2070690" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="ajax_buddy_7">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=2070690">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/2070690">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-2070690.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/2070690" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-19 17:29&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=2070690" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5205006&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							8<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5205006"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_7"></div><div id="ad_thread4_7"></div>
+							
+						
+													
+																															<div id="postmessage_5205006" class="t_msgfont">
+
+								
+								<div class="quote"><h5>引用:</h5><blockquote>原帖由 <i>dn833</i> 于 2013-4-19 00:58 发表 <a href="http://bbs.51cto.com/redirect.php?goto=findpost&amp;pid=5203660&amp;ptid=1028925" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/back.gif" border="0" onclick="zoom(this, this.src)" onload="attachimg(this, &#39;load&#39;)" alt=""></a><br>
+你的系统很多文件都报错？？？你干了神马，不光是装了个LVM的事吧。好好的备份下系统重要文件，然后逐个分区FSCK一下吧。休息很可能FSCK之后就彻底挂了……这是死马当活马医的命令 ... </blockquote></div>再次试了一次，也设定了fstab,测试使用了,umount /opt/dataspace/ 然后mount -a,查看df -h,都没有问题。<br>
+<br>
+但是重启之后问题又来了：<br>
+Suse-linux:~ # cat /etc/fstab<br>
+/dev/sda3&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;swap&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;swap&nbsp; &nbsp;&nbsp; &nbsp; defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0 0<br>
+/dev/sda2&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ext3&nbsp; &nbsp;&nbsp; &nbsp; acl,user_xattr&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1 1<br>
+/dev/sda1&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/tmp&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;ext3&nbsp; &nbsp;&nbsp; &nbsp; acl,user_xattr&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1 2<br>
+proc&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/proc&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; proc&nbsp; &nbsp;&nbsp; &nbsp; defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0 0<br>
+sysfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /sys&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;sysfs&nbsp; &nbsp;&nbsp; &nbsp;noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+debugfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/sys/kernel/debug&nbsp; &nbsp; debugfs&nbsp; &nbsp; noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+usbfs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /proc/bus/usb&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;usbfs&nbsp; &nbsp;&nbsp; &nbsp;noauto&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+devpts&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/dev/pts&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; devpts&nbsp; &nbsp;&nbsp;&nbsp;mode=0620,gid=5&nbsp; &nbsp;&nbsp; &nbsp; 0 0<br>
+/dev/hansongdong/data&nbsp;&nbsp;/opt/dataspace&nbsp; &nbsp;&nbsp;&nbsp;ext3&nbsp; &nbsp;&nbsp; &nbsp; defaults&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0 0<br>
+Suse-linux:~ # mount -a<br>
+mount: special device /dev/hansongdong/data does not exist<br>
+<br>
+								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_5205006"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+												<div style="color:#a3a3a3;font-size:12px;text-align:right;height:30px;line-height:30px;"> 本帖最后由 glaciya 于 2013-4-19 17:30 编辑 </div>
+					
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+															</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5208847" summary="pid5208847" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5208847_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>363&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-8-28&nbsp;</dd>
+							<dt>最后登录</dt><dd>2016-12-20&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-2070690.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="userinfo5208847" class="dropmenu" onmouseover="showMenu(this.id)">
+																glaciya															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_2070690" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar.php"><span class=""></span></b></div>												<p class="post_zw">助理工程师 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level2.gif" alt="Rank: 3"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 3"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=2070690" style="color:#336699;text-decoration: underline;" target="_blank">148</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=2070690" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="747">747 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="2070690" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=2070690" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="ajax_buddy_8">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=2070690">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/2070690">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-2070690.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/2070690" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-22 23:13&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=2070690" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5208847&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							9<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5208847"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_8"></div><div id="ad_thread4_8"></div>
+							
+						
+													
+																															<div id="postmessage_5208847" class="t_msgfont">
+
+								
+								<div class="quote"><h5>引用:</h5><blockquote>原帖由 <i>glaciya</i> 于 2013-4-19 17:29 发表 <a href="http://bbs.51cto.com/redirect.php?goto=findpost&amp;pid=5205006&amp;ptid=1028925" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/back.gif" border="0" onclick="zoom(this, this.src)" onload="attachimg(this, &#39;load&#39;)" alt=""></a><br>
+<br>
+再次试了一次，也设定了fstab,测试使用了,umount /opt/dataspace/ 然后mount -a,查看df -h,都没有问题。<br>
+<br>
+但是重启之后问题又来了：<br>
+Suse-linux:~ # cat /etc/fstab<br>
+/dev/sda3&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;swap&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;swap&nbsp; &nbsp; ... </blockquote></div>写了一个脚本，也可以实现自动挂载，这个是：<br>
+在路径下：/etc/init.d/lvmmount_auto<br>
+lvmmount_auto这个是自己创建的<br>
+内容是:<br>
+#####<br>
+vgchange -a y dataspace<br>
+lvchange -a y /dev/dataspace/db2<br>
+mount -a<br>
+######<br>
+然后使用：<br>
+chkconfig -A<br>
+chkconfig -s lvmmount_auto on<br>
+<br>
+开机之后就可以自动挂载了<br>
+我是将逻辑卷激活，挂载作为一种服务来完成								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_5208847"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+															</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid5208850" summary="pid5208850" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo5208850_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>363&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2010-8-28&nbsp;</dd>
+							<dt>最后登录</dt><dd>2016-12-20&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-2070690.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="userinfo5208850" class="dropmenu" onmouseover="showMenu(this.id)">
+																glaciya															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_2070690" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar.php"><span class=""></span></b></div>												<p class="post_zw">助理工程师 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level2.gif" alt="Rank: 3"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 3"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=2070690" style="color:#336699;text-decoration: underline;" target="_blank">148</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=2070690" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="747">747 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="2070690" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=2070690" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/2070690" target="_blank" id="ajax_buddy_9">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=2070690">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/2070690">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-2070690.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/2070690" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2013-4-22 23:15&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=2070690" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid5208850&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							10<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum5208850"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_9"></div><div id="ad_thread4_9"></div>
+							
+						
+													
+																															<div id="postmessage_5208850" class="t_msgfont">
+
+								
+								<div class="quote"><h5>引用:</h5><blockquote>原帖由 <i>dn833</i> 于 2013-4-19 00:58 发表 <a href="http://bbs.51cto.com/redirect.php?goto=findpost&amp;pid=5203660&amp;ptid=1028925" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/back.gif" border="0" onclick="zoom(this, this.src)" onload="attachimg(this, &#39;load&#39;)" alt=""></a><br>
+你的系统很多文件都报错？？？你干了神马，不光是装了个LVM的事吧。好好的备份下系统重要文件，然后逐个分区FSCK一下吧。休息很可能FSCK之后就彻底挂了……这是死马当活马医的命令 ... </blockquote></div>您好，我试了这个办法，可以自动启动挂载了：<br>
+写了一个脚本，也可以实现自动挂载，这个是：<br>
+在路径下：/etc/init.d/lvmmount_auto<br>
+lvmmount_auto这个是自己创建的<br>
+内容是:<br>
+#####<br>
+vgchange -a y dataspace<br>
+lvchange -a y /dev/dataspace/db2<br>
+mount -a<br>
+######<br>
+然后使用：<br>
+chkconfig -A<br>
+chkconfig -s lvmmount_auto on<br>
+<br>
+开机之后就可以自动挂载了<br>
+我是将逻辑卷激活，挂载作为一种服务来完成								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_5208850"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+															</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid6013039" summary="pid6013039" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo6013039_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>2&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2015-8-2&nbsp;</dd>
+							<dt>最后登录</dt><dd>2017-3-2&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-10583391.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/10583391" target="_blank" id="userinfo6013039" class="dropmenu" onmouseover="showMenu(this.id)">
+																chenhaojiazu															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_10583391" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar(2).php"><span class=""></span></b></div>												<p class="post_zw">新新人类 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 1"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=10583391" style="color:#336699;text-decoration: underline;" target="_blank">1</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=10583391" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="12">12 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="10583391" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=10583391" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/10583391" target="_blank" id="ajax_buddy_10">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=10583391">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/10583391">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-10583391.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/10583391" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2015-12-4 10:45&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=10583391" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid6013039&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							11<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum6013039"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_10"></div><div id="ad_thread4_10"></div>
+							
+						
+													
+																															<div id="postmessage_6013039" class="t_msgfont">
+
+								
+								<div class="quote"><h5>引用:</h5><blockquote>原帖由 <i>glaciya</i> 于 2013-4-22 23:15 发表 <a href="http://bbs.51cto.com/redirect.php?goto=findpost&amp;pid=5208850&amp;ptid=1028925" target="_blank"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/back.gif" border="0" onclick="zoom(this, this.src)" onload="attachimg(this, &#39;load&#39;)" alt=""></a><br>
+<br>
+您好，我试了这个办法，可以自动启动挂载了：<br>
+写了一个脚本，也可以实现自动挂载，这个是：<br>
+在路径下：/etc/init.d/lvmmount_auto<br>
+lvmmount_auto这个是自己创建的<br>
+内容是:<br>
+#####<br>
+vgchange -a y dataspace<br>
+lvchange -a y /dev/data ... </blockquote></div>系统：redhat 6.5<br>
+创建文件:/etc/init.d/lvmmount_auto.sh<br>
+添加内容：<br>
+#####<br>
+vgchange -a y dataspace<br>
+lvchange -a y /dev/dataspace/db2<br>
+mount -a<br>
+######<br>
+开机自动执行：<br>
+编辑：vi /etc/rc.local<br>
+添加：sh /etc/init.d/lvmmount_auto.sh<br>
+<br>
+重启之后就可以自动挂载了<br>
+我是手动挂载编辑成脚本，开机自动执行脚本来完成								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_6013039"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+															</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid6023319" summary="pid6023319" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo6023319_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>133&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2014-3-9&nbsp;</dd>
+							<dt>最后登录</dt><dd>2016-4-18&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-8682407.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/8682407" target="_blank" id="userinfo6023319" class="dropmenu" onmouseover="showMenu(this.id)">
+																djflsd															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_8682407" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar(3).php"><span class=""></span></b></div>												<p class="post_zw">技术员 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level2.gif" alt="Rank: 2"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=8682407" style="color:#336699;text-decoration: underline;" target="_blank">65</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=8682407" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="160">160 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="8682407" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=8682407" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/8682407" target="_blank" id="ajax_buddy_11">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=8682407">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/8682407">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-8682407.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/8682407" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2015-12-22 16:54&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=8682407" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid6023319&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							12<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum6023319"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_11"></div><div id="ad_thread4_11"></div>
+							
+						
+													
+																															<div id="postmessage_6023319" class="t_msgfont">
+
+								
+								直接在/etc/rc.local里写一句vgchange -ay /dev/dataspace就行了								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_6023319"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+															</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+												<table id="pid6624083" summary="pid6624083" width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					
+					<td class="postauthor bd4b" valign="top">
+	
+	
+												<div class="popupmenu_popup userinfopanel" id="userinfo6624083_menu" style="display: none;">
+							<dl>
+							<dt>积分</dt><dd>9&nbsp;</dd>
+															<dd>当前离线
+														</dd>
+													<dt>注册时间</dt><dd>2014-11-21&nbsp;</dd>
+							<dt>最后登录</dt><dd>2018-1-10&nbsp;</dd>
+							</dl>
+														<p><a href="http://bbs.51cto.com/space-uid-9629055.html" target="_blank">论坛详细资料</a></p>
+																				</div>
+							
+						<!--标签信息-->
+	
+	
+												<cite>
+							<a href="http://home.51cto.com/index.php?s=/space/9629055" target="_blank" id="userinfo6624083" class="dropmenu" onmouseover="showMenu(this.id)">
+																唐议															</a>&nbsp;<img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/arrow.gif" class="ml5" align="absmiddle">
+						</cite>
+													<div class="avatar"><b class="position_r avatar_uid_9629055" style="inline:block"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/avatar(4).php"><span class=""></span></b></div>												<p class="post_zw">新新人类 <img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/star_level1.gif" alt="Rank: 1"></p>
+						
+						<dl class="profile">
+						<!-- edit at 20120601 by jacena-->
+						<dt>帖子</dt><dd><a href="http://home.51cto.com/bbs/get-user-threads?uid=9629055" style="color:#336699;text-decoration: underline;" target="_blank">3</a>&nbsp;</dd>
+						<dt>精华</dt><dd><a href="http://bbs.51cto.com/digest.php?authorid=9629055" target="_blank" style="color:#336699;text-decoration: underline;">0</a>&nbsp;</dd>
+						<dt>无忧币</dt><dd style="color:#666666"><a style="color:#336699;text-decoration: underline;" href="http://home.51cto.com/index.php?s=/Account/credit" target="_blank" rel="71">71 </a></dd>
+						</dl>						<!-- end edit -->
+						<p imedal="9629055" class="medalsbox"></p>
+						<!--勋章结构需要调整-->
+					
+					
+					<ul>
+						<!--<li class="space"><a href="http://home.51cto.com/space?uid=9629055" target="_blank">个人空间</a></li>-->
+
+						<!--<li class="buddy"><a href="http://home.51cto.com/index.php?s=/space/9629055" target="_blank" id="ajax_buddy_12">家园好友</a></li>-->
+
+						<li class="blog">
+							<a target="_blank" href="http://blog.51cto.com/blog.php?uid=9629055">他的博客</a>
+						</li>
+						<li class="online"><a target="_blank" href="http://down.51cto.com/9629055">他的下载</a></li>
+					    <li style="width:100px" class="txy"><a target="_blank" href="http://edu.51cto.com/user/user_id-9629055.html?edu_recommend_adid=103">他的学院</a></li>
+                        <li class="pm"><a href="http://home.51cto.com/index.php?s=/Notify/write/uid/9629055" target="_blank">发短消息</a></li>
+					</ul>
+					</td>
+					<td align="center" valign="top" class="tz_right bd4">
+												
+												
+						<div class="clear"></div>
+						<div class="postinfo02">
+							<p class="postinfo02a">发表于&nbsp;2018-1-10 14:29&nbsp;<span>|</span>&nbsp;来自&nbsp;
+														<a href="http://bbs.51cto.com/" target="_blank" title="3">51CTO网页</a>
+														</p>
+							<p class="postinfo02b">
+																						<a href="http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1&amp;authorid=9629055" rel="nofollow">[只看他]</a>
+																			<strong id="postnum1028925" style="cursor:pointer;" title="复制帖子链接到剪贴板" onclick="setcopy(&#39;http://bbs.51cto.com/viewthread.php?tid=1028925&amp;page=1#pid6624083&#39;, &#39;帖子链接已经复制到剪贴板&#39;)">
+							13<sup>#</sup>							</strong>
+							</p>
+						</div>
+						<p class="postinfo03">
+						
+																				
+						</p>
+						<span id="postnum6624083"></span>
+						<div class="postmessage defaultpost">
+																					<div id="ad_thread3_12"></div><div id="ad_thread4_12"></div>
+							
+						
+													
+																															<div id="postmessage_6624083" class="t_msgfont">
+
+								
+								Suse Linux&nbsp;&nbsp;需要开机启动一个服务&nbsp; &nbsp;<br>
+#chkconfig&nbsp;&nbsp;boot.lvm&nbsp; &nbsp;on&nbsp;&nbsp;<br>
+#chkconfig&nbsp;&nbsp;boot.lvm&nbsp; &nbsp;--list								</div>
+
+								
+								
+
+								
+								
+																	<div id="post_rate_div_6624083"></div>
+								<br><br><br>
+							
+						
+						
+						
+						
+						
+						
+	
+<!-- add by jacena ujian-->
+
+
+<!--add by jacena 相关帖子  -->
+<!-- end jacena -->
+								
+													</div>
+												<div class="postinfo06">
+							<p class="postinfo06a">
+															</p>
+							<p class="postinfo06b">
+														
+							<!--修改-->
+
+														<!--评分-->
+							
+														<!--移除评分-->
+							
+														<!--回复-->
+							
+							
+													
+							<!--引用回复-->
+							
+							
+							
+														<!--删除 屏蔽帖子 解除屏蔽  [[i] 本帖最后由 cugzz 于 2012-4-29 11:09 编辑 [/i]]-->
+							</p>
+						</div>
+					</td>
+					<td>
+
+					
+					
+					</td>
+				</tr>
+			</tbody></table>
+			</form> <!--提交-->
+		</div>
+	
+		<div class="hr10"></div>
+		<div class="new_threadflow" style="margin-bottom:10px;">
+			<a href="http://bbs.51cto.com/thread-1546532-1.html"> ‹‹ 上一贴：zabbix如何监控锐捷三层交换机？</a>&nbsp;&nbsp;			|			&nbsp;&nbsp;<a href="http://bbs.51cto.com/thread-974764-1.html">下一贴：Linux精品视频1-4季和行业情况调查【RHCE|RHCA|LAMP|U ... ››</a>			</div>
+		<div class="w960">
+			<div class="pagebox">
+			<ul>
+			<li><a href="http://bbs.51cto.com/forum-38-1.html" class="pre">返回列表</a></li>
+							</ul>
+			</div>
+			<div class="btnbox">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tbody><tr>
+						<td>
+							&nbsp;
+						</td>
+						
+						<td>
+							<span class="postbtn"><a href="http://bbs.51cto.com/post.php?action=reply&amp;fid=38&amp;tid=1028925&amp;extra="><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/reply.gif" onmouseover="this.src=&#39;images/default/reply_hov.gif&#39;" onmouseout="this.src=&#39;images/default/reply.gif&#39;" border="0" alt=""></a></span>						</td>
+						<td>
+															<span class="postbtn" id="newspecialtmp" onmouseover="$(&#39;newspecial&#39;).id = &#39;newspecialtmp&#39;;this.id = &#39;newspecial&#39;;showMenu(this.id)"><a href="http://bbs.51cto.com/post.php?action=newthread&amp;fid=38&amp;extra="><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/newtopic.gif" onmouseover="this.src=&#39;images/default/newtopic_hov.gif&#39;" onmouseout="this.src=&#39;images/default/newtopic.gif&#39;" border="0" alt="发新话题" title="发新话题"></a></span>
+													</td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+		<div class="clear hr10"></div>
+
+		<div class="hfbox" style="position:relative">
+			<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/post.js.下载" type="text/javascript"></script>
+			<script type="text/javascript">
+			var postminchars = parseInt('10');
+			var postmaxchars = parseInt('85000');
+			var disablepostctrl = parseInt('0');
+			var charset = 'utf-8';
+			function validate(theform) {
+				//判断@的个数，不能超过15个
+				var wtext = theform.message.value;
+				var wnum = wtext.length;
+				var atnum = 0;
+				for(var i=wnum-1;i>=0;i--){
+					if(wtext[i] == '@'){
+						atnum++;
+					}
+				}
+				if(atnum > 15){
+					alert("您好，一个帖子最多能@15个人，请编辑后再发表！");
+					theform.message.focus();
+					return false;
+				}
+				if(theform.message.value == '') {
+					alert("请完成内容栏。");
+					theform.message.focus();
+					return false;
+				} else if(mb_strlen(theform.subject.value) > 240) {
+					alert("您的标题超过 240 个字符(80 个汉字)的限制。");
+					theform.subject.focus();
+					return false;
+				}
+				if(!disablepostctrl && ((postminchars != 0 && mb_strlen(theform.message.value) < postminchars) || (postmaxchars != 0 && mb_strlen(theform.message.value) > postmaxchars))) {
+					alert("您的帖子长度不符合要求。\n\n当前长度: "+mb_strlen(theform.message.value)+" 字节\n系统限制: "+postminchars+" 到 "+postmaxchars+" 字节");
+					return false;
+				}
+				if(!fetchCheckbox('parseurloff')) {
+					theform.message.value = parseurl(theform.message.value, 'bbcode');
+				}
+				theform.replysubmit.disabled = true;
+				return true;
+			}
+			</script>
+			<form method="post" id="postform" action="http://bbs.51cto.com/post.php?action=reply&amp;fid=38&amp;tid=1028925&amp;extra=&amp;replysubmit=yes" onsubmit="return validate(this)">
+				<input type="hidden" name="formhash" value="1aa1d12d">
+				<div id="quickpost">
+					<span class="headactions" style="display:none;" china="删除"><a href="http://bbs.51cto.com/member.php?action=credits&amp;view=forum_reply&amp;fid=38" target="_blank">查看积分策略说明</a></span>
+					<div class="postoptions" style="display:none;">
+						<h5>选项</h5>
+						<p><label><input class="checkbox" type="checkbox" name="parseurloff" id="parseurloff" value="1"> 禁用 URL 识别</label></p>
+						<p><label><input class="checkbox" type="checkbox" name="smileyoff" id="smileyoff" value="1"> 禁用 <a href="http://bbs.51cto.com/faq.php?action=message&amp;id=32" target="_blank">表情</a></label></p>
+						<p><label><input class="checkbox" type="checkbox" name="bbcodeoff" id="bbcodeoff" value="1"> 禁用 <a href="http://bbs.51cto.com/faq.php?action=message&amp;id=18" target="_blank">Discuz!代码</a></label></p>
+												<p><label><input class="checkbox" type="checkbox" name="usesig" value="1"> 使用个人签名</label></p>
+						<p><label><input class="checkbox" type="checkbox" name="emailnotify" value="1"> 接收新回复邮件通知</label></p>
+											</div>
+					<div style="display:none;">
+						<h5><label>标题
+						<input type="text" name="subject" value="" tabindex="1"></label></h5>
+					</div>
+			<a name="hf">
+				</a><table width="700" border="0" cellspacing="0" cellpadding="0" align="left">
+				<tbody><tr>
+				<td width="200" rowspan="3" align="center" valign="top">
+					<div id="smilieslist"></div>
+				</td>
+				<th width="500" height="32" align="left" valign="middle">快速回复主题</th>
+				</tr>
+				<tr>
+				<td height="150" align="left" valign="middle"><label>
+
+					 <div class="Postban">您需要登录后才可以回帖  <a href="http://home.51cto.com/index?reback=http%253A%252F%252Fbbs.51cto.com%252Fthread-1028925-1-1.html#hf">登录</a>| <a href="http://home.51cto.com/user/register?reback=http%253A%252F%252Fbbs.51cto.com%252Fthread-1028925-1-1.html#hf">立即注册</a></div>
+
+				</label></td>
+				</tr>
+				<tr>
+				<td height="58" align="left" valign="middle"><label>
+					
+				</label></td>
+				</tr>
+			</tbody></table><a name="hf">
+				</a></div><a name="hf">
+					</a></form></div><a name="hf">
+		<div class="clear"></div>
+		
+<!-- taobaoke -->
+<!-- <div style="width:100px; height:300px; position:fixed; top:25%;left:50%;margin-left:-590px; z-index:100; _position:absolute; _margin-top: 0; _top:expression(documentElement.scrollTop+(documentElement.clientHeight-this.offsetHeight)/2+50);" id="f_close_box">
+<img border="0" usemap="#Map1" src="https://s1.51cto.com/wyfs02/M00/93/21/wKiom1kISujgrYSbAADPIiyteUc221.jpg">
+<map id="Map1" name="Map1"> 
+<area onclick="document.getElementById('f_close_box').style.display='none';" href="javascript:void(0);"  coords="86,14,10"  shape="circle">
+</map> 
+
+</div> -->
+<iframe src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/get-station-ads.html" style="position: fixed;left:0; top:240px;width:100px; height:300px;" scrolling="no" frameborder="0"></iframe>
+
+
+<!-- taobaoke -->
+		<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/medal.service_new.php" type="text/javascript"></script>
+<script type="text/javascript">
+
+	function FindUid(uid)
+	{
+		for(var index in mjson)
+		if(mjson[index].uid==uid)
+		{
+			return mjson[index].ucon;
+		}
+	}
+
+	//var jq = jQuery.noConflict();
+	
+	jQuery(function(){
+		
+		jQuery("p[imedal]").each(function(){
+			jQuery(this).html(FindUid(jQuery(this).attr("imedal")));
+		});
+	});	
+
+</script>
+<div id="ad_viewthread_banner_m" style="display: none">
+	<script type="text/javascript"><!--//<![CDATA[
+    var m3_u = (location.protocol=='https:'?'https://gg.51cto.com/www/delivery/ajs.php':'http://gg.51cto.com/www/delivery/ajs.php');
+    var m3_r = Math.floor(Math.random()*99999999999);
+    if (!document.MAX_used) document.MAX_used = ',';
+    document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+    document.write ("?zoneid=917");
+    document.write ('&amp;cb=' + m3_r);
+    if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+    document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+    document.write ("&amp;loc=" + escape(window.location));
+    if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+    if (document.context) document.write ("&context=" + escape(document.context));
+    if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+    document.write ("'><\/scr"+"ipt>");
+    //]]>--></script><script type="text/javascript" src="http://gg.51cto.com/www/delivery/ajs.php?zoneid=917&amp;cb=62258356434&amp;charset=UTF-8&amp;loc=http%3A//bbs.51cto.com/thread-1028925-1-1.html&amp;referer=https%3A//www.baidu.com/link%3Furl%3D8LrtmYMp5QkgJbXwdlYXJw6pcU7TM5WVQopWqngyajBw1027c3cfwXC6MUlrX3xbnsYxMdvnnALqg9q7cS18uq%26wd%3D%26eqid%3Db37ac50400075642000000055a66e1a7"></script><noscript>&lt;a href='//gg3.51cto.com/www/delivery/ck.php?n=a89141bd&amp;amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'&gt;&lt;img src='//gg3.51cto.com/www/delivery/avw.php?zoneid=917&amp;amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;amp;n=a89141bd' border='0' alt='' /&gt;&lt;/a&gt;</noscript>
+</div>
+
+<style>
+#smiliesdiv table td {
+    line-height: 30px;
+    width: 30px;
+}
+
+.medalsbox{ line-height:0; font-size:0;}
+
+.signatures {
+    background: url("../../images/default/sigline.gif") no-repeat scroll 0 0 transparent;
+    color: #666666;
+    line-height: 1.6em;
+    margin: 10px;
+    overflow: hidden;
+    padding-top: 20px;
+	text-align:left;
+}
+.signatures * {
+    line-height: normal;
+}
+.signatures strong {
+    font-weight: bold;
+}
+
+.signatures { height: expression(signature(this)); max-height: 100px; }
+
+#smiliesdiv {
+	margin-top:64px;
+
+}
+
+
+
+
+//
+
+
+
+.t_l, .t_r, .b_l, .b_r {
+    height: 8px;
+    width: 8px;
+}
+.t_c, .b_c {
+    height: 8px;
+}
+.m_l, .m_r {
+    width: 8px;
+}
+.t_l {
+    border-radius: 8px 0 0 0;
+}
+.t_r {
+    border-radius: 0 8px 0 0;
+}
+.b_l {
+    border-radius: 0 0 0 8px;
+}
+.b_r {
+    border-radius: 0 0 8px 0;
+}
+.m_c {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+.m_c .tb {
+    margin: 0 0 10px;
+    padding: 0 10px;
+}
+.m_c .c {
+    padding: 0 10px 10px;
+}
+.m_c .o {
+    background: none repeat scroll 0 0 #F2F2F2;
+    border-top: 1px solid #CCCCCC;
+    height: 26px;
+    padding: 8px 10px;
+    text-align: right;
+}
+.m_c .el {
+    width: 420px;
+}
+.m_c .el li {
+    border: medium none;
+    padding: 0;
+}
+
+</style>	
+		
+<!-- 2013060606 -->
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shCore.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushAS3.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushBash.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushCpp.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushCSharp.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushCss.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushDelphi.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushDiff.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushGroovy.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushJava.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushJavaFX.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushJscript.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushPerl.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushPhp.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushPlain.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushPowerShell.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushPython.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushRuby.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushScala.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushSql.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushVb.js.下载" type="text/javascript"></script>   
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/shBrushXml.js.下载" type="text/javascript"></script>   
+<script class="javascript">   
+SyntaxHighlighter.config.clipboardSwf = 'plugins/syntaxhighlighter/scripts/clipboard.swf';    
+SyntaxHighlighter.config.stripBrs=true;    
+SyntaxHighlighter.all();    
+</script>
+
+		
+		
+		</a><div class="foot"><a name="hf"> 
+		</a><a href="http://www.51cto.com/about/aboutus.html" target="_blank">关于我们</a> | <a href="http://www.51cto.com/about/zhaopin.html" target="_blank">诚聘英才</a> | <a href="http://www.51cto.com/about/contactus.html" target="_blank">联系我们</a> | <a href="http://www.51cto.com/about/history.html" target="_blank">网站大事</a> | <a href="http://www.51cto.com/about/links.html" target="_blank">友情链接</a> |<a class="feedback jsFeedCallBack" href="javascript:void(0);">意见反馈</a> | <a href="http://www.51cto.com/about/map.htm" target="_blank">网站地图</a> <br>
+Copyright©2005-2017 <a target="_blank" href="http://www.51cto.com/">51CTO.COM</a> <br>
+本论坛言论纯属发布者个人意见，不代表51CTO网站立场！如有疑义，请与管理员联系：<a href="mailto:bbs@51cto.com">bbs@51cto.com</a> </div>
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/iframe-member-adv" type="text/javascript"></script>
+<script type="text/javascript">
+	var postuids = {"0":"2070690","2":"1170427","10":"10583391","11":"8682407","12":"9629055"};
+    (function() {
+        var backfill = new Array("ad_viewthread_banner");
+        for(var i=0;i<backfill.length;i++){
+            document.getElementById(backfill[i]).innerHTML = document.getElementById(backfill[i] +'_m').innerHTML;
+        }
+    })();
+
+	function alertBox(action) {
+		var objs = document.getElementsByTagName("OBJECT");
+		if(action == 'open') {
+			document.domain = '51cto.com';
+			div = document.createElement('div');
+			div.id = 'feedlayer';
+			document.body.appendChild(div);
+			var w_width=jQuery(window).width();
+			var w_height=jQuery(window).height();
+			favorId( div.id).innerHTML = '<div><iframe id="feedframe" name="feedframe" style="position: fixed;left: 0;top: 0; z-index: 9999999;" allowTransparency="true" frameborder="0"></iframe></div>';
+			jQuery("#feedframe").css({
+				"width":w_width+'px',
+				"height":w_height+'px'
+			});
+			var feedurl = "http://home.51cto.com/favorite/feed-back?type=bbs";
+			feedframe.location = feedurl;
+		}
+	}
+	function favorId(id) {
+		return document.getElementById(id);
+	}
+	jQuery(".jsFeedCallBack").click(function(){
+		alertBox('open');
+		jQuery("#feedframe").css({
+			"width":'100%',
+			"height":'100%'
+		});
+	});
+	function deleteShaow(){
+		jQuery('#feedlayer').remove();
+	}
+    
+    jQuery.ajax({
+        url:'/plugins/index/getuservipavatar.php',
+        type:'post',
+        data:{
+           uid:postuids,
+        },
+        dataType:'json',
+        success: function(res){
+            if(res.status == '1' && res.data.length>0){
+               jQuery.each(res.data, function(index, item){
+                   var uid_name = 'avatar_uid_' + item;
+                   jQuery('.'+ uid_name +'>span').addClass('vip_middle');
+               });
+            }
+        }
+    })
+</script>
+
+	<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/forum.inc.php" type="text/javascript"></script>
+			<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/count.js.下载"></script><script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/count.php"></script><iframe frameborder="0" scrolling="no" width="0" height="0" src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/pageview.html"></iframe>		  <script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/index_1_down.js.下载" type="text/javascript"></script>
+  <script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/index.php" type="text/javascript"></script><script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/vip_top.js.下载"></script>
+<script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/up_sess_js.php" type="text/javascript"></script>
+<div style="display:none">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?77e0ede98a029e89d815391b9064d360";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</div>
+        <script type="text/javascript">
+            document.write(decodeURI("%3Cscript src='https://tongji.51cto.com/cto.js/168005ec0f02d34dd0ec0aac67f97ee9' type='text/javascript'%3E%3C/script%3E"));
+        </script><script src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/168005ec0f02d34dd0ec0aac67f97ee9" type="text/javascript"></script>
+
+
+<div style="text-align:center;display:none;position:absolute;background:#FFF;box-shadow:0 0 5px #333;line-height:1;white-space:nowarp;font-size:14px;font-family:&#39;微软雅黑&#39;;padding:10px;z-index:999;"><img src="./LVM创建逻辑卷，重启之后如何恢复LV可用的状态 - Linux论坛 - 51CTO技术论坛_中国领先的IT技术社区_files/fd89424bb8630b1c3398326d3a442b0a.png" style="display:block;width:120px;margin-bottom:10px;"><a href="http://edu.51cto.com/activity/lists/id-10.html" style="display:block;" target="_blank"></a><span style="color:#FFF;position:absolute;left:65px;top:-10px;font-size:20px;text-shadow:0 -5px 5px #999;">◆</span></div></body></html>

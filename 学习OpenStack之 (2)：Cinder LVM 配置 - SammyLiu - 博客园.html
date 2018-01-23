@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://www.cnblogs.com/sammyliu/p/4159147.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/bundle-sea.css">
+<link type="text/css" rel="stylesheet" href="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/207042.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/bundle-sea-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/sammyliu/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/sammyliu/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/sammyliu/wlwmanifest.xml">
+<script async="" src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/analytics.js.下载"></script><script src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'sammyliu', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+<div id="page_begin_html"><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['1']();</script>
+<font color="blue"><b>本站文章大部分为作者原创，非商业用途转载无需作者授权，但务必在文章标题下面注明作者 刘世民（Sammy Liu）以及可点击的本博客地址超级链接 <a href="http://www.cnblogs.com/sammyliu/"> http://www.cnblogs.com/sammyliu/ </a>，谢谢合作</b></font>
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<a class="jiathis_button_qzone"></a>
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_tqq"></a>
+<a class="jiathis_button_renren"></a>
+<a class="jiathis_button_kaixin001"></a>
+<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['2']();</script>
+<div style="display: none" id="__document_write_ajax_div-3"></div><script type="text/javascript" charset="utf-8">window['__document_write_ajax_callbacks__']['3']();</script>
+<!-- JiaThis Button END --></div><script>load_page_begin_html();</script>
+
+<!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/sammyliu/">世民谈云计算</a><br>
+		（声明：本站文章皆基于公开来源信息，仅代表作者个人观点，与作者所在公司无关）
+	</div>
+</div>
+
+</div>
+
+<div id="mytopmenu">
+	
+		<div id="mylinks"><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a> &nbsp;
+<a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/sammyliu/">首页</a> &nbsp;
+<a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a> &nbsp;
+ &nbsp;
+<a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/sammyliu/rss">订阅</a><a id="blog_nav_rss_image" href="http://www.cnblogs.com/sammyliu/rss"><img src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/xml.gif" alt="订阅"></a>&nbsp;
+<a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a>
+</div>
+		<div id="mystats"><div id="blog_stats">
+随笔-131&nbsp;
+评论-571&nbsp;
+文章-45&nbsp;
+<!--trackbacks-0-->
+</div></div>
+	
+</div>
+<div id="centercontent">
+	
+<div id="post_detail">
+<div class="post">
+	<h1 class="postTitle"><a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/sammyliu/p/4159147.html">学习OpenStack之 (2)：Cinder LVM 配置</a></h1>
+	<div id="cnblogs_post_body" class="blogpost-body"><p><span style="text-decoration: underline;"><strong>0。背景</strong></span></p>
+<p>OpenStack 中的实例是不能持久化的，cinder服务重启，实例消失。如果需要挂载 volume，需要在 volume 中实现持久化。Cinder提供持久的块存储，目前仅供给虚拟机挂载使用。它并没有实现对块设备的管理和实际服务，而是为后端不同的存储结构提供了统一的接口，不同的块设备服务厂商在 Cinder 中实现其驱动支持以与 OpenStack 进行整合。它通过整合后端多种存储，用API接口为外界提供存储服务。主要核心是对卷的管理，允许都卷、类型和快照进行处理。</p>
+<p>Cinder存储分为本地块存储、分布式块存储和SAN存储等多种后端存储类型：<br>1. 本地存储： 默认通过LVM支持Linux<br>2. SAN存储：<br>&nbsp; &nbsp; （1）通过NFS协议支持NAS存储，比如Netapp<br>&nbsp; &nbsp; （2）通过添加不同厂商的制定driver来为了支持不同类型和型号的商业存储设备，比如EMC,IBM的存储。 在 <a href="https://wiki.openstack.org/wiki/CinderSupportMatrix" target="_blank">https://wiki.openstack.org/wiki/CinderSupportMatrix</a>可以看到所支持的厂商存储列表。<br>3. 分布式系统：支持sheepdog，ceph，和IBM的GPFS等</p>
+<p><span style="line-height: 1.5;">对于本地存储，cinder-volume 默认使用 LVM 驱动，该驱动当前的实现需要在主机上事先用 LVM 命令创建一个的卷组 , 当该主机接受到创建卷请求的时候，cinder-volume 在该卷组 上创建一个逻辑卷, 并且用 openiscsi 将这个卷当作一个 iscsi tgt 给输出.还可以将若干主机的本地存储用 sheepdog 虚拟成一个共享存储，然后使用 sheepdog 驱动。</span></p>
+<p><strong><span style="text-decoration: underline;">1. Cinder LVM配置</span></strong><br>在cinder配置文件中，默认的backend lvmdriver是通过LVM来使用本地存储：</p>
+<p><span style="color: #0000ff;">[lvmdriver-1]</span><br><span style="color: #0000ff;">volume_group = stack-volumes-lvmdriver-1</span><br><span style="color: #0000ff;">volume_driver = cinder.volume.drivers.lvm.LVMISCSIDriver</span><br><span style="color: #0000ff;">volume_backend_name = lvmdriver-1</span></p>
+<ul>
+<li>volume_group 指定Cinder使用的 volume group。在devstack默认安装时其名称是stack-volumes-lvmdriver-1；在实际部署cinder的时候其默认名称是cinder-volumes。</li>
+<li>volume_driver 指定driver类型. Cinder目前支持两种传输协议，&nbsp;iSCSI and iSER。
+<ul>
+<li>iSCSI的话，将其值设为&nbsp;cinder.volume.drivers.lvm.LVMISCSIDriver； </li>
+<li>iSER的话，将其值设为&nbsp;cinder.volume.drivers.lvm.LVMISERDriver。<br>
+<div>&nbsp;</div>
+
+
+
+
+
+LVM是cinder.volume.drivers.lvm.LVMISCSIDriver</li>
+
+
+
+
+
+</ul>
+
+
+
+
+
+</li>
+<li>volume_backend_name 是backend name，在创建volume的时候可选择。</li>
+
+
+
+
+
+
+
+
+
+</ul>
+<p><img src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/121008019006884.jpg" alt=""></p>
+<p>如果名字为stack-volumes-lvmdriver-1的volume group不存在，创建volume后其状态将为error，在cinder c-vol日志中可看到如下错误：</p>
+<p><span style="color: #0000ff;"> Exception during message handling: Unexpected error while running command.</span><br><span style="color: #0000ff;">Command: None</span><br><span style="color: #0000ff;">Exit code: -</span><br><span style="color: #0000ff;">Stdout: u'Unexpected error while running command.\nCommand: sudo cinder-rootwrap /etc/cinder/rootwrap.conf lvcreate -n volume-f3aef3b9-1a71-41d4-956e-a00044544b74 stack-volumes-lvmdriver-1 -L 1g\nExit code: 5\nStdout: u\'\'\nStderr: u\'  Volume group "stack-volumes-lvmdriver-1" not found\\n\''</span><br><span style="color: #0000ff;">Stderr: None</span></p>
+<p>可参考我的博文<a href="http://www.cnblogs.com/sammyliu/p/4157491.html" target="_blank">http://www.cnblogs.com/sammyliu/p/4157491.html</a>来配置LVM。</p>
+<p><strong><span style="text-decoration: underline;">3. Cinder使用LVM</span></strong></p>
+<p>成功创建一个Cinder volume后，可以在VG中看到新创建的logical volume：</p>
+<p><img src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/121035441341106.jpg" alt=""></p>
+<p><span style="color: #0000ff;">root@dev:/home/s1# lvdisplay /dev/stack-volumes-lvmdriver-1/volume-02f986b0-418f-4f84-a5ec-7af61f5d5293</span><br><span style="color: #0000ff;">  --- Logical volume ---</span><br><span style="color: #0000ff;">  LV Name                /dev/stack-volumes-lvmdriver-1/volume-02f986b0-418f-4f84-a5ec-7af61f5d5293</span><br><span style="color: #0000ff;">  VG Name                stack-volumes-lvmdriver-1</span><br><span style="color: #0000ff;">  LV UUID                9oESr2-4V7f-qp22-F5te-hF2v-DWoy-EshtnN</span><br><span style="color: #0000ff;">  LV Write Access        read/write</span><br><span style="color: #0000ff;">  LV Status              available</span><br><span style="color: #0000ff;">  # open                 0</span><br><span style="color: #0000ff;">  LV Size                1.00 GiB</span><br><span style="color: #0000ff;">  Current LE             256</span><br><span style="color: #0000ff;">  Segments               1</span><br><span style="color: #0000ff;">  Allocation             inherit</span><br><span style="color: #0000ff;">  Read ahead sectors     auto</span><br><span style="color: #0000ff;">  - currently set to     256</span><br><span style="color: #0000ff;">  Block device           252:0</span></p>
+<p><span style="text-decoration: underline;"><strong><span style="color: #000000; text-decoration: underline;">4. 使用多个backend/添加新的LVM backend</span></strong></span></p>
+<p><span style="color: #000000;">（1）创建新的volume group vg3</span></p>
+<p><span style="color: #000000;">（1）修改cinder.conf，添加下面行：</span></p>
+<p>&nbsp;</p>
+<p class="programlisting brush: bash; "><span style="color: #0000ff;">enabled_backends=lvmdriver-1,lvmdriver-2</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;">[lvmdriver-2]</span><br><span style="color: #0000ff;">volume_group = vg3</span><br><span style="color: #0000ff;">volume_driver = cinder.volume.drivers.lvm.LVMISCSIDriver</span><br><span style="color: #0000ff;">volume_backend_name = lvmdriver4vg3</span></p>
+<p><span style="color: #000000;">注意： cinder-volume服务不监控该配置文件，除了在启动的时候读取该文件以外。因为在修改该文件后你需要重启该服务：`service cinder-volume restart`.</span></p>
+<p><span style="color: #000000;">（3）创建新的的volume type type-test</span>&nbsp;</p>
+<p><span style="color: #0000ff;">s1@dev:~/devstack$ cinder type-create type-test</span><br><span style="color: #0000ff;">+--------------------------------------+---------------+</span><br><span style="color: #0000ff;">|                  ID                  |      Name     |</span><br><span style="color: #0000ff;">+--------------------------------------+---------------+</span><br><span style="color: #0000ff;">| 764480d1-7614-4a63-ba33-924d65765534 | type-test|</span><br><span style="color: #0000ff;">+--------------------------------------+---------------+</span></p>
+<p><span style="color: #000000;">(4) 设置volume type的backend name</span></p>
+<p><span style="color: #0000ff;">cinder type-key type-test set volume_backend_name=lvmdriver4vg3</span></p>
+<p><span style="color: #0000ff;"><span style="color: #000000;">注意：</span></span></p>
+<ul>
+<li><span style="color: #0000ff;"><span style="color: #000000;">只有一个backend的时候，除了配置volume group外，不需要添加别的配置信息，创建volume的时候也不需要选择volume type。</span></span></li>
+<li><span style="color: #0000ff;"><span style="color: #000000;">当有多个backend的时候，你需要使用volume-type来将volume创建到指定的backend中。一个volume-type可以有几个backend，这时候&nbsp;the capacity scheduler 会自动选择合适的backend来创建volume。</span></span></li>
+<li><span style="color: #0000ff;"><span style="color: #000000;">如果定义了volume type，但是cinder.conf中没有定义volume backend，那么cinder scheduler将找不到有效的host来创建volume了。</span></span></li>
+
+
+</ul>
+<p><span style="color: #000000;">（5）可以在Horizen中选择新的type &nbsp;type-test来创建volume了</span></p>
+<p><span style="text-decoration: underline;"><strong>&nbsp;5. 遇到的问题：</strong></span></p>
+<p><span style="text-decoration: underline;"><strong>(1) 在选择一个volume type创建volume时失败，</strong></span></p>
+<p>症状：日志中有&nbsp;No valid host was found. No weighed hosts available 错误</p>
+<p>分析：查看volume host：</p>
+<div><span style="color: #0000ff;">s1@dev:~/devstack$ cinder-manage service list</span><br><span style="color: #0000ff;">STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION from (pid=4488) _check_effective_sql_mode /usr/local/lib/python2.7/dist-packages/oslo/db/sqlalchemy/session.py:509</span><br><span style="color: #0000ff;">Binary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Host&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Zone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Status&nbsp;&nbsp;&nbsp;&nbsp; State Updated At</span><br><span style="color: #0000ff;">cinder-scheduler dev&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nova&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enabled&nbsp;&nbsp;&nbsp; :-)&nbsp;&nbsp; 2014-12-12 16:11:54</span><br><span style="color: #0000ff;">cinder-volume&nbsp;&nbsp;&nbsp; dev@lvmdriver-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nova&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enabled&nbsp;&nbsp;&nbsp; :-)&nbsp;&nbsp; 2014-12-12 16:11:56</span></div>
+<div><span style="color: #000000;">原因：cinder-volume的host少了一个对应第二个vg的一个。应该是添加第二个backend后配置没生效。</span></div>
+<div><span style="color: #000000;">解决：<span style="text-decoration: underline;">按照先后顺序</span>重启&nbsp;cinder-scheduler 和 cinder-volume 服务。创建volume错误消失。</span></div>
+<div><span style="color: #000000;">(2) Volume一直处于creating状态。cinder-volume log中有如下错误：</span></div>
+<div>
+<p class="p1">Returning exception create_volume() got an unexpected keyword argument 'source_replicaid' to caller</p>
+<p class="p1">原因：controller上和storage node上cinder版本不一致。</p>
+<p class="p1">解决:在两个node上首先卸载cinder，然后执行命令&nbsp;echo "deb <a href="http://ubuntu-cloud.archive.canonical.com/ubuntu">http://ubuntu-cloud.archive.canonical.com/ubuntu</a>" &nbsp;"trusty-updates/juno main" &gt; /etc/apt/sources.list.d/cloudarchive-juno.list，再安装cinder。确认cinder的版本一致。</p>
+<div><div id="highlighter_621106" class="syntaxhighlighter  shell"><div class="toolbar"><span><a href="https://www.cnblogs.com/sammyliu/p/4159147.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="shell plain">apt-get </code><code class="shell functions">install</code> <code class="shell plain">package=version 命令。</code></div></div></td></tr></tbody></table></div></div>
+</div></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/sammyliu/category/636967.html" target="_blank">OpenStack</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4159147,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;7fb78d04-4675-e411-b908-9dcfd8948a71&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/sammyliu/" target="_blank"><img src="./学习OpenStack之 (2)：Cinder LVM 配置 - SammyLiu - 博客园_files/20150204170038.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/sammyliu/">SammyLiu</a><br>
+            <a href="http://home.cnblogs.com/u/sammyliu/followees">关注 - 30</a><br>
+            <a href="http://home.cnblogs.com/u/sammyliu/followers">粉丝 - 599</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor">荣誉：<a href="http://www.cnblogs.com/expert/" target="_blank">推荐博客</a></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;7fb78d04-4675-e411-b908-9dcfd8948a71&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4159147,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(4159147,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/sammyliu/p/4157491.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/sammyliu/p/4157491.html" title="发布于2014-12-11 16:06">学习OpenStack之 (4)： Linux 磁盘、分区、挂载、逻辑卷管理 (Logical Volume Manager)</a><br><a href="http://www.cnblogs.com/sammyliu/p/4159475.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/sammyliu/p/4159475.html" title="发布于2014-12-12 12:51">学习OpenStack之 (3)：Devstack Screen 使用技巧</a><br></div>
+</div>
+
+
+	<div class="postDesc">posted on <span id="post-date">2014-12-12 10:24</span> <a href="http://www.cnblogs.com/sammyliu/">SammyLiu</a> 阅读(<span id="post_view_count">6472</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=4159147" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/sammyliu/p/4159147.html#" onclick="AddToWz(4159147);return false;">收藏</a></div>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=207042,cb_entryId=4159147,cb_blogApp=currentBlogApp,cb_blogUserGuid='7fb78d04-4675-e411-b908-9dcfd8948a71',cb_entryCreatedDate='2014/12/12 10:24:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/sammyliu/p/4159147.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/sammyliu/p/4159147.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/588009/" target="_blank">《绝地求生》饰品价格疯狂暴跌 缩水9成黄牛亏哭</a><br> ·  <a href="https://news.cnblogs.com/n/588008/" target="_blank">特朗普批准对进口洗衣机征税 三星：这是美国消费者的一大损失</a><br> ·  <a href="https://news.cnblogs.com/n/588006/" target="_blank">孙宏斌：搞不好乐视也只能遗憾了，认赌服输</a><br> ·  <a href="https://news.cnblogs.com/n/588004/" target="_blank">算法工程师：你的一切皆在我计算中</a><br> ·  <a href="https://news.cnblogs.com/n/588003/" target="_blank">面板价格下滑 LG显示器第四季度运营利润同比大跌95%</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+</div>
+<div id="leftcontent">
+	
+		<div id="leftcontentcontainer">
+			
+<!--done-->
+<div class="newsItem">
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/sammyliu/">SammyLiu</a><br>园龄：<a href="https://home.cnblogs.com/u/sammyliu/" title="入园时间：2014-11-26">3年1个月</a><br>荣誉：<a href="https://www.cnblogs.com/expert/">推荐博客</a><br>粉丝：<a href="https://home.cnblogs.com/u/sammyliu/followers/">599</a><br>关注：<a href="https://home.cnblogs.com/u/sammyliu/followees/">30</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;7fb78d04-4675-e411-b908-9dcfd8948a71&#39;)">+加关注</a></div><script>getFollowStatus('7fb78d04-4675-e411-b908-9dcfd8948a71')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/12/01&#39;);return false;">&lt;</a></td><td align="center">2018年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center"><a href="http://www.cnblogs.com/sammyliu/archive/2018/01/03.html"><u>3</u></a></td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/sammyliu/archive/2018/01/13.html"><u>13</u></a></td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td class="CalTodayDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script><br>
+			<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block"></div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/sammyliu/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/sammyliu/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/sammyliu/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/sammyliu/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/sammyliu/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<h3 class="catListTitle">我的标签</h3>
+<div id="MyTag">
+<ul>
+<li><a href="http://www.cnblogs.com/sammyliu/tag/GRE/">GRE</a>(1)</li><li><a href="http://www.cnblogs.com/sammyliu/tag/Neutron/">Neutron</a>(1)</li><li><a href="http://www.cnblogs.com/sammyliu/tag/Open%20vSwitch/">Open vSwitch</a>(1)</li><li><a href="http://www.cnblogs.com/sammyliu/tag/OpenStack/">OpenStack</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+		<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(272)</span></h3>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_0" class="listitem" href="http://www.cnblogs.com/sammyliu/category/673482.html">Ceilometer(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_1" class="listitem" href="http://www.cnblogs.com/sammyliu/category/738054.html">Ceph(13)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_2" class="listitem" href="http://www.cnblogs.com/sammyliu/category/669012.html">Cinder(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_3" class="listitem" href="http://www.cnblogs.com/sammyliu/category/882904.html">Docker(8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_4" class="listitem" href="http://www.cnblogs.com/sammyliu/category/669014.html">Glance</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_5" class="listitem" href="http://www.cnblogs.com/sammyliu/category/673483.html">Heat(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_6" class="listitem" href="http://www.cnblogs.com/sammyliu/category/882905.html">K8S</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_7" class="listitem" href="http://www.cnblogs.com/sammyliu/category/669015.html">Keystone(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_8" class="listitem" href="http://www.cnblogs.com/sammyliu/category/1141396.html">Kubernetes(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_9" class="listitem" href="http://www.cnblogs.com/sammyliu/category/696699.html">KVM(10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_10" class="listitem" href="http://www.cnblogs.com/sammyliu/category/660335.html">MessageQueue(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_11" class="listitem" href="http://www.cnblogs.com/sammyliu/category/760556.html">MySQL(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_12" class="listitem" href="http://www.cnblogs.com/sammyliu/category/677824.html">Neutron(17)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_13" class="listitem" href="http://www.cnblogs.com/sammyliu/category/669013.html">Nova(10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_14" class="listitem" href="http://www.cnblogs.com/sammyliu/category/636967.html">OpenStack(35)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_15" class="listitem" href="http://www.cnblogs.com/sammyliu/category/1013510.html">Redis</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_16" class="listitem" href="http://www.cnblogs.com/sammyliu/category/669017.html">Sahara</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_17" class="listitem" href="http://www.cnblogs.com/sammyliu/category/750163.html">Storage(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_18" class="listitem" href="http://www.cnblogs.com/sammyliu/category/750164.html">Swift(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_19" class="listitem" href="http://www.cnblogs.com/sammyliu/category/669016.html">Trove</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_20" class="listitem" href="http://www.cnblogs.com/sammyliu/category/636968.html">Ubuntu(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_21" class="listitem" href="http://www.cnblogs.com/sammyliu/category/670034.html">VMware(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_22" class="listitem" href="http://www.cnblogs.com/sammyliu/category/750168.html">安装和配置(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_23" class="listitem" href="http://www.cnblogs.com/sammyliu/category/761108.html">版本(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_24" class="listitem" href="http://www.cnblogs.com/sammyliu/category/853247.html">备份(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_25" class="listitem" href="http://www.cnblogs.com/sammyliu/category/675177.html">大数据(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_26" class="listitem" href="http://www.cnblogs.com/sammyliu/category/764760.html">翻译(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_27" class="listitem" href="http://www.cnblogs.com/sammyliu/category/724243.html">高可用（HA）(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_28" class="listitem" href="http://www.cnblogs.com/sammyliu/category/692759.html">基础知识(20)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_29" class="listitem" href="http://www.cnblogs.com/sammyliu/category/755699.html">监控(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_30" class="listitem" href="http://www.cnblogs.com/sammyliu/category/1089864.html">日志(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_31" class="listitem" href="http://www.cnblogs.com/sammyliu/category/882903.html">容器(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_32" class="listitem" href="http://www.cnblogs.com/sammyliu/category/882906.html">容器编排</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_33" class="listitem" href="http://www.cnblogs.com/sammyliu/category/748073.html">使用案例(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_34" class="listitem" href="http://www.cnblogs.com/sammyliu/category/792740.html">网络(9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_35" class="listitem" href="http://www.cnblogs.com/sammyliu/category/758091.html">问题定位(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_36" class="listitem" href="http://www.cnblogs.com/sammyliu/category/779429.html">行业(15)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_37" class="listitem" href="http://www.cnblogs.com/sammyliu/category/750165.html">性能(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_38" class="listitem" href="http://www.cnblogs.com/sammyliu/category/638386.html">虚拟化(7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_39" class="listitem" href="http://www.cnblogs.com/sammyliu/category/750167.html">原理(23)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_40" class="listitem" href="http://www.cnblogs.com/sammyliu/category/636969.html">云Cloud(34)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_41" class="listitem" href="http://www.cnblogs.com/sammyliu/category/1013509.html">职场(2)</a></li>
+			
+				</ul>
+			
+	
+		<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(131)</span></h3>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_0" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2018/01.html">2018年1月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_1" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2017/12.html">2017年12月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_2" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2017/09.html">2017年9月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_3" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2017/08.html">2017年8月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_4" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2017/07.html">2017年7月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_5" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2017/06.html">2017年6月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_6" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2017/05.html">2017年5月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_7" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2017/03.html">2017年3月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_8" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2017/01.html">2017年1月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_9" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/10.html">2016年10月 (7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_10" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/09.html">2016年9月 (5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_11" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/08.html">2016年8月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_12" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/07.html">2016年7月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_13" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/06.html">2016年6月 (5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_14" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/05.html">2016年5月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_15" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/04.html">2016年4月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_16" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/03.html">2016年3月 (9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_17" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/02.html">2016年2月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_18" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2016/01.html">2016年1月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_19" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/12.html">2015年12月 (7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_20" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/11.html">2015年11月 (7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_21" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/10.html">2015年10月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_22" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/09.html">2015年9月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_23" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/08.html">2015年8月 (5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_24" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/07.html">2015年7月 (9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_25" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/06.html">2015年6月 (10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_26" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/05.html">2015年5月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_27" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/04.html">2015年4月 (11)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_28" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/03.html">2015年3月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_29" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/02.html">2015年2月 (6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_30" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2015/01.html">2015年1月 (5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_31" class="listitem" href="http://www.cnblogs.com/sammyliu/archive/2014/12.html">2014年12月 (6)</a></li>
+			
+				</ul>
+			
+	
+		<h3 class="catListTitle">文章分类<span style="font-size:11px;font-weight:normal">(21)</span></h3>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_0" class="listitem" href="http://www.cnblogs.com/sammyliu/category/737635.html">Ceph(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_1" class="listitem" href="http://www.cnblogs.com/sammyliu/category/737636.html">GlusterFS</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_2" class="listitem" href="http://www.cnblogs.com/sammyliu/category/674720.html">Web 服务器(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_3" class="listitem" href="http://www.cnblogs.com/sammyliu/category/748285.html">操作系统(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_4" class="listitem" href="http://www.cnblogs.com/sammyliu/category/746263.html">存储</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_5" class="listitem" href="http://www.cnblogs.com/sammyliu/category/674495.html">大数据(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_6" class="listitem" href="http://www.cnblogs.com/sammyliu/category/674496.html">分布式系统</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_7" class="listitem" href="http://www.cnblogs.com/sammyliu/category/746264.html">服务器(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_8" class="listitem" href="http://www.cnblogs.com/sammyliu/category/746262.html">网络(11)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_9" class="listitem" href="http://www.cnblogs.com/sammyliu/category/674493.html">虚拟化(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_10" class="listitem" href="http://www.cnblogs.com/sammyliu/category/674494.html">云</a></li>
+			
+				</ul>
+			
+	
+		<h3 class="catListTitle">文章档案<span style="font-size:11px;font-weight:normal">(42)</span></h3>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_0" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2016/10.html" rel="nofollow">2016年10月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_1" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2016/09.html" rel="nofollow">2016年9月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_2" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2016/06.html" rel="nofollow">2016年6月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_3" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2016/05.html" rel="nofollow">2016年5月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_4" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2015/12.html" rel="nofollow">2015年12月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_5" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2015/10.html" rel="nofollow">2015年10月 (5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_6" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2015/09.html" rel="nofollow">2015年9月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_7" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2015/06.html" rel="nofollow">2015年6月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_3_Link_8" class="listitem" href="http://www.cnblogs.com/sammyliu/archives/2015/04.html" rel="nofollow">2015年4月 (23)</a></li>
+			
+				</ul>
+			
+	
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<h3>积分与排名</h3>
+<ul>
+	<li>
+		积分 -
+		337120
+	</li><li>
+		排名 -
+		483
+	</li>
+</ul>
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/sammyliu/p/4190843.html#3881804">1. Re:学习OpenStack之（5）：在Mac上部署Juno版本OpenStack 四节点环境</a></li>
+        <li class="recent_comment_body">1. 安装OpenStack是按照Juno的正式安装文档进行的，过程不再重复，安装结果见下图:请问这个文档在哪里，M或者以上版本的文档在哪里2.更详细的信息，可以参考 Configuring Ubun......</li>
+        <li class="recent_comment_author">--leiqi96</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/sammyliu/p/8157578.html#3878574">2. Re:2017这一年</a></li>
+        <li class="recent_comment_body">擦 点进来居然是这个 /捂脸</li>
+        <li class="recent_comment_author">--mathematrix</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/sammyliu/articles/4389981.html#3870980">3. Re:虚拟化 - KVM 和 Xen 比较</a></li>
+        <li class="recent_comment_body">我选择KVM。</li>
+        <li class="recent_comment_author">--IT技术支持</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/sammyliu/p/5079898.html#3870092">4. Re:Neutron VxLAN + Linux Bridge 环境中的网络 MTU</a></li>
+        <li class="recent_comment_body">谢谢你的指点。</li>
+        <li class="recent_comment_author">--云菜鸟</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/sammyliu/p/4571209.html#3870090">5. Re:Nova 操作汇总（限 libvirt 虚机） [Nova Operations Summary]</a></li>
+        <li class="recent_comment_body">谢谢你的指点。</li>
+        <li class="recent_comment_author">--云菜鸟</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/sammyliu/p/4622563.html">1. Neutron 理解 (1): Neutron 所实现的虚拟化网络 [How Netruon Virtualizes Network](30285)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4219974.html">2. 探索 OpenStack 之（9）：深入块存储服务Cinder （功能篇）(22252)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4804037.html">3. 理解 OpenStack + Ceph （1）：Ceph + OpenStack 集群部署和配置(21890)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4741967.html">4. 理解 OpenStack 高可用（HA）（1）：OpenStack 高可用和灾备方案 [OpenStack HA and DR](19487)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4627230.html">5. Neutron 理解 (3): Open vSwitch + GRE/VxLAN 组网 [Netruon Open vSwitch + GRE/VxLAN Virutal Network](18065)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/sammyliu/p/4622563.html">1. Neutron 理解 (1): Neutron 所实现的虚拟化网络 [How Netruon Virtualizes Network](67)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4985907.html">2. Neutron 理解（14）：Neutron ML2 + Linux bridge + VxLAN 组网(54)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4658746.html">3. Neutron 理解 (8): Neutron 是如何实现虚机防火墙的  [How Neutron Implements Security Group](34)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4627230.html">4. Neutron 理解 (3): Open vSwitch + GRE/VxLAN 组网 [Netruon Open vSwitch + GRE/VxLAN Virutal Network](25)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4419195.html">5. Neutron 理解（5）：Neutron 是如何向 Nova 虚机分配固定IP地址的 （How Neutron Allocates Fixed IPs to Nova Instance）(24)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/sammyliu/p/4622563.html">1. Neutron 理解 (1): Neutron 所实现的虚拟化网络 [How Netruon Virtualizes Network](9)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4741967.html">2. 理解 OpenStack 高可用（HA）（1）：OpenStack 高可用和灾备方案 [OpenStack HA and DR](8)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4543657.html">3. KVM 介绍（3）：I/O 全虚拟化和准虚拟化 [KVM I/O QEMU Full-Virtualizaiton Para-virtualization](6)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/4284125.html">4. 我所了解的 京东、携程、eBay、小米 的 OpenStack 云(6)</a></li><li><a href="http://www.cnblogs.com/sammyliu/p/6943266.html">5. 从大公司到创业公司，技术人转型怎样转变思路与处事之道？(6)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script></div>
+	
+</div>
+
+<!--done-->
+<div class="footer">
+	Powered by: <a href="http://www.cnblogs.com/">博客园</a>	模板提供：<a href="http://blog.hjenglish.com/">沪江博客</a>
+	Copyright ©2018 SammyLiu
+</div>
+
+
+
+
+
+<script type="text/javascript">
+ var BlogDirectory = {
+     /*
+         获取元素位置，距浏览器左边界的距离（left）和距浏览器上边界的距离（top）
+     */
+     getElementPosition:function (ele) {        
+         var topPosition = 0;
+         var leftPosition = 0;
+         while (ele){              
+             topPosition += ele.offsetTop;
+             leftPosition += ele.offsetLeft;        
+             ele = ele.offsetParent;     
+         }  
+         return {top:topPosition, left:leftPosition}; 
+     },
+ 
+     /*
+     获取滚动条当前位置
+     */
+     getScrollBarPosition:function () {
+         var scrollBarPosition = document.body.scrollTop || document.documentElement.scrollTop;
+         return  scrollBarPosition;
+     },
+     
+     /*
+     移动滚动条，finalPos 为目的位置，internal 为移动速度
+     */
+     moveScrollBar:function(finalpos, interval) {
+ 
+         //若不支持此方法，则退出
+         if(!window.scrollTo) {
+             return false;
+         }
+ 
+         //窗体滚动时，禁用鼠标滚轮
+         window.onmousewheel = function(){
+             return false;
+         };
+           
+         //清除计时
+         if (document.body.movement) { 
+             clearTimeout(document.body.movement); 
+         } 
+ 
+         var currentpos =BlogDirectory.getScrollBarPosition();//获取滚动条当前位置
+ 
+         var dist = 0; 
+         if (currentpos == finalpos) {//到达预定位置，则解禁鼠标滚轮，并退出
+             window.onmousewheel = function(){
+                 return true;
+             }
+             return true; 
+         } 
+         if (currentpos < finalpos) {//未到达，则计算下一步所要移动的距离
+             dist = Math.ceil((finalpos - currentpos)/10); 
+             currentpos += dist; 
+         } 
+         if (currentpos > finalpos) { 
+             dist = Math.ceil((currentpos - finalpos)/10); 
+             currentpos -= dist; 
+         }
+         
+         var scrTop = BlogDirectory.getScrollBarPosition();//获取滚动条当前位置
+         window.scrollTo(0, currentpos);//移动窗口
+         if(BlogDirectory.getScrollBarPosition() == scrTop)//若已到底部，则解禁鼠标滚轮，并退出
+         {
+             window.onmousewheel = function(){
+                 return true;
+             }
+             return true;
+         }
+         
+         //进行下一步移动
+         var repeat = "BlogDirectory.moveScrollBar(" + finalpos + "," + interval + ")"; 
+         document.body.movement = setTimeout(repeat, interval); 
+     },
+     
+     htmlDecode:function (text){
+         var temp = document.createElement("div");
+         temp.innerHTML = text;
+         var output = temp.innerText || temp.textContent;
+         temp = null;
+         return output;
+     },
+ 
+     /*
+     创建博客目录，
+     id表示包含博文正文的 div 容器的 id，
+     mt 和 st 分别表示主标题和次级标题的标签名称（如 H2、H3，大写或小写都可以！），
+     interval 表示移动的速度
+     */
+     createBlogDirectory:function (id, mt, st, interval){
+          //获取博文正文div容器
+         var elem = document.getElementById(id);
+         if(!elem) return false;
+         //获取div中所有元素结点
+         var nodes = elem.getElementsByTagName("*");
+         //创建博客目录的div容器
+         var divSideBar = document.createElement('DIV');
+         divSideBar.className = 'sideBar';
+         divSideBar.setAttribute('id', 'sideBar');
+         var divSideBarTab = document.createElement('DIV');
+         divSideBarTab.setAttribute('id', 'sideBarTab');
+         divSideBar.appendChild(divSideBarTab);
+         var h2 = document.createElement('H2');
+         divSideBarTab.appendChild(h2);
+         var txt = document.createTextNode('目录导航');
+         h2.appendChild(txt);
+         var divSideBarContents = document.createElement('DIV');
+         divSideBarContents.style.display = 'none';
+         divSideBarContents.setAttribute('id', 'sideBarContents');
+         divSideBar.appendChild(divSideBarContents);
+         //创建自定义列表
+         var dlist = document.createElement("dl");
+         divSideBarContents.appendChild(dlist);
+         var num = 0;//统计找到的mt和st
+         mt = mt.toUpperCase();//转化成大写
+         st = st.toUpperCase();//转化成大写
+         //遍历所有元素结点
+         for(var i=0; i<nodes.length; i++)
+         {
+             if(nodes[i].nodeName == mt|| nodes[i].nodeName == st)    
+             {
+                 //获取标题文本
+                 var nodetext = nodes[i].innerHTML.replace(/<\/?[^>]+>/g,"");//innerHTML里面的内容可能有HTML标签，所以用正则表达式去除HTML的标签
+                 nodetext = nodetext.replace(/&nbsp;/ig, "");//替换掉所有的&nbsp;
+                 nodetext = BlogDirectory.htmlDecode(nodetext);
+                 //插入锚        
+                 nodes[i].setAttribute("id", "blogTitle" + num);
+                 var item;
+                 switch(nodes[i].nodeName)
+                 {
+                     case mt:    //若为主标题 
+                         item = document.createElement("dt");
+                         break;
+                     case st:    //若为子标题
+                         item = document.createElement("dd");
+                         break;
+                 }
+                 
+                 //创建锚链接
+                 var itemtext = document.createTextNode(nodetext);
+                 item.appendChild(itemtext);
+                 item.setAttribute("name", num);
+                 item.onclick = function(){        //添加鼠标点击触发函数
+                     var pos = BlogDirectory.getElementPosition(document.getElementById("blogTitle" + this.getAttribute("name")));
+                     if(!BlogDirectory.moveScrollBar(pos.top, interval)) return false;
+                 };            
+                 
+                 //将自定义表项加入自定义列表中
+                 dlist.appendChild(item);
+                 num++;
+             }
+         }
+         
+         if(num == 0) return false; 
+         /*鼠标进入时的事件处理*/
+         divSideBarTab.onmouseenter = function(){
+             divSideBarContents.style.display = 'block';
+         }
+         /*鼠标离开时的事件处理*/
+         divSideBar.onmouseleave = function() {
+             divSideBarContents.style.display = 'none';
+         }
+ 
+         document.body.appendChild(divSideBar);
+     }
+     
+ };
+ 
+ window.onload=function(){
+     /*页面加载完成之后生成博客目录*/
+     BlogDirectory.createBlogDirectory("cnblogs_post_body","h2","h3",20); }
+</script><script type="text/javascript">
+var jiathis_config={
+	summary:"",
+	shortUrl:false,
+	hideMore:false
+}
+</script></body></html>

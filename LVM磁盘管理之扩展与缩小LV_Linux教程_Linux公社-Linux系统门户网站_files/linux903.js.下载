@@ -1,0 +1,1 @@
+﻿document.writeln("<img src=\'/linuxfile/wx.png\' alt=\'\' width=\'300\' height=\'225\' />");

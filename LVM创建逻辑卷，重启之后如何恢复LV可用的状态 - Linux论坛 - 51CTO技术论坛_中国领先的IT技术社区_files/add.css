@@ -1,0 +1,132 @@
+@charset "utf-8";
+/* CSS Document */
+
+.userinfopanel {
+    background: url("../../images/default/portalbox_bg.gif") repeat-x scroll 0 0 #FFFFFF;
+    border: 1px solid #D7D7D7;
+    padding: 10px;
+    width: 120px;
+}
+.popupmenu_popup {
+    background: url("../../images/default/portalbox_bg.gif") repeat-x scroll 0 1px #FFFFFF;
+    border: 1px solid #D7D7D7;
+    line-height: 1.4em;
+    overflow: hidden;
+    padding: 10px;
+    text-align: left;
+}
+.popupmenu_popup1 {
+    background: none repeat scroll 0 0 #EDECEC;
+    border: 1px solid #9EBB3B;
+    line-height: 1.4em;
+    overflow: hidden;
+    padding: 0;
+    text-align: left;
+}
+.userinfopanel p {
+    margin: 0;
+    text-align: left;
+}
+.userinfopanel p a {
+    color: #006699;
+}
+.userinfopanel dl {
+    border-bottom: 1px solid #E8E8E8;
+    margin: 5px 0;
+    padding: 5px 0;
+}
+.postauthor dt {
+    color: #666666;
+    float: left;
+    margin-right: 0.5em;
+}
+.postauthor dd, .postauthor dt {
+    height: 1.6em;
+    line-height: 1.6em;
+}
+.postauthor dd {
+    overflow: hidden;
+}
+.postauthor p {
+    margin: 0 10px;
+}
+.postauthor p.customstatus {
+    color: #666666;
+}
+.postauthor p em, .postauthor dt em {
+    color: #009900;
+}
+.newspecialmenu {
+    width: 120px;
+}
+.newspecialmenu li {
+    background: url("../../images/default/folder_s.gif") no-repeat scroll 11px 50% transparent;
+    float: left;
+}
+.newspecialmenu li.poll {
+    background-image: url("../../images/default/pollsmall.gif");
+}
+.newspecialmenu li.trade {
+    background-image: url("../../images/default/tradesmall.gif");
+}
+.newspecialmenu li.reward {
+    background-image: url("../../images/default/rewardsmall.gif");
+}
+.newspecialmenu li.activity {
+    background-image: url("../../images/default/activitysmall.gif");
+}
+.newspecialmenu li.debate {
+    background-image: url("../../images/default/debatesmall.gif");
+}
+.newspecialmenu li.video {
+    background-image: url("../../images/default/videosmall.gif");
+}
+.newspecialmenu a {
+    border-bottom: 1px solid #FFFFFF;
+    display: block;
+    padding: 9px 0 5px 38px;
+    width: 83px;
+}
+.newspecialmenu a:hover {
+    background: url("../../images/default/folder_s.gif") no-repeat scroll 11px 50% #DFECB4;
+    border-bottom: 1px solid #FFFFFF;
+    color: #2C5F00;
+    text-decoration: none;
+}
+.newspecialmenu li.poll a:hover {
+    background: url("../../images/default/pollsmall.gif") no-repeat scroll 11px 50% #DFECB4;
+}
+.newspecialmenu li.trade a:hover {
+    background: url("../../images/default/tradesmall.gif") no-repeat scroll 11px 50% #DFECB4;
+}
+.newspecialmenu li.reward a:hover {
+    background: url("../../images/default/rewardsmall.gif") no-repeat scroll 11px 50% #DFECB4;
+}
+.newspecialmenu li.activity a:hover {
+    background: url("../../images/default/activitysmall.gif") no-repeat scroll 11px 50% #DFECB4;
+}
+.newspecialmenu li.debate a:hover {
+    background: url("../../images/default/debatesmall.gif") no-repeat scroll 11px 50% #DFECB4;
+}
+.newspecialmenu li.video a:hover {
+    background: url("../../images/default/videosmall.gif") no-repeat scroll 11px 50% #DFECB4;
+}
+.headactions .popupmenu_popup a, .headactions .popupmenu_popup strong {
+    background: none repeat scroll 0 0 transparent;
+    color: #666666;
+    white-space: nowrap;
+}
+.headactions .popupmenu_popup {
+    overflow: visible;
+}
+.headermenu_popup {
+    width: 170px;
+}
+.headermenu_popup li {
+    border-bottom: 1px solid #E8E8E8;
+    float: left;
+    height: 24px;
+    line-height: 24px;
+    overflow: hidden;
+    width: 7em;
+}

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)https://www.cnblogs.com/mchina/p/linux-centos-logical-volume-manager-lvm.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/bundle-SimpleBlue.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/bundle-SimpleBlue-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/mchina/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/mchina/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/mchina/wlwmanifest.xml">
+<script async="" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/analytics.js.下载"></script><script src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'mchina', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+<div id="page_begin_html"><!-- Baidu Button BEGIN -->
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script type="text/javascript" id="bdshare_js" data="type=slide&amp;img=2&amp;pos=right&amp;uid=586342">window['__document_write_ajax_callbacks__']['1']();</script>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script><script type="text/javascript" id="bdshell_js" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/shell_v2.js.下载">window['__document_write_ajax_callbacks__']['2']();</script>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['6']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script>
+<!-- Baidu Button END --></div><script>load_page_begin_html();</script>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/mchina/">David Camp</a></div>
+<div class="subtitle"></div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/mchina/">首页</a></li>
+<li id="nav_newpost"><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/David_Tang">联系</a></li>
+<li id="nav_rss"><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/mchina/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/mchina/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<!--done-->
+随笔-115&nbsp;
+文章-0&nbsp;
+评论-690&nbsp;
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/mchina/p/linux-centos-logical-volume-manager-lvm.html">CentOS 6.3下配置LVM（逻辑卷管理）</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="font-size: 16px;"><strong><span style="color: #800000;">一、简介</span></strong></span></p>
+<p>LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环境下对磁盘分区进行管理的一种机制，LVM是建立在硬盘和分区之上的一个逻辑层，来提高磁盘分区管理的灵活性。</p>
+<p>LVM的工作原理其实很简单，它就是通过将底层的物理硬盘抽象的封装起来，然后以逻辑卷的方式呈现给上层应用。在传统的磁盘管理机制中，我们的上层应用是直接访问文件系统，从而对底层的物理硬盘进行读取，而在LVM中，其通过对底层的硬盘进行封装，当我们对底层的物理硬盘进行操作时，其不再是针对于分区进行操作，而是通过一个叫做逻辑卷的东西来对其进行底层的磁盘管理操作。比如说我增加一个物理硬盘，这个时候上层的服务是感觉不到的，因为呈现给上层服务的是以逻辑卷的方式。</p>
+<p>LVM最大的特点就是可以对磁盘进行动态管理。因为逻辑卷的大小是可以动态调整的，而且不会丢失现有的数据。如果我们新增加了硬盘，其也不会改变现有上层的逻辑卷。作为一个动态磁盘管理机制，逻辑卷技术大大提高了磁盘管理的灵活性。</p>
+<p><strong>基本的逻辑卷管理概念：</strong></p>
+<p>PV（Physical Volume）- 物理卷 <br>物理卷在逻辑卷管理中处于最底层，它可以是实际物理硬盘上的<strong>分区</strong>，也可以是整个<strong>物理硬盘</strong>，也可以是<strong>raid设备</strong>。</p>
+<p>VG（Volumne Group）- 卷组    <br>卷组建立在物理卷之上，一个卷组中至少要包括一个物理卷，在卷组建立之后可动态添加物理卷到卷组中。一个逻辑卷管理系统工程中可以只有一个卷组，也可以拥有多个卷组。</p>
+<p>LV（Logical Volume）- 逻辑卷    <br>逻辑卷建立在卷组之上，卷组中的未分配空间可以用于建立新的逻辑卷，逻辑卷建立后可以动态地扩展和缩小空间。系统中的多个逻辑卷可以属于同一个卷组，也可以属于不同的多个卷组。</p>
+<p>关系图如下：</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413282394354.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="63" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413290825011.jpg" alt="63" width="600" height="360" border="0"></a></p>
+<p>PE（Physical Extent）- 物理块 </p>
+<p>LVM 默认使用4MB的PE区块，而LVM的LV最多仅能含有65534个PE (lvm1 的格式)，因此默认的LVM的LV最大容量为4M*65534/(1024M/G)=256G。PE是整个LVM 最小的储存区块，也就是说，其实我们的资料都是由写入PE 来处理的。简单的说，这个PE 就有点像文件系统里面的block 大小。所以调整PE 会影响到LVM 的最大容量！不过，在 CentOS 6.x 以后，由于直接使用 lvm2 的各项格式功能，因此这个限制已经不存在了。</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413294737298.gif"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="pe_vg" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413298796356.gif" alt="pe_vg" width="304" height="172" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">二、系统环境</span></strong></span></p>
+<p><strong>实验环境：</strong>Oracle VM VirtualBox</p>
+<p><strong>系统平台：</strong>CentOS release 6.3 (Final)</p>
+<p><strong>mdadm 版本：</strong>mdadm - v3.2.6 - 25th October 2012</p>
+<p><strong>LVM 版本：</strong>lvm2-2.02.100-8.el6.i686</p>
+<p><strong>设备类型：</strong>分区、物理硬盘、raid 设备</p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">三、磁盘准备</span></strong></span></p>
+<p>在这篇文章中，我们将模拟raid5、分区、物理硬盘三种类型设备创建VG，raid5 需要四块硬盘，分区和物理硬盘各一块硬盘，还有扩容时需要至少一块硬盘，所以在虚拟机里添加八块硬盘，每块5GB.</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413305672499.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="1" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413315369427.jpg" alt="1" width="642" height="494" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">四、安装LVM管理工具</span></strong></span></p>
+<p>4.1 检查系统中是否安装了LVM管理工具</p>
+<p># rpm -qa|grep lvm</p>
+<p>4.2 如果未安装，则使用yum 方式安装</p>
+<p># yum install lvm*</p>
+<p># rpm -qa|grep lvm</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413322705286.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="3" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413328324157.jpg" alt="3" width="340" height="97" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">五、新建一个raid5 设备</span></strong></span></p>
+<p>使用/dev/sdb, /dev/sdc, /dev/sdd, /dev/sde 四块物理硬盘做软raid模拟。</p>
+<p># mdadm -C /dev/md5 -ayes -l5 -n3 -x1 /dev/sd[b,c,d,e]</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413334578514.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="2" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413340368858.jpg" alt="2" width="557" height="54" border="0"></a></p>
+<p>写入RAID配置文件/etc/mdadm.conf 并做适当修改。</p>
+<p># echo DEVICE /dev/sd{b,c,d,e} &gt;&gt; /etc/mdadm.conf</p>
+<p># mdadm –Ds &gt;&gt; /etc/mdadm.conf</p>
+<p>详细请参考上篇文章：<a title="http://www.cnblogs.com/mchina/p/linux-centos-disk-array-software_raid.html" href="http://www.cnblogs.com/mchina/p/linux-centos-disk-array-software_raid.html">http://www.cnblogs.com/mchina/p/linux-centos-disk-array-software_raid.html</a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">六、新建一个分区</span></strong></span></p>
+<p>使用/dev/sdf 模拟分区。</p>
+<p># fdisk /dev/sdf</p>
+<p># fdisk -l /dev/sdf </p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413348795217.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="4" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413359896188.jpg" alt="4" width="679" height="669" border="0"></a></p>
+<p>准备工作就绪，下面我们使用三种设备/dev/md5、/dev/sdf1、/dev/sdg 来完成LVM实验。</p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">七、创建PV</span></strong></span></p>
+<p># pvcreate /dev/md5 /dev/sdf1 /dev/sdg</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413368645089.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="5" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413374117189.jpg" alt="5" width="434" height="70" border="0"></a></p>
+<p>查看PV</p>
+<p># pvdisplay</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413381144804.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="6" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413389111448.jpg" alt="6" width="515" height="500" border="0"></a></p>
+<p>还可以使用命令pvs 和pvscan 查看简略信息。</p>
+<p># pvs</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413395043264.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="7" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413413327620.jpg" alt="7" width="344" height="84" border="0"></a></p>
+<p># pvscan</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413433173194.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="8" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413442861123.jpg" alt="8" width="553" height="83" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">八、创建VG</span></strong></span></p>
+<p># vgcreate vg0 /dev/md5 /dev/sdf1 /dev/sdg </p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413461615196.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="9" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413479738483.jpg" alt="9" width="462" height="43" border="0"></a></p>
+<p><strong>说明：</strong>vg0 是创建的VG设备的名称，可以随便取；后面接上述的三个设备，也就是把三个设备组合成一个vg0.</p>
+<p>查看VG</p>
+<p># vgdisplay</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413486457855.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="10" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413493177227.jpg" alt="10" width="512" height="305" border="0"></a></p>
+<p><strong>说明：</strong></p>
+<p>VG Name　　VG的名称</p>
+<p>VG Size　　VG的总大小</p>
+<p>PE Size　　PE的大小，默认为4MB</p>
+<p>Total PE　　PE的总数量，5114 x 4MB = 19.98GB</p>
+<p>Free PE / Size　　剩余空间大小</p>
+<p>同样可以使用命令vgs 和vgscan 查看。</p>
+<p># vgs</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413499114342.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="11" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413503798886.jpg" alt="11" width="342" height="57" border="0"></a></p>
+<p># vgscan</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413508796972.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="12" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413513325342.jpg" alt="12" width="482" height="59" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">九、创建LV</span></strong></span></p>
+<p># lvcreate -L 5G -n lv1 vg0</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413517868414.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="13" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413544115116.jpg" alt="13" width="346" height="45" border="0"></a></p>
+<p><strong>说明：</strong></p>
+<p>-L&nbsp;&nbsp;&nbsp; 指定创建的LV 的大小    <br>-l&nbsp;&nbsp;&nbsp; 指定创建的LV 的PE 数量     <br>-n&nbsp;&nbsp;&nbsp; LV的名字     <br>上面命令的意思是：从vg0 中分出5G的空间给lv1 使用</p>
+<p>查看LV的信息</p>
+<p># lvdisplay</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413550985960.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="14" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413557862103.jpg" alt="14" width="524" height="253" border="0"></a></p>
+<p><strong>说明：</strong></p>
+<p>LV Path　　LV的路径，全名</p>
+<p>LV Name　　LV的名字</p>
+<p>VG Name　　所属的VG</p>
+<p>LV Size　　LV的大小</p>
+<p>再来看VG 的信息</p>
+<p># vgs</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413562703418.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="15" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413568018747.jpg" alt="15" width="341" height="62" border="0"></a></p>
+<p>VFree 从19.98g 减少到了14.98g，另外的5g 被分配到了lv1.</p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">十、格式化LV</span></strong></span></p>
+<p># mkfs.ext4 /dev/vg0/lv1</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413576767648.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="16" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413584572819.jpg" alt="16" width="561" height="317" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">十一、挂载使用</span></strong></span></p>
+<p># mkdir /mnt/lv1</p>
+<p># mount /dev/vg0/lv1 /mnt/lv1/</p>
+<p># df –TH</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171413591453663.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="17" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171413598798521.jpg" alt="17" width="498" height="160" border="0"></a></p>
+<p>将挂载信息写入/etc/fstab</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414007395950.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="18" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414014579335.jpg" alt="18" width="786" height="242" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">十二、添加测试数据</span></strong></span></p>
+<p>下面我们将对LVM进行扩容和缩减操作，所以向/mnt/lv1 中写入测试数据以验证LVM 的磁盘动态管理。</p>
+<p># touch /mnt/lv1/test_lvm_dynamic.disk</p>
+<p># touch /mnt/lv1/test_lvm_dynamic.disk2</p>
+<p># touch /mnt/lv1/test_lvm_dynamic.disk3</p>
+<p># ll /mnt/lv1/</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414022541681.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="19" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414031456352.jpg" alt="19" width="545" height="136" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">十三、LVM的扩容操作</span></strong></span></p>
+<p>LVM最大的好处就是可以对磁盘进行动态管理，而且不会丢失现有的数据。</p>
+<p>假如有一天，lv1的使用量达到了80%，需要扩容，那我们该怎么做呢？</p>
+<p>因为vg0中还有很多剩余空间，所以我们可以从vg0中再分配点空间给lv1。</p>
+<p><strong>13.1 LV的扩容</strong></p>
+<p>查看vg0 的剩余容量，还有14.98g 可用。</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414038649737.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="15" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414043173810.jpg" alt="15" width="341" height="62" border="0"></a></p>
+<p>对lv1进行扩容。</p>
+<p># lvextend -L +1G /dev/vg0/lv1</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414047706882.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="20" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414052861739.jpg" alt="20" width="361" height="58" border="0"></a></p>
+<p><strong>说明：</strong>在lv1原有的基础上增加了1G.</p>
+<p>查看现在vg0 的剩余容量，减少了1G.</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414057238039.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="21" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414061762112.jpg" alt="21" width="349" height="57" border="0"></a></p>
+<p>再查看lv1的容量，从5G增加到了6G.</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414066143711.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="22" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414070676783.jpg" alt="22" width="611" height="53" border="0"></a></p>
+<p>使用df –TH 命令查看实际的磁盘容量。</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414075821640.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="23" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414081763456.jpg" alt="23" width="482" height="110" border="0"></a></p>
+<p>发现实际容量并没有变化，因为我们的系统还不认识刚刚添加进来的磁盘的文件系统，所以还需要对文件系统进行扩容。</p>
+<p># resize2fs /dev/vg0/lv1</p>
+<p># df –TH</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414088321356.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="24" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414096292701.jpg" alt="24" width="634" height="202" border="0"></a></p>
+<p>现在的可用容量已经增加到了5.9G。</p>
+<p>查看测试数据</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414102395585.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="25" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414108484172.jpg" alt="25" width="551" height="97" border="0"></a></p>
+<p>数据正常，对lv1的在线动态扩容完成。</p>
+<p>还有一种情况，就是假如我们的vg0 空间不够用了，怎么办？这时我们就需要对VG进行扩容。</p>
+<p><strong>13.2 VG的扩容</strong></p>
+<p>VG的扩容可以有两种方法，第一种方法是通过增加PV来实现，操作如下：</p>
+<p>A. 创建PV，使用/dev/sdh 来创建一个PV。</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414113329785.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="26" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414117707087.jpg" alt="26" width="428" height="45" border="0"></a></p>
+<p>B. 扩容VG</p>
+<p>现在的vg0 容量为19.98g.</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414122078686.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="27" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414127076772.jpg" alt="27" width="349" height="57" border="0"></a></p>
+<p># vgextend vg0 /dev/sdh</p>
+<p># vgs</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414132544575.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="28" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414138647459.jpg" alt="28" width="375" height="97" border="0"></a></p>
+<p>现在vg0 的容量为24.97g, 增加了5GB，即一块物理硬盘的容量，VG扩容成功。</p>
+<p>第二种方法是通过扩展RAID设备的容量来间接对VG进行扩容。这种方法在上一篇文章中有介绍，这里不再赘述，需要注意的地方是，/dev/md5 的大小变化后，需要调整PV的大小，操作如下：</p>
+<p># pvresize /dev/md5</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414147861375.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="29" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414153019932.jpg" alt="29" width="547" height="58" border="0"></a></p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">十四、LVM的缩减操作</span></strong></span></p>
+<p>缩减操作需要离线处理。</p>
+<p><strong>14.1 LV的缩减</strong></p>
+<p>A. umount 文件系统</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414158174790.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="30" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414163955133.jpg" alt="30" width="481" height="144" border="0"></a></p>
+<p>B. 缩减文件系统</p>
+<p># resize2fs /dev/vg0/lv1 4G</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414169261463.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="31" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414174268548.jpg" alt="31" width="374" height="66" border="0"></a></p>
+<p>提示需要先运行磁盘检查。</p>
+<p>C. 检查磁盘</p>
+<p># e2fsck –f /dev/vg0/lv1</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414180362434.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="32" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414187233278.jpg" alt="32" width="609" height="118" border="0"></a></p>
+<p>D. 再次执行缩减操作</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414195208921.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="33" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414200207007.jpg" alt="33" width="542" height="56" border="0"></a></p>
+<p>缩减文件系统成功，下面缩减LV的大小。</p>
+<p>E. 缩减LV</p>
+<p># lvreduce /dev/vg0/lv1 –L 4G</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414206144122.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="34" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414212863494.jpg" alt="34" width="626" height="197" border="0"></a></p>
+<p>说明：Step E 和Step D 缩减的大小必须保持一致，这里的4G是缩减到的大小；如果使用的是"-4G"，则表示容量减少多少的意思。</p>
+<p>F. 挂载查看</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414220208351.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="35" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414225988695.jpg" alt="35" width="497" height="135" border="0"></a></p>
+<p>LV 缩减成功。</p>
+<p>G. 查看测试数据</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414231769038.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="36" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414238326938.jpg" alt="36" width="542" height="96" border="0"></a></p>
+<p>数据正常。</p>
+<p><strong>14.2 VG的缩减</strong></p>
+<p>A. umount 文件系统</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414243486496.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="37" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414247702325.jpg" alt="37" width="277" height="27" border="0"></a></p>
+<p>B. 查看当前的PV详情</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414253321197.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="38" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414258489754.jpg" alt="38" width="343" height="92" border="0"></a></p>
+<p>C. 将/dev/sdg 从vg0 中移除</p>
+<p># vgreduce vg0 /dev/sdg</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414263644612.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; margin: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="39" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414268177683.jpg" alt="39" width="380" height="40" border="0"></a></p>
+<p>D. 再次查看PV情况</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414273322541.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; margin: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="40" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414279421128.jpg" alt="40" width="342" height="92" border="0"></a></p>
+<p>/dev/sdg 已经不属于vg0了。</p>
+<p>E. 查看vg0 的情况</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414284893228.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="41" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414289118056.jpg" alt="41" width="336" height="53" border="0"></a></p>
+<p>vg0 的大小减少了5GB.</p>
+<p>VG 缩减成功。</p>
+<p><span style="font-size: 16px;"><strong><span style="color: #800000;">十五、删除LVM</span></strong></span></p>
+<p>如果要彻底的来移除LVM的话，需要把创建的步骤反过来操作。</p>
+<p>15.1 umount 文件系统</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414294267615.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="37" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414297866957.jpg" alt="37" width="277" height="27" border="0"></a></p>
+<p>15.2 移除LV</p>
+<p># lvremove /dev/vg0/lv1 </p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414302865043.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="45" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414308488615.jpg" alt="45" width="602" height="121" border="0"></a></p>
+<p>15.3 移除VG</p>
+<p># vgremove vg0</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414314268959.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="46" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414320514317.jpg" alt="46" width="368" height="109" border="0"></a></p>
+<p>15.4 移除PV</p>
+<p># pvremove /dev/md5 /dev/sdf1 /dev/sdg /dev/sdh</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414326617202.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="62" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414334573845.jpg" alt="62" width="500" height="174" border="0"></a></p>
+<p>LVM 移除成功。</p>
+<p><span style="color: #800000; font-size: 16px;"><strong>十六、LVM 快照（snapshot）</strong></span></p>
+<p>快照就是将当时的系统信息记录下来，就好像照相一样，未来若有任何资料变动了，则<strong>原始资料会被移动到快照区，没有被改动的区域则由快照区与档案系统共享</strong>。</p>
+<p align="center"><a href="https://images0.cnblogs.com/blog/370046/201406/171414339733404.gif"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="snapshot" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414345513747.gif" alt="snapshot" width="530" height="197" border="0"></a></p>
+<p align="center">LVM 系统快照区域的备份示意图(虚线为档案系统，长虚线为快照区)</p>
+<p>左图为最初建立系统快照区的状况，LVM 会预留一个区域 (左图的左侧三个PE 区块) 作为数据存放处。此时快照区内并没有任何数据，而快照区与系统区共享所有的PE 数据， 因此你会看到快照区的内容与文件系统是一模一样的。等到系统运作一阵子后，假设A 区域的数据被更动了 (上面右图所示)，则更动前系统会将该区域的数据移动到快照区，所以在右图的快照区被占用了一块PE 成为A，而其他B 到I 的区块则还是与文件系统共享！</p>
+<p>快照区与被快照的LV 必须要在同一个VG 里。</p>
+<p>16.1 建立LV</p>
+<p># lvcreate -L 100M -n lv1 vg0</p>
+<p># mkfs.ext4 /dev/vg0/lv1</p>
+<p># mount /dev/vg0/lv1 /mnt/lv1/</p>
+<p>16.2 写入测试数据</p>
+<p># touch /mnt/lv1/test_lvm_snapshot_1</p>
+<p># touch /mnt/lv1/test_lvm_snapshot_2</p>
+<p># cp -a /etc/ /mnt/lv1/</p>
+<p># cp -a /boot/ /mnt/lv1/</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414352541363.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="51" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414359118261.jpg" alt="51" width="542" height="251" border="0"></a></p>
+<p>16.3 创建快照</p>
+<p># lvcreate -L 80M -s -n lv1snap /dev/vg0/lv1</p>
+<p>说明：为/dev/vg0/lv1 创建一个大小为80M，名称为lv1snap 的快照。</p>
+<p># lvdisplay </p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414368018634.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="53" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414376459291.jpg" alt="53" width="533" height="604" border="0"></a></p>
+<p>/dev/vg0/lv1snap 的LV Size 为100MB，使用量为0.01%.</p>
+<p>16.4 将刚才创建的快照挂载查看</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414384117691.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="55" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414390671293.jpg" alt="55" width="571" height="131" border="0"></a></p>
+<p>/mnt/lv1 和/mnt/snapshot 是一模一样的。</p>
+<p>16.5 进行档案的修改操作</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414398172922.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="56" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414406148565.jpg" alt="56" width="528" height="339" border="0"></a></p>
+<p>16.6 再次查看</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414415826494.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="57" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414423328123.jpg" alt="57" width="578" height="664" border="0"></a></p>
+<p>snapshot 的使用量为10.36%，原始资料有改动。</p>
+<p>16.7 对snapshot 里的资料进行打包备份，准备还原</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414429573481.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="58" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414434898810.jpg" alt="58" width="437" height="79" border="0"></a></p>
+<p>16.8 卸载并移除snapshot</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414440825924.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="59" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414449893069.jpg" alt="59" width="569" height="144" border="0"></a></p>
+<p>16.9 卸载并格式化/mnt/lv1，清空数据</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414457702941.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; margin: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="60" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414466295071.jpg" alt="60" width="553" height="326" border="0"></a></p>
+<p>16.10 恢复数据</p>
+<p><a href="https://images0.cnblogs.com/blog/370046/201406/171414472397955.jpg"><img style="background-image: none; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-width: 0px;" title="61" src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/171414479117327.jpg" alt="61" width="518" height="161" border="0"></a></p>
+<p>可以看到，原始数据已经成功恢复。</p>
+<p>LVM 快照实验成功。</p>
+<p><strong><span style="color: #800000;">注意：</span></strong>对lv1的修改量不能超过快照的大小，由于原始数据会被搬移到快照区，如果你的快照区不够大，若原始资料被更动的实际数据量比快照区大，那么快照区当然容纳不了，这时候快照功能会失效喔！</p>
+<p>&nbsp;</p>
+<p><strong>参考资料</strong></p>
+<ul>
+<li>鸟哥的Linux 私房菜：http://linux.vbird.org/linux_basic/0420quota.php#lvm</li>
+<li>羽飞博客：http://www.opsers.org/base/one-day-a-little-learning-linux-logical-volume-manager-lvm-on-the-rhel6.html</li>
+
+
+
+</ul>
+<p><strong>&nbsp;</strong></p>
+<p><span style="font-size: 14px;"><strong><span style="color: #800000;">CentOS 6.3下配置软RAID（Software RAID）</span></strong></span></p>
+<p><a href="http://www.cnblogs.com/mchina/p/linux-centos-disk-array-software_raid.html" target="_blank"><span style="font-size: 14px;"><span style="color: #800000;">http://www.cnblogs.com/mchina/p/linux-centos-disk-array-software_raid.html</span></span></a></p>
+<p>&nbsp;</p>
+<hr>
+<p><span style="color: #800000;"><strong>David Camp</strong></span></p>
+<ul>
+<li>技术交流，请加QQ群：</li>
+
+
+
+</ul>
+<p>　　　　系统运维技术分享Ⅲ：416491168</p>
+<ul>
+<li>业务合作，请联系作者QQ：562866602</li>
+<li>我的微信号：mchina_tang</li>
+<li>给我写信：mchina_tang@qq.com</li>
+<li>我的地址：江苏·苏州</li>
+
+
+
+</ul>
+<p><span style="color: #800000;"><strong><strong><strong>我们永远相信，分享是一种美德 |&nbsp;</strong></strong>We Believe, Great People Share Knowledge...</strong></span></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/mchina/category/381459.html" target="_blank">Linux</a>,<a href="http://www.cnblogs.com/mchina/category/381457.html" target="_blank">Linux Server</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/mchina/tag/linux/">linux</a>, <a href="http://www.cnblogs.com/mchina/tag/lvm/">lvm</a>, <a href="http://www.cnblogs.com/mchina/tag/pvcreate/">pvcreate</a>, <a href="http://www.cnblogs.com/mchina/tag/vgcreate/">vgcreate</a>, <a href="http://www.cnblogs.com/mchina/tag/lvcreate/">lvcreate</a>, <a href="http://www.cnblogs.com/mchina/tag/%E9%80%BB%E8%BE%91%E5%8D%B7%E7%AE%A1%E7%90%86/">逻辑卷管理</a>, <a href="http://www.cnblogs.com/mchina/tag/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/">磁盘管理</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3792701,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;2e55a023-ab40-e111-9590-842b2b196315&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/mchina/" target="_blank"><img src="./CentOS 6.3下配置LVM（逻辑卷管理） - David_Tang - 博客园_files/u370046.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/mchina/">David_Tang</a><br>
+            <a href="http://home.cnblogs.com/u/mchina/followees">关注 - 3</a><br>
+            <a href="http://home.cnblogs.com/u/mchina/followers">粉丝 - 1892</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;2e55a023-ab40-e111-9590-842b2b196315&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(3792701,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">9</span>
+    </div>
+    <div class="buryit" onclick="votePost(3792701,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">1</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/mchina/p/linux-centos-disk-array-software_raid.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/mchina/p/linux-centos-disk-array-software_raid.html" title="发布于2014-06-11 10:03">CentOS 6.3下配置软RAID（Software RAID）</a><br><a href="http://www.cnblogs.com/mchina/p/centos-pxe-kickstart-auto-install-os.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/mchina/p/centos-pxe-kickstart-auto-install-os.html" title="发布于2014-06-24 15:10">CentOS 6.4下PXE+Kickstart无人值守安装操作系统</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-06-18 10:47</span> <a href="http://www.cnblogs.com/mchina/">David_Tang</a> 阅读(<span id="post_view_count">43136</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=3792701" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/mchina/p/linux-centos-logical-volume-manager-lvm.html#" onclick="AddToWz(3792701);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=107026,cb_entryId=3792701,cb_blogApp=currentBlogApp,cb_blogUserGuid='2e55a023-ab40-e111-9590-842b2b196315',cb_entryCreatedDate='2014/6/18 10:47:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/mchina/p/linux-centos-logical-volume-manager-lvm.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/mchina/p/linux-centos-logical-volume-manager-lvm.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/588014/" target="_blank">Facebook前工程师发明新时间单位：测量媒体文件帧速</a><br> ·  <a href="https://news.cnblogs.com/n/588013/" target="_blank">默多克：Facebook必须按有线电视模式花钱买新闻</a><br> ·  <a href="https://news.cnblogs.com/n/588011/" target="_blank">再现高层变动 百度确认副总裁邬学斌将离职</a><br> ·  <a href="https://news.cnblogs.com/n/588010/" target="_blank">为什么互联网品牌取名都要拉上个动物？腾讯回答</a><br> ·  <a href="https://news.cnblogs.com/n/588009/" target="_blank">《绝地求生》饰品价格疯狂暴跌 缩水9成黄牛亏哭</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/mchina/">David_Tang</a><br>园龄：<a href="https://home.cnblogs.com/u/mchina/" title="入园时间：2012-01-17">6年</a><br>粉丝：<a href="https://home.cnblogs.com/u/mchina/followers/">1892</a><br>关注：<a href="https://home.cnblogs.com/u/mchina/followees/">3</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;2e55a023-ab40-e111-9590-842b2b196315&#39;)">+加关注</a></div><script>getFollowStatus('2e55a023-ab40-e111-9590-842b2b196315')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/12/01&#39;);return false;">&lt;</a></td><td align="center">2018年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td class="CalTodayDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/mchina/tag/linux/">linux</a>(22)</li><li><a href="http://www.cnblogs.com/mchina/tag/postgresql/">postgresql</a>(22)</li><li><a href="http://www.cnblogs.com/mchina/tag/Packet%20Tracer/">Packet Tracer</a>(15)</li><li><a href="http://www.cnblogs.com/mchina/tag/Oracle%E7%AC%94%E8%AE%B0/">Oracle笔记</a>(14)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%BE%AE%E4%BF%A1/">微信</a>(12)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97/">微信公众</a>(11)</li><li><a href="http://www.cnblogs.com/mchina/tag/zhuojinsz/">zhuojinsz</a>(11)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91/">微信公众平台开发</a>(9)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">微信开发</a>(8)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%8D%93%E9%94%A6%E8%8B%8F%E5%B7%9E/">卓锦苏州</a>(6)</li><li><a href="http://www.cnblogs.com/mchina/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(136)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/mchina/category/381459.html">Linux(20)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/mchina/category/381457.html">Linux Server(17)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/mchina/category/391868.html">Linux Shell(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/mchina/category/392129.html">Mysql(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/mchina/category/395111.html">Network(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/mchina/category/403734.html">Oracle(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/mchina/category/486547.html">PHP(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/mchina/category/381458.html">Postgresql(26)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/mchina/category/486546.html">微信开发(12)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(115)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/mchina/archive/2014/07.html">2014年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/mchina/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/mchina/archive/2014/05.html">2014年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/mchina/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/mchina/archive/2014/02.html">2014年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/mchina/archive/2013/10.html">2013年10月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/mchina/archive/2013/08.html">2013年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/mchina/archive/2013/07.html">2013年7月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/mchina/archive/2013/06.html">2013年6月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/mchina/archive/2013/04.html">2013年4月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/mchina/archive/2013/03.html">2013年3月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/mchina/archive/2013/02.html">2013年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/mchina/archive/2013/01.html">2013年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/mchina/archive/2012/12.html">2012年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/mchina/archive/2012/11.html">2012年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/mchina/archive/2012/09.html">2012年9月 (16)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/mchina/archive/2012/08.html">2012年8月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/mchina/archive/2012/07.html">2012年7月 (23)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/mchina/archive/2012/06.html">2012年6月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/mchina/archive/2012/05.html">2012年5月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/mchina/archive/2012/04.html">2012年4月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">链接</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="http://hi.baidu.com/new/mchina_tang" rel="nofollow" target="_blank">蘇's 百度</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_1" href="http://blog.163.com/mchina_tang/" rel="nofollow" target="_blank">蘇's 网易</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_2" href="http://blog.sina.com.cn/mchinatang" rel="nofollow" target="_blank">蘇's 新浪</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	317794
+	</li>
+	<li class="liRank">
+		排名 -	534
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/p/3170551.html#3877791">1. Re:微信公众平台开发（五） 天气预报功能开发</a></li>
+        <li class="recent_comment_body">@天空如自由无尽头可以返回了，但是是各项内容为空...</li>
+        <li class="recent_comment_author">--noego</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/archive/2013/04/19/3028573.html#3873586">2. Re:PostgreSQL 查看数据库，索引，表，表空间大小</a></li>
+        <li class="recent_comment_body">NB</li>
+        <li class="recent_comment_author">--StarsL</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/archive/2012/07/15/2591973.html#3866586">3. Re:Packet Tracer 5.0实验(五) 快速生成树配置</a></li>
+        <li class="recent_comment_body">大学里学的东西，现在重新再捡起来，幸亏有教程。谢谢</li>
+        <li class="recent_comment_author">--白菜洋</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/archive/2012/09/07/2651568.html#3858194">4. Re:Oracle笔记（六） 多表查询</a></li>
+        <li class="recent_comment_body">@紫sed飞雪看到你的评论我照做了。。。...</li>
+        <li class="recent_comment_author">--遠方的風</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/archive/2012/12/18/2816717.html#3840228">5. Re:CentOS 6.3下Samba服务器的安装与配置</a></li>
+        <li class="recent_comment_body">建议使用 一粒云企业网盘www.yliyun.comsamba 的安装，管理，配置都是非常复杂的。 而且完全没有考虑到数据备份；权限相当简单：如果一个文件只给他人查看，不允许下载，也是无法实现的。........</li>
+        <li class="recent_comment_author">--漫步之舞</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/mchina/archive/2013/01/04/2842275.html">1. CentOS yum 源的配置与使用(410379)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/01/03/2840040.html">2. Linux NFS服务器的安装与配置(365533)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html">3. linux screen 命令详解(327162)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/06/05/3108618.html">4. 微信公众平台开发（一） 配置接口(314952)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html">5. Linux下Nagios的安装与配置(242648)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html">1. Linux下Nagios的安装与配置(91)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/06/05/3108618.html">2. 微信公众平台开发（一） 配置接口(69)</a></li><li><a href="http://www.cnblogs.com/mchina/p/3364377.html">3. 微信公众平台开发（十） 消息回复总结(42)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/09/07/2651568.html">4. Oracle笔记（六） 多表查询(32)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/12/18/2816717.html">5. CentOS 6.3下Samba服务器的安装与配置(31)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html">1. Linux下Nagios的安装与配置(61)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/09/07/2651568.html">2. Oracle笔记（六） 多表查询(56)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/01/04/2842275.html">3. CentOS yum 源的配置与使用(53)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/06/05/3108618.html">4. 微信公众平台开发（一） 配置接口(47)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/01/03/2840040.html">5. Linux NFS服务器的安装与配置(33)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 David_Tang
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+<script type="text/javascript"></script><script type="text/javascript"></script><script type="text/javascript">
+		var bds_config = {"bdTop":130};
+		document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+</script></body></html>
