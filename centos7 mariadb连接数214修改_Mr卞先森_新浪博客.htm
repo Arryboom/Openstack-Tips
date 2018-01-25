@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>centos7&nbsp;mariadb连接数214修改_Mr卞先森_新浪博客</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="keywords" content="centos7&nbsp;mariadb连接数214修改_Mr卞先森_新浪博客,Mr卞先森,mariadb">
+<meta name="description" content="centos7&nbsp;mariadb连接数214修改_Mr卞先森_新浪博客,Mr卞先森,">
+<meta http-equiv="mobile-agent" content="format=html5; url=http://blog.sina.cn/dpool/blog/s/blog_e62f7f150102x7j2.html?vt=4">
+<meta http-equiv="mobile-agent" content="format=wml; url=http://blog.sina.cn/dpool/blog/ArtRead.php?nid=e62f7f150102x7j2&amp;vt=1">
+<!--–[if lte IE 6]-->
+<script id="sinaads-ck-script" charset="utf-8" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sinaads_ck.js"></script><script type="text/javascript">
+try{
+document.execCommand("BackgroundImageCache", false, true);
+}catch(e){}
+</script>
+<!--[endif]–-->
+<script type="text/javascript">
+window.staticTime=new Date().getTime();
+</script>
+<link rel="pingback" href="http://upload.move.blog.sina.com.cn/blog_rebuild/blog/xmlrpc.php">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://upload.move.blog.sina.com.cn/blog_rebuild/blog/xmlrpc.php?rsd">
+<link href="http://blog.sina.com.cn/blog_rebuild/blog/wlwmanifest.xml" type="application/wlwmanifest+xml" rel="wlwmanifest">
+<link rel="alternate" type="application/rss+xml" href="http://blog.sina.com.cn/rss/3861872405.xml" title="RSS">
+<link href="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/article.css" type="text/css" rel="stylesheet"><link href="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/common.css" type="text/css" rel="stylesheet"><link href="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/blog.css" type="text/css" rel="stylesheet"><link href="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/blog_002.css" type="text/css" rel="stylesheet"><style id="tplstyle" type="text/css">@charset "utf-8";@import url("http://simg.sinajs.cn/blog7newtpl/css/13/13_16/t.css");
+</style>
+<style id="positionstyle" type="text/css">
+.sinabloghead .blogtoparea{ left:280px;top:114.375px;}
+.sinabloghead .blognav{ left:267px;top:164.906px;}
+</style>
+<script type="text/javascript" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sspnew.js"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/ssologin.js" charset="utf-8" async=""></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/article.js" charset="utf-8"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/bsStatic.js" type="text/javascript" charset="utf-8"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/fingerprint2.js" type="text/javascript" charset="utf-8"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/bs-engine.js" type="text/javascript" charset="utf-8"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sinaads.js" charset="utf-8"></script><script id="jsonp_script1516876083548" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/check_login.htm"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/suda_s_v851c.js" charset="utf-8"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/tmp_clone.js" charset="utf-8"></script><style type="text/css" id="stylefix">#bsPanelHolder,#sinaads_pdps54771{display:none;}</style><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/getSinaadsExParamsForBlog.js" charset="utf-8"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/collect.js" charset="gb2312"></script><script src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/blog_bottom_float.js" charset="utf-8"></script></head>
+<body><div id="sinaadToolkitBox3" class="sinaad-toolkit-box" style="position: fixed; width: 640px; height: 90px; z-index: 10501; display: none; left: 476px; top: 878px; transition: all 0.3s ease 0s;"><div id="sinaAD_type_blogbf"><a style="display:block;line-height:0;" href="http://saxn.sina.com.cn/dsp/click?t=MjAxOC0wMS0yNSAxODoyNzoxMi43MzEJMTI0Ljc0LjEzMi4yMzAJMTI0Ljc0LjEzMi4yMzBfMTUwOTM1NDAzNS44MjU3NDgJOThkZDY2MmEtMGFhYi00YTE3LTgyMmYtZWFmYmU0YTlhNDMzCTMxODg4NDMJNTkxMzIyODUyOV9QSU5QQUktQ1BDCTMwNjk3MzUJMTk2NTQ4CTAuMDAxODYyNDUwNQkxCXRydWUJUERQUzAwMDAwMDA1Mjk1MAkzNDExNTUzCVBDCWltYWdlCS0JMHw1Y0pudHozeTBRUTgzYnFFSU9URDIzfG51bGx8bnVsbHxianwzMTg4ODQzfDZnTU1lRjJuNWdmTnVNYnVBVWp3ekF8MAludWxsCTEJLQktCS0JMAkxMjQuNzQuMTMyLjIzMF8xNTA5MzU0MDM1LjgyNTc0OAlQQ19JTUFHRQktCW5vcm1hbHx1dmZtLXJ0CS0JdXNlcl90YWc6MjA3Mzc6MC4wfHVzZXJfYWdlOjYwMzowLjB8dXNlcl9nZW5kZXI6NTAxOjAuMHx2X3pvbmU6MzI1MDAwOjAuMHxjcm93ZHM6fF9jcm93ZHM6CTQJMTk5MDAwCTUwMDAwCS0=&amp;userid=124.74.132.230_1509354035.825748&amp;auth=ee81a7206515b9a5&amp;p=Te%2F2e8xSOI62GoJNzwzvfPNNtdbg4Dj60Zg90g%3D%3D&amp;url=http%3A%2F%2Fsax.sina.com.cn%2Fclick%3Ftype%3D2%26t%3DNGRlZmY2N2ItY2M1Mi0zODhlLWI2MWEtODI0ZGNmMGNlZjdjCTE3CVBEUFMwMDAwMDAwNTI5NTAJMzQxMTU1MwkxCVJUQgktCQk%253D%26id%3D17%26url%3Dhttp%253A%252F%252Faffaireschine.com%252Fyingmeichuanfu%252F%26sina_sign%3D8a84a81164c7bace&amp;sign=36fe279abf5c9fd5" target="_blank" data-link="http://saxn.sina.com.cn/dsp/click?t=MjAxOC0wMS0yNSAxODoyNzoxMi43MzEJMTI0Ljc0LjEzMi4yMzAJMTI0Ljc0LjEzMi4yMzBfMTUwOTM1NDAzNS44MjU3NDgJOThkZDY2MmEtMGFhYi00YTE3LTgyMmYtZWFmYmU0YTlhNDMzCTMxODg4NDMJNTkxMzIyODUyOV9QSU5QQUktQ1BDCTMwNjk3MzUJMTk2NTQ4CTAuMDAxODYyNDUwNQkxCXRydWUJUERQUzAwMDAwMDA1Mjk1MAkzNDExNTUzCVBDCWltYWdlCS0JMHw1Y0pudHozeTBRUTgzYnFFSU9URDIzfG51bGx8bnVsbHxianwzMTg4ODQzfDZnTU1lRjJuNWdmTnVNYnVBVWp3ekF8MAludWxsCTEJLQktCS0JMAkxMjQuNzQuMTMyLjIzMF8xNTA5MzU0MDM1LjgyNTc0OAlQQ19JTUFHRQktCW5vcm1hbHx1dmZtLXJ0CS0JdXNlcl90YWc6MjA3Mzc6MC4wfHVzZXJfYWdlOjYwMzowLjB8dXNlcl9nZW5kZXI6NTAxOjAuMHx2X3pvbmU6MzI1MDAwOjAuMHxjcm93ZHM6fF9jcm93ZHM6CTQJMTk5MDAwCTUwMDAwCS0=&amp;userid=124.74.132.230_1509354035.825748&amp;auth=ee81a7206515b9a5&amp;p=Te%2F2e8xSOI62GoJNzwzvfPNNtdbg4Dj60Zg90g%3D%3D&amp;url=http%3A%2F%2Fsax.sina.com.cn%2Fclick%3Ftype%3D2%26t%3DNGRlZmY2N2ItY2M1Mi0zODhlLWI2MWEtODI0ZGNmMGNlZjdjCTE3CVBEUFMwMDAwMDAwNTI5NTAJMzQxMTU1MwkxCVJUQgktCQk%253D%26id%3D17%26url%3Dhttp%253A%252F%252Faffaireschine.com%252Fyingmeichuanfu%252F%26sina_sign%3D8a84a81164c7bace&amp;sign=36fe279abf5c9fd5" onmousedown="return sinaadToolkit.url.fortp(this, event);"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/ab08137506d704cbdb31954882e88d03.jpg" style="width:640px;height:90px;border:0" alt="广告" border="0"></a></div><div style="background: rgba(0, 0, 0, 0) url(&quot;http://d1.sina.com.cn/litong/zhitou/sinaads/60x18_2_close.gif&quot;) no-repeat scroll left top; cursor: pointer; z-index: 11010; position: absolute; width: 60px; height: 18px; right: 7px; top: 1px;"></div></div><div id="sinaadToolkitBox2" class="sinaad-toolkit-box" style="position: fixed; width: 25px; height: 239px; z-index: 10000; display: none; left: 1878px; top: 200px;"><div></div><div style="width: 25px; height: 24px; position: absolute; left: 0px; top: 150px; background: rgba(0, 0, 0, 0) url(&quot;//d5.sina.com.cn/d1images/lmt/play.gif&quot;) no-repeat scroll center center; margin: 0px; padding: 0px; display: block; cursor: pointer;"></div><div style="margin: 0px; padding: 0px; display: block; cursor: pointer; width: 25px; height: 65px; position: absolute; left: 0px; top: 174px; background: rgba(0, 0, 0, 0) url(&quot;//d2.sina.com.cn/litong/zhitou/sinaads/25x65_1-close.gif&quot;) no-repeat scroll center center;"></div></div><div id="sinaadToolkitBox1" class="sinaad-toolkit-box" style="position: fixed; width: 120px; height: 270px; z-index: 10010; display: none; left: 1783px; top: 30px;"><div></div><div style="width: 120px; height: 18px; position: absolute; right: 0px; bottom: -18px; z-index: 9999; background: rgb(238, 238, 238) url(&quot;//d2.sina.com.cn/litong/zhitou/sinaads/60x18_1_close.gif&quot;) no-repeat scroll left top; margin: 0px; padding: 0px; cursor: pointer;"></div></div><div id="sinaadToolkitBox0" class="sinaad-toolkit-box" style="position: fixed; width: 120px; height: 288px; z-index: 99999; display: block; left: 0px; top: 120px;"><div style="width: 120px; height: 18px; position: absolute; right: 0px; top: 270px; z-index: 10000; background: rgb(235, 235, 235) url(&quot;//d2.sina.com.cn/litong/zhitou/sinaads/60x18_1_close.gif&quot;) no-repeat scroll right center; margin: 0px; padding: 0px; cursor: pointer;"></div><div style="width: 120px; height: 270px; position: absolute; right: 0px; top: 0px;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="javascript:'<html><body style=background:transparent;></body></html>'" id="sinaadtk_sandbox_id_1" style="float:left;" name="sinaadtk_sandbox_id_1" width="120px" height="270px" frameborder="0"></iframe></div></div>
+<!--$sinatopbar-->
+<ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000049439" style="width: 1000px; display: block; margin: 0px auto; overflow: hidden; text-decoration: none;" data-ad-status="done"><ins style="text-decoration:none;margin:0px auto;width:1000px;display:block;position:relative;overflow:hidden;"><a style="display:block;line-height:0;" href="http://saxn.sina.com.cn/dsp/click?t=MjAxOC0wMS0yNSAxODoyNzowOC42OTEJMTI0Ljc0LjEzMi4yMzAJMTI0Ljc0LjEzMi4yMzBfMTUwOTM1NDAzNS44MjU3NDgJOWZiYzAwNzQtZDQwYS00MTBkLWFiMzgtNTRhZDJhNzAxOWI1CTg4NDQ0Mgk1NzIzNDQzNTg1X1BJTlBBSS1DUEMJMzExODMyCTQ5NTYxNgkzLjExMjUwOEUtNAkxCXRydWUJUERQUzAwMDAwMDA0OTQzOQkyMDczMjQxCVBDCWltYWdlCS0JMHwxRXE5WkdmVDVEMGM4TGgwY3JpOTZhfG51bGx8bnVsbHxianw4ODQ0NDJ8MWpqNDVjMUZMYnVHS0hCMUxMTUhWeXwwCW51bGwJMQktCS0JLQkwCTEyNC43NC4xMzIuMjMwXzE1MDkzNTQwMzUuODI1NzQ4CVBDX0lNQUdFCS0Jbm9ybWFsfHV2Zm0tcnQJLQl1c2VyX3RhZzoyMDEwNzowLjB8dXNlcl9hZ2U6NjA1OjAuMHx1c2VyX2dlbmRlcjo1MDE6MC4wfHZfem9uZTozMjUwMDA6MC4wfGNyb3dkczp8X2Nyb3dkczoJNAk1MzYwMDAJNTAwMDAJLQ==&amp;userid=124.74.132.230_1509354035.825748&amp;auth=a0bdc45282a6fb7d&amp;p=S%2BU0K5ELPy6rfKWDfMGwf8gR7LmwDjkHviV2nw%3D%3D&amp;url=http%3A%2F%2Fsax.sina.com.cn%2Fclick%3Ftype%3D2%26t%3DNGJlNTM0MmItOTEwYi0zZjJlLWFiN2MtYTU4MzdjYzFiMDdmCTE3CVBEUFMwMDAwMDAwNDk0MzkJMjA3MzI0MQkxCVJUQgktCQk%253D%26id%3D17%26url%3Dhttp%253A%252F%252Fgui.dadaing.cn%252F%253Fgzid%253D0110-100090D%26sina_sign%3Daece0b8928800e47&amp;sign=6efcc12198e279e0" target="_blank" data-link="http://saxn.sina.com.cn/dsp/click?t=MjAxOC0wMS0yNSAxODoyNzowOC42OTEJMTI0Ljc0LjEzMi4yMzAJMTI0Ljc0LjEzMi4yMzBfMTUwOTM1NDAzNS44MjU3NDgJOWZiYzAwNzQtZDQwYS00MTBkLWFiMzgtNTRhZDJhNzAxOWI1CTg4NDQ0Mgk1NzIzNDQzNTg1X1BJTlBBSS1DUEMJMzExODMyCTQ5NTYxNgkzLjExMjUwOEUtNAkxCXRydWUJUERQUzAwMDAwMDA0OTQzOQkyMDczMjQxCVBDCWltYWdlCS0JMHwxRXE5WkdmVDVEMGM4TGgwY3JpOTZhfG51bGx8bnVsbHxianw4ODQ0NDJ8MWpqNDVjMUZMYnVHS0hCMUxMTUhWeXwwCW51bGwJMQktCS0JLQkwCTEyNC43NC4xMzIuMjMwXzE1MDkzNTQwMzUuODI1NzQ4CVBDX0lNQUdFCS0Jbm9ybWFsfHV2Zm0tcnQJLQl1c2VyX3RhZzoyMDEwNzowLjB8dXNlcl9hZ2U6NjA1OjAuMHx1c2VyX2dlbmRlcjo1MDE6MC4wfHZfem9uZTozMjUwMDA6MC4wfGNyb3dkczp8X2Nyb3dkczoJNAk1MzYwMDAJNTAwMDAJLQ==&amp;userid=124.74.132.230_1509354035.825748&amp;auth=a0bdc45282a6fb7d&amp;p=S%2BU0K5ELPy6rfKWDfMGwf8gR7LmwDjkHviV2nw%3D%3D&amp;url=http%3A%2F%2Fsax.sina.com.cn%2Fclick%3Ftype%3D2%26t%3DNGJlNTM0MmItOTEwYi0zZjJlLWFiN2MtYTU4MzdjYzFiMDdmCTE3CVBEUFMwMDAwMDAwNDk0MzkJMjA3MzI0MQkxCVJUQgktCQk%253D%26id%3D17%26url%3Dhttp%253A%252F%252Fgui.dadaing.cn%252F%253Fgzid%253D0110-100090D%26sina_sign%3Daece0b8928800e47&amp;sign=6efcc12198e279e0" onmousedown="return sinaadToolkit.url.fortp(this, event);"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/e378d83650b749018d9695b858ec363f.jpg" style="width:1000px;height:90px;border:0" alt="广告" border="0"></a><div style="width: 26px; height: 13px; position: absolute; right: 1px; bottom: 1px; z-index: 99; background: rgba(0, 0, 0, 0) url(&quot;//d2.sina.com.cn/litong/zhitou/sinaads/release/ad_logo_update_IAB.gif&quot;) no-repeat scroll 0% 0%;"></div></ins></ins><div style="z-index: 512; display: block; top: 0px; width: 100%;" class="nsinatopbar">
+  <div style="position:absolute;left:0;top:0;" id="trayFlashConnetion"><embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/scache.swf" style="undefined" id="scache" name="scache" bgcolor="#00ff00" quality="high" wmode="transparent" allowscriptaccess="always" width="1" height="1"></div>
+  <div class="ntopbar_main"><div id="_5191516876083641_panel" class="horn" style="display: none;"><div id="_5191516876083641_tj" class="horn_con" style="">推荐：<a id="_5191516876083641_noticeAd1" target="_blank" href="http://blog.sina.com.cn/s/blog_5eee2dbf0102x37m.html" title="灵异：弄堂传来孩子哭声" suda-uatrack="key=blog_notice&amp;value=h_SLOT_58_84_N">灵异：弄堂传来孩子哭声</a><a id="_5191516876083641_noticeAd2" target="_blank" href="http://blog.sina.com.cn/s/blog_46d5159e0102yi8z.html" title="谁说保暖只有羽绒衣" suda-uatrack="key=blog_notice&amp;value=h_SLOT_59_84_N">谁说保暖只有羽绒衣</a></div><div id="_5191516876083641_announce" class="horn_con" style="display:none;"><p id="_5191516876083641_announceCon">公告：<em>请您及时更换请请请您正在使用的模版将于2周后被下线，请您及时更换</em></p></div><a class="close" title="关闭" id="_5191516876083641_close" style="float:none;">×</a></div> 
+    <a id="login_bar_logo_link_350" href="http://blog.sina.com.cn/" target="_blank" style="display: block;"><img class="ntopbar_logo" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/topbar_logo.gif" alt="新浪博客" width="100"></a>
+    <div class="ntopbar_floatL" style="display: block;">
+      <div class="ntopbar_search" id="traySearchBar"><div class="ntopbar_input" id="_1051516876083554_panel" style=""><form id="_1051516876083554_searchForm" method="get" target="_blank" action="http://search.sina.com.cn"><input id="_1051516876083554_queryTxt" class="ntopbar_txt" name="q" autocomplete="off" type="text"><input id="_1051516876083554_submit" onclick="v7sendLog('40_01_44')" class="ntopbar_searchBtn" value="" type="submit"><input name="ie" value="utf-8" type="hidden"><input name="e" value="utf-8" type="hidden"><input id="_1051516876083554_range" name="range" value="article" type="hidden"><input id="_1051516876083554_t" name="t" value="" type="hidden"><input id="_1051516876083554_s" name="s" value="sup" type="hidden"><input id="_1051516876083554_by" name="by" value="all" type="hidden"><input id="_1051516876083554_type" name="type" value="" type="hidden"><input id="_1051516876083554_stype" name="stype" value="1" type="hidden"><input id="_1051516876083554_c" name="c" value="blog" type="hidden"></form></div></div>
+	  <div class="ntopbar_ad" id="loginBarActivity" style=""><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000033238" style="display:block;" data-ad-status="done"></ins></div>
+    </div>
+    <div class="ntopbar_loading" style="display: none;"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/loading.gif">加载中…</div>
+  <div id="_9381516876083416_panel" class="ntopbar_login" style="" login="1"><span class="link bk_home"><a href="http://www.sina.com.cn/" target="_blank" suda-uatrack="key=sinahome_from_blog&amp;value=sinahome_from_blogpage"><i class="SG_bkhome"></i>新浪首页</a></span><a class="login" onclick="v7sendLog('40_01_38');return false;" href="###" action-type="tray-login-btn"><span>登录</span></a><a class="register" onclick="v7sendLog('40_01_39')" target="_blank" href="https://login.sina.com.cn/signup/signupmail.php?entry=blog&amp;srcuid=3861872405&amp;src=blogicp">注册</a></div></div>
+</div>
+<!--$end sinatopbar-->
+
+<div class="sinabloga" id="sinabloga">
+	<div id="sinablogb" class="sinablogb">
+
+	   
+ <div id="sinablogHead" class="sinabloghead">
+     <div style="" id="headflash" class="headflash"><embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/top.swf" style="undefined" id="headflash_f" name="headflash_f" bgcolor="#000" quality="high" allowscriptaccess="false" wmode="transparent" allowfullscreen="false" width="950" height="266"></div>
+	   <div id="headarea" class="headarea">
+      <div id="blogTitle" class="blogtoparea">
+      <h1 id="blogname" class="blogtitle"><a href="http://blog.sina.com.cn/u/3861872405"><span id="blognamespan">Mr卞先森的博客</span></a></h1>
+	  		
+					<div id="bloglink" class="bloglink"><a href="http://blog.sina.com.cn/u/3861872405">http://blog.sina.com.cn/u/3861872405</a>  <a onclick="return false;" class="CP_a_fuc" href="#" id="SubscribeNewRss">[<cite>订阅</cite>]</a><a class="CP_a_fuc" href="javascript:void(scope.pa_add.add('3861872405'));">[<cite>手机订阅</cite>]</a></div>
+      </div>
+      <div class="blognav" id="blognav">
+      			  <div id="blognavBg" class="blognavBg"></div> <div class="blognavInfo"> 
+		<span><a href="http://blog.sina.com.cn/u/3861872405">首页</a></span>
+      <span><a class="on" href="http://blog.sina.com.cn/s/articlelist_3861872405_0_1.html">博文目录</a></span>
+      <span><a href="http://photo.blog.sina.com.cn/u/3861872405">图片</a></span>
+      <span class="last"><a href="http://blog.sina.com.cn/s/profile_3861872405.html">关于我</a></span></div>
+      </div>      		      		 	
+      
+             <div class="autoskin" id="auto_skin">
+       </div>
+
+<div class="adsarea">
+     <a href="#"><div id="template_clone_pic" class="pic"></div></a>
+     <div id="template_clone_link" class="link wdc_HInf"></div>
+     <div id="template_clone_other" class="other"></div>        
+</div>
+    </div>
+    </div>
+    
+    <!--主题内容开始 -->
+    <div class="sinablogbody" id="sinablogbody">
+		
+	<!--第一列start-->
+    <div id="column_1" class="SG_colW21 SG_colFirst"><div class="SG_conn" id="module_901">
+    <div class="SG_connHead">
+            <span class="title" comp_title="个人资料">个人资料</span>
+            <span class="edit">
+                        </span>
+    </div>
+    <div class="SG_connBody">
+        <div class="info">
+                         
+            <div class="info_img" id="comp_901_head"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/30241462607798.jpg" real_src="http://p6.sinaimg.cn/3861872405/180/30241462607798" id="comp_901_head_image" alt="Mr卞先森" title="Mr卞先森" width="180" height="180"></div>
+            
+            <div class="info_txt">
+              <div class="info_nm">
+                <img id="comp_901_online_icon" style="display:none;" class="SG_icon SG_icon1" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" align="absmiddle" width="15" height="15">
+                <span class="SG_txtb"><strong id="ownernick">Mr卞先森</strong></span>
+                
+                <div class="clearit"></div>
+              </div>
+              <div class="info_btn1">
+                <a target="_blank" href="http://weibo.com/u/3861872405?source=blog" class="SG_aBtn SG_aBtn_ico"><cite><img class="SG_icon SG_icon51" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" align="absmiddle" width="15" height="15">微博</cite></a>
+                <div class="clearit"></div>
+              </div>
+    <div class="SG_j_linedot"></div>        <div class="info_locate" id="info_locate_id">
+<div class="SG_j_linedot"></div>
+<div class="info_btn2">
+    <p>
+    <a href="javascript:void(0)" class="SG_aBtn " id="comp901_btn_invite"><cite>加好友</cite></a>
+    <a href="javascript:void(0)" class="SG_aBtn" id="comp901_btn_sendpaper"><cite>发纸条</cite></a>
+    </p>
+    <p>
+    <a href="http://blog.sina.com.cn/s/profile_3861872405.html#write" class="SG_aBtn" id="comp901_btn_msninfo"><cite>写留言</cite></a>
+    <a href="#" onclick="return false;" class="SG_aBtn" id="comp901_btn_follow"><cite>加关注</cite></a>
+    </p>
+    <div class="clearit"></div>
+</div>
+<div class="SG_j_linedot"></div>
+</div>
+                  <div class="info_list"><a href="http://blog.sina.com.cn/lm/map/" target="_blank" title=""><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/ten_map.png" alt="博客十周年地图"></a></div><div class="info_list">     
+                                   <ul class="info_list1">
+                    <li><span class="SG_txtc">博客等级：</span><span id="comp_901_grade"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/7.gif"></span></li>
+                    <li><span class="SG_txtc">博客积分：</span><span id="comp_901_score"><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="积分"><strong>112</strong><img title="积分" alt="积分" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon11" align="top" width="15" height="15"></a></span></li>
+                    </ul>
+                    <ul class="info_list2">
+                    <li><span class="SG_txtc">博客访问：</span><span id="comp_901_pv"><strong>920</strong></span></li>
+                    <li><span class="SG_txtc">关注人气：</span><span id="comp_901_attention"><strong>0</strong></span></li>
+                    <li><span class="SG_txtc">获赠金笔：</span><strong id="comp_901_d_goldpen">0</strong></li>
+                    <li><span class="SG_txtc">赠出金笔：</span><strong id="comp_901_r_goldpen">1</strong></li>
+					<li class="lisp" id="comp_901_badge"><span class="SG_txtc">荣誉徽章：</span><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="点亮荣誉勋章"><img title="点亮荣誉勋章" alt="点亮荣誉勋章" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="badge" style="background-image:url(http://simg.sinajs.cn/blog7style/images/common/badge/badge08.png);_background-image: url(http://simg.sinajs.cn/blog7style/images/common/badge/badge08.gif);"></a><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="兑换图片博主服务"><img title="兑换图片博主服务" alt="兑换图片博主服务" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="badge" style="background-image:url(http://simg.sinajs.cn/blog7style/images/common/badge/badge11.png);_background-image: url(http://simg.sinajs.cn/blog7style/images/common/badge/badge11.gif);"></a><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="兑换私密博文"><img title="兑换私密博文" alt="兑换私密博文" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="badge" style="background-image:url(http://simg.sinajs.cn/blog7style/images/common/badge/badge13.png);_background-image: url(http://simg.sinajs.cn/blog7style/images/common/badge/badge13.gif);"></a><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="兑换金笔"><img title="兑换金笔" alt="兑换金笔" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="badge" style="background-image:url(http://simg.sinajs.cn/blog7style/images/common/badge/badge15.png);_background-image: url(http://simg.sinajs.cn/blog7style/images/common/badge/badge15.gif);"></a></li>
+                    </ul>
+                  </div>
+<div class="clearit"></div>
+    </div>
+    <div class="clearit"></div>
+</div>
+            </div>       
+            <div class="SG_connFoot"></div>
+</div>
+<div class="SG_conn" suda-uatrack="key=blog_article&amp;value=h_article53" id="hotShangPin"><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000057414" style="display:block;" data-ad-status="done"></ins></div><div id="module_903" class="SG_conn ">
+    <div class="SG_connHead">
+    <span comp_title="相关博文" class="title">相关博文</span>
+    <span class="edit"> </span>
+    </div>
+    <div class="SG_connBody">
+    <div class="atcTitList relaList">        <ul class="">
+
+                <li class="SG_j_linedot1" style="display:none;">
+            <p id="atcTitLi_SLOT_41" class="atcTitCell_tit SG_dot" style="display:none">
+        </p>
+        </li>
+        <li class="SG_j_linedot1" style="display:none;">
+            <p id="atcTitLi_SLOT_42" class="atcTitCell_tit SG_dot" style="display:none">
+        </p>
+        </li>
+        
+                	<li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_540c8e9c0102y085.html#cre=blogpagepc&amp;mod=f&amp;loc=1&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="对标现场||合作三年，对标管理给江西带去了什么？">对标现场||合作三年，对标管理给江西带去了什么？</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1410109084" class="SG_linkb" target="_blank">泓子-陈泓冰标杆思想</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_4d6e40db0102xbpy.html#cre=blogpagepc&amp;mod=f&amp;loc=2&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="幸福社区卫生公共服务进社区">幸福社区卫生公共服务进社区</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1299071195" class="SG_linkb" target="_blank">崔顺立</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_5eec869c0102xdmt.html#cre=blogpagepc&amp;mod=f&amp;loc=3&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="黑河市公安局爱辉分局海兰边防派出所“四零”服务创建公开承诺！">黑河市公安局爱辉分局海兰边防派出所“四零”服务创建公开承诺！</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1592559260" class="SG_linkb" target="_blank">鹿源春社区</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_73f1ab3c0102xadl.html#cre=blogpagepc&amp;mod=f&amp;loc=4&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="我国加强代办公民因私签证服务机构监管【崔文生报道】">我国加强代办公民因私签证服务机构监管【崔文生报道】</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1945217852" class="SG_linkb" target="_blank">第1时间崔文生</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_4960d29f0102xkj3.html#cre=blogpagepc&amp;mod=f&amp;loc=5&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="【简讯】龙岩市郭丽珍副市长一行拜访研究院">【简讯】龙岩市郭丽珍副市长一行拜访研究院</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1231082143" class="SG_linkb" target="_blank">定空法师</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_6900fe3f0102xbs5.html#cre=blogpagepc&amp;mod=f&amp;loc=6&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="唐山青年志愿者：我们有个共同的名字“小唐园”">唐山青年志愿者：我们有个共同的名字“小唐园”</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1761672767" class="SG_linkb" target="_blank">韩春丽</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_4c49f8fa0102y4ck.html#cre=blogpagepc&amp;mod=f&amp;loc=7&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="再想唬人没那么容易过程不会骗人">再想唬人没那么容易过程不会骗人</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1279916282" class="SG_linkb" target="_blank">揭幕者</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_4c49f8fa0102y4bj.html#cre=blogpagepc&amp;mod=f&amp;loc=8&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="越涨越热了此后爆发牛翻倍出现">越涨越热了此后爆发牛翻倍出现</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1279916282" class="SG_linkb" target="_blank">揭幕者</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_b6f74c3f0102wszw.html#cre=blogpagepc&amp;mod=f&amp;loc=9&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="中央空调虽好，维保却必不可少！">中央空调虽好，维保却必不可少！</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/3069660223" class="SG_linkb" target="_blank">实阳机电</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_16349d0960102x9wl.html#cre=blogpagepc&amp;mod=f&amp;loc=10&amp;r=0&amp;doct=0&amp;rfunc=100&amp;tj=none" target="_blank" title="智能工厂离不开AGV机器人">智能工厂离不开AGV机器人</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/372546825" class="SG_linkb" target="_blank">用户372546825</a></p></li></ul>
+    <div class="atcTit_more"><span class="SG_more"><a href="http://blog.sina.com.cn/" target="_blank">更多&gt;&gt;</a></span></div></div>    </div>
+    <div class="SG_connFoot"></div>
+  </div><ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000055124" style="display: block; overflow: hidden; text-decoration: none; margin-bottom: 10px;" data-ad-status="done"><ins style="text-decoration:none;margin:0px auto;width:210px;display:block;position:relative;overflow:hidden;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="javascript:'<html><body style=background:transparent;></body></html>'" id="sinaadtk_sandbox_id_2" style="float:left;" name="sinaadtk_sandbox_id_2" width="210px" height="220px" frameborder="0"></iframe></ins></ins><div class="SG_conn"><!--博客左侧推荐商讯210*220按钮(扶翼) Start--><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000057669" data-ad-status="done"></ins><script>(sinaads = window.sinaads || []).push({})</script><!--博客左侧推荐商讯210*220按钮(扶翼) End—></div>--></div>
+<div id="module_904_top_ad"></div>
+<ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000033239" style="display: block; overflow: hidden; text-decoration: none; margin-bottom: 10px;" data-ad-status="done"><ins style="text-decoration:none;margin:0px auto;width:210px;display:block;position:relative;overflow:hidden;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="javascript:'<html><body style=background:transparent;></body></html>'" id="sinaadtk_sandbox_id_0" style="float:left;" name="sinaadtk_sandbox_id_0" width="210px" height="220px" frameborder="0"></iframe></ins></ins><div id="notAe" class="SG_conn"><ins class="sinaads sinaads-fail" data-ad-pdps="593E0A43A6FE" style="display:block;" data-ad-status="done"></ins></div><div class="SG_conn " id="module_904">
+<div class="SG_connHead">
+<span class="title">推荐博文</span>
+</div>
+<div class="SG_connBody ">
+	<div class="atcTitList relaList">		<ul class="">
+			<li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="第1528篇·终审" target="_blank" href="http://blog.sina.com.cn/s/blog_5054769e0102xr05.html?tj=2?tj=2">第1528篇·终审</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/1347712670" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="孩子如能相守，谁又舍得留守？" target="_blank" href="http://blog.sina.com.cn/s/blog_5951b3310102y55m.html?tj=2?tj=2">孩子如能相守，谁又舍得留守？</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/1498526513" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="34岁的茅侃侃离世，掀开了创业" target="_blank" href="http://blog.sina.com.cn/s/blog_498646b40102xdcl.html?tj=2?tj=2">34岁的茅侃侃离世，掀开了创业</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/1233536692" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="独家｜旅行青蛙火爆背后：4人研" target="_blank" href="http://blog.sina.com.cn/s/blog_8e6f0a110102x0mo.html?tj=2?tj=2">独家｜旅行青蛙火爆背后：4人研</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/2389641745" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="这两天刷屏的实践十三号卫星到底" target="_blank" href="http://blog.sina.com.cn/s/blog_14b595bca0102x8un.html?tj=2?tj=2">这两天刷屏的实践十三号卫星到底</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/5559114698" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="第一调查&nbsp;|&amp;nbs" target="_blank" href="http://blog.sina.com.cn/s/blog_9d74ef990102x4bm.html?tj=2?tj=2">第一调查&nbsp;|&amp;nbs</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/2641686425" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="刘鑫曝光与江歌对话称最后的纪念" target="_blank" href="http://blog.sina.com.cn/s/blog_8e6f0a110102x0mz.html?tj=2?tj=2">刘鑫曝光与江歌对话称最后的纪念</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/2389641745" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="“中中”和“华华”来了！世界首" target="_blank" href="http://blog.sina.com.cn/s/blog_90aea58b0102xkhh.html?tj=2?tj=2">“中中”和“华华”来了！世界首</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/2427364747" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="路遇别人的蛙儿子，煮了吃滋补效" target="_blank" href="http://blog.sina.com.cn/s/blog_70e181630102wybm.html?tj=2?tj=2">路遇别人的蛙儿子，煮了吃滋补效</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/1893826915" class="SG_linkb"></a></p>
+		</li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" title="无能之隐，一洗了之？" target="_blank" href="http://blog.sina.com.cn/s/blog_c67fd4620102xdhu.html?tj=2?tj=2">无能之隐，一洗了之？</a></p>
+        <p class="atcTitCell_nm"><a suda-uatrack="key=blog_tjblog&amp;value=h_tjblog" target="_blank" href="http://blog.sina.com.cn/u/3330266210" class="SG_linkb"></a></p>
+		</li>		</ul>
+		<div id="atcPicList"><!--[346,152,101] published at 2018-01-25 18:19:23 from #106 by system-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <script language="javascript">document.domain="sina.com.cn";</script>
+
+<div class="relaPic SG_j_linedot1"> 
+	<ul>
+			<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_678aada10102y3dv.html?tj=1" target="_blank"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/PxUO-fyqwiqk5714145.jpg" alt="佛教艺术的魅力" width="80" height="58" border="0"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_678aada10102y3dv.html?tj=1" target="_blank">佛教艺术的魅力</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_5dec82bc0102x5le.html?tj=1" target="_blank"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/cqu3-fyqwiqk5706002.jpg" alt="时尚潮女吸睛妙招" width="80" height="58" border="0"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_5dec82bc0102x5le.html?tj=1" target="_blank">时尚潮女吸睛妙招</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_65c59a320102xzmt.html?tj=1" target="_blank"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/kop7-fyqwiqk5636264.jpg" alt="上海下雪了" width="80" height="58" border="0"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_65c59a320102xzmt.html?tj=1" target="_blank">上海下雪了</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_49e7fd870102xyn2.html?tj=1" target="_blank"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/VGBV-fyqwiqk4898140.jpg" alt="笑容甜美的大红唇美女" width="80" height="58" border="0"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_49e7fd870102xyn2.html?tj=1" target="_blank">笑容甜美的大红唇美女</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_483c4e4a0102xpfe.html?tj=1" target="_blank"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/4AvU-fyqwiqk4866449.jpg" alt="吉林零下冰天雪地里拍婚纱" width="80" height="58" border="0"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_483c4e4a0102xpfe.html?tj=1" target="_blank">吉林零下冰天雪地里拍婚纱</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_5381a2d20102x7dh.html?tj=1" target="_blank"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/Zo3A-fyqwiqk4812260.jpg" alt="陕西挂面村是这样做挂面的" width="80" height="58" border="0"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_5381a2d20102x7dh.html?tj=1" target="_blank">陕西挂面村是这样做挂面的</a></p>
+	</li>
+
+	</ul>
+	<div class="clearfix"></div>
+</div>
+</div>
+	<div class="atcTit_more"><span class="SG_more"><a target="_blank" href="http://blog.sina.com.cn/">查看更多</a>&gt;&gt;</span></div></div></div>
+<div class="SG_connFoot"></div>
+</div>
+</div>
+	<!--第一列end-->
+	
+	<!--第二列start-->
+	<div id="column_2" class="SG_colW73">	
+<div id="module_920" class="SG_conn">
+	<div class="SG_connHead">
+	    <span comp_title="正文" class="title">正文</span>
+	    <span class="edit"><span id="articleFontManage" class="fontSize">字体大小：<a href="javascript:;" onclick="changeFontSize(2);return false;">大</a> <strong>中</strong> <a href="javascript:;" onclick="changeFontSize(0);return false;">小</a></span></span>
+	</div>
+    <div class="SG_connBody" id="module_920_SG_connBody">
+<!--博文正文 begin -->
+	<div id="articlebody" class="artical" favmd5="{&quot;e62f7f150102x7j2&quot;:&quot;0ac8e93340c61c1d026c84b7ae31827f&quot;}">
+		<div class="articalTitle"> 
+			
+								<h2 id="t_e62f7f150102x7j2" class="titName SG_txta">centos7&nbsp;mariadb连接数214修改</h2>
+			
+					<span class="time SG_txtc">(2017-12-05 12:40:54)</span><div class="turnBoxzz"><a href="javascript:;" class="SG_aBtn SG_aBtn_ico SG_turn" action-type="reblog" action-data="{srcBlog:1, blogId:'e62f7f150102x7j2'}"><cite><img class="SG_icon SG_icon111" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" align="absmiddle" width="15" height="15">转载<em class="arrow">▼</em></cite></a></div>		</div>
+		<div class="articalTag" id="sina_keyword_ad_area">
+			<table>
+				<tbody><tr>
+					<td class="blog_tag">
+					<script>
+					var $tag='mariadb';
+					var $tag_code='807ca3138fa0d1bc04ee131b008e2ada';
+					var $r_quote_bligid='e62f7f150102x7j2';
+					var $worldcup='0';
+					var $worldcupball='0';
+					</script>
+											<span class="SG_txtb">标签：</span>
+																				<h3><a href="http://search.sina.com.cn/?c=blog&amp;q=mariadb&amp;by=tag" target="_blank">mariadb</a></h3>
+																</td>
+					<td class="blog_class">
+											<span class="SG_txtb">分类：</span>
+						<a target="_blank" href="http://blog.sina.com.cn/s/articlelist_3861872405_1_1.html">linux</a>
+										</td>
+				</tr>
+			</tbody></table>
+		</div>
+						<!-- 正文开始 -->
+		<div id="sina_keyword_ad_area2" class="articalContent   newfont_family">
+			<div>1.mariadb数据库最大连接数，默认为151</div>
+<div>MariaDB [(none)]&gt; show variables like
+'max_connections';</div>
+<div>+-----------------+-------+</div>
+<div>| Variable_name &nbsp;<wbr> | Value |</div>
+<div>+-----------------+-------+</div>
+<div>| max_connections | &nbsp;<wbr>151
+&nbsp;<wbr>|</div>
+<div>+-----------------+-------+</div>
+<div>2.配置/etc/my.cnf</div>
+<div>[mysqld]下新添加一行如下参数：</div>
+<div>max_connections=3000</div>
+<div>systemctl restart mariadb
+重启mariadb服务，再次查看mariadb数据库最大连接数，最大连接数是214，并非我们设置的3000。</div>
+<div>MariaDB [(none)]&gt; show variables like
+'max_connections';</div>
+<div>+-----------------+-------+</div>
+<div>| Variable_name &nbsp;<wbr> | Value |</div>
+<div>+-----------------+-------+</div>
+<div>| max_connections | &nbsp;<wbr>214
+&nbsp;<wbr>|</div>
+<div>+-----------------+-------+</div>
+<div>由于mariadb有默认打开文件数限制</div>
+<div>vi /usr/lib/systemd/system/mariadb.service</div>
+<div>取消[Service]前的#号，</div>
+<div>[Service]新添加两行如下参数：</div>
+<div>LimitNOFILE=10000</div>
+<div>LimitNPROC=10000</div>
+<div>4.重新加载系统服务，并重启mariadb服务</div>
+<div><br></div>
+<div>systemctl --system daemon-reload</div>
+<div>systemctl restart mariadb.service</div>
+<div>再次查看mariadb数据库最大连接数，可以看到最大连接数已经是3000</div>
+<div>MariaDB [(none)]&gt; show variables like
+'max_connections';</div>
+<div>+-----------------+-------+</div>
+<div>| Variable_name &nbsp;<wbr> | Value |</div>
+<div>+-----------------+-------+</div>
+<div>| max_connections | 3000 &nbsp;<wbr>|</div>
+<div>+-----------------+-------+</div>
+<div><br></div>							
+		</div>
+						<!-- 正文结束 -->
+		<div id="share" class="shareUp">
+        	<div class="share SG_txtb">
+			分享： 
+			<div class="bshare-custom" style="display:inline;margin-left:5px;"><a title="分享到新浪微博" class="bshare-sinaminiblog" href="javascript:void(0);"></a><a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a><a title="分享到QQ空间" class="bshare-qzone" href="javascript:void(0);"></a><a title="分享到豆瓣" class="bshare-douban" href="javascript:void(0);"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
+			</div>
+			</div>
+            <div class="up">
+	        	<div title="喜欢后让更多人看到" id="dbox_e62f7f150102x7j2" class="upBox upBox_click" style="cursor: pointer;">
+	            	<p ti_title="centos7&nbsp;mariadb连接数214修改" id="dbox2_e62f7f150102x7j2" class="count" mnum="1">1</p>
+	                <p class="link"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon34" align="absmiddle" width="15" height="15">喜欢</p>
+	            </div>
+<!--
+                <div class="upBox upBox_add">
+                    <p class="count">0</p>
+                    <p class="link"><img width="20" height="16" align="absmiddle" title="推荐" src="http://simg.sinajs.cn/blog7style/images/common/sg_trans.gif" class="SG_icon SG_icon214">赠金笔</p>
+                </div>
+-->
+                                <div class="upBox upBox_add">
+                    <p class="count" id="goldPan-num">0</p>
+                    <p class="link" id="goldPan-give"><img class="SG_icon SG_icon214" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" title="赠金笔" align="absmiddle" width="20" height="16">赠金笔</p>
+                </div>
+                
+	        </div>
+            <div class="clearit"></div>
+		</div>
+		<div class="articalInfo">
+			<!-- 分享到微博 {$t_blog} -->
+			<div class="IL">
+				阅读<span id="r_e62f7f150102x7j2" class="SG_txtb">(10)</span><em class="SG_txtb">┊</em> 
+				<a href="#commonComment">评论</a> <span id="c_e62f7f150102x7j2" class="SG_txtb">(0)</span><em class="SG_txtb">┊</em>				<a href="javascript:;" onclick="$articleManage('e62f7f150102x7j2',5);return false;">收藏</a><span id="f_e62f7f150102x7j2" class="SG_txtb">(0)</span>
+				<em class="SG_txtb">┊</em><a href="#" id="quote_set_sign" onclick="return false ;">转载</a><a href="#" id="z_e62f7f150102x7j2" onclick="return false ;" class="zznum">(0)</a>				<span id="fn_centos7&nbsp;mariadb连接数214修改" class="SG_txtb"></span><em class="SG_txtb">┊</em>
+				<a onclick="return false;" href="javascript:;"><cite id="d1_digg_e62f7f150102x7j2">喜欢</cite></a><a id="d1_digg_down_e62f7f150102x7j2" href="javascript:;"><b>▼</b></a>
+									<em class="SG_txtb">┊</em><a href="http://blog.sina.com.cn/main_v5/ria/print.html?blog_id=blog_e62f7f150102x7j2" target="_blank">打印</a><em class="SG_txtb">┊</em><a id="q_e62f7f150102x7j2" onclick="report('e62f7f150102x7j2');return false;" href="#">举报</a>
+											</div>
+			<div class="IR">
+				<table>
+					<tbody><tr>
+											<th class="SG_txtb" scope="row">已投稿到：</th>
+						<td>
+							<div class="IR_list">
+								<span><img class="SG_icon SG_icon36" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" title="排行榜" align="absmiddle" width="15" height="15"> <a href="http://blog.sina.com.cn/lm/114/117/day.html" class="SG_linkb" target="_blank">排行榜</a></span>							</div>
+						</td>
+										</tr>
+									</tbody></table>
+			</div>
+		</div>
+		<div class="clearit"></div>
+		<div class="blogzz_zzlist borderc" id="blog_quote" style="display:none"><h3><a href="#" onclick="return false" title="关闭" id="ql_closee62f7f150102x7j2" class="blogzz_closepic SG_floatR"></a>转载列表：</h3>                <ul class="ul_zzlist" id="ql_contente62f7f150102x7j2">                </ul>				<ul style="display:none"><li id="ql_tipe62f7f150102x7j2"></li></ul>                <div class="SG_clearB"></div>                <div class="blogzz_btn">					<a id="btnArticleQuotee62f7f150102x7j2" href="#" onclick="scope.article_quote &amp;&amp; scope.article_quote.check('e62f7f150102x7j2');return false;" class="SG_aBtn SG_aBtn_ico SG_turn"><cite><img class="SG_icon SG_icon111" id="quoteList_quotee62f7f150102x7j2" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" align="absmiddle" width="15" height="15">转载</cite></a>					<p id="quoteDescriptione62f7f150102x7j2" class="SG_turntxt" style="display: none;">转载是分享博文的一种常用方式...</p>				</div>				<div id="ql_pagee62f7f150102x7j2" class="blogzz_paged"></div>				<div class="clearit"></div></div>
+		<div class="articalfrontback SG_j_linedot1 clearfix" id="new_nextprev_e62f7f150102x7j2">
+							<div><span class="SG_txtb">前一篇：</span><a href="http://blog.sina.com.cn/s/blog_e62f7f150102x73u.html">git中的版本回退</a></div>
+								</div>
+		<div class="clearit"></div>
+							
+		<div id="loginFollow"></div>
+				<div class="allComm">
+			<div class="allCommTit">
+				<div class="SG_floatL">
+				    <strong>评论</strong>
+				    <span id="commAd_1" style="display: inline-block;">
+				        <span style="margin-left:15px; width:220px; display:inline-block;"><a target="_blank" href="http://blog.sina.com.cn/lm/8/2009/0325/105340.html">重要提示：警惕虚假中奖信息</a></span>
+				    </span>
+				</div>
+				<div class="SG_floatR"><a class="CP_a_fuc" href="#post">[<cite>发评论</cite>]</a></div>
+			</div>
+			<ul id="article_comment_list" class="SG_cmp_revert"><li><div class="noCommdate"><span class="SG_txtb">做第一个评论者吧！ <img class="SG_icon SG_icon134" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" title="" align="absmiddle" width="18" height="18"><a href="#post">抢沙发&gt;&gt;</a></span></div></li></ul>
+			<div class="clearit"></div>
+			<div class="myCommPages SG_j_linedot1" style="display: none;">
+				<div class="SG_page" id="commentPaging" style="display: none; text-align: center;"><a href="javascript:void(0);" style="">点击加载更多</a></div>
+				<div class="clearit"></div>
+			</div>
+			<a name="post"></a>
+			<div class="writeComm">
+				<div class="allCommTit">
+					<div class="SG_floatL">
+					    <strong>发评论</strong>
+					    <span></span>
+					</div>
+					<div class="SG_floatR"></div>
+				</div>
+				<div class="wrCommTit">
+					<div class="SG_floatL" id="commentNick" style="display:none;"></div>
+				</div>
+				<div class="formTextarea">
+					<div style="float:left;" id="commonComment">
+					<iframe id="postCommentIframe" style="border:1px solid #C7C7C7;
+		height:158px;width:448px;maring-top:1px;background-color:white;" src="http://blog.sina.com.cn/main_v5/ria/blank2.html" frameborder="0"></iframe>
+					<textarea id="commentArea" tabindex="1" style="display:none;"></textarea>
+					</div>
+					<div id="mobileComment" style="float:left;display:none;">
+						<textarea id="mbCommentTa" style="width:438px;height:150px;border:1px solid #C7C7C7;line-height:18px;padding:5px;"></textarea>
+					</div>
+					<div class="faceblk" id="faceWrap">
+						<div id="smilesSortShow" class="faceline1">
+						<div class="facestyle" id="recomm_1516876084901"><a href="#" key="302"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/302-25.gif" alt="小新小浪" title="小新小浪"></a><a href="#" key="308"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/308-25.gif" alt="炮炮兵" title="炮炮兵"></a><a href="#" key="315"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/315-25.gif" alt="张富贵" title="张富贵"></a><a href="#" key="316"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/316-25.gif" alt="旺狗" title="旺狗"></a><a href="#" key="331"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/331-25.gif" alt="悠嘻猴" title="悠嘻猴"></a><a href="#" key="351"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/351-25.gif" alt="酷巴熊" title="酷巴熊"></a></div><span class="SG_more"><a href="#">更多&gt;&gt;</a></span><div class="clearit"></div></div>
+						<ul id="smilesRecommended" class="faceline01"><li><a href="#"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0321EN00SIGT.gif" alt="就不买你" title="就不买你" width="50" height="50"></a></li><li><a href="#"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0320EN00SIGT.gif" alt="股市" title="股市" width="50" height="50"></a></li><li><a href="#"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0319EN00SIGT.gif" alt="发霉" title="发霉" width="50" height="50"></a></li><li><a href="#"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0318EN00SIGT.gif" alt="陈水边" title="陈水边" width="50" height="50"></a></li><li><a href="#"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0317EN00SIGT.gif" alt="裁员" title="裁员" width="50" height="50"></a></li><li><a href="#"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0316EN00SIGT.gif" alt="音乐" title="音乐" width="50" height="50"></a></li><li><a href="#"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0315EN00SIGT.gif" alt="贴你" title="贴你" width="50" height="50"></a></li><li><a href="#"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0314EN00SIGT.gif" alt="抢车位" title="抢车位" width="50" height="50"></a></li></ul>
+					</div>
+					<div class="clearit"></div>
+				</div>
+				<div class="formLogin">
+					<div class="SG_floatL"> 
+					<p id="commentlogin" style="display: block;"><span>登录名：</span><input style="width: 115px;" id="login_name" tabindex="2" type="text">   <span>密码：</span><input style="width: 115px;" id="login_pass" tabindex="3" type="password">   <a href="https://login.sina.com.cn/getpass.html" target="_blank">找回密码</a>   <a href="https://login.sina.com.cn/signup/signup.php?entry=blog&amp;src=blogicp&amp;srcuid=3861872405" target="_blank">注册</a>	<input id="login_remember" checked="checked" type="checkbox"><label for="login_remember" style="display:inline-block;" title="建议在网吧/公用电脑上取消该选项">记住登录状态</label></p><p id="commentloginM" style="display:none;"><span>昵&nbsp;&nbsp;&nbsp;称：</span><input style="width: 115px;" id="comment_anonyous" value="新浪网友" tabindex="2" disabled="disabled" type="text"></p><p id="quote_comment_p"><!--<input type="checkbox" id="bb"> <label for="bb"><img height="18" align="absmiddle" width="18" title="" src="http://simg.sinajs.cn/blog7style/images/common/sg_trans.gif" class="SG_icon SG_icon110">分享到微博 <img height="15" align="absmiddle" width="15" title="新" src="http://simg.sinajs.cn/blog7style/images/common/sg_trans.gif" class="SG_icon SG_icon11"></label>&nbsp;&nbsp;&nbsp;--><input id="cbCommentQuote" type="checkbox"><label for="cbCommentQuote">评论并转载此博文</label><img class="SG_icon SG_icon11" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" title="新" align="absmiddle" width="15" height="15"></p>
+					<p id="geetest-box"></p>
+					</div>
+
+					<span style="display: none; color: rgb(153, 153, 153); margin-left: 10px;" id="login_remember_caution"></span>
+
+											<!--<div class="SG_floatR" id="anonymity_cont"><input type="checkbox" id="anonymity"/><label for="anonymity">匿名评论</label></div>-->
+									</div>
+				<div class="formBtn">
+					<a href="javascript:;" onclick="return false;" class="SG_aBtn" tabindex="5"><cite id="postcommentid">发评论</cite></a>
+					<p class="SG_txtc">以上网友发言只代表其个人观点，不代表新浪网的观点或立场。</p>
+				</div>
+			</div>
+		</div>
+				<div class="clearit"></div>
+		
+				<div class="articalfrontback articalfrontback2 clearfix">
+						  <div class="SG_floatL"><span class="SG_txtb">&lt;&nbsp;前一篇</span><a href="http://blog.sina.com.cn/s/blog_e62f7f150102x73u.html">git中的版本回退</a></div>
+								</div>
+		<div class="clearit"></div>
+				
+	</div>
+	<!--博文正文 end -->
+		<script type="text/javascript">
+			var voteid="";
+		</script>
+
+            </div>       
+            <div class="SG_connFoot"></div>
+          </div>
+</div>
+	<!--第二列start-->
+	
+	<!--第三列start-->
+	<div id="column_3" class="SG_colWnone"><div style="width:0px;height:0.1px;margin:0px;">&nbsp;&nbsp;</div></div>
+	<!--第三列end-->
+
+	
+    </div>
+   <!--主题内容结束 -->
+  
+
+	<div id="diggerFla" style="position:absolute;left:0px;top:0px;width:0px"><embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/digger.swf" style="undefined" id="digger" name="digger" bgcolor="#00ff00" quality="high" wmode="transparent" allowscriptaccess="always" width="1" height="1"></div>
+    <div class="sinablogfooter" id="sinablogfooter" style="position:relative;">
+      
+      <p class="SG_linka"><a href="http://help.sina.com.cn/" target="_blank">新浪BLOG意见反馈留言板</a>　<a href="javascript:;" onclick="window.open ('http://control.blog.sina.com.cn/admin/advice/impeach.php?url=http%3A//blog.sina.com.cn/s/blog_4cf7b4ec0100eudp.html%3Ftj%3D1', '','height=495, width=510, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no');">不良信息反馈</a>　电话：4006900000 提示音后按1键（按当地市话标准计费）　欢迎批评指正</p>
+   
+      <p class="SG_linka"><a href="http://corp.sina.com.cn/chn/" target="_blank">新浪简介</a> | <a href="http://corp.sina.com.cn/eng/" target="_blank">About Sina</a> | <a href="http://emarketing.sina.com.cn/" target="_blank">广告服务</a> | <a href="http://www.sina.com.cn/contactus.html" target="_blank">联系我们</a> | <a href="http://corp.sina.com.cn/chn/sina_job.html" target="_blank">招聘信息</a> | <a href="http://www.sina.com.cn/intro/lawfirm.shtml" target="_blank">网站律师</a> | <a href="http://english.sina.com/" target="_blank">SINA English</a> | <a href="http://members.sina.com.cn/apply/" target="_blank">会员注册</a> | <a href="http://help.sina.com.cn/" target="_blank">产品答疑</a> </p>
+      <p class="copyright SG_linka"> Copyright © 1996 - 2017 SINA Corporation,  All Rights Reserved</p>
+      <p class="SG_linka"> 新浪公司 <a href="http://www.sina.com.cn/intro/copyright.shtml" target="_blank">版权所有</a></p>
+	  <a href="http://www.bj.cyberpolice.cn/index.jsp" target="_blank" class="gab_link"></a>
+    </div>
+  </div>
+</div>
+<div id="swfbox"><embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/voteCookie.swf" style="undefined" id="swfId" name="swfId" bgcolor="#00ff00" quality="high" allowscriptaccess="always" flashvars="readyFun=readyFun&amp;realfull=1&amp;moz=1&quot;/" width="1" height="1"></div>
+<script id="PVCOUNTER_FORIE" type="text/javascript"></script>
+
+<script type="text/javascript">
+var scope = {
+    $newTray : 1,
+    $setDomain : true,
+    $uid : "3861872405",
+    $PRODUCT_NAME : "blog7",      //blog7photo,blog7icp
+    $pageid : "article",
+    $key :  "3a61aacc7c3c5c62c977cb32902b8309",
+    $uhost : "",
+    $ownerWTtype :"",
+    $private: 
+{"pageset":0,"tj":0,"adver":0,"sms":0,"ad":0,"blogsize":0,"cms":0,"hidecms":0,"top":0,"invitationset":0,"p4p":0,"spamcms":0,"init7":1,"quote":0,"foot":0,"headpic":0,"isMsnLink":0,"msnfeed":"000","isMsnMove":0,"isprivate":0,"t_sina":"3861872405","oauth_token":1,"oauth_token_secret":1,"uname":"","p_push_t":"1","p_get_t":"1","articleclass":"117"},
+
+    $summary: "...  (来自 @头条博客)",
+    $is_photo_vip:0,
+		 $nClass:0,
+		 $articleid:"e62f7f150102x7j2",
+		 $sort_id:117,
+		 $cate_id:"",
+		 $isCommentAllow:0,
+		 $album_pic:"",
+		 $pn_x_rank:0,
+		 $x_quote_c:"",
+		 $flag2008:"",
+		     
+component_lists:{"2":{"size":730,"list":[920]},"1":{"size":210,"list":[901,903,904]}},
+
+    formatInfo:1,
+    
+UserPic:[{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":"0"},{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":"0"},{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":"0"}],
+
+    
+UserBabyPic:{"photoX":0,"photoY":0,"photoURL":null,"angle":0,"zoom":0,"maskX":0,"maskY":0,"maskURL":null,"frameURL":null},
+
+    UserColor:1,
+    backgroundcolor:"rgb(22, 86, 85)",
+    tpl:"13_16",
+    reclist:0    };
+var $encrypt_code = "37dd28384e2fcbe192478aed07beb3b9";
+</script>
+
+<script type="text/javascript" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/boot.js"></script>
+<script type="text/javascript">__load_js();</script>
+<script type="text/javascript">__render_page();</script>
+
+
+<script type="text/javascript" charset="utf-8" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/buttonLite.js"></script><script type="text/javascript" charset="utf-8" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/bshareC0.js"></script>
+<script type="text/javascript" charset="utf-8">
+        bShare.addEntry({pic: "", title:"分享自Mr卞先森  《centos7 mariadb连接数214修改》", summary:"...  (来自 @头条博客)"});
+     </script>
+
+<script type="text/javascript" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/blog680-min.js"></script>
+<script type="text/javascript">
+        var slotArr = ['atcTitLi_SLOT_41', 'atcTitLi_SLOT_42','loginBarActivity']; //广告位id
+        var sourceArr = ['SLOT_41','SLOT_42','SLOT_43,SLOT_47,SLOT_48'];  //广告资源id
+        SinaBlog680.staticBox(slotArr, sourceArr);
+</script>
+
+<div id="sinaads_pdps54771"> <ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000054771" data-ad-status="done"></ins>  </div><iframe id="sinaads-ck-iframe" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sinaads_ck.htm" style="display: none;"></iframe><div id="reblog_1516876083526" class="turnList" style="display:none;position:absolute;z-index:20;"><ul class=""><li><a suda-uatrack="key=blog_article&amp;value=h_article17" action-type="click_reblog" action-data="{action:'toBlog'}" href="javascript:void(0);" title="转载到博客"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon141" align="absmiddle" width="18" height="18">博客</a></li><li style="display:none;"><a suda-uatrack="key=blog_article&amp;value=h_article17" action-type="click_reblog" action-data="{action:'toBlog'}" href="javascript:void(0);" title="转载原文"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon141" align="absmiddle" width="18" height="18">转载原文</a></li><li><a suda-uatrack="key=blog_article&amp;value=h_article17" action-type="click_reblog" action-data="{action:'cwb'}" href="javascript:;" title="发布长微博"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon143" align="absmiddle" width="18" height="18">长微博</a></li></ul></div><div id="_6151516876083556_panel" class="mCatSearch" style="position: absolute; display: none; z-index: 512;"><ul><li action-type="tray-search" onclick="v7sendLog('40_01_43')" action-data="article" class="current">含“<span id="_6151516876083556_article"></span>”的博文</li><li action-type="tray-search" onclick="v7sendLog('40_01_43')" action-data="bloger">含“<span id="_6151516876083556_bloger"></span>”的博主</li><li action-type="tray-search" onclick="v7sendLog('40_01_43')" action-data="music">含“<span id="_6151516876083556_music"></span>”的音乐</li><li action-type="tray-search" onclick="v7sendLog('40_01_43')" action-data="video">含“<span id="_6151516876083556_video"></span>”的视频</li></ul></div><iframe style="border: medium none; z-index: -1; opacity: 0; position: absolute; width: 0px; height: 0px; display: none;"></iframe><div class="tb_layer_Y tb_layer_w3" style="z-index: 511; position: absolute; display: none; width: 160px;"><div class="tb_layer_arrow"></div><div class="tb_layer_Y_main tip_ps" style="width: auto;"><a style="margin-top: 5px;" title="关闭" class="tb_friend_inputDel" href="javascript:void(0)"></a>							<div style="text-align:left;color:#999999">最近喜欢了的博主：</div>							<div style="white-space: nowrap;"><div style="text-align:center;"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/loading.gif">加载中…</div></div></div></div><div style="position: fixed; width: 1903px; height: 968px; left: 0px; top: 0px; z-index: 1024; background-color: black; opacity: 0.4; display: none;"></div><table class="CP_w" id="_8121516876083644_panel" style="z-index: 5000; position: fixed; display: none; left: 625.5px; top: 258px;"><thead><tr><th class="tLeft"><span></span></th><th class="tMid"><div class="bLyTop"><strong>赠金笔</strong><cite><a node-data="btn-close" href="#" class="CP_w_shut" title="关闭">关闭</a></cite></div></th><th class="tRight"><span></span></th></tr></thead><tfoot><tr><td class="tLeft"><span></span></td><td class="tMid"><span></span></td><td class="tRight"><span></span></td></tr></tfoot><tbody><tr><td class="tLeft"><span></span></td><td class="tMid"><div class="CP_layercon3 jiben"><div class="SG_tag tag_h"><ul><li class="current"><span><strong><a node-data="gold-exchange" href="javascript:void(0)">金笔兑换</a></strong></span><span class="tagR"></span></li><li><span><strong><a node-data="tyrant-standings" href="javascript:void(0)">今日土豪榜</a></strong></span><span class="tagR"></span></li><li><span><strong><a node-data="nomination-list" href="javascript:void(0)">今日提名榜</a></strong></span><span class="tagR"></span></li></ul></div><div name="jiben_tab" class="jiben_tab"><ul class="denPicRow denPicRow01 clearfix" name="radioAll"><li><span class="a">兑换服务：</span><span class="b">金笔道具</span></li><li><span class="a"><span class="CP_w_star"></span>赠送数量：</span><span class="b rlist"><input name="num" value="1" id="jb1" checked="checked" type="radio"><label for="jb1">1支</label><input name="num" value="10" id="jb2" type="radio"><label for="jb2">10支</label><input name="num" value="20" id="jb3" type="radio"><label for="jb3">20支</label><input name="num" value="50" id="jb4" type="radio"><label for="jb4">50支</label><input name="num" value="100" id="jb5" type="radio"><label for="jb5">100支</label><br><input name="num" value="0" id="jb5" type="radio"><label for="jb6">其他</label><input maxlength="4" class="SG_input" id="jb6" node-data="other-num" value="请输入1~100整数" type="text"></span></li><li><span class="a cold">现有金笔：</span><span class="b cold" node-data="own-num">0支</span></li><li><span class="a cold">还需兑换：</span><span class="b cold" node-data="need-num">1支 x 1=1(积分)</span></li></ul><div id="hidden"></div><div class="butt01" id="button01"><a node-data="btn-ok" href="#" class="SG_aBtn SG_aBtnB "><cite>确认</cite></a><a target="_blank" href="http://blog.sina.com.cn/s/blog_4b0f52990102v0dd.html" class="jf_rule">点击了解更多规则</a></div></div><div class="clearit"></div></div></td><td class="tRight"><span></span></td></tr></tbody></table><iframe style="border: medium none; z-index: 4999; opacity: 0; position: fixed; width: 0px; height: 0px; left: 625.5px; top: 258px;"></iframe><div id="sharePhoto" style="display:none;width:120px;position:absolute;"><div class="picShareFlt"><div class="share SG_txtb" style="margin-top:5px;"><span>分享到新浪微博</span></div></div></div><ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000054727" style="display:block;" data-ad-status="done"></ins><div id="selectionShare" style="position: absolute; cursor: pointer; left: 1068px; top: 573px; display: none;"><img src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/share.gif" title="将选中内容分享到新浪微博"></div><div id="_6421516876084695_panel" style="z-index: 512; width: 200px; position: absolute; display: none;" class="tb_layer_Y tb_layer_w5"><div class="tb_layer_Y_main tip_layer_main"><div class="tip_ps" style="width:auto;float:right"><a id="closeBindEmail" title="关闭提示" class="tb_friend_inputDel" href="#" onclick="return false"></a></div><div style="padding:6px">为了您的账号安全，请<a id="linkBindEmail" href="#" target="_blank">绑定邮箱</a></div></div><div class="tb_layer_arrow tip_arrow"></div></div><iframe style="border: medium none; z-index: 511; opacity: 0; position: absolute; width: 0px; height: 0px;"></iframe><div id="ramdomVisitDiv" style="position: absolute; width: 140px; z-index: 101; top: 120px; right: 0px;"><embed pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/lookViewSpring.swf" style="undefined" id="map" name="map" bgcolor="#000" quality="high" scale="noscale" allowscriptaccess="always" wmode="transparent" flashvars="url=http://blog.sina.com.cn/lm/ruiblog/&amp;realfull=1&amp;moz=1&quot;/" width="140" height="87"></div><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000051781" style="display: none;" data-ad-status="done"></ins><div style="left: -1000px; top: -1000px;position:absolute;" class="picSlideBtn" action-type="show-slide" action-data="http%3A%2F%2Fww4.sinaimg.cn%2Flarge%2F697db644jw1dw1s1zljvaj.jpg"><a href="javascript:void(0);">幻灯播放</a></div><div style="overflow: hidden; height: 210px; position: absolute;"><div class="blogreco" id="_5611516876090865_panel" style="left: 1643px; top: 758px; z-index: 100; position: fixed; margin-top: 0px;" uniqueid="moz__id16_1516876090885"><div id="_5611516876090865_frame"><div class="TB" id="_5611516876090865_titleBar"><a id="blogNorAd_Cls" class="btnClose" style="position:absolute;left:240px;" href="javascript:">&nbsp;</a><a class="btnMin" style="position:absolute;left:220px;" id="_5611516876090865_btnMin" href="javascript:">&nbsp;</a></div><div id="_5611516876090865_content"><iframe scrolling="no" class="IF" src="centos7%C2%A0mariadb%E8%BF%9E%E6%8E%A5%E6%95%B0214%E4%BF%AE%E6%94%B9_Mr%E5%8D%9E%E5%85%88%E6%A3%AE_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/01.htm" frameborder="0"></iframe></div></div></div></div><ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000052950" style="display:block;" data-ad-status="done"></ins></body><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent",
+ function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) 
+AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script></html>

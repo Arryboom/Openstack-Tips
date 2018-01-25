@@ -1,0 +1,19 @@
+#Header1_HeaderTitle {
+	font-size: 16px;
+}
+
+.headerDis {
+	font-size: 32px;
+}
+
+#calendar {
+	display: none;
+}
+
+.headerText, .headerDis {
+	padding-left: 25px;
+}
+
+#right {
+	margin-left: 25px;
+}
