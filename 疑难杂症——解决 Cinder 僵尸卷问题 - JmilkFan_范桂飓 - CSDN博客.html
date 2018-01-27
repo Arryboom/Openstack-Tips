@@ -1,0 +1,1782 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0051)http://blog.csdn.net/jmilk/article/details/54647684 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script charset="utf-8" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/b.js.下载"></script>
+        <link rel="canonical" href="http://blog.csdn.net/jmilk/article/details/54647684">
+
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <link rel="alternate" media="handheld" href="http://blog.csdn.net/jmilk/article/details/54647684#">
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+
+    <title>疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客</title>
+    
+    <meta name="description" content="目录目录问题描述问题解决最后问题描述Cinder 的僵尸卷一般是因为操作不当导致分配的卷无法正常使用且无法正常分离或删除. 问题解决解决僵尸卷问题的思路类似解决 Linux 系统中的僵尸进程, 需要手动的通过修改数据库和执行 CLI 来实现.使用 CLI 定位僵尸卷的基本信息 最主要的是要获取其 id, 然后到数据库中查看其详细信息.stack@fanguiju-dev:~$ open">
+
+    <meta name="keywords" content="数据库,linux,class">
+    <script src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/hm.js.下载"></script><script src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/blog_static_head.min.js.下载" type="text/javascript"></script>
+
+
+        <link rel="Stylesheet" type="text/css" href="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/style.css">
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/Jmilk/rss/list">
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/default.css">
+
+
+
+
+
+    <link href="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet">
+
+        <link rel="stylesheet" href="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/csdn_blog_detail.min.css">
+
+    <!-- 请置于所有广告位代码之前 -->
+    <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+
+
+<body><div id="MathJax_Message" style="display: none;"></div><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="icon-xiajiantou" viewBox="0 0 1024 1024"><path d="M328.208 346.062h368.494c20.393 0 36.887 16.366 36.887 36.757 0 9.484-3.637 18.056-9.483 24.55L541.873 650.522c-12.211 16.105-35.2 19.484-51.438 7.275-2.859-2.08-5.324-4.547-7.274-7.275L298.853 404.772c-12.08-16.106-8.83-39.225 7.404-51.306 6.626-5.066 14.289-7.404 21.95-7.404z"></path></symbol><symbol id="icon-shouji" viewBox="0 0 1024 1024"><path d="M537.754 795.889c-26.41 0-47.893 21.478-47.893 47.892s21.484 47.893 47.893 47.893 47.892-21.479 47.892-47.893-21.483-47.892-47.892-47.892z"></path><path d="M774.697 42.071H300.815c-39.864 0-72.3 32.43-72.3 72.3v795.264c0 39.869 32.43 72.3 72.3 72.3h473.872c39.87 0 72.3-32.431 72.3-72.3v-795.27c0.004-39.864-32.426-72.294-72.29-72.294zM300.815 90.266h473.872a24.125 24.125 0 0 1 24.1 24.1v595.809H276.72v-595.81a24.125 24.125 0 0 1 24.094-24.1z m473.882 843.463H300.815a24.125 24.125 0 0 1-24.1-24.1V762.501h522.072V909.63a24.115 24.115 0 0 1-24.09 24.1z"></path></symbol><symbol id="icon-tianxie" viewBox="0 0 1024 1024"><path d="M121.905 780.19h780.19v97.524h-780.19V780.19zM823.296 298.496l-68.974-68.974-344.795 344.796-34.475 103.448 103.424-34.475zM875.008 246.76l17.237-17.238-68.949-68.949-17.262 17.237-17.237 17.238 68.974 68.973z"></path></symbol><symbol id="icon-sousuo" viewBox="0 0 1024 1024"><path d="M1023.972002 964.002812l-59.981188 59.981189-271.443276-271.459276c-166.600191 136.489602-412.812649 126.986048-568.309361-28.494664-165.624236-165.624236-165.624236-434.187647 0-599.859881 165.624236-165.592238 434.187647-165.592238 599.827883 0 155.52871 155.52871 164.984266 401.789166 28.462666 568.389356L1023.972002 964.002812zM663.364906 184.007375c-132.585785-132.585785-347.327719-132.761777-479.705514-0.43198-132.329797 132.345796-132.121807 347.119729 0.463978 479.705514s347.375717 132.793775 479.705514 0.41598c132.329797-132.281799 132.169805-347.10373-0.463978-479.689514z"></path></symbol><symbol id="icon-guanbi" viewBox="0 0 1024 1024"><path d="M1002.211316 933.90818c24.46369 24.46369 29.007633 59.583246 10.159871 78.447007-18.863761 18.863761-53.983317 14.303819-78.447007-10.159871L21.807724 90.09486C-2.655966 65.631169-7.199909 30.495614 11.647853 11.647853c18.863761-18.863761 53.983317-14.303819 78.447007 10.159871L1002.211316 933.90818z"></path><path d="M933.92418 21.807724C958.38787-2.655966 993.507426-7.199909 1012.371187 11.647853c18.863761 18.863761 14.303819 53.983317-10.159871 78.447007L90.09486 1002.211316c-24.46369 24.46369-59.583246 29.007633-78.447007 10.159871-18.847761-18.863761-14.303819-53.983317 10.159871-78.463007L933.92418 21.807724z"></path></symbol><symbol id="icon-caidan" viewBox="0 0 1024 1024"><path d="M0 132.8a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 132.8s0-26.784 0 0zM0 512.016a48.48 48.48 0 0 0 48.48 48.48h927.04a48.48 48.48 0 0 0 0-96.96H48.48A48.48 48.48 0 0 0 0 512.016s0-26.784 0 0zM0 891.2a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 891.2s0-26.784 0 0z"></path></symbol><symbol id="icon-yonghudenglu" viewBox="0 0 1024 1024"><path d="M1022.26704 962.432c-43.888-157.584-162.16-281.216-312.064-340.144 92.8-61.376 153.92-164.496 153.92-281.168C864.12304 153.04 706.04304 0 511.70704 0 317.35504 0 159.19504 153.04 159.19504 341.136c0 116.704 61.152 219.84 154.064 281.184C164.13904 681.024 46.18704 803.792 1.80304 960.16c-7.344 26.016 8.464 52.864 35.36 60.032a52.016 52.016 0 0 0 38.4-4.608 49.072 49.072 0 0 0 23.712-29.568c50.768-178.96 220.352-303.92 412.448-303.92 193.04 0 362.848 125.712 412.944 305.744 7.296 26.048 34.992 41.456 61.952 34.48 26.912-7.04 42.88-33.824 35.648-59.888zM260.25104 341.136c0-134.256 112.816-243.424 251.472-243.424 138.576 0 251.328 109.184 251.328 243.424 0 133.904-112.768 242.864-251.328 242.864-138.672 0-251.472-108.976-251.472-242.864z m0 0"></path></symbol><symbol id="toolbar-csdnlogo" viewBox="0 0 1024 1024"><path d="M533.941333 419.264c14.709333-1.621333 37.290667-3.264 68.352-3.264 51.872 0 93.802667 9.152 119.776 28.416 23.338667 17.952 38.858667 47.008 34.56 89.130667-3.978667 39.189333-24.042667 66.634667-53.312 83.594666C676.544 633.152 642.837333 640 592.106667 640c-29.888 0-58.421333-1.642667-80.106667-4.896l21.941333-215.84z m42.869334 172.938667c4.981333 0.992 11.562667 1.973333 24.533333 1.973333 51.882667 0 88.469333-25.877333 92.16-62.24 5.333333-52.554667-27.125333-70.944-81.802667-70.624-7.072 0-16.917333 0-22.133333 0.970667L576.8 592.213333h0.010667z m223.498666-164.704c210.954667-39.872 229.162667 31.776 222.645334 95.189333L1010.656 640h-66.944l11.210667-106.986667c2.421333-23.562667 17.504-69.653333-55.338667-67.914666-25.184 0.608-37.706667 4.064-37.706667 4.064s-2.186667 28.469333-4.832 49.514666L844.32 640H778.666667l13.024-119.573333" fill="#231916"></path><path d="M226.634667 632.682667c-12.373333 4.341333-38.037333 7.317333-73.909334 7.317333C49.6 640-6.048 590.933333 0.522667 526.090667 8.416 448.810667 90.858667 405.333333 181.141333 405.333333c34.976 0 55.552 2.858667 74.858667 7.637334l-6.208 52.064c-12.821333-4.384-42.890667-8.405333-67.232-8.405334-53.141333 0-98.250667 16.042667-103.424 66.762667-4.608 45.354667 27.061333 67.04 86.816 67.04 20.8 0 51.477333-3.018667 65.653333-7.370667l-4.992 49.6 0.021334 0.021334z" fill="#C92027"></path><path d="M272.714667 580.021333c19.285333 6.762667 59.488 13.504 92 13.504 35.029333 0 54.528-9.333333 56.096-23.797333 1.418667-13.205333-12.928-14.986667-52.490667-24.010667-54.666667-12.896-89.546667-32.842667-86.133333-64.704C286.176 443.989333 337.685333 416 416.725333 416c38.56 0 75.914667 2.613333 95.274667 8.714667l-6.656 46.666666c-12.565333-4.202667-60.672-10.037333-93.205333-10.037333-32.992 0-50.069333 9.973333-51.253334 20.917333-1.493333 13.845333 15.658667 14.485333 58.528 25.450667 58.026667 14.154667 83.402667 34.090667 80.085334 64.992C495.605333 609.109333 449.258667 640 356.714667 640c-38.528 0-71.744-6.762667-90.048-13.525333l6.048-46.453334z" fill="#231916"></path></symbol><symbol id="icon-morentouxiang" viewBox="0 0 1024 1024"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#A0C3FF"></path><path d="M691.2 887.466667c-55.466667-25.6-123.733333-51.2-123.733333-51.2v-38.4c68.266667-25.6 119.466667-89.6 132.266666-166.4 12.8-4.266667 38.4-17.066667 46.933334-55.466667l8.533333-46.933333s4.266667-59.733333-42.666667-46.933334c4.266667-38.4 4.266667-81.066667 4.266667-115.2-4.266667-64-89.6-98.133333-89.6-98.133333l12.8-17.066667s-42.666667-12.8-59.733333-4.266666l12.8-29.866667s-85.333333 0-132.266667 38.4h-4.266667v-17.066667s-145.066667 21.333333-140.8 243.2c-46.933333-12.8-42.666667 46.933333-42.666666 46.933334l8.533333 46.933333c4.266667 38.4 29.866667 51.2 46.933333 55.466667 12.8 81.066667 64 145.066667 132.266667 166.4v38.4s-68.266667 29.866667-123.733333 51.2c-29.866667 12.8-59.733333 34.133333-81.066667 59.733333 68.266667 51.2 157.866667 76.8 256 76.8s187.733333-25.6 264.533333-72.533333c-21.333333-29.866667-51.2-46.933333-85.333333-64z" fill="#4374E0"></path></symbol><symbol id="icon-icon_boke" viewBox="0 0 1024 1024"><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m298.667-256H213.333v42.667h597.334V768z m-21.334-448L704 234.667 341.333 597.333l-42.666 128 128-42.666L789.333 320z"></path></symbol><symbol id="icon-icon_gitchatx" viewBox="0 0 1024 1024"><path d="M810.667 533.333v-64h-384v85.334h298.666v128h85.334V533.333zM256 810.667h426.667v-85.334h-384V298.667h426.666V384h85.334V213.333H213.333v597.334H256zM512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m213.333-298.667v85.334h85.334v-85.334h-85.334z"></path></symbol><symbol id="icon-guanbi1" viewBox="0 0 1024 1024"><path d="M512 1024A512 512 0 1 1 512 0a512 512 0 0 1 0 1024z m160-768L512 416 352 256l-96 96 160 160-160 160 96 96 160-160 160 160 96-96-160-160 160-160-96-96z"></path></symbol></svg><div class="csdn-toolbar csdn-toolbar tb_disnone ">        <div class="container row center-block ">          <ul class="pull-left left-menu clearfix">            <li>              <a href="http://www.csdn.net/" title="CSDN首页" target="_blank">              <svg class="icon" aria-hidden="true">                  <use xlink:href="#toolbar-csdnlogo"></use>              </svg>                </a>            </li>            <li><a href="http://blog.csdn.net/" class="toolbar_to_feed" title="博客" target="_blank">博客</a></li>            <li><a href="http://edu.csdn.net/" title="学院" target="_blank">学院</a></li>            <li><a href="http://download.csdn.net/" title="下载" target="_blank">下载</a></li>            <li><a href="http://gitbook.cn/?ref=csdn" title="GitChat" target="_blank">GitChat</a></li>            <li class="tb_is1090hide"><a href="http://bbs.csdn.net/" title="论坛" target="_blank">论坛</a></li>            <li class="tb_is1150hide"><a href="http://ask.csdn.net/" title="问答" target="_blank">问答</a></li>            <li class="tb_is1210hide"><a href="http://mall.csdn.net/" title="商城" target="_blank">商城</a></li>            <li class="tb_is1270hide"><a href="http://geek.csdn.net/" title="极客头条" target="_blank">头条</a></li>            <li class="tb_is1330hide"><a href="http://huiyi.csdn.net/" title="活动" target="_blank">活动</a></li>            <li class="tb_is1400hide"><a href="http://job.csdn.net/" title="招聘" target="_blank">招聘</a></li>            <li class="tb_is1452hide"><a href="http://www.iteye.com/" title="ITeye" target="_blank">ITeye</a></li>            <li class="tb_is1513hide"><a href="http://www.gitee.com/" title="码云" target="_blank">码云</a></li>            <li class="tb_is1513hide"><a href="http://www.csto.com/" title="CSTO" target="_blank">CSTO</a></li>            <li class="show-more">            <a href="javascript:;" class="show-more-a"><svg width="22" height="4" xmlns="http://www.w3.org/2000/svg"><path d="M2 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#4F4F4F" fill-rule="evenodd"></path></svg></a>              <div class="more">                <div class="tb_is1090show"><a href="http://bbs.csdn.net/" target="_blank">论坛</a></div>                <div class="tb_is1150show"><a href="http://ask.csdn.net/" target="_blank">问答</a></div>                <div class="tb_is1210show"><a href="http://mall.csdn.net/" target="_blank">商城</a></div>                <div class="tb_is1270show"><a href="http://geek.csdn.net/" target="_blank">极客头条</a></div>                <div class="tb_is1330show"><a href="http://huiyi.csdn.net/" target="_blank">活动</a></div>                <div class="tb_is1400show"><a href="http://job.csdn.net/" target="_blank">招聘</a></div>                <div class="tb_is1452show"><a href="http://www.iteye.com/" target="_blank">ITeye</a></div>                <div class="tb_is1513show"><a href="http://www.gitee.com/" target="_blank">码云</a></div>                <div class="tb_is1513show"><a href="http://www.csto.com/" target="_blank">CSTO</a></div>              </div>            </li>          </ul>          <div class="pull-right login-wrap unlogin">            <ul class="btns">            <li class="toolbar-tracking csdn-tracking-statistics tracking-click" data-mod="popu_369"><a href="http://blog.csdn.net/jmilk/article/details/54647684#" style="padding:0" target="_blank"></a></li>              <li>                <div class="search_bar csdn-tracking-statistics tracking-click" data-mod="popu_366">                  <input type="text" class="input_search" name="">                  <a href="http://so.csdn.net/so/" target="_blank" class="btn-nobg-noborder btn-search"><i class="iconfont-toolbar toolbar-sousuo"></i></a>                </div>              </li>              <li class="write-bolg-btn csdn-tracking-statistics tracking-click" data-mod="popu_370"><a class="" href="http://mp.blog.csdn.net/postedit" target="_blank"><i class="iconfont-toolbar toolbar-icon_boke"></i><span>写博客</span></a></li>              <li class="gitChat"><a class="" href="http://gitbook.cn/new/gitchat/activity?utm_source=csdnblog1" target="_blank"><i class="iconfont-toolbar toolbar-icon_gitchatx"></i><span>发Chat</span></a></li>              <li class="userinfo"><a href="https://passport.csdn.net/account/login">登录</a><span></span><a href="https://passport.csdn.net/account/mobileregister?action=mobileRegister">注册</a></li>              <li class="userLogin">                <div class="loginCenter"><a href="http://my.csdn.net/" target="_blank"><img class="login_img" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/100x100.jpg"><div class="toolbar-circle"></div></a></div>                <div class="userControl">                  <div><a href="http://blog.csdn.net/" target="_blank">我的博客</a></div>                  <div><a class="xiaoxi" href="http://msg.csdn.net/" target="_blank">消息<span class="toolbar-newsL">(3)</span></a></div>                  <div><a href="http://my.csdn.net/my/account/changepwd" target="_blank">设置</a></div>                  <div><a href="http://bbs.csdn.net/forums/Service" target="_blank">反馈</a></div>                  <div><a href="http://oldblog.csdn.net/home/help.html" target="_blank">帮助</a></div>                  <div><a href="http://passport.csdn.net/account/logout">退出</a></div>                </div>              </li>            </ul>          </div>        </div>    </div><script class="toolbar-s" type="text/javascript" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/iconfont.js.下载"></script>
+        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_72" data-mtp="62" data-order="40" data-con="ad_content_2072">
+            <script id="popuLayer_js_q" src="http://ads.csdn.net/js/popuLayer.js" defer="defer" type="text/javascript"></script>
+            <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 -->
+                <div id="cpro_u2895327">
+                    <!-- 投放代码 -->
+                            <script type="text/javascript" src="http://cee1.iteye.com/ojylrgbyk.js"></script>
+
+
+
+                </div>
+            </div>
+            <script>
+                document.getElementById("popuLayer_js_q").onload = function () {
+                    var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 };
+                    window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 });
+                }</script>
+
+
+        </div>
+
+
+    <!--new top-->
+    <script id="toolbar-tpl-scriptId" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/content_toolbar.js.下载" type="text/javascript" domain="http://blog.csdn.net"></script>
+
+    <link rel="stylesheet" href="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/content_toolbar.css">
+    <!--new top-->
+    <div id="container">
+        
+<div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/jmilk">JmilkFan_范桂飓</a></h2>
+            <h3>探索互联网世界的游戏法则</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+    
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/jmilk?viewmode=contents"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_mulu&#39;])">
+                    <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/jmilk?viewmode=list"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_zhaiyao&#39;])">
+                    <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/jmilk/rss/list"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_RSS&#39;])">
+                    <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/ico_rss.gif">订阅</span></a></li>                   
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "Jmilk";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/jmilk";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                    <div class="ad_class">
+
+
+
+                    </div>
+
+                    
+
+ <script src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/main-1.0.5.js.下载"></script>
+
+<script type="text/javascript" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/category.js.下载"></script>
+
+  <script type="text/ecmascript">
+      var title="疑难杂症——解决 Cinder 僵尸卷问题";
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=%e7%96%91%e9%9a%be%e6%9d%82%e7%97%87%e2%80%94%e2%80%94%e8%a7%a3%e5%86%b3+Cinder+%e5%83%b5%e5%b0%b8%e5%8d%b7%e9%97%ae%e9%a2%98&u=http://blog.csdn.net/jmilk/article/details/54647684"
+    </script>
+<div id="article_details" class="details">
+    
+<div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="http://blog.csdn.net/jmilk/article/details/54647684">
+        疑难杂症——解决 Cinder 僵尸卷问题        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+
+    
+    <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href="http://www.csdn.net/tag/%e6%95%b0%e6%8d%ae%e5%ba%93" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">数据库</a><a href="http://www.csdn.net/tag/linux" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">linux</a><a href="http://www.csdn.net/tag/class" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">class</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2017-01-21 21:58</span>
+            <span class="link_view" title="阅读次数">1479人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="http://blog.csdn.net/jmilk/article/details/54647684#comments" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_pinglun&#39;])">评论</a>(0)</span>
+            <span class="link_collect csdn-tracking-statistics" data-pid="blog" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle(&#39;%e7%96%91%e9%9a%be%e6%9d%82%e7%97%87%e2%80%94%e2%80%94%e8%a7%a3%e5%86%b3+Cinder+%e5%83%b5%e5%b0%b8%e5%8d%b7%e9%97%ae%e9%a2%98&#39;,&#39;54647684&#39;);return false;" title="收藏" target="_blank">收藏</a></span>
+             <span class="link_report"> <a href="http://blog.csdn.net/jmilk/article/details/54647684#report" onclick="javascript:report(54647684,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label onclick="GetCategoryArticles(&#39;6691250&#39;,&#39;Jmilk&#39;,&#39;top&#39;,&#39;54647684&#39;);">
+                        <span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_fenlei&#39;]);">疑难杂症 &amp; DEBUG<em>（1）</em></span>
+                      <img class="arrow-down" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a href="http://blog.csdn.net/Jmilk/article/category/6691250" target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_6691250">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div class="bog_copyright">         
+            <p class="copyright_p">版权声明：转载请注明出处 JmilkFan_范桂飓：http://blog.csdn.net/jmilk</p>
+        </div>
+
+
+
+
+
+
+<div style="clear:both"></div><div style="border:solid 1px #ccc; background:#eee; float:left; min-width:200px;padding:4px 10px;"><p style="text-align:right;margin:0;"><span style="float:left;">目录<a href="http://blog.csdn.net/jmilk/article/details/54647684#" title="系统根据文章中H1到H6标签自动生成文章目录">(?)</a></span><a href="http://blog.csdn.net/jmilk/article/details/54647684#" onclick="javascript:return openct(this);" title="展开">[+]</a></p><ol style="display:none;margin-left:14px;padding-left:14px;line-height:160%;"><li><a href="http://blog.csdn.net/jmilk/article/details/54647684#t0">目录</a></li><li><a href="http://blog.csdn.net/jmilk/article/details/54647684#t1">问题描述</a></li><li><a href="http://blog.csdn.net/jmilk/article/details/54647684#t2">问题解决</a></li><li><a href="http://blog.csdn.net/jmilk/article/details/54647684#t3">最后</a></li></ol></div><div style="clear:both"></div><div id="article_content" class="article_content csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post" style="overflow: hidden;">
+        <div class="markdown_views"><h1 id="目录"><a name="t0"></a>目录</h1>
+
+<p></p><div class="toc">
+<ul>
+<li><a href="http://blog.csdn.net/jmilk/article/details/54647684#%E7%9B%AE%E5%BD%95" target="">目录</a></li>
+<li><a href="http://blog.csdn.net/jmilk/article/details/54647684#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0" target="">问题描述</a></li>
+<li><a href="http://blog.csdn.net/jmilk/article/details/54647684#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3" target="">问题解决</a></li>
+<li><a href="http://blog.csdn.net/jmilk/article/details/54647684#%E6%9C%80%E5%90%8E" target="">最后</a></li>
+</ul>
+</div>
+<p></p>
+
+
+
+<h1 id="问题描述"><a name="t1"></a>问题描述</h1>
+
+<p><strong>Cinder 的僵尸卷一般是因为操作不当导致分配的卷无法正常使用且无法正常分离或删除.</strong> <br>
+<img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20170121213351513" alt="这里写图片描述" title=""></p>
+
+
+
+<h1 id="问题解决"><a name="t2"></a>问题解决</h1>
+
+<p>解决僵尸卷问题的思路类似解决 Linux 系统中的僵尸进程, 需要手动的通过修改数据库和执行 CLI 来实现.</p>
+
+<ul>
+<li>使用 CLI 定位僵尸卷的基本信息 <br>
+最主要的是要获取其 id, 然后到数据库中查看其详细信息.</li>
+</ul>
+
+
+
+<pre class="prettyprint" name="code"><code class="language-bash hljs  has-numbering">stack@fanguiju-dev:~$ openstack volume list 
++--------------------------------------+--------------+--------+------+-----------------------------------------------------------+
+| ID                                   | Display Name | Status | Size | Attached to                                               |
++--------------------------------------+--------------+--------+------+-----------------------------------------------------------+
+| <span class="hljs-number">0</span>d71a98a-<span class="hljs-number">0</span>d2c-<span class="hljs-number">4</span>b73-<span class="hljs-number">9886</span><span class="hljs-operator">-a</span>98005d9f969 | mysql-vol    | <span class="hljs-keyword">in</span>-use |    <span class="hljs-number">5</span> | Attached to e1fd229f-<span class="hljs-number">413</span>e-<span class="hljs-number">49</span>dd<span class="hljs-operator">-a</span>741-<span class="hljs-number">1</span>bbffa7f249c on /mnt  |
++--------------------------------------+--------------+--------+------+-----------------------------------------------------------+</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li></ul></pre>
+
+<p>可以看出这次的问题的原因是因为使用 openstackclient 挂载卷到 Instance 的时候指定了错误设配(/mnt), 应该指定挂载设备为(/dev/vdX). 而且使用 CLI 的 –force 也无法强制删除:</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering"><span class="hljs-built_in">stack</span>@fanguiju<span class="hljs-attribute">-dev</span>:~$ openstack volume delete <span class="hljs-number">0</span>d71a98a<span class="hljs-subst">-</span><span class="hljs-number">0</span>d2c<span class="hljs-subst">-</span><span class="hljs-number">4</span>b73<span class="hljs-subst">-</span><span class="hljs-number">9886</span><span class="hljs-attribute">-a98005d9f969</span> <span class="hljs-subst">--</span>force
+Invalid volume: Volume  must <span class="hljs-literal">not</span> be migrating, attached, belong <span class="hljs-keyword">to</span> a consistency <span class="hljs-keyword">group</span> <span class="hljs-literal">or</span> have snapshots<span class="hljs-built_in">.</span> (HTTP <span class="hljs-number">400</span>) (Request<span class="hljs-attribute">-ID</span>: req<span class="hljs-subst">-</span><span class="hljs-number">8</span>ec31dac<span class="hljs-subst">-</span><span class="hljs-number">591</span>a<span class="hljs-subst">-</span><span class="hljs-number">4895</span><span class="hljs-subst">-</span><span class="hljs-number">942</span>d<span class="hljs-subst">-</span><span class="hljs-number">3e4998</span>c5407d)</code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre>
+
+<ul>
+<li>手动的修改 cinder 数据库的表 volumes 的 status 字段为 deleted <br>
+在挂载完卷之后该记录的字段 status 的值为 in-use.</li>
+</ul>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering"><span class="hljs-subst">***************************</span> <span class="hljs-number">2.</span> row <span class="hljs-subst">***************************</span>
+                 created_at: <span class="hljs-number">2017</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span> <span class="hljs-number">14</span>:<span class="hljs-number">59</span>:<span class="hljs-number">38</span>
+                 updated_at: <span class="hljs-number">2017</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span> <span class="hljs-number">16</span>:<span class="hljs-number">12</span>:<span class="hljs-number">09</span>
+                 deleted_at: <span class="hljs-built_in">NULL</span>
+                    deleted: <span class="hljs-number">0</span>
+                         id: <span class="hljs-number">0</span>d71a98a<span class="hljs-subst">-</span><span class="hljs-number">0</span>d2c<span class="hljs-subst">-</span><span class="hljs-number">4</span>b73<span class="hljs-subst">-</span><span class="hljs-number">9886</span><span class="hljs-attribute">-a98005d9f969</span>
+                     ec2_id: <span class="hljs-built_in">NULL</span>
+                    user_id: b03df4585b7d41cca635ec341217404d
+                 project_id: d0f2734c0cd3421eaab8e7d3da5b61d1
+                       host: fanguiju<span class="hljs-attribute">-dev</span>@lvmdriver<span class="hljs-subst">-</span><span class="hljs-number">1</span><span class="hljs-variable">#lvmdriver</span><span class="hljs-subst">-</span><span class="hljs-number">1</span>
+                       size: <span class="hljs-number">5</span>
+          availability_zone: nova
+                     status: <span class="hljs-keyword">in</span><span class="hljs-attribute">-use</span>
+              attach_status: attached
+               scheduled_at: <span class="hljs-number">2017</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span> <span class="hljs-number">14</span>:<span class="hljs-number">59</span>:<span class="hljs-number">39</span>
+                launched_at: <span class="hljs-number">2017</span><span class="hljs-subst">-</span><span class="hljs-number">01</span><span class="hljs-subst">-</span><span class="hljs-number">18</span> <span class="hljs-number">14</span>:<span class="hljs-number">59</span>:<span class="hljs-number">40</span>
+              terminated_at: <span class="hljs-built_in">NULL</span>
+               display_name: mysql<span class="hljs-attribute">-vol</span>
+        display_description: backup volume of mysql server<span class="hljs-built_in">.</span>
+          provider_location: <span class="hljs-number">200.21</span><span class="hljs-number">.18</span><span class="hljs-number">.30</span>:<span class="hljs-number">3260</span>,<span class="hljs-number">2</span> iqn<span class="hljs-number">.2010</span><span class="hljs-subst">-</span><span class="hljs-number">10.</span>org<span class="hljs-built_in">.</span>openstack:volume<span class="hljs-subst">-</span><span class="hljs-number">0</span>d71a98a<span class="hljs-subst">-</span><span class="hljs-number">0</span>d2c<span class="hljs-subst">-</span><span class="hljs-number">4</span>b73<span class="hljs-subst">-</span><span class="hljs-number">9886</span><span class="hljs-attribute">-a98005d9f969</span> <span class="hljs-number">1</span>
+              provider_auth: CHAP xvATFN4UYj3ueGXZBW5P aTsMksaXX6KSsw8n
+                snapshot_id: <span class="hljs-built_in">NULL</span>
+             volume_type_id: <span class="hljs-number">2</span>fac34b8<span class="hljs-attribute">-f25c</span><span class="hljs-subst">-</span><span class="hljs-number">490</span>c<span class="hljs-attribute">-b0bb</span><span class="hljs-subst">-</span><span class="hljs-number">6989</span>d4778432
+               source_volid: <span class="hljs-built_in">NULL</span>
+                   bootable: <span class="hljs-number">0</span>
+          provider_geometry: <span class="hljs-built_in">NULL</span>
+                   _name_id: <span class="hljs-built_in">NULL</span>
+          encryption_key_id: <span class="hljs-built_in">NULL</span>
+           migration_status: <span class="hljs-built_in">NULL</span>
+         replication_status: disabled
+replication_extended_status: <span class="hljs-built_in">NULL</span>
+    replication_driver_data: <span class="hljs-built_in">NULL</span>
+        consistencygroup_id: <span class="hljs-built_in">NULL</span>
+                provider_id: <span class="hljs-built_in">NULL</span>
+                multiattach: <span class="hljs-number">0</span>
+            previous_status: <span class="hljs-built_in">NULL</span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li><li>19</li><li>20</li><li>21</li><li>22</li><li>23</li><li>24</li><li>25</li><li>26</li><li>27</li><li>28</li><li>29</li><li>30</li><li>31</li><li>32</li><li>33</li><li>34</li><li>35</li><li>36</li></ul></pre>
+
+<p>手动修改其 status 字段值:</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering">mysql<span class="hljs-subst">&gt;</span> update volumes <span class="hljs-built_in">set</span> status<span class="hljs-subst">=</span><span class="hljs-string">'deleted'</span> <span class="hljs-keyword">where</span> id<span class="hljs-subst">=</span><span class="hljs-string">'0d71a98a-0d2c-4b73-9886-a98005d9f969'</span>;
+Query OK, <span class="hljs-number">1</span> row affected (<span class="hljs-number">0.00</span> sec)
+<span class="hljs-keyword">Rows</span> matched: <span class="hljs-number">1</span>  Changed: <span class="hljs-number">1</span>  Warnings: <span class="hljs-number">0</span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<ul>
+<li>执行指令删除卷 <br>
+同样的, 在删除之前先要查看现在逻辑卷的使用情况.</li>
+</ul>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering"><span class="hljs-built_in">stack</span>@fanguiju<span class="hljs-attribute">-dev</span>:~$ sudo vgs
+  VG                         <span class="hljs-variable">#PV</span> <span class="hljs-variable">#LV</span> <span class="hljs-variable">#SN</span> Attr   VSize  VFree 
+  cinder<span class="hljs-attribute">-volumes</span><span class="hljs-attribute">-default</span>       <span class="hljs-number">1</span>   <span class="hljs-number">0</span>   <span class="hljs-number">0</span> wz<span class="hljs-subst">--</span>n<span class="hljs-subst">-</span> <span class="hljs-number">50.00</span>g <span class="hljs-number">50.00</span>g
+  cinder<span class="hljs-attribute">-volumes</span><span class="hljs-attribute">-lvmdriver</span><span class="hljs-subst">-</span><span class="hljs-number">1</span>   <span class="hljs-number">1</span>   <span class="hljs-number">1</span>   <span class="hljs-number">0</span> wz<span class="hljs-subst">--</span>n<span class="hljs-subst">-</span> <span class="hljs-number">50.00</span>g <span class="hljs-number">45.00</span>g
+  ubuntu<span class="hljs-attribute">-dev</span><span class="hljs-attribute">-fanguiju</span><span class="hljs-attribute">-vg</span>   <span class="hljs-number">1</span>   <span class="hljs-number">2</span>   <span class="hljs-number">0</span> wz<span class="hljs-subst">--</span>n<span class="hljs-subst">-</span> <span class="hljs-number">99.76</span>g <span class="hljs-number">20.00</span>m
+
+
+<span class="hljs-built_in">stack</span>@fanguiju<span class="hljs-attribute">-dev</span>:~$ sudo lvs
+  LV                                          VG                         Attr      LSize  Pool Origin <span class="hljs-built_in">Data</span><span class="hljs-subst">%</span>  Move <span class="hljs-keyword">Log</span> Copy<span class="hljs-subst">%</span>  Convert
+  volume<span class="hljs-subst">-</span><span class="hljs-number">0</span>d71a98a<span class="hljs-subst">-</span><span class="hljs-number">0</span>d2c<span class="hljs-subst">-</span><span class="hljs-number">4</span>b73<span class="hljs-subst">-</span><span class="hljs-number">9886</span><span class="hljs-attribute">-a98005d9f969</span> cinder<span class="hljs-attribute">-volumes</span><span class="hljs-attribute">-lvmdriver</span><span class="hljs-subst">-</span><span class="hljs-number">1</span> <span class="hljs-attribute">-wi</span><span class="hljs-attribute">-a</span><span class="hljs-subst">----</span>  <span class="hljs-number">5.00</span>g                                           
+  root                                        ubuntu<span class="hljs-attribute">-dev</span><span class="hljs-attribute">-fanguiju</span><span class="hljs-attribute">-vg</span> <span class="hljs-attribute">-wi</span><span class="hljs-attribute">-ao</span><span class="hljs-subst">---</span>      <span class="hljs-number">95.74</span>g                                           
+  swap_1                                      ubuntu<span class="hljs-attribute">-dev</span><span class="hljs-attribute">-fanguiju</span><span class="hljs-attribute">-vg</span> <span class="hljs-attribute">-wi</span><span class="hljs-attribute">-ao</span><span class="hljs-subst">---</span>      <span class="hljs-number">4.00</span>g      </code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li></ul></pre>
+
+<p>通过 volume 的 id(0d71a98a-0d2c-4b73-9886-a98005d9f969) 我们不能判断出现问题的 lv 就是 /dev/cinder-volumes-lvmdriver-1/volume-0d71a98a-0d2c-4b73-9886-a98005d9f969.  <br>
+但是在删除该 lv 之前, 我们需要保证该 lv 没有被任何的进程占用.</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering"><span class="hljs-built_in">stack</span>@fanguiju<span class="hljs-attribute">-dev</span>:~$ lsof /dev/cinder<span class="hljs-attribute">-volumes</span><span class="hljs-attribute">-lvmdriver</span><span class="hljs-subst">-</span><span class="hljs-number">1</span>/volume<span class="hljs-subst">-</span><span class="hljs-number">0</span>d71a98a<span class="hljs-subst">-</span><span class="hljs-number">0</span>d2c<span class="hljs-subst">-</span><span class="hljs-number">4</span>b73<span class="hljs-subst">-</span><span class="hljs-number">9886</span><span class="hljs-attribute">-a98005d9f969</span> </code><ul class="pre-numbering" style=""><li>1</li></ul></pre>
+
+<p>使用 lsof 指令可以获取使用该设备的进程列表, 如果被占用的话, 需要使用 kill 指令来将这些进程杀掉. 之后再将该 lv remove 掉.</p>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs lasso has-numbering"><span class="hljs-built_in">stack</span>@fanguiju<span class="hljs-attribute">-dev</span>:~$ sudo lvremove /dev/cinder<span class="hljs-attribute">-volumes</span><span class="hljs-attribute">-lvmdriver</span><span class="hljs-subst">-</span><span class="hljs-number">1</span>/volume<span class="hljs-subst">-</span><span class="hljs-number">0</span>d71a98a<span class="hljs-subst">-</span><span class="hljs-number">0</span>d2c<span class="hljs-subst">-</span><span class="hljs-number">4</span>b73<span class="hljs-subst">-</span><span class="hljs-number">9886</span><span class="hljs-attribute">-a98005d9f969</span> 
+<span class="hljs-keyword">Do</span> you really want <span class="hljs-keyword">to</span> remove <span class="hljs-literal">and</span> DISCARD active logical volume volume<span class="hljs-subst">-</span><span class="hljs-number">0</span>d71a98a<span class="hljs-subst">-</span><span class="hljs-number">0</span>d2c<span class="hljs-subst">-</span><span class="hljs-number">4</span>b73<span class="hljs-subst">-</span><span class="hljs-number">9886</span><span class="hljs-attribute">-a98005d9f969</span><span class="hljs-subst">?</span> <span class="hljs-preprocessor">[</span>y/n<span class="hljs-preprocessor">]</span><span class="hljs-markup">: y
+  Logical volume "volume-0d71a98a-0d2c-4b73-9886-a98005d9f969" successfully removed</span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20170121215237100" alt="这里写图片描述" title=""></p>
+
+<p>因为该僵尸卷在数据库中记录的状态已经修改为了 deleted, 所以 dashboard 不会读取该记录, 而且又使用了 lvremove 来将该逻辑卷删除了, 所以也算彻底的解决了这个问题.</p>
+
+
+
+<h1 id="最后"><a name="t3"></a>最后</h1>
+
+<p>最后记录一下, 如果使用 cinderclient 包提供的 <strong>cinderclient.v2.volumes:VolumeManager.attach</strong> 来挂载卷的话, 其参数 mountpoint 的含义是指定该卷挂载到 Instance 的那一个设备文件上, 而不是指定挂载目录路径.</p></div>
+        <script type="text/javascript">
+            $(function () {
+                $('pre.prettyprint code').each(function () {
+                    var lines = $(this).text().split('\n').length;
+                    var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                    $(this).addClass('has-numbering').parent().append($numbering);
+                    for (i = 1; i <= lines; i++) {
+                        $numbering.append($('<li/>').text(i));
+                    };
+                    $numbering.fadeIn(1700);
+                });
+            });
+        </script>
+   
+</div>
+
+
+
+
+
+
+
+
+    <div class="readall_box csdn-tracking-statistics tracking-click readall_box_nobg" data-pid="blog" data-mod="popu_596" style="display: none;">
+        <div class="read_more_mask"></div>
+        <a class="btn btn-large btn-gray-fred read_more_btn" target="_self">阅读全文</a>
+    </div>
+
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_222"><a href="javascript:void(0);" target="_blank">&nbsp;</a>   </div>
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_223"> <a href="javascript:void(0);" target="_blank">&nbsp;</a></div>
+        <div id="digg" articleid="54647684">
+            <dl id="btnDigg" class="digg digg_disable" onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>1</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable" onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".csdn-tracking-statistics[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".csdn-tracking-statistics[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;]);location.href=&#39;http://blog.csdn.net/Jmilk/article/details/54410013&#39;;">上一篇</span><a href="http://blog.csdn.net/Jmilk/article/details/54410013" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;])">Openstack 实现技术分解 (1) 开发环境 — Devstack 部署案例详解</a></li>
+                <li class="next_article"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_xiayipian&#39;]);location.href=&#39;http://blog.csdn.net/Jmilk/article/details/54667770&#39;;">下一篇</span><a href="http://blog.csdn.net/Jmilk/article/details/54667770" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_xiayipian&#39;])">Openstack 实现技术分解 (2) 虚拟机初始化工具 — Cloud-Init &amp; metadata &amp; userdata</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+   
+      
+</div>
+
+     <div>
+         
+         <!-- 广告位：PC端-博客详情页底部banner-960*90 -->
+            <script>
+                (function() {
+                    var s = "_" + Math.random().toString(36).slice(2);
+                    document.write('<div id="' + s + '"></div>');
+                    (window.slotbydup=window.slotbydup || []).push({
+                        id: '4770928',
+                        container: s,
+                        size: '960,90',
+                        display: 'inlay-fix'
+                    });
+                })();
+            </script><div id="_d6suy85rlcd"></div>
+    </div>
+
+<div id="suggest">
+
+
+
+</div>
+         <script language="javascript" type="text/javascript">     
+             $(function(){
+                 $.get("/Jmilk/svc/GetSuggestContent/54647684",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head" style="display: none;">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list" style="display: none;"><br>&nbsp;&nbsp;暂无评论<br><br><div class="clear"></div></div>
+    <div id="comment_bar">
+    </div>
+<div class="commentform"><div class="panel_head">发表评论</div></div>
+    <div id="comment_form"><div class="guest_link">您还没有登录,请<a href="javascript:void(0);" onclick="javascript:loginbox();">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Fjmilk%2Farticle%2Fdetails%2F54647684">[注册]</a></div></div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+<div class="recommend_list">
+
+    
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/chinagissoft/article/details/50173397" target="_blank" strategy="BlogCommendFromBaidu_0">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">【运维篇】删除Cinder僵尸卷</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_chinagissoft.jpg" alt="chinagissoft" title="chinagissoft"></li>
+                        <li class="user_name">chinagissoft</li>
+                        <li class="time">2015-12-04 13:11</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1991</span></li>
+                    </ul><div class="summary">
+                        删除cinder僵尸卷
+&nbsp;
+问题描述：
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;最近清理openstack环境，在删除cinder云硬盘时，出现数据删不掉，一直处理于deleteing状态。
+
+
+&nbsp; &nbsp; &nbsp; &nbsp; 查询/va...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/litianze99/article/details/46650503" target="_blank" strategy="BlogCommendFromQuerySearch_1">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">cinder创建volume流程简介</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_litianze99.jpg" alt="litianze99" title="litianze99"></li>
+                        <li class="user_name">litianze99</li>
+                        <li class="time">2015-06-26 15:16</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2376</span></li>
+                    </ul><div class="summary">
+                        cinder创建volume流程简介
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            <script>(function() {var s = "_" + Math.random().toString(36).slice(2);document.write('<div id="' + s + '"></div>');(window.slotbydup = window.slotbydup || []).push({id: '4765209',container: s,size: '808,120',display: 'inlay-fix'});})();</script><div id="_y3okpscgkz"></div> 
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/chinagissoft/article/details/50173397" target="_blank" strategy="BlogCommendFromQuerySearch_2">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">【运维篇】删除Cinder僵尸卷</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_chinagissoft.jpg" alt="chinagissoft" title="chinagissoft"></li>
+                        <li class="user_name">chinagissoft</li>
+                        <li class="time">2015-12-04 13:11</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1991</span></li>
+                    </ul><div class="summary">
+                        删除cinder僵尸卷
+&nbsp;
+问题描述：
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;最近清理openstack环境，在删除cinder云硬盘时，出现数据删不掉，一直处理于deleteing状态。
+
+
+&nbsp; &nbsp; &nbsp; &nbsp; 查询/va...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/gaoxingnengjisuan/article/details/23789533" target="_blank" strategy="BlogCommendFromQuerySearch_3">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Openstack Cinder中建立volume过程的源码解析（8）</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_gaoxingnengjisuan.jpg" alt="gaoxingnengjisuan" title="gaoxingnengjisuan"></li>
+                        <li class="user_name">gaoxingnengjisuan</li>
+                        <li class="time">2014-04-15 23:02</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>4887</span></li>
+                    </ul><div class="summary">
+                        在这篇博客中，我将详细的分析task类VolumeCastTask具体是如何来实现根据请求信息进行卷的建立的。
+我们来回顾类
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            <!-- 广告位：PC端-博客详情通栏7（feed流）-808*120 --><script async="async" charset="utf-8" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/stream.js.下载" data-id="8935aa488dd58452b9e5ee3b44f1212f" data-hide-ad-label="0" data-div-style="width:100%; padding: 16px 35px 16px 10px; border-bottom:1px solid #f4f4f4;" data-img-style="float:right;width:120px;" data-tit-style="font-size:20px;font-weight:bold;margin-bottom:10px;font-family:&#39;PingFang SC&#39;,&#39;Microsoft YaHei&#39;,SimHei,Arial,SimSun;" data-des-style="width:700px;font-size:14px;font-family:&#39;PingFang SC&#39;,&#39;Microsoft YaHei&#39;,SimHei,Arial,SimSun;" data-is-handling="1"> </script>
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/gaoxingnengjisuan/article/details/23794279" target="_blank" strategy="BlogCommendFromQuerySearch_4">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Openstack Cinder中建立volume过程的源码解析（9）</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_gaoxingnengjisuan.jpg" alt="gaoxingnengjisuan" title="gaoxingnengjisuan"></li>
+                        <li class="user_name">gaoxingnengjisuan</li>
+                        <li class="time">2014-04-15 23:37</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>5259</span></li>
+                    </ul><div class="summary">
+                        我们在上一篇博客中可以看到，在建立新卷之前
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/cloudman6/article/details/51813773" target="_blank" strategy="BlogCommendFromQuerySearch_5">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Detach Volume 操作 - 每天5分钟玩转 OpenStack（55）</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_cloudman6.jpg" alt="CloudMan6" title="CloudMan6"></li>
+                        <li class="user_name">CloudMan6</li>
+                        <li class="time">2016-07-04 06:27</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1337</span></li>
+                    </ul><div class="summary">
+                        上一节我们成功地通过 attach 操作为 instance 添加了 volume，而与之相对的操作是 detach，就是将 volume 从 instance 上卸载下来。
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/cloudman6/article/details/51847991" target="_blank" strategy="BlogCommendFromQuerySearch_6">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Delete Volume 操作 - 每天5分钟玩转 OpenStack（57）</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_cloudman6.jpg" alt="CloudMan6" title="CloudMan6"></li>
+                        <li class="user_name">CloudMan6</li>
+                        <li class="time">2016-07-08 06:59</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1174</span></li>
+                    </ul><div class="summary">
+                        今天讨论 cinder 如何删除 volume 。
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/u011521019/article/details/55854690" target="_blank" strategy="BlogCommendFromQuerySearch_7">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">OpenStack删除Cinder盘失败解决办法</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_u011521019.jpg" alt="u011521019" title="u011521019"></li>
+                        <li class="user_name">u011521019</li>
+                        <li class="time">2017-02-20 00:12</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1459</span></li>
+                    </ul><div class="summary">
+                        OpenStack删除Cinder盘失败解决办法一、写在前面这篇文章主要介绍了OpenStack cinder vloume在dashboard删除时出现删除错误或者一直在删除状态下的处理方式，由于作者能力或者理解不够透彻或许不是最好的方式，如果错误请告知， 如果转载，请保留作者信息。  
+邮箱地址...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/ztejiagn/article/details/8936224" target="_blank" strategy="BlogCommendFromQuerySearch_8">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">cinder 异常总结</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_ztejiagn.jpg" alt="ztejiagn" title="ztejiagn"></li>
+                        <li class="user_name">ztejiagn</li>
+                        <li class="time">2013-05-16 17:23</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>5841</span></li>
+                    </ul><div class="summary">
+                        # Chinese (Simplified) translation for cinder# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011# This file is distributed under the same...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/zhiwensun/article/details/42835737" target="_blank" strategy="BlogCommendFromQuerySearch_9">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">磁盘管理之逻辑卷管理（Logical&nbsp;Volume&nbsp;Manager）</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_zhiwensun.jpg" alt="zhiwensun" title="zhiwensun"></li>
+                        <li class="user_name">zhiwensun</li>
+                        <li class="time">2015-01-18 15:36</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>914</span></li>
+                    </ul><div class="summary">
+                        LVM的基本简介
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/gaoxingnengjisuan/article/details/17723047" target="_blank" strategy="BlogCommendFromQuerySearch_10">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">OpenStack Cinder源码分析之四</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_gaoxingnengjisuan.jpg" alt="gaoxingnengjisuan" title="gaoxingnengjisuan"></li>
+                        <li class="user_name">gaoxingnengjisuan</li>
+                        <li class="time">2013-12-31 23:03</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3341</span></li>
+                    </ul><div class="summary">
+                        同前~~~
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/tsi0120/article/details/17104335" target="_blank" strategy="BlogCommendFromQuerySearch_11">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">openstack havana块存储Cinder磁盘加密方法研究</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_tsi0120.jpg" alt="tsi0120" title="tsi0120"></li>
+                        <li class="user_name">tsi0120</li>
+                        <li class="time">2013-12-04 00:04</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1613</span></li>
+                    </ul><div class="summary">
+                        在openstack havana的release note中有如下介绍“Attached Cinder volumes can now be encrypted. Data is decrypted as needed at read and write time while presenting...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/chinagissoft/article/details/50624958" target="_blank" strategy="BlogCommendFromQuerySearch_12">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">devstack 环境中cinder-volume 服务无法启动的问题</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_chinagissoft.jpg" alt="chinagissoft" title="chinagissoft"></li>
+                        <li class="user_name">chinagissoft</li>
+                        <li class="time">2016-02-02 17:28</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3604</span></li>
+                    </ul><div class="summary">
+                        Command: sudo cinder-rootwrap /etc/cinder/rootwrap.conf env LC_ALL=C vgs --noheadings -o name stack-volumes-lvmdriver-1
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/qiuhan0314/article/details/39393807" target="_blank" strategy="BlogCommendFromQuerySearch_13">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">gluster常用命令</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_qiuhan0314.jpg" alt="qiuhan0314" title="qiuhan0314"></li>
+                        <li class="user_name">qiuhan0314</li>
+                        <li class="time">2014-09-29 16:48</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1871</span></li>
+                    </ul><div class="summary">
+                        1. 动态添加卷
+2. 动态删除卷
+3.
+                    </div>
+                    
+                </dd>
+</a>
+            </dl><dl id="yd_a_d_feed_13" class="yd_a_d_feed_cla" style="height:124px;"><div></div></dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/wzlsunice88/article/details/75664151" target="_blank" strategy="BlogCommendFromQuerySearch_14">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">手动模拟attach cinder volume的过程</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_wzlsunice88.jpg" alt="wzlsunice88" title="wzlsunice88"></li>
+                        <li class="user_name">wzlsunice88</li>
+                        <li class="time">2017-07-21 16:46</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>409</span></li>
+                    </ul><div class="summary">
+                        cinder attach volume
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/u010986451/article/details/53221335" target="_blank" strategy="BlogCommendFromQuerySearch_15">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">openstack在cinder部分设计的磁盘细节</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_u010986451.jpg" alt="u010986451" title="u010986451"></li>
+                        <li class="user_name">u010986451</li>
+                        <li class="time">2016-11-18 19:11</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>847</span></li>
+                    </ul><div class="summary">
+                        一、LVM简介
+
+LVM是 Logical Volume Manager(逻辑卷管理)的简写，它由Heinz Mauelshagen在Linux 2.4内核上实现。LVM将一个或多个硬盘的分区在逻辑上集合，相当于一个大硬盘来使用，当硬盘的空间不够使用的时候，可以继续将其它的硬盘的分区加入其中，这...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/qq806692341/article/details/52397440" target="_blank" strategy="BlogCommendFromQuerySearch_16">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Cinder命令总结</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_qq806692341.jpg" alt="qq806692341" title="qq806692341"></li>
+                        <li class="user_name">qq806692341</li>
+                        <li class="time">2016-09-01 11:08</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2851</span></li>
+                    </ul><div class="summary">
+                        最近一直用cinder，有些命令时不时就忘记，索性整理一下，自己印象也更深刻了，查看xx列表就是-list，详情就是-show，删除就是-delete，一个一个试了一下也算是轻车熟路了。后面一些没怎么用到的就直接拷贝help里面了，懒了。帮助cinder help subcommand      /...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/chinagissoft/article/details/46874617" target="_blank" strategy="BlogCommendFromQuerySearch_17">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">[管理篇]VMWare搭建Openstack——Cinder完成对云硬盘的扩容</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_chinagissoft.jpg" alt="chinagissoft" title="chinagissoft"></li>
+                        <li class="user_name">chinagissoft</li>
+                        <li class="time">2015-07-14 10:50</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2387</span></li>
+                    </ul><div class="summary">
+                        前面提到了，如果创建更多的时候，或者你的大小过大（X GB），系统也会提示失败，失败信息包括：Stderr: u' &nbsp;Volume group "cinder-volumes" has insufficient free space (255 extents):...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/qq_26923057/article/details/52713463" target="_blank" strategy="BlogCommendFromQuerySearch_18">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Kubernetes 1.4新特性系列介绍——持久卷</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_qq_26923057.jpg" alt="qq_26923057" title="qq_26923057"></li>
+                        <li class="user_name">qq_26923057</li>
+                        <li class="time">2016-09-30 20:14</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3219</span></li>
+                    </ul><div class="summary">
+                        本文描述了目前kubernetes中持久卷（PersistentVolume）的情况，建议先熟悉卷（Volume）的概念。 在云环境下，存储资源管理和计算资源管理有区别。持久卷（PersistentVolume）子系统提供了API，屏蔽了底层的细节，用户和管理员不用关心存储如何提供，如何消耗等。为此...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/cloudman6/article/details/51885654" target="_blank" strategy="BlogCommendFromQuerySearch_19">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Backup Volume 操作 - 每天5分钟玩转 OpenStack（59）</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/2_cloudman6.jpg" alt="CloudMan6" title="CloudMan6"></li>
+                        <li class="user_name">CloudMan6</li>
+                        <li class="time">2016-07-13 05:43</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>7080</span></li>
+                    </ul><div class="summary">
+                        本节我们讨论 volume 的 Backup 操作。 
+Backup 是将 volume 备份到别的地方（备份设备），将来可以通过 restore 操作恢复。
+                    </div>
+                    
+                </dd>
+</a>
+            </dl><dl id="yd_a_d_feed_19" class="yd_a_d_feed_cla" style="height:124px;"><div></div></dl>
+            </div>
+<script type="text/javascript">
+    var fileName = '54647684';
+    var commentscount = 0;
+    var islock = false
+document.domain = "csdn.net";
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop" style="display: none;" title="返回顶部" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_huidaodingbu&#39;])">         
+         <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='疑难杂症——解决 Cinder 僵尸卷问题';
+
+</script>
+<script src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/appendMark.min.js.下载" type="text/javascript"></script>
+<script type="text/javascript">
+    appendMark($('.recommend_list').children('a').find('dt'),$('.extension_other'))
+</script>
+
+
+
+
+
+
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="side">
+                
+
+    <div class="side">
+
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/Jmilk" target="_blank">
+    <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/1_jmilk.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/Jmilk" class="user_name" target="_blank">JmilkFan_范桂飓</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open(&#39;http://msg.csdn.net/letters/model?receiver=Jmilk&#39;,&#39;_blank&#39;,&#39;height=350,width=700&#39;);_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_sixin&#39;])"></a>  
+</div>
+<div id="blog_medal">
+                       <div class="ico_expert" onclick="javascript:location=&#39;http://blog.csdn.net/experts/rule.html&#39;" title="CSDN认证专家" style="cursor:pointer;width:60px;height:60px;background:url(&#39;http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhuanjiamiddle.png&#39;) no-repeat"></div>
+                <div id="bms_box">
+                                            <a target="_blank">
+                                                    <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/zhuanlandaren.png" onmouseover="m_over_m(this,2)" onmouseout="m_out_m()" alt="5">
+                                            </a>
+                                            <a target="_blank">
+                                                    <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="1">
+                                            </a>
+                                            <a target="_blank">
+                                                    <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/bokezhixing.png" onmouseover="m_over_m(this,6)" onmouseout="m_out_m()" alt="1">
+                                            </a>
+               </div>
+
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>969791次</span></li>
+    <li>积分：<span>12073</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+            <img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/blog7.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：12073 </div>
+        </span>  </li>
+    <li>排名：<span>第1434名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>284篇</span></li>
+    <li>转载：<span>6篇</span></li>
+    <li>译文：<span>1篇</span></li>
+    <li>评论：<span>287条</span></li>
+</ul>
+</ul>
+</div>
+
+
+                        
+ 
+
+<div id="custom_column_61974780" class="panel">
+<ul class="panel_head"><span>看累了?! 我有歌你要听一下吗</span></ul>
+<ul class="panel_body">
+<ul class="">
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/player.html"></iframe>
+</ul>
+</ul>
+</div>
+ 
+
+<div id="custom_column_42149233" class="panel">
+<ul class="panel_head"><span>Github</span></ul>
+<ul class="panel_body">
+<div id="custom_column_27626177" class="panel">
+<ul class="panel_body">
+
+<a href="https://github.com/JmilkFan"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20171117173401163" height="70" width="210"></a>
+
+</ul>
+</div>
+</ul>
+</div>
+ 
+
+<div id="custom_column_41787243" class="panel">
+<ul class="panel_head"><span>轻松一下~ Hope you enjoy ！</span></ul>
+<ul class="panel_body">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+
+
+<li class="account_setting_item wrp_pic_item_spe1"> 
+
+ 
+<div class="meta_opr">
+                </div>
+				
+
+<div class="meta_content">
+            
+            <object type="application/x-shockwave-flash" style="outline:none;" data="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/dog.swf.下载" height="300" width="240"><param name="movie" value="http://cdn.abowman.com/widgets/dog/dog.swf?3?"><param name="AllowScriptAccess" value="always"><param name="wmode" value="opaque"><param name="bgcolor" value="FFFFFF"></object><br>
+            <!--
+            <embed src="http://v.65dj.com/wailian/84791c997d8c55023dad0d5690e48c28.mp3" width="240" height="50" autostart="true" loop="1" hidden="”true”" id="MediaPlayer" name="MediaPlayer">-->
+
+			
+			
+			
+			
+			
+                </div>
+</li>
+</ul>
+</div>
+<div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>博客专栏</span></ul>
+    <ul class="panel_body" id="sp_column">
+    <table cellpadding="0" cellspacing="0"><tbody><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/17224.html" target="_blank"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20170905154311617" style="width:75px;height:75px;"></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/17224.html" target="_blank">VMware 虚拟化应用、磁盘编程</a>
+    <p>文章：15篇</p>
+    <span>阅读：10102</span>
+    </td>
+    </tr></tbody></table>
+    <table cellpadding="0" cellspacing="0"><tbody><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/14343.html" target="_blank"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20170209094319553" style="width:75px;height:75px;"></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/14343.html" target="_blank">Openstack 实现技术分解</a>
+    <p>文章：7篇</p>
+    <span>阅读：16132</span>
+    </td>
+    </tr></tbody></table>
+    <table cellpadding="0" cellspacing="0"><tbody><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13463.html" target="_blank"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20161108102841430" style="width:75px;height:75px;"></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13463.html" target="_blank">用 Flask 来写个轻博客</a>
+    <p>文章：37篇</p>
+    <span>阅读：167504</span>
+    </td>
+    </tr></tbody></table>
+    <table cellpadding="0" cellspacing="0"><tbody><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13352.html" target="_blank"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20161029012327277" style="width:75px;height:75px;"></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13352.html" target="_blank">Python 进阶</a>
+    <p>文章：10篇</p>
+    <span>阅读：14133</span>
+    </td>
+    </tr></tbody></table>
+    <table cellpadding="0" cellspacing="0"><tbody><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/13351.html" target="_blank"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20161029012128729" style="width:75px;height:75px;"></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/13351.html" target="_blank">Python 入门</a>
+    <p>文章：13篇</p>
+    <span>阅读：86544</span>
+    </td>
+    </tr></tbody></table>
+    <table cellpadding="0" cellspacing="0"><tbody><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/openstackdeployjmilk.html" target="_blank"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20160616010755073" style="width:75px;height:75px;"></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/openstackdeployjmilk.html" target="_blank">Openstack组件部署—Mitaka</a>
+    <p>文章：11篇</p>
+    <span>阅读：115543</span>
+    </td>
+    </tr></tbody></table>
+    <table cellpadding="0" cellspacing="0"><tbody><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/jmilkfanca.html" target="_blank"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20160609155842540" style="width:75px;height:75px;"></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/jmilkfanca.html" target="_blank">Redhat 系统架构师之路</a>
+    <p>文章：5篇</p>
+    <span>阅读：26408</span>
+    </td>
+    </tr></tbody></table>
+    </ul>
+</div><div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" class="form_search csdn-tracking-statistics" data-pid="blog" target="_blank" data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字"></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog">
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            var url = "/" + username + "?q=" + encodeURIComponent($("#inputSearch").val());
+            window.location.href = url;
+        }   
+    });
+</script> 
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/7314252" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Python笔试面试</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6392222" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Python 算法与数据结构</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6379069" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Python 模块详解</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6314337" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Python 基本语法</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6314597" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Python 进阶</a><span>(12)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6518106" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Flask</a><span>(37)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/5756957" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Python</a><span>(15)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6104327" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">PyQT4</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/5756959" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Linux Server</a><span>(52)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6200654" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Windows Server</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6265293" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack组件部署</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6316482" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack开发</a><span>(36)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6681224" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack 实现技术分解</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6273112" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack — Keystone</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6284575" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack — Glance</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6301826" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack — Nova</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6365993" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack — Neutron</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6403365" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack — SQLAlchemy</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6434469" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Openstack — 通用技术</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6311443" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">About Openstack</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6049446" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">WindowsAzure</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6361082" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">VMware 虚拟化</a><span>(27)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6290970" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">KVM 虚拟化</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6722408" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">H3C CAS</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6054442" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">RESTful</a><span>(9)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/7296582" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">分布式软件系统</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6144655" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">系统架构师之路</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6238221" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Oracle</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/5865667" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Powershell</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6045579" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Bash</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6088581" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">读书笔记、总结</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6279656" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">日常杂谈</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6284578" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">心灵之旅</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jmilk/article/category/6691250" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">疑难杂症 &amp; DEBUG</a><span>(2)</span>
+                </li>
+</ul>
+</div>
+<div id="hotarticls" class="panel csdn-tracking-statistics" data-pid="blog" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/49720611" title="Python基本语法_强制数据类型转换" target="_blank">Python基本语法_强制数据类型转换</a><span>(37602)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51599260" title="Oracle 表空间详解" target="_blank">Oracle 表空间详解</a><span>(20261)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51583799" title="Oracle架构实现原理、含五大进程解析(图文详解)" target="_blank">Oracle架构实现原理、含五大进程解析(图文详解)</a><span>(18536)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51397508" title="Windows 08 R2_NLB负载均衡(图文详解)" target="_blank">Windows 08 R2_NLB负载均衡(图文详解)</a><span>(17943)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51853511" title="KVM 虚拟化架构和实现原理" target="_blank">KVM 虚拟化架构和实现原理</a><span>(17753)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51687612" title="Openstack组件部署 — keystone(domain, projects, users, and roles)" target="_blank">Openstack组件部署 — keystone(domain, projects, users, and roles)</a><span>(16880)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51724360" title="Openstack组建部署 — Glance Install" target="_blank">Openstack组建部署 — Glance Install</a><span>(16859)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51569290" title="创建Oracle数据库、数据库名与实例名与SID之间的关系(图文详解)" target="_blank">创建Oracle数据库、数据库名与实例名与SID之间的关系(图文详解)</a><span>(15281)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/48763109" title="Python基本语法_输入/输出语句详解" target="_blank">Python基本语法_输入/输出语句详解</a><span>(14009)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51866579" title="Openstack组件部署 — Networking service_安装并配置Controller Node" target="_blank">Openstack组件部署 — Networking service_安装并配置Controller Node</a><span>(13847)</span>
+</li>
+</ul>
+</div>
+
+<div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="http://blog.csdn.net/Jmilk/article/month/2018/01">2018年01月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/12">2017年12月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/11">2017年11月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/10">2017年10月</a><span>(13)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/09">2017年09月</a><span>(4)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/08">2017年08月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/07">2017年07月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/06">2017年06月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/05">2017年05月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/04">2017年04月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/03">2017年03月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/02">2017年02月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2017/01">2017年01月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/12">2016年12月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/11">2016年11月</a><span>(27)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/10">2016年10月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/09">2016年09月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/08">2016年08月</a><span>(15)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/07">2016年07月</a><span>(24)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/06">2016年06月</a><span>(22)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/05">2016年05月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/04">2016年04月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/03">2016年03月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/02">2016年02月</a><span>(15)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2016/01">2016年01月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2015/12">2015年12月</a><span>(24)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2015/11">2015年11月</a><span>(29)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2015/10">2015年10月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2015/09">2015年09月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/Jmilk/article/month/2015/08">2015年08月</a><span>(2)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+
+<div id="hotarticls2" class="panel csdn-tracking-statistics" data-pid="blog" data-mod="popu_341" "="">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/53782360" title="用 Flask 来写个轻博客 (29) — 使用 Flask-Admin 实现后台管理 SQLAlchemy" target="_blank">用 Flask 来写个轻博客 (29) — 使用 Flask-Admin 实现后台管理 SQLAlchemy</a><span>(16)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/53542686" title="用 Flask 来写个轻博客 (25) —  使用 Flask-Principal 实现角色权限功能" target="_blank">用 Flask 来写个轻博客 (25) —  使用 Flask-Principal 实现角色权限功能</a><span>(13)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/53385381" title="用 Flask 来写个轻博客 (21) — 结合 reCAPTCHA 验证码实现用户注册与登录" target="_blank">用 Flask 来写个轻博客 (21) — 结合 reCAPTCHA 验证码实现用户注册与登录</a><span>(13)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/53303870" title="用 Flask 来写个轻博客 (11) — M(V)C_创建视图函数" target="_blank">用 Flask 来写个轻博客 (11) — M(V)C_创建视图函数</a><span>(13)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/53184903" title="用 Flask 来写个轻博客 (4) — (M)VC_创建数据模型和表" target="_blank">用 Flask 来写个轻博客 (4) — (M)VC_创建数据模型和表</a><span>(11)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/54667770" title="Openstack 实现技术分解 (2) 虚拟机初始化工具 — Cloud-Init &amp; metadata &amp; userdata" target="_blank">Openstack 实现技术分解 (2) 虚拟机初始化工具 — Cloud-Init &amp; metadata &amp; userdata</a><span>(10)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/51866579" title="Openstack组件部署 — Networking service_安装并配置Controller Node" target="_blank">Openstack组件部署 — Networking service_安装并配置Controller Node</a><span>(10)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/53239740" title="用 Flask 来写个轻博客 (7) — (M)VC_models 的关系(many to many)" target="_blank">用 Flask 来写个轻博客 (7) — (M)VC_models 的关系(many to many)</a><span>(10)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/53187575" title="用 Flask 来写个轻博客 (5) — (M)VC_SQLAlchemy 的 CRUD 详解" target="_blank">用 Flask 来写个轻博客 (5) — (M)VC_SQLAlchemy 的 CRUD 详解</a><span>(9)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jmilk/article/details/53150084" title="用 Flask 来写个轻博客 (1) — 创建项目" target="_blank">用 Flask 来写个轻博客 (1) — 创建项目</a><span>(8)</span>
+</li>
+</ul>
+</div>
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/68947277#comments">KVM/QEMU/qemu-kvm/libvirt 概念全解</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/Jmilk" class="user_name">JmilkFan_范桂飓</a>:
+@xiaoliang2113:多谢支持
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/68947277#comments">KVM/QEMU/qemu-kvm/libvirt 概念全解</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/xiaoliang2113" class="user_name">xiaoliang2113</a>:
+讲的好详细
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/50964121#comments">红帽虚拟化RHEV-架构简介</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/smalltiger1986" class="user_name">云之旅行</a>:
+不错，学习了！
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/53782360#comments">用 Flask 来写个轻博客 (29) — 使用 Flask-Admin 实现后台管理 SQLAlchemy</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/Jmilk" class="user_name">JmilkFan_范桂飓</a>:
+@kevin_weijc:Flask-Admin 自带了鉴权功能，你可以从这方面入手
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/53782360#comments">用 Flask 来写个轻博客 (29) — 使用 Flask-Admin 实现后台管理 SQLAlchemy</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/kevin_weijc" class="user_name">kv_weijc</a>:
+@Jmilk:  flask-admin  管理后台不用登录也可以进   怎么添加重定向到登录页面我...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/53782360#comments">用 Flask 来写个轻博客 (29) — 使用 Flask-Admin 实现后台管理 SQLAlchemy</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/Jmilk" class="user_name">JmilkFan_范桂飓</a>:
+@kevin_weijc:可以通过 filters 功能来实现，检查参考官方文档
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/53782360#comments">用 Flask 来写个轻博客 (29) — 使用 Flask-Admin 实现后台管理 SQLAlchemy</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/Jmilk" class="user_name">JmilkFan_范桂飓</a>:
+@Air_hjj:这个真的要看具体代码
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/53986044#comments">用 Flask 来写个轻博客 (37) — 在 Github 上为第一阶段的版本打 Tag</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/Jmilk" class="user_name">JmilkFan_范桂飓</a>:
+@qq_25154053:多谢支持 ：）
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/53986044#comments">用 Flask 来写个轻博客 (37) — 在 Github 上为第一阶段的版本打 Tag</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/qq_25154053" class="user_name">qq_25154053</a>:
+非常感谢作者 无私的分享 热心的回复一些简单问题 ：）
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/jmilk/article/details/53327164#comments">用 Flask 来写个轻博客 (14) — M(V)C_实现项目首页的模板</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/qq_25154053" class="user_name">qq_25154053</a>:
+@Jmilk:解决 谢谢 这个系列写的真好！
+    </p>
+    </li>
+</ul>
+</div>
+
+ 
+
+<div id="custom_column_42421775" class="panel">
+<ul class="panel_head"><span>广告位去除</span></ul>
+<ul class="panel_body">
+<script>
+// 因为从刚才的控制台，博主发现有JQuery的支持，这样写比原生的会更加的方便一些，代码如下
+$(document).ready(function(){
+      setInterval(function(){
+        $("#cpro_u2392861_closebtn").trigger("click");
+        $("#bd-hl-content").css("display","none");
+        $(".J_adv").css("display","none");
+        $("#cpro_u2392861").css("display","none");
+        $("#adJs52b5334").css("display","none"); 
+      },3000);
+
+// 添加轮询的原因是，注入的JavaScript代码在广告代码之后执行了，要想去掉广告，就必须再加载一次 去广告的脚本咯
+    });
+</script>
+</ul>
+</div>
+ 
+
+<div id="custom_column_42653134" class="panel">
+<ul class="panel_head"><span>公众号</span></ul>
+<ul class="panel_body">
+<div style="position:fixed;bottom: 0; right: 0px;z-index:1000;font-weight:bold;font-size:1.3em;background-color:#fff;font-family: &#39;Microsoft YaHei&#39;;border:1px solid #aaa;">
+<div style="text-align:center;border-bottom:1px solid #aaa;padding:4px;"><a href="http://blog.csdn.net/vote/candidate.html?username=Jmilk" target="_blank">Python笔试面试公众号</a></div><a href="http://blog.csdn.net/Jmilk" target="_blank">
+<img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/20160624163334333" width="170" height="170">
+    </a></div>
+</ul>
+</div>
+ 
+
+<div id="custom_column_61974853" class="panel">
+<ul class="panel_head"><span>统计</span></ul>
+<ul class="panel_body">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1266702205'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1266702205%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_1266702205"><a href="http://www.cnzz.com/stat/website.php?web_id=1266702205" target="_blank" title="站长统计"><img border="0" hspace="0" vspace="0" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/pic.gif"></a></span><script src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/z_stat.php" type="text/javascript"></script><script src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/core.php" charset="utf-8" type="text/javascript"></script>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+                        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_189" data-mtp="63" data-order="40" data-con="ad_content_1259" style="width: 250px; height: 250px;">
+                            <div id="nav_show_top_stop" style="width: 250px; height: 250px; z-index: 1000; position: fixed; top: 3576px;">
+
+                                <div id="cpro_u3031286" style="text-align:center;">
+                                    <!-- 投放代码 -->
+                                    <script type="text/javascript" src="http://cee1.iteye.com/bwocoflyv.js"></script>
+                                    
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+
+                            setTimeout(function () {
+                                var naviga_offsetTop = 0; function naviga_stay_top() {
+                                    var scrollTop = jQuery(document).scrollTop();
+                                    if (scrollTop > naviga_offsetTop) {
+                                        jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                                        jQuery("#nav_show_top_stop").css({ "top": "0px" });
+                                    } else { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop + "px" }); }
+                                }
+                                function onload_function() {
+                                    naviga_offsetTop = jQuery("#nav_show_top_stop").position().top;
+                                    jQuery(window).bind("scroll", naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top);
+                                    jQuery(document).bind("scroll", naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top);
+                                } jQuery(document).ready(onload_function);
+                            }, 200);
+
+                        </script>
+
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='csdn-tracking-statistics' data-pid=\"blog\"  data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                + "<span class='csdn-tracking-statistics' data-pid=\"blog\"  data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+
+
+
+        <script type="text/javascript" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/MathJax.js.下载"></script>
+
+    <script src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/csdn_blog_detail.min.js.下载" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="javascript:void(0);" target="_blank" class="qq">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2251809102&amp;site=qq&amp;menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-660-0108</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏知之为计算机有限公司</span><span class="interval">|</span><span>江苏乐知网络技术有限公司</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2017, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/notify.js.下载"></script><input type="hidden" id="aa_g_data_ids">
+
+    <script type="text/javascript" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/csdn_public_blog_detail.min.js.下载"></script>
+
+    <script type="text/javascript" src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/showblogmedal.ashx"></script>
+
+
+    <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+        <script id="adJs52b5334" src="http://ads.csdn.net/js/opt/52b5334.js?t=0.1664519334197312" style="display: none;"></script>
+        <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+    </div>
+
+    <div class="pop_CA_cover" style="display:none"></div>
+    <div class="pop pop_CA" style="display:none">
+        <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon" id="fapancle" onclick="$(&#39;.pop_CA&#39;).hide();$(&#39;.pop_CA_cover&#39;).hide();"></span>
+        </div>
+        <iframe src="./疑难杂症——解决 Cinder 僵尸卷问题 - JmilkFan_范桂飓 - CSDN博客_files/saved_resource.html" id="fa" frameborder="0" width="100%" height="360" scrolling="no"></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+    <div style="display:none;">
+        <img src="http://blog.csdn.net/jmilk/article/details/54647684" onerror="setTimeout(function(){if(top !== self){window[&quot;\x74\x6f\x70&quot;][&quot;\x6c\x6f\x63\x61\x74\x69\x6f\x6e&quot;][&quot;\x68\x72\x65\x66&quot;] = window[&quot;\x6c\x6f\x63\x61\x74\x69\x6f\x6e&quot;][&quot;\x68\x72\x65\x66&quot;];}            if(typeof(csdn)==&quot;\x75\x6e\x64\x65\x66\x69\x6e\x65\x64&quot;&amp;&amp;window[&quot;\x6c\x6f\x63\x61\x74\x69\x6f\x6e&quot;][&quot;\x68\x6f\x73\x74&quot;][&quot;\x69\x6e\x64\x65\x78\x4f\x66&quot;](&quot;\x63\x73\x64\x6e\x2e\x6e\x65\x74&quot;)&lt;0&amp;&amp;window[&quot;\x6c\x6f\x63\x61\x74\x69\x6f\x6e&quot;][&quot;\x68\x6f\x73\x74&quot;][&quot;\x69\x6e\x64\x65\x78\x4f\x66&quot;](&quot;\x69\x74\x65\x79\x65\x2e\x63\x6f\x6d&quot;)&lt;0){window[&quot;\x6c\x6f\x63\x61\x74\x69\x6f\x6e&quot;][&quot;\x68\x72\x65\x66&quot;]=&quot;\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74&quot;;}},3000);">
+    </div>
+
+
+<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" type="text" value="" id="focus_retriever" readonly="true"></div></body></html>

@@ -1,0 +1,257 @@
+@import url("Font-Awesome-4.2.0/css/font-awesome.min.css");
+@import url("site_overrides.css");
+
+#menu {
+    color: #EEEEEE;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    border-bottom: none;
+}
+
+#menu:after {
+    content: "";
+    background-color: #c4d0e3;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+}
+
+/* What is this? */
+.menu .bottom_versions .title span {
+    background-color: #EEEEEE;
+    display: inline-block;
+    left: -20px;
+    line-height: 30px;
+    margin: 0;
+    padding-top: 4px;
+    position: relative;
+    width: 100%;
+}
+
+body[dir="rtl"] .menu .bottom_versions .title span {
+    right: -20px;
+}
+
+body[dir="rtl"] #menu,
+body[dir="rtl"] #langauge_menu {
+    right: 0;
+}
+
+/* Not sure what this is for
+.menu span a, #menu span a {
+    color: white;
+}
+*/
+
+#menu ul {
+    list-style: none outside none;
+    margin: 0;
+    min-width: 100%;
+    padding: 0;
+}
+
+#menu a,
+.breadcrumb > div,
+#lang_menu_2 > div,
+#book_format_menu > div,
+#book_lang_menu > div {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .2s ease-out;
+}
+
+#menu a:hover,
+.breadcrumb:hover > div,
+#lang_menu_2:hover > div,
+#book_format_menu:hover > div,
+#book_lang_menu:hover > div {
+    background-color: #3c6eb4;
+    color: #fff;
+}
+
+#menu a:hover {
+  color: #FFFFFF;
+}
+
+/* Breadcrumb & Other Menus */
+
+#menu .fa.fa-caret-down {
+    font-size: 18px;
+    vertical-align: middle;
+    text-indent: 6px;
+}
+
+#menu li {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+#menu li a {
+	padding-top: 0.75em;
+}
+
+.breadcrumb {
+    float: left;
+    position: relative;
+}
+
+body[dir="rtl"] .breadcrumb {
+    float: right;
+}
+
+#book_lang_menu,
+#lang_menu_2,
+#book_format_menu {
+    float: right;
+    margin-right: 10px;
+    position: relative;
+}
+
+body[dir="rtl"] #book_lang_menu,
+body[dir="rtl"] #lang_menu_2,
+body[dir="rtl"] #book_format_menu {
+    float: left;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.breadcrumb > a,
+.breadcrumb > div,
+#lang_menu_2 > div,
+#book_format_menu > div,
+#book_lang_menu > div {
+    position: relative;
+    z-index: 2;
+}
+
+.breadcrumb > ul,
+#lang_menu_2 > ul,
+#book_format_menu > ul,
+#book_lang_menu > ul {
+    z-index: -1;
+    margin: 0;
+    margin-top: -20px;
+    padding-top: 20px;
+    background-color: #c4d0e3;
+    left: 0;
+    position: absolute;
+    top: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-50%);
+    text-indent: 0;
+    transition: all 1s cubic-bezier(.175, .885, .320, 1.275);
+    transition-delay: .1s;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+}
+
+#lang_menu_2 > ul,
+#book_format_menu > ul,
+#book_lang_menu > ul {
+    left: auto;
+    right: 0;
+}
+
+.breadcrumb:hover > ul,
+#lang_menu_2:hover > ul,
+#book_format_menu:hover > ul,
+#book_lang_menu:hover > ul {
+    visibility: visible;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+body[dir="rtl"] .breadcrumb ul {
+    left: auto;
+    right: 0;
+}
+
+/* Search Box */
+
+#search_box {
+    background-color: transparent;
+    padding: 0;
+    position: relative;
+    float: right;
+    width: 190px;
+    z-index: 9;
+}
+body[dir="rtl"] #search_box {
+    left: 40px;
+    right: auto;
+}
+
+#search_box input[type="text"] {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    display: block;
+    float: left;
+    height: 26px;
+    margin: 2px 3px;
+    padding: 0;
+    width: 190px;
+}
+
+#search_box input[type="text"] {
+    float: right;
+}
+
+#search_box input[type="submit"] {
+    display: none;
+}
+
+#search_box:hover input[type="text"] {
+    background-color: #FFFFFF;
+    border-color: #444444;
+}
+
+#search_box, #search_box input[type="text"] {
+    text-indent: 0.5em;
+    transition: all 0.25s ease 0s;
+    width: 90px;
+}
+#search_box input[type="text"]:focus, #search_box input[type="text"]:hover {
+    width: 320px;
+}
+
+/* Footer */
+
+body.menu_embeded {
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+}
+.menu_embeded #title.hidden {
+    display: block;
+}
+.untranslated, .srcnewer {
+    font-style: italic;
+    background: none;
+} 
+ul.toc {
+    padding: 0;
+    margin: 0;
+}
+#site_footer {
+    background-color: #EEE;
+    box-shadow: 0 0 0 1px #aaaaaa, 0 0 5px 0 #aaaaaa;
+    font-size: 20px;
+    margin-top: 1em;
+    padding: 1em 2em 2em;
+    text-align: right;
+}
+#site_footer > a {
+    color: #777;
+    font-size: 30px;
+    margin-left: 4px;
+}

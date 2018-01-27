@@ -1,0 +1,53 @@
+body{color:#888888;}
+.fc00{color:#777777;}
+.fc01{color:#720451;}
+.fc02,.fc02 a{color:#C2429C;}
+.fc03,.fc03 a,.fc11 a{color:#C2429C;}
+.fc04,.fc04 a{color:#C2429C;}
+.fc05{color:#888888;}
+.fc06{color:#888888;}
+.fc07{color:#888888;}
+.fc08{color:#777777;}
+.fc09{color:#888888;}
+.fc10{color:#DFDFDF;}
+.bdc0{border-color:#DFDFDF;}
+.bdc1{border-color:#888888;}
+.bdc9t{border-top-color:#FFFFFF;}
+.bdc9r{border-right-color:#FFFFFF;}
+.bdc9b{border-bottom-color:#FFFFFF;}
+.bdc9l{border-left-color:#FFFFFF;}
+.bgc1{background-color:#FFFFFF;}
+.bgc2{background-color:#ffffff;}
+.bgp0{background-image:url(img/-1.gif);}
+.nb-body{background:#D4D4D4 url(img/top.jpg) repeat-x left top;}
+.nb-wrap{background:url(img/banner.png) no-repeat center top;}
+.nb-bar{background:#D4D4D4;}
+.nb-top .h{height:190px;}
+.nb-top .t{top:60px;left:30px;font-family:Arial,Helvetica,sans-serif;color:#ffffff;}
+.nb-top .n{font-size:18px;}
+.nb-top .d{font-size:12px;}
+.nb-nav .h{height:30px;line-height:30px;}
+.nb-nav .l{width:6px;background:url(img/AHE-DH-LEFT.png) no-repeat left top;}
+.nb-nav .r{width:6px;background:url(img/AHE-DH-RIGHT.png) no-repeat right top;}
+.nb-nav .c{margin:0 6px;background:url(img/AHE-DH-M.png) repeat-x center center;}
+.nb-nav .i{font-weight:normal;font-size:12px;}
+.nb-nav .i:hover{color:#ffffff;}
+.nb-nav .selected{background:url(img/ahe-DH-xzx.png) no-repeat center top;}
+.nb-nav .selected .i, .nb-nav .selected .i:hover{font-weight:bold;color:#FFFFFF;background:none;}
+.nb-smt{display:block;}
+.nb-smt .h{display:block;height:49px;}
+.nb-smt .l{width:6px;background:url(img/AHE-DN-LEFT.png) no-repeat left top;}
+.nb-smt .r{width:6px;background:url(img/AHE-DN-RIGHT.png) no-repeat right top;}
+.nb-smt .c{margin:0 6px;background:url(img/AHE-DN-M.png) repeat-x center center;}
+.nb-cnt{background:url(img/ahe-DS.png) repeat-y center top;}
+.nb-cnt .wc{margin:0 0 0 0;}
+.nb-fot{background:url(img/ahe-DS-di.png) no-repeat center top;}
+.nb-fot .h{height:200px;}
+.nb-fot .k{padding-top:70px;}
+.nb-mdl{margin:5px 10px;}
+.nb-mdl .th{height:50px;line-height:40px;}
+.nb-mt .tl{width:10px;background:url(img/ahe-Tab-left.png) no-repeat left top;}
+.nb-mt .tc{margin:0 10px 0 10px;font-size:12px;font-weight:bold;background:url(img/ahe-Tab-M.png) repeat-x left top;}
+.nb-mt .tr{width:10px;background:url(img/ahe-Tab-right.png) no-repeat left top;}
+.nb-mt .tm{right:5px;}
+.nb-mc .cc{margin:0 10px 0 10px;}

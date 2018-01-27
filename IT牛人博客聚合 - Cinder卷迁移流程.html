@@ -1,0 +1,604 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0038)http://www.udpwork.com/item/12603.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="description" content="IT牛人博客聚合-整合互联网IT行业的计算机牛人博客和名人博客,在这里你可以找到Web开发,网站架构,系统设计,UI前端等技术前沿的中文博客,IT业界知名博客">
+	<meta name="keywords" content="IT,IT牛人,编程牛人,IT行业,IT牛人博客,Java牛人,PHP牛人,Python牛人,C语言牛人,编程高手,技术牛人,计算机牛人,互联网行业,名人博客,名博,IT业界知名博客">
+	<title>IT牛人博客聚合 - Cinder卷迁移流程</title>
+	<link rel="stylesheet" href="./IT牛人博客聚合 - Cinder卷迁移流程_files/style.css" type="text/css">
+	<link rel="alternate" type="application/rss+xml" title="IT牛人博客聚合 RSS Feed" href="http://www.udpwork.com/feed">
+	<script type="text/javascript" src="./IT牛人博客聚合 - Cinder卷迁移流程_files/jquery.js.下载"></script>
+</head>
+<body>
+
+
+<script type="text/javascript">
+<!--
+function toggle_element(id){
+	var e = document.getElementById(id);
+	if(e.style.display == 'none'){
+		e.style.display = '';
+	}else{
+		e.style.display = 'none';
+	}
+}
+//-->
+</script>
+
+
+
+<div id="header">
+	<div id="header_inner" class="wrapper">
+		<div id="site_info">
+			<h1><a href="http://www.udpwork.com/">IT牛人博客聚合</a></h1>
+			<div style="color: #ddd;">发现IT技术最优秀的内容, 寻找IT技术的价值</div>
+		</div>
+
+		<ul id="header_links">
+			<li><a href="http://www.udpwork.com/">首页</a></li>
+			<li><a href="http://m.udpwork.com/">手机版</a></li>
+			<li><a href="http://www.udpwork.com/news/">新闻</a></li>
+			<li><a href="http://www.udpwork.com/sites/">牛人列表</a></li>
+			<li><a href="http://www.udpwork.com/feed">RSS订阅</a></li>
+			<li><a href="http://www.udpwork.com/about">关于</a></li>
+		</ul>
+	</div>
+</div>
+
+
+<div class="wrapper">
+	<div id="banner" class="box">
+		<div style="float: right; margin-right: 10px;">
+			<form method="get" action="http://www.udpwork.com/" style="padding: 0; margin: 0;">
+				<input type="text" style="width: 180px;" name="s" value="">
+				<input type="submit" value="搜索">
+			</form>
+		</div>
+
+		<span style="background:#5c3;border:1px solid #aaa;padding:6px 14px;"><a href="http://m.udpwork.com/" style="font-weight:bold;color:#fff;">手机版</a></span>
+		找到你所找, 得到你所想 - <a href="http://www.udpwork.com/news/17.html">IT牛人博客聚合手机版全新改版</a>	</div>
+</div><!-- /.wrapper -->
+
+
+<div class="wrapper">
+	<div id="content" class="box">
+
+
+
+<div id="rss_item">
+	<div class="score_board">
+		<span class="thumb_up">0</span>
+		<br>
+		<span class="thumb_down">0</span>
+	</div>
+
+	<div class="comment_bubble"><a class="hover" href="http://www.udpwork.com/item/12603.html#reviews" title="评论: 0">---</a></div>
+	<h2>Cinder卷迁移流程</h2>
+
+	<div style="margin: 4px 0"><a href="http://www.udpwork.com/site/279.html">xianchaobo</a>  发表于 2014年06月09日 02:38 | Hits: 2963</div>
+	<div>Tag: <a href="http://www.udpwork.com/tag/openstack">openstack</a> | <a href="http://www.udpwork.com/tag/%E6%9C%AA%E5%88%86%E7%B1%BB">未分类</a></div>
+	<div class="content">
+		<h2>Cinder卷迁移流程</h2>
+<p>Openstack支持不同后端间的卷迁移，Cinder中的卷迁移流程如下：</p>
+<p>（1）存储后端自身提供卷迁移，这种方式需要存储后端支持卷迁移特性。在LVM存储后端中，源卷和目的卷需在同一个服务器上的不同backend上，且当前卷未挂载的情况下， LVM可通过自身迁移的方式迁移卷。</p>
+<p>（2）如果存储后端不支持迁移特性，则通过Host完成卷迁移，分为两种情况:</p>
+<ul><li>（a）当前卷处于未挂载状态，则通过块存储服务将原卷的数据拷贝到目的卷</li>
+<li>（b）当前卷处于挂载状态，则通过Nova计算节点进行卷的热迁移（利用Libvirt中卷的热迁移特性进行迁移）</li>
+</ul>
+<p>Cinder中卷迁移的核心函数调用关系如下图所示(以LVM存储后端为例)：</p>
+<p></p>
+<pre>VolumeManager
+                       migrate_volume()
+                             |
+                   +--------------------+
+            【1】  |                    |
+       force_host_copy=False         not moved   
+                   |                    |
+             LVMISCSIDriver        VolumeManager                          
+        driver.migrate_volume()  _migrate_volume_generic()                 
+                   |                    |
+         volutils.copy_volume()   rpcapi.create_volume()
+               dd命令拷贝               |                                   
+                                        |                                   
+                          +--------------------------+
+                   【2】  |                          |  【3】                  
+                       not attach                 attached
+                          |                          |                       
+                     VolumeDriver          nova_api.update_server_volume()
+               driver.copy_volume_data()             |             
+                          |                          |
+                     VolumeDriver               ComputeManager        
+               self._attach_volume(dest_vol)     swap_volume()        
+               self._attach_volume(src_vol)          |
+                          |                          |                 
+              volume_utils.copy_volume()        LibvirtDriver
+                     dd命令拷贝               driver.swap_volume()
+                          |                          |
+                     VolumeDriver                    |                      
+               self._detach_volume(src_vol)          |
+               self._detach_volume(dest_vol)   domain.blockRebase()</pre><p></p>
+<p>说明：</p>
+<ul><li>force_host_copy表示是否强制通过Host进行卷的迁移动作</li>
+<li>force_host_copy默认值为false，则首先会进入流程①，如果底层存储不支持卷迁移或迁移失败，则返回not moved，进入流程②或③</li>
+<li>卷的冷迁移最终都是采用dd命令完成</li>
+<li>若当前卷处于挂载状态，则通过Nova进行迁移（流程③），最终调用Libvirt接口进行热迁移</li>
+</ul>
+
+	</div>
+
+	<p>原文链接: <a href="http://www.udpwork.com/redirect/12603" target="_blank" title="http://openstack.wiaapp.com/?p=220">http://openstack.wiaapp.com/?p=220</a></p>
+
+
+</div>
+<!-- /#rss_item -->
+
+
+
+
+
+
+<script type="text/javascript">
+<!--
+/**
+ * 维持比例缩放图片, 用空白(CSS: margin)来填充.
+ * img: img dom节点.
+ */
+function resize_image(img, to_width, to_height){
+	img = $(img);
+
+	var ni = new Image();
+	ni.onload = function(){
+		var width = ni.width;
+		var height = ni.height;
+		if(to_height == 0){
+			to_height =to_width/width * height;
+		}else if(to_width == 0){
+			to_width = to_height/height * width;
+		}
+
+		width = parseInt(to_width);
+		height = parseInt(to_height);
+		if(width == 0 || height == 0){
+			return;
+		}
+
+		img.width(width);
+		img.height(height);
+
+		if(width < to_width){
+			var left = parseInt((to_width - width)/2);
+			img.css('margin-left', left + 'px');
+			img.css('margin-right', left + 'px');
+		}
+		if(height < to_height){
+			var top = parseInt((to_height - height)/2);
+			img.css('padding-top', top + 'px');
+			img.css('padding-bottom', top + 'px');
+		}
+
+	}
+	ni.src = img.attr('src');
+}
+
+$(function(){
+	$('#rss_item .content img').each(function(i, e){
+		var max_width = 620;
+		if(e.width > max_width){
+			resize_image(e, max_width, 0);
+			//$(e).replaceWith('<a>' + e.outerHTML + '</a>');
+		}
+	});
+});
+//-->
+</script>
+
+
+	<script type="text/javascript" src="./IT牛人博客聚合 - Cinder卷迁移流程_files/jquery.blockUI.js.下载"></script>
+<script type="text/javascript" src="./IT牛人博客聚合 - Cinder卷迁移流程_files/PagerView.js.下载"></script>
+
+<a name="review_form"></a>
+
+<div style="background: #ddd; border: 1px solid #999; text-align: center;margin:16px 0;padding: 6px;
+		font-family: arial; font-size:30px; font-weight: bold;
+		">
+	<a href="http://www.udpwork.com/item/12603.html#" onclick="return rate(-1)" title="不喜欢">
+		<img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/thumb_down24.gif" alt="">
+		<span style="color:#f33">0</span>
+	</a>
+	&nbsp; &nbsp;
+	<a href="http://www.udpwork.com/item/12603.html#" onclick="return rate(1)" title="喜欢">
+		<img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/thumb_up24.gif" alt="">
+		<span style="color:#3c3">0</span>
+	</a>
+</div>
+
+
+<script type="text/javascript">
+<!--
+var url= escape(location.href);
+var title = document.title.replace('"', '\'');
+
+document.write(''
+	+ '<div style="margin: 4px 0; text-align: left; font-size: 14px; font-weight: bold;">'
+	+ ' 分享到: '
+	+ ' <a target="_blank" rel="nofollow" href="http://www.douban.com/recommend/?url=' + url + '&title=' + title + '"><img src="http://www.udpwork.com/images/social/douban.png" alt="豆瓣" title="豆瓣" /></a>'
+	+ ' <a target="_blank" rel="nofollow" href="http://share.renren.com/share/buttonshare.do?link=' + url + '&title=' + title + '"><img src="http://www.udpwork.com/images/social/renren.png" alt="人人" title="人人" /></a>'
+	+ ' <a target="_blank" rel="nofollow" href="http://v.t.sina.com.cn/share/share.php?content=utf-8&url=' + url + '&title=' + title + '"><img src="http://www.udpwork.com/images/social/sina.png" alt="新浪微博" title="新浪微博" /></a>'
+	+ ' <a target="_blank" rel="nofollow" href="http://twitter.com/home?status=%E5%88%86%E4%BA%AB: ' + title + ':+' + url + '"><img src="http://www.udpwork.com/images/social/twitter.png" alt="Twitter" title="Twitter" /></a>'
+	+ ' <a target="_blank" rel="nofollow" href="http://www.google.com/reader/link?title=' + title + '&url=' + url + '"><img src="http://www.udpwork.com/images/social/googlereader.png" alt="GoogleReader" title="GoogleReader" /></a>'
+	+ ' <a target="_blank" rel="nofollow" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + url + '&amp;title=' + title + '&amp;content=utf-8"><img src="http://www.udpwork.com/images/social/qqzone.png" alt="QQ空间" title="QQ空间" /></a>'
+	+ ' <a target="_blank" rel="nofollow" href="http://www.facebook.com/share.php?u=' + url + '&t=' + title + '"><img src="http://www.udpwork.com/images/social/facebook.png" title="Facebook" alt="Facebook"></a>'
+	+ '</div>'
+);
+
+//-->
+</script><div style="margin: 4px 0; text-align: left; font-size: 14px; font-weight: bold;"> 分享到:  <a target="_blank" rel="nofollow" href="http://www.douban.com/recommend/?url=http%3A//www.udpwork.com/item/12603.html&amp;title=IT%E7%89%9B%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%81%9A%E5%90%88%20-%20Cinder%E5%8D%B7%E8%BF%81%E7%A7%BB%E6%B5%81%E7%A8%8B"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/douban.png" alt="豆瓣" title="豆瓣"></a> <a target="_blank" rel="nofollow" href="http://share.renren.com/share/buttonshare.do?link=http%3A//www.udpwork.com/item/12603.html&amp;title=IT%E7%89%9B%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%81%9A%E5%90%88%20-%20Cinder%E5%8D%B7%E8%BF%81%E7%A7%BB%E6%B5%81%E7%A8%8B"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/renren.png" alt="人人" title="人人"></a> <a target="_blank" rel="nofollow" href="http://v.t.sina.com.cn/share/share.php?content=utf-8&amp;url=http%3A//www.udpwork.com/item/12603.html&amp;title=IT%E7%89%9B%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%81%9A%E5%90%88%20-%20Cinder%E5%8D%B7%E8%BF%81%E7%A7%BB%E6%B5%81%E7%A8%8B"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/sina.png" alt="新浪微博" title="新浪微博"></a> <a target="_blank" rel="nofollow" href="http://twitter.com/home?status=%E5%88%86%E4%BA%AB:%20IT%E7%89%9B%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%81%9A%E5%90%88%20-%20Cinder%E5%8D%B7%E8%BF%81%E7%A7%BB%E6%B5%81%E7%A8%8B:+http%3A//www.udpwork.com/item/12603.html"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/twitter.png" alt="Twitter" title="Twitter"></a> <a target="_blank" rel="nofollow" href="http://www.google.com/reader/link?title=IT%E7%89%9B%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%81%9A%E5%90%88%20-%20Cinder%E5%8D%B7%E8%BF%81%E7%A7%BB%E6%B5%81%E7%A8%8B&amp;url=http%3A//www.udpwork.com/item/12603.html"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/googlereader.png" alt="GoogleReader" title="GoogleReader"></a> <a target="_blank" rel="nofollow" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http%3A//www.udpwork.com/item/12603.html&amp;title=IT%E7%89%9B%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%81%9A%E5%90%88%20-%20Cinder%E5%8D%B7%E8%BF%81%E7%A7%BB%E6%B5%81%E7%A8%8B&amp;content=utf-8"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/qqzone.png" alt="QQ空间" title="QQ空间"></a> <a target="_blank" rel="nofollow" href="http://www.facebook.com/share.php?u=http%3A//www.udpwork.com/item/12603.html&amp;t=IT%E7%89%9B%E4%BA%BA%E5%8D%9A%E5%AE%A2%E8%81%9A%E5%90%88%20-%20Cinder%E5%8D%B7%E8%BF%81%E7%A7%BB%E6%B5%81%E7%A8%8B"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/facebook.png" title="Facebook" alt="Facebook"></a></div>
+
+
+
+<div id="review_form_area">
+<script type="text/javascript">
+(function(){
+ var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&border=0&ralateuid=1967949210&appkey=2544010378&dpc=1";
+ url = url.replace("url=auto", "url=" + document.URL); 
+ document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+ })();
+</script><iframe id="WBCommentFrame" src="./IT牛人博客聚合 - Cinder卷迁移流程_files/comments.html" scrolling="no" frameborder="0" style="width: 100%; height: 394px;"></iframe>
+<script src="./IT牛人博客聚合 - Cinder卷迁移流程_files/comment.js.下载" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+		    "id": "WBCommentFrame"
+});
+</script>
+
+<!--
+	<h3 class="h3">我要给这篇文章打分:</h3>
+	<div>
+		可以不填写评论, 而只是打分. 如果发表评论, 你可以给的分值是-5到+5, 否则, 你只能评-1, +1两种分数. 你的评论可能需要审核.
+	</div>
+
+	<form id="review_form"
+			method="post"				
+			action=""
+			onsubmit="return false">
+
+		<input type="hidden" name="site_id" value="" />
+		<input type="hidden" name="item_id" value="12603" />
+
+		<div class="field">
+			<label>* Name:</label>
+			<input type="text" name="user_name" value="" style="width: 210px;" />
+		</div>
+		<div class="field">
+			<label>URL:</label>
+			<input type="text" name="user_url" value="" style="width: 210px;" />
+		</div>
+		<div class="field">
+			<label>Email(Not published):</label>
+			<input type="text" name="user_email" value="" style="width: 210px;" />
+		</div>
+		<div class="field">
+			<label>* Score:</label>
+			<input type="hidden" name="score" value="0" />
+			<div class="score_buttons">
+				<img src="http://www.udpwork.com/images/thumb_down.gif" alt="Down" style="float: left; margin-top: 4px;" />
+			<a href="javascript://"><span onclick="set_score(-5)">-5</span></a><a href="javascript://"><span onclick="set_score(-4)">-4</span></a><a href="javascript://"><span onclick="set_score(-3)">-3</span></a><a href="javascript://"><span onclick="set_score(-2)">-2</span></a><a href="javascript://"><span onclick="set_score(-1)">-1</span></a><a href="javascript://"><span onclick="set_score(0)">0</span></a><a href="javascript://"><span onclick="set_score(1)">+1</span></a><a href="javascript://"><span onclick="set_score(2)">+2</span></a><a href="javascript://"><span onclick="set_score(3)">+3</span></a><a href="javascript://"><span onclick="set_score(4)">+4</span></a><a href="javascript://"><span onclick="set_score(5)">+5</span></a>				<img src="http://www.udpwork.com/images/thumb_up.gif" alt="Up" style="float: left; margin-top: 4px;" />
+			</div>
+		</div>
+		<div class="field">
+			<label>评论:(不支持任何HTML标签)</label>
+			<textarea name="content" style="width: 80%; height: 120px;"></textarea>
+		</div>
+
+		<input type="button" value="评论" class="submit_button" onclick="return submit_form()" />
+	</form>
+-->
+</div>
+<!-- /#review_form_area -->
+
+
+<script type="text/javascript">
+<!--
+$(function(){
+	set_score(0);
+});
+
+function set_score(score){
+	$('#review_form_area .score_buttons span').each(function(i, e){
+		n = $(e).text();
+		if(n == score){
+			if(n < 0){
+				$(e).attr('class', 'mark_down');
+			}else{
+				$(e).attr('class', 'mark_up');
+			}
+		}else{
+			$(e).attr('class', '');
+		}
+	});
+	$('#review_form input[name=score]').val(score);
+	var v = score > 0? '+' + score : score;
+	$('#review_form input.submit_button').val('评论 ' + v);
+}
+
+function submit_form(){
+	var url = 'http://www.udpwork.com/api.php?i_object=item_review&i_method=post&i_return=json';
+	data = $('#review_form').serialize();
+
+	$.blockUI();
+	$.post(url, data, function(resp){
+		$.unblockUI();
+
+		if(resp.code == 0){
+			location.reload();
+		}else{
+			var message = resp.msg.join('<br/>')
+					+ '<div style="margin-top: 8px; text-align: center;"><a>返回</a></div>';
+			$.blockUI({
+				message : message,
+				'none' : ''
+			});
+			$('body').click($.unblockUI); 
+		}
+	}, 'json');
+
+	return false;
+}
+
+function rate(score){
+	var url = 'http://www.udpwork.com/api.php?i_object=item_review&i_method=post&i_return=json';
+
+	var data = {
+		'site_id' : $('#review_form input[name=site_id]').val(),
+		'item_id' : $('#review_form input[name=item_id]').val(),
+		'score' : score,
+		'user_name' : 'guest',
+		'user_url' : '',
+		'user_email' : '',
+		'content' : ''
+	};
+	$.blockUI();
+	$.post(url, data, function(resp){
+		$.unblockUI();
+
+		if(resp.code == 0){
+			location.reload();
+		}else{
+			var message = resp.msg.join('<br/>')
+					+ '<div style="margin-top: 8px; text-align: center;"><a>返回</a></div>';
+			$.blockUI({
+				message : message,
+				'none' : ''
+			});
+			$('body').click($.unblockUI); 
+		}
+	}, 'json');
+
+	return false;
+}
+//-->
+</script>
+
+
+
+
+<a name="reviews"></a>
+<div id="review_list" style="margin: 10px 0; border-top: 1px dashed #669;">
+	<h3 class="h3">评价列表(<span class="review_count">0</span>)</h3>
+
+	<ul>
+		</ul>
+
+	<div id="pager"><div class="PagerView">
+ 一共0页, 0条记录 </div><!-- /.pagerView -->
+</div>
+</div>
+<!-- /#review_list -->
+
+<script type="text/javascript">
+<!--
+$(function(){
+	var pager = new PagerView('pager');
+	pager.itemCount = 0;
+	pager.size = 0;
+	pager.onclick = function(index){
+					var url = 'http://www.udpwork.com/api.php?i_object=item_review&i_method=find&i_return=json';
+				var data = {
+			'site_id' : '',
+			'item_id' : '12603',
+			'p' : index,
+			'size' : pager.size,
+			'none' : ''
+		};
+		
+		var div = $('#review_list');
+		div.block();
+		$.getJSON(url, data, function(resp){
+			show_reviews(resp);
+			div.unblock();
+		});
+	};
+	pager.itemCount = 0;
+	pager.size = 12;
+	pager.render();
+
+
+	function show_reviews(result){
+		pager.itemCount = result.total;
+		pager.size = result.page_size;
+		pager.render();
+
+		var div = $('#review_list');
+		div.find('.review_count').html(result.total);
+
+		var html = '';
+		for(var i in result.items){
+			var row = result.items[i];
+
+			if(row.user_url.length > 0){
+				user = '<a rel="nofollow" href="' + row.user_url + '">' + row.user_name + '</a>';
+			}else{
+				user = row.user_name;
+			}
+			if(row.score >= 0){
+				score = '<span class="thumb_up">+' + row.score + '</span>';
+			}else{
+				score = '<span class="thumb_down">' + row.score + '</span>';
+			}
+			html += '<li>'
+				+ '<p>' + score + ' ' + user + ' voted at ' + row.time + '</p>'
+				+ '<div>' + row.content + '</div>'
+				+ '</li>';
+		}
+
+		div.find('ul').html(html);
+	}
+
+});
+//-->
+</script>
+
+
+	</div><!-- /#content -->
+	
+	
+<div id="sidebar">
+	<div class="sidebox box">
+		<div style="float: right; width: 50%;">
+			<h2 style="float: right;">JS 在线图表制作</h2>
+			<a href="http://charts.udpwork.com/" title="JS 在线统计图表制作工具"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/charts.png"></a>
+		</div>
+		<h2><span>RSS 订阅</span></h2>
+		<div style="margin: 8px 0;">
+			<a href="http://www.udpwork.com/feed" title="订阅RSS"><img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/udpwork.com.gif" alt=""></a>
+		</div>
+	</div><!-- /.sidebox -->
+	
+	<div class="sidebox box">
+		<h2>微信订阅</h2>
+		<img src="./IT牛人博客聚合 - Cinder卷迁移流程_files/weixin.jpg" width="240">
+	</div><!-- /.sidebox -->
+
+	<div class="sidebox box">
+		<h2>Tags</h2>
+		<div style="margin: 6px 10px;">
+						<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/linux">linux</a></span>				<span style="font-size: 17px"><a href="http://www.udpwork.com/tag/Linux">Linux</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/Brain+Storm">Brain Storm</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/%E7%BD%91%E7%BB%9C%E9%9A%8F%E7%AC%94%E5%BD%95">网络随笔录</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/%E4%BC%A0%E5%AA%92%E4%B8%8E%E4%BC%A0%E6%92%AD">传媒与传播</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/%E6%9C%AA%E5%88%86%E7%B1%BB">未分类</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/%E8%BD%B6%E4%BA%8B%E8%B6%A3%E9%97%BB">轶事趣闻</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/%E7%94%9F%E6%B4%BB">生活</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80">编程语言</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/%E6%9D%82%E8%B0%88">杂谈</a></span>				<span style="font-size: 25px"><a href="http://www.udpwork.com/tag/%E5%AA%92%E4%BD%93%E4%BE%9B%E7%A8%BF">媒体供稿</a></span>				<span style="font-size: 21px"><a href="http://www.udpwork.com/tag/TMT%E4%B9%B1%E5%BC%B9">TMT乱弹</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/%E9%BB%91%E6%9D%BF%E6%8A%A5">黑板报</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/PHP">PHP</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/Python">Python</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/Technical">Technical</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/%E5%90%8E%E5%AA%92%E4%BD%93%E6%97%B6%E4%BB%A3">后媒体时代</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/%E6%9D%82%E9%A1%B9%E8%B5%84%E6%BA%90">杂项资源</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/Technology">Technology</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/IT">IT</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/Web">Web</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/%E7%A8%8B%E5%BA%8F%E5%91%98">程序员</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/Java">Java</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/%E4%BA%92%E8%81%94%E7%BD%91">互联网</a></span>				<span style="font-size: 17px"><a href="http://www.udpwork.com/tag/Life">Life</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/mysql">mysql</a></span>				<span style="font-size: 12px"><a href="http://www.udpwork.com/tag/%E4%BA%A7%E5%93%81%E8%AE%BE%E8%AE%A1">产品设计</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/Erlang%E6%8E%A2%E7%B4%A2">Erlang探索</a></span>				<span style="font-size: 15px"><a href="http://www.udpwork.com/tag/all">all</a></span>		</div>
+		<!-- /#tag_cloud -->
+	</div><!-- /.sidebox -->
+
+
+
+	<div class="sidebox box">
+		<h2>Random Sites</h2>
+		<ul>
+					<li><a href="http://www.udpwork.com/site/136.html" title="UP: 0 DOWN: 0">十年踪迹</a></li>
+			<li><a href="http://www.udpwork.com/site/137.html" title="UP: 0 DOWN: 0">样式之美</a></li>
+			<li><a href="http://www.udpwork.com/site/138.html" title="UP: 17 DOWN: 3">bang’s blog</a></li>
+			<li><a href="http://www.udpwork.com/site/139.html" title="UP: 0 DOWN: 0">Emacs中文网</a></li>
+			<li><a href="http://www.udpwork.com/site/140.html" title="UP: 0 DOWN: 0">等待另一个人的奥林匹斯</a></li>
+			<li><a href="http://www.udpwork.com/site/141.html" title="UP: 0 DOWN: 0">Liút</a></li>
+			<li><a href="http://www.udpwork.com/site/143.html" title="UP: 0 DOWN: 0">Bit Focus</a></li>
+			<li><a href="http://www.udpwork.com/site/145.html" title="UP: 0 DOWN: 0">へのコメント</a></li>
+		</ul>
+
+		<a href="http://www.udpwork.com/sites/"><b>More...</b></a>
+	</div><!-- /.sidebox -->
+
+
+	<div class="sidebox box">
+		<h2>Hot Items</h2>
+		<ul>
+					<li><a href="http://www.udpwork.com/item/16575.html" title="hits: 775">年终盘点！2017年超有价值的Golang文章</a></li>
+			<li><a href="http://www.udpwork.com/item/16607.html" title="hits: 606">通过斜切变换 2d sprite 提高装箱率</a></li>
+			<li><a href="http://www.udpwork.com/item/16589.html" title="hits: 577">比特币入门教程</a></li>
+			<li><a href="http://www.udpwork.com/item/16604.html" title="hits: 548">移动 APP 网络优化概述</a></li>
+			<li><a href="http://www.udpwork.com/item/16598.html" title="hits: 530">易使用和易学习</a></li>
+			<li><a href="http://www.udpwork.com/item/16606.html" title="hits: 517">加密货币的本质</a></li>
+			<li><a href="http://www.udpwork.com/item/16605.html" title="hits: 482">使用二进制形式发布go package</a></li>
+			<li><a href="http://www.udpwork.com/item/16602.html" title="hits: 482">折腾的快乐</a></li>
+		</ul>
+
+		<a href="http://www.udpwork.com/sort/hot"><b>More...</b></a>
+	</div><!-- /.sidebox -->
+
+
+	<div class="sidebox box">
+		<h2>Site Reviews</h2>
+		<ul>
+					<li>guest: <a href="http://www.udpwork.com/site/185.html#reviews" title="2013-08-23 18:17:18"><span class="score_up">+1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/site/102.html#reviews" title="2013-08-02 23:06:49"><span class="score_up">+1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/site/221.html#reviews" title="2013-07-24 10:23:53"><span class="score_up">+1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/site/102.html#reviews" title="2013-07-15 17:30:24"><span class="score_up">+1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/site/102.html#reviews" title="2013-07-12 13:29:08"><span class="score_down">-1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/site/123.html#reviews" title="2013-07-08 10:08:22"><span class="score_up">+1</span> </a></li>
+			<li>horgy: <a href="http://www.udpwork.com/site/111.html#reviews" title="2013-07-03 07:32:33"><span class="score_up">+0</span> 我使用http://backupthat.com的，因为它具有免</a></li>
+			<li>guest: <a href="http://www.udpwork.com/site/102.html#reviews" title="2013-06-27 22:15:50"><span class="score_up">+1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/site/107.html#reviews" title="2013-06-15 02:03:42"><span class="score_up">+1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/site/194.html#reviews" title="2013-06-08 17:20:51"><span class="score_up">+1</span> </a></li>
+			<li><a href="http://www.udpwork.com/site/reviews/" title="more...">别人还评价...</a></li>
+		</ul>
+	</div><!-- /.sidebox -->
+
+
+	<div class="sidebox box">
+		<h2>Item Reviews</h2>
+		<ul>
+					<li>guest: <a href="http://www.udpwork.com/item/9710.html#reviews" title="2013-08-30 20:44:26"><span class="score_up">+1</span> </a></li>
+			<li>???: <a href="http://www.udpwork.com/item/10444.html#reviews" title="2013-08-30 18:44:57"><span class="score_up">+0</span> 广告？</a></li>
+			<li>guest: <a href="http://www.udpwork.com/item/10508.html#reviews" title="2013-08-29 23:43:35"><span class="score_up">+1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/item/10482.html#reviews" title="2013-08-27 14:40:12"><span class="score_up">+1</span> </a></li>
+			<li>guest: <a href="http://www.udpwork.com/item/10358.html#reviews" title="2013-08-27 10:24:10"><span class="score_up">+1</span> </a></li>
+			<li>林志勇: <a href="http://www.udpwork.com/item/3747.html#reviews" title="2013-08-23 17:16:56"><span class="score_down">-5</span> 你不是linux大牛吗?  ln -s  /User/ /hom</a></li>
+			<li>ideawu: <a href="http://www.udpwork.com/item/229.html#reviews" title="2013-08-19 16:38:37"><span class="score_up">+0</span> @小虫织网|技术博客 已收录, 不过建议你审核一个独立域名.</a></li>
+			<li>我在乎你: <a href="http://www.udpwork.com/item/10405.html#reviews" title="2013-08-18 16:22:39"><span class="score_up">+5</span> 学习了，正在找这个模版。</a></li>
+			<li>我在乎你: <a href="http://www.udpwork.com/item/10395.html#reviews" title="2013-08-18 16:20:13"><span class="score_up">+0</span> 免费才能快速扩展用户群</a></li>
+			<li>guest: <a href="http://www.udpwork.com/item/10388.html#reviews" title="2013-08-16 16:37:52"><span class="score_up">+1</span> </a></li>
+			<li><a href="http://www.udpwork.com/item/reviews/" title="more...">别人还评价...</a></li>
+		</ul>
+	</div><!-- /.sidebox -->
+
+</div>
+<!-- /#sidebar -->
+
+</div><!-- /.wrapper -->
+
+
+
+<div id="footer">
+	<div class="wrapper">
+		<div class="support">
+			<a href="https://github.com/ideawu/ssdb/">SSDB</a>
+			<br>
+			<a href="http://www.linode.com/?r=cdac879712675bce943d61e99e1f8ea81b6b3e33"><img height="24" src="./IT牛人博客聚合 - Cinder卷迁移流程_files/linode.png"></a>
+		</div>
+
+		<div class="links">
+			<a href="http://www.udpwork.com/">首页</a>
+			<a href="http://m.udpwork.com/">手机版</a>
+			<a href="http://www.udpwork.com/feed">RSS订阅</a>
+			<a href="http://www.udpwork.com/about">关于</a>
+			<a href="http://www.udpwork.com/redisphp-api-doc/">PHP Redis API 文档</a>
+			<a href="http://charts.udpwork.com/">JS统计图表工具</a>
+			<a href="http://lottery.udpwork.com/">JS年会抽奖</a>
+			<a href="http://tovi.ideawu.com/">JS幻灯片控件</a>
+			<a href="http://mingrentalk.com/">名人说</a>
+		</div>
+
+		<div class="copyright">
+			Copyright © 2010-2013 <b>udpwork.com</b>. All rights reserved.
+			10.39 ms
+			<script type="text/javascript">
+			<!--
+			document.write(unescape("| %3Cscript src='http://js.users.51.la/2536041.js' type='text/javascript'%3E%3C/script%3E"));
+			//-->
+			</script>| <script src="./IT牛人博客聚合 - Cinder卷迁移流程_files/2536041.js.下载" type="text/javascript"></script><a href="https://www.51.la/?2536041" target="_blank" title="51.La 网站流量统计系统">网站统计</a>
+
+		</div>
+	</div>
+</div>
+
+
+
+
+
+</body></html>

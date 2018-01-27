@@ -1,0 +1,601 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0043)https://www.xiaopeiqing.com/posts/2160.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- 百度联盟验证-->
+<meta name="baidu_union_verify" content="8518b3d5f2e3fc20c78bef4085b949e2">
+
+
+
+<title>Openstack 更改Public IP地址步骤 | 挨踢茶馆</title> 
+<meta name="description" content="　　挨踢小茶今天因业务原因需要修改Openstack集群的(使用Mirantis搭建的基于Centos的Openstack环境)Public IP地址，使用不同的网段和网络接口，并且使用Vlan Tag接入到生产环境的思科交换机中，下面是整理的一些步骤，也以便以后可以回顾。">
+<meta name="keywords" content="floating ip,openstack,public network">
+<link rel="alternate" type="application/rss+xml" title="挨踢茶馆 RSS Feed" href="https://www.xiaopeiqing.com/feed">
+<link rel="alternate" type="application/atom+xml" title="挨踢茶馆 Atom Feed" href="https://www.xiaopeiqing.com/feed/atom">
+<link rel="pingback" href="https://www.xiaopeiqing.com/xmlrpc.php">
+<link rel="shortcut icon" href="https://www.xiaopeiqing.com/wp-content/themes/weisaysimple/images/favicon.ico" type="image/x-icon">
+<script type="text/javascript" async="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/ga.js.下载"></script><script src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/hm.js.下载"></script><script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/jquery.min.js.下载"></script>
+
+<!-- All in One SEO Pack 2.4.4.1 by Michael Torbert of Semper Fi Web Design[370,409] -->
+<link rel="author" href="http://admin/">
+<meta name="description" content="挨踢小茶今天因业务原因需要修改Openstack集群到Public IP地址，使用不同的网段和网口，并且使用Vlan Tag接入到生产环境的思科交换机中，下面是整理的一些步骤，也以便以后可以回顾">
+
+<meta name="keywords" content="floating ip,openstack,public network,云计算">
+
+<link rel="canonical" href="https://www.xiaopeiqing.com/posts/2160.html">
+<!-- /all in one seo pack -->
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="挨踢茶馆 » Openstack 更改Public IP地址步骤评论Feed" href="https://www.xiaopeiqing.com/posts/2160.html/feed">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.xiaopeiqing.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.2"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56794,8205,9794,65039],[55358,56794,8203,9794,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/wp-emoji-release.min.js.下载" type="text/javascript" defer=""></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wsocial-css" href="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/social.css" type="text/css" media="all">
+<script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/jquery.js.下载"></script>
+<script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/jquery-migrate.min.js.下载"></script>
+<link rel="https://api.w.org/" href="https://www.xiaopeiqing.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.xiaopeiqing.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.xiaopeiqing.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="[译]抢先看Windows Server 2016里的Hyper-V特性" href="https://www.xiaopeiqing.com/posts/2150.html">
+<link rel="next" title="靠谱稳定的科学上网服务商——bstrill.com" href="https://www.xiaopeiqing.com/posts/2170.html">
+<meta name="generator" content="WordPress 4.9.2">
+<link rel="shortlink" href="https://www.xiaopeiqing.com/?p=2160">
+<link rel="alternate" type="application/json+oembed" href="https://www.xiaopeiqing.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.xiaopeiqing.com%2Fposts%2F2160.html">
+<link rel="alternate" type="text/xml+oembed" href="https://www.xiaopeiqing.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.xiaopeiqing.com%2Fposts%2F2160.html&amp;format=xml">
+<style data-context="foundation-flickity-css">/*! Flickity v2.0.2
+http://flickity.metafizzy.co
+---------------------------------------------- */.flickity-enabled{position:relative}.flickity-enabled:focus{outline:0}.flickity-viewport{overflow:hidden;position:relative;height:100%}.flickity-slider{position:absolute;width:100%;height:100%}.flickity-enabled.is-draggable{-webkit-tap-highlight-color:transparent;tap-highlight-color:transparent;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.flickity-enabled.is-draggable .flickity-viewport{cursor:move;cursor:-webkit-grab;cursor:grab}.flickity-enabled.is-draggable .flickity-viewport.is-pointer-down{cursor:-webkit-grabbing;cursor:grabbing}.flickity-prev-next-button{position:absolute;top:50%;width:44px;height:44px;border:none;border-radius:50%;background:#fff;background:hsla(0,0%,100%,.75);cursor:pointer;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.flickity-prev-next-button:hover{background:#fff}.flickity-prev-next-button:focus{outline:0;box-shadow:0 0 0 5px #09F}.flickity-prev-next-button:active{opacity:.6}.flickity-prev-next-button.previous{left:10px}.flickity-prev-next-button.next{right:10px}.flickity-rtl .flickity-prev-next-button.previous{left:auto;right:10px}.flickity-rtl .flickity-prev-next-button.next{right:auto;left:10px}.flickity-prev-next-button:disabled{opacity:.3;cursor:auto}.flickity-prev-next-button svg{position:absolute;left:20%;top:20%;width:60%;height:60%}.flickity-prev-next-button .arrow{fill:#333}.flickity-page-dots{position:absolute;width:100%;bottom:-25px;padding:0;margin:0;list-style:none;text-align:center;line-height:1}.flickity-rtl .flickity-page-dots{direction:rtl}.flickity-page-dots .dot{display:inline-block;width:10px;height:10px;margin:0 8px;background:#333;border-radius:50%;opacity:.25;cursor:pointer}.flickity-page-dots .dot.is-selected{opacity:1}</style><style data-context="foundation-slideout-css">.slideout-menu{position:fixed;left:0;top:0;bottom:0;right:auto;z-index:0;width:256px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none}.slideout-menu.pushit-right{left:auto;right:0}.slideout-panel{position:relative;z-index:1;will-change:transform}.slideout-open,.slideout-open .slideout-panel,.slideout-open body{overflow:hidden}.slideout-open .slideout-menu{display:block}.pushit{display:none}</style><link rel="stylesheet" type="text/css" href="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/t-red.css">
+<style>.ios7.web-app-mode.has-fixed header{ background-color: rgba(45,53,63,.88);}</style><script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/comments-ajax.js.下载"></script>
+<script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/realgravatar.js.下载"></script>
+<script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/hoveraccordion.js.下载"></script>
+<script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/weisay.js.下载"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($){
+$('.article h2 a').click(function(){
+    $(this).text('页面载入中……');
+    window.location = $(this).attr('href');
+    });
+});
+</script>
+<script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/lazyload.js.下载"></script>
+<script type="text/javascript">
+	$(function() {          
+    	$(".article img, .articles img").not("#respond_box img").lazyload({
+        	placeholder:"https://www.xiaopeiqing.com/wp-content/themes/weisaysimple/images/image-pending.gif",
+            effect:"fadeIn"
+          });
+    	});
+</script>
+<link rel="author" href="https://plus.google.com/114103312053995834556/">
+
+<!--百度统计代码 20180107安装-->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?413f91446b40d98f3e21f3f83e802c31";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!--百度统计代码结束-->
+
+</head>
+
+<body>
+<div id="page">
+<div id="header">
+<div id="top">
+<div id="top_logo">
+			<div class="clear"></div>
+            	<div id="blogname"><a href="https://www.xiaopeiqing.com/">挨踢茶馆<img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/logo.png" width="50px" height="25px" alt="logo"></a>
+    <div id="blogtitle">专注于网络技术，云计算，Python等技术</div></div></div>
+		<div class="search">		
+			<form id="searchform" method="get" action="https://www.xiaopeiqing.com/">
+				<input type="text" value="" name="s" id="s" size="30">
+				<button type="submit">搜索</button>
+			</form>
+		</div><div class="clear"></div>
+<div class="topnav">
+<ul id="nav" class="menu"><li class="page_item page-item-348"><a href="https://www.xiaopeiqing.com/">首页</a></li>
+<li class="page_item page-item-2796"><a href="https://www.xiaopeiqing.com/posts/category/aws">AWS</a></li>
+<li class="page_item page-item-2199"><a href="https://www.xiaopeiqing.com/posts/category/translation">译文</a></li>
+<li class="page_item page-item-441 page_item_has_children"><a href="https://www.xiaopeiqing.com/posts/category/network">网络技术</a>
+<ul class="children">
+	<li class="page_item page-item-1169"><a href="https://www.xiaopeiqing.com/posts/category/cisco-voice">思科语音</a></li>
+	<li class="page_item page-item-1167"><a href="https://www.xiaopeiqing.com/posts/category/route-switch">路由交换</a></li>
+</ul>
+</li>
+<li class="page_item page-item-730 page_item_has_children"><a href="https://www.xiaopeiqing.com/posts/category/tools">网络工具</a>
+<ul class="children">
+	<li class="page_item page-item-1472"><a href="https://www.xiaopeiqing.com/subnetcalc.php#new_tab" target="_blank">IP计算器</a></li>
+	<li class="page_item page-item-2452"><a href="https://xiaopeiqing.com/tldr/#new_tab" target="_blank">tldr</a></li>
+</ul>
+</li>
+<li class="page_item page-item-386"><a href="https://www.xiaopeiqing.com/guestbook">给我留言</a></li>
+<li class="page_item page-item-11"><a href="https://www.xiaopeiqing.com/aboutme.html">关于我</a></li>
+</ul>
+</div>
+<div id="rss"><ul>
+<li class="rssfeed"><a href="https://www.xiaopeiqing.com/feed" target="_blank" class="icon1" title="欢迎订阅挨踢茶馆"></a></li>
+</ul></div>
+<div class="clear"></div>
+</div>
+</div><div id="roll"><div title="回到顶部" id="roll_top"></div><div title="查看评论" id="ct"></div><div title="转到底部" id="fall"></div></div>
+<div id="content">
+<div class="main"><div class="left">
+<div class="post_date"><span class="date_m">Aug</span><span class="date_d">04</span><span class="date_y">2015</span></div>
+<div class="article">
+<h2>Openstack 更改Public IP地址步骤</h2>
+<div class="article_info">作者：挨踢小茶 &nbsp; 发布：2015-08-04 18:05 &nbsp; 分类：<a href="https://www.xiaopeiqing.com/posts/category/%e4%ba%91%e8%ae%a1%e7%ae%97" rel="category tag">云计算</a> &nbsp; 阅读：6,104 阅读 &nbsp; <a href="https://www.xiaopeiqing.com/posts/2160.html#respond">抢沙发</a> &nbsp; </div><div class="clear"></div>
+
+
+        <div class="context">
+	<p>　　<a href="https://www.xiaopeiqing.com/aboutme.html" target="_blank">挨踢小茶</a>今天因业务原因需要修改Openstack集群的(使用Mirantis搭建的基于Centos的Openstack环境)Public IP地址，使用不同的网段和网络接口，并且使用Vlan Tag接入到生产环境的<a href="https://www.xiaopeiqing.com/posts/tag/cisco" target="_blank">思科交换机</a>中，下面是整理的一些步骤，也以便以后可以回顾。<img class="ngg-singlepic ngg-center aligncenter" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/OpenStack-logo-1.png" alt="OpenStack-logo" width="194" height="194"><span id="more-2160"></span></p>
+<h2>创建Vlan接口</h2>
+<p>　　登录到<a href="https://www.xiaopeiqing.com/posts/tag/openstack" target="_blank">Openstack</a> Controller节点(Public IP地址为10.0.0.100)</p>
+<p>　　进入/etc/sysconfig/network-scripts/目录，可以看到有很多关于网口的配置文件，在这个目录下创建一个新的vlan子接口配置文件，在本文中是eth0.204（即这个Public网络的数据会从eth0出去，204代表了这个网段的vlan id，同时eth0接入的对端网络设备需要开启802.1q trunk模式，以及支持vlan 204通过）。如果本来没有存在这个配置文件，可以按以下步骤手动添加；如果本来已经有关于这个vlan的接口，就可以不用进行下面的操作了。</p>
+<p>　　输入<strong><em>vi&nbsp;ifcfg-eth0.204</em></strong>，添加如下内容，本例中10.0.0.100是新的public IP 地址</p>
+<blockquote><p>DEVICE=eth0.204<br>
+IPADDR=10.0.0.100<br>
+NETMASK=255.255.255.0<br>
+BOOTPROTO=none<br>
+ONBOOT=yes<br>
+USERCTL=no<br>
+VLAN=yes</p></blockquote>
+<p>　　然后重启网络服务<strong><em>/etc/init.d/network restart</em></strong>即可在ifconfig下看到多出了一个网络接口为eth0.204</p>
+<p>　　同理在openstack compute节点上也创建出关于public网络的接口配置文件</p>
+<h2>更改mysql数据库</h2>
+<p>　　这个时候，在controller节点输入<strong><em>keystone endpoint-list</em></strong></p>
+<p>　　可以看到这里面的publicurl的地址还是旧的IP地址，需要进入mysql数据库进行手动修改。</p>
+<p>　　在命令行输入<em><strong>mysql -uroot-p</strong> </em>并输入mysql密码，如果使用的是Mirantis安装的Openstack，可以从/etc/mysql/conf.d/password.cnf 看到自动配置的mysql密码是什么。</p>
+<blockquote><p>[root@node-4 ]# mysql -uroot -p<br>
+Enter password:<br>
+Welcome to the MySQL monitor. Commands end with ; or \g.<br>
+Your MySQL connection id is 486<br>
+Server version: 5.5.28 MySQL Community Server (GPL)</p>
+<p>Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.</p>
+<p>Oracle is a registered trademark of Oracle Corporation and/or its<br>
+affiliates. Other names may be trademarks of their respective<br>
+owners.</p>
+<p>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
+<p>mysql&gt;<strong>use&nbsp;keystone;</strong></p>
+<p>mysql&gt;<strong>select id,url from endpoint;</strong></p>
+<p>mysql&gt;<strong>update endpoint set url=’http://10.0.0.100:8773/services/Cloud’ where id=’c6edf51290e34b84995bccacbc2a2454′;</strong></p>
+<p>(以上的url字段和id字段根据实际情况填写，这条命令会更新mysql数据库的url字段，将其中的IP地址更改为新的Public IP地址。实际过程需要执行7,8条相似的命令让所有的url都更新过来)</p></blockquote>
+<p>　　完事后重启mysql, httpd,&nbsp;memcached服务。</p>
+<h2>修改openstack nova配置文件</h2>
+<p>　　因为在Openstack搭建初期很多地方已经将public IP地址写入到配置文件中了，需要手动重新修改。</p>
+<p>　　主要修改的是<strong>所有节点</strong>的nova.conf文件，一个方法是将nova.conf文件里关于所有旧的IP地址的配置统统改成新的IP地址。另一种方法是使用下面的命令：</p>
+<blockquote><p>find {keystone,nova,cinder,quantum,glance} -type f -exec grep -nH 10.0.0.25 {} \;<br>
+#查看所有关于旧IP地址的配置信息，你可以将10.0.0.25替换成你的旧IP地址</p>
+<p>find {keystone,nova,cinder,quantum,glance} -type f -exec sed -i s/10.0.0.25/10.0.0.100/g {} \;</p>
+<p>#将配置中所有10.0.0.25改成10.0.0.100</p></blockquote>
+<p>　　修改完后，还需要修改nova.conf文件里面的字段<strong>public_interface=eth0.204</strong></p>
+<p>　　之后需要重启每个节点的nova-compute和nova-network（或者neutron）服务。</p>
+<p>　　然后再根据个人的需求修改<a href="https://www.xiaopeiqing.com/posts/tag/floating-ip" target="_blank">floating ip</a>的地址池来给客户机提供外网的服务吧。</p>
+<div>&nbsp;</div><div> 　» 除非注明，本博客文章均为<a rel="nofollow" title="挨踢小茶" href="https://www.xiaopeiqing.com/" target="_blank">挨踢小茶</a>原创，转载请以链接形式标明本文地址</div><div>　» 本文固定链接地址：<a rel="nofollow" title="Openstack 更改Public IP地址步骤" href="https://www.xiaopeiqing.com/posts/2160.html" target="_blank">https://www.xiaopeiqing.com/posts/2160.html | 挨踢茶馆</a></div><div id="wumiiDisplayDiv"></div><script type="text/javascript">
+	if(typeof window.xh_social_share!='function'){
+		window.xh_social_share=function(settings){
+			if(!settings||typeof settings!='object'){return;}
+			var url = encodeURIComponent(location.href);
+			var title = encodeURIComponent(document.title);
+			var summary = document.querySelector('.entry-content') || document.querySelector('article') || document.querySelector('main') || document.querySelector('body') || '';
+			var pic = '';
+			if(summary){
+				[].forEach.call(summary.querySelectorAll('img'), function(a){ pic += (pic?'||':'') + encodeURIComponent(a.src); });
+				
+				summary = encodeURIComponent(summary.innerText.replace(/\r|\n|\t/g,'').replace(/ +/g,' ').replace(/<!--(.*)\/\/-->/g,'').substr(0,80));
+			}
+						var link =typeof settings.link!='undefined'?settings.link:'';
+			if(!link||link.length<=0){return;}
+			if(!/summary/.test(link) && summary) {
+				title = title + ': ' + summary + '.. ';
+			}
+			
+			link = link.replace("{url}",url).replace("{title}",title).replace("{summary}",summary).replace("{img}",pic);
+			var iWidth=typeof settings.width!='undefined'?settings.width: 450;
+			var	iHeight=typeof settings.height!='undefined'?settings.height: 450;
+			var iTop = (window.screen.height-30-iHeight)/2; //获得窗口的垂直位置;
+			var iLeft = (window.screen.width-10-iWidth)/2; //获得窗口的水平位置;
+			window.open(link, 'share', 'height='+iHeight+',innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1');
+		}
+	}
+</script>
+<div class="xh_social_box" style="clear:both;">
+           <a href="javascript:void(0);" onclick="window.xh_social_share({&quot;link&quot;:&quot;http:\/\/v.t.sina.com.cn\/share\/share.php?url={url}&amp;title={title}&amp;pic={img}&amp;appkey=&amp;ralateUid=&amp;language=zh_cn&amp;searchPic=true&quot;,&quot;width&quot;:600,&quot;height&quot;:350});" rel="noflow" style="background:url(https://www.xiaopeiqing.com/wp-content/plugins/wechat-social-login/assets/image/weibo-icon.png) no-repeat transparent; background-size:24px 24px;height:24px;width:24px;" class="xh_social_login_bar" title="微博"></a>
+                <a href="javascript:void(0);" onclick="window.xh_social_share({&quot;link&quot;:&quot;https:\/\/www.xiaopeiqing.com\/wp-admin\/admin-ajax.php?action=xh_social_add_ons_social_wechat&amp;tab=share_qrcode&amp;xh_social_add_ons_social_wechat=0a5b374d83&amp;notice_str=0361570321&amp;hash=a6e0352fd59b64448d82ae735fe99e04&amp;url=https%3A%2F%2Fwww.xiaopeiqing.com%2Fposts%2F2160.html&quot;,&quot;width&quot;:450,&quot;height&quot;:400});" rel="noflow" style="background:url(https://www.xiaopeiqing.com/wp-content/plugins/wechat-social-login/assets/image/weixin-icon.png) no-repeat transparent; background-size:24px 24px;height:24px;width:24px;" class="xh_social_login_bar" title="微信"></a>
+                <a href="javascript:void(0);" onclick="window.xh_social_share({&quot;link&quot;:&quot;http:\/\/connect.qq.com\/widget\/shareqq\/index.html?url={url}&amp;title={title}&amp;summary={summary}&amp;pics={img}&quot;,&quot;width&quot;:770,&quot;height&quot;:580});" rel="noflow" style="background:url(https://www.xiaopeiqing.com/wp-content/plugins/wechat-social-login/assets/image/qq-icon.png) no-repeat transparent; background-size:24px 24px;height:24px;width:24px;" class="xh_social_login_bar" title="QQ"></a>
+                <a href="javascript:void(0);" onclick="window.xh_social_share({&quot;link&quot;:&quot;http:\/\/sns.qzone.qq.com\/cgi-bin\/qzshare\/cgi_qzshare_onekey?url={url}&amp;title={title}&amp;desc=&amp;summary={summary}&amp;site=%E6%8C%A8%E8%B8%A2%E8%8C%B6%E9%A6%86&amp;pics={img}&quot;,&quot;width&quot;:640,&quot;height&quot;:440});" rel="noflow" style="background:url(https://www.xiaopeiqing.com/wp-content/plugins/wechat-social-login/assets/image/qzone.png) no-repeat transparent; background-size:24px 24px;height:24px;width:24px;" class="xh_social_login_bar" title="QQ空间"></a>
+        </div>
+</div>
+                
+        	
+</div>
+</div>
+<div class="articles">
+<div class="author_pic">
+					<a href="https://www.xiaopeiqing.com/posts/2160.html#" title="Waiting For Life Is waiting for death."><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/8c4b20973aa933d724ee16f91964e183" srcset="https://secure.gravatar.com/avatar/8c4b20973aa933d724ee16f91964e183?s=96&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-48 photo" height="48" width="48"></a>
+				</div>
+<div class="author_text">
+			<span class="spostinfo">
+				该日志由 挨踢小茶 于2015年08月04日发表在 <a href="https://www.xiaopeiqing.com/posts/category/%e4%ba%91%e8%ae%a1%e7%ae%97" rel="category tag">云计算</a> 分类下，
+								你可以<a href="https://www.xiaopeiqing.com/posts/2160.html#respond">发表评论</a>，并在保留<a href="https://www.xiaopeiqing.com/posts/2160.html" rel="bookmark">原文地址</a>及作者的情况下<a href="https://www.xiaopeiqing.com/posts/2160.html/trackback" rel="trackback">引用</a>到你的网站或博客。
+				<br>
+				原创文章转载请注明: <a href="https://www.xiaopeiqing.com/posts/2160.html" rel="bookmark" title="本文固定链接 https://www.xiaopeiqing.com/posts/2160.html">Openstack 更改Public IP地址步骤 | 挨踢茶馆</a><br>
+				关键字: <a href="https://www.xiaopeiqing.com/posts/tag/floating-ip" rel="tag">floating ip</a>, <a href="https://www.xiaopeiqing.com/posts/tag/openstack" rel="tag">openstack</a>, <a href="https://www.xiaopeiqing.com/posts/tag/public-network" rel="tag">public network</a>			</span>
+				</div>
+</div>
+
+<div class="articles">
+【上一篇】<a href="https://www.xiaopeiqing.com/posts/2150.html" rel="prev">[译]抢先看Windows&nbsp;Server&nbsp;2016里的Hyper-V特性</a><br>【下一篇】<a href="https://www.xiaopeiqing.com/posts/2170.html" rel="next">靠谱稳定的科学上网服务商——bstrill.com</a></div>
+
+<div class="articles">
+<div class="relatedposts">
+	<h3>您可能还会对这些文章感兴趣！</h3><ol>			<li><a href="https://www.xiaopeiqing.com/posts/2121.html" rel="bookmark" title="Mirantis OpenStack 中使用vnc无法连接虚拟机">Mirantis OpenStack 中使用vnc无法连接虚拟机 </a></li>
+			</ol></div><div class="clear"></div>
+</div>
+
+<div class="articles">
+
+
+	  
+<!-- You can start editing here. -->
+			<!-- If comments are open, but there are no comments. -->
+        <h3 id="comments" style="margin-bottom:10px">Openstack 更改Public IP地址步骤：等您坐沙发呢！</h3>
+	 			<div id="respond_box">
+	<div id="respond">
+		<h3>发表评论</h3>	
+		<div class="cancel-comment-reply">
+		<div id="real-avatar">
+			<img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/saved_resource" srcset="https://secure.gravatar.com/avatar/?s=80&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-40 photo avatar-default" height="40" width="40">	</div>	
+			<small><a rel="nofollow" id="cancel-comment-reply-link" href="https://www.xiaopeiqing.com/posts/2160.html#respond" style="display:none;">点击这里取消回复。</a></small>
+		</div>
+		    <form action="https://www.xiaopeiqing.com/wp-comments-post.php" method="post" id="commentform">
+      		<div id="comment-author-info">
+		<p>
+			<input type="text" name="author" id="author" class="commenttext" value="" size="22" tabindex="1">
+			<label for="author">昵称 *<a>（请尽量不要填写产品或者网站名）</a></label>
+		</p>
+		<p>
+			<input type="text" name="email" id="email" class="commenttext" value="" size="22" tabindex="2">
+			<label for="email">邮箱 * <a id="Get_Gravatar" title="查看如何申请一个自己的Gravatar全球通用头像" target="_blank" href="http://www.weisay.com/blog/apply-gravatar.html">（教你设置自己的个性头像）</a></label>
+		</p>
+		<p>
+			<input type="text" name="url" id="url" class="commenttext" value="" size="22" tabindex="3">
+			<label for="url">网址</label>
+		</p>
+	</div>
+      		<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;s&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+      <div class="clear"></div>
+      
+		<!-- 添加自定义表情路径-->
+		﻿<script type="text/javascript" language="javascript">
+/* <![CDATA[ */
+    function grin(tag) {
+    	var myField;
+    	tag = ' ' + tag + ' ';
+        if (document.getElementById('comment') && document.getElementById('comment').type == 'textarea') {
+    		myField = document.getElementById('comment');
+    	} else {
+    		return false;
+    	}
+    	if (document.selection) {
+    		myField.focus();
+    		sel = document.selection.createRange();
+    		sel.text = tag;
+    		myField.focus();
+    	}
+    	else if (myField.selectionStart || myField.selectionStart == '0') {
+    		var startPos = myField.selectionStart;
+    		var endPos = myField.selectionEnd;
+    		var cursorPos = endPos;
+    		myField.value = myField.value.substring(0, startPos)
+    					  + tag
+    					  + myField.value.substring(endPos, myField.value.length);
+    		cursorPos += tag.length;
+    		myField.focus();
+    		myField.selectionStart = cursorPos;
+    		myField.selectionEnd = cursorPos;
+    	}
+    	else {
+    		myField.value += tag;
+    		myField.focus();
+    	}
+    }
+/* ]]> */
+</script>
+<a href="javascript:grin(&#39;:?:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_question.gif" alt=""></a>
+<a href="javascript:grin(&#39;:razz:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_razz.gif" alt=""></a>
+<a href="javascript:grin(&#39;:sad:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_sad.gif" alt=""></a>
+<a href="javascript:grin(&#39;:evil:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_evil.gif" alt=""></a>
+<a href="javascript:grin(&#39;:!:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_exclaim.gif" alt=""></a>
+<a href="javascript:grin(&#39;:smile:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_smile.gif" alt=""></a>
+<a href="javascript:grin(&#39;:oops:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_redface.gif" alt=""></a>
+<a href="javascript:grin(&#39;:grin:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_biggrin.gif" alt=""></a>
+<a href="javascript:grin(&#39;:eek:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_surprised.gif" alt=""></a>
+<a href="javascript:grin(&#39;:shock:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_eek.gif" alt=""></a>
+<a href="javascript:grin(&#39;:???:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_confused.gif" alt=""></a>
+<a href="javascript:grin(&#39;:cool:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_cool.gif" alt=""></a>
+<a href="javascript:grin(&#39;:lol:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_lol.gif" alt=""></a>
+<a href="javascript:grin(&#39;:mad:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_mad.gif" alt=""></a>
+<a href="javascript:grin(&#39;:twisted:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_twisted.gif" alt=""></a>
+<a href="javascript:grin(&#39;:roll:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_rolleyes.gif" alt=""></a>
+<a href="javascript:grin(&#39;:wink:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_wink.gif" alt=""></a>
+<a href="javascript:grin(&#39;:idea:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_idea.gif" alt=""></a>
+<a href="javascript:grin(&#39;:arrow:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_arrow.gif" alt=""></a>
+<a href="javascript:grin(&#39;:neutral:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_neutral.gif" alt=""></a>
+<a href="javascript:grin(&#39;:cry:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_cry.gif" alt=""></a>
+<a href="javascript:grin(&#39;:mrgreen:&#39;)"><img src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/icon_mrgreen.gif" alt=""></a>
+<br>		<p><textarea name="comment" id="comment" tabindex="4"></textarea><div id="loading" style="display: none;"> 正在提交, 请稍候...</div><div id="error" style="display: none;">#</div></p>
+		<p>
+			<input class="submit" name="submit" type="submit" id="submit" tabindex="5" value="提交留言">
+			<input class="reset" name="reset" type="reset" id="reset" tabindex="6" value="重写">
+			<input type="hidden" name="comment_post_ID" value="2160" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+		</p>
+		<script type="text/javascript">	//Crel+Enter
+			$(document).keypress(function(e){
+				if(e.ctrlKey && e.which == 13 || e.which == 10) { 
+					$(".submit").click();
+					document.body.focus();
+				} else if (e.shiftKey && e.which==13 || e.which == 10) {
+					$(".submit").click();
+				}          
+			})
+		</script>
+		<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="039b4996b3"></p><p style="display: none;"></p>		<span style="padding:0 0 2px 8px">快捷键：Ctrl+Enter</span>
+    <input type="hidden" id="ak_js" name="ak_js" value="1517023670292"></form>
+
+	<div class="clear"></div>
+      </div>
+  </div>
+  
+<!-- wechat login social 登陆按钮 - added 20180109 -->
+<p><b>使用以下社交账号登陆：</b></p>
+<div class="xh_social_box" style="clear:both;">
+           <a href="https://www.xiaopeiqing.com/wp-admin/admin-ajax.php?channel_id=social_weibo&amp;action=xh_social_channel&amp;tab=login_redirect_to_authorization_uri&amp;xh_social_channel=e7d9ebd41b&amp;notice_str=1103356207&amp;hash=0ffae3e91bb3893a756c6ab20e1e4079&amp;redirect_to=https%3A%2F%2Fwww.xiaopeiqing.com%2Fposts%2F2160.html" rel="noflow" style="background:url(https://www.xiaopeiqing.com/wp-content/plugins/wechat-social-login/assets/image/weibo-icon.png) no-repeat transparent;" class="xh_social_login_bar" title="微博"></a>
+                <a href="https://www.xiaopeiqing.com/wp-admin/admin-ajax.php?channel_id=social_wechat&amp;action=xh_social_channel&amp;tab=login_redirect_to_authorization_uri&amp;xh_social_channel=e7d9ebd41b&amp;notice_str=0163205173&amp;hash=69bc5f9725a6127181afccf779e24ce7&amp;redirect_to=https%3A%2F%2Fwww.xiaopeiqing.com%2Fposts%2F2160.html" rel="noflow" style="background:url(https://www.xiaopeiqing.com/wp-content/plugins/wechat-social-login/assets/image/weixin-icon.png) no-repeat transparent;" class="xh_social_login_bar" title="微信"></a>
+                <a href="https://www.xiaopeiqing.com/wp-admin/admin-ajax.php?channel_id=social_qq&amp;action=xh_social_channel&amp;tab=login_redirect_to_authorization_uri&amp;xh_social_channel=e7d9ebd41b&amp;notice_str=1017365023&amp;hash=be38281630b7e609af99af43bf63caaf&amp;redirect_to=https%3A%2F%2Fwww.xiaopeiqing.com%2Fposts%2F2160.html" rel="noflow" style="background:url(https://www.xiaopeiqing.com/wp-content/plugins/wechat-social-login/assets/image/qq-icon.png) no-repeat transparent;" class="xh_social_login_bar" title="QQ"></a>
+        </div>
+<!-- 登陆按钮代码结束 -->
+
+</div>
+
+
+
+
+
+
+
+
+
+	</div>
+
+<div id="sidebar">
+
+<div class="widget">
+	<h3>其他分站点</h3><div class="textwidget custom-html-widget"><ul>
+	<li>
+		<a href="https://aws.xiaopeiqing.com/" rel="bookmark" title="挨踢小茶的AWS在线教程"><strong>挨踢茶馆的AWS在线教程(NEW!)</strong></a>
+	</li>
+</ul></div><h3>实用小工具</h3><div class="textwidget custom-html-widget"><ul>
+	<li>
+		<a href="https://www.xiaopeiqing.com/cisco-password-cracker/" rel="bookmark" title="思科IOS Type 7密码在线解密"><strong>思科IOS Type 7密码在线解密</strong></a>
+	</li>
+	<li>
+		<a href="https://www.xiaopeiqing.com/cisco-password-cracker/type5.html" rel="bookmark" title="思科IOS Type 5密码在线解密">思科IOS Type 5密码在线解密</a>
+	</li>
+	<li>
+		<a href="https://www.xiaopeiqing.com/tldr/" rel="bookmark" title="网络设备命令在线查询器-tldr">网络设备命令在线查询器-tldr</a>
+	</li>
+	<li>
+		<a href="https://www.xiaopeiqing.com/subnetcalc.php" rel="bookmark" title="IP地址和子网掩码计算器">IP地址和子网掩码计算器</a>
+	</li>
+</ul></div></div>
+
+<div class="widget"><div id="tab-title"><h3><span>最新日志</span><span class="selected">热评日志</span><span>随机日志</span></h3>
+	<div id="tab-content">
+		<ul class="hide">					<li><a href="https://www.xiaopeiqing.com/posts/2873.html" rel="bookmark" title="详细阅读 亚马逊云AWS搭建多站点的Cisco DMVPN架构">亚马逊云AWS搭建多站点的Cisco DM</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2856.html" rel="bookmark" title="详细阅读 亚马逊云AWS搭建多站点的VPN CloudHub架构">亚马逊云AWS搭建多站点的VPN Clo</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2840.html" rel="bookmark" title="详细阅读 亚马逊云AWS搭建基于BGP动态路由的硬件VPN（Site to Site VPN）教程">亚马逊云AWS搭建基于BGP动态路由的</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2833.html" rel="bookmark" title="详细阅读 深入解析亚马逊云AWS Direct Connect">深入解析亚马逊云AWS Direct Conne</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2821.html" rel="bookmark" title="详细阅读 将数据中心延伸到亚马逊云AWS的连接方式和架构设计">将数据中心延伸到亚马逊云AWS的连接方</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2807.html" rel="bookmark" title="详细阅读 亚马逊云AWS连接企业多数据中心的网络高可用（HA）架构">亚马逊云AWS连接企业多数据中心的网络</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2778.html" rel="bookmark" title="详细阅读 亚马逊云AWS搭建基于静态路由的硬件VPN（Site to Site VPN）教程">亚马逊云AWS搭建基于静态路由的硬件V</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2761.html" rel="bookmark" title="详细阅读 亚马逊云AWS搭建软件VPN（Client VPN）教程">亚马逊云AWS搭建软件VPN（Client</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2746.html" rel="bookmark" title="详细阅读 使用软件VPN，硬件VPN或AWS DirectConnect连接客户网络与AWS">使用软件VPN，硬件VPN或AWS D</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2739.html" rel="bookmark" title="详细阅读 思科无线Mobility Express AP介绍">思科无线Mobility Express AP介绍</a></li>
+					</ul>
+		<ul>
+<li><a href="https://www.xiaopeiqing.com/posts/2709.html" rel="bookmark" title="通过AWS Certified SysOps Administrator - Associate考试 (9条评论)">通过AWS Certified SysOps Ad</a><a class="pinglun_style">(9条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2746.html" rel="bookmark" title="使用软件VPN，硬件VPN或AWS DirectConnect连接客户网络与AWS (6条评论)">使用软件VPN，硬件VPN或AWS D</a><a class="pinglun_style">(6条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2873.html" rel="bookmark" title="亚马逊云AWS搭建多站点的Cisco DMVPN架构 (6条评论)">亚马逊云AWS搭建多站点的Cisc</a><a class="pinglun_style">(6条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2840.html" rel="bookmark" title="亚马逊云AWS搭建基于BGP动态路由的硬件VPN（Site to Site VPN）教程 (5条评论)">亚马逊云AWS搭建基于BGP动态</a><a class="pinglun_style">(5条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2761.html" rel="bookmark" title="亚马逊云AWS搭建软件VPN（Client VPN）教程 (4条评论)">亚马逊云AWS搭建软件VPN（Cli</a><a class="pinglun_style">(4条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2739.html" rel="bookmark" title="思科无线Mobility Express AP介绍 (3条评论)">思科无线Mobility Express AP</a><a class="pinglun_style">(3条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2778.html" rel="bookmark" title="亚马逊云AWS搭建基于静态路由的硬件VPN（Site to Site VPN）教程 (2条评论)">亚马逊云AWS搭建基于静态路由</a><a class="pinglun_style">(2条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2821.html" rel="bookmark" title="将数据中心延伸到亚马逊云AWS的连接方式和架构设计 (2条评论)">将数据中心延伸到亚马逊云AWS</a><a class="pinglun_style">(2条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2716.html" rel="bookmark" title="AWS Certified SysOps Administrator – Associate考试笔记 (1条评论)">AWS Certified SysOps Admini</a><a class="pinglun_style">(1条评论)</a></li>
+<li><a href="https://www.xiaopeiqing.com/posts/2833.html" rel="bookmark" title="深入解析亚马逊云AWS Direct Connect (1条评论)">深入解析亚马逊云AWS Direct </a><a class="pinglun_style">(1条评论)</a></li></ul>
+		<ul class="hide">					<li><a href="https://www.xiaopeiqing.com/posts/2353.html" rel="bookmark" title="详细阅读 [译]向白盒网络的转变所带来了机遇和分裂">[译]向白盒网络的转变所带来了机遇和分裂</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/15.html" rel="bookmark" title="详细阅读 WordPress插件Postviews——查看文章阅读量">Wordpress插件Postviews——查看文章阅</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/969.html" rel="bookmark" title="详细阅读 新手CUCM6升级项目和生活小记">新手CUCM6升级项目和生活小记</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2873.html" rel="bookmark" title="详细阅读 亚马逊云AWS搭建多站点的Cisco DMVPN架构">亚马逊云AWS搭建多站点的Cisco DM</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2833.html" rel="bookmark" title="详细阅读 深入解析亚马逊云AWS Direct Connect">深入解析亚马逊云AWS Direct Conne</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/822.html" rel="bookmark" title="详细阅读 共享网站Megaupload被关闭，黑客组织Anonymous随后发动攻击">共享网站Megaupload被关闭，黑客组织A</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2716.html" rel="bookmark" title="详细阅读 AWS Certified SysOps Administrator – Associate考试笔记">AWS Certified SysOps Administr</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/166.html" rel="bookmark" title="详细阅读 2011年10月中国微博网站用户时段分布情况">2011年10月中国微博网站用户时段分布情况</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/2150.html" rel="bookmark" title="详细阅读 [译]抢先看Windows Server 2016里的Hyper-V特性">[译]抢先看Windows&nbsp;Server&nbsp;2016里的</a></li>
+										<li><a href="https://www.xiaopeiqing.com/posts/558.html" rel="bookmark" title="详细阅读 DHCP是如何工作的">DHCP是如何工作的</a></li>
+					</ul>
+		</div></div></div>
+
+
+
+<div class="widget">
+		</div>
+
+<div class="widget"><div class="top_comment">
+	<h3>最活跃的读者</h3>
+<ul>
+			<a href="http://www.zhulou.net/" 'rel="external nofollow" '="" title="筑楼 (留下3个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/0e6cab80c54701a08e904e882aae0fd0" srcset="https://secure.gravatar.com/avatar/0e6cab80c54701a08e904e882aae0fd0?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="https://www.xiaopeiqing.com/" 'rel="external nofollow" '="" title="挨踢小茶 (留下3个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/8c4b20973aa933d724ee16f91964e183(1)" srcset="https://secure.gravatar.com/avatar/8c4b20973aa933d724ee16f91964e183?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="http://www.kle13.com/" 'rel="external nofollow" '="" title="头条新闻 (留下2个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/1a5fd1604e2e90ea49abcc6389218fd5" srcset="https://secure.gravatar.com/avatar/1a5fd1604e2e90ea49abcc6389218fd5?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="https://thornbird.org/" 'rel="external nofollow" '="" title="thornbird (留下2个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/b09d564660034a771f272bdba387b6af" srcset="https://secure.gravatar.com/avatar/b09d564660034a771f272bdba387b6af?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="http://www.465400.net/" 'rel="external nofollow" '="" title="春熙路 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/75e215cea7a9364665ca688b5a23a58a" srcset="https://secure.gravatar.com/avatar/75e215cea7a9364665ca688b5a23a58a?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="http://java-er.com/" 'rel="external nofollow" '="" title="月小升 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/769e70b06dabd6af071f23f4239fd531" srcset="https://secure.gravatar.com/avatar/769e70b06dabd6af071f23f4239fd531?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="http://www.web.dabada.top/" 'rel="external nofollow" '="" title="八达网 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/482538dc65e759336ff8e0e6ec29c325" srcset="https://secure.gravatar.com/avatar/482538dc65e759336ff8e0e6ec29c325?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="http://www.niuqigu.cn/" 'rel="external nofollow" '="" title="牛气股 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/9d7f98d1f6e4aa98eedaf21b5341e1c2" srcset="https://secure.gravatar.com/avatar/9d7f98d1f6e4aa98eedaf21b5341e1c2?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="https://www.xiaopeiqing.com/posts/2160.html#" 'rel="external nofollow" '="" title="038862ff82860c08 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/4baf4648e1ee7eed4698983956c72dd1" srcset="https://secure.gravatar.com/avatar/4baf4648e1ee7eed4698983956c72dd1?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="http://www.dxd9.com/" 'rel="external nofollow" '="" title="黑皇帝安全网 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/6de5bbfcf46b71c134da20ab833258b6" srcset="https://secure.gravatar.com/avatar/6de5bbfcf46b71c134da20ab833258b6?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="http://adoncn.com/" 'rel="external nofollow" '="" title="跨境电商之家 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/b686b7613f880570fa9288ac173255fe" srcset="https://secure.gravatar.com/avatar/b686b7613f880570fa9288ac173255fe?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="https://www.xiaopeiqing.com/posts/2160.html#" 'rel="external nofollow" '="" title="大鹅 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/68cc83320e91fd989c54d9fb4e8b43fc" srcset="https://secure.gravatar.com/avatar/68cc83320e91fd989c54d9fb4e8b43fc?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a><a href="http://adoncn.com/" 'rel="external nofollow" '="" title="跨境电商培训 (留下1个脚印)"><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/f14545627760b466121491792fc0c9ca" srcset="https://secure.gravatar.com/avatar/f14545627760b466121491792fc0c9ca?s=76&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-38 photo" height="38" width="38"></a></ul></div>
+</div>
+
+<div class="widget">
+		</div>
+
+<div class="widget"><h3>最新评论</h3>
+<div class="r_comment">
+<ul>
+		
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/f14545627760b466121491792fc0c9ca(1)" srcset="https://secure.gravatar.com/avatar/f14545627760b466121491792fc0c9ca?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">跨境电商培训:<br> <a href="https://www.xiaopeiqing.com/posts/2873.html#comment-136050" title="查看 亚马逊云AWS搭建多站点的Cisco DMVPN架构">:evil:  AWS确实不错！</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/68cc83320e91fd989c54d9fb4e8b43fc(1)" srcset="https://secure.gravatar.com/avatar/68cc83320e91fd989c54d9fb4e8b43fc?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">大鹅:<br> <a href="https://www.xiaopeiqing.com/posts/2635.html#comment-136040" title="查看 低分通过AWS(助理)解决方案架构师考试">AWS网站的培训班有必要报吗？</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/b09d564660034a771f272bdba387b6af(1)" srcset="https://secure.gravatar.com/avatar/b09d564660034a771f272bdba387b6af?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">thornbird:<br> <a href="https://www.xiaopeiqing.com/posts/2873.html#comment-136034" title="查看 亚马逊云AWS搭建多站点的Cisco DMVPN架构">这个用信用卡付款怕坑爹</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/b686b7613f880570fa9288ac173255fe(1)" srcset="https://secure.gravatar.com/avatar/b686b7613f880570fa9288ac173255fe?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">跨境电商之家:<br> <a href="https://www.xiaopeiqing.com/posts/642.html#comment-136020" title="查看 2012年Chrome浏览器市场份额有望超越IE">默默的学习怎么做。</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/b09d564660034a771f272bdba387b6af(1)" srcset="https://secure.gravatar.com/avatar/b09d564660034a771f272bdba387b6af?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">thornbird:<br> <a href="https://www.xiaopeiqing.com/posts/2761.html#comment-136009" title="查看 亚马逊云AWS搭建软件VPN（Client VPN）教程">免费用一年需要绑定信用卡预扣1美</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/1a5fd1604e2e90ea49abcc6389218fd5(1)" srcset="https://secure.gravatar.com/avatar/1a5fd1604e2e90ea49abcc6389218fd5?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">头条新闻:<br> <a href="https://www.xiaopeiqing.com/posts/2833.html#comment-136003" title="查看 深入解析亚马逊云AWS Direct Connect">文章不错非常支持一下吧 :coo</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/1a5fd1604e2e90ea49abcc6389218fd5(1)" srcset="https://secure.gravatar.com/avatar/1a5fd1604e2e90ea49abcc6389218fd5?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">头条新闻:<br> <a href="https://www.xiaopeiqing.com/posts/2873.html#comment-136002" title="查看 亚马逊云AWS搭建多站点的Cisco DMVPN架构">文章不错非常喜欢 :grin:</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/8c4b20973aa933d724ee16f91964e183(2)" srcset="https://secure.gravatar.com/avatar/8c4b20973aa933d724ee16f91964e183?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">挨踢小茶:<br> <a href="https://www.xiaopeiqing.com/posts/2873.html#comment-135992" title="查看 亚马逊云AWS搭建多站点的Cisco DMVPN架构">谢谢支持！</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/6de5bbfcf46b71c134da20ab833258b6(1)" srcset="https://secure.gravatar.com/avatar/6de5bbfcf46b71c134da20ab833258b6?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">黑皇帝安全网:<br> <a href="https://www.xiaopeiqing.com/posts/2873.html#comment-135990" title="查看 亚马逊云AWS搭建多站点的Cisco DMVPN架构">好文章，非常详细，博主辛苦了</a></li>
+<li><img alt="" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/4baf4648e1ee7eed4698983956c72dd1(1)" srcset="https://secure.gravatar.com/avatar/4baf4648e1ee7eed4698983956c72dd1?s=64&amp;d=wavatar&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">038862ff82860c08:<br> <a href="https://www.xiaopeiqing.com/guestbook#comment-135974" title="查看 给我留言">看你的网站不错，模板很喜欢</a></li> 
+</ul>
+</div></div>
+
+<div class="widget"><h3>标签云集</h3>	
+<a href="https://www.xiaopeiqing.com/posts/tag/linux" class="tag-cloud-link tag-link-397 tag-link-position-1" style="color:#a8a5ad;font-size: 13.436893203883px;" aria-label="Linux (6个项目);">Linux</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e5%b0%8f%e7%89%88%e6%9c%ac%e5%8d%87%e7%ba%a7" class="tag-cloud-link tag-link-98 tag-link-position-2" style="color:#9a0ce0;font-size: 12.466019417476px;" aria-label="小版本升级 (3个项目);">小版本升级</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e8%8b%b9%e6%9e%9c" class="tag-cloud-link tag-link-80 tag-link-position-3" style="color:#02d8a8;font-size: 12px;" aria-label="苹果 (2个项目);">苹果</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/sopa%e6%b3%95%e6%a1%88" class="tag-cloud-link tag-link-145 tag-link-position-4" style="color:#97ecd3;font-size: 13.165048543689px;" aria-label="SOPA法案 (5个项目);">SOPA法案</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%99%ba%e8%83%bd%e5%ae%b6%e5%b1%85" class="tag-cloud-link tag-link-481 tag-link-position-5" style="color:#6b6eab;font-size: 12.854368932039px;" aria-label="智能家居 (4个项目);">智能家居</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e5%8f%a4%e5%85%b8" class="tag-cloud-link tag-link-22 tag-link-position-6" style="color:#d538ae;font-size: 12px;" aria-label="古典 (2个项目);">古典</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e7%a7%bb%e5%8a%a8%e8%ae%be%e5%a4%87" class="tag-cloud-link tag-link-75 tag-link-position-7" style="color:#548606;font-size: 12px;" aria-label="移动设备 (2个项目);">移动设备</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%8e%92%e9%94%99" class="tag-cloud-link tag-link-27 tag-link-position-8" style="color:#6194a4;font-size: 12.466019417476px;" aria-label="排错 (3个项目);">排错</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/vpc" class="tag-cloud-link tag-link-552 tag-link-position-9" style="color:#d3bb09;font-size: 13.436893203883px;" aria-label="VPC (6个项目);">VPC</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/it" class="tag-cloud-link tag-link-65 tag-link-position-10" style="color:#f6565f;font-size: 12px;" aria-label="IT (2个项目);">IT</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/cucm" class="tag-cloud-link tag-link-193 tag-link-position-11" style="color:#1345bf;font-size: 15.495145631068px;" aria-label="CUCM (23个项目);">CUCM</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/apple" class="tag-cloud-link tag-link-81 tag-link-position-12" style="color:#314c74;font-size: 12px;" aria-label="Apple (2个项目);">Apple</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/sdn" class="tag-cloud-link tag-link-430 tag-link-position-13" style="color:#3e5c30;font-size: 13.165048543689px;" aria-label="SDN (5个项目);">SDN</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%b5%8f%e8%a7%88%e5%99%a8" class="tag-cloud-link tag-link-83 tag-link-position-14" style="color:#004cc4;font-size: 12.854368932039px;" aria-label="浏览器 (4个项目);">浏览器</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e8%af%ad%e9%9f%b3" class="tag-cloud-link tag-link-38 tag-link-position-15" style="color:#5bba10;font-size: 13.165048543689px;" aria-label="语音 (5个项目);">语音</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/hyper-v" class="tag-cloud-link tag-link-439 tag-link-position-16" style="color:#a33f8f;font-size: 12.466019417476px;" aria-label="hyper-v (3个项目);">hyper-v</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/directconnect" class="tag-cloud-link tag-link-549 tag-link-position-17" style="color:#ec0388;font-size: 12.854368932039px;" aria-label="DirectConnect (4个项目);">DirectConnect</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/vmware" class="tag-cloud-link tag-link-93 tag-link-position-18" style="color:#7c6d8a;font-size: 12px;" aria-label="VMware (2个项目);">VMware</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/raspberry-pi" class="tag-cloud-link tag-link-482 tag-link-position-19" style="color:#d9a157;font-size: 12.854368932039px;" aria-label="Raspberry Pi (4个项目);">Raspberry Pi</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/security" class="tag-cloud-link tag-link-450 tag-link-position-20" style="color:#6b2164;font-size: 12.854368932039px;" aria-label="信息安全 (4个项目);">信息安全</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/ios" class="tag-cloud-link tag-link-82 tag-link-position-21" style="color:#2076f0;font-size: 12px;" aria-label="IOS (2个项目);">IOS</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/hsrp" class="tag-cloud-link tag-link-330 tag-link-position-22" style="color:#5ed616;font-size: 12.466019417476px;" aria-label="HSRP (3个项目);">HSRP</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e7%bd%91%e7%bb%9c" class="tag-cloud-link tag-link-26 tag-link-position-23" style="color:#e9257a;font-size: 14.601941747573px;" aria-label="网络 (13个项目);">网络</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%a0%91%e8%8e%93%e6%b4%be" class="tag-cloud-link tag-link-480 tag-link-position-24" style="color:#f53969;font-size: 12.854368932039px;" aria-label="树莓派 (4个项目);">树莓派</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/xxx" class="tag-cloud-link tag-link-66 tag-link-position-25" style="color:#0d43fa;font-size: 12px;" aria-label="xxx (2个项目);">xxx</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/ntp" class="tag-cloud-link tag-link-29 tag-link-position-26" style="color:#81b07a;font-size: 12px;" aria-label="NTP (2个项目);">NTP</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/aws" class="tag-cloud-link tag-link-504 tag-link-position-27" style="color:#0d9e3b;font-size: 14.601941747573px;" aria-label="AWS (13个项目);">AWS</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/firefox" class="tag-cloud-link tag-link-85 tag-link-position-28" style="color:#42567c;font-size: 12.466019417476px;" aria-label="Firefox (3个项目);">Firefox</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e5%ae%89%e5%85%a8" class="tag-cloud-link tag-link-17 tag-link-position-29" style="color:#162508;font-size: 12.854368932039px;" aria-label="安全 (4个项目);">安全</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e8%99%9a%e6%8b%9f%e6%9c%ba" class="tag-cloud-link tag-link-95 tag-link-position-30" style="color:#e16255;font-size: 12.466019417476px;" aria-label="虚拟机 (3个项目);">虚拟机</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/amazon-web-service" class="tag-cloud-link tag-link-531 tag-link-position-31" style="color:#cd77df;font-size: 13.436893203883px;" aria-label="Amazon Web Service (6个项目);">Amazon Web Service</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%80%9d%e7%a7%91%e8%b7%af%e7%94%b1%e5%99%a8" class="tag-cloud-link tag-link-235 tag-link-position-32" style="color:#2eccc0;font-size: 12.466019417476px;" aria-label="思科路由器 (3个项目);">思科路由器</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/powershell" class="tag-cloud-link tag-link-467 tag-link-position-33" style="color:#812d7a;font-size: 12.466019417476px;" aria-label="PowerShell (3个项目);">PowerShell</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e7%99%be%e5%ba%a6%e6%94%b6%e5%bd%95" class="tag-cloud-link tag-link-88 tag-link-position-34" style="color:#a91ce1;font-size: 12.466019417476px;" aria-label="百度收录 (3个项目);">百度收录</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%8f%92%e4%bb%b6" class="tag-cloud-link tag-link-7 tag-link-position-35" style="color:#5c3ce8;font-size: 12px;" aria-label="插件 (2个项目);">插件</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/ie" class="tag-cloud-link tag-link-86 tag-link-position-36" style="color:#1b6824;font-size: 12.466019417476px;" aria-label="IE (3个项目);">IE</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e5%9f%9f%e5%90%8d" class="tag-cloud-link tag-link-67 tag-link-position-37" style="color:#753420;font-size: 12px;" aria-label="域名 (2个项目);">域名</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/ip%e7%94%b5%e8%af%9d" class="tag-cloud-link tag-link-14 tag-link-position-38" style="color:#4a1789;font-size: 12.854368932039px;" aria-label="IP电话 (4个项目);">IP电话</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%80%9d%e7%a7%91%e4%ba%a4%e6%8d%a2%e6%9c%ba" class="tag-cloud-link tag-link-237 tag-link-position-39" style="color:#1222f0;font-size: 13.165048543689px;" aria-label="思科交换机 (5个项目);">思科交换机</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/facebook" class="tag-cloud-link tag-link-51 tag-link-position-40" style="color:#45c71a;font-size: 12px;" aria-label="Facebook (2个项目);">Facebook</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/wlc" class="tag-cloud-link tag-link-421 tag-link-position-41" style="color:#0257b8;font-size: 12.466019417476px;" aria-label="WLC (3个项目);">WLC</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/vpn" class="tag-cloud-link tag-link-448 tag-link-position-42" style="color:#b3ee70;font-size: 14.019417475728px;" aria-label="VPN (9个项目);">VPN</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%9c%8d%e5%8a%a1%e5%99%a8" class="tag-cloud-link tag-link-495 tag-link-position-43" style="color:#ebbf23;font-size: 12.854368932039px;" aria-label="服务器 (4个项目);">服务器</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/chrome" class="tag-cloud-link tag-link-84 tag-link-position-44" style="color:#946b66;font-size: 13.165048543689px;" aria-label="Chrome (5个项目);">Chrome</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/iou" class="tag-cloud-link tag-link-319 tag-link-position-45" style="color:#bab72c;font-size: 12.854368932039px;" aria-label="IOU (4个项目);">IOU</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%98%8e%e6%96%87" class="tag-cloud-link tag-link-105 tag-link-position-46" style="color:#23f8ab;font-size: 12.466019417476px;" aria-label="明文 (3个项目);">明文</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e8%bd%af%e4%bb%b6%e5%ae%9a%e4%b9%89%e7%bd%91%e7%bb%9c" class="tag-cloud-link tag-link-493 tag-link-position-47" style="color:#15ef45;font-size: 12.466019417476px;" aria-label="软件定义网络 (3个项目);">软件定义网络</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e7%bd%91%e7%bb%9c%e7%ae%a1%e7%90%86%e5%91%98" class="tag-cloud-link tag-link-28 tag-link-position-48" style="color:#021b24;font-size: 12px;" aria-label="网络管理员 (2个项目);">网络管理员</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/securecrt" class="tag-cloud-link tag-link-451 tag-link-position-49" style="color:#ec847f;font-size: 12.466019417476px;" aria-label="SecureCRT (3个项目);">SecureCRT</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%80%9d%e7%a7%91" class="tag-cloud-link tag-link-63 tag-link-position-50" style="color:#b296ac;font-size: 15.029126213592px;" aria-label="思科 (17个项目);">思科</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/gns3" class="tag-cloud-link tag-link-232 tag-link-position-51" style="color:#3cf349;font-size: 13.436893203883px;" aria-label="GNS3 (6个项目);">GNS3</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/bgp" class="tag-cloud-link tag-link-407 tag-link-position-52" style="color:#e6fd53;font-size: 12.466019417476px;" aria-label="BGP (3个项目);">BGP</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/google" class="tag-cloud-link tag-link-43 tag-link-position-53" style="color:#266319;font-size: 13.165048543689px;" aria-label="Google (5个项目);">Google</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/youtube" class="tag-cloud-link tag-link-52 tag-link-position-54" style="color:#80505c;font-size: 12px;" aria-label="Youtube (2个项目);">Youtube</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/cisco" class="tag-cloud-link tag-link-449 tag-link-position-55" style="color:#f0f969;font-size: 16px;" aria-label="Cisco (31个项目);">Cisco</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%8b%86%e6%8e%89%e6%80%9d%e7%bb%b4%e9%87%8c%e7%9a%84%e5%a2%99" class="tag-cloud-link tag-link-21 tag-link-position-56" style="color:#5a64db;font-size: 12px;" aria-label="拆掉思维里的墙 (2个项目);">拆掉思维里的墙</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/wordpress" class="tag-cloud-link tag-link-8 tag-link-position-57" style="color:#ec1d96;font-size: 12.466019417476px;" aria-label="Wordpress (3个项目);">Wordpress</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%95%b0%e6%8d%ae%e5%ba%93" class="tag-cloud-link tag-link-104 tag-link-position-58" style="color:#1cd70e;font-size: 12.854368932039px;" aria-label="数据库 (4个项目);">数据库</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%95%b0%e6%8d%ae%e4%b8%ad%e5%bf%83" class="tag-cloud-link tag-link-496 tag-link-position-59" style="color:#18e683;font-size: 12.466019417476px;" aria-label="数据中心 (3个项目);">数据中心</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e5%af%86%e7%a0%81" class="tag-cloud-link tag-link-57 tag-link-position-60" style="color:#38321a;font-size: 12px;" aria-label="密码 (2个项目);">密码</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/windows" class="tag-cloud-link tag-link-470 tag-link-position-61" style="color:#c642b1;font-size: 12.854368932039px;" aria-label="Windows (4个项目);">Windows</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/uccx" class="tag-cloud-link tag-link-302 tag-link-position-62" style="color:#dade77;font-size: 13.165048543689px;" aria-label="UCCX (5个项目);">UCCX</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/cucm8" class="tag-cloud-link tag-link-335 tag-link-position-63" style="color:#583203;font-size: 12.466019417476px;" aria-label="CUCM8 (3个项目);">CUCM8</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/azure" class="tag-cloud-link tag-link-459 tag-link-position-64" style="color:#01bf83;font-size: 12.854368932039px;" aria-label="Azure (4个项目);">Azure</a>
+<a href="https://www.xiaopeiqing.com/posts/tag/%e6%b3%84%e6%bc%8f%e9%97%a8" class="tag-cloud-link tag-link-140 tag-link-position-65" style="color:#2bc6dd;font-size: 13.165048543689px;" aria-label="泄漏门 (5个项目);">泄漏门</a></div>
+
+<div class="widget"><h3>博客统计</h3>
+   <ul>
+<li>日志总数：275 篇</li>
+<li>评论总数：34011 篇</li>
+<li>标签数量：491 个</li>
+<li>链接总数：12 个</li>
+<li>建站日期：2011-12-05<br>
+</li><li>运行天数：2245 天</li>
+<li>最后更新：2018-1-16</li>
+   </ul></div>
+
+<div class="widget">
+<h3>友情链接</h3>
+<div class="v-links"><li><a href="http://429006.com/" title="操作系统和网络技术研究">Pop's blog</a></li>
+<li><a href="http://20tc.com/" title="引领最快、最时尚的前沿信息|山无棱，天地合。乃敢与君决">TC的博客</a></li>
+<li><a href="http://www.byhard.com/">海纳百川</a></li>
+<li><a href="http://www.shiyayong.cn/" title="IT起步者博客">网络茶馆</a></li>
+<li><a href="https://zhangzifan.com/" title="泪雪博客是一个专注网站SEO优化、网站SEO诊断、搜索引擎研究、网络营销推广、网站策划运营及站长类的自媒体原创博客！泪雪创始人张子凡博客！">泪雪博客</a></li>
+<li><a href="https://www.zhulou.net/" title="欢迎来到筑楼博客，一个关注IT技术分享，关注网络技术的网站，爱分享网络资源，分享学到的知识，分享生活的乐趣，网址是www.zhulou.net">筑楼</a></li>
+<li><a href="https://www.zhukun.net/">月与灯依旧</a></li>
+<li><a href="https://todayby.com/">今天毕业</a></li>
+<li><a href="http://www.izhuyue.com/">FROYO's Blog</a></li>
+<li><a href="https://java-er.com/">月小升博客</a></li>
+<li><a href="https://www.zh30.com/">郑晓个人博客</a></li>
+<li><a href="https://aws.xiaopeiqing.com/" title="挨踢茶馆的AWS在线教程">挨踢茶馆的AWS在线教程</a></li>
+</div></div><div class="clear"></div>
+
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">Copyright © 2011-2018 挨踢茶馆.
+ Theme by Weisay.
+ <a href="http://www.miitbeian.gov.cn/" ,="" nofollow=""><center>粤ICP备12007665号-1</center></a>. <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F413f91446b40d98f3e21f3f83e802c31' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/h.js.下载" type="text/javascript"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-27450320-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>.	 </div>
+<!-- Powered by WPtouch: 4.3.23 --><script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/new-tab.min.js.下载"></script>
+<script type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/wp-embed.min.js.下载"></script>
+<script async="async" type="text/javascript" src="./Openstack 更改Public IP地址步骤 _ 挨踢茶馆_files/form.js.下载"></script>
+</div>
+
+</body></html>

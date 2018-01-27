@@ -1,0 +1,19 @@
+body {
+	margin-left: 30px;
+}
+
+#navigation, .docnav, #floatingtoc {
+	display: none !important;
+}
+
+#tocframe, p#title {
+	display: none !important;
+}
+
+div {
+	margin-bottom: 1em;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
