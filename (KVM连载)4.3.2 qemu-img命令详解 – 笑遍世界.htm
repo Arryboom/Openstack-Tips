@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>(KVM连载)4.3.2 qemu-img命令详解 – 笑遍世界</title>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://smilejay.com/xmlrpc.php">
+
+
+	<link rel="alternate" type="application/rss+xml" title="笑遍世界 » Feed" href="http://smilejay.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="笑遍世界 » 评论Feed" href="http://smilejay.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="笑遍世界 » (KVM连载)4.3.2 qemu-img命令详解评论Feed" href="http://smilejay.com/2012/08/qemu-img-details/feed/">
+		<script async="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/analytics.js"></script><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/smilejay.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.4.14"}};
+			!function(a,b,c){function d(a){var c,d,e,f=b.createElement("canvas"),g=f.getContext&&f.getContext("2d"),h=String.fromCharCode;return g&&g.fillText?(g.textBaseline="top",g.font="600 32px Arial","flag"===a?(g.fillText(h(55356,56806,55356,56826),0,0),f.toDataURL().length>3e3):"diversity"===a?(g.fillText(h(55356,57221),0,0),c=g.getImageData(16,16,1,1).data,g.fillText(h(55356,57221,55356,57343),0,0),c=g.getImageData(16,16,1,1).data,e=c[0]+","+c[1]+","+c[2]+","+c[3],d!==e):("simple"===a?g.fillText(h(55357,56835),0,0):g.fillText(h(55356,57135),0,0),0!==g.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag"),unicode8:d("unicode8"),diversity:d("diversity")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag&&c.supports.unicode8&&c.supports.diversity||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/wp-emoji-release.js" type="text/javascript"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="yarppWidgetCss-css" href="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/widget.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon-css" href="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/crayon.css" type="text/css" media="all">
+<link rel="stylesheet" id="athemes-headings-fonts-css" href="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/css.css" type="text/css" media="all">
+<link rel="stylesheet" id="athemes-symbols-css" href="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/athemes-symbols.css" type="text/css" media="all">
+<link rel="stylesheet" id="athemes-bootstrap-css" href="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/bootstrap.css" type="text/css" media="all">
+<link rel="stylesheet" id="athemes-style-css" href="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/style.css" type="text/css" media="all">
+<style id="athemes-style-inline-css" type="text/css">
+button, input[type="button"], input[type="reset"], input[type="submit"], #top-navigation, #top-navigation li:hover ul, #top-navigation li.sfHover ul, #main-navigation li:hover ul, #main-navigation li.sfHover ul, #main-navigation > .sf-menu > ul, .site-content [class*="navigation"] a, .widget-tab-nav li.active a, .widget-social-icons li a [class^="ico-"]:before, .site-footer { background: ; }
+#main-navigation, .entry-footer, .page-header, .author-info, .site-content [class*="navigation"] a:hover, .site-content .post-navigation, .comments-title, .widget, .widget-title, ul.widget-tab-nav, .site-extra { border-color: ; }
+.site-title a { color: ; }
+.site-description { color: ; }
+.entry-title, .entry-title a { color: ; }
+body { color: ; }
+
+</style>
+<!-- This site uses the Google Analytics by Yoast plugin v5.4.6 - Universal enabled - https://yoast.com/wordpress/plugins/google-analytics/ -->
+<script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
+
+	__gaTracker('create', 'UA-15979836-2', 'auto');
+	__gaTracker('set', 'forceSSL', true);
+	__gaTracker('send','pageview');
+
+</script>
+<!-- / Google Analytics by Yoast -->
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/jquery.js"></script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/jquery-migrate.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"2.7.1","is_admin":"0","ajaxurl":"http:\/\/smilejay.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"\u4f7f\u7528 %s \u590d\u5236\uff0c\u4f7f\u7528 %s \u7c98\u8d34\u3002","minimize":"\u70b9\u51fb\u5c55\u5f00\u4ee3\u7801"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/crayon.js"></script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/bootstrap.js"></script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/hoverIntent.js"></script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/superfish.js"></script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/settings.js"></script>
+<link rel="https://api.w.org/" href="http://smilejay.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://smilejay.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://smilejay.b0.upaiyun.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="(KVM连载)4.2.4 内存过载使用（overcommit）" href="http://smilejay.com/2012/08/kvm-memory-overcommit/">
+<link rel="next" title="(KVM连载)4.3.4 QEMU支持的镜像文件格式" href="http://smilejay.com/2012/08/qemu-image-format/">
+<meta name="generator" content="WordPress 4.4.14">
+<link rel="canonical" href="http://smilejay.com/2012/08/qemu-img-details/">
+<link rel="shortlink" href="http://smilejay.com/?p=1111">
+<link rel="alternate" type="application/json+oembed" href="http://smilejay.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fsmilejay.com%2F2012%2F08%2Fqemu-img-details%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://smilejay.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fsmilejay.com%2F2012%2F08%2Fqemu-img-details%2F&amp;format=xml">
+<!-- WordPress Most Popular --><script type="text/javascript">/* <![CDATA[ */ jQuery.post("http://smilejay.com/wp-admin/admin-ajax.php", { action: "wmp_update", id: 1111, token: "6b5b193696" }); /* ]]> */</script><!-- /WordPress Most Popular --><!--[if lt IE 9]>
+<script src="http://smilejay.b0.upaiyun.com/wp-content/themes/fashionistas/js/html5shiv.js"></script>
+<![endif]-->
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<link rel="icon" href="http://smilejay.b0.upaiyun.com/wp-content/uploads/2016/01/cropped-wordpress-head-image-1-32x32.jpg" sizes="32x32">
+<link rel="icon" href="http://smilejay.b0.upaiyun.com/wp-content/uploads/2016/01/cropped-wordpress-head-image-1-192x192.jpg" sizes="192x192">
+<link rel="apple-touch-icon-precomposed" href="http://smilejay.b0.upaiyun.com/wp-content/uploads/2016/01/cropped-wordpress-head-image-1-180x180.jpg">
+<meta name="msapplication-TileImage" content="http://smilejay.b0.upaiyun.com/wp-content/uploads/2016/01/cropped-wordpress-head-image-1-270x270.jpg">
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+
+<body class="single single-post postid-1111 single-format-standard">
+
+	<!--
+	<nav id="top-navigation" class="main-navigation" role="navigation">
+		<div class="clearfix container">
+		</div>
+	</nav> !-->
+
+	<header id="masthead" class="clearfix container site-header" role="banner">
+		<div class="site-branding">
+						
+								<div class="site-title">
+					<a href="http://smilejay.com/" title="笑遍世界" rel="home">
+						笑遍世界					</a>
+				</div>
+				<div class="site-description">Stay hungry, stay foolish.</div>
+					<!-- .site-branding --></div>
+
+					<!-- #masthead --></header>
+
+	<nav id="main-navigation" class="container main-navigation" role="navigation">
+		<a href="#main-navigation" class="nav-open">Menu</a>
+		<a href="#" class="nav-close">Close</a>
+		<div class="sf-menu"><ul class="sf-js-enabled sf-arrows" style="touch-action: pan-y;"><li><a href="http://smilejay.com/">首页</a></li><li class="page_item page-item-843"><a href="http://smilejay.com/kvm_theory_practice/">KVM虚拟化原理与实践（连载）</a></li><li class="page_item page-item-1867"><a href="http://smilejay.com/kvm-principles-and-practices/">《KVM虚拟化技术：实战与原理解析》</a></li><li class="page_item page-item-2"><a href="http://smilejay.com/about/">关于本博客</a></li><li class="page_item page-item-414"><a href="http://smilejay.com/i_will_laugh_at_the_world/">我要笑遍世界</a></li></ul></div>
+	<!-- #main-navigation --></nav>
+
+	<div id="main" class="site-main">
+		<div class="clearfix container">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+		
+			
+<article id="post-1111" class="clearfix post-1111 post type-post status-publish format-standard hentry category-kvm category-linux category-linux-application category-virtualization tag-kvm tag-linux tag-qemu tag-virtualization-2">
+	<header class="entry-header">
+		<h1 class="entry-title">(KVM连载)4.3.2 qemu-img命令详解</h1>
+
+		<div class="entry-meta">
+			<span class="posted-on"><a href="http://smilejay.com/2012/08/qemu-img-details/" rel="bookmark"><time class="entry-date published updated" datetime="2012-08-08T16:13:06+00:00">08/08/2012</time></a></span><span class="byline"><span class="author vcard"><a class="url fn n" href="http://smilejay.com/author/master/">master</a></span></span>
+						<span class="comments-link"> <a href="http://smilejay.com/2012/08/qemu-img-details/#comments">20 Comments</a></span>
+					<!-- .entry-meta --></div>
+	<!-- .entry-header --></header>
+
+		
+
+	<div class="clearfix entry-content">
+		<p>qemu-img是QEMU的磁盘管理工具，在qemu-kvm源码编译后就会默认编译好qemu-img这个二进制文件。qemu-img也是QEMU/KVM使用过程中一个比较重要的工具，本节对其用法和实践使用方法进行介绍。</p>
+<p>qemu-img工具的命令行基本用法如下：</p>
+<div>
+<p>qemu-img <em>command</em> [<em>command options</em>]</p>
+</div>
+<p>它支持的命令分为如下几种：</p>
+<p><strong>（1</strong><strong>）check [-f <em>fmt</em>] <em>filename</em></strong></p>
+<p>对磁盘镜像文件进行一致性检查，查找镜像文件中的错误，目前仅支持对“qcow2”、“qed”、“vdi”格式文件的检查。其中，qcow2是
+QEMU 0.8.3版本引入的镜像文件格式，也是目前使用最广泛的格式。qed（QEMU enhanced disk）是从QEMU 
+0.14版开始加入的增强磁盘文件格式，为了避免qcow2格式的一些缺点，也为了提高性能，不过目前还不够成熟。而vdi（Virtual Disk 
+Image）是Oracle的VirtualBox虚拟机中的存储格式。参数-f <em>fmt</em>是指定文件的格式，如果不指定格式qemu-img会自动检测，<em>filename</em>是磁盘镜像文件的名称（包括路径）。</p>
+<p>如下命令行演示了qemu-img的check命令的使用方法。</p>
+<div>
+<p>[root@jay-linux kvm_demo]# qemu-img check rhel6u3.qcow2</p>
+<p>No errors were found on the image.</p>
+</div>
+<p><strong>（2</strong><strong>）create [-f <em>fmt</em>] [-o <em>options</em>] <em>filename</em> [<em>size</em>]</strong></p>
+<p>创建一个格式为<em>fmt</em>大小为<em>size</em>文件名为<em>filename</em>的镜像文件。根据文件格式<em>fmt</em>的不同，还可以添加一个或多个选项（<em>options</em>）来附加对该文件的各种功能设置，可以使用“-o ?”来查询某种格式文件支持那些选项，在“-o”选项中各个选项用逗号来分隔。</p>
+<p><span id="more-1111"></span></p>
+<p>如果“-o”选项中使用了backing_file这个选项来指定其后端镜像文件，那么这个创建的镜像文件仅记录与后端镜像文件的差异部分。后端镜
+像文件不会被修改，除非在QEMU monitor中使用“commit”命令或者使用“qemu-img 
+commit”命令去手动提交这些改动。这种情况下，size参数不是必须需的，其值默认为后端镜像文件的大小。另外，直接使用“-b <em>backfile</em>”参数也与“-o backing_file=<em>backfile</em>”效果相同。</p>
+<p>size选项用于指定镜像文件的大小，其默认单位是字节（bytes），也可以支持k（或K）、M、G、T来分别表示KB、MB、GB、TB大小。另外，镜像文件的大小（size）也并非必须写在命令的最后，它也可以被写在“-o”选项中作为其中一个选项。</p>
+<p>对create命令的演示如下所示，其中包括查询qcow2格式支持的选项、创建有backing_file的qcow2格式的镜像文件、创建没有backing_file的10GB大小的qcow2格式的镜像文件。</p>
+<div>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img create -f qcow2 -o ? temp.qcow</strong></p>
+<p>Supported options:</p>
+<p>size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Virtual disk size</p>
+<p>compat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Compatibility level (0.10 or 1.1)</p>
+<p>backing_file&nbsp;&nbsp;&nbsp;&nbsp; File name of a base image</p>
+<p>backing_fmt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Image format of the base image</p>
+<p>encryption&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Encrypt the image</p>
+<p>cluster_size&nbsp;&nbsp;&nbsp;&nbsp; qcow2 cluster size</p>
+<p>preallocation&nbsp;&nbsp;&nbsp; Preallocation mode (allowed values: off, metadata)</p>
+<p>&nbsp;</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img create -f qcow2 -b rhel6u3.img&nbsp; rhel6u3.qcow2</strong></p>
+<p>Formatting ‘rhel6u3.qcow2′, fmt=qcow2 size=8589934592 backing_file=’rhel6u3.img’ encryption=off cluster_size=65536</p>
+<p>&nbsp;</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img create -f qcow2 -o backing_file=rhel6u3.img&nbsp; rhel6u3-1.qcow2</strong></p>
+<p>Formatting ‘rhel6u3-1.qcow2′, fmt=qcow2 size=8589934592 backing_file=’rhel6u3.img’ encryption=off cluster_size=65536</p>
+<p>&nbsp;</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img create -f qcow2 -o backing_file=rhel6u3.img,size=20G&nbsp; rhel6u3-2.qcow2</strong></p>
+<p>Formatting ‘rhel6u3-2.qcow2′, fmt=qcow2 size=21474836480 backing_file=’rhel6u3.img’ encryption=off cluster_size=65536</p>
+<p>&nbsp;</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img create -f qcow2 ubuntu.qcow2 10G</strong></p>
+<p>Formatting ‘ubuntu.qcow2’, fmt=qcow2 size=10737418240 encryption=off cluster_size=65536</p>
+</div>
+<p>&nbsp;</p>
+<p><strong>（3</strong><strong>）commit [-f <em>fmt</em>] <em>filename</em></strong></p>
+<p>提交<em>filename</em>文件中的更改到后端支持镜像文件（创建时通过backing_file指定的）中去。</p>
+<p>&nbsp;</p>
+<p><strong>（4</strong><strong>）convert [-c] [-f <em>fmt</em>] [-O <em>output_fmt</em>] [-o <em>options</em>] <em>filename</em> [<em>filename2</em> […]] <em>output_filename</em></strong></p>
+<p>将<em>fmt</em>格式的<em>filename</em>镜像文件根据<em>options</em>选项转换为格式为<em>output_fmt</em>的名为<em>output_filename</em>的镜像文件。它支持不同格式的镜像文件之间的转换，比如可以用VMware用的vmdk格式文件转换为qcow2文件，这对从其他虚拟化方案转移到KVM上的用户非常有用。一般来说，输入文件格式<em>fmt</em>由qemu-img工具自动检测到，而输出文件格式<em>output_fmt</em>根据自己需要来指定，默认会被转换为与raw文件格式（且默认使用稀疏文件的方式存储以节省存储空间）。</p>
+<p>其中，“-c”参数是对输出的镜像文件进行压缩，不过只有qcow2和qcow格式的镜像文件才支持压缩，而且这种压缩是只读的，如果压缩的扇区被重写，则会被重写为未压缩的数据。同样可以使用“-o <em>options</em>”
+来指定各种选项，如：后端镜像、文件大小、是否加密等等。使用backing_file选项来指定后端镜像，让生成的文件是copy-on-write的
+增量文件，这时必须让转换命令中指定的后端镜像与输入文件的后端镜像的内容是相同的，尽管它们各自后端镜像的目录、格式可能不同。</p>
+<p>如果使用qcow2、qcow、cow等作为输出文件格式来转换raw格式的镜像文件（非稀疏文件格式），镜像转换还可以起到将镜像文件转化为更小的镜像，因为它可以将空的扇区删除使之在生成的输出文件中并不存在。</p>
+<p>下面的命令行演示了两个转换：将VMware的vmdk格式镜像转换为KVM可以使用的qcow2镜像，将一个raw镜像文件转化为qcow2格式的镜像。</p>
+<div>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img convert my-vmware.vmdk my-kvm.img</strong></p>
+<p>（此处并无实际存在vmdk文件，仅演示其命令行操作）</p>
+<p>&nbsp;</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img convert -O qcow2 rhel6u3.img rhel6u3-a.img</strong></p>
+</div>
+<p>&nbsp;</p>
+<p><strong>（5</strong><strong>）info [-f <em>fmt</em>] <em>filename</em></strong></p>
+<p>展示<em>filename</em>镜像文件的信息。如果文件是使用稀疏文件的存储方式，也会显示出它的本来分配的大小以及实际已占用的磁盘空间大小。如果文件中存放有客户机快照，快照的信息也会被显示出来。下面的命令行演示了前面进行文件转换的输入、输出文件的信息。</p>
+<div>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img info rhel6u3.img</strong></p>
+<p>image: rhel6u3.img</p>
+<p>file format: <strong>raw</strong></p>
+<p><strong>virtual size: 8.0G</strong> (8589934592 bytes)</p>
+<p>disk size: 8.0G</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img info rhel6u3-a.img</strong></p>
+<p>image: rhel6u3-a.img</p>
+<p>file format: <strong>qcow2</strong></p>
+<p><strong>virtual size: 8.0G</strong> (8589934592 bytes)</p>
+<p><strong>disk size: 6.8G</strong></p>
+<p>cluster_size: 65536</p>
+</div>
+<p>&nbsp;</p>
+<p><strong>（6</strong><strong>）snapshot [-l | -a <em>snapshot</em> | -c <em>snapshot</em> | -d <em>snapshot</em>] <em>filename</em></strong></p>
+<p>“-l” 选项是查询并列出镜像文件中的所有快照，“-a <em>snapshot</em>”是让镜像文件使用某个快照，“-c <em>snapshot</em>”是创建一个快照，“-d”是删除一个快照。</p>
+<p>&nbsp;</p>
+<p><strong>（7</strong><strong>）rebase [-f <em>fmt</em>] [-t <em>cache</em>] [-p] [-u] -b <em>backing_file</em> [-F <em>backing_fmt</em>] <em>filename</em></strong></p>
+<p>改变镜像文件的后端镜像文件，只有qcow2和qed格式支持rebase命令。使用“-b <em>backing_file</em>”中指定的文件作为后端镜像，后端镜像也被转化为“-F <em>backing_fmt</em>”中指定的后端镜像格式。</p>
+<p>它可以工作于两种模式之下，一种是安全模式（Safe 
+Mode）也是默认的模式，qemu-img会去比较原来的后端镜像与现在的后端镜像的不同进行合理的处理；另一种是非安全模式（Unsafe 
+Mode），是通过“-u”参数来指定的，这种模式主要用于将后端镜像进行了重命名或者移动了位置之后对前端镜像文件的修复处理，由用户去保证后端镜像的
+一致性。</p>
+<p>&nbsp;</p>
+<p><strong>（8</strong><strong>）resize <em>filename</em> [+ | -]<em>size</em></strong></p>
+<p>改变镜像文件的大小，使其不同于创建之时的大小。“+”和“-”分别表示增加和减少镜像文件的大小，而size也是支持K、M、G、T等单位的使
+用。缩小镜像的大小之前，需要在客户机中保证里面的文件系统有空余空间，否则会数据丢失，另外，qcow2格式文件不支持缩小镜像的操作。在增加了镜像文
+件大小后，也需启动客户机到里面去应用“fdisk”、“parted”等分区工具进行相应的操作才能真正让客户机使用到增加后的镜像空间。不过使用
+resize命令时需要小心（最好做好备份），如果失败的话，可能会导致镜像文件无法正常使用而造成数据丢失。</p>
+<p>如下命令行演示了两个镜像的大小改变：将一个8GB的qcow2镜像增加2GB的空间，也将一个8GB大小的raw镜像减少1GB空间。</p>
+<div>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img resize rhel6u3-a.img +2G</strong></p>
+<p>Image resized.</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img info rhel6u3-a.img</strong></p>
+<p>image: rhel6u3-a.img</p>
+<p>file format: qcow2</p>
+<p>virtual size: <strong>10G</strong> (10737418240 bytes)</p>
+<p>disk size: 6.8G</p>
+<p>cluster_size: 65536</p>
+<p>&nbsp;</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img resize rhel6u3-b.img -1G</strong></p>
+<p>Image resized.</p>
+<p>[root@jay-linux kvm_demo]# <strong>qemu-img info rhel6u3-b.img</strong></p>
+<p>image: rhel6u3-b.img</p>
+<p>file format: raw</p>
+<p>virtual size: <strong>7.0G</strong> (7516192768 bytes)</p>
+<p>disk size: 6.5G</p>
+</div>
+<p>2016.02.22 update: 将qcow2/raw等格式转化为vhd，记录一下  qemu-img convert source.img -O vpc -o subformat=dynamic dest.vhd</p>
+<div class="yarpp-related">
+<h3>Related posts:</h3><ol>
+<li><a href="http://smilejay.com/2012/11/how-to-mount-a-qcow2-image/" rel="bookmark" title="如何挂载qcow2格式的镜像文件（how to mount a qcow2 image)">如何挂载qcow2格式的镜像文件（how to mount a qcow2 image) </a></li>
+<li><a href="http://smilejay.com/2013/12/qemu-kvm-install-guest-in-text-mode/" rel="bookmark" title="QEMU/KVM非图形界面安装guest">QEMU/KVM非图形界面安装guest </a></li>
+<li><a href="http://smilejay.com/2012/08/qemu-image-format/" rel="bookmark" title="(KVM连载)4.3.4 QEMU支持的镜像文件格式">(KVM连载)4.3.4 QEMU支持的镜像文件格式 </a></li>
+<li><a href="http://smilejay.com/2012/03/kvm_qemu_network_error/" rel="bookmark" title="KVM “qemu-ifup: could not configure /dev/net/tun: Operation not permitted”解决方案">KVM “qemu-ifup: could not configure /dev/net/tun: Operation not permitted”解决方案 </a></li>
+</ol>
+</div>
+			<!-- .entry-content --></div>
+
+	<footer class="entry-meta entry-footer">
+		<span class="cat-links"><i class="ico-folder"></i> <a href="http://smilejay.com/category/virtualization/kvm/" rel="category tag">KVM</a>, <a href="http://smilejay.com/category/linux/" rel="category tag">Linux</a>, <a href="http://smilejay.com/category/linux/linux-application/" rel="category tag">Linux系统应用</a>, <a href="http://smilejay.com/category/virtualization/" rel="category tag">虚拟化</a></span><span class="tags-links"><i class="ico-tags"></i> <a href="http://smilejay.com/tag/kvm/" rel="tag">KVM</a>, <a href="http://smilejay.com/tag/linux/" rel="tag">Linux</a>, <a href="http://smilejay.com/tag/qemu/" rel="tag">QEMU</a>, <a href="http://smilejay.com/tag/virtualization-2/" rel="tag">Virtualization</a></span>	<!-- .entry-meta --></footer>
+<!-- #post-1111 --></article>
+
+							<div class="clearfix author-info">
+					<div class="author-photo"><img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2_002.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=150&amp;r=g 2x" class="avatar avatar-75 photo" width="75" height="75"></div>
+					<div class="author-content">
+						<h3>master</h3>
+						<p>Stay hungry, stay foolish.</p>
+						<div class="author-links">
+							<a href="http://smilejay.com/author/master/" rel="me">More Posts</a>
+
+							
+							
+													</div>
+					</div>
+				<!-- .author-info --></div>
+			
+				<nav role="navigation" id="nav-below" class="post-navigation">
+		<h1 class="screen-reader-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><span>Previous Article</span><a href="http://smilejay.com/2012/08/kvm-memory-overcommit/" rel="prev"><span class="meta-nav">←</span> (KVM连载)4.2.4 内存过载使用（overcommit）</a></div>		<div class="nav-next"><span>Next Article</span><a href="http://smilejay.com/2012/08/qemu-image-format/" rel="next">(KVM连载)4.3.4 QEMU支持的镜像文件格式 <span class="meta-nav">→</span></a></div>
+	
+	</nav><!-- #nav-below -->
+	
+			
+	<div id="comments" class="comments-area">
+
+	
+			<h3 class="comments-title">
+			20 Comments		</h3>
+
+		<ol class="comment-list">
+			
+	<li id="comment-952" class="pingback even thread-even depth-1">
+		<div class="comment-body">
+			Pingback: <a href="http://ntcn.net/blog/?p=6269" rel="external nofollow" class="url">KVM虚拟化原理与实践（连载） | 世界是平的</a> 		</div>
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-4632" class="comment odd alt thread-odd thread-alt depth-1 parent">
+		<article id="div-comment-4632" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=4632#respond" onclick='return addComment.moveForm( "div-comment-4632", "4632", "respond", "1111" )' aria-label="回复给stefano">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e65f9b76b7268184bb97c5e6888e7e6d.jpg" srcset="http://secure.gravatar.com/avatar/e65f9b76b7268184bb97c5e6888e7e6d?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-4632">
+							<time datetime="2013-07-01T10:21:13+00:00">
+								07/01/2013							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">stefano</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>请教一个问题，我使用img.qcow2镜像启动虚拟机后，使用qemu-img snapshot -c snapshot1 
+img.qcow2命令创建的快照为什么显示的VMsize为0，而且好像不能正确的保存虚拟机的状态，但是使用在qemu命令里面的savevm保存的
+快照就是正常的？</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-4633" class="comment byuser comment-author-master bypostauthor even depth-2">
+		<article id="div-comment-4633" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=4633#respond" onclick='return addComment.moveForm( "div-comment-4633", "4633", "respond", "1111" )' aria-label="回复给master">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-4633">
+							<time datetime="2013-07-01T20:45:17+00:00">
+								07/01/2013							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">master</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>你这个问题很好，我以前也没仔细研究这东东，不过现在我看了一下，基本理解了。在客户机处于运行状态时，应该使用monitor中的
+savevm命令来保存快照（保存的仅是客户机内的运行状态）；qemu-img snapshot -c snapshot1 img.qcow2 
+命令并不支持对虚拟机运行状态的保存，仅保存了当前磁盘镜像的信息，所以它的VMsize应该为0（这个大小是客户机运行状态）。由于客户机运行过程中可
+能有数据未从内存或缓存同步到磁盘中，所以客户机运行之时尽量别用qemu-img snapshot来保存快照。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li id="comment-4664" class="comment odd alt thread-even depth-1 parent">
+		<article id="div-comment-4664" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=4664#respond" onclick='return addComment.moveForm( "div-comment-4664", "4664", "respond", "1111" )' aria-label="回复给jack">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/3fb66834da732ec2e8f51f1d0ed14d79.jpg" srcset="http://secure.gravatar.com/avatar/3fb66834da732ec2e8f51f1d0ed14d79?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-4664">
+							<time datetime="2013-08-05T11:46:28+00:00">
+								08/05/2013							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">jack</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>请教一个问题： 我通过qemu-img snapshot-create 的方式创建的快照，但是会有虚拟机网络的中断，如何实现在线快照呢？</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-4665" class="comment byuser comment-author-master bypostauthor even depth-2">
+		<article id="div-comment-4665" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=4665#respond" onclick='return addComment.moveForm( "div-comment-4665", "4665", "respond", "1111" )' aria-label="回复给master">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-4665">
+							<time datetime="2013-08-06T17:22:19+00:00">
+								08/06/2013							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">master</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>你可以看一下我前面的回复#3，你好好看一下应该明白。可以将上面评论#3中的两者结合起来。另外，没遇到过网络中断的情况。<br>
+我认为，在线时就用savevm保存快照即可，不要保存磁盘的快照，磁盘快照应该是虚拟机关闭状态下才保存。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li id="comment-12205" class="comment odd alt thread-odd thread-alt depth-1 parent">
+		<article id="div-comment-12205" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12205#respond" onclick='return addComment.moveForm( "div-comment-12205", "12205", "respond", "1111" )' aria-label="回复给Ryo">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/03b620646419a1e61fea357b81b6f96e.jpg" srcset="http://secure.gravatar.com/avatar/03b620646419a1e61fea357b81b6f96e?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12205">
+							<time datetime="2014-02-12T11:51:09+00:00">
+								02/12/2014							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">Ryo</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>您好，我买了您的《KVM虚拟化原理与实践》这本书，看到qemu-img这一章节有些不明白。网上一搜发现了作者你的博客，哈哈缘分啊。
+在此请教一个问题： qemu-img info命令下看到的virtual size和disk 
+size有何区别及联系？为什么resize后virtual size数值变了但disk size未变？</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-12206" class="comment byuser comment-author-master bypostauthor even depth-2">
+		<article id="div-comment-12206" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12206#respond" onclick='return addComment.moveForm( "div-comment-12206", "12206", "respond", "1111" )' aria-label="回复给master">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12206">
+							<time datetime="2014-02-13T09:16:45+00:00">
+								02/13/2014							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">master</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>请看79页和第4章末关于”稀疏文件“的说明。virtual size时改变了，意味着该image最大的容量变化量；disk 
+size没变，意思时当前占用的磁盘空间没变。稀疏文件，里面没有写入实际数据，就仅占用很少的磁盘空间，用于存储一些元数据(meta 
+data）即可。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li id="comment-12250" class="comment odd alt thread-even depth-1 parent">
+		<article id="div-comment-12250" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12250#respond" onclick='return addComment.moveForm( "div-comment-12250", "12250", "respond", "1111" )' aria-label="回复给zzboat0422">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/7e09c0e92e9d4b972ba1d92f094af10f.jpg" srcset="http://secure.gravatar.com/avatar/7e09c0e92e9d4b972ba1d92f094af10f?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12250">
+							<time datetime="2014-03-20T18:05:32+00:00">
+								03/20/2014							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">zzboat0422</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>您好，我也是买了这本《KVM虚拟化原理与实践》，物理服务器E5-2407，8G内存，60GSSD装host和虚拟机，均为
+RHEL6.3，内核未做升级，两块500G机械盘组raid0建立各种虚拟磁盘，按照您书中做虚拟机磁盘性能测试，使用第一种方法dd的四个命令。如果
+我使用qemu-img create -f raw AAA.img 
+20G建立一个20G的镜像文件加入到虚拟机中，使用dd测试时虚拟机必会出现卡死情况，只能强行关闭虚拟机。如果使用您在书中最早演示的dd 
+if=/dev/zero of=BBB.img bs=1M 
+count=20k来建立一个20G镜像，就可以成功完成dd命令的测试。而且我发现虽然建立出来的两个镜像文件使用ll 
+-h看都占用20G，但qemu-img create创建出来的是瞬间完成的。不知道这是什么原因造成的，还请不吝赐教</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-12251" class="comment byuser comment-author-master bypostauthor even depth-2 parent">
+		<article id="div-comment-12251" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12251#respond" onclick='return addComment.moveForm( "div-comment-12251", "12251", "respond", "1111" )' aria-label="回复给master">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12251">
+							<time datetime="2014-03-20T18:41:21+00:00">
+								03/20/2014							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">master</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>至于你出现卡死的情况，我没遇到过，你可以考虑 -f qcow2 
+做image试试，或者你用新一点的qemu。那个瞬间完成的事情，是因为qemu-img那个创建的还是sparse file，你用qemu-img
+ info看两个image，就知道他们的disk size不一样的，你看下本页前一个评论（就是讨论的这个问题）。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-12254" class="comment odd alt depth-3">
+		<article id="div-comment-12254" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12254#respond" onclick='return addComment.moveForm( "div-comment-12254", "12254", "respond", "1111" )' aria-label="回复给zzboat0422">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/7e09c0e92e9d4b972ba1d92f094af10f.jpg" srcset="http://secure.gravatar.com/avatar/7e09c0e92e9d4b972ba1d92f094af10f?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12254">
+							<time datetime="2014-03-21T09:32:09+00:00">
+								03/21/2014							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">zzboat0422</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>经你提醒已经找到原因了，AAA.img使用ll -h 看有20G，但使用du命令查看时只有7G多，我存放AAA.img分区的剩余空间已经不足以支撑其扩展到20G了，因此测试时才会出现虚拟机卡死的情况，非常感谢~！</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li id="comment-12327" class="comment even thread-odd thread-alt depth-1 parent">
+		<article id="div-comment-12327" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12327#respond" onclick='return addComment.moveForm( "div-comment-12327", "12327", "respond", "1111" )' aria-label="回复给migawar">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/909cf1f73ac57be73496c58f7f61ecc1.jpg" srcset="http://secure.gravatar.com/avatar/909cf1f73ac57be73496c58f7f61ecc1?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12327">
+							<time datetime="2014-05-23T09:07:53+00:00">
+								05/23/2014							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">migawar</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>我想请问下，我有个镜像，创建时使用了backupfile，同时该镜像用qemu-img在关机状态下创建了2个snapshot，现在
+我想把第一个snapshot 
+用commit命令提交到backupfile里面去，应该如何操作？commit命令似乎没有关于选择snapshot的参数。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-12328" class="comment byuser comment-author-master bypostauthor odd alt depth-2">
+		<article id="div-comment-12328" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12328#respond" onclick='return addComment.moveForm( "div-comment-12328", "12328", "respond", "1111" )' aria-label="回复给master">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12328">
+							<time datetime="2014-05-23T12:48:37+00:00">
+								05/23/2014							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">master</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>我在博客中写到了，qemu-img snapshot -a my_snapshot 是让镜像文件使用某个快照，然后然后qemu-img commit 去提交，就是可以的。我没做过，建议你操作前，先做好备份。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li id="comment-12360" class="comment even thread-even depth-1">
+		<article id="div-comment-12360" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12360#respond" onclick='return addComment.moveForm( "div-comment-12360", "12360", "respond", "1111" )' aria-label="回复给jinnery">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/7f48a7f2d111ee581d98d9371ca546d9.jpg" srcset="http://secure.gravatar.com/avatar/7f48a7f2d111ee581d98d9371ca546d9?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12360">
+							<time datetime="2014-06-25T23:29:38+00:00">
+								06/25/2014							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">jinnery</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>你好，楼主。想问下，我的kvm 虚拟机 创建时候给的磁盘空间是50G 用了一段时间以后发现 img所占用的空间达到80G 用qemu-img info 去查看的时候发现。disk-size 比virtual-size 大也就是 80G 这个是为什么呢。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-12629" class="comment odd alt thread-odd thread-alt depth-1 parent">
+		<article id="div-comment-12629" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12629#respond" onclick='return addComment.moveForm( "div-comment-12629", "12629", "respond", "1111" )' aria-label="回复给jay">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e68e356e7df4341418a7d16282b66286.jpg" srcset="http://secure.gravatar.com/avatar/e68e356e7df4341418a7d16282b66286?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12629">
+							<time datetime="2016-10-30T18:23:13+00:00">
+								10/30/2016							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">jay</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>博主您好，想请教一下，我使用raw格式的镜像文件安装了一个win7，之后以它为backing_file生成了一个更大的qcow2镜
+像文件(qemu-img create -f qcow2 -o backing_file=/var/win7.raw 
+/var/win7.qcow2 
+30G)，而新生成的qcow2文件很小（是因为它是raw的增量文件吗？），之后我进入原来的那个raw的win7虚拟机中创建几个文件，为什么在后来
+的用win7.qcow2这个镜像文件生成的虚拟机中看不到在raw中（即backing_file中）新创建的那几个文件？</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-12630" class="comment byuser comment-author-master bypostauthor even depth-2">
+		<article id="div-comment-12630" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12630#respond" onclick='return addComment.moveForm( "div-comment-12630", "12630", "respond", "1111" )' aria-label="回复给master">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12630">
+							<time datetime="2016-10-31T18:03:33+00:00">
+								10/31/2016							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">master</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>看到你也邮件给我了，以回复你的邮件。</p>
+<p>实际win7.qcow2的实际大小只有几百K（是因为它是win7.raw的增量文件吗？）<br>
+— 是的；你说的没错。</p>
+<p>之后你改了win7.raw，在qcow2中是看不到的，qcow2的image只能看到它被create时的raw文件。<br>
+不能随意改动backing_file那个raw文件，否则会导致与其相关的qcow2直接无法使用的；如果改了raw文件，相应的qcow2应该重新生成。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li id="comment-12636" class="comment odd alt thread-even depth-1 parent">
+		<article id="div-comment-12636" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12636#respond" onclick='return addComment.moveForm( "div-comment-12636", "12636", "respond", "1111" )' aria-label="回复给刘洋">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/0a7f28aef47f32b551d2888d43bee771.jpg" srcset="http://secure.gravatar.com/avatar/0a7f28aef47f32b551d2888d43bee771?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12636">
+							<time datetime="2016-11-23T08:38:43+00:00">
+								11/23/2016							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">刘洋</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>您好，我想问下，如果原始虚拟机一共大小10G，现在可用空间4.5G，现在派生一个虚拟机，那么这个派生的虚拟机在第一次打开时应该和原
+始虚拟机完全一样，那么查看这个派生虚拟机的可用空间应该也是4.5G吧？即使派生镜像创建时分配了15G。这点我非常困惑，希望您能给予援手！不胜感
+激！</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-12638" class="comment byuser comment-author-master bypostauthor even depth-2">
+		<article id="div-comment-12638" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12638#respond" onclick='return addComment.moveForm( "div-comment-12638", "12638", "respond", "1111" )' aria-label="回复给master">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12638">
+							<time datetime="2016-11-23T13:28:39+00:00">
+								11/23/2016							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">master</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>应该是的。你可以在虚拟机中看 ‘fdisk -l’ 看一下磁盘大小。请看本文“（8）resize filename [+ | -]size”中的讲解，可能需要重新分区之类的，才能扩大磁盘空间。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+	<li id="comment-12644" class="comment odd alt thread-odd thread-alt depth-1">
+		<article id="div-comment-12644" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12644#respond" onclick='return addComment.moveForm( "div-comment-12644", "12644", "respond", "1111" )' aria-label="回复给大河">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/8b8de6b26181bf81c75f1f909163b1ce.jpg" srcset="http://secure.gravatar.com/avatar/8b8de6b26181bf81c75f1f909163b1ce?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12644">
+							<time datetime="2016-12-13T20:41:36+00:00">
+								12/13/2016							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">大河</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>您好，我现在想在VM中安装win764位系统，用win7.vmdk来做win7.qcow2文件，但是第一步就总是失败，启动虚拟机准备安装，屏幕总是黑的，什么都没，但是32位的都正常，想请教一下！</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-12657" class="comment even thread-even depth-1 parent">
+		<article id="div-comment-12657" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12657#respond" onclick='return addComment.moveForm( "div-comment-12657", "12657", "respond", "1111" )' aria-label="回复给黄海彬">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/a71331d87fa638e4f09993e03ce8c06a.jpg" srcset="http://secure.gravatar.com/avatar/a71331d87fa638e4f09993e03ce8c06a?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12657">
+							<time datetime="2017-03-14T13:26:15+00:00">
+								03/14/2017							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">黄海彬</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>请教个问题：我在KVM下面创建了一个虚拟机的镜像，装RHEL7.2 的系统。可是这个镜像在Xen下面启动不起来。如果Guest 装的是 RHEL6.7 就可以了。</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	<ul class="children">
+
+	<li id="comment-12658" class="comment byuser comment-author-master bypostauthor odd alt depth-2">
+		<article id="div-comment-12658" class="comment-body">
+			<footer class="clearfix comment-meta">
+				<div class="reply">
+					<a rel="nofollow" class="comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/?replytocom=12658#respond" onclick='return addComment.moveForm( "div-comment-12658", "12658", "respond", "1111" )' aria-label="回复给master">回复</a>				</div><!-- .reply -->
+
+				<div class="clearfix comment-author vcard">
+					<img alt="" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/e9555a2ec49b230e5b81d58d967f71e2.png" srcset="http://secure.gravatar.com/avatar/e9555a2ec49b230e5b81d58d967f71e2?s=100&amp;r=g 2x" class="avatar avatar-50 photo" width="50" height="50">
+					<div class="comment-metadata">
+						<a href="http://smilejay.com/2012/08/qemu-img-details/#comment-12658">
+							<time datetime="2017-03-23T06:21:22+00:00">
+								03/23/2017							</time>
+						</a>
+					</div><!-- .comment-metadata -->
+
+					<cite class="fn">master</cite>				</div><!-- .comment-author -->
+
+							</footer><!-- .comment-meta -->
+
+			<div class="comment-content">
+				<p>理论上来说RHEL7.2 是支持作为Xen的guest的呀~ 不过我没搞过。具体 自己得看看报什么错了~</p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	
+	
+					<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">发表评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://smilejay.com/2012/08/qemu-img-details/#respond" style="display:none;">取消回复</a></small></h3>				<form action="http://smilejay.com/wp-comments-post.php" method="post" id="commentform" class="comment-form anti-spam-form-processed">
+					<p class="comment-notes"><span id="email-notes">电子邮件地址不会被公开。</span> 必填项已用<span class="required">*</span>标注</p><p class="comment-form-comment"><label for="comment">评论</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label> <input id="author" name="author" size="30" aria-required="true" required="required" type="text"></p>
+<p class="comment-form-email"><label for="email">电子邮件 <span class="required">*</span></label> <input id="email" name="email" size="30" aria-describedby="email-notes" aria-required="true" required="required" type="text"></p>
+<p class="comment-form-url"><label for="url">站点</label> <input id="url" name="url" size="30" type="text"></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit" value="发表评论" type="submit"> <input name="comment_post_ID" value="1111" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="d95cd3d9aa" type="hidden"></p>		<p class="antispam-group antispam-group-q" style="clear: both; display: none;">
+			<label>Current ye@r <span class="required">*</span></label>
+			<input name="antspm-a" class="antispam-control antispam-control-a" value="2018" type="hidden">
+			<input name="antspm-q" class="antispam-control antispam-control-q" value="2018" autocomplete="off" type="text">
+		</p>
+		<p class="antispam-group antispam-group-e" style="display: none;">
+			<label>Leave this field empty</label>
+			<input name="antspm-e-email-url-website" class="antispam-control antispam-control-e" autocomplete="off" type="text">
+		</p>
+<p style="display: none;"></p>				<input id="ak_js" name="ak_js" value="1517284655377" type="hidden"><input name="antspm-d" class="antispam-control antispam-control-d" value="2018" type="hidden"></form>
+					</div><!-- #respond -->
+		
+</div><!-- #comments -->
+
+		
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+<div id="widget-area-2" class="site-sidebar widget-area" role="complementary">
+	<aside id="search-3" class="widget widget_search"><form role="search" method="get" class="search-form" action="http://smilejay.com/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input class="search-field" placeholder="Search …" name="s" title="Search for:" type="search">
+	</label>
+	<input class="search-submit" value="Search" type="submit">
+</form>
+</aside>		<aside id="recent-posts-3" class="widget widget_recent_entries">		<h3 class="widget-title">近期文章</h3>		<ul>
+					<li>
+				<a href="http://smilejay.com/2017/12/cpu-cache-topology/">查看CPU/Cache的拓扑结构</a>
+						</li>
+					<li>
+				<a href="http://smilejay.com/2017/11/calculate-pi-with-linux-command/">Linux上一个命令计算PI</a>
+						</li>
+					<li>
+				<a href="http://smilejay.com/2017/11/shell-2-degree-power-num/">Shell脚本实现求一个整数接近最近的2的次幂数的整数</a>
+						</li>
+					<li>
+				<a href="http://smilejay.com/2017/11/conversion_of_number_systems_in_shell/">shell中二进制、十进制、十六进制等进制转换</a>
+						</li>
+					<li>
+				<a href="http://smilejay.com/2017/08/ssh-host-key-verification/">ssh中“Host key verification failed.“的解决方案</a>
+						</li>
+				</ul>
+		</aside>		<aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">近期评论</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link"><a href="https://www.lizi.tw/pc/4270.html" rel="external nofollow" class="url">CentOS 6.x 内核升级（2.6.32 -&gt; 3.10.58）过程记录 -举个栗子小白教程- 栗子</a></span>发表在《<a href="http://smilejay.com/2011/05/linux-kernel-configuration/#comment-12700">Linux Kernel内核配置方式详解</a>》</li><li class="recentcomments"><span class="comment-author-link">master</span>发表在《<a href="http://smilejay.com/2011/05/efi_efi-shell/#comment-12699">EFI及EFI Shell简介</a>》</li><li class="recentcomments"><span class="comment-author-link"><a href="http://blog.wiloon.com/?p=9840" rel="external nofollow" class="url">linux ulimit -n 文件句柄数 – w1100n</a></span>发表在《<a href="http://smilejay.com/2016/06/centos-7-systemd-conf-limits/#comment-12698">CentOS/RHEL 7 系统中设置systemd service的ulimit资源限制</a>》</li><li class="recentcomments"><span class="comment-author-link">龚佶敏</span>发表在《<a href="http://smilejay.com/2011/05/efi_efi-shell/#comment-12697">EFI及EFI Shell简介</a>》</li><li class="recentcomments"><span class="comment-author-link">高钧浩</span>发表在《<a href="http://smilejay.com/2013/06/some-benchmark-tests-for-kvm/#comment-12696">KVM的一些基准测试和性能测试数据分享</a>》</li></ul></aside><aside id="tag_cloud-2" class="widget widget_tag_cloud"><h3 class="widget-title">标签</h3><div class="tagcloud"><a href="http://smilejay.com/tag/android/" class="tag-link-85" title="10个话题" style="font-size: 12.237837837838pt;">Android</a>
+<a href="http://smilejay.com/tag/apache/" class="tag-link-56" title="5个话题" style="font-size: 10.27027027027pt;">apache</a>
+<a href="http://smilejay.com/tag/awk/" class="tag-link-94" title="3个话题" style="font-size: 8.9081081081081pt;">AWK</a>
+<a href="http://smilejay.com/tag/bash/" class="tag-link-31" title="8个话题" style="font-size: 11.556756756757pt;">Bash</a>
+<a href="http://smilejay.com/tag/blog/" class="tag-link-32" title="6个话题" style="font-size: 10.8pt;">Blog</a>
+<a href="http://smilejay.com/tag/browser/" class="tag-link-28" title="6个话题" style="font-size: 10.8pt;">Browser</a>
+<a href="http://smilejay.com/tag/c/" class="tag-link-38" title="21个话题" style="font-size: 14.508108108108pt;">C</a>
+<a href="http://smilejay.com/tag/cpu/" class="tag-link-9" title="16个话题" style="font-size: 13.675675675676pt;">CPU</a>
+<a href="http://smilejay.com/tag/django/" class="tag-link-98" title="6个话题" style="font-size: 10.8pt;">Django</a>
+<a href="http://smilejay.com/tag/facebook/" class="tag-link-59" title="3个话题" style="font-size: 8.9081081081081pt;">Facebook</a>
+<a href="http://smilejay.com/tag/git/" class="tag-link-40" title="11个话题" style="font-size: 12.540540540541pt;">git</a>
+<a href="http://smilejay.com/tag/hardware-2/" class="tag-link-83" title="3个话题" style="font-size: 8.9081081081081pt;">Hardware</a>
+<a href="http://smilejay.com/tag/hg/" class="tag-link-41" title="4个话题" style="font-size: 9.6648648648649pt;">hg</a>
+<a href="http://smilejay.com/tag/html/" class="tag-link-72" title="5个话题" style="font-size: 10.27027027027pt;">html</a>
+<a href="http://smilejay.com/tag/ie/" class="tag-link-27" title="3个话题" style="font-size: 8.9081081081081pt;">IE</a>
+<a href="http://smilejay.com/tag/intel/" class="tag-link-68" title="3个话题" style="font-size: 8.9081081081081pt;">Intel</a>
+<a href="http://smilejay.com/tag/internet/" class="tag-link-78" title="14个话题" style="font-size: 13.297297297297pt;">Internet</a>
+<a href="http://smilejay.com/tag/java/" class="tag-link-108" title="13个话题" style="font-size: 13.07027027027pt;">Java</a>
+<a href="http://smilejay.com/tag/javascript/" class="tag-link-73" title="5个话题" style="font-size: 10.27027027027pt;">javascript</a>
+<a href="http://smilejay.com/tag/kernel/" class="tag-link-47" title="20个话题" style="font-size: 14.356756756757pt;">Kernel</a>
+<a href="http://smilejay.com/tag/kvm/" class="tag-link-106" title="69个话题" style="font-size: 18.367567567568pt;">KVM</a>
+<a href="http://smilejay.com/tag/life-2/" class="tag-link-69" title="21个话题" style="font-size: 14.508108108108pt;">life</a>
+<a href="http://smilejay.com/tag/linux/" class="tag-link-102" title="215个话题" style="font-size: 22pt;">Linux</a>
+<a href="http://smilejay.com/tag/mac/" class="tag-link-91" title="9个话题" style="font-size: 11.935135135135pt;">Mac</a>
+<a href="http://smilejay.com/tag/mercurial/" class="tag-link-42" title="2个话题" style="font-size: 8pt;">mercurial</a>
+<a href="http://smilejay.com/tag/mysql/" class="tag-link-86" title="10个话题" style="font-size: 12.237837837838pt;">MySQL</a>
+<a href="http://smilejay.com/tag/nginx/" class="tag-link-95" title="10个话题" style="font-size: 12.237837837838pt;">Nginx</a>
+<a href="http://smilejay.com/tag/performance/" class="tag-link-67" title="28个话题" style="font-size: 15.416216216216pt;">Performance</a>
+<a href="http://smilejay.com/tag/php/" class="tag-link-45" title="3个话题" style="font-size: 8.9081081081081pt;">PHP</a>
+<a href="http://smilejay.com/tag/python/" class="tag-link-49" title="58个话题" style="font-size: 17.762162162162pt;">Python</a>
+<a href="http://smilejay.com/tag/qa/" class="tag-link-35" title="2个话题" style="font-size: 8pt;">QA</a>
+<a href="http://smilejay.com/tag/qemu/" class="tag-link-74" title="23个话题" style="font-size: 14.810810810811pt;">QEMU</a>
+<a href="http://smilejay.com/tag/reading/" class="tag-link-57" title="42个话题" style="font-size: 16.702702702703pt;">reading</a>
+<a href="http://smilejay.com/tag/rpm/" class="tag-link-48" title="3个话题" style="font-size: 8.9081081081081pt;">RPM</a>
+<a href="http://smilejay.com/tag/scm/" class="tag-link-43" title="8个话题" style="font-size: 11.556756756757pt;">SCM</a>
+<a href="http://smilejay.com/tag/shell/" class="tag-link-30" title="42个话题" style="font-size: 16.702702702703pt;">Shell</a>
+<a href="http://smilejay.com/tag/testing/" class="tag-link-34" title="41个话题" style="font-size: 16.627027027027pt;">testing</a>
+<a href="http://smilejay.com/tag/thought/" class="tag-link-61" title="12个话题" style="font-size: 12.767567567568pt;">thought</a>
+<a href="http://smilejay.com/tag/vim/" class="tag-link-84" title="5个话题" style="font-size: 10.27027027027pt;">Vim</a>
+<a href="http://smilejay.com/tag/virtualization-2/" class="tag-link-66" title="75个话题" style="font-size: 18.594594594595pt;">Virtualization</a>
+<a href="http://smilejay.com/tag/web-2/" class="tag-link-80" title="3个话题" style="font-size: 8.9081081081081pt;">Web</a>
+<a href="http://smilejay.com/tag/windows/" class="tag-link-70" title="5个话题" style="font-size: 10.27027027027pt;">Windows</a>
+<a href="http://smilejay.com/tag/wordpress/" class="tag-link-5" title="12个话题" style="font-size: 12.767567567568pt;">WordPress</a>
+<a href="http://smilejay.com/tag/xen/" class="tag-link-107" title="13个话题" style="font-size: 13.07027027027pt;">Xen</a>
+<a href="http://smilejay.com/tag/%e7%ac%91%e9%81%8d%e4%b8%96%e7%95%8c/" class="tag-link-44" title="3个话题" style="font-size: 8.9081081081081pt;">笑遍世界</a></div>
+</aside><aside id="categories-2" class="widget widget_categories"><h3 class="widget-title">分类目录</h3>		<ul>
+	<li class="cat-item cat-item-104"><a href="http://smilejay.com/category/android/">Android</a> (10)
+</li>
+	<li class="cat-item cat-item-6"><a href="http://smilejay.com/category/linux/">Linux</a> (222)
+<ul class="children">
+	<li class="cat-item cat-item-21"><a href="http://smilejay.com/category/linux/linux-kernel/" title="linux kernel相关的学习和总结。">Linux内核</a> (23)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://smilejay.com/category/linux/linux-application/">Linux系统应用</a> (144)
+</li>
+	<li class="cat-item cat-item-8"><a href="http://smilejay.com/category/linux/shell-script/">Shell脚本</a> (43)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-103"><a href="http://smilejay.com/category/wordpress/">WordPress</a> (11)
+</li>
+	<li class="cat-item cat-item-65"><a href="http://smilejay.com/category/cloud-computing/" title="云计算（Cloud Computing）：IAAS, PAAS, SAAS.">云计算</a> (10)
+</li>
+	<li class="cat-item cat-item-75"><a href="http://smilejay.com/category/%e4%ba%92%e8%81%94%e7%bd%91/">互联网</a> (20)
+</li>
+	<li class="cat-item cat-item-113"><a href="http://smilejay.com/category/%e4%ba%ba%e5%b7%a5%e6%99%ba%e8%83%bd/">人工智能</a> (1)
+</li>
+	<li class="cat-item cat-item-115"><a href="http://smilejay.com/category/%e5%a4%a7%e6%95%b0%e6%8d%ae/">大数据</a> (2)
+</li>
+	<li class="cat-item cat-item-87"><a href="http://smilejay.com/category/%e6%95%b0%e6%8d%ae%e5%ba%93/">数据库</a> (9)
+<ul class="children">
+	<li class="cat-item cat-item-109"><a href="http://smilejay.com/category/%e6%95%b0%e6%8d%ae%e5%ba%93/mysql/">MySQL</a> (9)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://smilejay.com/category/unclassfied/">未分类</a> (31)
+</li>
+	<li class="cat-item cat-item-23"><a href="http://smilejay.com/category/life/" title="记录生活、记录工作、生活感悟、哲理思考等。">生活工作</a> (45)
+<ul class="children">
+	<li class="cat-item cat-item-25"><a href="http://smilejay.com/category/life/feeling-think/" title="记录感受和思考。">生活感悟</a> (16)
+</li>
+	<li class="cat-item cat-item-79"><a href="http://smilejay.com/category/life/%e8%ae%b0%e5%bd%95%e5%b7%a5%e4%bd%9c/">记录工作</a> (2)
+</li>
+	<li class="cat-item cat-item-24"><a href="http://smilejay.com/category/life/life-scenario/" title="记录生活中的事情">记录生活</a> (31)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-22"><a href="http://smilejay.com/category/hardware/" title="计算机硬件 及 数码产品方面的知识。包括CPU、计算机架构、硬件分析。">硬件知识</a> (12)
+</li>
+	<li class="cat-item cat-item-13"><a href="http://smilejay.com/category/programming/" title="软件开发、算法等。">程序设计</a> (115)
+<ul class="children">
+	<li class="cat-item cat-item-15"><a href="http://smilejay.com/category/programming/c-cpp/" title="C/C++">C/C++</a> (23)
+</li>
+	<li class="cat-item cat-item-16"><a href="http://smilejay.com/category/programming/java/" title="java相关的程序设计和JVM等分析">Java</a> (13)
+</li>
+	<li class="cat-item cat-item-110"><a href="http://smilejay.com/category/programming/php/">PHP</a> (3)
+</li>
+	<li class="cat-item cat-item-105"><a href="http://smilejay.com/category/programming/python/">Python</a> (58)
+</li>
+	<li class="cat-item cat-item-71"><a href="http://smilejay.com/category/programming/web/" title="html, javascript, etc.">Web开发</a> (15)
+</li>
+	<li class="cat-item cat-item-14"><a href="http://smilejay.com/category/programming/dynamic-language/" title="python/php/perl/ruby and so on.">动态语言</a> (4)
+</li>
+	<li class="cat-item cat-item-17"><a href="http://smilejay.com/category/programming/algorithm/" title="algorithm  常用的一些算法整理和研究、学习。">算法</a> (4)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-62"><a href="http://smilejay.com/category/virtualization/" title="虚拟化（Virtualization）和云计算（Cloud Computing）">虚拟化</a> (84)
+<ul class="children">
+	<li class="cat-item cat-item-99"><a href="http://smilejay.com/category/virtualization/docker/">Docker</a> (1)
+</li>
+	<li class="cat-item cat-item-63"><a href="http://smilejay.com/category/virtualization/kvm/" title="KVM,  Kernel-based Virtualization Machine">KVM</a> (68)
+</li>
+	<li class="cat-item cat-item-64"><a href="http://smilejay.com/category/virtualization/xen/" title="Xen   支持全虚拟化和半虚拟化。">Xen</a> (14)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-33"><a href="http://smilejay.com/category/%e8%af%bb%e4%b9%a6%e7%ac%94%e8%ae%b0/">读书笔记</a> (39)
+</li>
+	<li class="cat-item cat-item-12"><a href="http://smilejay.com/category/software-application/" title="主要是windows和linux上的一些常用软件的用法、问题的解决方案。">软件应用</a> (49)
+<ul class="children">
+	<li class="cat-item cat-item-90"><a href="http://smilejay.com/category/software-application/mac-os-x-%e7%b3%bb%e7%bb%9f/">Mac OS X 系统</a> (10)
+</li>
+	<li class="cat-item cat-item-26"><a href="http://smilejay.com/category/software-application/microsoft/" title="微软的一些软件使用问题。">microsoft相关软件</a> (8)
+</li>
+	<li class="cat-item cat-item-39"><a href="http://smilejay.com/category/software-application/scm%e5%b7%a5%e5%85%b7/">SCM工具</a> (14)
+</li>
+	<li class="cat-item cat-item-92"><a href="http://smilejay.com/category/software-application/web%e6%9c%8d%e5%8a%a1%e5%99%a8/">Web服务器</a> (7)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-18"><a href="http://smilejay.com/category/software-testing/" title="Software Testing  软件测试和软件工程相关的理论、方法、工具。">软件测试</a> (49)
+<ul class="children">
+	<li class="cat-item cat-item-82"><a href="http://smilejay.com/category/software-testing/%e5%8d%95%e5%85%83%e6%b5%8b%e8%af%95/">单元测试</a> (1)
+</li>
+	<li class="cat-item cat-item-20"><a href="http://smilejay.com/category/software-testing/performance-testing/" title="性能测试相关">性能测试</a> (25)
+</li>
+	<li class="cat-item cat-item-54"><a href="http://smilejay.com/category/software-testing/%e6%b5%8b%e8%af%95%e6%96%b9%e6%b3%95/">测试方法</a> (7)
+</li>
+	<li class="cat-item cat-item-19"><a href="http://smilejay.com/category/software-testing/automation-test/" title="自动化测试相关">自动化测试</a> (15)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-76"><a href="http://smilejay.com/category/%e9%9d%9e%e6%8a%80%e6%9c%af%e5%ad%a6%e4%b9%a0/">非技术学习</a> (5)
+</li>
+		</ul>
+</aside><aside id="archives-3" class="widget widget_archive"><h3 class="widget-title">文章归档</h3>		<ul>
+			<li><a href="http://smilejay.com/2017/12/">2017年十二月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2017/11/">2017年十一月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2017/08/">2017年八月</a>&nbsp;(2)</li>
+	<li><a href="http://smilejay.com/2017/07/">2017年七月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2017/06/">2017年六月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2017/05/">2017年五月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2017/04/">2017年四月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2017/03/">2017年三月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2016/09/">2016年九月</a>&nbsp;(2)</li>
+	<li><a href="http://smilejay.com/2016/06/">2016年六月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2016/05/">2016年五月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2016/04/">2016年四月</a>&nbsp;(2)</li>
+	<li><a href="http://smilejay.com/2016/03/">2016年三月</a>&nbsp;(2)</li>
+	<li><a href="http://smilejay.com/2016/02/">2016年二月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2015/12/">2015年十二月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2015/11/">2015年十一月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2015/09/">2015年九月</a>&nbsp;(2)</li>
+	<li><a href="http://smilejay.com/2015/08/">2015年八月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2015/07/">2015年七月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2015/06/">2015年六月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2015/05/">2015年五月</a>&nbsp;(4)</li>
+	<li><a href="http://smilejay.com/2015/04/">2015年四月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2015/02/">2015年二月</a>&nbsp;(2)</li>
+	<li><a href="http://smilejay.com/2014/12/">2014年十二月</a>&nbsp;(5)</li>
+	<li><a href="http://smilejay.com/2014/11/">2014年十一月</a>&nbsp;(2)</li>
+	<li><a href="http://smilejay.com/2014/10/">2014年十月</a>&nbsp;(2)</li>
+	<li><a href="http://smilejay.com/2014/09/">2014年九月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2014/08/">2014年八月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2014/07/">2014年七月</a>&nbsp;(6)</li>
+	<li><a href="http://smilejay.com/2014/06/">2014年六月</a>&nbsp;(6)</li>
+	<li><a href="http://smilejay.com/2014/05/">2014年五月</a>&nbsp;(14)</li>
+	<li><a href="http://smilejay.com/2014/03/">2014年三月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2014/02/">2014年二月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2014/01/">2014年一月</a>&nbsp;(10)</li>
+	<li><a href="http://smilejay.com/2013/12/">2013年十二月</a>&nbsp;(15)</li>
+	<li><a href="http://smilejay.com/2013/11/">2013年十一月</a>&nbsp;(10)</li>
+	<li><a href="http://smilejay.com/2013/10/">2013年十月</a>&nbsp;(8)</li>
+	<li><a href="http://smilejay.com/2013/09/">2013年九月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2013/08/">2013年八月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2013/07/">2013年七月</a>&nbsp;(10)</li>
+	<li><a href="http://smilejay.com/2013/06/">2013年六月</a>&nbsp;(8)</li>
+	<li><a href="http://smilejay.com/2013/05/">2013年五月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2013/04/">2013年四月</a>&nbsp;(8)</li>
+	<li><a href="http://smilejay.com/2013/03/">2013年三月</a>&nbsp;(16)</li>
+	<li><a href="http://smilejay.com/2013/02/">2013年二月</a>&nbsp;(5)</li>
+	<li><a href="http://smilejay.com/2013/01/">2013年一月</a>&nbsp;(17)</li>
+	<li><a href="http://smilejay.com/2012/12/">2012年十二月</a>&nbsp;(5)</li>
+	<li><a href="http://smilejay.com/2012/11/">2012年十一月</a>&nbsp;(11)</li>
+	<li><a href="http://smilejay.com/2012/10/">2012年十月</a>&nbsp;(7)</li>
+	<li><a href="http://smilejay.com/2012/09/">2012年九月</a>&nbsp;(8)</li>
+	<li><a href="http://smilejay.com/2012/08/">2012年八月</a>&nbsp;(20)</li>
+	<li><a href="http://smilejay.com/2012/07/">2012年七月</a>&nbsp;(11)</li>
+	<li><a href="http://smilejay.com/2012/06/">2012年六月</a>&nbsp;(20)</li>
+	<li><a href="http://smilejay.com/2012/05/">2012年五月</a>&nbsp;(12)</li>
+	<li><a href="http://smilejay.com/2012/04/">2012年四月</a>&nbsp;(7)</li>
+	<li><a href="http://smilejay.com/2012/03/">2012年三月</a>&nbsp;(12)</li>
+	<li><a href="http://smilejay.com/2012/02/">2012年二月</a>&nbsp;(13)</li>
+	<li><a href="http://smilejay.com/2012/01/">2012年一月</a>&nbsp;(4)</li>
+	<li><a href="http://smilejay.com/2011/12/">2011年十二月</a>&nbsp;(13)</li>
+	<li><a href="http://smilejay.com/2011/11/">2011年十一月</a>&nbsp;(14)</li>
+	<li><a href="http://smilejay.com/2011/10/">2011年十月</a>&nbsp;(10)</li>
+	<li><a href="http://smilejay.com/2011/09/">2011年九月</a>&nbsp;(8)</li>
+	<li><a href="http://smilejay.com/2011/08/">2011年八月</a>&nbsp;(9)</li>
+	<li><a href="http://smilejay.com/2011/07/">2011年七月</a>&nbsp;(11)</li>
+	<li><a href="http://smilejay.com/2011/06/">2011年六月</a>&nbsp;(10)</li>
+	<li><a href="http://smilejay.com/2011/05/">2011年五月</a>&nbsp;(11)</li>
+	<li><a href="http://smilejay.com/2011/04/">2011年四月</a>&nbsp;(6)</li>
+	<li><a href="http://smilejay.com/2011/03/">2011年三月</a>&nbsp;(12)</li>
+	<li><a href="http://smilejay.com/2011/02/">2011年二月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2011/01/">2011年一月</a>&nbsp;(3)</li>
+	<li><a href="http://smilejay.com/2010/12/">2010年十二月</a>&nbsp;(4)</li>
+	<li><a href="http://smilejay.com/2007/05/">2007年五月</a>&nbsp;(8)</li>
+	<li><a href="http://smilejay.com/2006/12/">2006年十二月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2006/11/">2006年十一月</a>&nbsp;(1)</li>
+	<li><a href="http://smilejay.com/2006/10/">2006年十月</a>&nbsp;(4)</li>
+	<li><a href="http://smilejay.com/2006/09/">2006年九月</a>&nbsp;(4)</li>
+		</ul>
+		</aside><aside id="linkcat-2" class="widget widget_links"><h3 class="widget-title">博客链接</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://www.51testing.com/?uid-225738/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://www.51testing.com/?uid-225738/', '笑遍世界的测试技术博客');" rel="me" title="软件测试/开发等方面的技术" target="_blank">笑遍世界的测试技术博客</a></li>
+<li><a href="http://renyongjie668.blog.163.com/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://renyongjie668.blog.163.com/', '笑遍世界的网易博客');" rel="me" title="笑遍世界的网易博客（历史悠久）" target="_blank">笑遍世界的网易博客</a></li>
+
+	</ul>
+</aside>
+<aside id="linkcat-46" class="widget widget_links"><h3 class="widget-title">友情链接</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://www.ayard.com.cn/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://www.ayard.com.cn/', 'AYard-Linux软件');" target="_blank">AYard-Linux软件</a></li>
+<li><a href="http://www.vpsee.com/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://www.vpsee.com', 'VPSee的站点');" rel="colleague" title="VPSee，精通Linux和Xen/KVM等技术，还坐着VPS生意。" target="_blank">VPSee的站点</a></li>
+<li><a href="http://www.ljhedp.cn/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://www.ljhedp.cn/', '书海扬帆的博客');" target="_blank">书海扬帆的博客</a></li>
+<li><a href="http://upyun.com/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://upyun.com/', '又拍云存储');" target="_blank">又拍云存储</a></li>
+<li><a href="http://www.lingcc.com/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://www.lingcc.com', '灵犀志趣');" title="关于编译技术" target="_blank">灵犀志趣</a></li>
+<li><a href="http://www.wangyuxiong.com/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://www.wangyuxiong.com/', '点滴–挖掘技术细节');" rel="colleague" title="a QA @ alibaba.com" target="_blank">点滴–挖掘技术细节</a></li>
+
+	</ul>
+</aside>
+<aside id="calendar-3" class="widget widget_calendar"><div id="calendar_wrap" class="calendar_wrap"><table id="wp-calendar">
+	<caption>2012年八月</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="星期一">一</th>
+		<th scope="col" title="星期二">二</th>
+		<th scope="col" title="星期三">三</th>
+		<th scope="col" title="星期四">四</th>
+		<th scope="col" title="星期五">五</th>
+		<th scope="col" title="星期六">六</th>
+		<th scope="col" title="星期日">日</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://smilejay.com/2012/07/">« 7月</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="http://smilejay.com/2012/09/">9月 »</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="2" class="pad">&nbsp;</td><td>1</td><td>2</td><td>3</td><td><a href="http://smilejay.com/2012/08/04/" aria-label="于2012年8月4日上发布的文章">4</a></td><td>5</td>
+	</tr>
+	<tr>
+		<td>6</td><td><a href="http://smilejay.com/2012/08/07/" aria-label="于2012年8月7日上发布的文章">7</a></td><td><a href="http://smilejay.com/2012/08/08/" aria-label="于2012年8月8日上发布的文章">8</a></td><td><a href="http://smilejay.com/2012/08/09/" aria-label="于2012年8月9日上发布的文章">9</a></td><td>10</td><td>11</td><td>12</td>
+	</tr>
+	<tr>
+		<td>13</td><td><a href="http://smilejay.com/2012/08/14/" aria-label="于2012年8月14日上发布的文章">14</a></td><td><a href="http://smilejay.com/2012/08/15/" aria-label="于2012年8月15日上发布的文章">15</a></td><td><a href="http://smilejay.com/2012/08/16/" aria-label="于2012年8月16日上发布的文章">16</a></td><td>17</td><td>18</td><td>19</td>
+	</tr>
+	<tr>
+		<td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td><a href="http://smilejay.com/2012/08/26/" aria-label="于2012年8月26日上发布的文章">26</a></td>
+	</tr>
+	<tr>
+		<td><a href="http://smilejay.com/2012/08/27/" aria-label="于2012年8月27日上发布的文章">27</a></td><td><a href="http://smilejay.com/2012/08/28/" aria-label="于2012年8月28日上发布的文章">28</a></td><td><a href="http://smilejay.com/2012/08/29/" aria-label="于2012年8月29日上发布的文章">29</a></td><td>30</td><td><a href="http://smilejay.com/2012/08/31/" aria-label="于2012年8月31日上发布的文章">31</a></td>
+		<td class="pad" colspan="2">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></aside><!-- #widget-area-2 --></div>		</div>
+	<!-- #main --></div>
+
+	
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="clearfix container">
+				<div class="site-info">
+		© 2018 笑遍世界. All rights reserved.	</div><!-- .site-info -->
+
+	<div class="site-credit">
+		<a href="http://athemes.com/theme/fashionista">Fashionista</a> by aThemes	</div><!-- .site-credit -->
+			</div>
+	<!-- #colophon --></footer>
+
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/form.js"></script>
+<link rel="stylesheet" id="yarppRelatedCss-css" href="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/related.css" type="text/css" media="all">
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/anti-spam-4.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var viewsCacheL10n = {"admin_ajax_url":"http:\/\/smilejay.com\/wp-admin\/admin-ajax.php","post_id":"1111"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/postviews-cache.js"></script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/comment-reply.js"></script>
+<script type="text/javascript" src="(KVM%E8%BF%9E%E8%BD%BD)4.3.2%20qemu-img%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%20%E2%80%93%20%E7%AC%91%E9%81%8D%E4%B8%96%E7%95%8C_files/wp-embed.js"></script>
+
+
+
+
+
+</body></html>
+<!-- Dynamic page generated in 0.338 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2018-01-18 09:59:37 -->

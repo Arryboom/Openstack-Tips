@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>浅谈MariaDB Galera Cluster架构 - 热带阿拉斯加 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-rivercast.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-rivercast-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/vadim/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/vadim/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/vadim/wlwmanifest.xml">
+<script async="" src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'vadim', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="centerbody" align="center">
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/vadim/"></a><br>
+		Nothing worthy of fear, the only thing to worry about is: you are not worthy of your ambition!
+	</div>
+</div>
+
+</div>
+<div id="main">
+<div id="mytopmenu">
+	
+	<div id="mylinks">
+<!--done-->
+<a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/vadim/">首页</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0">联系</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/vadim/rss">订阅</a><a id="blog_nav_rss_image" href="http://www.cnblogs.com/vadim/rss"><img src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a>
+</div>
+		<div id="mystats">
+			<div id="blog_stats">
+<!--done-->
+<div class="blogStats">
+posts - 27,&nbsp;
+comments - 0,&nbsp;
+trackbacks - 0
+
+</div></div></div>
+	
+</div>
+<div id="centercontent">
+	
+<div id="post_detail">
+<!--done-->
+<div class="post">
+	<div class="postTitle">
+		<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/vadim/p/6930566.html">浅谈MariaDB Galera Cluster架构</a>
+	</div>
+	<div id="cnblogs_post_body" class="blogpost-body"><p><strong><span style="font-family: &quot;Microsoft YaHei&quot;">MariaDB</span></strong><br><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;
+ &nbsp; &nbsp; &nbsp; &nbsp; MariaDB 是由原来 MySQL 的作者Michael 
+Widenius创办的公司所开发的免费开源的数据库服务器，MariaDB是同一MySQL版本的二进制替代品, 当前最新版本10.2.6。</span><br><span style="font-family: &quot;Microsoft YaHei&quot;">与 MySQL 相比较，MariaDB 支持更多的存储引擎：</span><span style="font-family: &quot;Microsoft YaHei&quot;">Maria 存储引擎、</span><span style="font-family: &quot;Microsoft YaHei&quot;">PBXT 存储引擎、</span><span style="font-family: &quot;Microsoft YaHei&quot;">XtraDB 存储引擎、</span><span style="font-family: &quot;Microsoft YaHei&quot;">InnoDB 存储引擎、</span><span style="font-family: &quot;Microsoft YaHei&quot;">FederatedX 存储引擎、</span><span style="font-family: &quot;Microsoft YaHei&quot;">Tokudb存储引擎<span style="font-size: 12px">【1】</span></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">优越性</span></p>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">更快的复制查询处理</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">线程池</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">更少的警告和bug</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">运行速度更快</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">更多的 Extensions (More index parts, new startup options etc)</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">更好的功能测试</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">数据表消除</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">慢查询日志的扩展统计</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">支持对 Unicode 的排序</span></li>
+
+</ul>
+<p><strong><span style="font-family: &quot;Microsoft YaHei&quot;">为什么Galera是最好的MySQL HA解决方案呢?</span></strong><br><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp;Galera Cluster设置仍然使用轮询来做健康检测——这比MMM好在哪里呢?</span><br><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;
+ &nbsp; &nbsp; 
+&nbsp;答案在于主从复制怎样是运作的。对于标准版的MySQL，对master的写操作被记录于一个二进制的日志。Slave会在之后复制二进制日
+志中的查询。查询在写服务器上运行与在其它节点上运行时刻之间，总是会有一个延迟。它是异步的。</span><br><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp;MySQL异步复制有下面的问题：</span></p>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;slave服务器的数据集总是落后于master服务器。</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;MySQL复制很慢——它从二进制日志回访事务。</span></li>
+
+</ul>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; 
+&nbsp; 
+&nbsp;对于Galera,事务是在它们被提交之前被所有节点确认。如果一个事务在一个节点失败了，那个节点将立刻从群集中移除。换句话
+说，Galera主从复制是同步的。你 永远也不会丢失事务——没有延迟 (而且Galera的 基于行的复制大约要快5倍速)。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><strong>Galera Cluster</strong></span><br><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;
+ &nbsp; &nbsp; &nbsp; Galera 
+Cluster是MariaDB的一个双活多主集群，当前最新版本10.0.30，其可以使得MariDB的所有节点保持同步，Galera为
+MariaDB提供了同步复制（相对于原生的异步复制），因此其可以保证HA，且其当前仅支持XtraDB/InnoDB存储引擎（扩展支持
+MyISAM），并且只可在Linux下使用。</span><br><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp; Galera Cluster拥有以下特性：</span></p>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">真正的多主架构，任何节点都可以进行读写</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">同步复制，各节点间无延迟且节点宕机不会导致数据丢失</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">紧密耦合，所有节点均保持相同状态，节点间无不同数据</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">无需主从切换操作或使用VIP</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">热Standby，在Failover过程中无停机时间（由于不需要Failover）</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">自动节点配置，无需手工备份当前数据库并拷贝至新节点</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">支持InnoDB存储引擎</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">对应于透明，无需更改应用或是进行极小的更改</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">无需进行读写分离</span></li>
+
+</ul>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; 
+&nbsp; 
+&nbsp;其主要思想是在不出现冲突的背景下事务正常执行并持续到commit为止；当客户端发起commit命令时（此时仍然没有发生真正的
+commit），所有本事务内对数据库的改动与改动数据行的主键都会被搜集到一个写入集（writeset）中，该写入集随后会被复制到其他节点，该写入
+集会在每个节点上使用搜集到的主键进行确认性认证测试（包括被“提交”事务的当前节点）来判断该写入集是否可以被应用。如果认证测试失败，写入集会被丢弃
+并且原始事务会被回滚，如果认证成功，事务会被提交并且写入集会被在剩余节点进行应用。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; 
+&nbsp; 
+&nbsp;以上的认证测试在Galera集群中的实现取决于全局事务顺序，每个事务在复制期间都会被指派一个全局顺序序列；当一个事务到达提交点时，该
+事务会知道当前与该事务不冲突的最新已提交事务的顺序序号，在这两个事务的全局顺序序列之间的间隔是不确定区域，在该区域间的事务相互是“看不到”对方的
+影响的，但所有在这间隔之间的事务都会被进行主键冲突检测（如果发现冲突认证测试就会失败）。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1174968-20170601200125633-1012172695.png" alt="" width="564" height="309"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp;Galera Cluster提供了并行的复制机制，能实现同步的，多主的复制方式。因此具有很多实用特性：</span></p>
+<ol>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">可以在任意节点上进行读写</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">自动剔除故障节点</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">自动加入新节点</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">真正行级别的并发复制</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">客户端连接跟操作单数据库的体验一致</span></li>
+
+</ol>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp;在数据复制方面有同步和异步两种方式，而同步方式的优势十分明显：</span></p>
+<ol>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">高可用（当节点宕机时数据不会丢失，数据复制一致性高，实现不复杂）；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">具有较高的性能；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">跨集群。但是缺点是随着节点数量的增加，其事务的响应时间，冲突的概率和死锁率会呈指数增长。（因此像MySQL和PostgreSQL都采用异步复制方式）</span></li>
+
+</ol>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp; 为克服同步复制的的缺点，现在主要的技术包括：Group Communication，Write-sets，Database State Machine和Transaction Reordering。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; 
+&nbsp; &nbsp; Galera Cluster使用一种称为Certification-based 
+Replication的策略实现集群同步制，Certification-based Replication综合使用了Group 
+Communication和Transaction 
+Reordering技术。具体来说：事务可以在任意单节点上执行或者复制，但是在事务在提交时，会运行一个协调认证程序来保证事务的全局一致性，它借助
+广播服务，建立一个全局的并发事务。</span><br><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;
+ &nbsp; &nbsp; &nbsp; Certification-based 
+Replication的主要思想是数据库中的任何事务在未到达提交点（commit 
+point）时，会假设没有任何冲突。在事务commit发生之前，这个事务将会引起的所有数据库变化和所变行的主键都会被收集到一个write-set
+中。然后会把这个write-set发送到集群中的其它节点上。有了write-set，此时集群中所有的节点会使用主键执行一个
+certification 
+test，如果失败则丢弃write-set并且回滚事务，如果成功则事务会被提交并将write-set应用到集群中其余的节点。而Galera 
+Cluster中使用Certification-based Replication策略则依赖于一个全局的事务序列。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp;【1】tokudb是一个应用在mysql和MariaDB中的存储引擎，它使用索引加快查询速度，具有高扩展性，并支持hot scheme modification。</span><br><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp; 特点：</span></p>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">插入性能快20~80倍；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">压缩数据减少存储空间；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">数据量可以扩展到几个TB；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">不会产生索引碎片；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">支持hot column addition ， hot indexing， mvcc；</span></li>
+
+</ul>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp; &nbsp; &nbsp; &nbsp;如何考虑使用：</span></p>
+<ol>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">如果要存储blob，不要使用tokuDB，因为他的记录不能太大；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">如果记录数过亿，使用tokuDB；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">如果注重update的性能，不要使用tokuDB，他没有innodb快；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">如果要存储旧的记录，使用tokuDB；</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;">如果要缩小数据占用的存储空间，使用tokuDB；</span></li>
+
+</ol></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/vadim/category/1011690.html" target="_blank">MariaDB Galera Cluster</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6930566,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('81039725-607c-4e54-f09b-08d49c350eca');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/vadim/" target="_blank"><img src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20170531232117.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/vadim/">热带阿拉斯加</a><br>
+            <a href="http://home.cnblogs.com/u/vadim/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/vadim/followers">粉丝 - 0</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('81039725-607c-4e54-f09b-08d49c350eca');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6930566,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6930566,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/vadim/p/6928738.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/vadim/p/6928738.html" title="发布于2017-06-01 14:35">oracle后台进程简介</a><br><a href="http://www.cnblogs.com/vadim/p/6930697.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/vadim/p/6930697.html" title="发布于2017-06-01 20:46">MariaDB Galera Cluster环境搭建及高可用测试</a><br></div>
+</div>
+
+
+	<div class="postDesc">posted on <span id="post-date">2017-06-01 20:04</span> <a href="http://www.cnblogs.com/vadim/">热带阿拉斯加</a> 阅读(<span id="post_view_count">999</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6930566" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6930566);return false;">收藏</a></div>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=358700,cb_entryId=6930566,cb_blogApp=currentBlogApp,cb_blogUserGuid='81039725-607c-4e54-f09b-08d49c350eca',cb_entryCreatedDate='2017/6/1 20:04:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://cloud.tencent.com/act/first_purchase?fromSource=gwzcw.763755.763755.763755" target="_blank">【推荐】怎样购买腾讯云服务器更划算？</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://www.h3bpm.net/" target="_blank"><img src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20180126164912131-1246397933.jpg" alt="h3bpm0126" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/588606/" target="_blank">李开复预言AI泡沫年底要破，LeCun：确实如此</a><br> ·  <a href="https://news.cnblogs.com/n/588605/" target="_blank">HTC与Google合作协议完成，Pixel团队正式加入Google硬件部门</a><br> ·  <a href="https://news.cnblogs.com/n/588603/" target="_blank">苹果编程应用Swift Playgrounds升级到2.0</a><br> ·  <a href="https://news.cnblogs.com/n/588604/" target="_blank">Apple Park已开放5个办公区 还有7个待批准</a><br> ·  <a href="https://news.cnblogs.com/n/588602/" target="_blank">360发布2017年网络诈骗报告 经济发达地区仍为诈骗高发区</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="%E6%B5%85%E8%B0%88MariaDB%20Galera%20Cluster%E6%9E%B6%E6%9E%84%20-%20%E7%83%AD%E5%B8%A6%E9%98%BF%E6%8B%89%E6%96%AF%E5%8A%A0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	
+<!--done-->
+<div class="footer">
+	
+	Copyright ©2018  热带阿拉斯加 Powered By: <a href="http://www.cnblogs.com/">博客园</a> 模板提供：<a href="http://blog.hjenglish.com/">沪江博客</a>
+</div>
+</div>
+
+<div id="leftcontent">
+	
+		<div id="leftcontentcontainer">
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2017/12/01');return false;">&lt;</a></td><td align="center">2018年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/02/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td class="CalTodayDay" align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script><br>
+			
+<!--done-->
+<div class="newsItem">
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/vadim/">热带阿拉斯加</a><br>园龄：<a href="https://home.cnblogs.com/u/vadim/" title="入园时间：2017-05-31">7个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/vadim/followers/">0</a><br>关注：<a href="https://home.cnblogs.com/u/vadim/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('81039725-607c-4e54-f09b-08d49c350eca')">+加关注</a></div><script>getFollowStatus('81039725-607c-4e54-f09b-08d49c350eca')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/vadim/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/vadim/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/vadim/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/vadim/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/vadim/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<!--done-->
+
+		<h1 class="catListTitle">随笔分类</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_0" class="listitem" href="http://www.cnblogs.com/vadim/category/1011694.html">DB migration(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_1" class="listitem" href="http://www.cnblogs.com/vadim/category/1011696.html">Linux/ Network /Storage</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_2" class="listitem" href="http://www.cnblogs.com/vadim/category/1011690.html">MariaDB Galera Cluster(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_3" class="listitem" href="http://www.cnblogs.com/vadim/category/1017015.html">MongoDB(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_4" class="listitem" href="http://www.cnblogs.com/vadim/category/1011689.html">MySQL InnoDB(16)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_5" class="listitem" href="http://www.cnblogs.com/vadim/category/1011686.html">Oracle Dataguard</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_6" class="listitem" href="http://www.cnblogs.com/vadim/category/1011692.html">Oracle GoldenGate</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_7" class="listitem" href="http://www.cnblogs.com/vadim/category/1011684.html">Oracle Grid Infrastructure(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_8" class="listitem" href="http://www.cnblogs.com/vadim/category/1011679.html">Oracle_11gRx(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_9" class="listitem" href="http://www.cnblogs.com/vadim/category/1011682.html">Oracle_12c(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_10" class="listitem" href="http://www.cnblogs.com/vadim/category/1080693.html">Python(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_11" class="listitem" href="http://www.cnblogs.com/vadim/category/1063737.html">Redis(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_12" class="listitem" href="http://www.cnblogs.com/vadim/category/1011691.html">Zabbix/ PMM</a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">随笔档案</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_0" class="listitem" href="http://www.cnblogs.com/vadim/archive/2017/11.html">2017年11月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_1" class="listitem" href="http://www.cnblogs.com/vadim/archive/2017/09.html">2017年9月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_2" class="listitem" href="http://www.cnblogs.com/vadim/archive/2017/08.html">2017年8月 (13)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_3" class="listitem" href="http://www.cnblogs.com/vadim/archive/2017/07.html">2017年7月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_4" class="listitem" href="http://www.cnblogs.com/vadim/archive/2017/06.html">2017年6月 (10)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">相册</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_0" class="listitem" href="http://www.cnblogs.com/vadim/gallery/1011990.html" rel="nofollow">MySQL(6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_2_Link_1" class="listitem" href="http://www.cnblogs.com/vadim/gallery/1011994.html" rel="nofollow">Oracle(3)</a></li>
+			
+				</ul>
+			
+	
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" style="display: none;">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"></div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/vadim/p/6930566.html">1. 浅谈MariaDB Galera Cluster架构(999)</a></li><li><a href="http://www.cnblogs.com/vadim/p/6930697.html">2. MariaDB Galera Cluster环境搭建及高可用测试(659)</a></li><li><a href="http://www.cnblogs.com/vadim/p/6984506.html">3. Oracle 12c新特性(For DBA)(428)</a></li><li><a href="http://www.cnblogs.com/vadim/p/7100683.html">4. MongoDB 高可用集群搭建(3.4)(408)</a></li><li><a href="http://www.cnblogs.com/vadim/p/7077159.html">5. 开源数据库选型(238)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap" style="display: none;">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap" style="display: none;">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script></div>
+	
+</div>
+
+</div>
+
+</div>
+
+
+
+</body></html>

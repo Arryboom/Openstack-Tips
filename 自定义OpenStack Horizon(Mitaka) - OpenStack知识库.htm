@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html><head>
+        <meta name="baidu-site-verification" content="HmwwEvMGyf">
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <title>自定义OpenStack Horizon(Mitaka) - OpenStack知识库</title>
+        <meta name="Keywords" content="知识库,微信开发,机器学习,swift,Android,Python,Java,大数据,云计算,PHP,Ruby,C++,JavaScript">
+        <meta name="Description" content="CSDN知识库，按照技术领域和知识结构对海量技术资源进行筛选整理，并通过相关机制进行审核收录。保证入库知识的系统性与优质性。并且所含技术知识图谱有清晰的学习脉络，是技术开发者完善自我知识体系、提升进阶的参照坐标">
+        <link href="http://lib.csdn.net/images/web/favicon.ico" rel="SHORTCUT ICON">
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/bootstrap.css">
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/common.css">
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/icon.css">
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/font-awesome.css">
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/iconfont.css">
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/colors.css" id="colors">
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/kl_read.css">
+        <script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/nr-1071.js"></script><script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/jquery-1.js" type="text/javascript"></script>
+        <script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/bootstrap.js" type="text/javascript"></script>
+        <script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/statist.js" type="text/javascript"></script>
+        <script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/view-history.js" type="text/javascript"></script>
+        <!--语法高亮-->
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shCore.css">
+        <link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shThemeDefault.css">
+        <script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shCore.js"></script>
+        <!--语法高亮end-->
+        <script type="text/javascript">window.NREUM||(NREUM={});NREUM.info = {"agent":"","beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"7dc04976a0","applicationID":"15009246","applicationTime":32.518777,"transactionName":"Z10AZEZSD0VTUExYCV4XJ0hEQQRFQVlLHiF1bE0fHhkAREZaW10DHwIMUVlWTgxbVw==","queueTime":0,"ttGuid":"b9b38f83a6aac0","agentToken":null}; window.NREUM||(NREUM={}),__nr_require=function(e,t,n){function r(n){if(!t[n]){var o=t[n]={exports:{}};e[n][0].call(o.exports,function(t){var o=e[n][1][t];return r(o||t)},o,o.exports)}return t[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(e,t,n){function r(){}function o(e,t,n){return function(){return i(e,[f.now()].concat(u(arguments)),t?null:this,n),t?void 0:this}}var i=e("handle"),a=e(2),u=e(3),c=e("ee").get("tracer"),f=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,t){s[t]=o(d+t,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),t.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,t){var n={},r=this,o="function"==typeof t;return i(l+"tracer",[f.now(),e,n],r),function(){if(c.emit((o?"":"no-")+"fn-start",[f.now(),r,o],n),o)try{return t.apply(this,arguments)}catch(e){throw c.emit("fn-err",[arguments,this,e],n),e}finally{c.emit("fn-end",[f.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,t){m[t]=o(l+t)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,f.now()])}},{}],2:[function(e,t,n){function r(e,t){var n=[],r="",i=0;for(r in e)o.call(e,r)&&(n[i]=t(r,e[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;t.exports=r},{}],3:[function(e,t,n){function r(e,t,n){t||(t=0),"undefined"==typeof n&&(n=e?e.length:0);for(var r=-1,o=n-t||0,i=Array(o<0?0:o);++r<o;)i[r]=e[t+r];return i}t.exports=r},{}],4:[function(e,t,n){t.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,t,n){function r(){}function o(e){function t(e){return e&&e instanceof r?e:e?c(e,u,i):i()}function n(n,r,o,i){if(!d.aborted||i){e&&e(n,r,o);for(var a=t(o),u=m(n),c=u.length,f=0;f<c;f++)u[f].apply(a,r);var p=s[y[n]];return p&&p.push([b,n,r,a]),a}}function l(e,t){v[e]=m(e).concat(t)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(n)}function g(e,t){f(e,function(e,n){t=t||"feature",y[n]=t,t in s||(s[t]=[])})}var v={},y={},b={on:l,emit:n,get:w,listeners:m,context:t,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",c=e("gos"),f=e(2),s={},p={},d=t.exports=o();d.backlog=s},{}],gos:[function(e,t,n){function r(e,t,n){if(o.call(e,t))return e[t];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[t]=r,r}var o=Object.prototype.hasOwnProperty;t.exports=r},{}],handle:[function(e,t,n){function r(e,t,n,r){o.buffer([e],r),o.emit(e,t,n)}var o=e("ee").get("handle");t.exports=r,r.ee=o},{}],id:[function(e,t,n){function r(e){var t=typeof e;return!e||"object"!==t&&"function"!==t?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");t.exports=r},{}],loader:[function(e,t,n){function r(){if(!x++){var e=h.info=NREUM.info,t=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&t))return s.abort();f(y,function(t,n){e[t]||(e[t]=n)}),c("mark",["onload",a()+h.offset],null,"api");var n=d.createElement("script");n.src="https://"+e.agent,t.parentNode.insertBefore(n,t)}}function o(){"complete"===d.readyState&&i()}function i(){c("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),c=e("handle"),f=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1071.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=t.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),c("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script>
+    <script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/share_002.js"></script><script type="text/javascript" charset="utf-8" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/tracking-1.js"></script><script type="text/javascript" charset="utf-8" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/main-1.js"></script></head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+<div id="wx_pic" style="margin:0 auto;display:none;">
+    <img src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/logos.jpg">
+</div>
+
+<style>
+	.fine.addfine.isfine{
+		background-position: -190px -250px;
+	}
+	.fine.addfine.isfine:hover{
+		background-position: -133px -250px;
+	}
+</style>
+<link rel="stylesheet" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/jquery-ui.css">
+<script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/jquery-ui.js"></script>
+<style type="text/css">.ui-tooltip{background:#d7eefb!important;color:#688ca1!important;font:12px"Helvetica Neue",Sans-Serif!important;border:1px solid#99CBE7!important;padding:2px 4px!important;border-radius:2px!important;width:auto!important;box-shadow:none!important}</style>
+
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushAppleScript.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushAS3.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushBash.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushColdFusion.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushCpp.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushCSharp.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushCss.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushDelphi.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushDiff.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushErlang.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushGroovy.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushJava.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushJavaFX.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushJScript.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushPerl.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushPhp.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushPlain.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushPowerShell.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushPython.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushRuby.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushSass.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushScala.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushSql.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushVb.js"></script>
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/shBrushXml.js"></script>
+<script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/view-history.js" type="text/javascript"></script>
+<input id="contentId" value="48511" type="hidden">
+<input id="sourceId" value="51301672" type="hidden">
+<input id="owner" value="u011521019" type="hidden">
+<input id="page" value="1" type="hidden">
+<input id="size" value="10" type="hidden">
+<input id="support" value="0" type="hidden">
+<div class="main clearfix">
+	<div class="mainread">
+		<div class="infortop clearfix">
+			<a href="http://lib.csdn.net/base/openstack" target="_blank"><img src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/1481875458834_834.jpg" alt="" width="40" height="40"></a>
+			<span class="text clearfix">
+				<span class="left">
+					<a href="http://lib.csdn.net/base/openstack" target="_blank">OpenStack</a><em>-</em>
+					<a href="http://lib.csdn.net/openstack/node/484" target="_blank">OpenStack入门</a><em>-</em>
+					<a href="http://lib.csdn.net/openstack/knowledge/913" target="_blank">使用Horizon简单操作</a>
+				</span>
+				<span class="right">
+					<i class="fa fa-eye" title="阅读数"></i><b>1010</b>
+					<span class="addAnchor" style="cursor:pointer">
+						<i class="fa fa-commenting-o" title="评论数"></i><b>4</b>
+					</span>
+				</span>
+			</span>
+		</div>
+		<div class="maincontent whitebk showbox">
+			<h1>自定义OpenStack Horizon(Mitaka)</h1>
+			<p class="author"><em>作者：</em><a href="http://my.csdn.net/u011521019" target="_blank">u011521019</a></p>
+			<div class="divtexts" style="max-height: 1600px;">
+				<h2 id="一写在前面">一、写在前面</h2>
+
+<p>这篇文章主要介绍了OpenStack Horizon<a href="http://docs.openstack.org/developer/horizon/topics/customizing.html">官方</a>介绍自定义配置，从而进行简单的翻译学习，这里主要基于目前最新的Mitaka来说明，提高自己在horizon组件开发方面的理解。因为时间仓促以及个人理解有限，固有错误的地方请指出，后续将会不定期的完善，近期将专门写一篇博文详细介绍自定义开发主题模版，谢谢！ <br>
+如果转载，请保留作者信息。  <br>
+邮箱地址：jpzhang.ht@gmail.com</p>
+
+
+
+<h2 id="二主题themes">二、主题（Themes）</h2>
+
+<p>Openstack Kilo 版本以来，OpenStack 
+Dashboard的Theme可以改变，通过使用一个主题。主题是一个目录，包含_variables.scss文件用来覆盖整个SCSS，并用另外一
+个的样式文件：“_styles.scss”指定Dashboard 加载的颜色代码。</p>
+
+<p>Openstack Mitaka 版本， 
+Horizon可以被配置为在运行时可用多个主题运行。它使用一个浏览器cookie，让用户在配置的主题之间切换。默认情况下，“Horizon”主题
+提供“default”和“material”。要配置或改变现有的主题，在local_settings.py设置AVAILABLE_THEMES元
+组列表，这样，（’name’, ‘label’, ‘path）</p>
+
+<p>name:主题的关键值是存储在cookie中。 <br>
+label:用户菜单下的主题切换显示的标签。 <br>
+path:主题的目录位置。路径必须是相对于openstack_dashboard目录或绝对路径到可访问的。</p>
+
+<p>要使用自定义主题，需要在local_settings.py设置AVAILABLE_THEME。如果你想以类似传统Horizon模式运行，设置可用的主题用一个元组，主题切换将无法使用。</p>
+
+<p>例如，多个主题的配置：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs vhdl has-numbering">AVAILABLE_THEMES = [
+    (<span class="hljs-attribute">'default</span>', <span class="hljs-attribute">'Default</span>', <span class="hljs-attribute">'themes</span>/<span class="hljs-keyword">default</span>'),
+    (<span class="hljs-attribute">'material</span>', <span class="hljs-attribute">'Material</span>', <span class="hljs-attribute">'themes</span>/material'),
+]</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>一个单一主题的配置:</p>
+
+
+
+<pre class="prettyprint"><code class="hljs vhdl has-numbering">AVAILABLE_THEMES = [
+    (<span class="hljs-attribute">'default</span>', <span class="hljs-attribute">'Default</span>', <span class="hljs-attribute">'themes</span>/<span class="hljs-keyword">default</span>'),
+]</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>自定义添加一个test主题： <br>
+/openstack_dashboard/local/local_settings.py</p>
+
+
+
+<pre class="prettyprint"><code class="hljs vhdl has-numbering">AVAILABLE_THEMES = [
+   (<span class="hljs-attribute">'default</span>', <span class="hljs-attribute">'Default</span>', <span class="hljs-attribute">'themes</span>/<span class="hljs-keyword">default</span>'),
+   (<span class="hljs-attribute">'material</span>', <span class="hljs-attribute">'Material</span>', <span class="hljs-attribute">'themes</span>/material'),
+   (<span class="hljs-attribute">'test</span>', <span class="hljs-attribute">'Test</span>', <span class="hljs-attribute">'themes</span>/test'),
+]</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul></pre>
+
+<p>无论是Dashboard自定义变量和Bootstrap变量都可以被覆盖。Dashboard SCSS变量的完整列表是可以改变的，见变量文件openstack_dashboard/static/dashboard/scss/_variables.scss。</p>
+
+<p>建立一个自定义主题，同时需要_variables.scss和_styles.scss样式文件，_variables.scss必须提供所有默认的Bootstrap变量值。</p>
+
+
+
+<h3 id="继承现有主题inherit-from-an-existing-theme">- 继承现有主题（Inherit from an Existing Theme）：</h3>
+
+<p>自定义主题必须实现所有的_variables.scss和_styles.scss样式，实现Horizon需要的Bootstrap变量。为了
+更加容易的实现，你可以继承默认主题中所需要的变量，并且只重写那些需要自定义的变量。从默认的主题继承，把这个放在你的主题样式文件
+_variables.scss第一行上：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs css has-numbering"><span class="hljs-at_rule">@<span class="hljs-keyword">import</span> <span class="hljs-string">"/themes/default/variables"</span></span>;</code><ul class="pre-numbering" style=""><li>1</li></ul></pre>
+
+<p>一旦你的主题设置进行了修改，你就必须重新生成静态文件，通过以下命令： <br>
+在horizon的目下没有找到该文件，有./run_tests.sh 测试脚本，后续验证。这里通过“python manage.py compress”进行压缩静态文件重新生成。</p>
+
+
+
+<pre class="prettyprint"><code class="hljs avrasm has-numbering">./run_tests<span class="hljs-preprocessor">.py</span> -m collectstatic</code><ul class="pre-numbering" style=""><li>1</li></ul></pre>
+
+<p>默认情况下，所有的主题由AVAILABLE_THEMES配置设置，在Horizon 
+运行collectstatic的过程中收集。默认情况下，主题被收集到static/themes目录中，但是这个位置可以通过
+local_settings.py变量进行定制：THEME_COLLECTION_DIR（默认没有定义，可以自己定义一个，如果没有自定义引用在
+settings.py定义的值）。一旦收集，任何主题配置是通过AVAILABLE_THEMES配置设置，可以继承其他主题的变量和样式。 <br>
+下面是一个从material主题继承的例子：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs css has-numbering"><span class="hljs-at_rule">@<span class="hljs-keyword">import</span> <span class="hljs-string">"/themes/material/variables"</span></span>;
+<span class="hljs-at_rule">@<span class="hljs-keyword">import</span> <span class="hljs-string">"/themes/material/styles"</span></span>;</code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre>
+
+<p>说明： <br>
+在／openstack_dashboard/settings.py ,引入了’django.contrib.staticfiles’ APP</p>
+
+
+
+<pre class="prettyprint"><code class="hljs bash has-numbering">INSTALLED_APPS = [
+    <span class="hljs-string">'openstack_dashboard'</span>,
+    <span class="hljs-string">'django.contrib.contenttypes'</span>,
+    <span class="hljs-string">'django.contrib.auth'</span>,
+    <span class="hljs-string">'django.contrib.sessions'</span>,
+    <span class="hljs-string">'django.contrib.messages'</span>,
+    <span class="hljs-string">'django.contrib.staticfiles'</span>,
+    <span class="hljs-string">'django.contrib.humanize'</span>,
+    <span class="hljs-string">'django_pyscss'</span>,
+    <span class="hljs-string">'openstack_dashboard.django_pyscss_fix'</span>,
+    <span class="hljs-string">'compressor'</span>,
+    <span class="hljs-string">'horizon'</span>,
+    <span class="hljs-string">'openstack_auth'</span>,
+]</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>13</li><li>14</li></ul></pre>
+
+<p>staticfiles:这是一个静态资源管理的app，django.contrib.staticfiles。老的版本中，静态资源管理一直是
+一个问题，部分app发布的时候需要带上静态资源，在部署的时候必须将每个app存在的static静态资源复制到同一个static目录。引入
+staticfiles之后，执行命令：Python manage.py collectstatic 
+就可以方便的将所用到的app中的静态资源复制到同一目录。</p>
+
+<p>staticfiles的主要相关配置与分析:</p>
+
+<ul>
+<li><p>STATIC_ROOT：运行上边提到的命令：python manage.py collectstatic 
+之后静态文件将要复制到的目录，这个目录只有在运行collectstatic时候才会用到，不能想当然的以为这个目录和MEDIA_ROOT的作用是相
+同的，否则在开发环境的时候可能一直无法找到静态文件。 <br>
+Horizon :</p>
+
+<pre class="prettyprint"><code class="hljs cs has-numbering"><span class="hljs-keyword">if</span> STATIC_ROOT <span class="hljs-keyword">is</span> None:
+STATIC_ROOT = os.path.abspath(os.path.<span class="hljs-keyword">join</span>(ROOT_PATH, <span class="hljs-string">'..'</span>, <span class="hljs-string">'static'</span>))</code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre></li>
+<li><p>STATIC_URL：设置的static file的起始url，这个只是在template里边引用到，这个参数和MEDIA_URL的含义相同。 <br>
+STATICFILES_DIRS：和TEMPLATE_DIRS的含义差不多，就是除了各个app的static目录以外还需要管理的静态文件设置，比如项目的公共文件差不多。 <br>
+Horizon:</p>
+
+<pre class="prettyprint"><code class="hljs python has-numbering"><span class="hljs-keyword">if</span> STATIC_URL <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span>:
+    STATIC_URL = WEBROOT + <span class="hljs-string">'static/'</span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre></li>
+</ul>
+
+<p>各个app目录下的静态文件static/django会自动找到，这个和app下的templates目录下差不多。 <br>
+在urls.py中加入静态文件处理的代码:</p>
+
+<pre><code>```
+#／openstack_dashboard/urls.py
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns  # noqa
+......
+# Development static app and project media serving using the staticfiles app.
+urlpatterns += staticfiles_urlpatterns()
+
+# Convenience function for serving user-uploaded media during
+# development. Only active if DEBUG==True and the URL prefix is a local
+# path. Production media should NOT be served by Django.
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+......
+```
+</code></pre>
+
+
+
+<h4 id="1bootswatch">1)、Bootswatch</h4>
+
+<p><a href="http://bootswatch.com/">Bootswatch</a> 是一款基于 Bootstrap 的免费主题包，其中包含了丰富的 Bootstrap 主题，你可以下载安装这些主题的 CSS 文件，实现各种各样漂亮的 Bootstrap 主题风格。 <br>
+Horizon material主题使用Bootswatch 
+SCSS包。正因为如此，它是简单的使用一个现存的Bootswatch主题为基础。Bootstrap为第三方的静态资源库，添加到/horizon
+/lib/,下面是一个例子，如何从bootswatch的darkly主题的继承：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs css has-numbering"><span class="hljs-at_rule">@<span class="hljs-keyword">import</span> <span class="hljs-string">"/horizon/lib/bootswatch/darkly/variables"</span></span>;
+<span class="hljs-at_rule">@<span class="hljs-keyword">import</span> <span class="hljs-string">"/horizon/lib/bootswatch/darkly/bootswatch"</span></span>;</code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre>
+
+
+
+<h3 id="组织主题目录organizing-your-theme-directory">- 组织主题目录（Organizing Your Theme Directory）：</h3>
+
+<p>自定义主题目录可以不同，这取决于所期望的，因为它可以包含静态文件以及Django模板。它可以根据使用不同包括特殊的子目录:static,templates和img。</p>
+
+
+
+<h4 id="1static-目录the-static-folder">1)、static 目录（The static Folder）</h4>
+
+<p>如果主题文件夹包含称为静态（static）的子文件夹，那么该子文件将被用来作为为主题的静态文件根目录。即，Horizon在子文件夹的_variables.scss和_styles.scss文件的内容也将在/static/custom中。</p>
+
+
+
+<h4 id="2templates-目录the-templates-folder">2)、templates 目录（The templates Folder）</h4>
+
+<p>如果主题文件夹包含子文件夹的模板,那么子文件夹的路径将设置到TEMPLATE_DIRS元组，允许主题特定的模板定制。</p>
+
+
+
+<h4 id="3使用模板文件夹using-the-templates-folder">3)、使用模板文件夹（Using the templates Folder）</h4>
+
+<p>任何Django模板用于通过一个主题可以通过覆盖。这允许在一定范围内高度定制的用户UI可以存在不同的主题。任何模板覆盖必须遵守相同的目录结构。  <br>
+例如,如果你希望定制侧边栏,Horizon定义在horizon/_sidebar.html模板中。你将需要在你的主题模版目录下建立 { theme_path }/templates/horizon/_sidebar.html，用来覆盖原有的侧边栏。</p>
+
+
+
+<h4 id="4img文件夹the-img-folder">4)、img文件夹(The img Folder)</h4>
+
+<p>如果主题文件夹包含一个img的静态根目录,那么所有的图像利用{ % themable_asset % } templatetag可以覆盖。 <br>
+这些图片资源包括： logo.png, splash-logo.png 和 favicon.ico，但是覆盖dashboard/img文件夹中使用的SVG/GIF目前不支持。</p>
+
+
+
+<h3 id="自定义logocustomizing-the-logo">- 自定义Logo（Customizing the Logo）：</h3>
+
+
+
+<h4 id="1简单的simple">1)、简单的(Simple)</h4>
+
+<p>如果你想自定义Horizon启动界面（登录框）上或在顶部导航栏使用的Logo，那么你需要在你的主题的静态根目录下创建一个img目录并放置你的自定义logo.png或者logo-splash.png。</p>
+
+<p>如果你想用以前的方法来覆盖logo.png，如果使用的图像比顶部导航的高度大，则图像将限制，以适应高度值。 
+你可以通过自定义SCSS变量$navbar-height自定义顶部导航栏的高度。如果图像的高度大于导航栏高度，那么图像将保持其原有的分辨率和尺
+寸，并简单地在可用空间垂直居中。</p>
+
+<p>在Kilo版本中，需要在horizon img文件夹中替换成你自己的图片，或者修改horizon样式文件改变图片指向，指向你的图片地址。</p>
+
+
+
+<h4 id="2高级的advanced">2)、高级的（Advanced）</h4>
+
+<p>如果你需要做更多的自定义logo不是简单地替换现有PNG，那么你也可以通过自定义主题_brand.html进行覆盖。要使用这种技术，只是简
+单的将 templates/header/_brand.html 
+添加到您的自定义主题的根目录下，并直接添加logo到文件中。有关如何做到这一点，见openstack_dashboard/themes
+/material/templates/header/_brand.html一个例子。</p>
+
+<p>splash/login 登录面板也可以通过添加templates/auth/_splash.html定制。见：openstack_dashboard/themes/material/templates/auth/_splash.html 为例。</p>
+
+
+
+<h2 id="三branding-horizon">三、Branding Horizon</h2>
+
+<p>作为Liberty发布以来，Horiozn已经开始以符合更严格地Bootstrap标准，努力去拥抱更加适应网页设计以及缓解未来需要为每一个版本重新全新的功能。</p>
+
+
+
+<h3 id="支持组件supported-components">- 支持组件（Supported Components）：</h3>
+
+<p>以下组件，由发布组织，是唯一的，充分利用Bootstrap的主题架构。</p>
+
+
+
+<h4 id="1800-liberty">1)、8.0.0 (Liberty)：</h4>
+
+<ul>
+<li>Top Navbar</li>
+<li>Side Nav</li>
+<li>Pie Charts</li>
+</ul>
+
+
+
+<h4 id="2900-mitaka">2)、9.0.0 (Mitaka)：</h4>
+
+<ul>
+<li>Tables</li>
+<li>Bar Charts</li>
+<li>Login</li>
+<li>Tabs</li>
+<li>Alerts</li>
+<li>Checkboxes</li>
+</ul>
+
+
+
+<h3 id="步骤一step-1">- 步骤一(Step 1)：</h3>
+
+<p>为“Horizon”创建自定义主题所需的第一步是创建自定义Bootstrap主题。有几个工具可以帮助这：</p>
+
+<ul>
+<li><a href="http://bootswatchr.com/create#!">Bootswatchr</a></li>
+<li><a href="http://paintstrap.com/">Paintstrap</a></li>
+<li><a href="http://getbootstrap.com/customize/">Bootstrap</a></li>
+</ul>
+
+<p>注意：Bootstrap默认使用LESS，但是我们使用SCSS，以上所有的工具将提供variables.less文件，将需要转换_variables.scss</p>
+
+
+
+<h3 id="顶部导航栏top-navbar">- 顶部导航栏(Top Navbar)：</h3>
+
+<p>在Horizon上方导航栏现在使用的是原生Bootstrap <a href="https://getbootstrap.com/components/#navbar">navbar</a>导航栏。有若干可用于定制这个元素的变量。请参阅Navbar部分（Bootstrap官网），导航栏变量可以设置的细节，navbar-default：使用导航栏默认的变量。</p>
+
+
+
+<pre class="prettyprint"><code class="hljs lasso has-numbering"><span class="hljs-subst">&lt;</span>nav class<span class="hljs-subst">=</span><span class="hljs-string">"navbar navbar-default"</span><span class="hljs-subst">&gt;</span>
+<span class="hljs-attribute">...</span><span class="hljs-attribute">...</span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre>
+
+<p>重要的是还要注意,导航现在使用Bootstrap下拉框,变量是可定制的。请参见下拉部分变量的文件。</p>
+
+<p>顶部导航栏，针对小屏幕做了相应式设计。当屏幕窗口大小缩小时（$screen-sm），导航栏将压缩成一种更适合小屏幕设计。</p>
+
+
+
+<h3 id="侧边航栏side-nav">- 侧边航栏(Side Nav)：</h3>
+
+<p>侧导航组件已经使用Bootstrap <a href="http://getbootstrap.com/components/#nav-pills">Pills</a>重构。请查看你的变量文件中的具体变量，以自定义。</p>
+
+
+
+<h3 id="图表charts">- 图表(Charts)：</h3>
+
+
+
+<h4 id="1饼图pie-charts">1)、饼图（Pie Charts）：</h4>
+
+<p>饼图SVG元素。 SVG元素只允许一个基本元素的外观和感觉自定义的CSS（即颜色，大小）。 <br>
+因为在Bootstrap 框架中没有专门的“Charts”，图表的外观和感觉是从主题的其他元素中继承的。请看_pie_charts.scss细节。</p>
+
+
+
+<h4 id="2条形图bar-charts">2）、条形图（Bar Charts）：</h4>
+
+<p>条形图可以是Bootstrap进度条或SVG元素。任何一种实现都将使用Bootstrap 框架的进度条样式。 <br>
+SVG实现不使用自定义进度条的高度，所以建议尽可能使用Bootstrap进度条。 <br>
+请参阅 barcharts.scss可以定制什么细节。请参阅Progress bars进度条部分的变量为特定变量来定制。</p>
+
+
+
+<h4 id="表格tables">表格（Tables）</h4>
+
+<p>该标准的Django 表格利用原生Bootstrap的表格。请参阅<a href="http://getbootstrap.com/components/#panels-tables">Tables</a> 表格部分的变量来定制。</p>
+
+<p>默认标准Bootstrap表格无边框。如果您希望添加边框，如默认主题，见openstack_dashboard/themes/default/horizon/components/_tables.scss</p>
+
+
+
+<h3 id="登录login">- 登录（Login）：</h3>
+
+
+
+<h4 id="1登录页面login-splash-page">1)、登录页面（Login Splash Page）：</h4>
+
+<p>登录页现在使用一个标准Bootstrap面板。查看Bootstrap <a href="http://getbootstrap.com/components/#panels">Panels</a>面板部分变量，以方便自定义。</p>
+
+
+
+<h4 id="2模态登录modal-login">2)、模态登录（Modal Login）：</h4>
+
+<p>该模式的登录体验，切换区域时使用，使用标准的Bootstrap对话框。请参阅Bootstrap <a href="http://getbootstrap.com/javascript/#modals">Modal</a>模块部分的变量进行特定变量定制。</p>
+
+
+
+<h3 id="标签tabs">- 标签（Tabs）：</h3>
+
+<p>标准标签使用Bootstrap标签标记。请参阅Bootstrap <a href="http://getbootstrap.com/components/#nav-tabs">Tabs</a>模块部分的变量进行特定变量定制。</p>
+
+
+
+<h3 id="警报alerts">- 警报（Alerts）：</h3>
+
+<p>消息提醒使用基本的Bootstrap brand的颜色。请参阅Bootstrap <a href="http://getbootstrap.com/components/#alerts">Alerts</a>模块部分的变量进行特定变量定制。</p>
+
+
+
+<h3 id="复选框checkboxes">- 复选框（Checkboxes）：</h3>
+
+<p>Horizon使用图标字体表示复选框。为了定制这个，你只需要重写标准的说明。例子参考：themes/material/static/horizon/components/_checkboxes.scss</p>
+
+
+
+<h3 id="bootswatch和material设计bootswatch-and-material-design">- bootswatch和Material设计（Bootswatch and Material Design）：</h3>
+
+<p><a href="http://bootswatch.com/">bootswatch</a>是一个Bootstrap免费主题可以使用在Horizon。</p>
+
+<p>为了展示什么可以做，以提高现有的Bootstrap主题，Horizon现在包括一个次要主题，基于Google’s Material Design。</p>
+
+<p>bootswatch提供了许多其他的主题，这一些主题与Horizon完全兼容，允许容易的切换和自定义。</p>
+
+
+
+<h3 id="开发技巧development-tips">- 开发技巧（Development Tips）：</h3>
+
+<p>当开发用于Horizon一个新的主题，它要求该动态生成静态目录中的每个变化之后被清除和服务器重新启动。这并不总是理想。如果你想开发，而不是
+每次都重新启动服务器，建议你配置开发环境，不是在离线模式下运行。简单地配置在local_settings.py以下设置：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs ini has-numbering"><span class="hljs-setting">COMPRESS_OFFLINE = <span class="hljs-value"><span class="hljs-keyword">False</span></span></span>
+<span class="hljs-setting">COMPRESS_ENABLED = <span class="hljs-value"><span class="hljs-keyword">False</span></span></span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre>
+
+
+
+<h2 id="四更改站点标题changing-the-site-title">四、更改站点标题(Changing the Site Title)</h2>
+
+<p>OpenStack的 Dashboard网站标题（即“OpenStack Dashboard”），可以通过在local_settings.py添加SITE_BRANDING参数的值进行覆盖。 <br>
+文件local_settings.py在Horizon上目录路径： <br>
+openstack_dashboard/local/local_settings.py</p>
+
+
+
+<h2 id="五更改brand链接changing-the-brand-link">五、更改Brand链接(Changing the Brand Link)</h2>
+
+<p>Logo也用作超链接，默认是重定向到Horizon：user_home。通过在local_settings.py 设置SITE_BRANDING_LINK的值，例如:<a href="http://sample-company.com/">http://sample-company.com</a>，超链接的目标可以改变。</p>
+
+
+
+<h2 id="六自定义页脚customizing-the-footer">六、自定义页脚(Customizing the Footer)</h2>
+
+<p>可以使用自定义主题的模板覆盖全局和登录页脚。只需添加_footer.html为全局页脚覆盖或_login_footer.html登录页面的页脚在你的主题模板目录。</p>
+
+
+
+<h2 id="七修改现有的horizon和panelsmodifying-existing-dashboards-and-panels">七、修改现有的Horizon和Panels（Modifying Existing Dashboards and Panels）</h2>
+
+<p>如果你想改变dashboards或panels，成为你代码库的一部分，你可以指定整个Horizon网站被初始化后，载入一个自定义的Python模块，在URLconf建立前。常见的定制站点的需求:</p>
+
+<ul>
+<li>从现有的dashboard注册或注销panels。</li>
+<li>改变dashboards和panels的名字。</li>
+<li>dashboards或panel group中panels重新排序。</li>
+</ul>
+
+<p>加载默认Horizon panels基于openstack_dashboard/enabled/ 
+文件夹内的文件。如果有多个文件，这些文件加载基于文件名顺序。默认文件夹中提供了一些示例文件，有.EXAMPLE后缀的文件。开发人员和部署人员应该
+努力尽可能地使用这种方法定制,并支持这个偏好给出更的方法如：monkey patch (猴子补丁) 
+用来在运行时动态修改已有的代码,而不需要修改原始代码和覆盖文件。</p>
+
+
+
+<h2 id="八horizon定制重写模块horizon-customization-module-overrides">八、Horizon定制/重写模块(Horizon customization module (overrides))</h2>
+
+<p>Horizon有一个全局覆盖机制可进行自定义，尚未定制通过配置设置。这个文件可以通过启用文件夹的自定义方法来执行猴子补丁和其他形式的定制。 <br>
+这种方法的定制是部署和使用Horizon，应该不惜一切代价避免horizon插件。插件需要这个级别的猴子补丁和灵活性，应该寻找改变自己的<strong>init</strong>.py文件和通过其他方式进行自定义。</p>
+
+<p>指定包含你修改的Python模块，在local_settings.py HORIZON_CONFIG字典添加关键customization_module。该值应包含你的python模块路径的字符串。 例：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs bash has-numbering">HORIZON_CONFIG = {
+    <span class="hljs-string">"customization_module"</span>: <span class="hljs-string">"my_project.overrides"</span>
+}</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>你可以做任何你喜欢的模块定制。例如，可以更改panel的名称：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs avrasm has-numbering">from django<span class="hljs-preprocessor">.utils</span><span class="hljs-preprocessor">.translation</span> import ugettext_lazy as _
+
+import horizon
+
+<span class="hljs-preprocessor"># Rename "User Settings" to "User Options"</span>
+settings = horizon<span class="hljs-preprocessor">.get</span>_dashboard(<span class="hljs-string">"settings"</span>)
+user_panel = settings<span class="hljs-preprocessor">.get</span>_panel(<span class="hljs-string">"user"</span>)
+user_panel<span class="hljs-preprocessor">.name</span> = _(<span class="hljs-string">"User Options"</span>)</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li></ul></pre>
+
+<p>或获得panel实例：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs ini has-numbering"><span class="hljs-setting">projects_dashboard = <span class="hljs-value">horizon.get_dashboard(<span class="hljs-string">"project"</span>)</span></span>
+<span class="hljs-setting">instances_panel = <span class="hljs-value">projects_dashboard.get_panel(<span class="hljs-string">"instances"</span>)</span></span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre>
+
+<p>并限制访问Keystone Admin角色的用户：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs php has-numbering">permissions = <span class="hljs-keyword">list</span>(getattr(instances_panel, <span class="hljs-string">'permissions'</span>, []))
+permissions.append(<span class="hljs-string">'openstack.roles.admin'</span>)
+instances_panel.permissions = tuple(permissions)</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>或者完全删除它：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs markdown has-numbering">projects<span class="hljs-emphasis">_dashboard.unregister(instances_</span>panel.<span class="hljs-strong">__class__</span>)</code><ul class="pre-numbering" style=""><li>1</li></ul></pre>
+
+<p>你不能注销default_panel。如果你想删除一个默认的面板，你需要做一个不同的面板作为default_panel，然后注销前者。</p>
+
+<p>例如，如果你希望从项目中删除overview_panel dashboard，你可以做以下修改：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs cmake has-numbering"><span class="hljs-keyword">project</span> = horizon.get_dashboard('<span class="hljs-keyword">project</span>')
+<span class="hljs-keyword">project</span>.default_panel = <span class="hljs-string">"instances"</span>
+overview = <span class="hljs-keyword">project</span>.get_panel('overview')
+<span class="hljs-keyword">project</span>.unregister(overview.__class__)</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>你还可以用自己的版本重写现有的方法：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs avrasm has-numbering"><span class="hljs-preprocessor"># Disable Floating IPs</span>
+from openstack_dashboard<span class="hljs-preprocessor">.dashboards</span><span class="hljs-preprocessor">.project</span><span class="hljs-preprocessor">.access</span>_and_security import tabs
+from openstack_dashboard<span class="hljs-preprocessor">.dashboards</span><span class="hljs-preprocessor">.project</span><span class="hljs-preprocessor">.instances</span> import tables
+
+NO = lambda *<span class="hljs-built_in">x</span>: False
+
+tabs<span class="hljs-preprocessor">.FloatingIPsTab</span><span class="hljs-preprocessor">.allowed</span> = NO
+tables<span class="hljs-preprocessor">.AssociateIP</span><span class="hljs-preprocessor">.allowed</span> = NO
+tables<span class="hljs-preprocessor">.SimpleAssociateIP</span><span class="hljs-preprocessor">.allowed</span> = NO
+tables<span class="hljs-preprocessor">.SimpleDisassociateIP</span><span class="hljs-preprocessor">.allowed</span> = NO</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li></ul></pre>
+
+<p>你也可以定制哪些列显示在一个现有表,通过重新定义的columns属性的 Meta class。这可以通过3个步骤实现: <br>
+1、扩展你希望修改的表 <br>
+2、在新表的Meta class下重新定义columns属性 <br>
+3、修改有关table_class属性使其指向新的表 <br>
+例如，如果你想从NetworksTable删除Admin State列，你可以做以下：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs python has-numbering"><span class="hljs-keyword">from</span> openstack_dashboard.dashboards.project.networks <span class="hljs-keyword">import</span> tables
+<span class="hljs-keyword">from</span> openstack_dashboard.dashboards.project.networks <span class="hljs-keyword">import</span> views
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyNetworksTable</span><span class="hljs-params">(tables.NetworksTable)</span>:</span>
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Meta</span><span class="hljs-params">(tables.NetworksTable.Meta)</span>:</span>
+        columns = (<span class="hljs-string">'name'</span>, <span class="hljs-string">'subnets'</span>, <span class="hljs-string">'shared'</span>, <span class="hljs-string">'status'</span>)
+
+views.IndexView.table_class = MyNetworksTable</code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul></pre>
+
+<p>如果你想添加一个列可以覆盖父表以类似的方式,添加新的列定义,然后使用Meta columns属性控制列顺序。</p>
+
+<p>注意：my_project.overrides必须通过运行Horizon 
+Python过程可导入。如果你的模块没有安装为一个系统范围的python包,你可以使它安装(例如：运行setup.py)或者你可以调整WSGI服
+务器所使用的python路径包括它的位置。 <br>
+也许最简单的方法是在Apache配置文件的WSGIDaemonProcess Horizon添加一个python-path路径参数。 <br>
+假如你的my_project模块在 /opt/python/my_project，你要使其看起来像下面这样：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs r has-numbering">WSGIDaemonProcess [<span class="hljs-keyword">...</span> existing options <span class="hljs-keyword">...</span>] python-path=/opt/python</code><ul class="pre-numbering" style=""><li>1</li></ul></pre>
+
+
+
+<h2 id="九图标icons">九、图标(Icons)</h2>
+
+<p>Horizon 使用 Font Awesome字体图标，在代码中如何使用，请参阅Font Awesome。 <br>
+Table Action添加图标，使用图标属性。例子:</p>
+
+
+
+<pre class="prettyprint"><code class="hljs haskell has-numbering"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">CreateSnapshot</span><span class="hljs-container">(<span class="hljs-title">tables</span>.<span class="hljs-type">LinkAction</span>)</span>:
+name = “snapshot” verbose_name = _<span class="hljs-container">(“<span class="hljs-type">Create</span> <span class="hljs-type">Snapshot</span>”)</span> icon = “camera”</span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre>
+
+<p>此外，站点范围内的默认按钮类可以通过设置ACTION_CSS_CLASSES,在你的local_settings.py文件中的所有操作按钮类的元组进行配置。</p>
+
+
+
+<h2 id="十自定义样式表custom-stylesheets">十、自定义样式表(Custom Stylesheets)</h2>
+
+<p>自定义dashboards样式表。Horizon的基本模板openstack_dashboard/templates/base.html定义了多个blocks,可以覆盖。</p>
+
+<p>定义自定义css文件仅适用于一个特定的dashboards,dashboards的模板文件夹中创建一个基础模板,继承Horizon的基本模
+板如openstack_dashboard/dashboards/my_custom_dashboard/ 
+templates/my_custom_dashboard/base.html。</p>
+
+<p>在这个模板中，重新定义CSS block。 （不要忘了包含stylesheets.html,stylesheets.html其中包括所有的Horizon的默认样式表。）：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs django has-numbering"><span class="xml"></span><span class="hljs-template_tag">{% <span class="hljs-keyword">extends</span> 'base.html' %}</span><span class="xml">
+
+</span><span class="hljs-template_tag">{% <span class="hljs-keyword">block</span> css %}</span><span class="xml">
+  </span><span class="hljs-template_tag">{% <span class="hljs-keyword">include</span> "_stylesheets.html" %}</span><span class="xml">
+
+  </span><span class="hljs-template_tag">{% <span class="hljs-keyword">load</span> compress %}</span><span class="xml">
+  </span><span class="hljs-template_tag">{% compress css %}</span><span class="xml">
+  <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">'</span></span></span><span class="hljs-variable">{{ STATIC_URL }}</span><span class="xml"><span class="hljs-tag"><span class="hljs-value">my_custom_dashboard/scss/my_custom_dashboard.scss'</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">'text/scss'</span> <span class="hljs-attribute">media</span>=<span class="hljs-value">'screen'</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">'stylesheet'</span> /&gt;</span>
+  </span><span class="hljs-template_tag">{% endcompress %}</span><span class="xml">
+</span><span class="hljs-template_tag">{% <span class="hljs-keyword">endblock</span> %}</span><span class="xml"></span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li></ul></pre>
+
+<p>自定义样式表，然后添加到dashboard自己的静态文件夹openstack_dashboard/dashboards
+/my_custom_dashboard/static/my_custom_dashboard/scss
+/my_custom_dashboard.scss。</p>
+
+<p>所有dashboard的模板必须从dashboard的base.html继承：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs r has-numbering">{% extends <span class="hljs-string">'my_custom_dashboard/base.html'</span> %}
+<span class="hljs-keyword">...</span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li></ul></pre>
+
+
+
+<h2 id="十一自定义javascriptcustom-javascript">十一、自定义JavaScript(Custom Javascript)</h2>
+
+<p>同样，添加自定义样式（见上文），它可以包括自定义的JavaScript文件。</p>
+
+<p>所有Horizon默认的JavaScript文件在openstack_dashboard/templates/horizon/_scripts.html 模板中定义引用。</p>
+
+<p>添加自定义的JavaScript文件，在你的dashboard 
+openstack_dashboard/dashboards/my_custom_dashboard/templates/my_custom_dashboard/_scripts.html
+ 继承horizon/_scripts.html创建一个_scripts.html。在此模板覆盖 block 
+custom_js_files包含你的自定义JavaScript文件：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs django has-numbering"><span class="xml"></span><span class="hljs-template_tag">{% <span class="hljs-keyword">extends</span> 'horizon/_scripts.html' %}</span><span class="xml">
+</span><span class="hljs-template_tag">{% <span class="hljs-keyword">block</span> custom_js_files %}</span><span class="xml">
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'</span></span></span><span class="hljs-variable">{{ STATIC_URL }}</span><span class="xml"><span class="hljs-tag"><span class="hljs-value">my_custom_dashboard/js/my_custom_js.js'</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">'text/javascript'</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">'utf-8'</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</span><span class="hljs-template_tag">{% <span class="hljs-keyword">endblock</span> %}</span><span class="xml"></span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li><li>4</li></ul></pre>
+
+<p>覆盖你的dashboard基本模版openstack_dashboard/dashboards/my_custom_dashboard/templates/my_custom_dashboard/base.html 中的 block js：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs django has-numbering"><span class="xml"></span><span class="hljs-template_tag">{% <span class="hljs-keyword">block</span> js %}</span><span class="xml">
+    </span><span class="hljs-template_tag">{% <span class="hljs-keyword">include</span> "my_custom_dashboard/_scripts.html" %}</span><span class="xml">
+</span><span class="hljs-template_tag">{% <span class="hljs-keyword">endblock</span> %}</span><span class="xml">  </span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li></ul></pre>
+
+<p>其结果生成一个由horizon js脚本和dashboard自定义js脚本压缩的一个js文件。</p>
+
+<p>此外，一些其他地方要求把他们放到页面的<code>&lt;head&gt;</code>标签内。要做到这一点，将它们放置在horizon/_custom_head_js.html 文件中。类似上面提到的_scripts.html文件：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs handlebars has-numbering"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'</span></span></span><span class="hljs-expression">{{ <span class="hljs-variable">STATIC</span>_<span class="hljs-variable">URL</span> }}</span><span class="xml"><span class="hljs-tag"><span class="hljs-value">/my_custom_dashboard/js/my_marketing_js.js'</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">'text/javascript'</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">'utf-8'</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span></span></code><ul class="pre-numbering" style=""><li>1</li></ul></pre>
+
+<p>或者你可以直接在文件中粘贴你的脚本，确保使用适当的标签：</p>
+
+
+
+<pre class="prettyprint"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span>&gt;</span><span class="javascript">
+<span class="hljs-comment">//some javascript</span>
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span></code><ul class="pre-numbering" style=""><li>1</li><li>2</li><li>3</li></ul></pre>
+
+
+
+<h2 id="十二定制的元数据属性customizing-meta-attributes">十二、定制的元数据属性(Customizing Meta Attributes)</h2>
+
+<p>要添加自定义元数据属性到项目的基本模板，包括在horizon/_custom_meta.html文件。这个文件的内容将只是默认Horizon meta标签后插入到页面的<code>&lt;HEAD&gt;</code>。</p>
+				<div class="divmark" style="display: block;"></div>
+			</div>
+			<div class="divcodes" style="display: block;">
+				<div class="pmores">
+					<a href="">展开更多<i class="fa fa-caret-down"></i></a>
+				</div>
+			</div>
+			<div class="pinfortext">
+				<a href="http://blog.csdn.net/u011521019/article/details/51301672" target="_blank">查看原文&gt;&gt;</a>
+				<span>
+					
+					<a href="javascript:void(0)" id="click_logo" title="喜欢">
+						<span><i class="fa fa-heart-o" id="support_logo"></i></span>
+						<em>0</em>
+					</a>
+					
+				</span>
+			</div>
+
+			<div class="divcontent bordertop">
+				<span class="title">看过本文的人也看了：</span>
+				<ul class="clearfix">
+					
+						
+						<li>
+							<a class="yellow" href="http://lib.csdn.net/base/openstack/structure" target="_blank" title="OpenStack知识结构图">
+								<i class="cirle"></i>
+								OpenStack知识结构图
+							</a>
+						</li>
+						
+					
+						
+						<li>
+							<div class="csdn-tracking-statistics" data-mod="popu_248_lib_33">
+								<a basename="openstack" knid="913" contentid="47407" href="http://lib.csdn.net/article/openstack/47407" target="_blank" title="OpenStack Mitaka Horizon 主题开发">
+									<i class="cirle"></i>
+									OpenStack Mitaka Horizon 主题开发
+								</a>
+							</div>
+						</li>
+						
+					
+						
+						<li>
+							<div class="csdn-tracking-statistics" data-mod="popu_248_lib_33">
+								<a basename="openstack" knid="913" contentid="48509" href="http://lib.csdn.net/article/openstack/48509" target="_blank" title="Horizon 源码阅读（三）—— Horizon 用户登录流程">
+									<i class="cirle"></i>
+									Horizon 源码阅读（三）—— Horizon ...
+								</a>
+							</div>
+						</li>
+						
+					
+						
+						<li>
+							<div class="csdn-tracking-statistics" data-mod="popu_248_lib_33">
+								<a basename="openstack" knid="913" contentid="48514" href="http://lib.csdn.net/article/openstack/48514" target="_blank" title="Horizon 源码阅读（四）—— 调用Novaclient流程">
+									<i class="cirle"></i>
+									Horizon 源码阅读（四）—— 调用Novac...
+								</a>
+							</div>
+						</li>
+						
+					
+						
+						<li>
+							<div class="csdn-tracking-statistics" data-mod="popu_248_lib_33">
+								<a basename="openstack" knid="913" contentid="48510" href="http://lib.csdn.net/article/openstack/48510" target="_blank" title="OpenStack Horizon 参数设置说明">
+									<i class="cirle"></i>
+									OpenStack Horizon 参数设置说明
+								</a>
+							</div>
+						</li>
+						
+					
+						
+						<li>
+							<div class="csdn-tracking-statistics" data-mod="popu_248_lib_33">
+								<a basename="openstack" knid="913" contentid="48508" href="http://lib.csdn.net/article/openstack/48508" target="_blank" title="horizon开发环境搭建及keystone使用总结">
+									<i class="cirle"></i>
+									horizon开发环境搭建及keystone使用总结
+								</a>
+							</div>
+						</li>
+						
+					
+				</ul>
+				<div class="clearfix">
+				</div>
+			</div>
+		</div>
+		<div class="comments">
+			<div class="commentdiv">
+				<a name="focustext" id="focustext"></a>
+				<span class="title01">发表评论</span>
+				<div class="textdiv">
+					<textarea placeholder="输入评论内容"></textarea>
+				</div>
+				<div class="subdiv">
+					
+					<input value="发表" onclick="toPassport();return false;" type="submit">
+					
+				</div>
+			</div>
+			<div class="replaydiv">
+				<p class="ptitles">
+					<em>4</em>个评论
+				</p>
+				<ul class="listreplays clearfix bottomxian" id="comment_list">
+					
+	
+	<li class="clearfix">
+		<a class="photos" href="http://my.csdn.net/aaaaaaaa123321222" target="_blank">
+			<img src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/4_aaaaaaaa123321222.gif" alt="" width="50" height="50">
+		</a>
+		<div class="text">
+			<a href="http://my.csdn.net/aaaaaaaa123321222" target="_blank">aaaaaaaa123321222</a>
+			<p class="pcontent">
+				要是配上图就好了 不过还是感谢
+			</p>
+			<p class="editext clearfix">
+				<span class="date">2017-02-06 13:40:35</span><a href="javascript:void(0)" parent_id="6586324" onclick="showOrHide(this);return false;">回复</a>
+			</p>
+
+			<div class="replayinfor" style="display: none">
+				<div class="replaydiv">
+					<div class="jiao">
+					</div>
+					<textarea></textarea>
+				</div>
+				<div class="replaybtn">
+					<button class="replaybtns" parent_name="aaaaaaaa123321222" parent_id="6586324" onclick="setComment(this)">回复</button>
+				</div>
+			</div>
+
+		</div>
+	</li>
+	
+
+	
+	<li class="clearfix">
+		<a class="photos" href="http://my.csdn.net/oSuiFengZou" target="_blank">
+			<img src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/4_osuifengzou.gif" alt="" width="50" height="50">
+		</a>
+		<div class="text">
+			<a href="http://my.csdn.net/oSuiFengZou" target="_blank">oSuiFengZou</a>
+			<p class="pcontent">
+				
+你好，我在win10上用virtualenv创建的一个虚拟环境，里面安装的依赖包安装的是mitaka版本，但是horizon代码用的是kilo版
+本，目前兼容问题暂时没问题，但是在js、css打包编译的时候出问题了，我已经设置了COMPRESS_OFFLINE=True,  
+manage.py collectstatic  没问题，但是manage.py  
+compress的时候，出现了下面的错误：SuspiciousFileOperation: The joined path 
+(E:\bootstrap\scss\bootstrap\_variables.scss) is located outside of the 
+base path component (E:\kilo\horizon-mitaka\static)
+			</p>
+			<p class="editext clearfix">
+				<span class="date">2016-08-05 09:50:46</span><a href="javascript:void(0)" parent_id="6174039" onclick="showOrHide(this);return false;">回复</a>
+			</p>
+
+			<div class="replayinfor" style="display: none">
+				<div class="replaydiv">
+					<div class="jiao">
+					</div>
+					<textarea></textarea>
+				</div>
+				<div class="replaybtn">
+					<button class="replaybtns" parent_name="oSuiFengZou" parent_id="6174039" onclick="setComment(this)">回复</button>
+				</div>
+			</div>
+
+		</div>
+	</li>
+	
+
+	
+	<li class="replayli clearfix">
+		<a class="photos" href="http://my.csdn.net/u011521019" target="_blank">
+			<img src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/4_u011521019.jpg" alt="" width="50" height="50">
+		</a>
+		<div class="text subtext">
+			<a href="http://my.csdn.net/u011521019">u011521019</a>
+			<p class="pcontent">
+				
+				<em>回复<i>oSuiFengZou：</i></em>
+				
+你好，近段时间比较忙，没有及时回复你的消息，不知道你问题解决了没有，我看了下，目前也不是很清楚是什么地方的问题，感觉应该是static文件加载路
+径引起的，自己也没有在win10上通过virtualenv安装过openstack，所以提供不了很多帮助。个人建议通过在win10 
+上运行ubuntu的虚拟机来部署openstack，这样出现的问题会比较少些。
+			</p>
+			<p class="editext clearfix">
+				<span class="date">2016-08-08 13:01:16</span><a href="javascript:void(0)" parent_id="6180624" onclick="showOrHide(this);return false;">回复</a>
+			</p>
+
+			<div class="replayinfor" style="display: none">
+				<div class="replaydiv">
+					<div class="jiao">
+					</div>
+					<textarea></textarea>
+				</div>
+				<div class="replaybtn">
+					<button class="replaybtns" parent_name="u011521019" parent_id="6180624" onclick="setComment(this)">回复</button>
+				</div>
+			</div>
+
+		</div>
+	</li>
+	
+
+	
+	<li class="clearfix">
+		<a class="photos" href="http://my.csdn.net/lucaaaa" target="_blank">
+			<img src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/4_lucaaaa.gif" alt="" width="50" height="50">
+		</a>
+		<div class="text">
+			<a href="http://my.csdn.net/lucaaaa" target="_blank">lucaaaa</a>
+			<p class="pcontent">
+				为什么会没有人评论？
+			</p>
+			<p class="editext clearfix">
+				<span class="date">2016-06-03 15:53:15</span><a href="javascript:void(0)" parent_id="6073163" onclick="showOrHide(this);return false;">回复</a>
+			</p>
+
+			<div class="replayinfor" style="display: none">
+				<div class="replaydiv">
+					<div class="jiao">
+					</div>
+					<textarea></textarea>
+				</div>
+				<div class="replaybtn">
+					<button class="replaybtns" parent_name="lucaaaa" parent_id="6073163" onclick="setComment(this)">回复</button>
+				</div>
+			</div>
+
+		</div>
+	</li>
+	
+
+<script>
+	$('.replaybtns').click(function(e){
+		$(this);
+	})
+</script>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="fixedyjfk dynamicollect" style="left: 1341.5px;">
+		
+		
+		<div class="fxd">
+			<a href="javascript:void(0);" class="fx fxh"></a>
+			<div class="wicon moveshow kl_spread">
+				<div class="bdsharebuttonbox">
+					<a class="weibo  bds_tsina bds_mid fa fa-weibo wb" data-cmd="tsina"></a>
+					<a class="weixin bds_weixin bds_mid fa fa-weixin wx" data-cmd="weixin"></a>
+				</div>
+				<script>
+	                window._bd_share_config = {
+	                    common: {
+	                        bdText: '自定义OpenStack Horizon(Mitaka) \n' + 
+'【OpenStack知识库 - OpenStack入门 - 使用Horizon简单操作】\n' + 'CSDN知识库，你身边的技术百科全书',
+	                        bdDesc: '自定义OpenStack Horizon(Mitaka)',
+	                        bdUrl: window.location.href,
+	                        bdPic : 
+'http://img.knowledge.csdn.net/upload/base/1481875458834_834.jpg'
+	                    },
+	                    share: [{
+	                        "bdSize": 32
+	                    }]
+	                }
+	                window._bd_share_main = 0;
+	                with 
+(document)0[(getElementsByClassName('kl_spread')[0]).appendChild(createElement('script')).src
+ = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + 
+~(-new Date() / 36e5)];
+	            </script><script src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/share.js"></script>
+			</div>
+		</div>
+		<a href="" class="coment"></a>
+		
+			<a href="" data-id="48511-33-913-3" class="editbook triggerlayer collectbtn" title="添加收藏"></a>
+		
+		<a href="" class="zd" style="display: inline;"></a>
+	</div>
+</div>
+
+<div class="windowLayer windowLayerwh borders library leavemessage"><div class="windowContent"><div class="leavewrap"><div class="layeropt"><div class="layer02top"><em>我要留言</em><a href="" class="closec">×</a></div><div class="layercontent"><div class="layerwrap"><p>技术领域：</p><textarea value="" placeholder="请输入20字以内技术领域描述..." id="textarea"></textarea><span class="error"><i class="fa fa-warning"></i><em></em></span></div></div><div class="layerbottom"><a href="" class="subtj">提交</a><a href="" class="cancelbtn">取消</a></div></div></div></div></div>
+<div class="windowLayer windowLayerwh borders library leavemessageinfor"><div class="windowContent"><div class="leavewrap"><div class="layeropt"><div class="layer02top"><em>我要留言</em><a href="" class="closec">×</a></div><div class="layercontent"><div class="layerwrap"><p class="infor"><i class="fa fa-check-circle"></i>留言成功，我们将在审核后加至投票列表中！</p></div></div></div></div></div></div><!--留言弹框调用 END-->
+<div class="windowLayer windowLayerwh kn_sub_collect"><div class="windowContent"><div class="layeropt"><div class="layer02top"><em>收藏提示</em><a href="" class="closec">×</a></div><div class="layercontent"><div class="layerwrap"><div class="collectwrap"><div class="checkradiro clearfix"></div></div><div class="suballbtns"><a href="http://lib.csdn.net/collection" class="confrim_btn">确定收藏</a><a href="http://lib.csdn.net/my/create/structure" class="add_btn" target="_blank">新建图谱</a></div></div></div></div></div></div>
+<div class="windowLayer windowLayerwh borders collectcancel editcollects" style="display: none;"><div class="windowContent"><div class="layer02"><a href="" class="closec">×</a><div class="layer02top"><em>取消收藏</em></div><div class="layercontent"><div class="layertop noborder"><i class="fa fa-question-circle"></i><em>确定要取消收藏吗？</em></div><div class="lastbtns"><a href="" class="addbtn addconfrim">确认</a><a href="" class="cancelbtn">取消</a></div></div></div></div></div>
+<div class="windowLayer windowLayerwh collectNewLayer"><div class="windowContent"><div class="layeropt"><div class="layer02top"><em>提示</em><a href="" class="closec">x</a></div><div class="layercontent"><div class="layerwrap"><p class="infor"><span>OpenStack知识库已成功保存至<a href="">我的图谱</a></span><em>现在你可以用它来管理自己的知识内容了</em></p></div></div></div></div></div>
+<div class="windowLayer windowLayerwh deletemaplayer"><div class="windowContent"><div class="layeropt"><div class="layer02top"><em>删除图谱提示</em><a href="" class="closec">×</a></div><div class="layercontent"><div class="layerwrap"><div class="deletemapwrap"><p>你保存在该图谱下的知识内容也会被删除，建议你先将内容移到其他图谱中。你确定要删除知识图谱及其内容吗？</p></div><div class="pbottom"><a href="" class="delbutn addconfrim">删除</a><a href="" class="resetbtn cancelbtn">取消</a></div></div></div></div></div></div>
+<div class="windowLayer windowLayerwh deletemaplayerall"><div class="windowContent"><div class="layeropt"><div class="layer02top"><em>删除节点提示</em><a href="" class="closec">×</a></div><div class="layercontent"><div class="layerwrap"><div class="deletemapwrap"><p>无法删除该知识节点，因该节点下仍保存有相关知识内容！</p></div><div class="pbottom"><a href="" class="confrimbutn cancelbtn">确定</a><a href="" class="resetbtn cancelbtn">取消</a></div></div></div></div></div></div>
+<div class="windowLayer windowLayerwh deletemaplayersimple"><div class="windowContent"><div class="layeropt"><div class="layer02top"><em>删除节点提示</em><a href="" class="closec">×</a></div><div class="layercontent"><div class="layerwrap"><div class="deletemapwrap"><p>你确定要删除该知识节点吗？</p></div><div class="pbottom"><a href="" class="delbutn addconfrim">删除</a><a href="" class="resetbtn cancelbtn">取消</a></div></div></div></div></div></div>
+<script>
+    //==========分享到微博微信============
+    
+with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new
+ Date()/36e5)];
+    //==========分享到微博微信 End============
+</script>
+
+<script>
+	if(typeof localStorage !== 'undefined' && typeof JSON !== 'undefined') {
+	    var supportHistory = new ViewHistory();
+	    supportHistory.init({
+	        limit: 1000,
+	        storageKey: 'supportHistory',
+	        primaryKey: 'id'
+	    });
+	}
+
+	var contentId = 48511;
+	if(supportHistory && !false) {
+		var histories = supportHistory.getHistories();
+		if(histories && histories.length > 0) {
+			if(histories.indexOf(contentId) != -1){
+				// 支持图标变化
+				$("#click_logo").addClass("clickbtn");
+				$("#support_logo").attr("class","fa fa-heart");
+			}
+		}
+	}
+	function toPassport(){
+		var _url = "http://passport.csdn.net/account/login?from=" + 
+encodeURI(location.href);
+		window.location = _url;
+	}
+	//点击回复 评论框显示 再次点击 隐藏s
+	function showOrHide(_obj){
+			var _replayinfor = $(_obj).parent().siblings('.replayinfor');
+			if(_replayinfor.css('display') === 'block'){
+				_replayinfor.hide();
+			}
+			else{
+				$('.replayinfor').hide();
+				_replayinfor.show();
+			}
+			return false;
+	}
+	$("#click_logo").click(function(){
+		support();
+	})
+	function support(){
+		var _url = "http://lib.csdn.net/article/support";
+		var count = $('#support').val();
+		var contentId = $('#contentId').val();
+		var knowledgeId = 
+parseInt($('a.editbook').attr('data-id').split('-')[2]);
+		var _getCookieValue = csdn.knowledge_web._getCookieValue;
+		var username = _getCookieValue('UserName');
+		var status = false; // 可支持
+		if(supportHistory) {
+			var histories = supportHistory.getHistories();
+			if(histories && histories.length > 0) {
+				if(histories.indexOf(contentId) != -1 && !username){
+					status = true;  // 已支持过
+				}
+			}
+		}
+		if(!status){
+			$.ajax({
+				type: "POST",
+	          	url: _url,
+	          	data:{
+	             	contentId: $('#contentId').val(),
+					knowledgeId: knowledgeId
+	          	},
+	          	error: function(data) {
+	          		alert(JSON.stringify(data));
+	          	},
+	          	success: function(data) {
+	            	if(data.status){
+	            		if(!data.username){
+	            			supportHistory.addHistory($('#contentId').val());
+	            		}
+	            		count = parseInt(count) + 1;
+	            		$(".main .mainread .maincontent .pinfortext a 
+em").first().text(count);
+						$('#support').val(count);
+						$("#click_logo").addClass("clickbtn");
+						$("#support_logo").attr("class","fa fa-heart");
+	              	}else{
+	                  	//alert(data.error);
+	              	}
+	          	}
+	      	});
+		}
+	}
+	function setComment(_obj){
+		var login = csdn.knowledge_web._verificaUser();
+		if(login) {
+			var count = parseInt('4');
+			var _obj = _obj;
+			var _url = "http://lib.csdn.net/comment/set";
+			var article = $('#sourceId').val();
+			var collectBtn = $("a.editbook");
+			var contentId = collectBtn.attr('data-id').split('-')[0];
+			var knowledgeId = collectBtn.attr('data-id').split('-')[2];
+
+			var owner = 'u011521019';
+			var parentId = $(_obj).attr('parent_id') || '';
+			//评论,直接回复博主不做修改,评论回复添加[reply]
+			var content = parentId ? '[reply]' + $(_obj).attr('parent_name') + 
+'[/reply]' + $(_obj).parent().siblings().find('textarea').val() : 
+$(_obj).parent().siblings().find('textarea').val();
+			var con_length = parentId ? content.split('[/reply]')[1].length : 
+content.length;
+			if (!con_length) {
+				//TODO:评论为空的操作
+				alert('评论不得为空!');
+				return false;
+			}
+			else if (content.length > 1000) {
+				alert('评论字数过长,应维持在1000字符以内!');
+				//TODO:评论字数大于1000的操作
+				return false;
+			}
+			var commentContainer = 
+document.getElementById('comment_list');//整个评论部分
+			var oLi = commentContainer.getElementsByTagName('li');////整个评论部分的li列表
+			//回复博主回复框不隐藏,else隐藏
+			if (!parentId)
+			//回复博主的按钮点击后,textarea置空
+				$(_obj).parent().siblings('.textdiv').find('textarea').val('');
+			else
+			//回复评论的按钮点击后,评论框隐藏,textarea置空
+				$(_obj).parents('.replayinfor').hide()
+						.find('textarea').val('');
+			$.ajax({
+				type: "GET",
+				url: _url,
+				data: {
+					article: article,
+					content: content,
+					parentid: parentId,
+					contentId: contentId,
+					owner: owner,
+					knowledgeId: knowledgeId
+				},
+				error: function (data) {
+					alert(JSON.stringify(data.error));
+				},
+				success: function (data) {
+					if (data.status) {
+						var newli = data.data;
+						var newComment = document.createElement('li');
+						//直接评论博主
+						if (!parentId) {
+							$(newComment).addClass('clearfix');
+							newComment.innerHTML = '<a class="photos" 
+href="http://my.csdn.net/' + newli.username + '" target="_blank"><img 
+src="' + newli.avatar + '" alt="" width="50" height="50"></a>'
+									+ '<div class="text"><a href="http://my.csdn.net/' + 
+newli.username + '" target="_blank">' + newli.username + '</a>'
+									+ '<p class="pcontent">' + content + '</p>'
+									+ '<p class="editext clearfix"><span class="date">' + 
+newli.create_at + '</span>'
+									+ '<a href="javascript:void(0)" parent_id="' + newli.id + '"  
+onclick="showOrHide(this);return false;">回复</a></p>'
+									+ '<div class="replayinfor" style="display: none;">'
+									+ '<div class="replaydiv"><div 
+class="jiao"></div><textarea></textarea></div>'
+									+ '<div class="replaybtn"><button class="replaybtns"  
+parent_name="' + newli.username + '" parent_id="' + newli.id + '"  
+onclick="setComment(this)">回复</button></div></div></div>';
+							//还没有人评论博主
+							if (oLi.length == 0) {
+								$(commentContainer).append(newComment);
+							}
+							//已经有评论了
+							else {
+								commentContainer.insertBefore(newComment, oLi[0]);
+							}
+						}
+						//回复评论 在oLi中 没有replayli class 且子元素或自身parent_id属性为parentId元素的元素
+						else {
+							//增加回复评论的li的class
+							$(newComment).addClass('replayli clearfix');
+							var _length = 0, upstair, _a_list;
+							_a_list = $('li.clearfix > div > p > a');
+							for (var i in _a_list) {
+								if ($(_a_list[i]).attr('parent_id') === parentId) {
+									//被回复的评论
+									upstair = $(_a_list[i]).parents('li');
+									break;
+								}
+							}
+							//被回复的评论后面是否还有直接回复博主的评论
+							if (upstair.length > 0) _length = 
+$(upstair).nextAll('li:not(.replayli)').length;
+							newComment.innerHTML = '<a class="photos" 
+href="http://my.csdn.net/' + newli.username + '" target="_blank"><img 
+src="' + newli.avatar + '" alt="" width="50" height="50"></a>'
+									+ '<div class="text subtext"><a href="http://my.csdn.net/' + 
+newli.username + '" target="_blank">' + newli.username + '</a>'
+									+ '<p class="pcontent"><em>回复<i>' + $(upstair).find('div.text >
+ a').text() + '：</i></em>' + content.split('[/reply]')[1] + '</p>'
+									+ '<p class="editext clearfix"><span class="date">' + 
+newli.create_at + '</span>'
+									+ '<a href="javascript:void(0)" parent_id="' + newli.id + '"  
+onclick="showOrHide(this);return false;">回复</a></p>'
+									+ '<div class="replayinfor" style="display: none;"><div 
+class="replaydiv"><div class="jiao"></div>'
+									+ '<textarea></textarea></div><div class="replaybtn">'
+									+ '<button class="replaybtns"  parent_name="' + newli.username +
+ '" parent_id="' + newli.id + '"  
+onclick="setComment(this)">回复</button></div></div></div>';
+							//插入新回复操作
+							if (_length > 0) {
+							//在被回复的评论之后的所有没有'replayli'class的li中的第一个之前插入新回复
+								
+$(upstair).nextAll('li:not(.replayli)').eq(0).before($(newComment));
+							}
+							else {
+								//在本条被回复的评论之后没有直接评论博主的评论,直接用append方法插入新回复
+								$(commentContainer).append(newComment);
+
+							}
+						}
+						count = parseInt(count) + 1;
+						$(".main .mainread .comments .replaydiv .ptitles 
+em").first().text(count);
+					} else {
+						alert(data.error);
+					}
+				}
+			})
+		}
+	}
+
+	$('.loadingmore').click(function(){
+	    _commentLoad(this);
+	});
+
+	function _commentLoad(event){
+		var _url = "http://lib.csdn.net/comment/loading";
+		var current = $('#page').val();
+		var page = parseInt(current)+1;
+		$.ajax({
+			type: "POST",
+          	url: _url,
+          	data:{
+            	page : page,
+             	size : $('#size').val(),
+             	contentId: $('#contentId').val(),
+             	sourceId: $('#sourceId').val(),
+             	owner: $('#owner').val()
+          	},
+          	error: function(data) {
+          		alert(JSON.stringify(data));
+          	},
+          	success: function(data) {
+            	if(data.status){
+            		if(!data.more){
+            			event.remove();
+            		}
+                  	$("#comment_list").append(data.html);
+                  	$('#page').val(data.page);
+              	}else{
+                  	//alert(data.error);
+              	}
+          	}
+      	});
+	}
+	//阅读页，点击“展开”全部显示
+	$(function(){
+		if($(".divtexts")[0].scrollHeight > 1800) {
+			$('.divtexts').css('max-height', '1600px')
+					.find('.divmark').show();
+			$('.divcodes').show();
+
+		}
+		$('.pmores').click(function (e) {
+			$('.divtexts').css('max-height', '100%')
+					.find('.divmark').hide();
+			$('.divcodes').remove();
+			e.stopPropagation();
+			return false;
+		});
+
+		if($(".fine.addfine").length>0){
+			doTooltip();
+
+			$(".fine.addfine").on("click",function(e) {
+				var This = $(this);
+				if(This.hasClass("isfine")){
+					doElite(0,This);
+				}
+				else{
+					doElite(1,This);
+				}
+			});
+
+			function doElite(action,obj){
+				var _url;
+				if(action){
+					_url = "/manager/doElite";
+				}
+				else{
+					_url = "/manager/cancelElite";
+				}
+				var cId = $('#contentId').val();
+				$.ajax({
+					type: "get",
+					url: _url,
+					data:{
+						cId:cId,
+						baseId:parseInt('33'),
+						knId:parseInt('913'),
+						action:action
+					},
+					error: function(data) {
+						alert(JSON.stringify(data));
+					},
+					success: function(data) {
+						if(data.status){
+							if(action){
+								obj.addClass("isfine").attr("title","取消加精");
+								doTooltip(2);
+							}
+							else{
+								obj.removeClass("isfine").attr("title","文章加精");
+								doTooltip(1);
+							}
+						}
+						else{
+							//alert(data.error);
+						}
+					}
+
+				})
+
+
+			}
+			function doTooltip(action) {
+				if(!action) {
+					$(".addfine").tooltip({
+						hide: {
+							effect: "explode",
+							delay: 200
+						},
+						position: {
+							my: "left center",
+							at: "right+5 center"
+						},
+						open: function (event, ui) {
+							ui.tooltip.animate({top: ui.tooltip.position().top}, "fast");
+						}
+					});
+				}
+				else if(action == 1) {
+					$(".addfine:not(.isfine)").tooltip({
+						items: "[title]",
+						content: "文章加精"
+					})
+				}else {
+					$(".addfine.isfine").tooltip({
+						items: "[title]",
+						content: "取消加精"
+					})
+				}
+			}
+		}
+	})
+	//阅读页　每次展开一部分
+//	$(function(){
+//		if($(".divtexts")[0].scrollHeight > 4000) {
+//			$('.divtexts').css('max-height', '3200px')
+//			.find('.divmark').show();
+//			$('.divcodes').show();
+//
+//		}
+//		$('.pmores').click(function (e) {
+//			$('.divtexts').animate({'max-height':'+=5000px'},600);
+//			var maxHeight = 
+parseInt($('.divtexts').css('max-height').split('px')[0]);
+//			if(maxHeight >= ($(".divtexts")[0].scrollHeight-4000)){
+//				
+$('.divtexts').animate({'max-height':'100%'},600).find('.divmark').hide("slow");
+//
+				$('.divcodes').remove();
+//			}
+//
+//			e.stopPropagation();
+//			return false;
+//		});
+//	})
+//	function toPassport(){
+//		location.href = "http://passport.csdn.net/?backurl=" + 
+location.href;
+//	}
+</script>
+
+<script>
+	//markdown
+	$('.divtexts pre.prettyprint code').each(function () {
+		var lines = $(this).text().split('\n').length;
+		var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+		$(this).addClass('has-numbering').parent().append($numbering);
+		for (i = 1; i <= lines; i++) {
+		  $numbering.append($('<li/>').text(i));
+		};
+		$numbering.fadeIn(1700);
+	});
+	//code
+	SyntaxHighlighter.defaults['toolbar'] = false;  //去掉右上角问号图标
+	SyntaxHighlighter.all();
+</script>
+
+<!--阅读页相关事件-->
+<!--
+     can used in article/article.ejs,snippet/snippet.ejs
+-->
+<script>
+    var t = null;
+    $(".fixedyjfk").css({"left":($(".mainread").innerWidth()+$(".mainread").offset().left+10)});
+    $(window).on('resize',function(){
+        $(".fixedyjfk").css({"left":($(".mainread").innerWidth()+$(".mainread").offset().left+10)});
+    });
+    $(".fx").hover(function(){
+        clearTimeout(t);
+        t = null;
+        $(".fxd").addClass('fxd1');
+        $(".fx").addClass('fxh');
+    },function(){
+        t = setTimeout(function(){
+            $(".fxd").removeClass('fxd1');
+            $(".fx").removeClass('fxh');
+        },1000);
+    });
+    $(".wicon").on('mouseenter',function(){
+        clearTimeout(t);
+        t = null;
+        $(".fxd").addClass('fxd1');
+        $(".fx").addClass('fxh');
+    });
+    $(".wicon").on('mouseleave',function(){
+        $(".fxd").removeClass('fxd1');
+    });
+
+    $(".zd").on('click',function(event){
+        $("body,html").animate({scrollTop:0},'fast');
+        event.stopPropagation();
+        return false;
+    });
+    $(document).on('scroll',scrolls());
+    function scrolls()
+    {
+        var t,doc;
+        doc = $(this);
+        return function(){
+            clearTimeout(t);
+            t=null;
+            t=setTimeout(function(){
+                if(parseFloat(doc.scrollTop(),10)>=400)
+                {
+                    $(".zd").show();
+                }else{
+                    $(".zd").hide();
+                }
+            },100);
+        }
+    }
+    $(".coment,.addAnchor").on('click',function(){
+        if(window.location.href.indexOf('#focustext') != -1){
+            window.location.href = window.location.href;
+        }
+        else{
+            window.location.href=window.location.href+"#focustext"
+        }
+        $(".textdiv textarea").focus();
+        return false;
+    });
+</script>
+<!--微信分享弹层样式-->
+<style>
+    .bdshare-button-style0-32 a{
+        float: none;
+        width:40px;
+        height: 40px;
+        line-height: normal;
+        background:none;
+        cursor: pointer;
+        margin: 0;
+        text-indent: -100em;
+        overflow: auto;
+        color:#8295a3;
+    }
+    .bd_weixin_popup {
+        height: 260px !important;
+    }
+    .bd_weixin_popup_foot {
+        display: none;
+    }
+    .sharebtn span{
+        cursor: pointer;
+    }
+</style>
+<div class="marklayer whitebk"></div>
+<!--<script type="text/javascript" src="http://c.csdnimg.cn/public/common/toolbar/js/toolbar.js"></script>-->
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/publib_footer-1.js"></script><link rel="stylesheet" type="text/css" href="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="#" target="_blank" class="qq qqcustomer_s">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2251809102&amp;site=qq&amp;menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-660-0108</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏知之为计算机有限公司</span><span class="interval">|</span><span>江苏乐知网络技术有限公司</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2018, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/notify.js"></script><input id="aa_g_data_ids" type="hidden">
+<script type="text/javascript" src="%E8%87%AA%E5%AE%9A%E4%B9%89OpenStack%20Horizon(Mitaka)%20-%20OpenStack%E7%9F%A5%E8%AF%86%E5%BA%93_files/knowledge_base_new.js"></script>
+
+
+
+<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" id="focus_retriever" readonly="true" type="text"></div></body></html>

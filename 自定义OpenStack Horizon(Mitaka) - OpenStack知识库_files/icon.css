@@ -1,0 +1,139 @@
+.icon-original,
+.icon-info-lg,
+.icon-info-sm,
+.icon-success-lg,
+.icon-success-blue-lg,
+.icon-success-sm,
+.icon-stop-lg,
+.icon-stop-sm,
+.icon-warning-lg,
+.icon-warning-sm,
+.icon-danger-lg,
+.icon-danger-sm,
+.icon-enter-lg,
+.icon-enter-sm,
+.icon-third-sina,
+.icon-third-linkin,
+.icon-third-baidu,
+.icon-third-qq,
+.icon-third-google,
+.icon-third-github,
+<<<<<<< HEAD
+.icon-third-gitee,
+.icon-third-rss {
+=======
+.icon-third-rss,
+.icon-third-weixin {
+>>>>>>> bc50bce927820a8960e76b41323c62adb8505494
+  background-image: url("../img/bg_icons.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+.icon-lg,
+.icon-info-lg,
+.icon-success-lg,
+.icon-stop-lg,
+.icon-warning-lg,
+.icon-danger-lg,
+.icon-enter-lg,
+.icon-success-blue-lg  {
+  width: 44px;
+  height: 44px;
+}
+.icon-sm,
+.icon-info-sm,
+.icon-success-sm,
+.icon-stop-sm,
+.icon-warning-sm,
+.icon-danger-sm,
+.icon-enter-sm {
+  width: 16px;
+  height: 16px;
+}
+.icon-third-part,
+.icon-third-sina,
+.icon-third-linkin,
+.icon-third-baidu,
+.icon-third-qq,
+.icon-third-google,
+.icon-third-github,
+.icon-third-rss,
+.icon-third-weixin {
+  width: 32px;
+  height: 32px;
+}
+.icons-lg,
+.icons-sm,
+.icons-third-part {
+  margin-bottom: 10px;
+}
+.icons-lg span,
+.icons-sm span,
+.icons-third-part span {
+  margin-right: 5px;
+}
+.icon-info-lg {
+  background-position: -155px 0;
+}
+.icon-info-sm {
+  background-position: -55px -64px;
+}
+.icon-success-lg {
+  background-position: -206px 0;
+}
+.icon-success-blue-lg{
+  background-position: -257px 0;
+}
+.icon-success-sm {
+  background-position: -74px -64px;
+}
+.icon-stop-lg {
+  background-position: -52px 0;
+}
+.icon-stop-sm {
+  background-position: -18px -64px;
+}
+.icon-warning-lg {
+  background-position: -103px 0;
+}
+.icon-warning-sm {
+  background-position: -37px -64px;
+}
+.icon-danger-lg {
+  background-position: 0px 0px;
+}
+.icon-danger-sm {
+  background-position: 0 -64px;
+}
+.icon-enter-sm {
+  background-position: -100px -66px;
+  width: 19px;
+  height: 11px;
+}
+.icon-third-sina {
+  background-position: 0 -98px;
+}
+.icon-third-linkin {
+  background-position: -37px -98px;
+}
+.icon-third-baidu {
+  background-position: -74px -98px;
+}
+.icon-third-qq {
+  background-position: -112px -98px;
+}
+.icon-third-google {
+  background-position: -149px -98px;
+}
+.icon-third-github {
+  background-position: -186px -98px;
+}
+.icon-third-rss {
+  background-position: -224px -98px;
+}
+.icon-third-gitee{
+  background-position: -265px -98px;
+}
+.icon-third-weixin {
+  background-position: -223px -98px;
+}

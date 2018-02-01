@@ -1,0 +1,680 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0067)https://docs.openstack.org/horizon/latest/configuration/themes.html -->
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+    <title>OpenStack Docs: Themes</title>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="./OpenStack Docs_ Themes_files/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="./OpenStack Docs_ Themes_files/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="./OpenStack Docs_ Themes_files/font-awesome.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="./OpenStack Docs_ Themes_files/combined.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script async="" src="./OpenStack Docs_ Themes_files/st.js.下载"></script><script async="" src="./OpenStack Docs_ Themes_files/analytics.js.下载"></script><script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script><script type="text/javascript">navigator.__defineGetter__('userAgent', function () { return 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-US) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27'; });</script>
+<!-- End Google Analytics -->
+
+  <link rel="stylesheet" type="text/css" href="./OpenStack Docs_ Themes_files/new_embed-bee561032092eaa907cef89871bd8feb.css"><style type="text/css">.st-install-aDn5L_vgZ2yzRcE893kK .st-ui-result .st-ui-type-heading { color:#0089d7 !important }
+.st-install-aDn5L_vgZ2yzRcE893kK .st-ui-result em {font-style:normal; font-weight:bold; background-color:#f6fcfe !important}</style></head>
+  <body>
+
+<!-- SOURCE_FILE: https://git.openstack.org/cgit/openstack/horizon/tree/doc/source/configuration/themes.rst -->
+
+ <script type="text/javascript">
+    (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+        e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+    })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+    _st('install','aDn5L_vgZ2yzRcE893kK','2.0.0');
+</script>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="https://www.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+         <form class="docs-main-search-form">
+    <input type="text" class="st-default-search-input custom-search-box" placeholder="Search OpenStack" autocomplete="off" autocorrect="off" autocapitalize="off">
+</form>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+           </li><li>
+    <input type="text" class="st-default-search-input custom-search-box-mobile" placeholder="Search OpenStack" autocomplete="off" autocorrect="off" autocapitalize="off">
+</li>
+        
+        <li>
+          <a href="https://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/security/">Security</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/telecoms-and-nfv/">Telecoms and NFV</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/appdev/">Application Developers &amp; ISVs</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/openstackdays">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/coa/">Get Certified</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/videos/">Summit Videos</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/analysts/">Analyst Reports</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/blog/">Blog</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://docs.openstack.org/">Docs</a>
+        </li>
+        <li>
+
+</li>
+
+
+            <li>
+
+                </li><li class="join-nav-section">
+                    <a href="https://www.openstack.org/join/" id="dropdownMenuJoin">Join <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuJoin" style="display: none;">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/register/?membership-type=foundation">Sign up for Foundation Membership</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/#sponsor">Sponsor the Foundation</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation">More about the Foundation</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://www.openstack.org/Security/login/?BackURL=/home/" class="sign-in-btn">Log In</a>
+                </li>
+
+            
+      </ul>
+    </div>
+  </div>
+  <!-- /.container -->
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+      <h2>Themes</h2>
+    
+  </div>
+  <div class="docs-actions">
+    
+    <a href="https://docs.openstack.org/horizon/latest/configuration/customizing.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Previous: Customizing Horizon"></i></a>
+    
+    
+    <a href="https://docs.openstack.org/horizon/latest/configuration/branding.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Next: Branding Horizon"></i></a>
+    
+    <a id="logABugLink1" href="https://bugs.launchpad.net/horizon/+filebug?field.title=Themes%20in%20Horizon&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%2013.0.0.0b4.dev46%20on%202018-01-31%2023:04%0ASHA:%201443e6529f8bb805b8ba73445085cadd96a1ec81%0ASource:%20https://git.openstack.org/cgit/openstack/horizon/tree/doc/source/configuration/themes.rst%0AURL:%20https://docs.openstack.org/horizon/latest/configuration/themes.html&amp;field.tags=documentation" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="" data-original-title="Report a Bug"></i></a>
+    
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2018-01-31 23:04</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-body">
+
+  <div class="section" id="themes">
+<h1>Themes<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#themes" title="Permalink to this headline">¶</a></h1>
+<p>As of the Kilo release, styling for the OpenStack Dashboard can be altered
+through the use of a theme. A theme is a directory containing a
+<code class="docutils literal"><span class="pre">_variables.scss</span></code> file to override the color codes used throughout the SCSS
+and a <code class="docutils literal"><span class="pre">_styles.scss</span></code> file with additional styles to load after dashboard
+styles have loaded.</p>
+<p>As of the Mitaka release, Horizon can be configured to run with multiple
+themes available at run time.  It uses a browser cookie to allow users to
+toggle between the configured themes.  By default, Horizon is configured
+with the two standard themes available: ‘default’ and ‘material’.</p>
+<p>To configure or alter the available themes, set <code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> in
+<code class="docutils literal"><span class="pre">local_settings.py</span></code> to a list of tuples, such that
+<code class="docutils literal"><span class="pre">('name',</span> <span class="pre">'label',</span> <span class="pre">'path')</span></code></p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">name</span></code></dt>
+<dd>The key by which the theme value is stored within the cookie</dd>
+<dt><code class="docutils literal"><span class="pre">label</span></code></dt>
+<dd>The label shown in the theme toggle under the User Menu</dd>
+<dt><code class="docutils literal"><span class="pre">path</span></code></dt>
+<dd>The directory location for the theme. The path must be relative to the
+<code class="docutils literal"><span class="pre">openstack_dashboard</span></code> directory or an absolute path to an accessible
+location on the file system</dd>
+</dl>
+<p>To use a custom theme, set <code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> in <code class="docutils literal"><span class="pre">local_settings.py</span></code> to
+a list of themes.  If you wish to run in a mode similar to legacy Horizon,
+set <code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> with a single tuple, and the theme toggle will not
+be available at all through the application to allow user configuration themes.</p>
+<p>For example, a configuration with multiple themes:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">AVAILABLE_THEMES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">'default'</span><span class="p">,</span> <span class="s1">'Default'</span><span class="p">,</span> <span class="s1">'themes/default'</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'material'</span><span class="p">,</span> <span class="s1">'Material'</span><span class="p">,</span> <span class="s1">'themes/material'</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>A configuration with a single theme:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">AVAILABLE_THEMES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">'default'</span><span class="p">,</span> <span class="s1">'Default'</span><span class="p">,</span> <span class="s1">'themes/default'</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Both the Dashboard custom variables and Bootstrap variables can be overridden.
+For a full list of the Dashboard SCSS variables that can be changed,
+see the variables file at
+<code class="docutils literal"><span class="pre">openstack_dashboard/static/dashboard/scss/_variables.scss</span></code>.</p>
+<p>In order to build a custom theme, both <code class="docutils literal"><span class="pre">_variables.scss</span></code> and <code class="docutils literal"><span class="pre">_styles.scss</span></code>
+are required and <code class="docutils literal"><span class="pre">_variables.scss</span></code> must provide all the default Bootstrap
+variables.</p>
+<div class="section" id="inherit-from-an-existing-theme">
+<h2>Inherit from an Existing Theme<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#inherit-from-an-existing-theme" title="Permalink to this headline">¶</a></h2>
+<p>Custom themes must implement all of the Bootstrap variables required by
+Horizon in <code class="docutils literal"><span class="pre">_variables.scss</span></code> and <code class="docutils literal"><span class="pre">_styles.scss</span></code>. To make this easier, you
+can inherit the variables needed in the default theme and only override those
+that you need to customize. To inherit from the default theme, put this in your
+theme’s <code class="docutils literal"><span class="pre">_variables.scss</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@import</span> <span class="s2">"/themes/default/variables"</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Once you have made your changes you must re-generate the static files with:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python manage.py collectstatic</span>
+</pre></div>
+</div>
+<p>By default, all of the themes configured by <code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> setting are
+collected by horizon during the <cite>collectstatic</cite> process. By default, the themes
+are collected into the dynamic <cite>static/themes</cite> directory, but this location can
+be customized via the <code class="docutils literal"><span class="pre">local_settings.py</span></code> variable: <code class="docutils literal"><span class="pre">THEME_COLLECTION_DIR</span></code></p>
+<p>Once collected, any theme configured via <code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> is available to
+inherit from by importing its variables and styles from its collection
+directory.  The following is an example of inheriting from the material theme:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@import</span> <span class="s2">"/themes/material/variables"</span><span class="p">;</span>
+<span class="nd">@import</span> <span class="s2">"/themes/material/styles"</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>All themes will need to be configured in <code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> to allow
+inheritance.  If you wish to inherit from a theme, but not show that theme
+as a selectable option in the theme picker widget, then simply configure the
+<code class="docutils literal"><span class="pre">SELECTABLE_THEMES</span></code> to exclude the parent theme.  <code class="docutils literal"><span class="pre">SELECTABLE_THEMES</span></code> must
+be of the same format as <code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code>.  It defaults to
+<code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> if it is not set explicitly.</p>
+<div class="section" id="bootswatch">
+<h3>Bootswatch<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#bootswatch" title="Permalink to this headline">¶</a></h3>
+<p>Horizon packages the Bootswatch SCSS files for use with its <code class="docutils literal"><span class="pre">material</span></code> theme.
+Because of this, it is simple to use an existing Bootswatch theme as a base.
+This is due to the fact that Bootswatch is loaded as a 3rd party static asset,
+and therefore is automatically collected into the <cite>static</cite> directory in
+<cite>/horizon/lib/</cite>.  The following is an example of how to inherit from
+Bootswatch’s <code class="docutils literal"><span class="pre">darkly</span></code> theme:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@import</span> <span class="s2">"/horizon/lib/bootswatch/darkly/variables"</span><span class="p">;</span>
+<span class="nd">@import</span> <span class="s2">"/horizon/lib/bootswatch/darkly/bootswatch"</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="organizing-your-theme-directory">
+<h2>Organizing Your Theme Directory<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#organizing-your-theme-directory" title="Permalink to this headline">¶</a></h2>
+<p>A custom theme directory can be organized differently, depending on the
+level of customization that is desired, as it can include static files
+as well as Django templates.  It can include special subdirectories that will
+be used differently: <code class="docutils literal"><span class="pre">static</span></code>, <code class="docutils literal"><span class="pre">templates</span></code> and <code class="docutils literal"><span class="pre">img</span></code>.</p>
+<div class="section" id="the-static-folder">
+<h3>The <code class="docutils literal"><span class="pre">static</span></code> Folder<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#the-static-folder" title="Permalink to this headline">¶</a></h3>
+<p>If the theme folder contains a sub-folder called <code class="docutils literal"><span class="pre">static</span></code>, then that sub
+folder will be used as the <strong>static root of the theme</strong>.  I.e., Horizon will
+look in that sub-folder for the _variables.scss and _styles.scss files.
+The contents of this folder will also be served up at <code class="docutils literal"><span class="pre">/static/custom</span></code>.</p>
+</div>
+<div class="section" id="the-templates-folder">
+<h3>The <code class="docutils literal"><span class="pre">templates</span></code> Folder<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#the-templates-folder" title="Permalink to this headline">¶</a></h3>
+<p>If the theme folder contains a sub-folder <code class="docutils literal"><span class="pre">templates</span></code>, then the path
+to that sub-folder will be prepended to the <code class="docutils literal"><span class="pre">TEMPLATE_DIRS</span></code> tuple to
+allow for theme specific template customizations.</p>
+</div>
+<div class="section" id="using-the-templates-folder">
+<h3>Using the <code class="docutils literal"><span class="pre">templates</span></code> Folder<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#using-the-templates-folder" title="Permalink to this headline">¶</a></h3>
+<p>Any Django template that is used in Horizon can be overridden through a theme.
+This allows highly customized user experiences to exist within the scope of
+different themes.  Any template that is overridden must adhere to the same
+directory structure that the extending template expects.</p>
+<p>For example, if you wish to customize the sidebar, Horizon expects the template
+to live at <code class="docutils literal"><span class="pre">horizon/_sidebar.html</span></code>.  You would need to duplicate that
+directory structure under your templates directory, such that your override
+would live at <code class="docutils literal"><span class="pre">{</span> <span class="pre">theme_path</span> <span class="pre">}/templates/horizon/_sidebar.html</span></code>.</p>
+</div>
+<div class="section" id="the-img-folder">
+<h3>The <code class="docutils literal"><span class="pre">img</span></code> Folder<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#the-img-folder" title="Permalink to this headline">¶</a></h3>
+<p>If the static root of the theme folder contains an <code class="docutils literal"><span class="pre">img</span></code> directory,
+then all images that make use of the {% themable_asset %} templatetag
+can be overridden.</p>
+<p>These assets include logo.svg, splash-logo.svg and favicon.ico, however
+overriding the SVG/GIF assets used by Heat within the <cite>dashboard/img</cite> folder
+is not currently supported.</p>
+</div>
+</div>
+<div class="section" id="customizing-the-logo">
+<h2>Customizing the Logo<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#customizing-the-logo" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="simple">
+<h3>Simple<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#simple" title="Permalink to this headline">¶</a></h3>
+<p>If you wish to customize the logo that is used on the splash screen or in the
+top navigation bar, then you need to create an <code class="docutils literal"><span class="pre">img</span></code> directory under your
+theme’s static root directory and place your custom <code class="docutils literal"><span class="pre">logo.svg</span></code> or
+<code class="docutils literal"><span class="pre">logo-splash.svg</span></code> within it.</p>
+<p>If you wish to override the <code class="docutils literal"><span class="pre">logo.svg</span></code> using the previous method, and if the
+image used is larger than the height of the top navigation, then the image will
+be constrained to fit within the height of nav.  You can customize the height
+of the top navigation bar by customizing the SCSS variable: <code class="docutils literal"><span class="pre">$navbar-height</span></code>.
+If the image’s height is smaller than the navbar height, then the image
+will retain its original resolution and size, and simply be centered
+vertically in the available space.</p>
+<p>Prior to the Kilo release the images files inside of Horizon needed to be
+replaced by your images files or the Horizon stylesheets needed to be altered
+to point to the location of your image.</p>
+</div>
+<div class="section" id="advanced">
+<h3>Advanced<a class="headerlink" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#advanced" title="Permalink to this headline">¶</a></h3>
+<p>If you need to do more to customize the logo than simply replacing the existing
+PNG, then you can also override the _brand.html through a custom theme.  To use
+this technique, simply add a <code class="docutils literal"><span class="pre">templates/header/_brand.html</span></code> to the root of
+your custom theme, and add markup directly to the file.  For an example of how
+to do this, see
+<code class="docutils literal"><span class="pre">openstack_dashboard/themes/material/templates/header/_brand.html</span></code>.</p>
+<p>The splash / login panel can also be customized by adding
+<code class="docutils literal"><span class="pre">templates/auth/_splash.html</span></code>.  See
+<code class="docutils literal"><span class="pre">openstack_dashboard/themes/material/templates/auth/_splash.html</span></code> for an
+example.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="https://docs.openstack.org/horizon/latest/configuration/customizing.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Previous: Customizing Horizon"></i></a>
+          
+          
+            <a href="https://docs.openstack.org/horizon/latest/configuration/branding.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Next: Branding Horizon"></i></a>
+          
+            <a id="logABugLink3" href="https://bugs.launchpad.net/horizon/+filebug?field.title=Themes%20in%20Horizon&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%2013.0.0.0b4.dev46%20on%202018-01-31%2023:04%0ASHA:%201443e6529f8bb805b8ba73445085cadd96a1ec81%0ASource:%20https://git.openstack.org/cgit/openstack/horizon/tree/doc/source/configuration/themes.rst%0AURL:%20https://docs.openstack.org/horizon/latest/configuration/themes.html&amp;field.tags=documentation" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="" data-original-title="Report a Bug"></i></a>
+          
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2018-01-31 23:04</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="./OpenStack Docs_ Themes_files/license.png" alt="Creative Commons Attribution 3.0 License">
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the
+                 document -->
+              <a href="https://bugs.launchpad.net/horizon/+filebug?field.title=Themes%20in%20Horizon&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%2013.0.0.0b4.dev46%20on%202018-01-31%2023:04%0ASHA:%201443e6529f8bb805b8ba73445085cadd96a1ec81%0ASource:%20https://git.openstack.org/cgit/openstack/horizon/tree/doc/source/configuration/themes.rst%0AURL:%20https://docs.openstack.org/horizon/latest/configuration/themes.html&amp;field.tags=documentation" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href=&#39;/&#39;" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="" data-original-title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/id/">Bahasa Indonesia (Indonesian)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/it/">Italiano (Italian)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/tr_TR/">Türkçe (Türkiye)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="https://docs.openstack.org/horizon/latest/index.html" class="docs-sidebar-section-title"><h4>Horizon 13.0.0</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/install/index.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/index.html">Configuration Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/settings.html">Settings Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/pluggable_panels.html">Pluggable Panels and Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/customizing.html">Customizing Horizon</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#">Themes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/branding.html">Branding Horizon</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/user/index.html">User Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/admin/index.html">Administration Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/contributor/index.html">Contributor Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://docs.openstack.org/horizon/latest/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="local-table-of-contents">
+      <h4 class="docs-sidebar-section-title">Page Contents</h4>
+      <ul>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#">Themes</a><ul>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#inherit-from-an-existing-theme">Inherit from an Existing Theme</a><ul>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#bootswatch">Bootswatch</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#organizing-your-theme-directory">Organizing Your Theme Directory</a><ul>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#the-static-folder">The <code class="docutils literal"><span class="pre">static</span></code> Folder</a></li>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#the-templates-folder">The <code class="docutils literal"><span class="pre">templates</span></code> Folder</a></li>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#using-the-templates-folder">Using the <code class="docutils literal"><span class="pre">templates</span></code> Folder</a></li>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#the-img-folder">The <code class="docutils literal"><span class="pre">img</span></code> Folder</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#customizing-the-logo">Customizing the Logo</a><ul>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#simple">Simple</a></li>
+<li><a class="reference internal" href="https://docs.openstack.org/horizon/latest/configuration/themes.html#advanced">Advanced</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding &amp; Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos &amp; Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="./OpenStack Docs_ Themes_files/jquery-3.2.1.min.js.下载"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="./OpenStack Docs_ Themes_files/bootstrap.min.js.下载"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="./OpenStack Docs_ Themes_files/navigation.js.下载"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="./OpenStack Docs_ Themes_files/docs.js.下载"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="./OpenStack Docs_ Themes_files/webui-popover.js.下载"></script>
+
+<!-- standard sphinx include libraries, which allow search highlighting -->
+<script type="text/javascript" src="./OpenStack Docs_ Themes_files/underscore.js.下载"></script>
+<script type="text/javascript" src="./OpenStack Docs_ Themes_files/doctools.js.下载"></script>
+<script type="text/javascript" src="./OpenStack Docs_ Themes_files/searchtools.js.下载"></script>
+
+<script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '13.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+</script>
+
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "configuration/themes" + ".rst";
+        gitURL = "Source: https://git.openstack.org/cgit/openstack/horizon/tree/doc/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 1443e6529f8bb805b8ba73445085cadd96a1ec81";
+        var bugProject = "horizon";
+        var bugTitle = "Themes in Horizon";
+    var fieldTags = "documentation";
+        var useStoryboard = "";
+
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 13.0.0.0b4.dev46 on 2018-01-31 23:04";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+  
+<div class="st-injected-content-generated st-install-aDn5L_vgZ2yzRcE893kK" data-st-install-key="aDn5L_vgZ2yzRcE893kK" id="st-injected-content">
+<div class="st-ui-embed st-search-chrome-overlay-output st-search-escape-hide-outputs st-search-zoom-on-mobile" style="display: none;">
+    <div class="st-ui-overlay st-search-hide-outputs"></div>
+  <!-- Swiftype input and results overlay -->
+  <div class="st-ui-container st-ui-container-overlay  st-ui-injected-overlay-container ">
+    <!-- HEADER -->
+    <div class="st-ui-container-header_bar st-position-container">
+        <section class="st-ui-header">
+          <form>
+            <input class="st-default-search-input st-search-set-focus" type="text" value="" placeholder="Search this site" id="st-overlay-search-input" autocomplete="off" autocorrect="off" autocapitalize="off">
+          </form>
+          <span class="st-ui-search-icon"></span>
+
+            <a class="st-ui-close-button st-search-hide-outputs">Close</a>
+
+        </section>
+    </div>
+
+    <!-- LEFT SIDEBAR -->
+    <div class="st-ui-container-left_sidebar st-position-container">
+      <div class="st-ui-injected-search-controls">
+      </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="st-ui-container-right_sidebar st-position-container">
+      <div class="st-ui-injected-container-right_sidebar">
+        <div class="st-ui-injected-search-controls">
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIMARY CONTENT -->
+    <div class="st-ui-container-primary_content st-position-container">
+        <section class="st-ui-slide-autocomplete st-autocomplete-keyboard-navigable st-autocomplete-transient-on-select-and-results" data-st-target-element="#st-overlay-search-input" data-st-active-query-class="active">
+          <span class="st-ui-type-heading-small">suggested results</span>
+          <div class="st-autocomplete-results"><div class="st-query-present" style="display: none;"></div></div>
+        </section>
+
+        <section class="st-ui-content st-search-results"><div class="st-query-not-present">
+          <span class="st-ui-fallback"></span>
+        </div><div class="st-query-present" style="display: none;"></div></section>
+
+      <section class="st-ui-no-results st-search-suggestions"><div class="st-query-not-present">
+      </div></section>
+    </div>
+
+
+
+    <!-- FOOTER -->
+    <div class="st-ui-container-footer_bar st-position-container">
+      <section class="st-ui-footer">
+          <span class="st-ui-search-summary st-search-summary"></span>
+        <span class="st-ui-pagination st-search-pagination"></span>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="st-default-autocomplete" data-st-target-element=".st-default-search-input" style="display: none;">
+  <div class="st-autocomplete-results st-ui-autocomplete"><div class="st-query-present" style="display: none;"></div></div>
+</div>
+</div></body></html>

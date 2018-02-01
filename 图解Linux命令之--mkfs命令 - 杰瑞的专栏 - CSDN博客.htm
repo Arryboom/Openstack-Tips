@@ -1,0 +1,1461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script type="text/javascript" async="" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pr.js"></script>
+        <link rel="canonical" href="http://blog.csdn.net/jerry_1126/article/details/70989938">
+
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <link rel="alternate" media="handheld" href="#">
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+
+    <title>图解Linux命令之--mkfs命令 - 杰瑞的专栏 - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="mkfs命令--&gt;make filesystem的缩写；用来在特定的分区建立Linux文件系统【命令作用】该命令用来在特定的分区创建linux文件系统，常见的文件系统有ext2,ext3,vfat等，执行mkfs命令其实是在调用:mkfs.ext3 | mkfs.reiserfs |mkfs.ext2 | mkdosfs | mkfs.msdos |">
+
+    <meta name="keywords" content="Linux,命令,mkfs">
+    <script src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/hm.txt"></script><script type="text/javascript" async="" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/lfjnyw.js"></script><script src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog_static_head.js" type="text/javascript"></script>
+
+
+        <link rel="Stylesheet" type="text/css" href="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/style.css">
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/Jerry_1126/rss/list">
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/simple.css">
+
+
+
+
+
+    <link href="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_public_blog_detail.css" type="text/css" rel="stylesheet">
+
+        <link rel="stylesheet" href="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_blog_detail.css">
+
+    <!-- 请置于所有广告位代码之前 -->
+    <script src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ds.js"></script>
+
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+
+
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="https://pos.baidu.com/wh/o.htm?ltr=" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="icon-xiajiantou" viewBox="0 0 1024 1024"><path d="M328.208 346.062h368.494c20.393 0 36.887 16.366 36.887 36.757 0 9.484-3.637 18.056-9.483 24.55L541.873 650.522c-12.211 16.105-35.2 19.484-51.438 7.275-2.859-2.08-5.324-4.547-7.274-7.275L298.853 404.772c-12.08-16.106-8.83-39.225 7.404-51.306 6.626-5.066 14.289-7.404 21.95-7.404z"></path></symbol><symbol id="icon-shouji" viewBox="0 0 1024 1024"><path d="M537.754 795.889c-26.41 0-47.893 21.478-47.893 47.892s21.484 47.893 47.893 47.893 47.892-21.479 47.892-47.893-21.483-47.892-47.892-47.892z"></path><path d="M774.697 42.071H300.815c-39.864 0-72.3 32.43-72.3 72.3v795.264c0 39.869 32.43 72.3 72.3 72.3h473.872c39.87 0 72.3-32.431 72.3-72.3v-795.27c0.004-39.864-32.426-72.294-72.29-72.294zM300.815 90.266h473.872a24.125 24.125 0 0 1 24.1 24.1v595.809H276.72v-595.81a24.125 24.125 0 0 1 24.094-24.1z m473.882 843.463H300.815a24.125 24.125 0 0 1-24.1-24.1V762.501h522.072V909.63a24.115 24.115 0 0 1-24.09 24.1z"></path></symbol><symbol id="icon-tianxie" viewBox="0 0 1024 1024"><path d="M121.905 780.19h780.19v97.524h-780.19V780.19zM823.296 298.496l-68.974-68.974-344.795 344.796-34.475 103.448 103.424-34.475zM875.008 246.76l17.237-17.238-68.949-68.949-17.262 17.237-17.237 17.238 68.974 68.973z"></path></symbol><symbol id="icon-sousuo" viewBox="0 0 1024 1024"><path d="M1023.972002 964.002812l-59.981188 59.981189-271.443276-271.459276c-166.600191 136.489602-412.812649 126.986048-568.309361-28.494664-165.624236-165.624236-165.624236-434.187647 0-599.859881 165.624236-165.592238 434.187647-165.592238 599.827883 0 155.52871 155.52871 164.984266 401.789166 28.462666 568.389356L1023.972002 964.002812zM663.364906 184.007375c-132.585785-132.585785-347.327719-132.761777-479.705514-0.43198-132.329797 132.345796-132.121807 347.119729 0.463978 479.705514s347.375717 132.793775 479.705514 0.41598c132.329797-132.281799 132.169805-347.10373-0.463978-479.689514z"></path></symbol><symbol id="icon-guanbi" viewBox="0 0 1024 1024"><path d="M1002.211316 933.90818c24.46369 24.46369 29.007633 59.583246 10.159871 78.447007-18.863761 18.863761-53.983317 14.303819-78.447007-10.159871L21.807724 90.09486C-2.655966 65.631169-7.199909 30.495614 11.647853 11.647853c18.863761-18.863761 53.983317-14.303819 78.447007 10.159871L1002.211316 933.90818z"></path><path d="M933.92418 21.807724C958.38787-2.655966 993.507426-7.199909 1012.371187 11.647853c18.863761 18.863761 14.303819 53.983317-10.159871 78.447007L90.09486 1002.211316c-24.46369 24.46369-59.583246 29.007633-78.447007 10.159871-18.847761-18.863761-14.303819-53.983317 10.159871-78.463007L933.92418 21.807724z"></path></symbol><symbol id="icon-caidan" viewBox="0 0 1024 1024"><path d="M0 132.8a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 132.8s0-26.784 0 0zM0 512.016a48.48 48.48 0 0 0 48.48 48.48h927.04a48.48 48.48 0 0 0 0-96.96H48.48A48.48 48.48 0 0 0 0 512.016s0-26.784 0 0zM0 891.2a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 891.2s0-26.784 0 0z"></path></symbol><symbol id="icon-yonghudenglu" viewBox="0 0 1024 1024"><path d="M1022.26704 962.432c-43.888-157.584-162.16-281.216-312.064-340.144 92.8-61.376 153.92-164.496 153.92-281.168C864.12304 153.04 706.04304 0 511.70704 0 317.35504 0 159.19504 153.04 159.19504 341.136c0 116.704 61.152 219.84 154.064 281.184C164.13904 681.024 46.18704 803.792 1.80304 960.16c-7.344 26.016 8.464 52.864 35.36 60.032a52.016 52.016 0 0 0 38.4-4.608 49.072 49.072 0 0 0 23.712-29.568c50.768-178.96 220.352-303.92 412.448-303.92 193.04 0 362.848 125.712 412.944 305.744 7.296 26.048 34.992 41.456 61.952 34.48 26.912-7.04 42.88-33.824 35.648-59.888zM260.25104 341.136c0-134.256 112.816-243.424 251.472-243.424 138.576 0 251.328 109.184 251.328 243.424 0 133.904-112.768 242.864-251.328 242.864-138.672 0-251.472-108.976-251.472-242.864z m0 0"></path></symbol><symbol id="toolbar-csdnlogo" viewBox="0 0 1024 1024"><path d="M533.941333 419.264c14.709333-1.621333 37.290667-3.264 68.352-3.264 51.872 0 93.802667 9.152 119.776 28.416 23.338667 17.952 38.858667 47.008 34.56 89.130667-3.978667 39.189333-24.042667 66.634667-53.312 83.594666C676.544 633.152 642.837333 640 592.106667 640c-29.888 0-58.421333-1.642667-80.106667-4.896l21.941333-215.84z m42.869334 172.938667c4.981333 0.992 11.562667 1.973333 24.533333 1.973333 51.882667 0 88.469333-25.877333 92.16-62.24 5.333333-52.554667-27.125333-70.944-81.802667-70.624-7.072 0-16.917333 0-22.133333 0.970667L576.8 592.213333h0.010667z m223.498666-164.704c210.954667-39.872 229.162667 31.776 222.645334 95.189333L1010.656 640h-66.944l11.210667-106.986667c2.421333-23.562667 17.504-69.653333-55.338667-67.914666-25.184 0.608-37.706667 4.064-37.706667 4.064s-2.186667 28.469333-4.832 49.514666L844.32 640H778.666667l13.024-119.573333" fill="#231916"></path><path d="M226.634667 632.682667c-12.373333 4.341333-38.037333 7.317333-73.909334 7.317333C49.6 640-6.048 590.933333 0.522667 526.090667 8.416 448.810667 90.858667 405.333333 181.141333 405.333333c34.976 0 55.552 2.858667 74.858667 7.637334l-6.208 52.064c-12.821333-4.384-42.890667-8.405333-67.232-8.405334-53.141333 0-98.250667 16.042667-103.424 66.762667-4.608 45.354667 27.061333 67.04 86.816 67.04 20.8 0 51.477333-3.018667 65.653333-7.370667l-4.992 49.6 0.021334 0.021334z" fill="#C92027"></path><path d="M272.714667 580.021333c19.285333 6.762667 59.488 13.504 92 13.504 35.029333 0 54.528-9.333333 56.096-23.797333 1.418667-13.205333-12.928-14.986667-52.490667-24.010667-54.666667-12.896-89.546667-32.842667-86.133333-64.704C286.176 443.989333 337.685333 416 416.725333 416c38.56 0 75.914667 2.613333 95.274667 8.714667l-6.656 46.666666c-12.565333-4.202667-60.672-10.037333-93.205333-10.037333-32.992 0-50.069333 9.973333-51.253334 20.917333-1.493333 13.845333 15.658667 14.485333 58.528 25.450667 58.026667 14.154667 83.402667 34.090667 80.085334 64.992C495.605333 609.109333 449.258667 640 356.714667 640c-38.528 0-71.744-6.762667-90.048-13.525333l6.048-46.453334z" fill="#231916"></path></symbol><symbol id="icon-morentouxiang" viewBox="0 0 1024 1024"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#A0C3FF"></path><path d="M691.2 887.466667c-55.466667-25.6-123.733333-51.2-123.733333-51.2v-38.4c68.266667-25.6 119.466667-89.6 132.266666-166.4 12.8-4.266667 38.4-17.066667 46.933334-55.466667l8.533333-46.933333s4.266667-59.733333-42.666667-46.933334c4.266667-38.4 4.266667-81.066667 4.266667-115.2-4.266667-64-89.6-98.133333-89.6-98.133333l12.8-17.066667s-42.666667-12.8-59.733333-4.266666l12.8-29.866667s-85.333333 0-132.266667 38.4h-4.266667v-17.066667s-145.066667 21.333333-140.8 243.2c-46.933333-12.8-42.666667 46.933333-42.666666 46.933334l8.533333 46.933333c4.266667 38.4 29.866667 51.2 46.933333 55.466667 12.8 81.066667 64 145.066667 132.266667 166.4v38.4s-68.266667 29.866667-123.733333 51.2c-29.866667 12.8-59.733333 34.133333-81.066667 59.733333 68.266667 51.2 157.866667 76.8 256 76.8s187.733333-25.6 264.533333-72.533333c-21.333333-29.866667-51.2-46.933333-85.333333-64z" fill="#4374E0"></path></symbol><symbol id="icon-icon_boke" viewBox="0 0 1024 1024"><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m298.667-256H213.333v42.667h597.334V768z m-21.334-448L704 234.667 341.333 597.333l-42.666 128 128-42.666L789.333 320z"></path></symbol><symbol id="icon-icon_gitchatx" viewBox="0 0 1024 1024"><path d="M810.667 533.333v-64h-384v85.334h298.666v128h85.334V533.333zM256 810.667h426.667v-85.334h-384V298.667h426.666V384h85.334V213.333H213.333v597.334H256zM512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m213.333-298.667v85.334h85.334v-85.334h-85.334z"></path></symbol><symbol id="icon-guanbi1" viewBox="0 0 1024 1024"><path d="M512 1024A512 512 0 1 1 512 0a512 512 0 0 1 0 1024z m160-768L512 416 352 256l-96 96 160 160-160 160 96 96 160-160 160 160 96-96-160-160 160-160-96-96z"></path></symbol></svg><div id="MathJax_Message" style="display: none;"></div><div class="csdn-toolbar csdn-toolbar tb_disnone ">        <div class="container row center-block ">          <ul class="pull-left left-menu clearfix">            <li>              <a href="http://www.csdn.net/" title="CSDN首页" target="_blank">              <svg class="icon" aria-hidden="true">                  <use xlink:href="#toolbar-csdnlogo"></use>              </svg>                </a>            </li>            <li><a href="http://blog.csdn.net/" class="toolbar_to_feed" title="博客" target="_blank">博客</a></li>            <li><a href="http://edu.csdn.net/" title="学院" target="_blank">学院</a></li>            <li><a href="http://download.csdn.net/" title="下载" target="_blank">下载</a></li>            <li><a href="http://gitbook.cn/?ref=csdn" title="GitChat" target="_blank">GitChat</a></li>            <li class="tb_is1090hide"><a href="http://bbs.csdn.net/" title="论坛" target="_blank">论坛</a></li>            <li class="tb_is1150hide"><a href="http://ask.csdn.net/" title="问答" target="_blank">问答</a></li>            <li class="tb_is1210hide"><a href="http://mall.csdn.net/" title="商城" target="_blank">商城</a></li>            <li class="tb_is1270hide"><a href="http://geek.csdn.net/" title="极客头条" target="_blank">头条</a></li>            <li class="tb_is1330hide"><a href="http://huiyi.csdn.net/" title="活动" target="_blank">活动</a></li>            <li class="tb_is1400hide"><a href="http://job.csdn.net/" title="招聘" target="_blank">招聘</a></li>            <li class="tb_is1452hide"><a href="http://www.iteye.com/" title="ITeye" target="_blank">ITeye</a></li>            <li class="tb_is1513hide"><a href="http://www.gitee.com/" title="码云" target="_blank">码云</a></li>            <li class="tb_is1513hide"><a href="http://www.csto.com/" title="CSTO" target="_blank">CSTO</a></li>            <li class="show-more">            <a href="javascript:;" class="show-more-a"><svg width="22" height="4" xmlns="http://www.w3.org/2000/svg"><path d="M2 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#4F4F4F" fill-rule="evenodd"></path></svg></a>              <div class="more">                <div class="tb_is1090show"><a href="http://bbs.csdn.net/" target="_blank">论坛</a></div>                <div class="tb_is1150show"><a href="http://ask.csdn.net/" target="_blank">问答</a></div>                <div class="tb_is1210show"><a href="http://mall.csdn.net/" target="_blank">商城</a></div>                <div class="tb_is1270show"><a href="http://geek.csdn.net/" target="_blank">极客头条</a></div>                <div class="tb_is1330show"><a href="http://huiyi.csdn.net/" target="_blank">活动</a></div>                <div class="tb_is1400show"><a href="http://job.csdn.net/" target="_blank">招聘</a></div>                <div class="tb_is1452show"><a href="http://www.iteye.com/" target="_blank">ITeye</a></div>                <div class="tb_is1513show"><a href="http://www.gitee.com/" target="_blank">码云</a></div>                <div class="tb_is1513show"><a href="http://www.csto.com/" target="_blank">CSTO</a></div>              </div>            </li>          </ul>          <div class="pull-right login-wrap unlogin">            <ul class="btns">            <li class="toolbar-tracking csdn-tracking-statistics tracking-click" data-mod="popu_369"><a href="#" style="padding:0" target="_blank"></a></li>              <li>                <div class="search_bar csdn-tracking-statistics tracking-click" data-mod="popu_366">                  <input class="input_search" name="" type="text">                  <a href="http://so.csdn.net/so/" target="_blank" class="btn-nobg-noborder btn-search"><i class="iconfont-toolbar toolbar-sousuo"></i></a>                </div>              </li>              <li class="write-bolg-btn csdn-tracking-statistics tracking-click" data-mod="popu_370"><a class="" href="http://mp.blog.csdn.net/postedit" target="_blank"><i class="iconfont-toolbar toolbar-icon_boke"></i><span>写博客</span></a></li>              <li class="gitChat"><a class="" href="http://gitbook.cn/new/gitchat/activity?utm_source=csdnblog1" target="_blank"><i class="iconfont-toolbar toolbar-icon_gitchatx"></i><span>发Chat</span></a></li>              <li class="userinfo"><a href="https://passport.csdn.net/account/login">登录</a><span></span><a href="https://passport.csdn.net/account/mobileregister?action=mobileRegister">注册</a></li>              <li class="userLogin">                <div class="loginCenter"><a href="http://my.csdn.net/" target="_blank"><img class="login_img" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/100x100.jpg"><div class="toolbar-circle"></div></a></div>                <div class="userControl">                  <div><a href="http://blog.csdn.net/" target="_blank">我的博客</a></div>                  <div><a class="xiaoxi" href="http://msg.csdn.net/" target="_blank">消息<span class="toolbar-newsL">(3)</span></a></div>                  <div><a href="http://my.csdn.net/my/account/changepwd" target="_blank">设置</a></div>                  <div><a href="http://bbs.csdn.net/forums/Service" target="_blank">反馈</a></div>                  <div><a href="http://oldblog.csdn.net/home/help.html" target="_blank">帮助</a></div>                  <div><a href="http://passport.csdn.net/account/logout">退出</a></div>                </div>              </li>            </ul>          </div>        </div>    </div><script class="toolbar-s" type="text/javascript" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/iconfont.js"></script>
+        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_72" data-mtp="62" data-order="40" data-con="ad_content_2072">
+            <script id="popuLayer_js_q" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/popuLayer.js" defer="defer" type="text/javascript"></script>
+            <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 -->
+                <div id="cpro_u2895327">
+                    <!-- 投放代码 -->
+                            <div id="_phs5kqajqx"><iframe scrolling="no" src="http://pos.baidu.com/s?hei=250&amp;wid=300&amp;di=u2895327&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Fjerry_1126%2Farticle%2Fdetails%2F70989938&amp;ltr=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DLz0cI_08ZdOkPMeVDI2K282TzFQ4kGZdRLuSdyTFSHjSbugGUvQHj2REKQdTpXzWniiIBc2IAooJyTH1_thRh1-l1T0Q1n3hwXHKwpfqc87%26wd%3D%26eqid%3Dac4446260004c526000000045a705508&amp;tlm=1517311307&amp;dtm=HTML_POST&amp;cmi=2&amp;ccd=24&amp;dc=3&amp;psr=1920x1080&amp;drs=1&amp;cja=false&amp;chi=1&amp;cec=UTF-8&amp;tpr=1517311307444&amp;exps=111000&amp;ps=968x1896&amp;cfv=28&amp;cce=true&amp;cdo=-1&amp;ari=2&amp;dri=0&amp;cpl=1&amp;tcn=1517311307&amp;col=zh-CN&amp;pss=1920x968&amp;dai=1&amp;par=1920x1040&amp;ant=0&amp;ti=%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2&amp;dis=0&amp;pcs=1920x968&amp;pis=-1x-1" width="300" height="250" frameborder="0"></iframe><span style="display:none;visibility:visible;"></span></div><script type="text/javascript" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ojylrgbyk.js"></script>
+
+
+
+                </div>
+            </div>
+            <script>
+                document.getElementById("popuLayer_js_q").onload = function () {
+                    var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 };
+                    window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 });
+                }</script>
+
+
+        </div>
+
+
+    <!--new top-->
+    <script id="toolbar-tpl-scriptId" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/content_toolbar.js" type="text/javascript" domain="http://blog.csdn.net"></script>
+
+    <link rel="stylesheet" href="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/content_toolbar.css">
+    <!--new top-->
+    <div id="container">
+        
+<div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/jerry_1126">杰瑞的专栏</a></h2>
+            <h3>架构师、脚本语言专家；精通Python、Shell、正则表达式；熟悉Java、C、Tcl、Ruby、Scala、Perl等多种编程语言；在性能，开源，自动化测试方面有非常丰富的经验</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+    
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/jerry_1126?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/jerry_1126?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/jerry_1126/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_rss.gif">订阅</span></a></li>                   
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "Jerry_1126";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/jerry_1126";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+	var curUserFace = "http://avatar.csdn.net/2_guest.jpg";
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                    <div class="ad_class">
+
+
+
+                    </div>
+
+                    
+
+ <script src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/main-1.js"></script>
+
+<script type="text/javascript" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/category.js"></script>
+
+  <script type="text/ecmascript">
+      var title="图解Linux命令之--mkfs命令";
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=%e5%9b%be%e8%a7%a3Linux%e5%91%bd%e4%bb%a4%e4%b9%8b--mkfs%e5%91%bd%e4%bb%a4&u=http://blog.csdn.net/jerry_1126/article/details/70989938"
+    </script>
+<div id="article_details" class="details">
+    
+<div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="http://blog.csdn.net/jerry_1126/article/details/70989938">
+        图解Linux命令之--mkfs命令        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+
+    
+    <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href="http://www.csdn.net/tag/Linux" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">Linux</a><a href="http://www.csdn.net/tag/%e5%91%bd%e4%bb%a4" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">命令</a><a href="http://www.csdn.net/tag/mkfs" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">mkfs</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2017-04-29 20:43</span>
+            <span class="link_view" title="阅读次数">1304人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(0)</span>
+            <span class="link_collect csdn-tracking-statistics" data-pid="blog" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('%e5%9b%be%e8%a7%a3Linux%e5%91%bd%e4%bb%a4%e4%b9%8b--mkfs%e5%91%bd%e4%bb%a4','70989938');return false;" title="收藏" target="_blank">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(70989938,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label onclick="GetCategoryArticles('2785389','Jerry_1126','top','70989938');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">【编程语言】<em>（292）</em></span>
+                      <img class="arrow-down" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle%2520_down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a href="http://blog.csdn.net/Jerry_1126/article/category/2785389" target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_2785389">                            
+                            </ul>
+                        </div>
+                    </label>                    
+                    <label onclick="GetCategoryArticles('2785407','Jerry_1126','top','70989938');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">【操作系统】<em>（167）</em></span>
+                      <img class="arrow-down" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle%2520_down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a href="http://blog.csdn.net/Jerry_1126/article/category/2785407" target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_2785407">                            
+                            </ul>
+                        </div>
+                    </label>                    
+                    <label onclick="GetCategoryArticles('2785391','Jerry_1126','top','70989938');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">【系统运维】<em>（86）</em></span>
+                      <img class="arrow-down" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle%2520_down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a href="http://blog.csdn.net/Jerry_1126/article/category/2785391" target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_2785391">                            
+                            </ul>
+                        </div>
+                    </label>                    
+                    <label onclick="GetCategoryArticles('2785405','Jerry_1126','top','70989938');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">【系统测试】<em>（59）</em></span>
+                      <img class="arrow-down" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle%2520_down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a href="http://blog.csdn.net/Jerry_1126/article/category/2785405" target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_2785405">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div class="bog_copyright">         
+            <p class="copyright_p">版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+        </div>
+
+
+
+
+
+
+<div id="article_content" class="article_content csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post">
+
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-family:FangSong_GB2312; font-size:18px"><span style="color:rgb(255,0,0)"><strong>mkfs命令</strong></span></span><span style="font-family:FangSong_GB2312; font-size:18px; color:rgb(255,0,0)"><strong>--&gt;<a target="_blank" href="http://lib.csdn.net/base/linux" class="replace_word" title="Linux知识库" style="color:rgb(223,52,52); text-decoration:none"></a>make
+ filesystem的缩写；用来在特定的分区建立Linux文件系统</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-family:FangSong_GB2312; font-size:18px; color:rgb(255,0,0)"><strong><br>
+</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-family:FangSong_GB2312; font-size:18px"></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; color:rgb(255,0,0); font-weight:bold">
+<span style="font-size:18px"><span style="font-family:FangSong_GB2312">【<strong>命令作用</strong></span><span style="font-family:FangSong_GB2312">】</span><br>
+</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:FangSong_GB2312"><span style="font-size:18px">该命令用来在特定的分区创建linux文件系统，常见的文件系统有ext2,ext3,vfat等，</span></span><span style="font-size:18px; font-family:FangSong_GB2312">执行mkfs命令其实是在调用:mkfs.ext3 | mkfs.reiserfs |</span><span style="font-size:18px; font-family:FangSong_GB2312">mkfs.ext2
+ | mkdosfs | mkfs.msdos | mkfs.vfat</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:18px; font-family:FangSong_GB2312"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/20170429204031352.png" alt=""><br>
+</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:FangSong_GB2312"><span style="font-size:18px">比如：<br>
+mkfs.ext3 /dev/sda6 &nbsp; &nbsp; &nbsp;<span style="white-space:pre"> </span># 把该设备格式化成ext3文件系统<br>
+mke2fs -j /dev/sda6 &nbsp; &nbsp; &nbsp;<span style="white-space:pre"> </span># 把该设备格式化成ext3文件系统<br>
+mkfs.reiserfs /dev/sda6 &nbsp;<span style="white-space:pre"> </span># 格式化成reiserfs文件系统<br>
+mkfs.vfat /dev/sda6 &nbsp; &nbsp; &nbsp;<span style="white-space:pre"> </span># 格式化成fat32文件系统<br>
+mkfs.msdos /dev/sda6 &nbsp; &nbsp; &nbsp;<span style="white-space:pre"></span># 格式化成fat16文件系统,msdos就是fat16<br>
+mkdosfs /dev/sda6 &nbsp; &nbsp; &nbsp; &nbsp;<span style="white-space:pre"> </span># 格式化成msdos文件系统<br>
+</span></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:FangSong_GB2312"><span style="font-size:18px"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/20170429204320824.png" alt=""><br>
+</span></span></p>
+   
+</div>
+
+
+
+
+
+
+
+
+    <div class="readall_box csdn-tracking-statistics tracking-click readall_box_nobg" data-pid="blog" data-mod="popu_596" style="display: none;">
+        <div class="read_more_mask"></div>
+        <a class="btn btn-large btn-gray-fred read_more_btn" target="_self">阅读全文</a>
+    </div>
+
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_222"><a href="javascript:void(0);" target="_blank">&nbsp;</a>   </div>
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_223"> <a href="javascript:void(0);" target="_blank">&nbsp;</a></div>
+        <div id="digg" articleid="70989938">
+            <dl id="btnDigg" class="digg digg_disable" onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>1</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable" onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".csdn-tracking-statistics[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".csdn-tracking-statistics[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/Jerry_1126/article/details/70982934';">上一篇</span><a href="http://blog.csdn.net/Jerry_1126/article/details/70982934" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">图解Linux命令之--cksum命令</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/Jerry_1126/article/details/72803772';">下一篇</span><a href="http://blog.csdn.net/Jerry_1126/article/details/72803772" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">Pycharm 输出中文或打印中文乱码现象的解决办法</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+   
+      
+</div>
+
+     <div>
+         
+         <!-- 广告位：PC端-博客详情页底部banner-960*90 -->
+            <script>
+                (function() {
+                    var s = "_" + Math.random().toString(36).slice(2);
+                    document.write('<div id="' + s + '"></div>');
+                    (window.slotbydup=window.slotbydup || []).push({
+                        id: '4770928',
+                        container: s,
+                        size: '960,90',
+                        display: 'inlay-fix'
+                    });
+                })();
+            </script><div id="_wyygwqj74x"></div><script charset="utf-8" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pcim_002"></script>
+    </div>
+
+<div id="suggest">
+
+
+
+</div>
+         <script language="javascript" type="text/javascript">     
+             $(function(){
+                 $.get("/Jerry_1126/svc/GetSuggestContent/70989938",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+
+<div class="comment_class">
+	<div class="commentform"><!--<div class="panel_head">发表评论</div>--></div>
+    <div id="comment_form"><div class="guest_link">您还没有登录,请<a href="javascript:void(0);" onclick="javascript:loginbox();">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Fjerry_1126%2Farticle%2Fdetails%2F70989938">[注册]</a></div></div>
+    <div id="comment_title" class="panel_head" style="display: none;">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list" style="display: none;"><br>&nbsp;&nbsp;暂无评论<br><br><div class="clear"></div></div>
+    <div id="comment_bar">
+    </div>
+    <!--<div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>-->
+</div>
+<div class="recommend_list">
+
+    
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="true" data-dsm="post">
+<a href="http://blog.csdn.net/asx20042005/article/details/7264867" target="_blank" strategy="BlogCommendFromBaidu_0">
+                <dd>
+                    <h2>linux mkfs命令参数及用法详解---linux格式化文件系统命令(包括swap分区)</h2>
+                    <div class="summary">
+                        mkfs
+命令 &nbsp;linux格式化磁盘命令
+　　 &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; linux mkfs
+&nbsp; &nbsp; &nbsp; &nbsp; 指令：mkfs
+　　使用权限 : 超级使用者
+　　使用方式 : mkfs [-V...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_asx20042005.gif" alt="ASX20042005" title="ASX20042005"></li>
+                        <li class="user_name">ASX20042005</li>
+                        <li class="time">2012-02-16 15:48</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>61781</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/pugu12/article/details/47052923" target="_blank" strategy="BlogCommendFromBaidu_1">
+                <dd>
+                    <h2>linux mkfs命令参数及用法详解---linux格式化文件系统命令(包括swap分区)</h2>
+                    <div class="summary">
+                        mkfs&nbsp;命令&nbsp;&nbsp;linux格式化磁盘命令
+
+　　 &nbsp;
+
+&nbsp; &nbsp; &nbsp; &nbsp; linux mkfs
+
+&nbsp; &nbsp; &nbsp; &nbsp; 指令：mkfs
+
+　　使用权限 : 超级使用者
+...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_pugu12.jpg" alt="pugu12" title="pugu12"></li>
+                        <li class="user_name">pugu12</li>
+                        <li class="time">2015-07-25 08:43</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>4593</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            <script>(function() {var s = "_" + Math.random().toString(36).slice(2);document.write('<div id="' + s + '"></div>');(window.slotbydup = window.slotbydup || []).push({id: '4765209',container: s,size: '808,120',display: 'inlay-fix'});})();</script><div id="_v6vwzo7c9n"></div><script charset="utf-8" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pcim"></script> 
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/pojiaa123/article/details/53750109" target="_blank" strategy="searchFromBaidu_2">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">FAT32 R0.12b f_mkfs应用实例</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_pojiaa123.jpg" alt="PoJiaA123" title="PoJiaA123"></li>
+                        <li class="user_name">PoJiaA123</li>
+                        <li class="time">2016-12-19 22:42</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2002</span></li>
+                    </ul><div class="summary">
+                        做单片机开发难免用到文件系统，以前用的老版本，最近做新项目想搞个更新版的，结果格式化这里就遇到困难，原来版本格式化函数只有三个参数：FRESULT f_mkfs (
+ BYTE  Drive,            /* 逻辑驱动器号 */
+ BYTE  PartitioningRule, /* 分...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics downloadElement" data-mod="popu_36" data-poputype="feed" data-feed-show="false" data-dsm="post">
+        <a href="http://download.csdn.net/download/bang417/4018922" target="_blank" strategy="searchFromBaidu_3">       
+		<dd class="floatL">
+			<div class="summary">
+				<h2>mkfs.jffs2</h2>
+				<div class="summary">
+				  <ul>
+					  <li class="time">2012-01-13 10:32</li>
+					  <li class="visited_num fileSize">38KB</li>
+					  <li class="download_btn">下载</li>
+				  </ul>
+				</div> 
+			</div>
+		</dd>
+	</a><dt class="floatR"><a href="http://download.csdn.net/download/bang417/4018922" target="_blank" strategy="searchFromBaidu_3"></a><a href="http://download.csdn.net/download/bang417/4018922" target="_blank" strategy="searchFromBaidu_3"><img class="maxwidth" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/unkonw.svg" alt="" title=""></a></dt>
+            </dl>
+            <!-- 广告位：PC端-博客详情通栏7（feed流）-808*120 --><iframe style="width: 100%; height: 123px; border: 0px none;" scrolling="no"></iframe>
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/gz153016/article/details/51707272" target="_blank" strategy="BlogCommendFromBaidu_4">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux 文件系统构建命令mkfs</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_gz153016.jpg" alt="gz153016" title="gz153016"></li>
+                        <li class="user_name">gz153016</li>
+                        <li class="time">2016-06-18 21:38</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1023</span></li>
+                    </ul><div class="summary">
+                        mkfs用来在一个设备上构建Linux支持的相关文件系统，也可称之为格式化工具，
+
+这里的设备通常是指标硬盘分区。
+
+
+在Linux上通过fdisk等工具进行完分区后，还需要
+
+
+对分区进行处理,使之支持相应的文件系统，这时候就需要用到mkfs这个工具，建立
+
+
+文件系统过程的实质是在磁盘空间上面建...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/love_3556/article/details/52493092" target="_blank" strategy="BlogCommendFromBaidu_5">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">mkfs.xfs 命令找不到的解决方法</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_love_3556.gif" alt="love_3556" title="love_3556"></li>
+                        <li class="user_name">love_3556</li>
+                        <li class="time">2016-09-10 09:57</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3055</span></li>
+                    </ul><div class="summary">
+                        对硬盘进行格式化：
+# mkfs.xfs /dev/sdb1 &nbsp;
+系统显示：
+&nbsp;mkfs.xfs error:&nbsp;
+command not found.&nbsp;
+
+
+可能是系统不完全安装
+
+
+运行 which mkfs &nbsp;查看mkfs的命...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/ljianhui/article/details/8604140" target="_blank" strategy="BlogCommendFromBaidu_6">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">初窥Linux 之 ext2/ext3文件系统</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_ljianhui.jpg" alt="ljianhui" title="ljianhui"></li>
+                        <li class="user_name">ljianhui</li>
+                        <li class="time">2013-02-22 21:38</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>24184</span></li>
+                    </ul><div class="summary">
+                        Linux最传统的磁盘文件系统(filesystem)使用的是ext2，所以要了解文件系统就得要由ext2开始。
+
+
+一、文件系统特性
+磁盘分区完毕后还需要进行格式化，之后操作系统才能够使用这个分区。这是因为每种操作系统所设置的文件属性/权限并不相同，为了存放这些文件所需的数据，因此就需要将...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/chengonghao/article/details/51273925" target="_blank" strategy="BlogCommendFromBaidu_7">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">6.Linux分区的创建，ext2和ext3的区别（日志文件系统）</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_chengonghao.jpg" alt="chengonghao" title="chengonghao"></li>
+                        <li class="user_name">chengonghao</li>
+                        <li class="time">2016-04-28 14:18</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1353</span></li>
+                    </ul><div class="summary">
+                        磁盘分区从物理上看，是按照磁道（track）分的。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 盘片旋转时，角速度是确定的，意味着越靠外的磁道在同样的时间内转过的距离越长，读取的数据量就越大，性能越好，因此访问最频繁的数据应该放在最外面的磁道，...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/tanga842428/article/details/55094491" target="_blank" strategy="BlogCommendFromBaidu_8">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux文件系统构建命令mkfs</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_tanga842428.jpg" alt="tanga842428" title="tanga842428"></li>
+                        <li class="user_name">tanga842428</li>
+                        <li class="time">2017-02-14 08:46</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>226</span></li>
+                    </ul><div class="summary">
+                        原文地址：http://blog.csdn.net/starshine/article/details/7075280
+
+&nbsp; &nbsp; &nbsp;mkfs用来在一个设备上构建Linux支持的相关文件系统，也可称之为格式化工具，
+这里的设备通常是指标硬盘分区。在Linux上通过fdis...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/mosesmo1989/article/details/51094352" target="_blank" strategy="BlogCommendFromBaidu_9">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux mkfs --格式化磁盘</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_mosesmo1989.jpg" alt="mosesmo1989" title="mosesmo1989"></li>
+                        <li class="user_name">mosesmo1989</li>
+                        <li class="time">2016-04-08 10:38</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>239</span></li>
+                    </ul><div class="summary">
+                        mkfs
+命令&nbsp;linux格式化磁盘命令
+&nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp; linux mkfs
+&nbsp;&nbsp; &nbsp; &nbsp; 
+指令：mkfs
+使用权限 : 超级使用者
+使用方式 : mkfs [-V] [-tfst...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/lwnylslwnyls/article/details/7909102" target="_blank" strategy="BlogCommendFromBaidu_10">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">linux mkfs命令参数及用法详解---linux格式化文件系统命令</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_lwnylslwnyls.jpg" alt="lwnylslwnyls" title="lwnylslwnyls"></li>
+                        <li class="user_name">lwnylslwnyls</li>
+                        <li class="time">2012-08-26 15:16</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3274</span></li>
+                    </ul><div class="summary">
+                        mkfs 命令 &nbsp;linux格式化磁盘命令
+　　 &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; linux mkfs
+&nbsp; &nbsp; &nbsp; &nbsp; 指令：mkfs
+　　使用权限 : 超级使用者
+　　使用方式 : mkfs [-V]...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/wangye1989_0226/article/details/70495690" target="_blank" strategy="BlogCommendFromBaidu_11">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">shell脚本实现MBR、GPT自动分区及格式化</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_wangye1989_0226.jpg" alt="wangye1989_0226" title="wangye1989_0226"></li>
+                        <li class="user_name">wangye1989_0226</li>
+                        <li class="time">2017-04-23 13:13</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1551</span></li>
+                    </ul><div class="summary">
+                        shell，MBR,GPT,自动分区，格式化
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/yu132563/article/details/50534214" target="_blank" strategy="BlogCommendFromBaidu_12">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux格式化硬盘 常用命令小记</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_yu132563.jpg" alt="yu132563" title="yu132563"></li>
+                        <li class="user_name">yu132563</li>
+                        <li class="time">2016-01-17 23:32</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1660</span></li>
+                    </ul><div class="summary">
+                        今天新蛋上订购了一块1TB的硬盘打算装Ubuntu，当然先要做好功课，查一下注意事项啦！
+
+基本功，格式化命令，以格式化 /dev/sda1 分区为例：
+$ sudo umount /dev/sda1 &nbsp;&nbsp; # 必须先卸载该分区
+
+# 格式化为 FAT 分区
+$ su...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/gz153016/article/details/51707272" target="_blank" strategy="BlogCommendFromQuerySearch_13">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux 文件系统构建命令mkfs</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_gz153016.jpg" alt="gz153016" title="gz153016"></li>
+                        <li class="user_name">gz153016</li>
+                        <li class="time">2016-06-18 21:38</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1023</span></li>
+                    </ul><div class="summary">
+                        mkfs用来在一个设备上构建Linux支持的相关文件系统，也可称之为格式化工具，
+
+这里的设备通常是指标硬盘分区。
+
+
+在Linux上通过fdisk等工具进行完分区后，还需要
+
+
+对分区进行处理,使之支持相应的文件系统，这时候就需要用到mkfs这个工具，建立
+
+
+文件系统过程的实质是在磁盘空间上面建...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/mosesmo1989/article/details/51094352" target="_blank" strategy="BlogCommendFromQuerySearch_14">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux mkfs --格式化磁盘</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_mosesmo1989.jpg" alt="mosesmo1989" title="mosesmo1989"></li>
+                        <li class="user_name">mosesmo1989</li>
+                        <li class="time">2016-04-08 10:38</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>239</span></li>
+                    </ul><div class="summary">
+                        mkfs
+命令&nbsp;linux格式化磁盘命令
+&nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp; linux mkfs
+&nbsp;&nbsp; &nbsp; &nbsp; 
+指令：mkfs
+使用权限 : 超级使用者
+使用方式 : mkfs [-V] [-tfst...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/hello_wsn/article/details/11560397" target="_blank" strategy="BlogCommendFromQuerySearch_15">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">嵌入式linux安装mkfs格式化工具</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_hello_wsn.gif" alt="hello_wsn" title="hello_wsn"></li>
+                        <li class="user_name">hello_wsn</li>
+                        <li class="time">2013-09-11 13:38</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1768</span></li>
+                    </ul><div class="summary">
+                        虽然我的标题注释为“原创”，但是主要方法的参考来。网址：http://blog.163.com/ljf_gzhu/blog/static/13155344020106910285765/，此人必定是个大牛。
+
+
+1. 下载源码包e2fsprogs，本人下载的版本是1.41.12：
+
+http://s...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/tanga842428/article/details/55094491" target="_blank" strategy="BlogCommendFromQuerySearch_16">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux文件系统构建命令mkfs</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_tanga842428.jpg" alt="tanga842428" title="tanga842428"></li>
+                        <li class="user_name">tanga842428</li>
+                        <li class="time">2017-02-14 08:46</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>226</span></li>
+                    </ul><div class="summary">
+                        原文地址：http://blog.csdn.net/starshine/article/details/7075280
+
+&nbsp; &nbsp; &nbsp;mkfs用来在一个设备上构建Linux支持的相关文件系统，也可称之为格式化工具，
+这里的设备通常是指标硬盘分区。在Linux上通过fdis...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/weiyuanke/article/details/52996633" target="_blank" strategy="BlogCommendFromQuerySearch_17">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">mkfs.ext4 很慢的问题</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_weiyuanke.gif" alt="weiyuanke" title="weiyuanke"></li>
+                        <li class="user_name">weiyuanke</li>
+                        <li class="time">2016-11-01 15:45</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1232</span></li>
+                    </ul><div class="summary">
+                        在大的磁盘上通过mkfs.ext4 
+制作文件系统往往很慢，如果要处理的磁盘是通过iscsi或者ceph挂载过来的，在网络情况不好的情况下，该过程更是漫长，甚至卡死。
+
+在创建ext4文件系统的过程中，inode table对应的区域需要被清除，这一过程会大量占用磁盘的带宽。
+
+
+
+
+...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/oldlinux/article/details/8551878" target="_blank" strategy="BlogCommendFromQuerySearch_18">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">linux-0.11调试教程，mkfs.c源代码分析（1）</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_sitelist.jpg" alt="sitelist" title="sitelist"></li>
+                        <li class="user_name">sitelist</li>
+                        <li class="time">2013-01-29 11:31</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2363</span></li>
+                    </ul><div class="summary">
+                        下面是mkfs命令的一个例子
+mkfs /dev/hd6 60000
+结果：
+20000个inodes，60000个blocks，第一个数据块块号为638
+
+
+
+
+
+指导思想：
+不看源代码的话，格式化一个文件系统，应该改变的是：
+(1)，文件系统的超级块信息，需要用户输入的块的...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/jj546630576/article/details/73348212" target="_blank" strategy="BlogCommendFromQuerySearch_19">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">17、文件系统常用命令df、du、fsck、dumpe2fs</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_jj546630576.jpg" alt="jj546630576" title="jj546630576"></li>
+                        <li class="user_name">jj546630576</li>
+                        <li class="time">2017-06-16 18:40</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>163</span></li>
+                    </ul><div class="summary">
+                        1、df &nbsp;查看分区
+df &nbsp; -h &nbsp;查看（最常用-h人性化显示，其他不说了）： &nbsp;文件系统 &nbsp; &nbsp;容量 &nbsp; &nbsp;以用容量 &nbsp;可用容量 &nbsp;已用百分比 &nbsp; 挂载点
+
+
+2、du 统计目录大小与...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            </div>
+<script type="text/javascript">
+    var fileName = '70989938';
+    var commentscount = 0;
+    var islock = false
+document.domain = "csdn.net";
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop" style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])">         
+         <img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='图解Linux命令之--mkfs命令';
+
+</script>
+<script src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/appendMark.js" type="text/javascript"></script>
+<script type="text/javascript">
+    appendMark($('.recommend_list').children('a').find('dt'),$('.extension_other'))
+</script>
+
+
+
+
+
+
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="side">
+                
+
+    <div class="side">
+
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/Jerry_1126" target="_blank">
+    <img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/1_jerry_1126.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/Jerry_1126" class="user_name" target="_blank">杰瑞26</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=Jerry_1126','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+                                            <a target="_blank">
+                                                    <img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="7">
+                                            </a>
+               </div>
+
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>709709次</span></li>
+    <li>积分：<span>10931</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+                 <a title="7级,点击查看等级说明" href="http://blog.csdn.net/home/help.html#level" target="_blank"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog7.png" alt="" style="vertical-align: middle;" id="leveImg"></a>
+            
+        </span>  </li>
+    <li>排名：<span>第1737名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>329篇</span></li>
+    <li>转载：<span>81篇</span></li>
+    <li>译文：<span>11篇</span></li>
+    <li>评论：<span>69条</span></li>
+</ul>
+</ul>
+</div>
+
+
+                        <div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" class="form_search csdn-tracking-statistics" data-pid="blog" target="_blank" data-mod="popu_306">
+        <span><input id="inputSearch" class="blogsearch" title="请输入关键字" type="text"></span>
+        <input id="btnSubmit" value="搜索" title="search in blog" type="button">
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + 
+encodeURIComponent($("#inputSearch").val()) + "&u=" + username + 
+"&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + 
+encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            var url = "/" + username + "?q=" + 
+encodeURIComponent($("#inputSearch").val());
+            window.location.href = url;
+        }   
+    });
+</script> 
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785389" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【编程语言】</a><span>(293)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785407" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【操作系统】</a><span>(168)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785391" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【系统运维】</a><span>(87)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785405" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【系统测试】</a><span>(60)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2786035" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【开发工具】</a><span>(27)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785387" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【系统架构】</a><span>(19)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785765" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【项目管理】</a><span>(15)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785399" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【数据仓库】</a><span>(9)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2786745" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【职场人生】</a><span>(9)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2786747" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【健康养生】</a><span>(25)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2786755" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【文献翻译】</a><span>(11)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785411" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【综合其他】</a><span>(29)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785397" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【数据结构及算法】</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785393" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【数据挖掘及分析】</a><span>(9)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/Jerry_1126/article/category/2785767" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">【大数据及云计算】</a><span>(6)</span>
+                </li>
+</ul>
+</div>
+<div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/11">2017年11月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/10">2017年10月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/09">2017年09月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/08">2017年08月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/07">2017年07月</a><span>(12)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/06">2017年06月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/05">2017年05月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/04">2017年04月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/03">2017年03月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/02">2017年02月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2017/01">2017年01月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2016/10">2016年10月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2016/09">2016年09月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2016/08">2016年08月</a><span>(24)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2016/07">2016年07月</a><span>(16)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2016/06">2016年06月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2016/05">2016年05月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2016/04">2016年04月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/12">2015年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/10">2015年10月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/09">2015年09月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/08">2015年08月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/07">2015年07月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/06">2015年06月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/05">2015年05月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/04">2015年04月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/03">2015年03月</a><span>(20)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/02">2015年02月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2015/01">2015年01月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/12">2014年12月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/11">2014年11月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/10">2014年10月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/09">2014年09月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/08">2014年08月</a><span>(18)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/07">2014年07月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/05">2014年05月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/04">2014年04月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/03">2014年03月</a><span>(14)</span></li><li><a href="http://blog.csdn.net/Jerry_1126/article/month/2014/02">2014年02月</a><span>(34)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+
+<div id="hotarticls" class="panel csdn-tracking-statistics" data-pid="blog" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/43758179" title="Python中lxml模块的安装" target="_blank">Python中lxml模块的安装</a><span>(26418)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/44023949" title="Python面试题汇总" target="_blank">Python面试题汇总</a><span>(24805)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/46584179" title="Python中四种运行其他程序的方式" target="_blank">Python中四种运行其他程序的方式</a><span>(22824)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/44337973" title="一个简单数据库设计例子" target="_blank">一个简单数据库设计例子</a><span>(19496)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/52120806" title="crontab中如何实现每隔多少天执行一次脚本" target="_blank">crontab中如何实现每隔多少天执行一次脚本</a><span>(14483)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/52096886" title="Shell脚本调试的几种方式" target="_blank">Shell脚本调试的几种方式</a><span>(13911)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/43968231" title="Python文档生成工具pydoc" target="_blank">Python文档生成工具pydoc</a><span>(12692)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/52027539" title="Shell中的数组及其相关操作" target="_blank">Shell中的数组及其相关操作</a><span>(12159)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/51835119" title="Shell中获取字符串长度的七种方法" target="_blank">Shell中获取字符串长度的七种方法</a><span>(12140)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/jerry_1126/article/details/73017270" title="Python中字典合并的四种方法" target="_blank">Python中字典合并的四种方法</a><span>(9892)</span>
+</li>
+</ul>
+</div>
+
+    </div>
+    <div class="clear">
+    </div>
+
+                        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_189" data-mtp="63" data-order="40" data-con="ad_content_1259" style="width: 250px; height: 250px;">
+                            <div id="nav_show_top_stop" style="width: 250px; height: 250px; z-index: 1000; position: fixed; top: 1597.77px;">
+
+                                <div id="cpro_u3031286" style="text-align:center;">
+                                    <!-- 投放代码 -->
+                                    <div id="_g9de9r65mw"><iframe scrolling="no" src="//pos.baidu.com/s?hei=250&amp;wid=250&amp;di=u3031286&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Fjerry_1126%2Farticle%2Fdetails%2F70989938&amp;cpl=1&amp;dis=0&amp;col=zh-CN&amp;cja=false&amp;dc=3&amp;par=1920x1040&amp;cec=UTF-8&amp;cce=true&amp;ps=2677x323&amp;ccd=24&amp;cmi=2&amp;tlm=1517311307&amp;ltr=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DLz0cI_08ZdOkPMeVDI2K282TzFQ4kGZdRLuSdyTFSHjSbugGUvQHj2REKQdTpXzWniiIBc2IAooJyTH1_thRh1-l1T0Q1n3hwXHKwpfqc87%26wd%3D%26eqid%3Dac4446260004c526000000045a705508&amp;pcs=1903x968&amp;cdo=-1&amp;pis=-1x-1&amp;ari=2&amp;tcn=1517311308&amp;exps=111000&amp;chi=1&amp;tpr=1517311307444&amp;dai=2&amp;ti=%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2&amp;psr=1920x1080&amp;pss=1903x3566&amp;ant=0&amp;dtm=HTML_POST&amp;cfv=28&amp;drs=1&amp;dri=0" width="250" height="250" frameborder="0"></iframe></div><script type="text/javascript" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/bwocoflyv.js"></script>
+                                    
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+
+                            setTimeout(function () {
+                                var naviga_offsetTop = 0; function 
+naviga_stay_top() {
+                                    var scrollTop = 
+jQuery(document).scrollTop();
+                                    if (scrollTop > naviga_offsetTop) {
+                                        
+jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                                        
+jQuery("#nav_show_top_stop").css({ "top": "0px" });
+                                    } else { 
+jQuery("#nav_show_top_stop").css({ "position": "fixed" }); 
+jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop +
+ "px" }); }
+                                }
+                                function onload_function() {
+                                    naviga_offsetTop = 
+jQuery("#nav_show_top_stop").position().top;
+                                    jQuery(window).bind("scroll", 
+naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top);
+                                    jQuery(document).bind("scroll", 
+naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top);
+                                } 
+jQuery(document).ready(onload_function);
+                            }, 200);
+
+                        </script>
+
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='csdn-tracking-statistics' 
+data-pid=\"blog\"  data-mod='popu_167'><a 
+href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  
+style='text-indent:0;'><img 
+src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 
+alt='在CODE上查看代码片' 
+style='position:relative;top:1px;left:2px;'/></a></span>"
+                + "<span class='csdn-tracking-statistics' 
+data-pid=\"blog\"  data-mod='popu_170'><a 
+href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' 
+style='text-indent:0;'><img 
+src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 
+alt='派生到我的代码片' 
+style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && 
+parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+
+
+
+        <script type="text/javascript" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/MathJax.js"></script>
+
+    <script src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_blog_detail.js" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="javascript:void(0);" target="_blank" class="qq">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2251809102&amp;site=qq&amp;menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-660-0108</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏知之为计算机有限公司</span><span class="interval">|</span><span>江苏乐知网络技术有限公司</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2017, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/notify.js"></script><input id="aa_g_data_ids" type="hidden">
+
+    <script type="text/javascript" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_public_blog_detail.js"></script>
+
+    <script type="text/javascript" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/showblogmedal.js"></script>
+
+
+    <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+        <script id="adJs52b5334" src="%E5%9B%BE%E8%A7%A3Linux%E5%91%BD%E4%BB%A4%E4%B9%8B--mkfs%E5%91%BD%E4%BB%A4%20-%20%E6%9D%B0%E7%91%9E%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/52b5334.js"></script>
+        <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+    </div>
+
+    <div class="pop_CA_cover" style="display:none"></div>
+    <div class="pop pop_CA" style="display:none">
+        <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon" id="fapancle" onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+        </div>
+        <iframe src="" id="fa" scrolling="no" width="100%" height="360" frameborder="0"></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+    <div style="display:none;">
+        <img src="" onerror='setTimeout(function(){if(top !== self){window["\x74\x6f\x70"]["\x6c\x6f\x63\x61\x74\x69\x6f\x6e"]["\x68\x72\x65\x66"] = window["\x6c\x6f\x63\x61\x74\x69\x6f\x6e"]["\x68\x72\x65\x66"];}            if(typeof(csdn)=="\x75\x6e\x64\x65\x66\x69\x6e\x65\x64"&amp;&amp;window["\x6c\x6f\x63\x61\x74\x69\x6f\x6e"]["\x68\x6f\x73\x74"]["\x69\x6e\x64\x65\x78\x4f\x66"]("\x63\x73\x64\x6e\x2e\x6e\x65\x74")<0&amp;&amp;window["\x6c\x6f\x63\x61\x74\x69\x6f\x6e"]["\x68\x6f\x73\x74"]["\x69\x6e\x64\x65\x78\x4f\x66"]("\x69\x74\x65\x79\x65\x2e\x63\x6f\x6d")<0){window["\x6c\x6f\x63\x61\x74\x69\x6f\x6e"]["\x68\x72\x65\x66"]="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74";}},3000);'>
+    </div>
+
+
+<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" id="focus_retriever" readonly="true" type="text"></div></body></html>
