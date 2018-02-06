@@ -1,0 +1,1093 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- Powered by Question2Answer - http://www.question2answer.org/ --><head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>lvresize,lvextend和lvreduce分别有什么功能，lvresize是不是包含了lvextend和lvreduce，是的话为什么会有这个重复 - 极客问答 Geek Q and A</title>
+		<meta name="keywords" content="SUPINFO课程,2lin">
+		<link rel="stylesheet" type="text/css" href="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/qa-styles.css">
+		<link rel="canonical" href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D">
+		<link rel="search" type="application/opensearchdescription+xml" title="极客问答 Geek Q and A" href="http://www.geekqanda.com/index.php/opensearch.xml">
+		<script type="text/javascript">
+		var qa_root='..\/..\/';
+		var qa_request='10212\/lvextend和lvreduce分别有什么功能，lvresize是不是包含了lvextend和lvreduce，是的话为什么会有这个重复';
+		</script>
+		<script src="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/jquery-1.js" type="text/javascript"></script>
+		<script src="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/qa-page.js" type="text/javascript"></script>
+		<script src="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/qa-question.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			if (typeof qa_wysiwyg_editor_config == 'object')
+				qa_wysiwyg_editor_config.skin='kama';
+		</script>
+		<link rel="stylesheet" type="text/css" href="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/style.css">
+			<script src="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/script.js"></script>
+			<style>
+				.notify-container {
+	left: 0;
+	right: 0;
+	top: 0;
+	padding: 0;
+	position: fixed;
+	width: 100%;
+	z-index: 10000;
+}
+.badge-container-badge {
+	white-space: nowrap;
+}
+.badge-notify {
+	background-color: #F6DF30;
+	color: #444444;
+	font-weight: bold;
+	width: 100%;
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 14px;
+	padding: 10px 0;
+	position:relative;
+}
+.notify-close {
+	color: #735005;
+	cursor: pointer;
+	font-size: 18px;
+	line-height: 18px;
+	padding: 0 3px;
+	position: absolute;
+	right: 8px;
+	text-decoration: none;
+	top: 8px;
+}				
+#badge-form td {
+	vertical-align:top;
+}
+.badge-bronze,.badge-silver, .badge-gold {
+	margin-right:4px;
+	color: #000;
+	font-weight:bold;
+	text-align:center;
+	border-radius:4px;
+	width:120px;
+	padding: 5px 10px;
+	display: inline-block;
+}
+.badge-bronze {
+	background-color: #CB9114;
+
+	background-image: -webkit-linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114); 
+	background-image:    -moz-linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114);
+	background-image:     -ms-linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114); 
+	background-image:      -o-linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114); 
+	background-image:         linear-gradient(left center , #CB9114, #EDB336, #CB9114, #A97002, #CB9114); /* standard, but currently unimplemented */
+
+	border:2px solid #6C582C;
+}				
+.badge-silver {
+	background-color: #CDCDCD;
+	background-image: -webkit-linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); 
+	background-image:    -moz-linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); 
+	background-image:     -ms-linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); 
+	background-image:      -o-linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); 
+	background-image:         linear-gradient(left center , #CDCDCD, #EFEFEF, #CDCDCD, #ABABAB, #CDCDCD); /* standard, but currently unimplemented */
+	border:2px solid #737373;
+}				
+.badge-gold {
+	background-color: #EEDD0F;
+	background-image: -webkit-linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); 
+	background-image:    -moz-linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); 
+	background-image:     -ms-linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); 
+	background-image:      -o-linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); 
+	background-image:         linear-gradient(left center , #EEDD0F, #FFFF2F, #EEDD0F, #CCBB0D, #EEDD0F); /* standard, but currently unimplemented */
+	border:2px solid #7E7B2A;
+}				
+.badge-bronze-medal, .badge-silver-medal, .badge-gold-medal  {
+	font-size: 14px;
+	font-family:sans-serif;
+}
+.badge-bronze-medal {
+	color: #CB9114;
+}				
+.badge-silver-medal {
+	color: #CDCDCD;
+}				
+.badge-gold-medal {
+	color: #EEDD0F;
+}
+.badge-pointer {
+	cursor:pointer;
+}				
+.badge-desc {
+	padding-left:8px;
+}			
+.badge-count {
+	font-weight:bold;
+}			
+.badge-count-link {
+	cursor:pointer;
+	color:#992828;
+}			
+.badge-source {
+	text-align:center;
+	padding:0;
+}
+.badge-widget-entry {
+	white-space:nowrap;
+}
+			</style>
+		</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+		<body class="qa-template-question qa-category-31 qa-body-js-on">
+			<script type="text/javascript">
+				var b=document.getElementsByTagName('body')[0];
+				b.className=b.className.replace('qa-body-js-off', 'qa-body-js-on');
+			</script>
+			<div id="qa-login-bar"><div id="qa-login-group">
+					<!--[Begin: login form]-->
+					<form id="qa-loginform" action="../../index.php/login?to=index.php%2F10212%2Flvextend%25E5%2592%258Clvreduce%25E5%2588%2586%25E5%2588%25AB%25E6%259C%2589%25E4%25BB%2580%25E4%25B9%2588%25E5%258A%259F%25E8%2583%25BD%25EF%25BC%258Clvresize%25E6%2598%25AF%25E4%25B8%258D%25E6%2598%25AF%25E5%258C%2585%25E5%2590%25AB%25E4%25BA%2586lvextend%25E5%2592%258Clvreduce%25EF%25BC%258C%25E6%2598%25AF%25E7%259A%2584%25E8%25AF%259D%25E4%25B8%25BA%25E4%25BB%2580%25E4%25B9%2588%25E4%25BC%259A%25E6%259C%2589%25E8%25BF%2599%25E4%25B8%25AA%25E9%2587%258D%25E5%25A4%258D%3Fshow%3D18934" method="post">
+						<input id="qa-userid" name="emailhandle" placeholder="邮箱或用户名：" type="text">
+						<input id="qa-password" name="password" placeholder="密码：" type="password">
+						<div id="qa-rememberbox"><input name="remember" id="qa-rememberme" value="1" type="checkbox">
+						<label for="qa-rememberme" id="qa-remember">记住</label></div>
+						<input name="code" value="0-1517644685-725d9ab6f78a5e6ada5b2c09fc11080d3e7c4246" type="hidden">
+						<input value="登陆" id="qa-login" name="dologin" type="submit">
+					</form>
+					<!--[End: login form]-->
+					<div class="qa-nav-user">
+						<ul class="qa-nav-user-list">
+							<li class="qa-nav-user-item qa-nav-user-register">
+								<a href="http://www.geekqanda.com/index.php/register?to=index.php%2F10212%2Flvextend%25E5%2592%258Clvreduce%25E5%2588%2586%25E5%2588%25AB%25E6%259C%2589%25E4%25BB%2580%25E4%25B9%2588%25E5%258A%259F%25E8%2583%25BD%25EF%25BC%258Clvresize%25E6%2598%25AF%25E4%25B8%258D%25E6%2598%25AF%25E5%258C%2585%25E5%2590%25AB%25E4%25BA%2586lvextend%25E5%2592%258Clvreduce%25EF%25BC%258C%25E6%2598%25AF%25E7%259A%2584%25E8%25AF%259D%25E4%25B8%25BA%25E4%25BB%2580%25E4%25B9%2588%25E4%25BC%259A%25E6%259C%2589%25E8%25BF%2599%25E4%25B8%25AA%25E9%2587%258D%25E5%25A4%258D%3Fshow%3D18934" class="qa-nav-user-link">注册</a>
+							</li>
+						</ul>
+						<div class="qa-nav-user-clear">
+						</div>
+					</div>
+					<div class="qa-search">
+						<form method="get" action="../../index.php/search">
+							
+							<input name="q" class="qa-search-field" type="text">
+							<input value="查找" class="qa-search-button" type="submit">
+						</form>
+					</div>
+			</div></div>
+			<div class="qa-body-wrapper">
+				
+				<div class="qa-header">
+					<div class="qa-logo">
+						<a href="http://www.geekqanda.com/" class="qa-logo-link">极客问答 Geek Q and A</a>
+					</div>
+					<div class="qa-header-clear">
+					</div>
+					<div class="header-banner">
+						<p><a rel="School" href="http://www.supinfo.com/" target="_blank"> <img style="float:right" src="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/SupInfoLogo.png" alt="" width="242" height="64"></a></p>
+<p style="text-align: right;">&nbsp;</p>
+<p style="text-align: right;">&nbsp;</p>
+<p style="text-align: right;">欢迎各界计算机爱好者加入，弘扬极客精神！</p>
+					</div>
+				</div> <!-- END qa-header -->
+				
+				<div class="qa-main-shadow">
+					
+					<div class="qa-main-wrapper">
+						
+						<div class="qa-nav-main">
+							<ul class="qa-nav-main-list">
+								<li class="qa-nav-main-item qa-nav-main-custom-5">
+									<a href="http://www.geekqanda.com/index.php/37204/%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94geek-q-and-a%E7%BD%91%E7%AB%99%E7%AB%99%E8%A7%84" class="qa-nav-main-link" target="_blank">网站规定</a>
+								</li>
+								<li class="qa-nav-main-item qa-nav-main-activity">
+									<a href="http://www.geekqanda.com/index.php/activity" class="qa-nav-main-link">所有动态</a>
+								</li>
+								<li class="qa-nav-main-item qa-nav-main-questions">
+									<a href="http://www.geekqanda.com/index.php/questions" class="qa-nav-main-link">问题</a>
+								</li>
+								<li class="qa-nav-main-item qa-nav-main-hot">
+									<a href="http://www.geekqanda.com/index.php/hot" class="qa-nav-main-link">热门！</a>
+								</li>
+								<li class="qa-nav-main-item qa-nav-main-unanswered">
+									<a href="http://www.geekqanda.com/index.php/unanswered" class="qa-nav-main-link">未回答</a>
+								</li>
+								<li class="qa-nav-main-item qa-nav-main-tag">
+									<a href="http://www.geekqanda.com/index.php/tags" class="qa-nav-main-link">标签</a>
+								</li>
+								<li class="qa-nav-main-item qa-nav-main-user">
+									<a href="http://www.geekqanda.com/index.php/users" class="qa-nav-main-link">用户</a>
+								</li>
+								<li class="qa-nav-main-item qa-nav-main-ask">
+									<a href="http://www.geekqanda.com/index.php/ask?cat=31" class="qa-nav-main-link">提问</a>
+								</li>
+								<li class="qa-nav-main-item qa-nav-main-custom-2">
+									<a href="http://www.geekqanda.com/index.php/badges" class="qa-nav-main-link" target="_blank">奖牌</a>
+								</li>
+							</ul>
+							<div class="qa-nav-main-clear">
+							</div>
+						</div>
+						<div class="qa-sidepanel">
+							<div class="qa-nav-cat">
+								<ul class="qa-nav-cat-list">
+									<li class="qa-nav-cat-item qa-nav-cat-all">
+										<a href="http://www.geekqanda.com/" class="qa-nav-cat-link">所有分类</a>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-编-程">
+										<a href="http://www.geekqanda.com/index.php/%E7%BC%96-%E7%A8%8B" class="qa-nav-cat-link">编程</a>
+										<span class="qa-nav-cat-note">(2,469)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-网-络">
+										<a href="http://www.geekqanda.com/index.php/%E7%BD%91-%E7%BB%9C" class="qa-nav-cat-link">网络</a>
+										<span class="qa-nav-cat-note">(1,097)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-系-统">
+										<a href="http://www.geekqanda.com/index.php/%E7%B3%BB-%E7%BB%9F" class="qa-nav-cat-link">系统</a>
+										<span class="qa-nav-cat-note">(1,121)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-数-据-库">
+										<a href="http://www.geekqanda.com/index.php/%E6%95%B0-%E6%8D%AE-%E5%BA%93" class="qa-nav-cat-link">数据库</a>
+										<span class="qa-nav-cat-note">(631)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-菜-鸟-问">
+										<a href="http://www.geekqanda.com/index.php/%E8%8F%9C-%E9%B8%9F-%E9%97%AE" class="qa-nav-cat-link" title="计算机初级问题">菜鸟问</a>
+										<span class="qa-nav-cat-note">(1,453)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-mobile">
+										<a href="http://www.geekqanda.com/index.php/mobile" class="qa-nav-cat-link">Mobile</a>
+										<span class="qa-nav-cat-note">(147)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-软-件-应-用">
+										<a href="http://www.geekqanda.com/index.php/%E8%BD%AF-%E4%BB%B6-%E5%BA%94-%E7%94%A8" class="qa-nav-cat-link" title="Office或其他应用类软件">软件应用</a>
+										<span class="qa-nav-cat-note">(340)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-游-戏-类">
+										<a href="http://www.geekqanda.com/index.php/%E6%B8%B8-%E6%88%8F-%E7%B1%BB" class="qa-nav-cat-link">游戏类</a>
+										<span class="qa-nav-cat-note">(169)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-其-他">
+										<a href="http://www.geekqanda.com/index.php/%E5%85%B6-%E4%BB%96" class="qa-nav-cat-link">其他</a>
+										<span class="qa-nav-cat-note">(1,441)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-supinfo-课-程">
+										<a href="http://www.geekqanda.com/index.php/supinfo-%E8%AF%BE-%E7%A8%8B" class="qa-nav-cat-link qa-nav-cat-selected" title="有关课程的提问,请用标签标出课程代码，例如1CNA，2NET，...">SUPINFO课程</a>
+										<span class="qa-nav-cat-note">(430)</span>
+									</li>
+									<li class="qa-nav-cat-item qa-nav-cat-supinfo-exam">
+										<a href="http://www.geekqanda.com/index.php/supinfo-exam" class="qa-nav-cat-link" title="专用于考试后纠正SOE错误供学习之用">SUPINFO Exam</a>
+										<span class="qa-nav-cat-note">(36)</span>
+									</li>
+								</ul>
+								<div class="qa-nav-cat-clear">
+								</div>
+							</div>
+							<div class="qa-widgets-side qa-widgets-side-low">
+								<div class="qa-widget-side qa-widget-side-low">
+									<div class="qa-related-qs">
+										<h2 style="margin-top:0; padding-top:0;">
+											相关问题
+										</h2>
+										<ul class="qa-related-q-list">
+											<li class="qa-related-q-item"><a href="http://www.geekqanda.com/index.php/53543/%E6%88%91%E4%BC%BC%E4%B9%8E%E4%B8%8D%E8%83%BD%E6%88%90%E5%8A%9F%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E9%93%BE%E8%A1%A8-nodeptr-%E4%BD%86%E6%98%AF%E7%BC%96%E8%AF%91%E5%99%A8%E6%8A%A5%E4%BA%86%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF-%E9%9A%BE%E9%81%93%E5%9C%A8c%E8%AF%AD%E8%A8%80%E4%B8%AD%E4%B8%80%E4%B8%AA-%E7%BB%93%E6%9E%84%E4%B8%8D%E8%83%BD%E5%8C%85%E5%90%AB%E6%8C%87%E5%90%91%E8%87%AA%E5%B7%B1%E7%9A%84%E6%8C%87%E9%92%88%E5%90%97%EF%BC%9F">我似乎不能成功定义一个链表。我试过  typedef struct { char *item; NODEPTR next; } *NODEPTR; 但是编译器报了错误信息。难道在C语言中一个 结构不能包含指向自己的指针吗？</a></li>
+											<li class="qa-related-q-item"><a href="http://www.geekqanda.com/index.php/36599/ie%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%BD%AF%E4%BB%B6%E4%B8%8D%E7%AE%A1%E5%93%AA%E4%B8%AA%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%A5%BD%E7%9A%84%E8%AF%9D%E9%83%BD%E4%BC%9A%E6%8F%90%E7%A4%BA%E4%BB%80%E4%B9%88%E4%BB%80%E4%B9%88%E5%B7%B2%E5%81%9C%E6%AD%A2%E5%B7%A5%E4%BD%9C%EF%BC%8C%E6%88%96%E5%88%99%E4%B8%8B%E8%BD%BD%E5%A5%BD%E5%90%8E%E4%BC%9A%E6%8F%90%E7%A4%BA%E4%BB%80%E4%B9%88%E7%9A%84%E8%AF%81%E4%B9%A6%E5%B7%B2%E6%8D%9F%E5%9D%8F%EF%BC%8C%E5%AE%9E%E5%9C%A8%E4%B8%8D%E7%9F%A5%E9%81%93%E6%80%8E%E4%B9%88%E5%9B%9E%E4%BA%8B%EF%BC%8C%E6%88%91%E5%B7%B2%E7%BB%8F%E9%87%8D%E8%A3%85%E8%BF%87%E5%87%A0%E6%AC%A1%E7%94%B5%E8%84%91%E4%BA%86%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E7%B3%BB%E7%BB%9F%E9%83%BD%E8%AF%95%E8%BF%87%EF%BC%8C%E8%A1%A5%E4%B8%81%E4%B9%9F%E9%83%BD%E6%89%93%E8%BF%87%EF%BC%8C%E5%8F%AF%E6%98%AF%E9%97%AE%E9%A2%98%E4%BE%9D%E7%84%B6%E5%AD%98%E5%9C%A8%EF%BC%8C%E7%8E%B0%E5%9C%A8%E6%88%91%E7%9A%84%E7%AC%94%E8%AE%B0%E6%9C%AC%E5%86%85%E7%BD%AE%E7%BD%91%E5%8D%A1%E6%97%B6%E5%A5%BD%E6%97%B6%E5%9D%8F%EF%BC%8C%E5%8F%AF%E4%BB%A5%E8%AF%B4%E5%B0%B1%E6%98%AF%E4%B8%8D%E8%83%BD%E7%94%A8">ie下载的软件不管哪个，下载好的话都会提示什么什么已停止工作，或则下载好后会提示什么的证书已损坏，实在不知道怎么回事，我已经重装过几次电脑了不同版本系统都试过，补丁也都打过，可是问题依然存在，现在我的笔记本内置网卡时好时坏，可以说就是不能用</a></li>
+											<li class="qa-related-q-item"><a href="http://www.geekqanda.com/index.php/64834/%E5%89%B2%E6%8E%A5%E9%99%90%E5%AE%9A%E5%9B%9E%E9%80%80%E7%9A%84%E6%97%B6%E9%97%B4%E8%BF%98%E6%9C%89%E5%8D%81%E5%88%86%E9%92%9F%EF%BC%8C%E5%89%B2%E6%8E%A5%E8%BF%98%E6%9C%AA%E6%88%90%E5%8A%9F%EF%BC%8C%E5%B1%80%E6%96%B9%E5%B7%B2%E7%BB%8F%E5%82%AC%E4%BD%A0%E5%9B%9E%E9%80%80%E4%BA%86%EF%BC%8C%E4%BD%86%E4%BD%A0%E8%A7%89%E5%BE%97%E8%BF%99%E4%BA%9B%E9%97%AE%E9%A2%98%E4%BD%A0%E5%86%8D%E5%8A%AA%E5%8A%9B5%E5%88%86%E9%92%9F%E5%8F%AF%E8%83%BD%E4%BC%9A%E8%A7%A3%E5%86%B3%EF%BC%8C%E4%BD%A0%E7%9A%84%E9%80%89%E6%8B%A9%E6%98%AF%E4%BB%80%E4%B9%88">割接限定回退的时间还有十分钟，割接还未成功，局方已经催你回退了，但你觉得这些问题你再努力5分钟可能会解决，你的选择是什么</a></li>
+											<li class="qa-related-q-item"><a href="http://www.geekqanda.com/index.php/12373/%E3%80%903net%E3%80%91%E5%A4%A7%E5%AE%B6%E4%B8%8Aasp-net%E8%AF%BE%E6%97%B6%E6%9C%89%E6%B2%A1%E6%9C%89%E5%BC%80%E5%90%AF%E6%8E%A7%E5%88%B6%E9%9D%A2%E6%9D%BF%E4%B8%AD%E7%9A%84iis%E5%8A%9F%E8%83%BD%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B8%AA%E4%B8%8D%E5%BC%80%E4%B9%9F%E8%83%BD%E5%86%99mvc%E7%BD%91%E7%AB%99%E9%A1%B9%E7%9B%AE%EF%BC%9F">【3NET】大家上ASP.NET课时有没有开启控制面板中的IIS功能，为什么这个不开也能写MVC网站项目？</a></li>
+											<li class="qa-related-q-item"><a href="http://www.geekqanda.com/index.php/81638/set%E9%87%8C%E7%9A%84%E5%85%83%E7%B4%A0%E6%98%AF%E4%B8%8D%E6%98%AF%E8%83%BD%E5%A4%9F%E9%87%8D%E5%A4%8D%E7%9A%84%EF%BC%8C%E9%82%A3%E4%B9%88%E7%94%A8%E4%BB%80%E4%B9%88%E6%96%B9%E6%B3%95%E6%9D%A5%E5%8C%BA%E5%88%86%E9%87%8D%E5%A4%8D%E4%B8%8E%E5%90%A6%E5%91%A2%EF%BC%9F%E4%BD%BF%E7%94%A8-%E8%BF%98%E6%98%AF%E7%94%A8equals-%E4%BB%96%E4%BB%AC%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F">Set里的元素是不是能够重复的，那么用什么方法来区分重复与否呢？使用==还是用equals()?他们有什么区别？</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="qa-widget-side qa-widget-side-low">
+									<h2 style="margin-top:0; padding-top:0;">
+										标签热度
+									</h2>
+									<div style="font-size:10px;">
+										<a href="http://www.geekqanda.com/index.php/tag/%E8%AE%A1%E7%AE%97%E6%9C%BA" style="font-size:24.0px; vertical-align:baseline;">计算机</a>
+										<a href="http://www.geekqanda.com/index.php/tag/java" style="font-size:11.1px; vertical-align:baseline;">java</a>
+										<a href="http://www.geekqanda.com/index.php/tag/%E7%BC%96%E7%A8%8B" style="font-size:8.6px; vertical-align:baseline;">编程</a>
+										<a href="http://www.geekqanda.com/index.php/tag/c" style="font-size:8.0px; vertical-align:baseline;">c</a>
+										<a href="http://www.geekqanda.com/index.php/tag/%E5%85%B6%E4%BB%96" style="font-size:6.7px; vertical-align:baseline;">其他</a>
+										<a href="http://www.geekqanda.com/index.php/tag/linux" style="font-size:5.7px; vertical-align:baseline;">linux</a>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="qa-main">
+							<h1>
+								<span class="entry-title">lvresize,lvextend和lvreduce分别有什么功能，lvresize是不是包含了lvextend和lvreduce，是的话为什么会有这个重复</span>
+							</h1>
+							<div class="qa-part-q-view">
+								<div class="qa-q-view qa-q-closed hentry question" id="q10212">
+									<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+										<div class="qa-q-view-stats">
+											<div class="qa-voting qa-voting-updown" id="voting_10212">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_10212_1_q10212" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_10212_-1_q10212" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">4</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+										</div>
+										<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+									</form>
+									<div class="qa-q-view-main">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-q-view-closed">
+												问题关闭原因：
+												<span class="qa-q-view-closed-content">
+													回答很多了，希望你已经解决问题
+												</span>
+											</div>
+											<div class="qa-q-view-tags">
+												<ul class="qa-q-view-tag-list">
+													<li class="qa-q-view-tag-item"><a href="http://www.geekqanda.com/index.php/tag/2lin" rel="tag" class="qa-tag-link">2lin</a></li>
+												</ul>
+											</div>
+											<span class="qa-q-view-avatar-meta">
+												<span class="qa-q-view-meta">
+													<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D" class="qa-q-view-what">最新提问</a>
+													<span class="qa-q-view-when">
+														<span class="qa-q-view-when-data"><span class="published"><span class="value-title" title="2015-03-30T09:24:05+0000"></span>3月 30, 2015</span></span>
+													</span>
+													<span class="qa-q-view-where">
+														<span class="qa-q-view-where-pad">分类:</span><span class="qa-q-view-where-data"><a href="http://www.geekqanda.com/index.php/supinfo-%E8%AF%BE-%E7%A8%8B" class="qa-category-link">SUPINFO课程</a></span><span class="qa-q-view-where-pad"> | </span>
+													</span>
+													<span class="qa-q-view-who">
+														<span class="qa-q-view-who-pad">用户:</span>
+														<span class="qa-q-view-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/%E6%88%91%E6%98%AF%E4%B8%80%E5%8F%AA%E5%B0%8F%E7%A6%BD%E5%85%BDXD" class="qa-user-link url nickname">我是一只小禽兽XD</a></span></span>
+														<span class="qa-q-view-who-points">
+															<span class="qa-q-view-who-points-pad">(</span><span class="qa-q-view-who-points-data">388</span><span class="qa-q-view-who-points-pad"> 分)</span>
+														</span>
+														<span class="qa-q-view-who-pad">&nbsp;</span>
+													</span>
+													<br>
+													<span class="qa-q-view-what">已关闭</span>
+													<span class="qa-q-view-when">
+														<span class="qa-q-view-when-data"><span class="updated"><span class="value-title" title="2015-05-27T06:47:59+0000"></span>5月 27, 2015</span></span>
+													</span>
+													<span class="qa-q-view-who">
+														<span class="qa-q-view-who-pad">用户:</span><span class="qa-q-view-who-data"><a href="http://www.geekqanda.com/index.php/user/wxwxwx" class="qa-user-link url nickname">wxwxwx</a></span>
+													</span>
+												</span>
+											</span>
+											<div class="qa-q-view-buttons">
+												<input name="q_doflag" onclick="qa_show_waiting_after(this, false);" value="举报" title="举报这个问题是垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+											</div>
+											
+											<div class="qa-q-view-c-list" style="display:none;" id="c10212_list">
+											</div> <!-- END qa-c-list -->
+											
+											<input name="code" value="0-1517644685-c0f4dcaf63a54f1fe0468caf286bd5e66df3e639" type="hidden">
+											<input name="qa_click" value="" type="hidden">
+										</form>
+										<div class="qa-c-form">
+										</div> <!-- END qa-c-form -->
+										
+									</div> <!-- END qa-q-view-main -->
+									<div class="qa-q-view-clear">
+									</div>
+								</div> <!-- END qa-q-view -->
+								
+							</div>
+							<div class="qa-part-a-list">
+								<h2 id="a_list_title">9 个回答</h2>
+								<div class="qa-a-list" id="a_list">
+									
+									<div class="qa-a-list-item  hentry answer" id="a10220">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_10220">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_10220_1_a10220" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_10220_-1_a10220" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">3</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="10220"></a><div class="entry-content">lvextend是扩展逻辑卷，lvreduce是缩小逻辑卷，lvresize是扩展或缩小逻辑卷。</div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=10220#a10220" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-03-30T09:42:57+0000"></span>3月 30, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/yxzstruggle" class="qa-user-link url nickname">yxzstruggle</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">3,006</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a10220_doflag" onclick="return qa_answer_click(10220, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a10220_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c10220_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-d5fa598ea602763b92aeebb1e97edb784c0b42a9" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+									<div class="qa-a-list-item  hentry answer" id="a10311">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_10311">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_10311_1_a10311" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_10311_-1_a10311" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">2</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="10311"></a><div class="entry-content">shutdown可以做到poweroff和reboot，干吗还要有halt，和reboot呢？<br>
+同样mke2fs可以做到mkfs.ext2和mkfs.ext3的事，干吗要这么重复呢？或许有人觉得某些命令看起来比其他的更直观，更容易记吧，敲lvreduce、lvextend可以提醒下自己是增还是减，其他还有什么原因我也想不出</div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-avatar">
+														<a href="http://www.geekqanda.com/index.php/user/Strlonve" class="qa-avatar-link"><img src="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/a.jpg" class="qa-avatar-image" alt="" width="40" height="40"></a>
+													</span>
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=10311#a10311" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-03-31T00:57:40+0000"></span>3月 30, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/Strlonve" class="qa-user-link url nickname">Strlonve</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">8,308</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a10311_doflag" onclick="return qa_answer_click(10311, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a10311_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c10311_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-89f6ff7a3cac35c55e842d12cde47fbca4474f56" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+									<div class="qa-a-list-item  hentry answer" id="a12426">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_12426">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_12426_1_a12426" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_12426_-1_a12426" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">0</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="12426"></a><div class="entry-content">lvreduce –L 100M /dev/storage/movies 减少到100M(没有减号就是’减到’100M)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;或 lvextend –L /dev/storage/movies /dev/sdb 新加入一个PV到VG中<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;或 lvresize –L 100M /dev/storage/movies &nbsp;增加到100M(没有加减号就是加减到100M)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可增可减，推荐只用来增加</div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=12426#a12426" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-04-10T01:46:45+0000"></span>4月 9, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/Allan" class="qa-user-link url nickname">Allan</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">2,218</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a12426_doflag" onclick="return qa_answer_click(12426, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a12426_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c12426_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-8a6fd6e86cf9c1273965523e2f59f532364eeb92" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+									<div class="qa-a-list-item  hentry answer" id="a18875">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_18875">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_18875_1_a18875" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_18875_-1_a18875" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">0</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="18875"></a><div class="entry-content">
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvextend：扩展逻辑卷</span></p>
+
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvreduce：缩小逻辑卷</span></p>
+
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvresize：扩展或缩小逻辑卷</span></p></div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18875#a18875" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-05-26T11:52:11+0000"></span>5月 26, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/caiyuan001" class="qa-user-link url nickname">caiyuan001</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">2,798</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a18875_doflag" onclick="return qa_answer_click(18875, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a18875_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c18875_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-839cafd0238663d3f75ce22c7ef7073f260f3df3" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+									<div class="qa-a-list-item  hentry answer" id="a18907">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_18907">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_18907_1_a18907" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_18907_-1_a18907" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">0</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="18907"></a><div class="entry-content">
+
+<div>
+	软件设计的方法吧，把功能分开，然后再组合。</div>
+
+
+<div>
+	&nbsp;</div>
+
+
+<div>
+	至于 mke2fs 和 mkfs.* ，是symlinks，按照 mkfs.xxx 这个格式来的咯。。更容易查找和记忆。：）</div></div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18907#a18907" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-05-27T04:04:27+0000"></span>5月 26, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/Max" class="qa-user-link url nickname">Max</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">2,500</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a18907_doflag" onclick="return qa_answer_click(18907, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a18907_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c18907_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-2d8b69a23d78d2bd033c5d196936c640d1e7aa87" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+									<div class="qa-a-list-item  hentry answer" id="a18908">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_18908">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_18908_1_a18908" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_18908_-1_a18908" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">0</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="18908"></a><div class="entry-content">
+
+<p>
+	<b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">lvresize&nbsp;</span></b><span style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">指令調整 logic卷的使用空間</span>
+<br style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">
+	<span style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">也就是說這一個指令操作於lvestend,lvreduce功能相同</span>
+<br style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">
+	<b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">lvresize&nbsp;</span></b><b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">-L +50M&nbsp;</span></b><b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">/dev/vg1000/lvo10</span></b>
+<br style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">
+	<b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">lvresize&nbsp;</span></b><b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">-L&nbsp;</span><span style="color: red;">-</span><span style="color: blue;">50M&nbsp;</span></b><b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">/dev/vg1000/lvo10</span></b></p>
+
+
+<p>
+	&nbsp;</p>
+
+
+<p>
+	<b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">lvextend&nbsp;</span></b><span style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">指令來擴展 logic 卷的空間</span></p>
+
+
+<p>
+	<b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">lvextend -L +50M&nbsp;</span></b><b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">/dev/vg1000/lvo10</span></b></p>
+
+
+<p>
+	&nbsp;</p>
+
+
+<p>
+	<b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">lvreduce&nbsp;</span></b><span style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">指令來減少 logic 卷的空間</span></p>
+
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">在減少的操作使用可以會造成數據的掉失，系統會再次提醒你</span>
+<br style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">
+	
+<br style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;">
+	<b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">lvreduce&nbsp;</span></b><b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">-L -50M&nbsp;</span></b><b style="color: rgb(51, 51, 51); font-family: Arial, Tahoma, Helvetica, FreeSans, sans-serif; font-size: 15px; line-height: 21px;"><span style="color: blue;">/dev/vg1000/lvo10</span></b></p></div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18908#a18908" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-05-27T04:13:39+0000"></span>5月 26, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/edwardwangyiming" class="qa-user-link url nickname">edwardwangyiming</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">1,916</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a18908_doflag" onclick="return qa_answer_click(18908, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a18908_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c18908_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-4d85b170263f529c670506a8e8bab66456fdc4ae" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+									<div class="qa-a-list-item  hentry answer" id="a18916">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_18916">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_18916_1_a18916" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_18916_-1_a18916" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">0</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="18916"></a><div class="entry-content">lvextend扩展逻辑卷，lvreduce缩小逻辑卷，lvresize可以扩展或缩小逻辑卷</div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18916#a18916" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-05-27T05:12:03+0000"></span>5月 26, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/%E9%82%A3%E6%97%B6%E6%87%B5" class="qa-user-link url nickname">那时懵</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">2,134</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a18916_doflag" onclick="return qa_answer_click(18916, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a18916_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c18916_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-c7afa7859a443846014a4294447c82bc456b7591" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+									<div class="qa-a-list-item  hentry answer" id="a18927">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_18927">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_18927_1_a18927" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_18927_-1_a18927" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">0</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="18927"></a><div class="entry-content">
+
+<p>
+	&nbsp;</p>
+
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvextend是扩展逻辑卷，lvreduce是缩小逻辑卷，lvresize是扩展或缩小逻辑卷。</span></p>
+
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">第二个问题并不是。</span></p></div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18927#a18927" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-05-27T05:26:14+0000"></span>5月 26, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/%E6%8E%A5%E5%90%BB%E8%83%BD%E8%A1%A5%E9%92%99" class="qa-user-link url nickname">接吻能补钙</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">2,100</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a18927_doflag" onclick="return qa_answer_click(18927, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a18927_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c18927_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-240f796296ccdbbd3a0173c7bacc6be5ba05ee98" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+									<div class="qa-a-list-item  hentry answer" id="a18934">
+										<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+											<div class="qa-voting qa-voting-updown" id="voting_18934">
+												<div class="qa-vote-buttons qa-vote-buttons-updown">
+													<input title="赞成" name="vote_18934_1_a18934" onclick="return qa_vote_click(this);" value="+" class="qa-vote-first-button qa-vote-up-button" type="submit"> 
+													<input title="反对" name="vote_18934_-1_a18934" onclick="return qa_vote_click(this);" value="–" class="qa-vote-second-button qa-vote-down-button" type="submit"> 
+												</div>
+												<div class="qa-vote-count qa-vote-count-updown">
+													<span class="qa-upvote-count">
+														<span class="qa-upvote-count-data"><span class="votes-up">0</span></span><span class="qa-upvote-count-pad"> 喜欢</span>
+													</span>
+													<span class="qa-downvote-count">
+														<span class="qa-downvote-count-data"><span class="votes-down">0</span></span><span class="qa-downvote-count-pad"> 不喜欢</span>
+													</span>
+												</div>
+												<div class="qa-vote-clear">
+												</div>
+											</div>
+											<input name="code" value="0-1517644685-66eb7cb3f4341c0fdd65e2751d45403d2728777d" type="hidden">
+										</form>
+										<div class="qa-a-item-main">
+											<form method="post" action="../../index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934">
+												<div class="qa-a-selection">
+												</div>
+												<div class="qa-a-item-content">
+													<a name="18934"></a><div class="entry-content">
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvresize是扩展或缩小逻辑卷，</span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvresize –L 100M /dev/storage/movies</span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">增加到100M</span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">；</span></p>
+
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">vextend是扩展逻辑卷，</span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvextend –L /dev/storage/movies /dev/sdb</span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">新加入一个PV到VG中</span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">；</span></p>
+
+
+<p>
+	<span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvreduce是缩小逻辑卷，</span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">lvreduce –L 100M /dev/storage/movies 减少到100M</span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, Sens-serif; font-size: 14px; line-height: 21px;">。</span></p></div>
+												</div>
+												<span class="qa-a-item-avatar-meta">
+													<span class="qa-a-item-avatar">
+														<a href="http://www.geekqanda.com/index.php/user/%E6%9D%83D%E6%A2%A6%E8%BF%B7" class="qa-avatar-link"><img src="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/a_002.jpg" class="qa-avatar-image" alt="" width="40" height="40"></a>
+													</span>
+													<span class="qa-a-item-meta">
+														<a href="http://www.geekqanda.com/index.php/10212/lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D?show=18934#a18934" class="qa-a-item-what">最新回答</a>
+														<span class="qa-a-item-when">
+															<span class="qa-a-item-when-data"><span class="published"><span class="value-title" title="2015-05-27T05:34:31+0000"></span>5月 26, 2015</span></span>
+														</span>
+														<span class="qa-a-item-who">
+															<span class="qa-a-item-who-pad">用户:</span>
+															<span class="qa-a-item-who-data"><span class="vcard author"><a href="http://www.geekqanda.com/index.php/user/%E6%9D%83D%E6%A2%A6%E8%BF%B7" class="qa-user-link url nickname">权D梦迷</a></span></span>
+															<span class="qa-a-item-who-points">
+																<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">2,392</span><span class="qa-a-item-who-points-pad"> 分)</span>
+															</span>
+															<span class="qa-a-item-who-pad">&nbsp;</span>
+														</span>
+													</span>
+												</span>
+												<div class="qa-a-item-buttons">
+													<input name="a18934_doflag" onclick="return qa_answer_click(18934, 10212, this);" value="举报" title="举报该问题为垃圾消息或者非法内容" class="qa-form-light-button qa-form-light-button-flag" type="submit">
+													<input name="a18934_dofollow" value="提出相关问题" title="提出一个与这条回答有关的问题" class="qa-form-light-button qa-form-light-button-follow" type="submit">
+												</div>
+												
+												<div class="qa-a-item-c-list" style="display:none;" id="c18934_list">
+												</div> <!-- END qa-c-list -->
+												
+												<input name="code" value="0-1517644685-5fe65edb99b5e1dd8b79c7578408ebacab187283" type="hidden">
+												<input name="qa_click" value="" type="hidden">
+											</form>
+											<div class="qa-c-form">
+											</div> <!-- END qa-c-form -->
+											
+										</div> <!-- END qa-a-item-main -->
+										<div class="qa-a-item-clear">
+										</div>
+									</div> <!-- END qa-a-list-item -->
+									
+								</div> <!-- END qa-a-list -->
+								
+							</div>
+						</div> <!-- END qa-main -->
+						
+					</div> <!-- END main-wrapper -->
+				</div> <!-- END main-shadow -->
+			</div> <!-- END body-wrapper -->
+			<div class="qa-footer-bottom-group">
+				<div class="qa-footer">
+					<div class="qa-nav-footer">
+						<ul class="qa-nav-footer-list">
+						</ul>
+						<div class="qa-nav-footer-clear">
+						</div>
+					</div>
+					<div class="qa-attribution">
+						|   <a href="http://labs.supinfochina.com/zh/contactus/" target="_blank">Contact us</a>
+					</div>
+					<div class="qa-attribution">
+						Powered by <a href="http://www.supinfo.com/" target="_blank">SUPINFO International University</a>
+					</div>
+					<div class="qa-attribution1">
+						<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank" rel="license"><img src="lvresize,lvextend%E5%92%8Clvreduce%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8Clvresize%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8C%85%E5%90%AB%E4%BA%86lvextend%E5%92%8Clvreduce%EF%BC%8C%E6%98%AF%E7%9A%84%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%87%8D%E5%A4%8D%20-%20%E6%9E%81%E5%AE%A2%E9%97%AE%E7%AD%94%20Geek%20Q%20and%20A_files/88x31.png" style="float:left"></a>
+						</div>
+						<div class="qa-footer-clear">
+						</div>
+					</div> <!-- END qa-footer -->
+					
+				</div> <!-- END footer-bottom-group -->
+				
+				<div style="position:absolute; left:-9999px; top:-9999px;">
+					<span id="qa-waiting-template" class="qa-waiting">...</span>
+				</div>
+			
+			
+		
+
+</body><!-- Powered by Question2Answer - http://www.question2answer.org/ --></html>
+<!--
+It's no big deal, but your HTML could not be indented properly. To fix, please:
+1. Use this->output() to output all HTML.
+2. Balance all paired tags like <td>...</td> or <div>...</div>.
+3. Use a slash at the end of unpaired tags like <img/> or <input/>.
+Thanks!
+-->

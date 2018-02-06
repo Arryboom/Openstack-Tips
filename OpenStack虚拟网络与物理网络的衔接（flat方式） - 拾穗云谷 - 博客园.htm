@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenStack虚拟网络与物理网络的衔接（flat方式） - 拾穗云谷 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-coffee.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-coffee-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/gleaners/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/gleaners/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/gleaners/wlwmanifest.xml">
+<script async="" src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'gleaners', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/gleaners/"><img id="blogLogo" src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/gleaners/">拾穗云谷</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/gleaners/">首页</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/gleaners/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/gleaners/rss"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a></li>
+</ul>
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats">
+<!--done-->
+随笔- 19&nbsp;
+文章- 0&nbsp;
+评论- 2&nbsp;
+</div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/gleaners/p/5632708.html">OpenStack虚拟网络与物理网络的衔接（flat方式）</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">by <a href="http://my.oschina.net/crooner/home" target="_blank">无若</a></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">这边以CentOS7+Liberty版本为例。</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">过去一段时间（Juno版本之前版本），OpenStack内的虚拟网络与真正的物理网络衔接主要使用openvswitch，其主要问题是在配置网桥时容易导致断开连接，另外也不好管理。</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">在L版本中，官方的配置文档中已经不再安装<span style="line-height: 1.5;">openvswitch，主要是通过flat网络方式与外部物理网络衔接，采用这种方式不会导致突然断开连接。</span></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">这里假设你应该完全安装好了各种组件。</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;"><strong>（1）检查或编写配置</strong></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;"><br><span style="line-height: 1.5; font-size: 10pt;">编辑/etc/neutron/plugins/ml2/ml2_conf.ini</span><span style="line-height: 1.5; font-size: 10pt;">​中的</span></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">&nbsp;</p>
+<div><div id="highlighter_704212" class="syntaxhighlighter  shell"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="shell plain">[ml2_type_flat]</code></div><div class="line number2 index1 alt1"><code class="shell plain">flat_networks = public</code></div></div></td></tr></tbody></table></div></div>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">&nbsp;</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">&nbsp;</p>
+<p>再编辑/etc/neutron/plugins/ml2/linuxbridge_agent.ini中的​</p>
+<p>&nbsp;</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">&nbsp;</p>
+<div><div id="highlighter_555675" class="syntaxhighlighter  shell"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="shell plain">[linux_bridge]</code></div><div class="line number2 index1 alt1"><code class="shell plain">physical_interface_mappings = public:eth1</code></div></div></td></tr></tbody></table></div></div>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">&nbsp;</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">&nbsp;</p>
+<p>注意这里的eth1是你的网络接口名，可以用ip a查看<br>注意多网卡的时候，用此命令可以知道哪个网卡是连通的</p>
+<p>&nbsp;</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">例如：从这里查出eth0是UP的。</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">&nbsp;</p>
+<div><div id="highlighter_62238" class="syntaxhighlighter  shell"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="shell plain">$ip a</code></div><div class="line number2 index1 alt1"><code class="shell plain">eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast master brq070ed0ca-92 state UP qlen 1000</code></div><div class="line number3 index2 alt2"><code class="shell plain">...</code></div></div></td></tr></tbody></table></div></div>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">&nbsp;</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;"><strong>（2）通过dashboard来配置flat网络</strong></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt;"><span style="font-family: 'sans serif', tahoma, verdana, helvetica;"><span style="font-size: 13.3333px; letter-spacing: 1px; line-height: 20px;">在 “管理员” 条目下选择 “网络”，再点击 “创建网络” ，在里面要注意选择 “Flat” ，<span style="color: #ff0000;"><strong>物理网络为 “public” （注意这里与</strong></span></span></span><span style="color: #ff0000;"><strong><span style="font-family: verdana, Arial, Helvetica, sans-serif; font-size: 10pt; letter-spacing: 1px; line-height: 1.5;">/etc/neutron/plugins/ml2/ml2_conf.ini内的</span><span style="font-size: 13.3333px; letter-spacing: 1px; line-height: 20px;">[ml2_type_flat]</span><span style="font-family: verdana, Arial, Helvetica, sans-serif; font-size: 10pt; letter-spacing: 1px; line-height: 1.5;">​的</span><span style="font-size: 13.3333px; letter-spacing: 1px; line-height: 20px;">flat_networks</span><span style="font-size: 10pt; letter-spacing: 1px; line-height: 1.5;">对应</span></strong></span><span style="font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px; letter-spacing: 1px; line-height: 20px;"><span style="color: #ff0000;"><strong>）</strong></span>，然后再把 “共享的” 和 “外部网络” 勾选起来，之后点击 “创建网络”。</span></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/980581-20160701124547421-966773819.png" alt=""></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">之后，在 EXT_01 下 增加子网，注意此时需要在 “项目” 下的 “网络” 中增加子网。</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/980581-20160701124642468-843878254.png" alt=""></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">&nbsp;</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">子网配置，这里 192.168.29.0/24 为真实的物理网络：</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/980581-20160701124823859-2077610612.png" alt=""></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">配置子网详情，注意这里的 192.168.29.195~192.168.29.197 为真实物理网络中的一段：</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/980581-20160701125905031-762868393.png" alt=""></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">创建成功后，创建 路由器 与 EXT_01 关联</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/980581-20160701130124827-1717134728.png" alt=""></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">&nbsp;</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">查看网络拓扑，可以看到路由器在真实物理网络中的IP地址为 192.168.29.196 ：</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/980581-20160701130439718-655976471.png" alt=""></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">&nbsp;</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;">验证：使用ip netns命令找到这个虚拟路由器之后，用这个虚拟路由器ping真实物理网络中的网关（这里是192.168.29.254），ping通即证明OpenStack内部虚拟网络与真实物理网络衔接成功！</p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 20px; letter-spacing: 1px; font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 13.3333px;"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/980581-20160701131247046-239088710.png" alt=""></p>
+<p style="word-wrap: break-word; margin: 0px 0px 15pt; line-height: 1.5; letter-spacing: 1px;">&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/gleaners/tag/OpenStack/">OpenStack</a>, <a href="http://www.cnblogs.com/gleaners/tag/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C/">虚拟网络</a>, <a href="http://www.cnblogs.com/gleaners/tag/%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C/">物理网络</a>, <a href="http://www.cnblogs.com/gleaners/tag/%E8%A1%94%E6%8E%A5/">衔接</a>, <a href="http://www.cnblogs.com/gleaners/tag/flat/">flat</a>, <a href="http://www.cnblogs.com/gleaners/tag/OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5/">OpenStack虚拟网络与物理网络的衔接</a>, <a href="http://www.cnblogs.com/gleaners/tag/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5/">虚拟网络与物理网络的衔接</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5632708,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('78046adc-ab36-e611-9fc1-ac853d9f53cc');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/gleaners/" target="_blank"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20160620143952.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/gleaners/">拾穗云谷</a><br>
+            <a href="http://home.cnblogs.com/u/gleaners/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/gleaners/followers">粉丝 - 3</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('78046adc-ab36-e611-9fc1-ac853d9f53cc');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5632708,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(5632708,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/gleaners/p/5623489.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/gleaners/p/5623489.html" title="发布于2016-06-28 15:04">openstack  June all-in-one 安装手册</a><br><a href="http://www.cnblogs.com/gleaners/p/5660783.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/gleaners/p/5660783.html" title="发布于2016-07-11 16:47">Cloud-init的安装和使用   --以ubuntu-server-14.04-amd64为例</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-07-01 13:17</span> <a href="http://www.cnblogs.com/gleaners/">拾穗云谷</a> 阅读(<span id="post_view_count">5043</span>) 评论(<span id="post_comment_count">1</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5632708" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(5632708);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=290840,cb_entryId=5632708,cb_blogApp=currentBlogApp,cb_blogUserGuid='78046adc-ab36-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/7/1 13:17:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<br>
+<div class="feedback_area_title">评论</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3627867" class="layer">#1楼</a><a name="3627867" id="comment_anchor_3627867"></a><span id="comment-maxId" style="display:none;">3627867</span><span id="comment-maxDate" style="display:none;">2017/2/27 21:53:04</span> <span class="comment_date">2017-02-27 21:53</span> | <a id="a_comment_author_3627867" href="http://home.cnblogs.com/u/1112964/" target="_blank">lolo123123</a> <a href="http://msg.cnblogs.com/send/lolo123123" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3627867" class="blog_comment_body">physical_interface_mappings = public:eth1<br>您好，请问下这里的eth1指的是管理网络的网卡、还是隧道网络的网卡名称呢？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3627867,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3627867,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://cloud.tencent.com/act/first_purchase?fromSource=gwzcw.763755.763755.763755" target="_blank">【推荐】怎样购买腾讯云服务器更划算？</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/products/spreadjs/?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS2&amp;utm_campaign=community" target="_blank"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171206093644566-325426505.png" alt="SpreadJS2_1206" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/588913/" target="_blank">Airbnb CFO即将离职 公司今年不会上市</a><br> ·  <a href="https://news.cnblogs.com/n/588908/" target="_blank">苹果第四季度净利201亿美元 iPhone销量下滑了</a><br> ·  <a href="https://news.cnblogs.com/n/588905/" target="_blank">亚马逊股价盘后大涨6% 贝佐斯身价净增65亿至1230亿美元</a><br> ·  <a href="https://news.cnblogs.com/n/588890/" target="_blank">阿里买买买一年，那些曾因其投资而股价暴涨的零售公司现在怎样了？</a><br> ·  <a href="https://news.cnblogs.com/n/588915/" target="_blank">雷军已参股超18家新三板公司 2018或成其重要资本年</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="OpenStack%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E4%B8%8E%E7%89%A9%E7%90%86%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A1%94%E6%8E%A5%EF%BC%88flat%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20%E6%8B%BE%E7%A9%97%E4%BA%91%E8%B0%B7%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/gleaners/">拾穗云谷</a><br>园龄：<a href="https://home.cnblogs.com/u/gleaners/" title="入园时间：2016-06-20">1年7个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/gleaners/followers/">3</a><br>关注：<a href="https://home.cnblogs.com/u/gleaners/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('78046adc-ab36-e611-9fc1-ac853d9f53cc')">+加关注</a></div><script>getFollowStatus('78046adc-ab36-e611-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/01/01');return false;">&lt;</a></td><td align="center">2018年2月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/03/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalTodayDay" align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/gleaners/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/gleaners/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/gleaners/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/gleaners/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/gleaners/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass('itemListLink', 'itemListLin_con');return false;" href="#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/gleaners/tag/OpenStack/">OpenStack</a>(7)</li><li><a href="http://www.cnblogs.com/gleaners/tag/Ubuntu/">Ubuntu</a>(3)</li><li><a href="http://www.cnblogs.com/gleaners/tag/vnc/">vnc</a>(2)</li><li><a href="http://www.cnblogs.com/gleaners/tag/spice/">spice</a>(2)</li><li><a href="http://www.cnblogs.com/gleaners/tag/%E5%B1%80%E5%9F%9F%E7%BD%91/">局域网</a>(2)</li><li><a href="http://www.cnblogs.com/gleaners/tag/CentOS/">CentOS</a>(2)</li><li><a href="http://www.cnblogs.com/gleaners/tag/xubuntu/">xubuntu</a>(2)</li><li><a href="http://www.cnblogs.com/gleaners/tag/yum/">yum</a>(1)</li><li><a href="http://www.cnblogs.com/gleaners/tag/%E5%AE%89%E8%A3%85%E6%89%8B%E5%86%8C/">安装手册</a>(1)</li><li><a href="http://www.cnblogs.com/gleaners/tag/%E5%A4%9A%E5%B1%8F%E5%85%B1%E4%BA%AB/">多屏共享</a>(1)</li><li><a href="http://www.cnblogs.com/gleaners/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/gleaners/archive/2017/05.html">2017年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/gleaners/archive/2016/09.html">2016年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/gleaners/archive/2016/08.html">2016年8月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/gleaners/archive/2016/07.html">2016年7月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/gleaners/archive/2016/06.html">2016年6月 (7)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/gleaners/p/5632708.html#3627867">1. Re:OpenStack虚拟网络与物理网络的衔接（flat方式）</a></li>
+        <li class="recent_comment_body">physical_interface_mappings = public:eth1<br>您好，请问下这里的eth1指的是管理网络的网卡、还是隧道网络的网卡名称呢？</li>
+        <li class="recent_comment_author">--lolo123123</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/gleaners/p/5738325.html#3583229">2. Re:关于“拾穗云谷”</a></li>
+        <li class="recent_comment_body">手把青苗插满田<br>低头便见水中天<br>六根清净方为道<br>后退原来是向前</li>
+        <li class="recent_comment_author">--wuwuwu</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/gleaners/p/5632708.html">1. OpenStack虚拟网络与物理网络的衔接（flat方式）(5043)</a></li><li><a href="http://www.cnblogs.com/gleaners/p/5614407.html">2. 制作Java桌面程序的一键安装包(1593)</a></li><li><a href="http://www.cnblogs.com/gleaners/p/5660783.html">3. Cloud-init的安装和使用   --以ubuntu-server-14.04-amd64为例(1002)</a></li><li><a href="http://www.cnblogs.com/gleaners/p/5735743.html">4. 建立局域网内使用的CentOS7-OpenStack源(847)</a></li><li><a href="http://www.cnblogs.com/gleaners/p/5735472.html">5. 建立局域网内使用的CentOS7源(827)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/gleaners/p/5632708.html">1. OpenStack虚拟网络与物理网络的衔接（flat方式）(1)</a></li><li><a href="http://www.cnblogs.com/gleaners/p/5738325.html">2. 关于“拾穗云谷”(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap" style="display: none;">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 拾穗云谷
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

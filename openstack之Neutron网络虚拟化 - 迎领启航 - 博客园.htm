@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>openstack之Neutron网络虚拟化 - 迎领启航 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-blue.css">
+<link type="text/css" rel="stylesheet" href="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/302246.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-blue-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/ylqh/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/ylqh/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/ylqh/wlwmanifest.xml">
+<script async="" src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'ylqh', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+<a name="top"></a>
+
+<div class="pagelayout">
+    
+<div class="header">
+	<div>
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/ylqh/">迎领启航</a>
+	</div>
+	<div>
+		
+	</div>
+</div>
+    <div id="leftmenu" class="leftcolumn">
+        
+            
+<h1 class="listtitle">导航</h1>
+<ul class="list">
+			<li class="listitem"><a id="blog_nav_sitehome" class="listitem" href="http://www.cnblogs.com/">博客园</a></li>
+			<li class="listitem"><a id="blog_nav_myhome" href="http://www.cnblogs.com/ylqh/">首页</a>
+			</li><li class="listitem"><a id="blog_nav_newpost" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a>
+			</li><li class="listitem"><a id="blog_nav_contact" accesskey="9" class="listitem" rel="nofollow" href="https://msg.cnblogs.com/send/%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA">联系</a></li>
+			<li class="listitem"><a id="blog_nav_rss" class="listitem" href="http://www.cnblogs.com/ylqh/rss">订阅</a><a id="blog_nav_rss_image" href="http://www.cnblogs.com/ylqh/rss"><img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a>
+			</li><li class="listitem"><a id="blog_nav_admin" class="listitem" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+            <div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/01/01');return false;">&lt;</a></td><td align="center">2018年2月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/03/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalTodayDay" align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+            <div id="blog_stats">
+<div class="listtitle">统计</div>
+	<ul class="list">
+		<li class="listitem">随笔 - 34
+		</li><li class="listitem">文章 - 0
+		</li><li class="listitem">评论 - 5
+		</li><li class="listitem">引用 - 0
+	</li>
+</ul></div>
+            
+<div class="listtitle">公告</div>
+	<ul class="list">
+		<li class="listitem">
+			<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/ylqh/">迎领启航</a><br>园龄：<a href="https://home.cnblogs.com/u/ylqh/" title="入园时间：2016-08-20">1年5个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/ylqh/followers/">6</a><br>关注：<a href="https://home.cnblogs.com/u/ylqh/followees/">7</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('330f902e-ea66-e611-9fc1-ac853d9f53cc')">+加关注</a></div><script>getFollowStatus('330f902e-ea66-e611-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+	</li>
+</ul>
+            <div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/ylqh/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/ylqh/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/ylqh/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/ylqh/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/ylqh/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<h3 class="catListTitle">我的标签</h3>
+<div id="MyTag">
+<ul>
+<li><a href="http://www.cnblogs.com/ylqh/tag/%E6%95%B0%E6%8D%AE/">数据</a>(1)</li><li><a href="http://www.cnblogs.com/ylqh/tag/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+		<h1 class="listtitle">随笔分类</h1>
+		
+				<ul class="list">
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_0" class="listitem" href="http://www.cnblogs.com/ylqh/category/893800.html">go(1)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_1" class="listitem" href="http://www.cnblogs.com/ylqh/category/935022.html">openstack(12)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_2" class="listitem" href="http://www.cnblogs.com/ylqh/category/885738.html">python(13)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_3" class="listitem" href="http://www.cnblogs.com/ylqh/category/897576.html">shell</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_4" class="listitem" href="http://www.cnblogs.com/ylqh/category/887685.html">监控</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_5" class="listitem" href="http://www.cnblogs.com/ylqh/category/1007577.html">前端(2)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_6" class="listitem" href="http://www.cnblogs.com/ylqh/category/1121189.html">数据库(1)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_7" class="listitem" href="http://www.cnblogs.com/ylqh/category/887687.html">系统(1)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_0_Link_8" class="listitem" href="http://www.cnblogs.com/ylqh/category/887686.html">自动化(2)</a>  </li>
+			
+				</ul>
+			
+	
+		<h1 class="listtitle">随笔档案</h1>
+		
+				<ul class="list">
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_0" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2017/11.html">2017年11月 (1)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_1" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2017/06.html">2017年6月 (2)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_2" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2017/05.html">2017年5月 (5)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_3" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2017/04.html">2017年4月 (3)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_4" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2017/03.html">2017年3月 (3)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_5" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2017/02.html">2017年2月 (12)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_6" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2017/01.html">2017年1月 (5)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_7" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2016/10.html">2016年10月 (1)</a>  </li>
+			
+				<li class="listitem"><a id="CatList_LinkList_1_Link_8" class="listitem" href="http://www.cnblogs.com/ylqh/archive/2016/09.html">2016年9月 (2)</a>  </li>
+			
+				</ul>
+			
+	
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/ylqh/p/5902259.html#3521654">1. Re:ansible</a></li>
+        <li class="recent_comment_body">写的很好</li>
+        <li class="recent_comment_author">--fascinatingGirl</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/ylqh/p/5885465.html#3517730">2. Re:nginx监控</a></li>
+        <li class="recent_comment_body">楼主写的很用心，学习了</li>
+        <li class="recent_comment_author">--fascinatingGirl</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/ylqh/p/5902259.html">1. ansible(1089)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/6360148.html">2. openstack 之~keystone部署(1041)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/6673710.html">3. openstack之Neutron网络虚拟化(232)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/6360095.html">4. openstack 之~keystone之网关协议(200)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/6417698.html">5. python之函数深入探测(149)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/ylqh/p/5902259.html">1. ansible(1)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/5885465.html">2. nginx监控(1)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/ylqh/p/5885465.html">1. nginx监控(2)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/5952570.html">2. 初始go语言(1)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/6228013.html">3. python入门必备知识总结(1)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/6284350.html">4. openstack 之~云计算介绍(1)</a></li><li><a href="http://www.cnblogs.com/ylqh/p/5902259.html">5. ansible(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+        
+        <div class="spacer">
+            &nbsp;</div>
+    </div>
+    <div class="centercolumn">
+        
+<div id="post_detail">
+<div class="singlepost">
+	<div class="posttitle">
+		<a id="cb_post_title_url" class="singleposttitle" href="http://www.cnblogs.com/ylqh/p/6673710.html">openstack之Neutron网络虚拟化</a>
+	</div>
+    <div class="postbody">
+	<div id="cnblogs_post_body" class="blogpost-body"><h1>第一：为什么需要网络虚拟化？</h1>
+<h2>一.数据中心的现有网络不能满足云计算的物理需求；</h2>
+<p><strong>互联网行业数据中心的基本特征就是服务器的规模偏大。进入云计算时代后，其业务特征变得更加复杂，包括：虚拟化支持、多业务承载、资源灵活调度等（如下图所示）。与此同时，互联网云计算的规模不但没有缩减，反而更加庞大。这就给云计算的网络带来了巨大的压力。</strong></p>
+<p><strong>　　　　　　　　　　　　　　　　　　　　　　<img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1012270-20170406152801972-1378802357.png" alt=""></strong></p>
+<p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　互联网云计算业务特点</p>
+<p><strong>1. 大容量的</strong><strong>MAC</strong><strong>表项和</strong><strong>ARP</strong><strong>表项</strong></p>
+<p>　　虚拟化会导致更大的MAC表项。假设一个互联网云计算中心的服务器有5000台，按照1:20的比例进行虚拟化，则有10万个虚拟机。通常每个
+虚拟机会配置两个业务网口，这样这个云计算中心就有20万个虚拟网口，对应的就是需要20万个MAC地址和IP地址。云计算要求资源灵活调度，业务资源任
+意迁移。也就是说任意一个虚拟机可以在整个云计算网络中任意迁移。这就要求全网在一个统一的二层网络中。全网任意交换机都有可能学习到全网所有的MAC表
+项。与此对应的则是，目前业界主流的接入交换机的MAC表项只有32K，基本无法满足互联网云计算的需求。另外，网关需要记录全网所有主机、所有网口的
+ARP信息。这就需要网关设备的有效ARP表项超过20万。大部分的网关设备芯片都不具备这种能力。</p>
+<p><strong><strong>2. 4K VLAN Trunk</strong><strong>问题</strong></strong></p>
+<p>　　传统的大二层网络支持任意VLAN的虚拟机迁移到网络的任意位置，一般有两种方式。方式一：虚拟机迁移后，通过自动化网络管理平台动态的在虚拟
+机对应的所有端口上下发VLAN配置；同时，还需要动态删除迁移前虚拟机对应所有端口上的VLAN配置。这种方式的缺点是实现非常复杂，同时自动化管理平
+台对多厂商设备还面临兼容性的问题，所以很难实现。方式二：在云计算网络上静态配置VLAN，在所有端口上配置VLAN trunk 
+all。这种方式的优点是非常简单，是目前主流的应用方式。但这也带来了巨大的问题：任一VLAN内如果出现广播风暴，则全网所有VLAN内的虚拟机都会
+受到风暴影响，出现业务中断。</p>
+<p><strong>3. 4K VLAN</strong><strong>上限问题</strong></p>
+<p><strong>　　</strong>云计算网络中有可能出现多租户需求。如果租户及业务的数量规模超出VLAN的上限（4K），则无法支撑客户的需求。</p>
+<p><strong><strong>4. 虚拟机迁移网络依赖问题</strong></strong></p>
+<p>　　VM迁移需要在同一个二层域内，基于IP子网的区域划分限制了二层网络连通性的规模。</p>
+<h2>二.数据中心的现有网络不能满足云计算的软件化即SDN要求。</h2>
+<p>　　数据中心（Data Center）中的物理网络是固定的、需要手工配置的、单一的、没有多租户隔离的网络，无法满足现有的需求。</p>
+<p>　　云架构往往是多租户架构，这意味着<strong>多个客户会共享单一</strong>的物理网络。因此，除了提供基本的网络连接能力以外，云还需要提供网络在租户之间的<strong>隔离</strong>能力；同时云是<strong>自服务</strong>的，这意味着租户可以通过云提供的 API 来使用虚拟出的网络组建来设计，构建和部署各种他们需要的网络</p>
+<p>小结：数据中心现有的物理网络基础之上叠加一层我们自己的虚拟网络</p>
+<h1>第二：网络虚拟化</h1>
+<p>一：openstack相关网络</p>
+<p>　　在实际的数据中心中，与openstack相关的物理网络可以分为三层：</p>
+<p>　　1. OpenStack Cloud network：OpenStack 所管理的网络。</p>
+<p>&nbsp; &nbsp; &nbsp; 2. 机房intranet （external network）：数据中心所管理的的公司网（Intranet） ，虚机使用的 Floating IP 是这个网络的地址的一部分。</p>
+<p>&nbsp; &nbsp; &nbsp; 3. 真正的外部网络即 Internet：由各大电信运营商所管理的公共网络，使用公共IP。</p>
+<p>二：网络（Neutron L2 network）</p>
+<p>　　网络（network）是一个隔离的二层网段，类似于物理网络世界中的虚拟 LAN (VLAN)。更具体来讲，它是为创建它的租户而保留的一个广播域，或者被显式配置为共享网段。端口和子网始终被分配给某个特定的网络。这里所谓的隔离，可理解为：</p>
+<p>　　1.跨网络的子网之间的流量必须走 L3 Virtual Router</p>
+<p>　　2.每个网络使用自己的 DHCP Agent，每个 DHCP Agent 在一个 Network namespace 内</p>
+<ul>
+<li style="display: inline !important;">　　3.不同网络内的IP地址可以重复（overlapping）</li>
+</ul>
+<p><strong>根据创建网络的用户的权限，Neutron L2 network 可以分为:</strong></p>
+<ul>
+<li><strong>Provider network</strong>：管理员创建的和物理网络有直接映射关系的虚拟网络。</li>
+<li><strong>Tenant network</strong>：租户普通用户创建的网络，物理网络对创建者透明，其配置由 Neutron根据管理员在系统中的配置决定。</li>
+</ul>
+<p>虚机可以直接挂接到 provider network 或者 tenant network 上 &nbsp;“VMs can attach 
+directly to both tenant and provider networks, and to networks with any 
+provider:network_type value, assuming their tenant owns the network or 
+its shared.”。</p>
+<p><strong>根据网络的类型，Neutron L2 network 可以分为：</strong></p>
+<ul>
+<li><strong>Flat network</strong>：基于不使用 VLAN 的物理网络实现的虚拟网络。每个物理网络最多只能实现一个虚拟网络。</li>
+<li><strong>local network</strong>（本地网络）：一个只允许在本服务器内通信的虚拟网络，不知道跨服务器的通信。主要用于单节点上测试。</li>
+<li><strong>VLAN&nbsp;network</strong>（虚拟局域网）&nbsp;：基于物理 VLAN 
+网络实现的虚拟网络。共享同一个物理网络的多个 VLAN 网络是相互隔离的，甚至可以使用重叠的 IP 地址空间。每个支持 VLAN network
+ 的物理网络可以被视为一个分离的 VLAN trunk，它使用一组独占的 VLAN ID。有效的 VLAN ID 范围是 1 到 4094。</li>
+<li><strong>GRE network&nbsp;</strong>（通用路由封装网络）：一个使用 GRE 封装网络包的虚拟网络。GRE 封装的数据包基于 IP 路由表来进行路由，因此 GRE network 不和具体的物理网络绑定。</li>
+<li><strong>VXLAN network</strong>（虚拟可扩展网络）：基于 VXLAN 实现的虚拟网络。同 GRE network 一样， VXLAN network 中 IP 包的路由也基于 IP 路由表，也不和具体的物理网络绑定。</li>
+</ul>
+<p>注：现在企业环境中一般使用vlan，gre，vxlan网络模式，后续博客会详细介绍这三种网络模式</p>
+<p>三.<strong>Neutron L2 network的<strong>Provider network模式</strong></strong></p>
+<p>Provider Network 是由 OpenStack 管理员创建的，直接对应于数据中心的已有物理网络的一个网段。这种网络有三个和物理网络有关属性：</p>
+<ul>
+<li>provider:network_type (网络类型，包括 vxlan, gre, vlan, flat, local)&nbsp;</li>
+<li>provider:segmentation_id (网段 ID， 比如 VLAN 的 802.1q tag, GRE 网络的 Tunnel ID, VXLAN 网络的 VNI)&nbsp;</li>
+<li>provider:physical_network (物理网络的逻辑名称，比如 physnet1, ph-eth1, etc)&nbsp;</li>
+</ul>
+<p>&nbsp; 这种网络是可以在多个租户之间共享的。这种网络通过计算和网络节点上指定的 bridge 
+直接接入物理网络，所以默认的情况下它们是可以路由的，因此也不需要接入 Neutron Virtual Router，也不需要使用 L3 
+agent。使用这种网络，必须预先在各计算和网络节点上配置指定的网桥。</p>
+<p>&nbsp; 虽然可以创建 GRE 和 VXLAN 类型的 Provider network， 但是（个人认为）Provider 
+network 只对 Flat 和 VLAN 类型的网络才有意义，因为 Provider network 的一个重要属性是 
+provider:physical_network，而这个参数对其他网络类型没有意义。</p>
+<p>创建 provider network：</p>
+<ul>
+<li>local 类型的：neutron net-create NAME --provider:network_type local</li>
+<li>flat 类型的：neutron net-create NAME --provider:network_type flat --provider:physical_network PHYS_NET_NAME</li>
+<li>vlan 类型的：neutron net-create NAME --provider:network_type vlan 
+--provider:physical_network PHYS_NET_NAME --provider:segmentation_id VID</li>
+<li>gre 类型的：neutron net-create NAME --provider:network_type gre --provider:segmentation_id TUNNEL_ID</li>
+<li>vxlan 类型的：neutron net-create NAME --provider:network_type vxlan --provider:segmentation_id TUNNEL_ID</li>
+</ul>
+<h3>&nbsp;四.<strong>Neutron L2 network的</strong>Tenant network</h3>
+<p>Tenant network 是由 tenant 的普通用户创建的网络。默认情况下，这类用户不能创建共享的 tenant 
+network（因此 Nuetron Server 的policy 设置了"create_network:shared": 
+"rule:admin_only"。），因此这种网络是完全隔离的，也不可以被别的 tenant 共享。</p>
+<p>&nbsp; &nbsp; Tenant network 也有 local，flat，vlan，gre 和 vxlan 
+等类型。但是，tenant 普通用户创建的 Flat 和 VLAN tenant network 实际上还是 Provider 
+network，所以真正有意义的是 GRE 和 VXLAN 类型，这种网络和物理网络没有绑定关系。</p>
+<p>&nbsp; &nbsp; 创建 tenant network 的过程：</p>
+<p>（0）管理员在 neutron 
+配置文件中配置&nbsp;tenant_network_types，其值可以设为一个所支持的网络类型列表，比如 
+“vlan,gre,vxlan”。其默认值为 “local“，因此需要改变。该值表明该 OpenStack 云中允许被创建的 tenant 
+network 类型。&nbsp;</p>
+<p>（1）运行命令&nbsp;neutron net-create &lt;net_name&gt;</p>
+<p>（2）neutron server 逐一根据该配置项尝试创建 network segment，成功则立即返回。</p>
+<p>&nbsp;　　&nbsp;创建每种网络时，使用不同的配置项：</p>
+<table border="0">
+<tbody>
+<tr>
+<td>网络类型</td>
+<td>配置项</td>
+<td>说明</td>
+<td>实例&nbsp;</td>
+</tr>
+<tr>
+<td>vlan</td>
+<td>
+<ul>
+<li>network_vlan_ranges = physnet1:1000:2999,physnet2</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>指定所使用的物理网络的标签和支持的 VLAN ID 范围</li>
+</ul>
+</td>
+<td>
+<p>&nbsp;</p>
+<p>network_vlan_ranges = default:2000:3999<br>integration_bridge = br-int<br>bridge_mappings = default:br-eth1</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td>flat</td>
+<td>
+<ul>
+<li>flat_networks = physnet1,physnet2</li>
+
+
+
+</ul>
+
+
+
+</td>
+<td>
+<ul>
+<li>指定所使用的物理网络的 label</li>
+
+
+
+</ul>
+
+
+
+</td>
+<td>&nbsp;</td>
+
+
+
+</tr>
+<tr>
+<td>gre</td>
+<td>
+<ul>
+<li>tunnel_id_ranges =a list of&nbsp;&lt;tun_min&gt;:&lt;tun_max&gt;</li>
+<li>local_ip = &lt;ip&gt;</li>
+
+
+
+</ul>
+
+
+
+</td>
+<td>
+<ul>
+<li>&nbsp;一组可用的 GRE ID 区间列表；</li>
+<li>建立 GRE Tunnel 使用的 IP 地址</li>
+
+
+
+</ul>
+
+
+
+</td>
+<td>&nbsp;
+<p>enable_tunneling = true<br>tunnel_id_ranges = 1:1000<br>integration_bridge = br-int<br>tunnel_bridge = br-tun<br>local_ip = 10.0.0.3</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td>&nbsp;vxlan</td>
+<td>&nbsp;
+<ul>
+<li>vni_ranges = a list of&nbsp;<em>&lt;vni_min&gt;:&lt;vni_max&gt;</em></li>
+<li>local_ip = &lt;ip&gt;</li>
+<li>vxlan_group = 239.1.1.1</li>
+
+
+
+</ul>
+
+
+
+</td>
+<td>
+<ul>
+<li>&nbsp;一组可用的 VNI 区间列表；</li>
+<li>建立 VxLAN Tunnel 使用的 IP 地址</li>
+<li>VXLAN 组播组</li>
+
+
+
+</ul>
+
+
+
+</td>
+<td>&nbsp;
+<p>enable_tunneling = true<br>tunnel_type = vxlan<br>integration_bridge = br-int<br>tunnel_bridge = br-tun<br>local_ip = 10.0.0.3<br>tunnel_types = vxlan</p>
+
+
+
+</td>
+
+
+
+</tr>
+<tr>
+<td>所有&nbsp;&nbsp;</td>
+<td>
+<ul>
+<li>integration_bridge</li>
+<li>bridge_mappings = default:br-eth1</li>
+<li>tunnel_bridge</li>
+<li>enable_tunneling = False</li>
+
+
+
+</ul>
+
+
+
+</td>
+<td>
+<ul>
+<li>指定intergration bridge 的名称，默认为 br-int；</li>
+<li>指定物理网络label 和服务器上的 bridge 对应关系；</li>
+<li>指定 turnnel bridge 的名称，默认为 br-tun</li>
+<li>是否使用 tunneling 类型的网络，包括 GRE 和 VxLAN。使用的话，ML2 agent 会在每个计算和网络节点创建名称为&nbsp;tunnel_bridge 的 tunnel bridge。</li>
+
+
+
+</ul>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+</tbody>
+
+
+</table>
+<h2><strong>五：Provider与Tenant的区别</strong></h2>
+<ul>
+<li>Provider network 是由 Admin 用户创建的，而 Tenant network 是由 tenant 普通用户创建的。</li>
+<li>Provider network 和物理网络的某段直接映射，比如对应某个 VLAN，因此需要预先在物理网络中做相应的配置。而 tenant network 是虚拟化的网络，Neutron 需要负责其路由等三层功能。</li>
+<li>对 Flat 和 VLAN 类型的网络来说，只有 Provider network 才有意义。即使是这种类型的 tenant network，其本质上也是对应于一个实际的物理段。</li>
+<li>对 GRE 和 VXLAN 类型的网络来说，只有 tenant network 才有意义，因为它本身不依赖于具体的物理网络，只是需要物理网络提供 IP 和 组播即可。</li>
+<li>Provider network 根据 admin 用户输入的物理网络参数创建；而 tenant work 由 tenant 普通用户创建，Neutron 根据其网络配置来选择具体的配置，包括网络类型，物理网络和 segmentation_id。</li>
+<li>创建 Provider network 时允许使用不在配置项范围内的 segmentation_id。</li>
+
+</ul>
+<p>六:子网</p>
+<p>　　子网是一组 IPv4 或 IPv6 地址以及与其有关联的配置。它是一个地址池，OpenStack 可从中向虚拟机 (VM) 分配 IP
+ 地址。每个子网指定为一个无类别域间路由 (Classless Inter-Domain Routing) 
+范围，必须与一个网络相关联。除了子网之外，租户还可以指定一个网关、一个域名系统 (DNS) 名称服务器列表，以及一组主机路由。这个子网上的 VM
+ 实例随后会自动继承该配置。&nbsp;</p>
+<p>&nbsp; &nbsp;&nbsp;在创建虚拟主机时，nova-network会从指定子网中取一个空闲IP并将它写入此虚拟主机的配置文件。在一个子网内的虚拟主机可以通过创建Linux桥实现互通。</p>
+<p>七：端口</p>
+<p>　　一个 Port 代表虚拟网络交换机（logical network switch）上的一个虚机交换端口（virtual switch 
+port）。虚机的网卡（VIF - Virtual Interface）会被连接到 port 上。当虚机的 VIF 连接到 Port 后，这个 
+vNIC 就会拥有 MAC 地址和 IP 地址。Port 的 IP 地址是从 subnet 中分配的。</p>
+<p>八：虚拟交换机</p>
+<p>　　Neutron 默认采用开源的 Open vSwitch 作为其虚机交换机，同时还支持使用 Linux bridge。</p>
+<p>九：虚拟路由器</p>
+<p>　　一个 Virtual router 提供不同网段之间的 IP 包路由功能，由 Nuetron L3 agent 负责管理</p>
+<p><img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1012270-20170406221607988-1961382445.jpg" alt=""></p>
+<p>&nbsp;</p>
+<p>　　　　　　　　　　nova管理的vm与neutron提供的虚拟网络之间的关系</p>
+<h1>第三：二层网络虚拟化的实现　</h1>
+<p>一个标准 OpenStack 环境中的物理网络配置往往包括：</p>
+<ul>
+<li>Internet（Pulic network）：传统意义上的公共网络，使用往往由电信运营商提供的公共IP。</li>
+<li>外部网络（External network）：数据中心 Intranet，从这里分配浮动IP地址。</li>
+<li>OpenStack 内部网络：
+<ul>
+<li>管理网络（management network）：提供 OpenStack 各个组件之间的内部通信，以及 API 访问端点（Endpoint）。为安全考虑，该网络必须限制在数据中心之内。</li>
+<li>API 网络：其实这不是一个单独的网络，而是包含在外部和内部网络中。API 的 Endpoint 包括 publicurl 和 
+internalurl，其中，publicurl &nbsp;包含的是 externa network 的 IP 地址，internal 
+network 包含的是 management network IP 地址。为了简单起见，提供给内外网络访问的API的 publicurl 和 
+internalurl 相同，而只给内部网络访问的 API 只使用 internalurl。</li>
+<li>数据网络（data network）：除管理网络以外的其它网络，往往还可以细分为下面几种。它们可以合为一种，也可以从性能方面考虑分离出一种或几种作为单独的网络。
+<ul>
+<li>租户网络（Tenant network）：提供虚机在计算节点之间，以及计算节点和网络节点之间的通信。同样这也是数据中心的内部网络。</li>
+<li>存储访问网络（storage access network）：访问存储的网络。</li>
+<li>存储后端网络（storage backend network）：比如 Ceph 和 Swift 集群用于后端数据复制的网络。</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+</li>
+<li>除了以上网络外，往往还有各种功能网络，包括 IPMI 网络，PXE 网络，监控网络等等。</li>
+
+</ul>
+<p>一. 大二层的概念</p>
+<p>&nbsp;</p>
+<p>　　二层指的是数据链路层，计算机与计算机之间的通信采用的是基于以太网协议广播的方式，而大二层的概念指的是openstack中所有的vm都处
+于一个大的二层网络中，大二层也可以被想象成一堆二层交换机串联到一起。这么做的目的就是为了满足vm可以迁移到全网的任意位置，二层无需网关，无需路
+由，因而资源调用更加灵活，反之，如果所有vm不在一个大二层中，那么vm迁移到另外一个位置（另外一个网络中），则需要我们人为地指定网关，添加路由策
+略，然而这还只是针对一台vm的迁移，要满足所有的vm的动态迁移，再去指定网关、路由等就不现实了。</p>
+<p>二.物理的二层与虚拟的二层（vlan模式）</p>
+<p>　　物理的二层指的是：物理网络是二层网络，基于以太网协议的广播方式进行通信</p>
+<p>&nbsp; &nbsp; &nbsp;虚拟的二层指的是：neutron实现的虚拟的网络也是二层网络（openstack的vm机所用的网络必须是大二层），也是基于以太网协议的广播方式进行通信，但毫无疑问的是该虚拟网络依赖于物理的二层网络</p>
+<p>三.物理的三层与虚拟的二层（gre模块与vxlan模式）</p>
+<p>&nbsp;　物理的三层指的是：物理网络是三层网络，基于ip路由的方式进行通信</p>
+<p>&nbsp; &nbsp; 
+虚拟的二层指的是：neutron实现的虚拟的网络仍然是二层网络（openstack的vm机所用的网络必须是大二层）,仍然是基于以太网协议的广播方
+式进行通信，但毫无疑问的是该虚拟网络依赖于物理的三层网络，这有点类似于VPN的概念，根本原理就是将私网的包封装起来，最终打上隧道的ip地址传输。</p>
+<p>四.虚拟路由器</p>
+<p>跨子网的通信需要走虚拟路由器。同物理路由器一样，虚拟路由器由租户创建，拥有多个 virtual interface，连接一个租户的子网，以及外部网络。它具有以下特性：</p>
+<ul>
+<li>一个 VR 只属于创建它的租户，只用于该租户的子网之间和子网与外网的路由</li>
+<li>同一网络内的若干子网可以挂在一个 VR 上</li>
+<li>同一租户的不同网络的没有 IP 地址重叠的子网可以挂在一个 VR 上</li>
+<li>不同租户之间的内网之间是不能使用 VR 的</li>
+<li>同一租户的不同网络内的有 IP 地址重叠的两个子网不能使用同一个 VR（添加子网到 VR 时会报错）</li>
+<li>在网络节点上，一个 VR 运行在一个 Network namespace 内，该namespace 的名称包含该 VR 的 UUID</li>
+
+</ul>
+<p>五.dhcp服务</p>
+<p>&nbsp;DHCP 服务是网络环境中必须有的。Neutron 提供基于 Dnamasq （轻型的dns和dhcp服务）实现的虚机 DHCP 服务，向租户网络内的虚机动态分配固定 IP 地址。它具有以下特性：</p>
+<ul>
+<li>一个网络可以有多个运行在不同物理网络节点上的 DHCP Agent，同时向网络内的虚机提供服务</li>
+<li>一个 DHCP Agent 只属于一个网络，在网络节点上运行在一个 network namespace 内</li>
+<li>网络内的子网共享该 DHCP Agent</li>
+
+</ul>
+<h1>第四：Neutron租户网路的隔离性</h1>
+<p>Neutron 实现了不同层次的租户网络隔离性：</p>
+<ul>
+<li>租户之间的网络是三层隔离的，连通过 VR 做路由都不行，实在要连通的话，需要走物理网络</li>
+<li>一个租户内的不同网络之间二层隔离的，需要通过 VR 做三层连通</li>
+<li>一个网络内的不同子网也是二层隔离的，需要通过 VR 做三层连通</li>
+
+</ul>
+<p>&nbsp; &nbsp; Neutron 对每个租户网络（tenant network）都分配一个 segmentation_id，其特点包括：</p>
+<ul>
+<li>每个 tenant network 都有一个这种 ID</li>
+<li>每个租户网络的 ID 在全部的租户范围内都是唯一的</li>
+<li>一个 ID 代表一个广播域</li>
+<li>一个 ID 使得同一网络内的两个虚机之间好像建立了一个虚拟通道（tunnel）一样</li>
+<li>不同 ID 的网络 tunnel 之间是互相隔离的</li>
+<li>根据物理实现不同，该ID被实现为几种不同的形式：
+<ul>
+<li>VLAN ID</li>
+<li>GRE Tunnel ID</li>
+<li>VxLAN VNI</li>
+<li></li>
+
+</ul>
+
+</li>
+
+</ul>
+<p><img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1012270-20170406225818222-2051688601.png" alt=""></p>
+<p>原图链接：https://pinrojas.com/2014/07/29/theres-real-magic-behind-openstack-neutron/</p>
+<ul>
+<li>（1）计算节点的 br-int 上，neutron 为每个虚机连接 OVS 的 access port 分配了内部的 VLAN Tag。这种 tag 限制了网络流量只能在 tenant network 之内。</li>
+<li>（2）计算节点的&nbsp;br-tun 上，neutron 将内部的 VLAN Tag 转化为 GRE Tunnel ID，是的不同 network 的流量走不通的 tunnel。</li>
+<li>（3）网络节点的 br-tun 上，neutron 将 GRE Tunnel ID 转发了一一对应的 内部 VLAN Tag，使得网络流被不同的服务处理。</li>
+<li>（4）网络节点的 br-int 上连接的 DHCP 和 L3 agent 使用 Linux network namespace 进行隔离。</li>
+</ul>
+<h1>第五 Neutron租户网络的安全性（security）</h1>
+<p>除了租户的隔离性以外，</p>
+<ul>
+<li>Neutron 还提供数据网络与外部网络的隔离性。默认情况下，所有虚机通往外网的流量全部走网络节点上的 L3 agent。在这里，内部的固定 IP 被转化为外部的浮动 IP 地址。这种做法一方面保证了网络包能够回来，另一方面也隐藏了内部的 IP 地址。</li>
+<li>Neutron 还是用 Linux iptables 特性，实现其 Security Group 特性，从而保证访问虚机的安全性。</li>
+<li>Neutron利用网络控制节点上的 network namespace 中的 iptables，实现了进出租户网络的网络包防火墙，从而保证了进出租户网络的安全性。</li>
+</ul>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/ylqh/category/935022.html" target="_blank">openstack</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6673710,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('330f902e-ea66-e611-9fc1-ac853d9f53cc');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/ylqh/" target="_blank"><img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20160920143148.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/ylqh/">迎领启航</a><br>
+            <a href="http://home.cnblogs.com/u/ylqh/followees">关注 - 7</a><br>
+            <a href="http://home.cnblogs.com/u/ylqh/followers">粉丝 - 6</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('330f902e-ea66-e611-9fc1-ac853d9f53cc');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6673710,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6673710,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/ylqh/p/6524744.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/ylqh/p/6524744.html" title="发布于2017-03-09 23:22">python之面向对象的程序设计</a><br><a href="http://www.cnblogs.com/ylqh/p/6676112.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/ylqh/p/6676112.html" title="发布于2017-04-07 20:29">openstack之Neutron网络模式vlan，gre，vxlan详解</a><br></div>
+</div>
+
+
+    </div>
+	<div class="itemdesc">
+		posted on <span id="post-date">2017-04-06 21:18</span> <a href="http://www.cnblogs.com/ylqh/">迎领启航</a> 阅读(<span id="post_view_count">234</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6673710" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6673710);return false;">收藏</a>
+	</div>
+</div>
+	<script type="text/javascript">var 
+allowComments=true,cb_blogId=302246,cb_entryId=6673710,cb_blogApp=currentBlogApp,cb_blogUserGuid='330f902e-ea66-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2017/4/6
+ 21:18:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://cloud.tencent.com/act/first_purchase?fromSource=gwzcw.763755.763755.763755" target="_blank">【推荐】怎样购买腾讯云服务器更划算？</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/products/spreadjs/?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS2&amp;utm_campaign=community" target="_blank"><img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171206093644566-325426505.png" alt="SpreadJS2_1206" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/588847/" target="_blank">北京地铁出新功能！地铁站拥挤度手机可查询</a><br> ·  <a href="https://news.cnblogs.com/n/588851/" target="_blank">著名金融投资家索罗斯：Facebook和谷歌“气数已尽”</a><br> ·  <a href="https://news.cnblogs.com/n/588929/" target="_blank">史上最强抠图 摄影专用PS CC一键抠图体验</a><br> ·  <a href="https://news.cnblogs.com/n/588907/" target="_blank">区块链早期入局者口述：做过“韭菜”后，我对行业的冷思考</a><br> ·  <a href="https://news.cnblogs.com/n/588923/" target="_blank">微软高管解读财报：努力创新云基础架构</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="openstack%E4%B9%8BNeutron%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96%20-%20%E8%BF%8E%E9%A2%86%E5%90%AF%E8%88%AA%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+        <div class="spacer">
+            &nbsp;</div>
+    </div>
+    
+<div class="footer">
+	Powered by: 
+	<br>
+	
+	<a id="Footer1_Hyperlink3" name="Hyperlink1" href="http://www.cnblogs.com/" style="font-family:Verdana;font-size:12px;">博客园</a>
+	<br>
+	Copyright © 迎领启航
+</div>
+</div>
+
+
+
+</body></html>
