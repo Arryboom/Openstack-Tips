@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>linux下配置TRUNK - 街头算命 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-darkgreentrip.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-darkgreentrip-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hbgzy/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hbgzy/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hbgzy/wlwmanifest.xml">
+<script async="" src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'hbgzy', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/hbgzy/"><img id="blogLogo" src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hbgzy/">街头算命</a></h1>
+<h2>大部分是学习笔记，随笔而已。不必当真</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/hbgzy/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/hbgzy/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/hbgzy/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 9&nbsp; </span>
+<span id="stats_article_count">文章 - 5&nbsp; </span>
+<span id="stats-comment_count">评论 - 0</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/hbgzy/articles/4001139.html">linux下配置TRUNK</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>　　在linux下配置trunk的主要作用是服务器与交换机相连时，一个网卡上配置多个IP/VLAN ID来通信。这时就要用到trunk 了</p>
+<p>一.首先要确认Linux系统内核是否已经支持VLAN功能：<br>当前使用内核以及操作系统版本：<br>[root@happyboy&nbsp;~]#&nbsp;#&nbsp;lsmod&nbsp;|grep&nbsp;8021q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+查看系统内核是否支持802.1q协议<br>8021q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18633&nbsp;0&nbsp;</p>
+<p>[root@happyboy&nbsp;~]#&nbsp;lspci&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//确认网卡驱动是否已经正常加载</p>
+<p>二.物理网卡、子网卡、虚拟VLAN网卡的关系：<br>1.物理网卡：物理网卡这里指的是服务器上实际的网络接口设备，这里我服务器上双网卡，在系统中看到的2个物理网卡分别对应是eth0和eth1这两个网络接口。<br><br>2.&nbsp;
+子网卡：子网卡在这里并不是实际上的网络接口设备，但是可以作为网络接口在系统中出现，如eth0:1、eth1:2这种网络接口。它们必须要依赖于物理
+网卡，虽然可以与物理网卡的网络接口同时在系统中存在并使用不同的IP地址，而且也拥有它们自己的网络接口配置文件。但是当所依赖的物理网卡不启用时
+（Down状态）这些子网卡也将一同不能工作。<br><br>3.虚拟VLAN网卡：这些虚拟VLAN网卡也不是实际上的网络接口设备，也可以作为网络
+接口在系统中出现，但是与子网卡不同的是，他们没有自己的配置文件。他们只是通过将物理网加入不同的VLAN而生成的VLAN虚拟网卡。如果将一个物理网
+卡添加到多个VLAN当中去的话，就会有多个VLAN虚拟网卡出现，他们的信息以及相关的VLAN信息都是保存在/proc/net&nbsp;
+/vlan/config这个临时文件中的，而没有独自的配置文件。它们的网络接口名是eth0.1、eth1.2这种名字。</p>
+<p>当需要启用VLAN虚拟网卡工作的时候，关联的物理网卡网络接口上必须没有IP地址的配置信息，并且，这些主物理网卡的子网卡也必须不能被启用和必
+须不能有IP地址配置信息。这个在网上看到的结论根据我的实际测试结果来看是不准确的，物理网卡本身可以绑定IP，并且给本征vlan提供通信网关的功
+能，但必须是在802.1q下.</p>
+<p>[root@VlanLinux&nbsp;~]#&nbsp;vi&nbsp;/etc/sysconfig/network-scripts/ifcfg-eth1<br>————————————————–<br>DEVICE=eth1<br>ONBOOT=yes<br>BOOTPROTO=static<br>设定静态地址并且不给IP地址设定。</p>
+<p>三、在Linux配置VLAN&nbsp;Trunk：<br>由于在Linux上eth1要被设定为Trunk，因此，网络中有几个VLAN的
+话，那么中继网卡上也必须要加入多个VLAN才能支持到(本征vlan不需要添加，属于本征vlan的端口设置IP同该物理网卡网段，并将网关指向
+eth1即可，关于eth0和eth1的配置，可以直接编辑配置文件&nbsp;/etc/sysconfig/network-scripts
+/ifcfg-eth0和ifcfg-eth1，或用setup来配置等文本图形工具配置)。<br>1.将eth1添加到VLAN&nbsp;2中：<br>[root@happyboy&nbsp;net]#&nbsp;vconfig&nbsp;add&nbsp;eth1&nbsp;2<br><em>WARNING:&nbsp;Could&nbsp;not&nbsp;open&nbsp;/proc/net/vlan/config.&nbsp;Maybe&nbsp;you&nbsp;need&nbsp;to&nbsp;load&nbsp;the&nbsp;8021q&nbsp;module,&nbsp;or&nbsp;maybe&nbsp;you&nbsp;are&nbsp;not&nbsp;using&nbsp;PROCFS??</em><br>Added&nbsp;VLAN&nbsp;with&nbsp;VID&nbsp;==&nbsp;2&nbsp;to&nbsp;IF&nbsp;-:eth1:-<br>第
+一次添加VLAN虚拟网卡的时候就一定会出现上面的那句提示，原因是因为默认下/proc/net/vlan/config这个专门用来保存VLAN信息
+的文件是没有的。由于第一次添加VLAN网卡，那么这个文件也会被自动建立起来。另外，在/proc/目录下面的文件都是系统的临时文件，因此重新启动后
+必定丢失休息，所以在配置并测试VLAN成功后，可以将一些相关命令添加到rc.local这个启动脚本当中去了。在执行该命令之前可以先到
+/proc&nbsp;/net/目录查看下，并不存在vlan文件夹，执行后会创建一个vlan文件夹，并生成config配置文件，以及对应的虚拟
+vlan网卡配置文件&nbsp;eth1.2等<br>后面的一句<br>Added&nbsp;VLAN&nbsp;with&nbsp;VID&nbsp;==&nbsp;2&nbsp;to&nbsp;IF&nbsp;-:eth1:-<br>这里表示已经将eth1网卡添加到了VLAN&nbsp;2中，并且它在VLAN中的虚拟网卡是eth1.2。</p>
+<p>2.同样将eth1添加到VLAN&nbsp;3、4中：<br>[root@happyboy&nbsp;~]#&nbsp;vconfig&nbsp;add&nbsp;eth1&nbsp;3<br>Added&nbsp;VLAN&nbsp;with&nbsp;VID&nbsp;==&nbsp;3&nbsp;to&nbsp;IF&nbsp;-:eth1:-<br>[root@happyboy&nbsp;~]#&nbsp;vconfig&nbsp;add&nbsp;eth1&nbsp;4<br>Added&nbsp;VLAN&nbsp;with&nbsp;VID&nbsp;==&nbsp;4&nbsp;to&nbsp;IF&nbsp;-:eth1:-<br><br>4.检查添加的VLAN虚拟网卡信息：<br>[root@happyboy&nbsp;~]#&nbsp;cat&nbsp;/proc/net/vlan/config&nbsp;<br>--------------------------------------------------<br>VLAN&nbsp;Dev&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;VLAN&nbsp;ID<br>Name-Type:&nbsp;VLAN_NAME_TYPE_RAW_PLUS_VID_NO_PAD<br>eth1.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;2&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eth1<br>eth1.3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;3&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eth1<br>eth1.4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;4&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eth1<br>虚拟网卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VLANID&nbsp;&nbsp;&nbsp;归属的主网卡<br>--------------------------------------------------<br>可以看到所有的VLAN虚拟网卡以及它们所归属的主物理网卡。</p>
+<p>五.为VLAN虚拟网卡设定IP地址并且进行启用：<br>[root@happyboy&nbsp;~]#&nbsp;ifconfig&nbsp;eth1.2&nbsp;192.168.2.1&nbsp;up<br>[root@happyboy&nbsp;~]#&nbsp;ifconfig&nbsp;eth1.3&nbsp;192.168.3.1&nbsp;up<br>[root@happyboy&nbsp;~]#&nbsp;ifconfig&nbsp;eth1.4&nbsp;192.168.4.1&nbsp;up</p>
+<p>六.确认Linux系统下的所有网络接口配置：<br>1.重新启动网络服务<br>[root@happyboy&nbsp;~]#&nbsp;service&nbsp;network&nbsp;restart<br>--------------------------------------------------<br>Shutting&nbsp;down&nbsp;interface&nbsp;eth0:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;OK&nbsp;]<br>Shutting&nbsp;down&nbsp;interface&nbsp;eth1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;OK&nbsp;]<br>Shutting&nbsp;down&nbsp;loopback&nbsp;interface:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;OK&nbsp;]<br>Bringing&nbsp;up&nbsp;loopback&nbsp;interface:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;OK&nbsp;]<br>Bringing&nbsp;up&nbsp;interface&nbsp;eth0:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;OK&nbsp;]<br>Bringing&nbsp;up&nbsp;interface&nbsp;eth1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;OK&nbsp;]<br>--------------------------------------------------<br><br>2.检查Linux系统下的所有网络接口信息：<br>[root@happyboy&nbsp;~]#&nbsp;ifconfig&nbsp;|more<br>到这里已经基本上将VLAN的主要配置完成了。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hbgzy/category/646016.html" target="_blank">Linux</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hbgzy/tag/trunk/">trunk</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4001139,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('11755a43-7c44-e411-b908-9dcfd8948a71');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/hbgzy/" target="_blank"><img src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/hbgzy/">街头算命</a><br>
+            <a href="http://home.cnblogs.com/u/hbgzy/followees">关注 - 6</a><br>
+            <a href="http://home.cnblogs.com/u/hbgzy/followers">粉丝 - 0</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('11755a43-7c44-e411-b908-9dcfd8948a71');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4001139,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(4001139,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hbgzy/articles/4001134.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hbgzy/articles/4001134.html" title="发布于2014-09-29 23:09">Linux下配置OSPF</a><br><a href="http://www.cnblogs.com/hbgzy/articles/4199756.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hbgzy/articles/4199756.html" title="发布于2015-01-03 17:59">Python学习笔记(1)——list</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-09-29 23:12</span> <a href="http://www.cnblogs.com/hbgzy/">街头算命</a> 阅读(<span id="post_view_count">2235</span>) 评论(<span id="post_comment_count">0</span>) &nbsp;<a href="https://i.cnblogs.com/EditArticles.aspx?postid=4001139" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(4001139);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=199266,cb_entryId=4001139,cb_blogApp=currentBlogApp,cb_blogUserGuid='11755a43-7c44-e411-b908-9dcfd8948a71',cb_entryCreatedDate='2014/9/29 23:12:00';loadViewCount(cb_entryId);var cb_postType=2;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.766790.766790.766790" target="_blank">【推荐】微信小程序一站式部署 多场景模板定制</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/products/spreadjs/?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS2&amp;utm_campaign=community" target="_blank"><img src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171206093644566-325426505.png" alt="SpreadJS2_1206" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/589362/" target="_blank">科普：世界“重型火箭”知多少</a><br> ·  <a href="https://news.cnblogs.com/n/589360/" target="_blank">谷歌为Motion Stills应用加入AR贴纸功能</a><br> ·  <a href="https://news.cnblogs.com/n/589358/" target="_blank">微软启动策反企业用户活动 限时免费迁移至OneDrive for Business</a><br> ·  <a href="https://news.cnblogs.com/n/589363/" target="_blank">“太子”李在镕获释出狱 三星会做出什么改变？</a><br> ·  <a href="https://news.cnblogs.com/n/589349/" target="_blank">快播王欣刚刚出狱|知情人士：刚洗完澡，理完发</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="linux%E4%B8%8B%E9%85%8D%E7%BD%AETRUNK%20-%20%E8%A1%97%E5%A4%B4%E7%AE%97%E5%91%BD%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/hbgzy/">街头算命</a><br>园龄：<a href="https://home.cnblogs.com/u/hbgzy/" title="入园时间：2014-09-25">3年4个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/hbgzy/followers/">0</a><br>关注：<a href="https://home.cnblogs.com/u/hbgzy/followees/">6</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('11755a43-7c44-e411-b908-9dcfd8948a71')">+加关注</a></div><script>getFollowStatus('11755a43-7c44-e411-b908-9dcfd8948a71')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/01/01');return false;">&lt;</a></td><td align="center">2018年2月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/03/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td class="CalTodayDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/hbgzy/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/hbgzy/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/hbgzy/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/hbgzy/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/hbgzy/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/hbgzy/tag/python/">python</a>(6)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/shell/">shell</a>(3)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/vxlan/">vxlan</a>(2)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/zebra/">zebra</a>(1)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/%E8%BD%AC%E4%B9%89%E7%AC%A6/">转义符</a>(1)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/trunk/">trunk</a>(1)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/bfd/">bfd</a>(1)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/cut/">cut</a>(1)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/if/">if</a>(1)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/ospf/">ospf</a>(1)</li><li><a href="http://www.cnblogs.com/hbgzy/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hbgzy/category/792754.html">python(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hbgzy/category/792753.html">shell(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hbgzy/category/800013.html">云计算(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hbgzy/archive/2016/04.html">2016年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hbgzy/archive/2016/03.html">2016年3月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hbgzy/archive/2016/02.html">2016年2月 (5)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_articlecategory" class="catListArticleCategory sidebar-block">
+<h3 class="catListTitle">文章分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="http://www.cnblogs.com/hbgzy/category/646016.html">Linux(2)</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_1" href="http://www.cnblogs.com/hbgzy/category/646018.html">network</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_2" href="http://www.cnblogs.com/hbgzy/category/646017.html">Python(2)</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_3" href="http://www.cnblogs.com/hbgzy/category/646019.html">stock</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" style="display: none;">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"></div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hbgzy/p/5279269.html">1. Vxlan学习笔记——原理(27334)</a></li><li><a href="http://www.cnblogs.com/hbgzy/p/5285870.html">2. Vxlan学习笔记——实现(3132)</a></li><li><a href="http://www.cnblogs.com/hbgzy/p/5226566.html">3. 笨方法学python学习笔记(190)</a></li><li><a href="http://www.cnblogs.com/hbgzy/p/5227955.html">4. python——文件读写(162)</a></li><li><a href="http://www.cnblogs.com/hbgzy/p/5226829.html">5. Unix/Linux系统管理技术手册学习笔记——shell(103)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap" style="display: none;">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap" style="display: none;">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 街头算命
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

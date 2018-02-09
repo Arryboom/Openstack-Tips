@@ -1,0 +1,1047 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+    <title>OpenStack Docs: Over Subscription in Thin Provisioning</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/bootstrap.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/font-awesome.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/combined.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script async="" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/st.js"></script><script async="" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/analytics.js"></script><script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  <link rel="stylesheet" type="text/css" href="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/new_embed-bee561032092eaa907cef89871bd8feb.css"><style type="text/css">.st-install-aDn5L_vgZ2yzRcE893kK .st-ui-result .st-ui-type-heading { color:#0089d7 !important }
+.st-install-aDn5L_vgZ2yzRcE893kK .st-ui-result em {font-style:normal; font-weight:bold; background-color:#f6fcfe !important}</style></head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+  <body>
+
+<!-- SOURCE_FILE: https://git.openstack.org/cgit/openstack/cinder-specs/tree/doc/source/specs/kilo/over-subscription-in-thin-provisioning.rst -->
+
+ <script type="text/javascript">
+    (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+        e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+    })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+    _st('install','aDn5L_vgZ2yzRcE893kK','2.0.0');
+</script>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="https://www.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+         <form class="docs-main-search-form">
+    <input class="st-default-search-input custom-search-box" placeholder="Search OpenStack" autocomplete="off" autocorrect="off" autocapitalize="off" type="text">
+</form>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+           </li><li>
+    <input class="st-default-search-input custom-search-box-mobile" placeholder="Search OpenStack" autocomplete="off" autocorrect="off" autocapitalize="off" type="text">
+</li>
+        
+        <li>
+          <a href="https://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/security/">Security</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/telecoms-and-nfv/">Telecoms and NFV</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/appdev/">Application Developers &amp; ISVs</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/openstackdays">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/coa/">Get Certified</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/videos/">Summit Videos</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/analysts/">Analyst Reports</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/blog/">Blog</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://docs.openstack.org/">Docs</a>
+        </li>
+        <li>
+
+</li>
+
+
+            <li>
+
+                </li><li class="join-nav-section">
+                    <a href="https://www.openstack.org/join/" id="dropdownMenuJoin">Join <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuJoin" style="display: none;">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/register/?membership-type=foundation">Sign up for Foundation Membership</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/#sponsor">Sponsor the Foundation</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation">More about the Foundation</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://www.openstack.org/Security/login/?BackURL=/home/" class="sign-in-btn">Log In</a>
+                </li>
+
+            
+      </ul>
+    </div>
+  </div>
+  <!-- /.container -->
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+      <h2>Over Subscription in Thin Provisioning</h2>
+    
+  </div>
+  <div class="docs-actions">
+    
+    <a href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/nfs-backup.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Previous: NFS backup driver for Cinder"></i></a>
+    
+    
+    <a href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/private-volume-types.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Next: Private Volume Types"></i></a>
+    
+    <a id="logABugLink1" href="https://bugs.launchpad.net/cinder-specs/+filebug?field.title=Over%20Subscription%20in%20Thin%20Provisioning%20in%20Cinder%20Specs&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%20%20on%202018-02-07%2022:00%0ASHA:%202f6bcfecc6752d7a5fc0a1e91f298e5c2c783103%0ASource:%20https://git.openstack.org/cgit/openstack/cinder-specs/tree/doc/source/specs/kilo/over-subscription-in-thin-provisioning.rst%0AURL:%20https://specs.openstack.org/openstack/cinder-specs/specs/kilo/over-subscription-in-thin-provisioning.html&amp;field.tags=doc" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="" data-original-title="Report a Bug"></i></a>
+    
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2018-02-07 22:00</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-body">
+
+  <div class="section" id="over-subscription-in-thin-provisioning">
+<h1>Over Subscription in Thin Provisioning<a class="headerlink" href="#over-subscription-in-thin-provisioning" title="Permalink to this headline">¶</a></h1>
+<p>Include the URL of your launchpad blueprint:</p>
+<p><a class="reference external" href="https://blueprints.launchpad.net/cinder/+spec/over-subscription-in-thin-provisioning">https://blueprints.launchpad.net/cinder/+spec/over-subscription-in-thin-provisioning</a></p>
+<p>This proposal is to introduce a mechanism to allow over subscription in thin
+provisioning and also use reserved percentage to prevent over provisioning.</p>
+<div class="section" id="problem-description">
+<h2>Problem description<a class="headerlink" href="#problem-description" title="Permalink to this headline">¶</a></h2>
+<p>There are a couple of problems in capacity reporting in thin provisioning:</p>
+<ul class="simple">
+<li>Some drivers are still using ‘infinite’ and ‘unknown’ to report capacity.
+This could lead to over provisioning.</li>
+<li>There’s no mechanism to allow over subscription in thin provisioning.
+Over subscription allows flexibility in storage allocation and usage and
+it is an important concept in providing thin provisioning support.</li>
+</ul>
+<div class="section" id="terminologies">
+<h3>Terminologies<a class="headerlink" href="#terminologies" title="Permalink to this headline">¶</a></h3>
+<p>The following terminologies will be used in this spec:</p>
+<p>total_capacity: This is an existing parameter already reported by the driver.
+It is the total physical capacity.
+Example: Assume backend A has a total physical capacity of 100G.</p>
+<p>free_capacity: This is an existing parameter already reported by the
+driver. It is the real physical capacity available to be used.
+Example: Assume backend A has a total physical capacity of 100G.
+There are 10G thick luns and 20G thin luns (10G out of the 20G thin luns
+are written). In this case, free_capacity = 100 - 10 -10 = 80G.</p>
+<p>free: This is calculated in the scheduler by subtracting reserved space
+from free_capacity.</p>
+<p>volume_size: This is an existing parameter. It is the size of the volume to
+be provisioned.</p>
+<p>provisioned_capacity: This is a new parameter. It is the apparent allocated
+space indicating how much capacity has been provisioned.
+Example: User A created 2x10G volumes in Cinder from backend A, and
+user B created 3x10G volumes from backend A directly, without using Cinder.
+Assume those are all the volumes provisioned on backend A. The total
+provisioned_capacity will be 50G and that is what the driver should be
+reporting.</p>
+<p>allocated_capacity: This is an existing parameter. Cinder uses this to
+keep track of how much capacity has been allocated through Cinder.
+Example: Using the same example above for provisioned_capacity, the
+allocated_capacity will be 20G because that is what has been provisioned
+through Cinder. allocated_capacity is documented here to differentiate
+from the new parameter provisioned_capacity. If a driver can guarantee
+that the backend is used solely for a specific Cinder installation,
+then provisioned_capacity could be the same as allocated_capacity.
+Only driver has knowledge of this and therefore driver can make a
+decision on how to report provisioned_capacity.</p>
+<p>max_over_subscription_ratio: This is a new parameter. It is the
+float representation of the over subscription ratio when thin provisioning
+is involved. It is a ratio of provisioned capacity over total capacity.
+Default ratio is 1.0, meaning provisioned capacity cannot exceed the
+total capacity. Note that this ratio is per backend or per pool depending
+on driver implementation.</p>
+<p>reserved_percentage: This is an existing parameter. It represents the
+percentage of backend capacity that is reserved. It ranges from 0 to 100.
+Default is 0. Note this refers to the real capacity. This is per backend
+or per pool depending on driver implementation.</p>
+<p>reserved: This is a ratio of reserved_percentage over 100 calculated by the
+scheduler.</p>
+<p>virtual_free_capacity: This is a parameter calculated based on other
+parameters. It refers to how much space a user can still provision apparently.
+Note that this is different from free_capacity. free_capacity is
+about the real available physical capacity. virtual_free_capacity is
+about apparent available virtual capacity.
+Example: Assume the total capacity of backend A is 100G. The max over
+subscription ratio is 2.0. If no volumes have been provisioned yet,
+the virtual_free_capacity is 100 x 2.0 = 200. If 50G volumes have
+already been provisioned, the virtual_free_capacity is 200 - 50 = 150.</p>
+</div>
+</div>
+<div class="section" id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="proposed-change">
+<h2>Proposed change<a class="headerlink" href="#proposed-change" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-parameters-in-get-volume-stats">
+<h3>New parameters in get_volume_stats<a class="headerlink" href="#new-parameters-in-get-volume-stats" title="Permalink to this headline">¶</a></h3>
+<p>One new configuration options “max_over_subscription_ratio” will be added
+to cinder/volume/driver.py. This configuration option will be added to
+cinder.conf. It can be configured for each backend when multiple-backend
+is enabled.</p>
+<p>Note: This configuration option is provided as a reference implementation
+and will be used by the LVM driver. However, it is not a requirement for a
+driver to use this option from cinder.conf. Driver can choose its own way
+if that makes more sense.</p>
+<p>In scheduler/host_manager.py, the following additional information sent by
+each backend will be saved and will be used later by the scheduler to make
+decisions. Note these are reported for a backend or a pool, depending on
+driver implementation. In the LVM driver, these will be reported for a
+backend (which is treated as one pool).</p>
+<ul class="simple">
+<li>provisioned_capacity</li>
+<li>max_over_subscription_ratio</li>
+</ul>
+<p>There is a change on how reserved_percentage is used. It was measured
+against free capacity in the past. Now it will be measured against
+total capacity.</p>
+<p>Note: The configuration option max_over_subscription_ratio added in
+cinder.conf is for configuring a backend.
+For a driver that supports multiple pools per backend, it can report
+these ratios for each pool in get_volume_stats.</p>
+<ul class="simple">
+<li>Driver can get this option in cinder.conf and report the same ratio
+for the pools that belonging to the same backend.</li>
+<li>Alternatively driver can choose to report different ratio for each pool
+in get_volume_stats, without using this option in cinder.conf.</li>
+</ul>
+</div>
+<div class="section" id="capabilities">
+<h3>Capabilities<a class="headerlink" href="#capabilities" title="Permalink to this headline">¶</a></h3>
+<p>Driver can report the following capabilities for a backend or a pool:</p>
+<p>thin_provisioning_support = True (or False)
+thick_provisioning_support = True (or False)</p>
+<p>Two capabilities are added here to allow a backend or pool to claim support
+for thin provisioning, or thick provisioning, or both.</p>
+</div>
+<div class="section" id="volume-type-extra-specs">
+<h3>Volume type extra specs<a class="headerlink" href="#volume-type-extra-specs" title="Permalink to this headline">¶</a></h3>
+<p>If volume type is provided as part of the volume creation request, it can
+have the following extra specs defined:</p>
+<p>‘capabilities:thin_provisioning_support’: ‘&lt;is&gt; True’ or ‘&lt;is&gt; False’
+‘capabilities:thick_provisioning_support’: ‘&lt;is&gt; True’ or ‘&lt;is&gt; False’</p>
+<p>Note: ‘capabilities’ scope key before ‘thin_provisioning_support’ and
+‘thick_provisioning_support’ is not required. So the following works too:</p>
+<p>‘thin_provisioning_support’: ‘&lt;is&gt; True’ or ‘&lt;is&gt; False’
+‘thick_provisioning_support’: ‘&lt;is&gt; True’ or ‘&lt;is&gt; False’</p>
+<p>The above extra specs are used by the scheduler to find a backend that
+supports thin provisioning, thick provisioning, or both to match the needs
+of a specific volume type.</p>
+<p>If an extra spec scope key “provisioning:type” is defined, it can be used
+by the driver to detemine whether the lun to be provisioned is thin or thick.
+The value of this extra spec is either “thin” or “thick”. Note this extra
+spec is not used by the scheduler to find a backend.</p>
+</div>
+<div class="section" id="capacity-filter">
+<h3>Capacity filter<a class="headerlink" href="#capacity-filter" title="Permalink to this headline">¶</a></h3>
+<p>In the capacity filter, the following will be evaluated in the decision making
+when choosing a backend that fits the criteria:</p>
+<p>If (provisioned_capacity + volume_size) / total_capacity &gt;=
+max_over_subscription_ratio, the backend will not be chosen to provision
+the volume.
+Note: This formula will be executed only if “thin_provisioning_support”
+is True and max_over_subscription_ratio &gt;= 1.</p>
+<p>If ((free_capacity - total_capacity * reserved) * max_over_subscription_ratio)
+&lt; volume_size, the backend will not be chosen to provision the volume.
+Note: This formula will be executed only if “thin_provisioning_support”
+is True and max_over_subscription_ratio &gt;= 1.</p>
+<p>If (free_capacity - total_capacity * reserved) &lt; volume_size, the backend will
+not be chosen to provision the volume. Note this check was already in the
+capacity filter, but the formula is changed to use total_capacity * reserved
+instead of free_capacity * reserved.</p>
+</div>
+<div class="section" id="capacity-weigher">
+<h3>Capacity weigher<a class="headerlink" href="#capacity-weigher" title="Permalink to this headline">¶</a></h3>
+<p>In the capacity weigher, virtual_free_capacity should be used for ranking
+if “thin_provisioning_support” is True. Otherwise, real free_capacity
+will be used as before. A change is made to measured reserved space
+against the total_capacity.
+virtual_free_capacity = total_capacity * max_over_subscription_ratio -
+provisioned_capacity - total_capacity * reserved</p>
+</div>
+<div class="section" id="lvm-driver">
+<h3>LVM driver<a class="headerlink" href="#lvm-driver" title="Permalink to this headline">¶</a></h3>
+<p>In the default LVM driver, changes will be made in get_volume_stats which
+periodically reports capabilities and the information will be received by the
+scheduler.</p>
+<ul class="simple">
+<li>Changes will be made in the LVM driver to report provisioned_capacity.
+It makes calls to the LVM class in brick to retrieve volume information
+including capacities.</li>
+<li>The LVM driver will also report max_over_subscription_ratio. This will be
+from the configuration parameters set in cinder.conf.</li>
+<li>While other drivers need to report max_over_subscription_ratio, they are
+not required to read those ratios from cinder.conf.</li>
+</ul>
+<p>Changes will also be made in the following LVM driver functions to make sure
+over provisioning will not happen even when a request didn’t go through the
+scheduler:</p>
+<ul class="simple">
+<li>create_volume</li>
+<li>extend_volume</li>
+</ul>
+<p>The following will be evaluated in the above LVM driver functions:</p>
+<ul class="simple">
+<li>If the ratio of the apparent provisioned capacity over real total capacity
+has exceeded the over subscription ratio, the operation will fail.</li>
+<li>If the free space is smaller than the volume size, the operation will fail.</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h3>Use cases<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>The design of this feature will support the following use cases.</p>
+<p>Use case 1:
+Each volume type has a separate backend or pool. For example, Gold volume
+type uses pool gold, Silver volume type uses pool silver, and Bronze
+volume type uses pool bronze. Each pool can have a different max over
+subscription ratio.</p>
+<p>Use case 2:
+One volume type is associated with multiple backends or pools. For example,
+Silver volume type uses pool 1 and pool 2. Both pools can have the same
+max over subscription ratio. Note that capacities for each pool can be
+different at any given time.</p>
+<p>Use case 3:
+One backend or pool is used by multiple volume types. For example, pool 3
+is used by volume types Gold, Silver, and Bronze. Assume Gold volume type
+uses thick luns only, Silver volume type can have either thick or thin
+luns, and Bronze volume type has thin luns only. Because the over subscription
+ratio is calculated by the ratio of provisioned_capacity over total_capacity
+and all three volume types are sharing the same pool, the ratio will be
+the same for all volume types. Gold volume type can guarantee its space
+reservation by creating thick luns. The apparent size and the used size
+of a Gold volume will always be the same. For a thin lun created as
+Silver or Bronze volume type, the apparent size can be bigger than
+the real size. Some detailed examples are shown at this etherpad:
+<a class="reference external" href="https://etherpad.openstack.org/p/cinder-over-subscription-white-board">https://etherpad.openstack.org/p/cinder-over-subscription-white-board</a></p>
+</div>
+<div class="section" id="alternatives">
+<h3>Alternatives<a class="headerlink" href="#alternatives" title="Permalink to this headline">¶</a></h3>
+<p>Without this, we cannot support over subscription in thin provisioning and
+there’s also no upper limit that prevents over provisioning from happening.</p>
+</div>
+<div class="section" id="data-model-impact">
+<h3>Data model impact<a class="headerlink" href="#data-model-impact" title="Permalink to this headline">¶</a></h3>
+<p>N/A</p>
+</div>
+<div class="section" id="rest-api-impact">
+<h3>REST API impact<a class="headerlink" href="#rest-api-impact" title="Permalink to this headline">¶</a></h3>
+<p>N/A</p>
+</div>
+<div class="section" id="security-impact">
+<h3>Security impact<a class="headerlink" href="#security-impact" title="Permalink to this headline">¶</a></h3>
+<p>N/A</p>
+</div>
+<div class="section" id="notifications-impact">
+<h3>Notifications impact<a class="headerlink" href="#notifications-impact" title="Permalink to this headline">¶</a></h3>
+<p>If the capacity usage has exceeded the used ratio or if the provisioned
+capacity has exceeded the over subscription ratio, a notification should be
+sent. The notification should report the name of the backend or pool and the
+capacity information from the backend or pool.  The purpose of the
+notification is for the storage administrator to take notice and take actions
+to fix the problem.</p>
+<p>Notification will also be sent periodically whenever the scheduler receives
+an update of capacities from the backend. This will be consumed by Ceilometer.
+This was discussed for the Capacity Headroom topic at the summit. The
+Ceilometer team will be responsible for the changes required on the Ceilometer
+side for this.</p>
+</div>
+<div class="section" id="other-end-user-impact">
+<h3>Other end user impact<a class="headerlink" href="#other-end-user-impact" title="Permalink to this headline">¶</a></h3>
+<p>There is a new parameter in cinder.conf that end user needs to be aware of.</p>
+</div>
+<div class="section" id="performance-impact">
+<h3>Performance Impact<a class="headerlink" href="#performance-impact" title="Permalink to this headline">¶</a></h3>
+<p>N/A</p>
+</div>
+<div class="section" id="other-deployer-impact">
+<h3>Other deployer impact<a class="headerlink" href="#other-deployer-impact" title="Permalink to this headline">¶</a></h3>
+<p>New parameters over_subscription_ratio will be added to cinder.conf.</p>
+</div>
+<div class="section" id="developer-impact">
+<h3>Developer impact<a class="headerlink" href="#developer-impact" title="Permalink to this headline">¶</a></h3>
+<p>Drivers should report provisioning capabilities (thin_provisioning_support
+and thick_provisioning_support).</p>
+<p>Drivers supporting thin provisioning should report provisioned capacity
+in addition to free capacity in get_volume_stats.</p>
+<p>For drivers supporting thick provisioning only, free capacity will be
+used just as before.</p>
+<p>For drivers supporting both thin and thick provisioning, provisioned capacity
+and free capacity should both be reported.</p>
+<p>If there is a range regarding capacity and you are not sure how to report,
+please be conservative. For example, if the available capacity is in the
+range of 80 to 100 GB, be conservative and report the lower bound 80 GB.</p>
+<p>Driver developers can take a look of _update_volume_stats in the LVM driver
+as a reference implementation.</p>
+<p>Note: This work is also needed for Cinder to use ThinLVM as the default driver
+in Kilo.</p>
+</div>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="assignee-s">
+<h3>Assignee(s)<a class="headerlink" href="#assignee-s" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Primary assignee:</dt>
+<dd>xing-yang</dd>
+</dl>
+<p>Other contributors:</p>
+</div>
+<div class="section" id="work-items">
+<h3>Work Items<a class="headerlink" href="#work-items" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Add max_over_subscription_ratio in driver.py.</li>
+<li>Modify host_manager.py to update provisioned capacity, over
+subscription ratio by the backends.</li>
+<li>Modify capacity filter to check whether over subscription ratio
+has been exceeded in a backend.</li>
+<li>New parameters max_over_subscription_ratio will be added to cinder.conf.</li>
+<li>LVM driver will be changed to report virtual capacity and over
+subscrption ratio.</li>
+<li>LVM class in brick will be updated to calculate provisioned capacity.</li>
+<li>LVM driver functions will be changed to check whether over
+subscription ratio has been exceeded.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>N/A</p>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>New unit tests will be added to test the changed code.
+Testing will be done using the LVM driver for thin provisioning.
+Testing will be done to cover the 3 use cases described above.</p>
+</div>
+<div class="section" id="documentation-impact">
+<h2>Documentation Impact<a class="headerlink" href="#documentation-impact" title="Permalink to this headline">¶</a></h2>
+<p>Documentation changes are needed for the following:
+New parameter max_over_subscription_ratio will be added to cinder.conf.
+Driver needs to add provisioning capabilities (thick_provisioning_suppot,
+thin_provisioning_support) and report provisioned_capacity.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p>Examples:
+<a class="reference external" href="https://etherpad.openstack.org/p/cinder-over-subscription-white-board">https://etherpad.openstack.org/p/cinder-over-subscription-white-board</a></p>
+<p>Virtual capacity “provisioned_capacity_gb” was discussed in Winston’s spec
+<a class="reference external" href="https://review.openstack.org/#/c/105190/6/specs/juno/volume-statistics-reporting.rst">https://review.openstack.org/#/c/105190/6/specs/juno/volume-statistics-reporting.rst</a></p>
+<p>Kilo design summit session on this topic:
+<a class="reference external" href="https://etherpad.openstack.org/p/kilo-cinder-over-subscription">https://etherpad.openstack.org/p/kilo-cinder-over-subscription</a>
+<a class="reference external" href="https://etherpad.openstack.org/p/kilo-cinder-capacity-headroom">https://etherpad.openstack.org/p/kilo-cinder-capacity-headroom</a></p>
+<p>Documentation on the filter scheduler:
+<a class="reference external" href="http://docs.openstack.org/developer/nova/devref/filter_scheduler.html">http://docs.openstack.org/developer/nova/devref/filter_scheduler.html</a>
+Note: This is a document on Nova filter scheduler, but it is very similar to
+the Cinder filter scheduler.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/nfs-backup.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Previous: NFS backup driver for Cinder"></i></a>
+          
+          
+            <a href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/private-volume-types.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Next: Private Volume Types"></i></a>
+          
+            <a id="logABugLink3" href="https://bugs.launchpad.net/cinder-specs/+filebug?field.title=Over%20Subscription%20in%20Thin%20Provisioning%20in%20Cinder%20Specs&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%20%20on%202018-02-07%2022:00%0ASHA:%202f6bcfecc6752d7a5fc0a1e91f298e5c2c783103%0ASource:%20https://git.openstack.org/cgit/openstack/cinder-specs/tree/doc/source/specs/kilo/over-subscription-in-thin-provisioning.rst%0AURL:%20https://specs.openstack.org/openstack/cinder-specs/specs/kilo/over-subscription-in-thin-provisioning.html&amp;field.tags=doc" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="" data-original-title="Report a Bug"></i></a>
+          
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2018-02-07 22:00</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/license.png" alt="Creative Commons Attribution 3.0 License">
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the
+                 document -->
+              <a href="https://bugs.launchpad.net/cinder-specs/+filebug?field.title=Over%20Subscription%20in%20Thin%20Provisioning%20in%20Cinder%20Specs&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%20%20on%202018-02-07%2022:00%0ASHA:%202f6bcfecc6752d7a5fc0a1e91f298e5c2c783103%0ASource:%20https://git.openstack.org/cgit/openstack/cinder-specs/tree/doc/source/specs/kilo/over-subscription-in-thin-provisioning.rst%0AURL:%20https://specs.openstack.org/openstack/cinder-specs/specs/kilo/over-subscription-in-thin-provisioning.html&amp;field.tags=doc" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="" data-original-title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/id/">Bahasa Indonesia (Indonesian)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/it/">Italiano (Italian)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/tr_TR/">Türkçe (Türkiye)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="https://specs.openstack.org/openstack/cinder-specs/index.html" class="docs-sidebar-section-title"><h4>Cinder Specs </h4></a>
+      <ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/rocky/cheesecake-promote-backend.html">Promote Replication Target (Cheesecake)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/rocky/generic-backup-implementation.html">Generic backup implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/rocky/update-backup-size-when-backup-is-created.html">Update backup’s size when backup is created</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/add-count-info-in-list-response.html">Show resource’s total count info in list APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/add-shared-targets-to-volume-ref.html">Add shared_targets column to volumes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/create-volume-from-backup.html">Support create volume from backup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/enable-multiattach.html">Enable multiattach of volumes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/inspection-mechanism-for-capacity-limited-host.html">Inspection Mechanism For Capacity Limited Host</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/migrate-fixed-key-to-barbican.html">Migrate ConfKeyManager encryption key ID into Barbican</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/provisioning-improvements.html">Provisioning Improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/rbd-encryption.html">RBD Volume Encryption</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/report-backend-state-in-service-list.html">Report backend state in service list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/transfer-snapshots-with-volumes.html">Transfer snapshots with volumes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/use-oslo_db-enginefacade.html">Use the enginefacade from oslo_db</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/queens/v3-api-validation.html">API Validation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/add-like-filter.html">Use ‘LIKE’ operator to filter resource</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/add-volume-type-filter-to-get-pools.html">Support retrieve pools filtered by volume-type</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/add-volumegroup-into-quota-management.html">Add Generic Volume Group Into Quota Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/backup-init.html">Backup driver initialization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/capacity_based_qos.html">Capacity-based QoS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/cinder-volume-revert-by-snapshot.html">Cinder volume revert to snapshot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/client-reset-state.html">Client reset-state improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/dynamic-log-levels.html">Dynamic Log Level control via REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/dynamic_reconfiguration.html">Dynamic Reconfiguration after Modfications of cinder.conf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/explicit-user-messages.html">Explicit user messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/extend-attached-volume.html">Extend a volume while volume is attached to an instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/generalized_list_filters.html">Generalized filtered listing on resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/metadata-for-backup-resource.html">Support metadata for backup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/replication-group.html">Replication with More Granularity (Tiramisu)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/shared-backend-config.html">Shared backend config stanza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/pike/support-get-volume-metadata-summary.html">Support get volume metadata summary</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/ocata/add-new-attach-apis.html">Introduce new volume attach APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/ocata/ha-aa-job-distribution.html">Cinder Volume Active/Active support - Job Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/ocata/ha-aa-replication.html">Cinder Volume Active/Active support - Replication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/ocata/support-reset-generic-group-and-group-snapshot-status.html">Reset generic volume group and group snapshot statuses</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/async-volume-migration.html">Async volume migration between backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/ceph-volume-migrate.html">Support volume migration in Ceph driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/delete-multiple-metadata-keys.html">Delete multiple volume metadata keys</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/delete-parameters.html">Parameter combinations for delete (vol, snap, etc.)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/differentiate-thick-thin-in-scheduler.html">Differentiate thick and thin provisioning logic in scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/discovering-system-capabilities.html">New Core APIs for Discovering System Capabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/generic-volume-group.html">Generic Volume Group</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/group-snapshots.html">Group Snapshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/ha-aa-cleanup.html">Cinder Volume Active/Active support - Cleanup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/ha-aa-manager_locks.html">Cinder Volume Active/Active support - Manager Local Locks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/improvement-to-query-consistency-group-detail.html">Improvement to query consistency group detail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/linux-ficon-support.html">Support ECKD volumes on Linux on System z</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/list-manage-existing.html">List volumes and snapshots available for manage-existing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/query-cinder-resources-filter-by-change-since.html">Support to query cinder resources filter by changes-since</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/retype-encrypted-volumes.html">Retype volumes with different encryptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/specify-volume_type-and-availability_zone-for-backup-restore-API.html">Specify availability_zone and volume_type for backup restore API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/stochastic-weighing-scheduler.html">Stochastic Weighing Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/summarymessage.html">User facing “Failure” Message and Event Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/support-backup-import-on-another-storage-database.html">Support backup import on another Storage database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/newton/use-castellan-key-manager.html">Integrate Castellan for Key Management</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/add_pagination_to_other_resources.html">Add Pagination To Other Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/api-microversions.html">Cinder API Microversions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/assisted_snapshot_improvements.html">Assisted Snapshot Improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/backup-snapshots.html">Backup Snapshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/brick-extend-attached-volume.html">Add API to os-brick to allow extending an attached volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/brick-fetch-paths.html">Brick fetch volume paths API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/brocade-zone-driver-friendly-zone-names.html">Cinder FC Zone Manager - User Friendly Zone Names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/brocade-zone-driver-virtualfabrics-support.html">Brocade Cinder Zone Driver - Virtual Fabric Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/capacity-headroom.html">capacity headroom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/cheesecake.html">Cheesecake</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/cinder-api-atomic-status-change.html">Cinder Volume Active/Active support - API Races</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/cinder-volume-active-active-support.html">Cinder Volume Active/Active support - General description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/ha-aa-tooz-locks.html">Use Tooz to replace local file locks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/nfs-snapshots.html">NFS Snapshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/online-schema-upgrades.html">Online DB schema upgrades</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/scalable-backup-service.html">Scalable Backup Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/support-volume-glance-metadata-query.html">Support query volume detail with glance metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/use-cinder-without-nova.html">Attach/detach volumes without Nova</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/abc-driver-update.html">Update drivers to new base class structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/adopt-guru-meditation-report.html">Adopt Guru Meditation report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/brick-add-open-iscsi-transport-suppport.html">Allow brick to support other iSCSI transports besides TCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/cinder-backend-report-discard.html">Add ability for Cinder backend to report discard/unmap/trim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/cinder-internal-tenant.html">Cinder internal tenant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/cinder-nested-quota-driver.html">Cinder Nested Quota Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/clone-cg.html">Clone Consistency Group</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/clone-image-in-glance-cinder-backend.html">Support clone_image from Glance cinder backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/create-export-connector.html">Add connector object to create_export call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/create-states.html">Volume state enforcer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/db-archiving.html">Cinder DB Archiving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/db2-database.html">Add Cinder Support for DB2 (v10.5+)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/efficient-volume-copy-for-volume-migration.html">Efficient volume copy for volume migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/enhance-list-operations-pagination-keys.html">Enhance List Operations with Pagination Keys</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/extract-brick.html">Extract Brick library from Cinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/generic-volume-migration.html">Generic Volume Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/get-vol-type-extra-specs.html">Retrieve Supported Volume Type Extra Specs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/huawei-sdshypervisor-driver.html">Cinder volume driver for Huawei SDSHypervisor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/image-volume-cache.html">Generic image cache functionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/implement-force-detach-for-safe-cleanup.html">Implement force_detach for safe cleanup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/incremental-backup-improvements-for-l.html">Incremental backup improvements for L</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/non-disruptive-backup.html">Non Disruptive Backup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/non-eventlet-wsgi-app.html">Cinder API WSGI application under Apache/Nginx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/optimze-rbd-copy-volume-to-image.html">Offload rbd’s copy_volume_to_image function from host to ceph cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/replication_v2.html">VolumeReplication_V2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/rootwrap-daemon-mode.html">Rootwrap daemon mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/rpc-object-compatibility.html">RPC and VersionedObject Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/standard-capabilities.html">Standard Capabilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/support-force-delete-backup.html">Backup Force Delete API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/support-import-export-snapshots.html">Support import/export snapshots in cinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/support-modify-volume-image-metadata.html">Support Modifying Volume Image Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/valid-states-api.html">Valid States API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/vhost-support.html">Add vHost Executor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/volume-and-snap-delete.html">Deletion of volumes with associated snapshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/volume-migration-improvement.html">Volume Migration Improvement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/liberty/volume-types-public-update.html">Ability to update volume type public status</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/abc-volume-drivers.html">Introduce abstract interface model in volume drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/backup-notification.html">Backup Notification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/chiscsi-iscsi-helper.html">Add support for chiscsi iscsi helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/cinder-objects.html">Cinder Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/consistency-groups-kilo-update.html">Consistency Groups Kilo Update</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/database-purge.html">cinder db purge utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/db-volume-filtering.html">Generic filter support for volume queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/driver-private-data.html">Add DB table for driver private data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/filtering-weighing-with-driver-supplied-functions.html">Filtering and weighing backends with driver supplied functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/incremental-backup.html">Support for incremental backup in Cinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/iscsi-alternative-portal.html">Failover to alternative iSCSI portals on login failure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/iscsi-multipath-enhancement.html">Enhance iSCSI multipath support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/limit-volume-copy-bps-per-backend.html">Limit Volume Copy Bandwidth Per Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/linux-systemz.html">Support Linux on System z (S/390) as a hypervisor platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/multi-attach-volume.html">Attach a single volume to multiple hosts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/nfs-backup.html">NFS backup driver for Cinder</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Over Subscription in Thin Provisioning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#problem-description">Problem description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#proposed-change">Proposed change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation-impact">Documentation Impact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/private-volume-types.html">Private Volume Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/remotefs-cfg-improvements.html">RemoteFS Config Improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/support-iscsi-driver.html">Support iSER driver within the ISCSIDriver flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/support-volume-backup-quota.html">Support Volume Backup Quota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/unit-test-cases-for-cinder-scripts.html">Unit test cases for cinder scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/vmdk-oslo.vmware.html">Integrate VMDK driver with oslo.vmware library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/volume-sorting.html">Cinder Pagination Sorting Enhancements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/kilo/volume-type-description.html">Volume Type Description</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/affinity-antiaffinity-filter.html">Affinity and anti-affinity scheduler filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/cinder-storwize-driver-qos.html">Add QoS capability to the IBM Storwize driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/configurable-ssh-host-key-policy.html">Configurable SSH Host Key Policies for Cinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/consistency-groups.html">Consistency Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/datera-driver.html">Datera Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/debug-translation-removal.html">Remove Translation from Debug Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/deprecate_v1_api.html">Deprecate Cinder V1 API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/emc-vmax-driver-juno-update.html">EMC VMAX Driver Update</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/emc-vnx-direct-driver-juno-update.html">EMC VNX Direct Driver Update</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/hyper-v-smbfs-volume-driver.html">Windows SMB Volume Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/i18n-enablement.html">i18n Enablement for Cinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/limit-volume-copy-bandwidth.html">Limit Bandwidth of Volume Copy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/oracle-zfssa-cinder-driver.html">Oracle ZFS Storage Appliance iSCSI Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/pool-aware-cinder-scheduler.html">Pool-aware Scheduler Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/pure-iscsi-volume-driver.html">Cinder volume driver for Pure Storage FlashArray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/restblock-driver.html">Native Rest Block Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/smbfs-volume-driver.html">SMB Volume Driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/support-GPFS-nas-ibmnas-driver.html">Extending IBMNAS driver to support NAS based GPFS storage deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/support-reset-state-for-backup.html">Backup State Reset API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/support-volume-backup-for-qcow2.html">Support volume backup for qcow2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/support-volume-num-weighter.html">Support Volume Num Weighter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/task-log.html">Cinder task logging improvements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/united-policy.json-in-cinder.html">United Policy.json In Cinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/vmdk-backup.html">Support backup and restore of volumes created by VMDK driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/volume-replication.html">Volume Replication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/juno/xtremio_cinder_volume_driver.html">XtremIO storage Cinder volume driver</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/additional_resources.html">Additional resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/block_storage_general_api_info.html">General Block Storage v2 API information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/block_storage_v2_overview.html">Block Storage API v2 Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/date_and_time_format.html">Date and time format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/high-level_task_flow.html">High-level task flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/http_response_status_codes.html">HTTP response status codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/limits.html">Limits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/cinder-specs/specs/api/v2/request_and_response_types.html">Request and response types</a></li>
+</ul>
+
+    </div>
+
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="local-table-of-contents">
+      <h4 class="docs-sidebar-section-title">Page Contents</h4>
+      <ul>
+<li><a class="reference internal" href="#">Over Subscription in Thin Provisioning</a><ul>
+<li><a class="reference internal" href="#problem-description">Problem description</a><ul>
+<li><a class="reference internal" href="#terminologies">Terminologies</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-cases">Use Cases</a></li>
+<li><a class="reference internal" href="#proposed-change">Proposed change</a><ul>
+<li><a class="reference internal" href="#new-parameters-in-get-volume-stats">New parameters in get_volume_stats</a></li>
+<li><a class="reference internal" href="#capabilities">Capabilities</a></li>
+<li><a class="reference internal" href="#volume-type-extra-specs">Volume type extra specs</a></li>
+<li><a class="reference internal" href="#capacity-filter">Capacity filter</a></li>
+<li><a class="reference internal" href="#capacity-weigher">Capacity weigher</a></li>
+<li><a class="reference internal" href="#lvm-driver">LVM driver</a></li>
+<li><a class="reference internal" href="#id1">Use cases</a></li>
+<li><a class="reference internal" href="#alternatives">Alternatives</a></li>
+<li><a class="reference internal" href="#data-model-impact">Data model impact</a></li>
+<li><a class="reference internal" href="#rest-api-impact">REST API impact</a></li>
+<li><a class="reference internal" href="#security-impact">Security impact</a></li>
+<li><a class="reference internal" href="#notifications-impact">Notifications impact</a></li>
+<li><a class="reference internal" href="#other-end-user-impact">Other end user impact</a></li>
+<li><a class="reference internal" href="#performance-impact">Performance Impact</a></li>
+<li><a class="reference internal" href="#other-deployer-impact">Other deployer impact</a></li>
+<li><a class="reference internal" href="#developer-impact">Developer impact</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#implementation">Implementation</a><ul>
+<li><a class="reference internal" href="#assignee-s">Assignee(s)</a></li>
+<li><a class="reference internal" href="#work-items">Work Items</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+<li><a class="reference internal" href="#documentation-impact">Documentation Impact</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding &amp; Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos &amp; Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/jquery-3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/bootstrap.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/webui-popover.js"></script>
+
+<!-- standard sphinx include libraries, which allow search highlighting -->
+<script type="text/javascript" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/underscore.js"></script>
+<script type="text/javascript" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/doctools.js"></script>
+<script type="text/javascript" src="OpenStack%20Docs%20%20Over%20Subscription%20in%20Thin%20Provisioning_files/searchtools.js"></script>
+
+<script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+</script>
+
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "specs/kilo/over-subscription-in-thin-provisioning" + ".rst";
+        gitURL = "Source: https://git.openstack.org/cgit/openstack/cinder-specs/tree/doc/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 2f6bcfecc6752d7a5fc0a1e91f298e5c2c783103";
+        var bugProject = "cinder-specs";
+        var bugTitle = "Over Subscription in Thin Provisioning in Cinder Specs";
+    var fieldTags = "doc";
+        var useStoryboard = "";
+
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release:  on 2018-02-07 22:00";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+  
+<div class="st-injected-content-generated st-install-aDn5L_vgZ2yzRcE893kK" data-st-install-key="aDn5L_vgZ2yzRcE893kK" id="st-injected-content">
+<div class="st-ui-embed st-search-chrome-overlay-output st-search-escape-hide-outputs st-search-zoom-on-mobile" style="display: none;">
+    <div class="st-ui-overlay st-search-hide-outputs"></div>
+  <!-- Swiftype input and results overlay -->
+  <div class="st-ui-container st-ui-container-overlay  st-ui-injected-overlay-container ">
+    <!-- HEADER -->
+    <div class="st-ui-container-header_bar st-position-container">
+        <section class="st-ui-header">
+          <form>
+            <input class="st-default-search-input st-search-set-focus" placeholder="Search this site" id="st-overlay-search-input" autocomplete="off" autocorrect="off" autocapitalize="off" type="text">
+          </form>
+          <span class="st-ui-search-icon"></span>
+
+            <a class="st-ui-close-button st-search-hide-outputs">Close</a>
+
+        </section>
+    </div>
+
+    <!-- LEFT SIDEBAR -->
+    <div class="st-ui-container-left_sidebar st-position-container">
+      <div class="st-ui-injected-search-controls">
+      </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="st-ui-container-right_sidebar st-position-container">
+      <div class="st-ui-injected-container-right_sidebar">
+        <div class="st-ui-injected-search-controls">
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIMARY CONTENT -->
+    <div class="st-ui-container-primary_content st-position-container">
+        <section class="st-ui-slide-autocomplete st-autocomplete-keyboard-navigable st-autocomplete-transient-on-select-and-results" data-st-target-element="#st-overlay-search-input" data-st-active-query-class="active">
+          <span class="st-ui-type-heading-small">suggested results</span>
+          <div class="st-autocomplete-results"><div class="st-query-present" style="display: none;"></div></div>
+        </section>
+
+        <section class="st-ui-content st-search-results"><div class="st-query-not-present">
+          <span class="st-ui-fallback"></span>
+        </div><div class="st-query-present" style="display: none;"></div></section>
+
+      <section class="st-ui-no-results st-search-suggestions"><div class="st-query-not-present">
+      </div></section>
+    </div>
+
+
+
+    <!-- FOOTER -->
+    <div class="st-ui-container-footer_bar st-position-container">
+      <section class="st-ui-footer">
+          <span class="st-ui-search-summary st-search-summary"></span>
+        <span class="st-ui-pagination st-search-pagination"></span>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="st-default-autocomplete" data-st-target-element=".st-default-search-input" style="display: none;">
+  <div class="st-autocomplete-results st-ui-autocomplete"><div class="st-query-present" style="display: none;"></div></div>
+</div>
+</div></body></html>

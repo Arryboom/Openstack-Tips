@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>centos 7 下多网卡绑定+ vlan 网卡配置 - 尾戒0717 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/style2.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-BOOK-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/weijie0717/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/weijie0717/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/weijie0717/wlwmanifest.xml">
+<script async="" src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'weijie0717', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+<a name="top"></a>
+
+<script type="text/javascript">
+	try {
+		if (screen.availWidth > 1200) {
+			document.getElementById("MainCss").href = '/Skins/BOOK/style2.css';
+		}
+	} catch (e) { }
+</script>
+
+<div id="header">
+<div id="HeaderTitle">
+<div id="Title">
+<a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/weijie0717/">尾戒0717</a>
+</div>
+<div id="subTitle"></div>
+</div>
+</div>
+
+<div id="main">
+	
+<div id="post_detail">
+	<div class="post">
+		<h2>
+			<a id="cb_post_title_url" href="http://www.cnblogs.com/weijie0717/p/6910600.html">centos 7 下多网卡绑定+ vlan 网卡配置</a>
+		</h2>
+		<div id="cnblogs_post_body" class="blogpost-body"><p><strong><span style="font-size: 14pt">一、前言</span></strong>　</p>
+<p>CentOS7之前系统提供给用户的是bonding driver来实现链路聚合，实际上bonding适用于大多数应用。Bonding driver的架构是由内核空间完全控制、管理。</p>
+<p>Team driver又是什么呢？它是被设计用一整套不同的设计和不同的方法来实现bonding能做到的事，它的这种更灵活、更高效。 具体数据：http://rhelblog.redhat.com/2014/06/23/team-driver/</p>
+<p>针对现有的bonding配置，如果想从bonding driver转到team driver，redhat官方还是挺人性化的，提供了一个bond2team的命令行工具。</p>
+<p><span style="font-size: 16px"><strong>team工作模式：</strong></span></p>
+<p>　　&nbsp;<strong>roundrobin模式</strong>也称为轮询模式，它基于每一个包服务器发出的数据包，就会在两个物理网卡上进行轮询，即第一个数据包走一张网卡，第二个数据包走第二张网卡，依次轮询，相当于 bond 中的 mode 0。<span style="color: #ff0000"><strong>在交换机上需要配置链路聚合。</strong></span></p>
+<p>　　注意：<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;（1）roundrobin具有容错性，当一张网卡down掉，数据包依然发送成功。<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;（2）在使用roundrobin模式必须要在交换机上做以太通道，不然会出现网络无法连通。</p>
+<p>　　<strong>activebackup模式 &nbsp;</strong>主备模式， 相当于 bond 中的 mode 1. &nbsp; <span style="background-color: #ffff00">&nbsp;在交换机上<span style="color: #ff0000"><strong>不需要做</strong></span>链路聚合配置</span>。</p>
+<p><span style="font-size: 14pt"><strong>二、基础环境</strong></span></p>
+<p>　　系统：centos 7 &nbsp;全新安装的系统。</p>
+<p>　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526104032685-172743980.png" alt=""></p>
+<p><span style="font-size: 14pt"><strong>三、配置</strong></span></p>
+<p>　　1、查看物理网卡信息：<span style="color: #0000ff"><strong>#nmcli dev sh</strong></span></p>
+<p>　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526120152716-1336633592.png" alt="">&nbsp; 可以看em2 没有连接</p>
+<p>&nbsp; &nbsp; 2、查看网卡链接信息。<span style="color: #0000ff"><strong>#nmcli con sh</strong></span></p>
+<p>&nbsp;　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526120501997-657296026.png" alt=""></p>
+<p>　 3、创建team接口，根据自己的业务需求，配置工作模式。</p>
+<p>　　<span style="color: #3366ff"><strong><span style="color: #0000ff">#nmcli con add type team con-name team0 ifname team0 config '{"runner":{"name": "<span style="color: #ff0000">roundrobin</span>"}}'</span>&nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #000000">（<span style="color: #ff0000">模式：根据业务需求进行配置工作模式</span>）</span></strong></span></p>
+<p>&nbsp;　4、给接口配置IP地址</p>
+<p>　　<span style="color: #0000ff"><strong>#nmcli con modify team0 ipv4.address '192.168.1.10/24' ipv4.gateway '192.168.1.1' ipv4.dns '202.106.0.20'</strong></span></p>
+<p>&nbsp; &nbsp;5、设置接口模式为手动模式，取消DHCP</p>
+<p>　　<span style="color: #0000ff"><strong>#nmcli con modify team0 ipv4.method manual</strong></span></p>
+<p>&nbsp; &nbsp;6、将物理网卡添加到team中</p>
+<p><span style="color: #0000ff"><strong>　　#nmcli con add type team-slave ifname em1 master team0</strong></span></p>
+<p><span style="color: #0000ff"><strong>&nbsp; &nbsp; &nbsp;#nmcli con add type team-slave ifname em2 master team0</strong></span></p>
+<p>&nbsp; &nbsp;7、重启网卡 &nbsp;<span style="color: #0000ff"><strong>#service network restart</strong></span></p>
+<p>　8、查看team0 状态 &nbsp;<strong> <span style="color: #0000ff">#teamdctl team0 state</span></strong></p>
+<p><span style="color: #0000ff">　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526212718419-532043868.png" alt=""></span></p>
+<p>&nbsp; 9、查看连接状态 &nbsp; &nbsp;</p>
+<p>&nbsp;　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526213156091-1770576365.png" alt=""></p>
+<p>&nbsp; 10、测试</p>
+<p>　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526213333310-916827764.png" alt=""></p>
+<p>ok，配置到此完成。 &nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>注：如果喜欢使用图形化界面进行配置的可以使用命令</strong></p>
+<p>　　<span style="color: #0000ff"><strong>#nmtui &nbsp; &nbsp; （操作界面比较简单就不在着重介绍。）</strong></span></p>
+<p>&nbsp;　　　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526213617450-336180763.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt"><strong>&nbsp;四、后期维护操作</strong></span></p>
+<p>&nbsp;　　<span style="font-size: 16px"><strong>1、启用team0 接口中的网卡：</strong></span></p>
+<p>　　　　<span style="color: #0000ff"><strong>#nmcli connection up&nbsp;team-slave-em1</strong></span></p>
+<p><span style="color: #0000ff"><strong>　　　　#nmcli connection up&nbsp;team-slave-em2</strong></span></p>
+<p>&nbsp;　　2、</p>
+<p>　　　　#<span style="color: #000000">&nbsp;<strong>teamnl team0 ports</strong></span></p>
+<p><strong><span style="color: #ff00ff">　　　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526214357794-166514034.png" alt="">&nbsp;<span style="color: #000000">现实网卡em2 down，原因没有接线。</span></span></strong></p>
+<p>　　3、　　　</p>
+<p>　　 &nbsp;　#&nbsp;<span style="color: #000000"><strong>teamnl team0 options</strong></span></p>
+<p>&nbsp;　　　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526214450685-610765773.png" alt=""></p>
+<p>　　<span style="font-size: 16px"><strong>4、删除网卡连接信息</strong> </span>&nbsp;#<span style="color: #0000ff"><strong>nmcli con del &nbsp;team-slave-em2</strong></span></p>
+<p>&nbsp;　 &nbsp;<span style="font-size: 16px"><strong>5、删除team0 &nbsp; &nbsp;</strong></span> <span style="color: #0000ff"><strong>#nmcli dev del team0</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt"><strong>五、centos 7 下 vlan 配置 &nbsp;</strong></span></p>
+<p><span style="font-size: 16px"><strong>　　1、</strong></span><strong>确认内核 已经载入 802.1Q 模组。</strong></p>
+<p>　　　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170315212022088-1700362513.png" alt=""></p>
+<p>　　　　如果没有，使用以下命令将模组载入内核：</p>
+<p>　　　<span style="color: #0000ff"><strong>　#&nbsp;/sbin/modprobe -a 8021q&nbsp;</strong></span></p>
+<p><strong>　　2、删除team0 中的IP配置 &nbsp; &nbsp; &nbsp; </strong></p>
+<p><strong>　　　　<span style="color: #0000ff">#vi /etc/sysconfig/network-scripts/ifcfg-team0&nbsp;</span></strong></p>
+<p><strong><span style="color: #0000ff">　　　　　删除IP 和DNS 配置，并保存配置</span></strong></p>
+<p><strong>　　3、创建VLAN 网卡配置文件。　 &nbsp;（例如：要创建一个vlan 632 &nbsp;网卡）　</strong></p>
+<p><strong>　　　 &nbsp;# <strong><span style="color: #0000ff">vi /etc/sysconfig/network-scripts/ifcfg-team0<span style="color: #ff0000">.632</span></span></strong><br></strong></p>
+<p><strong>　　　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526221630575-2028743449.png" alt=""></strong></p>
+<p>　　<strong>4、交换机配置为trunk 模式，然后重启服务器。 <span style="color: #ff0000">服务器vlan<strong>配置文件保存在：/proc/net/vlan/config</strong></span></strong></p>
+<p>&nbsp;　　　　<img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/638293-20170526222009154-748355928.png" alt=""></p>
+<p>&nbsp; &nbsp;<strong>ok &nbsp;配置完成。</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt"><strong><a href="http://www.cnblogs.com/weijie0717" target="_blank">　　注：个人学习总结，仅供参考。谢谢</a>&nbsp; &nbsp;&nbsp;</strong></span></p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/weijie0717/category/627015.html" target="_blank">运维管理</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/weijie0717/tag/centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A%20%2B%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE/">centos 7 下多网卡绑定 + vlan 网卡配置</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6910600,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('47e0290e-cfe6-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/weijie0717/" target="_blank"><img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20140815144634.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/weijie0717/">尾戒0717</a><br>
+            <a href="http://home.cnblogs.com/u/weijie0717/followees">关注 - 5</a><br>
+            <a href="http://home.cnblogs.com/u/weijie0717/followers">粉丝 - 3</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('47e0290e-cfe6-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6910600,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6910600,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/weijie0717/p/5763568.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/weijie0717/p/5763568.html" title="发布于2017-05-11 18:04">H3C IRF 配置</a><br><a href="http://www.cnblogs.com/weijie0717/p/7488982.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/weijie0717/p/7488982.html" title="发布于2017-09-07 11:53">Cisco N3K  VPC+HSRP+ospf 配置</a><br></div>
+</div>
+
+
+		<p class="postfoot">
+			posted on <span id="post-date">2017-05-26 21:51</span> <a href="http://www.cnblogs.com/weijie0717/">尾戒0717</a> 阅读(<span id="post_view_count">1050</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6910600" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6910600);return false;">收藏</a>
+		</p>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=187463,cb_entryId=6910600,cb_blogApp=currentBlogApp,cb_blogUserGuid='47e0290e-cfe6-e311-8d02-90b11c0b17d6',cb_entryCreatedDate='2017/5/26 21:51:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+	</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.766790.766790.766790" target="_blank">【推荐】微信小程序一站式部署 多场景模板定制</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/products/spreadjs/?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS2&amp;utm_campaign=community" target="_blank"><img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171206093644566-325426505.png" alt="SpreadJS2_1206" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/589362/" target="_blank">科普：世界“重型火箭”知多少</a><br> ·  <a href="https://news.cnblogs.com/n/589360/" target="_blank">谷歌为Motion Stills应用加入AR贴纸功能</a><br> ·  <a href="https://news.cnblogs.com/n/589358/" target="_blank">微软启动策反企业用户活动 限时免费迁移至OneDrive for Business</a><br> ·  <a href="https://news.cnblogs.com/n/589363/" target="_blank">“太子”李在镕获释出狱 三星会做出什么改变？</a><br> ·  <a href="https://news.cnblogs.com/n/589349/" target="_blank">快播王欣刚刚出狱|知情人士：刚洗完澡，理完发</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	
+<p id="footer">
+	Powered by: 
+	<br>
+	
+	<a id="Footer1_Hyperlink3" name="Hyperlink1" href="http://www.cnblogs.com/" style="font-family:Verdana;font-size:12px;">博客园</a>
+	<br>
+	Copyright © 尾戒0717
+</p>
+</div>
+<div id="rightmenu">
+	
+		<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/01/01');return false;">&lt;</a></td><td align="center">2018年2月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/03/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center"><a href="http://www.cnblogs.com/weijie0717/archive/2018/02/01.html"><u>1</u></a></td><td align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td class="CalTodayDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+		
+<h3>导航</h3>
+<ul>
+			<li><a id="blog_nav_sitehome" href="http://www.cnblogs.com/">博客园</a></li>
+			<li><a id="blog_nav_myhome" href="http://www.cnblogs.com/weijie0717/">首页</a></li>
+			<li><a id="blog_nav_newpost" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+			<li><a id="blog_nav_contact" accesskey="9" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%B0%BE%E6%88%920717">联系</a></li>
+			<li><a id="blog_nav_rss" href="http://www.cnblogs.com/weijie0717/rss">订阅</a><a id="blog_nav_rss_image" href="http://www.cnblogs.com/weijie0717/rss"><img src="centos%207%20%E4%B8%8B%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9A+%20vlan%20%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%20-%20%E5%B0%BE%E6%88%920717%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a>
+			</li><li><a id="blog_nav_admin" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div id="blog_stats">
+<h3>统计</h3>
+	<ul>
+		<li>随笔 - 74
+		</li><li>文章 - 0
+		</li><li>评论 - 1
+		</li><li>引用 - 0
+	</li>
+</ul></div>
+		
+<h3>公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/weijie0717/">尾戒0717</a><br>园龄：<a href="https://home.cnblogs.com/u/weijie0717/" title="入园时间：2014-05-29">3年8个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/weijie0717/followers/">3</a><br>关注：<a href="https://home.cnblogs.com/u/weijie0717/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('47e0290e-cfe6-e311-8d02-90b11c0b17d6')">+加关注</a></div><script>getFollowStatus('47e0290e-cfe6-e311-8d02-90b11c0b17d6')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+
+		<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/weijie0717/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/weijie0717/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/weijie0717/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/weijie0717/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/weijie0717/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<h3 class="catListTitle">我的标签</h3>
+<div id="MyTag">
+<ul>
+<li><a href="http://www.cnblogs.com/weijie0717/tag/ACL%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8/">ACL访问控制列表</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/amp/">amp</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/cacti%20%E4%B8%8D%E5%87%BA%E5%9B%BE/">cacti 不出图</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/cacti%E7%9A%84%E4%BB%8B%E7%BB%8D%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE%E3%80%81%E5%8F%8A%E7%BB%B4%E6%8A%A4/">cacti的介绍、安装、配置、及维护</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/centos%206%20%20KVM%20%E7%BD%91%E5%8D%A1%E6%A1%A5%E6%8E%A5%E9%85%8D%E7%BD%AE/">centos 6  KVM 网卡桥接配置</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/centos%206%20%E5%92%8Ccentos%207%20%E7%B3%BB%E7%BB%9F%E4%B8%8Bvnc%E9%85%8D%E7%BD%AE/">centos 6 和centos 7 系统下vnc配置</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/centos%206%20%E4%B8%8BKVM%20%E5%AE%89%E8%A3%85%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%97%85/">centos 6 下KVM 安装学习之旅</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/Centos%206%20%E4%B8%8B%E4%BD%BF%E7%94%A8VLAN%2BBridge%20%E6%90%AD%E5%BB%BAKVM%E5%9F%BA%E7%A1%80%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83/">Centos 6 下使用VLAN+Bridge 搭建KVM基础网络环境</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/centos%206.2%20%E7%BD%91%E5%8D%A1%E8%81%9A%E5%90%88%E5%8F%8ACisco%E4%BA%A4%E6%8D%A2%E6%9C%BA%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88/">centos 6.2 网卡聚合及Cisco交换机链路聚合</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/centos%206.5%20DNS%E6%9C%8D%E5%8A%A1%E5%99%A8%20%E6%90%AD%E5%BB%BA/">centos 6.5 DNS服务器 搭建</a>(1)</li><li><a href="http://www.cnblogs.com/weijie0717/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+		<h3>随笔分类</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/weijie0717/category/705255.html">python总结(3)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/weijie0717/category/671286.html">路由交换(13)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/weijie0717/category/614041.html">数据库笔记(2)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/weijie0717/category/584508.html">系统安装(1)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/weijie0717/category/965341.html">虚拟化(9)</a> </li>
+			
+				<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/weijie0717/category/627015.html">运维管理(26)</a> </li>
+			
+				</ul>
+			
+	
+		<h3>随笔档案</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/weijie0717/archive/2018/02.html">2018年2月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/weijie0717/archive/2018/01.html">2018年1月 (3)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/weijie0717/archive/2017/11.html">2017年11月 (3)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/weijie0717/archive/2017/10.html">2017年10月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/weijie0717/archive/2017/09.html">2017年9月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/weijie0717/archive/2017/05.html">2017年5月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/weijie0717/archive/2017/04.html">2017年4月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/weijie0717/archive/2017/03.html">2017年3月 (3)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/weijie0717/archive/2017/02.html">2017年2月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/weijie0717/archive/2016/12.html">2016年12月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/weijie0717/archive/2016/09.html">2016年9月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/weijie0717/archive/2016/07.html">2016年7月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/weijie0717/archive/2016/04.html">2016年4月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/weijie0717/archive/2016/03.html">2016年3月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/weijie0717/archive/2015/12.html">2015年12月 (4)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/weijie0717/archive/2015/11.html">2015年11月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/weijie0717/archive/2015/10.html">2015年10月 (4)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/weijie0717/archive/2015/09.html">2015年9月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/weijie0717/archive/2015/08.html">2015年8月 (4)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/weijie0717/archive/2015/07.html">2015年7月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/weijie0717/archive/2015/06.html">2015年6月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/weijie0717/archive/2015/05.html">2015年5月 (3)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/weijie0717/archive/2015/03.html">2015年3月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/weijie0717/archive/2015/01.html">2015年1月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/weijie0717/archive/2014/12.html">2014年12月 (1)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/weijie0717/archive/2014/11.html">2014年11月 (3)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/weijie0717/archive/2014/10.html">2014年10月 (3)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_27" href="http://www.cnblogs.com/weijie0717/archive/2014/09.html">2014年9月 (2)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_28" href="http://www.cnblogs.com/weijie0717/archive/2014/08.html">2014年8月 (4)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_29" href="http://www.cnblogs.com/weijie0717/archive/2014/07.html">2014年7月 (6)</a> </li>
+			
+				<li><a id="CatList_LinkList_1_Link_30" href="http://www.cnblogs.com/weijie0717/archive/2014/06.html">2014年6月 (6)</a> </li>
+			
+				</ul>
+			
+	
+		<h3>文章分类</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_2_Link_0" href="http://www.cnblogs.com/weijie0717/category/705254.html">python总结</a> </li>
+			
+				<li><a id="CatList_LinkList_2_Link_1" href="http://www.cnblogs.com/weijie0717/category/627014.html">系统监控</a> </li>
+			
+				</ul>
+			
+	</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/weijie0717/p/3879440.html#3000778">1. Re:windows server  2008 远程桌面连接数修改--无限连接</a></li>
+        <li class="recent_comment_body">不是说大于2个远程会话需要向微软购买吗？</li>
+        <li class="recent_comment_author">--as900</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/weijie0717/p/6363059.html">1. centos 6.5 DNS服务器 搭建(1873)</a></li><li><a href="http://www.cnblogs.com/weijie0717/p/3763706.html">2. 三星笔记本安装系统时报错：image failed to verify with * access denied* press any key to continue.(1677)</a></li><li><a href="http://www.cnblogs.com/weijie0717/p/3913097.html">3. linux分区之gpt（大于2T的分区）(1326)</a></li><li><a href="http://www.cnblogs.com/weijie0717/p/5666359.html">4. Win7 访问win2008 远程桌面提示：您的凭证不工作(1253)</a></li><li><a href="http://www.cnblogs.com/weijie0717/p/6910600.html">5. centos 7 下多网卡绑定+ vlan 网卡配置(1050)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/weijie0717/p/3879440.html">1. windows server  2008 远程桌面连接数修改--无限连接(1)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/weijie0717/p/6363059.html">1. centos 6.5 DNS服务器 搭建(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+	
+</div>
+			
+			
+			
+			
+			 
+
+	
+
+
+
+</body></html>

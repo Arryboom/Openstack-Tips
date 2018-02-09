@@ -1,0 +1,729 @@
+<!--
+   _   _                      _                 _
+  | | | |                    | |               | |
+  | |_| | ___  _ __ ___   ___| | __ _ _ __   __| |
+  |  _  |/ _ \| '_ ` _ \ / _ \ |/ _` | '_ \ / _` |
+  | | | | (_) | | | | | |  __/ | (_| | | | | (_| |
+  \_| |_/\___/|_| |_| |_|\___|_|\__,_|_| |_|\__,_|
+  ------------------------------------------------
+                          https://gethomeland.com
+
+  - Ruby:  2.4.0-p0
+  - Rails: 5.1.1
+  - Homeland: 3.0.7
+-->
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="keywords" content="移动测试,游戏测试,性能测试,软件测试,软件测试社区,软件测试资料,软件测试工具,软件测试报告,软件测试方法,自动化测试,软件测试招聘,">
+  <meta name="description" content="TesterHome软件测试社区，人气最旺的软件测试技术门户，提供软件测试社区交流，测试沙龙。">
+  <title>[踩坑总结] nf_conntrack: table full, dropping packet · TesterHome</title>
+  <link rel="icon" href="https://testerhome.com/assets/favicon-cd32144f74c18746f3dce33e1040e7dfe4c07c8e611e37f3868b1c16b5095da3.png">
+  <link rel="apple-touch-icon-precomposed" href="https://testerhome.com/assets/ios-icon-cd32144f74c18746f3dce33e1040e7dfe4c07c8e611e37f3868b1c16b5095da3.png">
+  <link rel="shortcut icon" href="https://testerhome.com/assets/big_logo-cd32144f74c18746f3dce33e1040e7dfe4c07c8e611e37f3868b1c16b5095da3.png">
+  <link rel="apple-touch-icon" href="https://testerhome.com/assets/favicon-cd32144f74c18746f3dce33e1040e7dfe4c07c8e611e37f3868b1c16b5095da3.png">
+
+  <!-- http://www.favicon-generator.org/ -->
+  <link rel="apple-touch-icon" sizes="57x57" href="https://testerhome.com/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="https://testerhome.com/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="https://testerhome.com/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://testerhome.com/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://testerhome.com/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://testerhome.com/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://testerhome.com/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://testerhome.com/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://testerhome.com/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://testerhome.com/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://testerhome.com/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="https://testerhome.com/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://testerhome.com/favicon-16x16.png">
+  <link rel="manifest" href="https://testerhome.com/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta content="True" name="HandheldFriendly">
+  <link rel="alternate" type="application/rss+xml" title="订阅最新帖" href="https://testerhome.com/topics/feed">
+  <link rel="stylesheet" media="screen" href="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/front-9311188a8dd05e739f8e61329fc697c5424bbe9622661f39a53926.css" data-turbolinks-track="reload">
+  
+  
+  <meta name="action-cable-url" content="/cable">
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="scuZUcb/LLQrQuBLF49wbugD62l1tzb9ahjPwl2AMs8GfUm72YBer7//daU1MLbOmUE6A8WVTpZVCZVX3Fdlbg==">
+  
+
+  <script src="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/push.js"></script><script async="" src="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/analytics.js"></script><script src="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/app-e6664f77ed83d0aa4586d679b6510245231dfb036cdb0a0cf11fb2055.js" data-turbolinks-track="reload"></script>
+  
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body class="page-topics" data-controller-name="topics">
+  <div class="header">
+    <nav class="navbar navbar-inverse navbar-fixed-top navbar-default navbar-fixed-active fixed-title">
+      <div class="container">
+        <div class="navbar-header" id="navbar-header" data-turbolinks-permanent="">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
+            <span class="sr-only">Toggle</span>
+            <i class="fa fa-reorder"></i>
+          </button>
+          <a href="https://testerhome.com/" class="navbar-brand"><b>TesterHome</b></a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="main-navbar-collapse">
+                <div class="navbar-nav">
+        <div class="navbar-topic-title">
+          <a href="#" class="topic-title pull-left" title="[踩坑总结] nf_conntrack: table full, dropping packet" data-type="top">
+            <h1><span class="node">Linux</span> [踩坑总结] nf_conntrack: table full, dropping packet</h1>
+          </a>
+        </div>
+      </div>
+
+          <div id="main-nav-menu">
+  <ul class="nav navbar-nav">
+    <li class="active"><a href="https://testerhome.com/topics">社区</a></li><li class=""><a href="https://testerhome.com/bugs">Bug 曝光台</a></li><li class=""><a href="https://testerhome.com/questions">问答</a></li><li class=""><a href="https://testerhome.com/teams">社团</a></li><li class=""><a href="https://testerhome.com/jobs">招聘</a></li><li class=""><a href="https://testerhome.com/wiki">Wiki</a></li><li class=""><a href="https://testerhome.com/opensource_projects">开源项目<span class="badge-new">新</span></a></li><li class=""><a href="https://testerhome.com/sites">酷站</a></li>
+    
+  </ul>
+</div>
+        </div>
+        <ul class="nav user-bar navbar-nav navbar-right">
+  <li><a href="https://testerhome.com/account/sign_up">注册</a></li>
+  <li><a href="https://testerhome.com/account/sign_in">登录</a></li>
+</ul>
+
+<ul class="nav navbar-nav user-bar navbar-right">
+  <li class="nav-search hidden-xs hidden-sm hidden-md">
+    <form class="navbar-form form-search active" action="/search" method="GET">
+      <div class="form-group">
+        <input class="form-control" name="q" placeholder="搜索本站内容" type="text">
+      </div>
+      <i class="fa btn-search fa-search"></i>
+    </form>
+  </li>
+
+</ul>
+
+      </div>
+    </nav>
+  </div>
+
+  
+
+  <div id="main" class="main-container container">
+    
+    
+    
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="topic-detail panel panel-default">
+      <div class="panel-heading media clearfix">
+  <div class="media-body">
+    <h1 class="media-heading">
+      <a class="node" href="https://testerhome.com/topics/node65">Linux</a>
+      [踩坑总结] nf_conntrack: table full, dropping packet
+      
+    </h1>
+    <div class="info">
+      <a data-author="true" class="user-name" data-name="Keith Mo" href="https://testerhome.com/keithmork">keithmork</a>
+       ·
+      发布于 <abbr class="timeago" title="" rel="twipsy" data-original-title="2017年02月16日">2017年02月16日</abbr>
+
+       ·
+      323 次阅读
+    </div>
+  </div>
+
+</div>
+
+
+
+      <div class="panel-body markdown markdown-toc"><div class="toc-container dropdown pull-right" style="display: block;">
+  <button data-toggle="dropdown" class="btn btn-default">
+    <i class="fa fa-list"></i> 目录 <span class="caret"></span>
+  </button>
+  <div class="toc-panel dropdown-menu">
+    <div class="list-container">
+      <ul class="list"><li class="toc-item toc-level-3"> <a href="#%E7%97%87%E7%8A%B6" class="toc-item-link">症状</a> </li><li class="toc-item toc-level-3"> <a href="#%E5%8E%9F%E5%9B%A0" class="toc-item-link">原因</a> </li><li class="toc-item toc-level-4"> <a href="#%E8%AF%A6%E7%BB%86" class="toc-item-link">详细</a> </li><li class="toc-item toc-level-3"> <a href="#%E6%9F%A5%E7%9C%8B" class="toc-item-link">查看</a> </li><li class="toc-item toc-level-3"> <a href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E" class="toc-item-link">常用参数说明</a> </li><li class="toc-item toc-level-3"> <a href="#%E8%B0%83%E4%BC%98" class="toc-item-link">调优</a> </li><li class="toc-item toc-level-4"> <a href="#A.%20%E8%B0%83%E6%95%B4%E5%86%85%E6%A0%B8%E5%8F%82%E6%95%B0" class="toc-item-link">A. 调整内核参数</a> </li><li class="toc-item toc-level-4"> <a href="#B.%20%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99" class="toc-item-link">B. 关闭防火墙</a> </li><li class="toc-item toc-level-4"> <a href="#C.%20%E8%AE%BE%E7%BD%AE%E4%B8%8D%E8%B7%9F%E8%B8%AA%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A7%84%E5%88%99%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89" class="toc-item-link">C. 设置不跟踪连接的规则（不推荐）</a> </li><li class="toc-item toc-level-4"> <a href="#D.%20%E7%A6%81%E7%94%A8%E7%9B%B8%E5%85%B3%E6%A8%A1%E5%9D%97%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89" class="toc-item-link">D. 禁用相关模块（不推荐）</a> </li></ul>
+    </div>
+  </div>
+</div>
+        
+        <p>背景：之前线上出性能问题了，我们都不知道<code>nf_conntrack</code>的存在，精力都放在nginx-应用-db-第三方服务这块<br><br>
+结果被这东西的默认参数坑了，请求连nginx都到不了……</p>
+
+<p>恶补了几天资料+拿线上其中一台机测了n轮，总结了一些心得放出来抛砖引玉<br><br>
+希望各位大佬斧正 ：）</p>
+
+<p>（服务器用的阿里云主机，CentOS 7.3，似乎不管内存多少阿里云都把 conntrack_max  设成 65536）</p>
+
+<hr>
+<h3 id="症状">症状</h3>
+<p>CentOS服务器，负载正常，但请求大量超时，服务器／应用访问日志看不到相关请求记录。</p>
+
+<p>在<code>dmesg</code>或<code>/var/log/messages</code>看到大量以下记录：</p>
+
+<p><code>kernel: nf_conntrack: table full, dropping packet.</code>  </p>
+
+<hr>
+<h3 id="原因">原因</h3>
+<p>服务器访问量大，内核netfilter模块conntrack相关参数配置不合理，导致新连接被drop掉。</p>
+<h4 id="详细">详细</h4>
+<p><code>nf_conntrack</code>模块在kernel 2.6.15（2006-01-03发布） 被引入，支持ipv4和ipv6，取代只支持ipv4的<code>ip_connktrack</code>，用于跟踪连接的状态，供其他模块使用。</p>
+
+<p>最常见的使用场景是 iptables 的 <code>nat</code> 和 <code>state</code> 模块：</p>
+
+<ul>
+<li>
+<code>nat</code> 根据转发规则修改IP包的源/目标地址，靠<code>nf_conntrack</code>的记录才能让返回的包能路由到发请求的机器。</li>
+<li>
+<code>state</code> 直接用 <code>nf_conntrack</code> 记录的连接状态（<code>NEW</code>/<code>ESTABLISHED</code>/<code>RELATED</code>/<code>INVALID</code>）来匹配防火墙过滤规则。</li>
+</ul>
+
+<p><a href="http://img2.ph.126.net/wlJ1U0pqhCtexhiAFahJxg==/6608208918958115579.png" class="zoom-image fluidbox" data-action="zoom"><div class="fluidbox-wrap" style="z-index: 990;"><img src="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/6608208918958115579.jpg" title="" alt="iptables" style="opacity: 1;"><div class="fluidbox-ghost" style="width: 594px; height: 142px; top: 0px; left: 123px;"></div></div></a></p>
+
+<p><code>nf_conntrack</code>用1个哈希表记录已建立的连接，包括其他机器到本机、本机到其他机器、本机到本机（例如 <code>ping 127.0.0.1</code> 也会被跟踪）。  </p>
+
+<p>如果连接进来比释放的快，把哈希表塞满了，新连接的数据包会被丢掉，此时netfilter变成了一个黑洞，导致拒绝服务。 这发生在3层（网络层），应用程序毫无办法。</p>
+
+<p>各发行版区别：</p>
+
+<ul>
+<li>CentOS (7.3) 默认加载该模块</li>
+<li>Ubuntu (16.10+) 和 Kali Linux (2016.1+) 默认不加载，不会有这问题</li>
+</ul>
+
+<hr>
+<h3 id="查看">查看</h3>
+<p>netfilter 相关的内核参数：</p>
+<pre class="highlight shell"><code>sudo sysctl -a | grep conntrack
+
+<span class="c"># 只看超时相关参数（超时时间 = 连接在哈希表里保留的时间）</span>
+sudo sysctl -a | grep conntrack | grep timeout
+</code></pre>
+<p>netfilter模块加载时的bucket和max配置：</p>
+<pre class="highlight shell"><code>sudo dmesg | grep conntrack
+<span class="c"># 找类似这样的记录：</span>
+<span class="c"># nf_conntrack version 0.5.0 (16384 buckets, 65536 max)</span>
+</code></pre>
+<p>哈希表使用情况：</p>
+<pre class="highlight shell"><code>grep conntrack /proc/slabinfo
+<span class="c"># 前4个数字分别为：</span>
+<span class="c"># 当前活动对象数、可用对象总数、每个对象的大小（字节）、包含至少1个活动对象的分页数</span>
+</code></pre>
+<p>当前跟踪的连接数：</p>
+<pre class="highlight shell"><code>sudo sysctl net.netfilter.nf_conntrack_count
+<span class="c"># 或 cat /proc/net/nf_conntrack | wc -l</span>
+</code></pre>
+<p>跟踪的每个连接的详情：</p>
+<pre class="highlight shell"><code>cat /proc/net/nf_conntrack
+
+<span class="c"># 统计里面的TCP连接的各状态和条数</span>
+cat /proc/net/nf_conntrack | awk <span class="s1">'/^.*tcp.*$/ {count[$6]++} END {for(state in count) print state, count[state]}'</span>
+
+<span class="c"># 记录数最多的10个ip</span>
+cat /proc/net/nf_conntrack | awk <span class="s1">'{print $7}'</span> | cut -d <span class="s2">"="</span> -f 2 | sort | uniq -c | sort -nr | head -n 10
+
+<span class="c"># 记录格式：</span>
+<span class="c"># 网络层协议名、网络层协议编号、传输层协议名、传输层协议编号、记录失效前剩余秒数、连接状态（不是所有协议都有）</span>
+<span class="c"># 之后都是key=value或flag格式，1行里最多2个同名key（如 src 和 dst），第1次出现的来自请求，第2次出现的来自响应</span>
+
+<span class="c"># flag：</span>
+<span class="c"># [ASSURED]  请求和响应都有流量</span>
+<span class="c"># [UNREPLIED]  没收到响应，哈希表满的时候这些连接先扔掉</span>
+</code></pre>
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/16034698/details-of-proc-net-ip-conntrack-nf-conntrack" target="_blank">stackoverflow - details of /proc/net/ip_conntrack / nf_conntrack</a>  </p>
+</blockquote>
+
+<hr>
+<h3 id="常用参数说明">常用参数说明</h3><pre class="highlight shell"><code><span class="c"># 哈希表里的实时连接跟踪数（只读）</span>
+net.netfilter.nf_conntrack_count
+<span class="c"># 值跟 /proc/net/nf_conntrack 的行数一致</span>
+</code></pre>
+<p>有说法是这数字持续超过 <code>nf_conntrack_max</code> 的 20% 就该考虑调高上限了。</p>
+<pre class="highlight shell"><code><span class="c"># 哈希表大小（只读）（64位系统、8G内存默认 65536，16G翻倍，如此类推）</span>
+net.netfilter.nf_conntrack_buckets
+
+<span class="c"># 最大跟踪连接数，默认 nf_conntrack_buckets * 4</span>
+net.netfilter.nf_conntrack_max
+net.nf_conntrack_max
+
+<span class="c"># 跟踪的连接用哈希表存储，每个桶（bucket）里都是1个链表，默认长度为4</span>
+
+<span class="c"># 默认值参考以下公式：（使用内存的 1/16384）</span>
+<span class="c"># CONNTRACK_MAX = RAMSIZE (in bytes) / 16384 / (ARCH / 32)  </span>
+<span class="c"># （ARCH为你机器CPU的架构，64或32）</span>
+
+<span class="c"># HASHSIZE = CONNTRACK_MAX / 4</span>
+<span class="c"># （N年前是除8，这数字就是每个桶里的链表长度）</span>
+</code></pre>
+<p>现在凡是有那么点用户量的服务器跟踪20万以上连接很正常，真按系统默认值也勉强能用，但阿里云似乎设了特别保守的默认值，bucket为 16384，max为 65536，这是倒退回了07-11年CentOS 5-6的时代。</p>
+<pre class="highlight shell"><code><span class="c"># netfilter的哈希表存储在内核空间，这部分内存不能swap</span>
+<span class="c"># 操作系统为了兼容32位，默认值往往比较保守：</span>
+
+<span class="c"># 在32位Linux下，内核空间的虚拟地址空间最多 1G，通常能用的只有前 896M</span>
+<span class="c"># 1条跟踪记录约 300 字节，给netfilter分配太多地址空间可能会导致其他内核进程不够分配，因此当年默认最多 65535 条，占 20多MB</span>
+
+<span class="c"># 64位系统内核空间最多能用虚拟地址空间的一半（128TB），只需要关心物理内存使用多少就行了</span>
+
+<span class="c"># 内存占用参考以下公式：</span>
+<span class="c"># size_of_mem_used_by_conntrack (in bytes) = CONNTRACK_MAX * sizeof(struct ip_conntrack) + HASHSIZE * sizeof(struct list_head)</span>
+
+<span class="c"># sizeof(struct ip_conntrack) 在不同架构、内核版本、编译选项下不一样，192～352字节之间，可以按 352 算</span>
+<span class="c"># sizeof(struct list_head) = 2 * size_of_a_pointer（32位系统是4字节，64位是8字节） </span>
+
+<span class="c"># 在64位下，当CONNTRACK_MAX为 1048576，HASHSIZE 为 262144 时，最多占350多MB</span>
+<span class="c"># 对现在的机器来说毫无压力</span>
+</code></pre>
+<p>推荐bucket至少 262144，max至少 1048576，不够再继续加</p>
+
+<blockquote>
+<p><a href="https://wiki.khnet.info/index.php/Conntrack_tuning" rel="nofollow" target="_blank">https://wiki.khnet.info/index.php/Conntrack_tuning</a>, 2008-01</p>
+</blockquote>
+
+<hr>
+
+<p>缩短超时时间可以让netfilter更快地把跟踪的记录从哈希表里移除。</p>
+
+<p>调优的基本思路是先看 <code>/proc/net/nf_conntrack</code> ，哪种协议哪种状态的连接最多，改小对应的超时参数<br>
+。</p>
+
+<p>注意要充分测试，确保不影响业务。</p>
+<pre class="highlight shell"><code><span class="c"># 通常挥手的状态都不怎么重要，连接都关了，没必要继续跟踪那么久：</span>
+
+net.netfilter.nf_conntrack_tcp_timeout_fin_wait  <span class="c"># 默认 120 秒</span>
+net.netfilter.nf_conntrack_tcp_timeout_time_wait  <span class="c"># 默认 120 秒</span>
+<span class="c"># 主动方的最后1个状态，默认2MSL</span>
+
+net.netfilter.nf_conntrack_tcp_timeout_close_wait  <span class="c"># 默认 60 秒</span>
+<span class="c"># CLOSE_WAIT是被动方收到FIN发ACK，然后会转到LAST_ACK发FIN，除非程序写得有问题，正常来说这状态持续时间很短。</span>
+
+<span class="c"># （我们服务器 nf_conntrack文件里 time_wait 占了99%</span>
+<span class="c"># 把time_wait超时改成 30 秒后，nf_conntrack_count下降超过一半）</span>
+</code></pre><pre class="highlight shell"><code>net.netfilter.nf_conntrack_tcp_timeout_established  <span class="c"># 默认 432000 秒（5天）</span>
+<span class="c"># 理论上不用这么长，不小于 net.ipv4.tcp_keepalive_time 就行了</span>
+
+<span class="c"># （我们调了看不出效果）</span>
+
+net.netfilter.nf_conntrack_generic_timeout  <span class="c"># 默认 600 秒（10分钟）</span>
+<span class="c"># 通用超时设置，作用于4层（传输层）未知或不支持的协议</span>
+
+<span class="c"># （基本不会碰到这种连接，同样调了看不出效果）</span>
+
+<span class="c">#net.netfilter.nf_conntrack_tcp_timeout_max_retrans  # 默认 300 秒</span>
+<span class="c">#net.netfilter.nf_conntrack_tcp_timeout_unacknowledged  # 默认 300 秒</span>
+</code></pre>
+<hr>
+<h3 id="调优">调优</h3><h4 id="A. 调整内核参数">A. 调整内核参数</h4>
+<p>如果不能关掉防火墙，基本思路就是上面说的，调大<code>nf_conntrack_buckets</code>和<code>nf_conntrack_max</code>，调小超时时间。</p>
+
+<p>除了有关联的参数，尽量一次只改一处，记下默认值，效果不明显或更差就还原。</p>
+<pre class="highlight shell"><code><span class="c"># net.netfilter.nf_conntrack_buckets 不能直接改（报错）</span>
+<span class="c"># 需要修改模块的设置：</span>
+<span class="nb">echo </span>262144 &gt; /sys/module/nf_conntrack/parameters/hashsize
+<span class="c"># 如果不是root：</span>
+<span class="nb">echo </span>262144 | sudo tee /sys/module/nf_conntrack/parameters/hashsize
+
+<span class="c"># 再查看，bucket已经变成设置的大小</span>
+sudo sysctl net.netfilter.nf_conntrack_buckets
+
+<span class="c"># max设为桶的4倍</span>
+sudo sysctl -w net.netfilter.nf_conntrack_max<span class="o">=</span>1048576
+suod sysctl -w net.nf_conntrack_max<span class="o">=</span>1048576
+</code></pre><pre class="highlight shell"><code>sudo sysctl -w net.netfilter.nf_conntrack_tcp_timeout_fin_wait<span class="o">=</span>30
+sudo sysctl -w net.netfilter.nf_conntrack_tcp_timeout_time_wait<span class="o">=</span>30
+sudo sysctl -w net.netfilter.nf_conntrack_tcp_timeout_close_wait<span class="o">=</span>15
+
+sudo sysctl -w net.netfilter.nf_conntrack_tcp_timeout_established<span class="o">=</span>300
+</code></pre>
+<p>用<code>sysctl -w</code>或<code>echo xxx &gt; /pro/sys/net/netfilter/xxx</code>做的修改在重启后会失效。</p>
+
+<p>如果测试过没问题，可以编辑<code>/etc/sysctl.d/</code>下的配置文件（旧系统是<code>/etc/sysctl.conf</code>），系统启动时会加载里面的设置。</p>
+<pre class="highlight shell"><code>sudo vim /etc/sysctl.d/90-conntrack.conf
+
+<span class="c"># 格式：&lt;参数&gt;=&lt;值&gt;，等号两边可以空格，支持 # 注释</span>
+net.netfilter.nf_conntrack_max<span class="o">=</span>1048576
+net.nf_conntrack_max<span class="o">=</span>1048576
+net.netfilter.nf_conntrack_tcp_timeout_fin_wait<span class="o">=</span>30
+net.netfilter.nf_conntrack_tcp_timeout_time_wait<span class="o">=</span>30
+net.netfilter.nf_conntrack_tcp_timeout_close_wait<span class="o">=</span>15
+net.netfilter.nf_conntrack_tcp_timeout_established<span class="o">=</span>300
+</code></pre><pre class="highlight shell"><code><span class="c"># 如果要马上应用配置文件里的设置：</span>
+sudo sysctl -p /etc/sysctl.d/90-conntrack.conf
+<span class="c"># 不传配置文件路径默认加载 /etc/sysctl.conf</span>
+</code></pre><h4 id="B. 关闭防火墙">B. 关闭防火墙</h4>
+<p>对不直接暴露在公网、没有用到NAT转发的服务器来说，关闭Linux防火墙是最简单也是最佳的办法。</p>
+
+<p>通常防火墙一关，<code>sysctl -a</code>里就没有netfilter相关的参数了。如果有例外，照上面调整。</p>
+<pre class="highlight shell"><code><span class="c"># CentOS 7.x</span>
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
+<span class="c"># CentOS 6.x</span>
+sudo service iptables stop
+<span class="c"># 网上有些文章说关了iptables之后，用 iptables -L -n 之类查看规则也会导致nf_conntrack重新加载，实测并不会</span>
+sudo chkconfig --del iptables
+</code></pre>
+<hr>
+
+<p>【注意】以下是网上有些文章提到的解决方法，其实不好用，只记录下来作备忘。</p>
+<h4 id="C. 设置不跟踪连接的规则（不推荐）">C. 设置不跟踪连接的规则（不推荐）</h4>
+<p>对需要防火墙的机器，可以在<code>iptables</code>设置<code>NOTRACK</code>规则，减少要跟踪的连接数</p>
+
+<p><strong>【注意】设置成不跟踪的连接无法拿到状态，可能会导致keep-alive用不了</strong>：</p>
+
+<p>我们改之前 ESTAB 的连接1000多，改之后超过1.5w，响应时间几十秒，前端基本连不上。</p>
+<pre class="highlight shell"><code><span class="c"># 查看所有规则</span>
+sudo iptables-save
+</code></pre><pre class="highlight plaintext"><code># 这个必须插在第1条，凡是不跟踪的肯定是你想放行的
+sudo iptables -I INPUT 1 -m state --state UNTRACKED -j ACCEPT
+# 设置成不跟踪的连接无法拿到状态，包含状态（-m state --state）的规则统统失效
+# iptables处理规则的顺序是从上到下，如果这条加的位置不对，可能导致请求无法通过防火墙
+
+# 不跟踪 127.0.0.1
+sudo iptables -t raw -A PREROUTING -i lo -j NOTRACK
+sudo iptables -t raw -A OUTPUT -o lo -j NOTRACK
+
+# 保存规则（否则重启服务后失效）
+sudo service iptables save
+# 其实就是把 iptables-save 的内容存到 /etc/sysconfig/iptables
+
+# 假如Nginx和应用部署在同一台机子上，增加这规则的收益极为明显
+# Nginx连各种upstream使得连接数起码翻了倍，不跟踪本地连接一下干掉一大半
+
+# （其他条件不变，修改前后 nf_conntrack_count：30k+ -&gt; 2.9k+ ，下降 90%！）
+</code></pre><pre class="highlight shell"><code><span class="c"># sudo iptables -t raw -A PREROUTING -p tcp -m multiport --dports 80,443 -j NOTRACK</span>
+<span class="c"># sudo iptables -t raw -A OUTPUT -p tcp -m multiport --sports 80,443 -j NOTRACK</span>
+
+<span class="c"># （实测少跟踪 7% 左右的链接）</span>
+</code></pre>
+<p>说明：</p>
+
+<p><code>-t raw</code> 会加载 <code>iptable_raw</code> 模块（kernel 2.6+ 都有）<br><br>
+<code>raw</code>表基本就干一件事，通过<code>-j NOTRACK</code>给不需要被连接跟踪的包打标记（<code>UNTRACKED</code>状态），告诉<code>nf_conntrack</code>不要跟踪连接</p>
+
+<p><code>raw</code> 的优先级大于 <code>filter</code>，<code>mangle</code>，<code>nat</code>，包含 <code>PREROUTING</code>（针对进入本机的包） 和 <code>OUTPUT</code>（针对从本机出去的包） 链 </p>
+
+<p><strong>缺点</strong>：不好维护，服务器对外端口较多或有变化时，容易改出问题</p>
+
+<hr>
+<h4 id="D. 禁用相关模块（不推荐）">D. 禁用相关模块（不推荐）</h4>
+<p>只要<code>iptables</code>还有规则用到<code>nat</code>和<code>state</code>模块，就不适合关掉netfilter，否则这些规则会失效。  </p>
+
+<p>例如这条默认规则（通常写在第1条或很靠前的位置）：</p>
+<pre class="highlight shell"><code>-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+</code></pre>
+<p>表示放行已经建立的连接，不再往下匹配其他规则（第一次建立时已经全部检查过关了）。关掉netfilter会拿不到状态，导致每个请求都要从头到尾检查一次，影响性能。</p>
+
+<p>因此如果iptables不能关，最好不要禁用netfilter。  </p>
+
+<p>如果确实需要禁用：</p>
+<pre class="highlight shell"><code><span class="c"># 查找相关模块</span>
+sudo lsmod | egrep <span class="s2">"ip_table|iptable|nat|conntrack"</span>
+
+<span class="c"># 查看iptables规则</span>
+sudo iptables-save
+<span class="c"># 把带 -t nat 、-m state 的规则都干掉</span>
+<span class="c"># 或删掉 /etc/sysconfig/iptables 里相应内容</span>
+
+<span class="c"># 编辑 iptables 配置文件</span>
+sudo vim /etc/sysconfig/iptables-config
+<span class="c"># 找到 IPTABLES_MODULES ，删掉跟conntrack有关的模块（如果有）</span>
+
+<span class="c"># 停掉iptables</span>
+sudo service iptables stop
+sudo chkconfig --del iptables
+
+<span class="c"># 移除相关模块（如果有）</span>
+sudo rmmod iptable_nat
+sudo rmmod ip6table_nat
+sudo rmmod nf_defrag_ipv4
+sudo rmmod nf_defrag_ipv6
+sudo rmmod nf_nat
+sudo rmmod nf_nat_ipv4
+sudo rmmod nf_nat_ipv6
+sudo rmmod nf_conntrack
+sudo rmmod nf_conntrack_ipv4
+sudo rmmod nf_conntrack_ipv6
+sudo rmmod xt_conntrack
+
+<span class="c"># 需要再开就 sudo modprobe &lt;name&gt;</span>
+</code></pre>
+<p><strong>缺点</strong>：如果环境／配置文件不是完全由你掌控或没有很好的管理，容易出问题</p>
+
+<hr>
+
+<blockquote>
+<p><a href="https://www.kernel.org/doc/Documentation/networking/nf_conntrack-sysctl.txt" target="_blank">官方参数说明</a>（等于什么都没说……）<br><br>
+<a href="http://staff.ustc.edu.cn/%7Ejames/linux/conntrack.html" target="_blank">Linux连接跟踪源码分析</a> &amp;  <a href="http://lxr.free-electrons.com/source/net/netfilter/?v=3.12" target="_blank">源码目录</a><br><br>
+<a href="https://en.wikipedia.org/wiki/Netfilter#Connection_Tracking" target="_blank">wikipedia - Netfilter#Connection_Tracking</a><br><br>
+<a href="https://security.stackexchange.com/questions/43205/nf-conntrack-table-full-dropping-packet" target="_blank">stackexchange - nf_conntrack: table full, dropping packet</a><br><br>
+<a href="http://i-admin.blogspot.com/2014/02/caveats-about-linux-connection-tracking.html" target="_blank">Caveats about Linux connection tracking and high traffic servers</a>, 2014-02<br><br>
+<a href="http://jerrypeng.me/2014/12/08/dreadful-nf-conntrack-table-full-issue/" target="_blank">解决恶心的 Nf_conntrack: Table Full 问题</a>, 2014<br><br>
+<a href="http://blog.sina.com.cn/s/blog_8e5d24890102wbt8.html" target="_blank">nf_conntrack: table full, dropping packet. 终结篇</a>, 2015 （还不错，然而并不是终结）<br><br>
+<a href="https://blog.yorkgu.me/2012/02/09/kernel-nf_conntrack-table-full-dropping-packet/" target="_blank">kernel nf_conntrack: table full, dropping packet 解决办法</a>, 2012<br><br>
+<a href="http://jaseywang.me/2012/08/16/%E8%A7%A3%E5%86%B3-nf_conntrack-table-full-dropping-packet-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%80%9D%E8%B7%AF/" target="_blank">解决 nf_conntrack: table full, dropping packet 的几种思路</a>, 2012<br><br>
+<a href="http://jaseywang.me/2012/11/18/%E9%80%9A%E8%BF%87-modprobe-%E5%BD%BB%E5%BA%95%E7%A6%81%E7%94%A8-netfilter/" target="_blank">通过 modprobe 彻底禁用 netfilter</a>, 2012<br><br>
+<a href="https://mwclearning.com/?p=1506" target="_blank">nf_conntrack: table full, dropping packet on Nessus server</a>, 2014<br><br>
+<a href="https://ioflood.com/blog/2015/02/19/nf_conntrack-table-full-dropping-packet-a-solution-for-centos-dedicated-servers/" target="_blank">nf_conntrack: table full, dropping packet — A solution for CentOS Dedicated Servers</a>, 2015<br><br>
+<a href="http://www.pc-freak.net/blog/resolving-nf_conntrack-table-full-dropping-packet-flood-message-in-dmesg-linux-kernel-log/" target="_blank">Resolving “nf_conntrack: table full, dropping packet.” flood message in dmesg Linux kernel log</a>, 2012 （翻墙）<br><br>
+<a href="http://serverfault.com/questions/72366/how-do-i-disable-the-nf-conntrack-kernel-module-in-centos-5-3-without-recompilin" target="_blank">how do I disable the nf_conntrack kernel module in CentOS 5.3 without recompiling the kernel</a>, 2009  </p>
+</blockquote>
+
+<p>nf_conntrack 的前身 ip_conntrack 的相关资料（CentOS 5、6）：</p>
+
+<blockquote>
+<p><a href="http://blog.csdn.net/dog250/article/details/7107537" target="_blank">不要盲目增加ip_conntrack_max-理解Linux内核内存</a>, 2011-12<br><br>
+<a href="http://www.ttlsa.com/linux/ip_conntrack-table-full-dropping-packet-solution/" target="_blank">ip_conntrack table full dropping packet解决方案</a>, 2013-08<br><br>
+<a href="http://storysky.blog.51cto.com/628458/243835/" target="_blank">一次由ip_conntrack跟踪连接库满导致的大量丢包现象排除</a>, 2009-12<br><br>
+<a href="http://linux.chinaunix.net/techdoc/net/2007/11/12/972046.shtml" target="_blank">关于ip_conntrack的几点认识</a>, 2007-11<br><br>
+<a href="http://www.jb51.net/os/RedHat/61570.html" target="_blank">CentOS ip_conntrack: table full, dropping packet 的解决方法</a>  </p>
+
+<p><a href="http://cailin.iteye.com/blog/2008747" target="_blank">ip_conntrack的作用</a>, 2014-01<br><br>
+<a href="http://blog.csdn.net/dog250/article/details/5695002" target="_blank">linux内核netfilter之ip_conntrack模块的作用--抽象总结</a>, 2010-06  </p>
+</blockquote>
+
+<p>其他</p>
+
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/21150868/linux-64-bits-memory-space-size" target="_blank">stackoverflow - linux 64 bits memory space size?</a></p>
+</blockquote>
+
+        
+      </div>
+
+
+          <div class="label-legal">
+            <i class="fa fa-legal"></i>「原创声明：保留所有权利，禁止转载」
+          </div>
+
+      <div class="panel-footer clearfix">
+        <div class="opts">
+    <a data-count="2" data-state="" data-type="Topic" data-id="7509" class="likeable  tooltipstered" href="#"><i class="fa fa-heart"></i> <span>2 个赞</span></a>
+    
+    
+
+  <span class="pull-right opts">
+    <a target="_blank" title="微信排版" href="https://testerhome.com/topics/7509/show_wechat"><i class="fa fa-weixin"></i></a>
+  </span>
+</div>
+
+      </div>
+    </div>
+
+    
+    <div class="alert alert-block topic-copyright">
+  <div class="markdown">
+
+          TesterHome 为用户提供「保留所有权利，禁止转载」的选项。
+          除非获得原作者的单独授权，任何第三方不得转载标注了「原创声明：保留所有权利，禁止转载」的内容，否则均视为侵权。
+          具体请参见<a href="https://testerhome.com/wiki/protocol">TesterHome 知识产权保护协议</a>。
+
+  </div>
+</div>
+
+        <div class="topic-reward">
+  <div class="media-body">
+    <strong>如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作！</strong>
+  </div>
+  <div class="media-right">
+    <a class="btn btn-success" data-remote="true" href="https://testerhome.com/keithmork/reward"><i class="fa fa-qrcode"></i> <span>打赏支持</span></a>
+  </div>
+</div>
+
+    <div class="no-result">
+      暂无回复。
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div id="reply" class="form box">
+  <div style="padding:20px;" data-turbolinks-action="replace">
+    需要 <a class="btn btn-primary" href="https://testerhome.com/account/sign_in">登录</a> 后方可回复, 如果你还没有账号请点击这里 <a class="btn btn-danger" href="https://testerhome.com/account/sign_up">注册</a>。
+  </div>
+</div>
+
+      </div>
+    </div>
+
+      <div class="panel panel-default">
+      <div class="panel-heading">相关话题</div>
+      <ul class="list-group">
+          <li class="list-group-item"><a href="https://testerhome.com/topics/11391">测试开发之路--devops (六):salt state 基础</a></li>
+          <li class="list-group-item"><a href="https://testerhome.com/topics/9567">测试开发之路--devops (三):docker 的网络原理</a></li>
+          <li class="list-group-item"><a href="https://testerhome.com/topics/8859">TCP--telnet 为何在 127s 后返回？</a></li>
+          <li class="list-group-item"><a href="https://testerhome.com/topics/5695">[腾讯 TMQ] 压力测试遭遇大量 TIME_WAIT 之后</a></li>
+          <li class="list-group-item"><a href="https://testerhome.com/topics/11340">测试开发之路--devops (七):使用 salt 搭建 docker 和 k8s</a></li>
+      </ul>
+    </div>
+
+</div>
+
+  <div class="sidebar hidden-mobile col-md-3">
+    
+    <div id="topic-author-info" class="panel profile panel-default">
+  <div class="panel-heading">作者</div>
+  <div class="panel-body">
+    <div class="media">
+      <div class="avatar media-left">
+        <div class="image"><a title="keithmork (Keith Mo)" href="https://testerhome.com/keithmork"><img class="media-object avatar-48" src="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/10693.jpg" alt="10693"></a></div>
+        <div class="level"><span class="label label-info role">会员</span></div>
+      </div>
+      <div class="media-body">
+        <div class="item">
+          keithmork (Keith Mo)
+        </div>
+        <div class="item number">
+          第 10693 位会员 / <span title="注册日期">2016-07-27</span>
+        </div>
+      </div>
+
+
+    </div>
+
+        <div class="tagline row">
+          “ 这家伙很懒，什么个性签名都没有留下。 ”
+        </div>
+  </div>
+</div>
+
+
+<div id="topic-sidebar" class="affix">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <a href="#" class="btn btn-block btn-sm btn-move-page" data-type="top"><i class="fa fa-arrow-up"></i></a>
+      <div class="buttons">
+        <div class="group likes opts">
+          <a data-count="2" data-state="" data-type="Topic" data-id="7509" class="likeable  tooltipstered" href="#"><i class="fa fa-heart"></i> <span>2 个赞</span></a>
+        </div>
+        <div class="group">
+          <div class="btn-group" role="group">
+            
+            
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="group">
+        <div class="social-share-button" data-title="[踩坑总结] nf_conntrack: table full, dropping packet" data-img="" data-url="" data-desc="" data-via="">
+<a rel="nofollow " data-site="twitter" class="ssb-icon ssb-twitter" onclick="return SocialShareButton.share(this);" title="分享到 Twitter" href="#"></a>
+<a rel="nofollow " data-site="wechat" class="ssb-icon ssb-wechat" onclick="return SocialShareButton.share(this);" title="分享到 微信" data-wechat-footer="打开微信，点击底部的 “发现”，&lt;br/&gt; 使用 “扫一扫” 即可将网页分享至朋友圈。" href="#"></a>
+<a rel="nofollow " data-site="facebook" class="ssb-icon ssb-facebook" onclick="return SocialShareButton.share(this);" title="分享到 Facebook" href="#"></a>
+<a rel="nofollow " data-site="google_plus" class="ssb-icon ssb-google_plus" onclick="return SocialShareButton.share(this);" title="分享到 Google+" href="#"></a>
+<a rel="nofollow " data-site="weibo" class="ssb-icon ssb-weibo" onclick="return SocialShareButton.share(this);" title="分享到 新浪微博" href="#"></a>
+<a rel="nofollow " data-site="douban" class="ssb-icon ssb-douban" onclick="return SocialShareButton.share(this);" title="分享到 豆瓣" href="#"></a>
+</div>
+      </div>
+      <hr>
+      <div class="reply-buttons">
+        <div class="total">
+          共收到 <b>0</b> 条回复
+        </div>
+        <a class="btn btn-success" data-remote="true" href="https://testerhome.com/keithmork/reward"><i class="fa fa-qrcode"></i> <span>打赏支持</span></a>
+      </div>
+      <hr>
+      <div class="group opts">
+
+      </div>
+      <a href="#" class="btn btn-block btn-move-page" data-type="bottom"><i class="fa fa-arrow-down"></i></a>
+    </div>
+  </div>
+
+  <div class="notify-updated">
+    <a class="update" href="#"><i class="fa fa-bell-o"></i> <b>有新回复！</b>点击这里立即载入</a>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+
+  <footer class="footer" id="footer" data-turbolinks-permanent="">
+    <div class="container">
+      <div class="row">
+  <div class="col-sm-9">
+    <div class="media">
+      <div class="media-left">
+        <img src="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/274e7ebc8ad0db0b7e718fceea3628a9.png" style="width:48px;">
+      </div>
+      <div class="media-body">
+
+        <div class="links">
+          <a href="https://testerhome.com/wiki/about">关于</a> / 
+          <a href="https://testerhome.com/users">活跃用户</a> / 
+          <a href="http://test-china.org/" target="_blank">中国移动互联网测试技术大会</a> / 
+          <a href="https://testerhome.com/topics/node13">反馈</a> / 
+          <a href="https://github.com/testerhome">Github</a> / 
+          <a href="https://testerhome.com//api-doc/">API</a> /  
+          <a href="https://testerhome.com/sites">酷站</a>  / 
+          <a href="https://testerhome.com/wiki/spreadtesterhome">帮助推广</a>
+
+        </div>
+        <div class="copyright" style="font-size:14px; color:#9CA4A9;margin-top:0px;margin-bottom:5px">
+          TesterHome 移动测试社区，由众多移动测试工作者维护，致力于推进国内测试技术。Inspired by RubyChina
+        </div>
+<div class="links" data-no-turbolink="">
+<span style="font-size:14px; color:#666;">友情链接</span><span style="margin-left:5px">
+          <a style="color:#317DDA;" href="http://wetest.qq.com/?from=links_testerhome" target="_blank">WeTest腾讯质量开放平台</a> / 
+          <a style="color:#317DDA;" href="http://www.infoq.com/cn" target="_blank">InfoQ</a> / 
+          <a style="color:#317DDA;" href="http://www.testtao.com/portal.php" target="_blank">测试之道</a> / 
+          <a style="color:#317DDA;" href="https://www.testwo.com/" target="_blank">测试窝</a> / 
+          <a style="color:#317DDA;" href="http://tieba.baidu.com/f?ie=utf-8&amp;kw=%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95&amp;fr=search" target="_blank">百度测试吧</a>
+</span>
+    </div>
+        <div class="links" style="margin-top:0px" data-no-turbolink="">
+          <a href="https://testerhome.com/topics/7509?locale=zh-CN" rel="nofollow">简体中文</a> / <a href="https://testerhome.com/topics/7509?locale=zh-TW" rel="nofollow">正體中文</a> / <a href="https://testerhome.com/topics/7509?locale=en" rel="nofollow">English</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3 friends">
+    <a href="http://www.ucloud.cn/?utm_source=zanzhu&amp;utm_campaign=testerhome&amp;utm_medium=display&amp;utm_content=yejiao&amp;ytag=testerhome_logo" target="_blank" rel="twipsy" style="display:inline-block;margin-right:5px;" data-original-title="本站服务器由 Ucloud 赞助"><img src="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/4ce97c93f9433f654884c4839408327a.png" style="height:28px"></a>
+
+    <a href="http://www.sendcloud.net/" target="_blank" rel="twipsy" style="display:inline-block;margin-right:5px;" data-original-title="邮件服务由 SendCloud 赞助"><img src="[%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93]%20nf_conntrack%20%20table%20full,%20dropping%20packet%20%C2%B7%20TesterHome_files/0f9fb5db-2472-4430-9f7e-6c051f28c3c9.png" style="height:28px"></a>
+
+  </div>
+</div>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https'){
+   bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+  bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+    </div>
+  </footer>
+
+  <script type="text/javascript" data-turbolinks-eval="false">
+    App.root_url = "https://testerhome.com/";
+    App.asset_url = "";
+    App.twemoji_url = "https://twemoji.b0.upaiyun.com/2";
+    App.locale = "zh-CN";
+  </script>
+    <script type="text/javascript">
+    Topics.topic_id = 7509;
+    $(document).ready(function(){
+
+    })
+  </script>
+
+  <script>
+    ga('create', 'UA-45014075-1', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+  </script>
+  <div class="zoom-overlay"></div>
+
+
+</body></html>

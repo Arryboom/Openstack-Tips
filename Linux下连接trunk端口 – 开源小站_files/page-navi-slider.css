@@ -1,0 +1,38 @@
+/* Page nav slide styles */
+.wpns_wrapper *:focus {outline:0;}
+.wpns_wrapper { margin: 0; padding: 0; }
+.wpns_container { margin: 0; padding: 0; }
+.wpns_selector { margin: 0 auto; padding: 0; }
+.wpns_title { margin: 0.417em 0; }
+.wpns_window { border: 0; margin: 0 0 0.417em 0; padding: 0; overflow: hidden; }
+.wpns_sliding_list { display: block; margin: 0px; padding: 0px; }
+.wpns_selector .page-numbers { display: inline-block; text-align: center; margin: 0; padding: 0; }
+.wpns_selector .wpns_element { list-style-type: none; display: inline-block; padding: 1px; } /* CAUTION - KEEP PADDING IN PX - A padding in em will occur an offset in the margin of the list */
+.wpns_selector .wpns_element a { text-decoration: none; display: inline-block; }
+/* WP Options styles */ 
+.wpns_setting_table th { width: 40%; }
+.wpns_setting_table tr, .wpns_setting_table td { margin: 0; padding: 0.833em; }
+.wpns_setting_small, .wpns_setting_table input[type=text], .wpns_setting_table select { font-size: 0.887em; }
+.wpns_setting_buttons .submit	{ margin: 0; padding: 0; }
+.wpns_settings_page { max-width: 68em; }
+#wpns_resizable{ border : 1px dotted #C4C4C4; border-right : 3px double #000; }
+#setting-error-wpns_setting_message { max-width: 68em; margin: 1em 0 0 0; padding: 0; }
+#setting-error-wpns_setting_message p{ margin: 0; padding: 1em; }
+/* jQuery ui styles */
+.wpns_selector .ui-corner-all, .wpns_selector .ui-corner-bottom, .wpns_selector .ui-corner-right, .wpns_selector .ui-corner-br { border-bottom-right-radius: 4px; }
+.wpns_selector .ui-corner-all, .ui-corner-bottom, .wpns_selector .ui-corner-left, .wpns_selector .ui-corner-bl { border-bottom-left-radius: 4px; }
+.wpns_selector .ui-corner-all, .wpns_selector .ui-corner-top, .wpns_selector .ui-corner-right, .wpns_selector .ui-corner-tr { border-top-right-radius: 4px; }
+.wpns_selector .ui-corner-all, .wpns_selector .ui-corner-top, .wpns_selector .ui-corner-left, .wpns_selector .ui-corner-tl { border-top-left-radius: 4px; }
+.wpns_selector .ui-widget-content { background: 50% 50% #FFFFFF; border: 1px solid #AAAAAA; color: #222222; }
+.wpns_selector .ui-widget { font-family: Verdana,Arial,sans-serif; font-size: .8em; }
+.wpns_selector .ui-slider-horizontal { height: 0.8em; }
+.wpns_selector .ui-slider { position: relative; text-align: left; }
+.wpns_selector .ui-state-default, .wpns_selector .ui-widget-content .ui-state-default, .wpns_selector .ui-widget-header .ui-state-default { background: 50% 50% #E6E6E6; border: 1px solid #D3D3D3; color: #555555; font-weight: normal; }
+.wpns_selector .ui-slider-horizontal .ui-slider-handle { margin-left: -0.6em; top: -0.3em; }
+.wpns_selector .ui-slider .ui-slider-handle { cursor: default; height: 1.2em; position: absolute; width: 1.2em; z-index: 2; }
+.wpns_selector .ui-state-default, .wpns_selector .ui-widget-content .ui-state-default, .wpns_selector .ui-widget-header .ui-state-default { background: 50% 50% #E6E6E6; border: 1px solid #D3D3D3; color: #555555; font-weight: normal; }
+.wpns_selector .ui-state-default a, .wpns_selector .ui-state-default a:link, .wpns_selector .ui-state-default a:visited { color: #555555; text-decoration: none; }
+.wpns_selector .ui-state-hover, .wpns_selector .ui-widget-content .ui-state-hover, .wpns_selector .ui-widget-header .ui-state-hover, .wpns_selector .ui-state-focus, .wpns_selector .ui-widget-content .ui-state-focus, .wpns_selector .ui-widget-header .ui-state-focus { background: 50% 50% #DADADA; border: 1px solid #999999; color: #212121; font-weight: normal; }
+.wpns_selector .ui-state-hover a, .wpns_selector .ui-state-hover a:hover, .wpns_selector .ui-state-hover a:link, .wpns_selector .ui-state-hover a:visited { color: #212121; text-decoration: none; }
+.wpns_selector .ui-state-active, .wpns_selector .ui-widget-content .ui-state-active, .wpns_selector .ui-widget-header .ui-state-active { background: 50% 50% #FFFFFF; border: 1px solid #AAAAAA; color: #212121; font-weight: normal; }
+.wpns_selector .ui-state-active a, .wpns_selector .ui-state-active a:link, .wpns_selector .ui-state-active a:visited { color: #212121; text-decoration: none; }

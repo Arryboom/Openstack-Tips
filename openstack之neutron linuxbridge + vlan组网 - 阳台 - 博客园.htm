@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>openstack之neutron linuxbridge + vlan组网 - 阳台 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-AnotherEon001.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-AnotherEon001-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/chris-cp/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/chris-cp/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/chris-cp/wlwmanifest.xml">
+<script async="" src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'chris-cp', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+<a name="top"></a>
+
+<div id="wrapper">
+<div id="header">
+
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/chris-cp/">阳台</a></h1>
+<div id="subtitle">既然选择远行，便只顾风雨兼程!</div>
+</div>
+<div id="sub"><div id="blog_stats">
+<div class="BlogStats">随笔 - 521, 文章 - 0, 评论 - 32, 引用 - 0</div>
+</div></div>
+
+
+
+</div>
+<div id="main_container">
+<div id="main_content">
+<div id="content">
+	
+<div id="post_detail">
+	<div class="post">
+		<h2>
+			<a id="cb_post_title_url" href="http://www.cnblogs.com/chris-cp/p/5508140.html">openstack之neutron linuxbridge + vlan组网</a>
+		</h2>
+		<div class="postbody">
+		<div id="cnblogs_post_body" class="blogpost-body"><div>linuxbridge是和linuxbridge plugin匹配的core agent，主要实现L2层的功能和security group的功能。security group的功能逐渐会被<strong>neutron</strong> firewall取代。</div>
+<div>linuxbridge的启动命令在linuxbridge_<strong>neutron</strong>_agent.py中；启动的时候需要提供<strong>neutron</strong>.conf和linuxbridge_conf.ini配置文件</div>
+<div><strong>主要配置项：</strong></div>
+<div>&nbsp;</div>
+<div>　　linuxbridge_conf.ini</div>
+<div>　　[vlans]</div>
+<div>　　network_vlan_ranges = physnet1,physnet2:1000:2999</div>
+<div>　　tenant_network_type=vlan</div>
+<div>　　[linux_bridge]</div>
+<div>　　physical_interface_mappings = physnet1:eth0, physnet2:eth1</div>
+<div>　　其中physnet1和physnet2表示该节点可用的物理网络名字(physical network, 名字可以随便定义)，physical_interface_mappings用来把名字和该网络使用的物理网卡对应起来。</div>
+<h4>physical_interface_mappings的作用：</h4>
+<p>　　physical_interface_mappings是linuxbridge中最重要的配置项，用来定义节点中的物理网络，可以有多个。
+openstack中的节点(按功能不同，可分为计算节点，dhcp节点，L3节点等)通过物理网络实现互联。这个物理网络用来实现<strong>neutron</strong>中定义的虚拟网络拓扑，和openstack的管理网络不是一个，是不同的概念。</p>
+<p>　　虚拟网络的流量需要通过物理网络承载，而物理网络其实就是该节点上的网卡。在linuxbridge实现中，每个网络对应一个<strong>bridge</strong>，每个网络又会有一个物理网络(provider:physical_network属性)来承载，与该物理网络对应的网卡(physical_interface_mappings中配置，如physnet1对应eth1),会被加入这个<strong>bridge</strong>中，这样该网络就可以和外部系统通信了。</p>
+<p>　　如果虚拟机中需要和外网相连(访问Internet)，需要在L3节点(负责路由功能)上配置可以访问外部的物理网络，然后创建一个
+provider网络 和这个物理网络对应起来。把该provider网络和需要访问外网的虚拟机所在网络加入同一个路由器，即可实现访问外网的功能；</p>
+<p>　例子：创建provider网络，public01是该网络的名字，physnet1是物理网络的名字。physical_interface_mappings需要配置physnet1对应的物理网卡，如eth0。</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">1</span> $neutron router-<span style="color: #000000;">create router01
+</span><span style="color: #008080;">2</span> $ neutron net-create --tenant-<span style="color: #000000;">id $tenant public01 \
+</span><span style="color: #008080;">3</span>           --<span style="color: #000000;">provider:network_type flat \
+</span><span style="color: #008080;">4</span>           --<span style="color: #000000;">provider:physical_network physnet1 \
+</span><span style="color: #008080;">5</span>           --router:external=<span style="color: #000000;">True
+</span><span style="color: #008080;">6</span> $ neutron subnet-create --tenant-id $tenant --<span style="color: #000000;">name public01_subnet01 \
+</span><span style="color: #008080;">7</span>           --gateway <span style="color: #800080;">10.64</span>.<span style="color: #800080;">201.254</span> public01 <span style="color: #800080;">10.64</span>.<span style="color: #800080;">201.0</span>/<span style="color: #800080;">24</span> --disable-<span style="color: #000000;">dhcp
+</span><span style="color: #008080;">8</span> $ neutron router-gateway-<span style="color: #0000ff;">set</span> router01 public01</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>　　创建可访问外网的网络net01(<strong>vlan</strong>类型)，该网络的物理网络是physnet2。physical_interface_mappings需要配置physnet2对应的物理网卡，如eth1。</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>$ neutron net-create --tenant-<span style="color: #000000;">id $tenant net01 \
+          </span>--<span style="color: #000000;">provider:network_type vlan \
+          </span>--<span style="color: #000000;">provider:physical_network physnet2 \
+          </span>--provider:segmentation_id <span style="color: #800080;">101</span><span style="color: #000000;">
+$ neutron subnet</span>-create --tenant-id $tenant --<span style="color: #000000;">name net01_subnet01 net01
+</span><span style="color: #800080;">192.168</span>.<span style="color: #800080;">101.0</span>/<span style="color: #800080;">24</span><span style="color: #000000;">
+$ neutron router</span>-<span style="color: #0000ff;">interface</span>-add router01 net01_subnet01</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>　　创建另外一个可访问外网的网络net02</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>$ neutron net-create --tenant-<span style="color: #000000;">id $tenant net02 \
+          </span>--<span style="color: #000000;">provider:network_type vlan \
+          </span>--<span style="color: #000000;">provider:physical_network physnet2 \
+          </span>--provider:segmentation_id <span style="color: #800080;">102</span><span style="color: #000000;">
+$ neutron subnet</span>-create --tenant-id $tenant --<span style="color: #000000;">name net02_subnet01 net02
+</span><span style="color: #800080;">192.168</span>.<span style="color: #800080;">102.0</span>/<span style="color: #800080;">24</span><span style="color: #000000;">
+$ neutron router</span>-<span style="color: #0000ff;">interface</span>-add router01 net02_subnet01</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>　　这两个网络中的VM就可以访问外网，通过SNAT方式。如果需要外部网络直接访问VM，需要给VM分配一个floating IP地址。</p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/chris-cp/category/630071.html" target="_blank">openstack</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5508140,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('1ba02dac-3e69-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/chris-cp/" target="_blank"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20160623153720.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/chris-cp/">阳台</a><br>
+            <a href="http://home.cnblogs.com/u/chris-cp/followees">关注 - 5</a><br>
+            <a href="http://home.cnblogs.com/u/chris-cp/followers">粉丝 - 40</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('1ba02dac-3e69-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5508140,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(5508140,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/chris-cp/p/5481052.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/chris-cp/p/5481052.html" title="发布于2016-05-11 10:38">ceph journal设置为独立分区</a><br><a href="http://www.cnblogs.com/chris-cp/p/5535569.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/chris-cp/p/5535569.html" title="发布于2016-05-27 17:51">ceph rbd 浅析</a><br></div>
+</div>
+
+
+		</div>
+		<p class="postfoot">
+			posted on <span id="post-date">2016-05-19 11:43</span> <a href="http://www.cnblogs.com/chris-cp/">阳台</a> 阅读(<span id="post_view_count">2309</span>) 评论(<span id="post_comment_count">8</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5508140" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(5508140);return false;">收藏</a>
+		</p>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=172217,cb_entryId=5508140,cb_blogApp=currentBlogApp,cb_blogUserGuid='1ba02dac-3e69-e311-8d02-90b11c0b17d6',cb_entryCreatedDate='2016/5/19 11:43:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+	</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<a name="评论"></a>
+<div id="comments">
+<h3>评论</h3>
+	
+	
+			<div class="post">
+				<h2>
+					<a href="#3596560" class="layer">#1楼</a><a name="3596560" id="comment_anchor_3596560"></a>
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</h2>
+				<div id="comment_body_3596560" class="blog_comment_body">楼主好：<br>我按照官方文档安装的mitaka版，<br>所以外部网络使用的是DHCPflat，<br>我想请教个问题：<br>能否使用vlan代替DHCPflat，对应私有的vxlan，<br>如果能，该如何配置呢？<br>请不吝赐教！<br>十分感谢！！！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3596560,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3596560,'Bury',this)">反对(0)</a></div>
+				<div class="postfoot">
+					 <span class="comment_date">2017-01-05 08:52</span> | <a id="a_comment_author_3596560" href="http://home.cnblogs.com/u/1090899/" target="_blank">云菜鸟</a> <a href="http://msg.cnblogs.com/send/%E4%BA%91%E8%8F%9C%E9%B8%9F" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a href="#3601525" class="layer">#2楼</a><a name="3601525" id="comment_anchor_3601525"></a>[<span class="louzhu">楼主</span>]
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</h2>
+				<div id="comment_body_3601525" class="blog_comment_body"><a href="#3596560" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3596560);">@</a>
+云菜鸟<br>当然没有问题的，<br>配置下/etc/neutron/plugin.ini中的ml2 section<br>以及/etc/neutron/plugins/ml2/ml2_conf.ini 以及/etc/neutron/plugins/ml2/linuxbridge_agent.ini</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3601525,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3601525,'Bury',this)">反对(0)</a></div><span id="comment_3601525_avatar" style="display:none;">http://pic.cnblogs.com/face/593225/20160623153720.png</span>
+				<div class="postfoot">
+					 <span class="comment_date">2017-01-11 15:06</span> | <a id="a_comment_author_3601525" href="http://www.cnblogs.com/chris-cp/" target="_blank">阳台</a> <a href="http://msg.cnblogs.com/send/%E9%98%B3%E5%8F%B0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a href="#3601530" class="layer">#3楼</a><a name="3601530" id="comment_anchor_3601530"></a>
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</h2>
+				<div id="comment_body_3601530" class="blog_comment_body">谢谢，其实我的需求是建多个外网vlan，且对应一个物理网卡<br>我查了一些资料，结果是：在一块物理网卡上建立多个子网卡，<br>用子网卡来建外部vlan网，听起来好绕。<br>这样对不对？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3601530,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3601530,'Bury',this)">反对(0)</a></div>
+				<div class="postfoot">
+					 <span class="comment_date">2017-01-11 15:10</span> | <a id="a_comment_author_3601530" href="http://home.cnblogs.com/u/1090899/" target="_blank">云菜鸟</a> <a href="http://msg.cnblogs.com/send/%E4%BA%91%E8%8F%9C%E9%B8%9F" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a href="#3601534" class="layer">#4楼</a><a name="3601534" id="comment_anchor_3601534"></a>[<span class="louzhu">楼主</span>]
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</h2>
+				<div id="comment_body_3601534" class="blog_comment_body"><a href="#3601530" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3601530);">@</a>
+云菜鸟<br>感觉你有些概念不清晰；<br>配置成vlan之后，就可以划分多个vlan</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3601534,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3601534,'Bury',this)">反对(0)</a></div><span id="comment_3601534_avatar" style="display:none;">http://pic.cnblogs.com/face/593225/20160623153720.png</span>
+				<div class="postfoot">
+					 <span class="comment_date">2017-01-11 15:13</span> | <a id="a_comment_author_3601534" href="http://www.cnblogs.com/chris-cp/" target="_blank">阳台</a> <a href="http://msg.cnblogs.com/send/%E9%98%B3%E5%8F%B0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a href="#3601538" class="layer">#5楼</a><a name="3601538" id="comment_anchor_3601538"></a>
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</h2>
+				<div id="comment_body_3601538" class="blog_comment_body">嗯<br>我理解配置vlan时，每个vlan要对应一块单独的网卡。<br>如：physical_interface_mappings = physnet1:eth0, physnet2:eth1<br>这样是可以的，<br>我想一块网卡，多个外部vlan<br></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3601538,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3601538,'Bury',this)">反对(0)</a></div>
+				<div class="postfoot">
+					 <span class="comment_date">2017-01-11 15:16</span> | <a id="a_comment_author_3601538" href="http://home.cnblogs.com/u/1090899/" target="_blank">云菜鸟</a> <a href="http://msg.cnblogs.com/send/%E4%BA%91%E8%8F%9C%E9%B8%9F" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a href="#3601541" class="layer">#6楼</a><a name="3601541" id="comment_anchor_3601541"></a>[<span class="louzhu">楼主</span>]
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</h2>
+				<div id="comment_body_3601541" class="blog_comment_body"><a href="#3601538" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3601538);">@</a>
+云菜鸟<br>一个网卡可以跑多个vlan</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3601541,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3601541,'Bury',this)">反对(0)</a></div><span id="comment_3601541_avatar" style="display:none;">http://pic.cnblogs.com/face/593225/20160623153720.png</span>
+				<div class="postfoot">
+					 <span class="comment_date">2017-01-11 15:17</span> | <a id="a_comment_author_3601541" href="http://www.cnblogs.com/chris-cp/" target="_blank">阳台</a> <a href="http://msg.cnblogs.com/send/%E9%98%B3%E5%8F%B0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a href="#3601543" class="layer">#7楼</a><a name="3601543" id="comment_anchor_3601543"></a>
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</h2>
+				<div id="comment_body_3601543" class="blog_comment_body">谢谢，<br>在物理交换机上vlan需要什么设置，<br>有没有参考文档提供一份</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3601543,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3601543,'Bury',this)">反对(0)</a></div>
+				<div class="postfoot">
+					 <span class="comment_date">2017-01-11 15:19</span> | <a id="a_comment_author_3601543" href="http://home.cnblogs.com/u/1090899/" target="_blank">云菜鸟</a> <a href="http://msg.cnblogs.com/send/%E4%BA%91%E8%8F%9C%E9%B8%9F" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+				</div>
+			</div>
+		
+			<div class="post">
+				<h2>
+					<a href="#3601544" class="layer">#8楼</a><a name="3601544" id="comment_anchor_3601544"></a>[<span class="louzhu">楼主</span>]<span id="comment-maxId" style="display:none;">3601544</span><span id="comment-maxDate" style="display:none;">2017/1/11 15:22:22</span>
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</h2>
+				<div id="comment_body_3601544" class="blog_comment_body"><a href="#3601543" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3601543);">@</a>
+云菜鸟<br>划vlan</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3601544,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3601544,'Bury',this)">反对(0)</a></div><span id="comment_3601544_avatar" style="display:none;">http://pic.cnblogs.com/face/593225/20160623153720.png</span>
+				<div class="postfoot">
+					 <span class="comment_date">2017-01-11 15:22</span> | <a id="a_comment_author_3601544" href="http://www.cnblogs.com/chris-cp/" target="_blank">阳台</a> <a href="http://msg.cnblogs.com/send/%E9%98%B3%E5%8F%B0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+				</div>
+			</div>
+		
+</div>
+<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.766790.766790.766790" target="_blank">【推荐】微信小程序一站式部署 多场景模板定制</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/products/spreadjs/?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS2&amp;utm_campaign=community" target="_blank"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171206093644566-325426505.png" alt="SpreadJS2_1206" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/589349/" target="_blank">快播王欣刚刚出狱|知情人士：刚洗完澡，理完发</a><br> ·  <a href="https://news.cnblogs.com/n/589364/" target="_blank">重型猎鹰发射的Roadster越过火星轨道 正在前往小行星带</a><br> ·  <a href="https://news.cnblogs.com/n/589361/" target="_blank">国际清算银行总经理：比特币=泡沫+庞氏骗局+环境灾难</a><br> ·  <a href="https://news.cnblogs.com/n/589355/" target="_blank">移动端谷歌搜索再更新：现可直接预订航班和旅馆</a><br> ·  <a href="https://news.cnblogs.com/n/589354/" target="_blank">中消协：网易考拉等海淘商品涉假 部分为电商自营</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br> ·  <a href="http://kb.cnblogs.com/page/585502/" target="_blank">步入云计算</a><br> ·  <a href="http://kb.cnblogs.com/page/531409/" target="_blank">以操作系统的角度述说线程与进程</a><br> ·  <a href="http://kb.cnblogs.com/page/141729/" target="_blank">软件测试转型之路</a><br> ·  <a href="http://kb.cnblogs.com/page/177402/" target="_blank">门内门外看招聘</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"><b>历史上的今天:</b><br>2014-05-19 <a href="http://www.cnblogs.com/chris-cp/p/3737107.html">本地yum源安装GCC</a><br></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+</div>
+</div>
+<div id="leftmenu">
+
+
+<h3>导航</h3>
+<ul>
+<li>
+<a id="blog_nav_sitehome" href="http://www.cnblogs.com/">博客园</a></li>
+<li>
+<a id="blog_nav_myhome" class="two_words" href="http://www.cnblogs.com/chris-cp/">首页</a></li>
+<li>
+<a id="blog_nav_newpost" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li>
+<a id="blog_nav_contact" accesskey="9" class="two_words" rel="nofollow" href="https://msg.cnblogs.com/send/%E9%98%B3%E5%8F%B0">联系</a></li>
+<li>
+<a id="blog_nav_rss" class="two_words" href="http://www.cnblogs.com/chris-cp/rss">订阅</a>
+<a id="blog_nav_rss_image" href="http://www.cnblogs.com/chris-cp/rss"><img src="openstack%E4%B9%8Bneutron%20linuxbridge%20+%20vlan%E7%BB%84%E7%BD%91%20-%20%E9%98%B3%E5%8F%B0%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a>
+</li>
+<li>
+<a id="blog_nav_admin" class="two_words" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+
+<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/01/01');return false;">&lt;</a></td><td align="center">2018年2月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/03/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td class="CalTodayDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+<meta name="vs_showGrid" content="False">
+
+<h3>公告</h3>
+<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/chris-cp/">阳台</a><br>园龄：<a href="https://home.cnblogs.com/u/chris-cp/" title="入园时间：2013-12-20">4年1个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/chris-cp/followers/">40</a><br>关注：<a href="https://home.cnblogs.com/u/chris-cp/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('1ba02dac-3e69-e311-8d02-90b11c0b17d6')">+加关注</a></div><script>getFollowStatus('1ba02dac-3e69-e311-8d02-90b11c0b17d6')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+
+<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/chris-cp/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/chris-cp/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/chris-cp/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/chris-cp/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/chris-cp/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+		<h3>随笔分类</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/chris-cp/category/583806.html"> Operating Systems(8)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/chris-cp/category/633249.html">《C Primer Plus》读书笔记(3)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/chris-cp/category/599594.html">《C语言设计语言》读书笔记(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/chris-cp/category/590595.html">《Debug  Hacks》读书笔记(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/chris-cp/category/590125.html">《征服c指针》读书笔记(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/chris-cp/category/1078336.html">AI 之 ML(9)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/chris-cp/category/557461.html">Algorithm(6)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/chris-cp/category/593678.html">Android</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/chris-cp/category/542370.html">C(19)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/chris-cp/category/555409.html">C++(30)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/chris-cp/category/690758.html">C++之STL(17)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/chris-cp/category/684701.html">ceph(64)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/chris-cp/category/602480.html">cortex之STM32(23)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/chris-cp/category/599897.html">DATA STRUCT(11)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/chris-cp/category/735589.html">docker(11)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/chris-cp/category/948905.html">elk分布式日志分析系统(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_16" href="http://www.cnblogs.com/chris-cp/category/629081.html">golang(15)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_17" href="http://www.cnblogs.com/chris-cp/category/725480.html">hadoop(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_18" href="http://www.cnblogs.com/chris-cp/category/637441.html">ICE架构(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_19" href="http://www.cnblogs.com/chris-cp/category/991717.html">IO协议栈(scsi·nvme）</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_20" href="http://www.cnblogs.com/chris-cp/category/593677.html">JAVA(2)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_21" href="http://www.cnblogs.com/chris-cp/category/1127042.html">keras</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_22" href="http://www.cnblogs.com/chris-cp/category/878088.html">kubernetes（k8s）(7)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_23" href="http://www.cnblogs.com/chris-cp/category/542368.html">linux(56)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_24" href="http://www.cnblogs.com/chris-cp/category/585162.html">Linux调试之GDB(5)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_25" href="http://www.cnblogs.com/chris-cp/category/550045.html">linux工具之vim(10)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_26" href="http://www.cnblogs.com/chris-cp/category/546977.html">linux之network编程(11)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_27" href="http://www.cnblogs.com/chris-cp/category/663982.html">linux之网络(3)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_28" href="http://www.cnblogs.com/chris-cp/category/554992.html">linux之系统编程(8)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_29" href="http://www.cnblogs.com/chris-cp/category/597859.html">Makefile(4)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_30" href="http://www.cnblogs.com/chris-cp/category/542369.html">mysql(10)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_31" href="http://www.cnblogs.com/chris-cp/category/630071.html">openstack(22)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_32" href="http://www.cnblogs.com/chris-cp/category/564959.html">protobuf(2)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_33" href="http://www.cnblogs.com/chris-cp/category/568311.html">python(34)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_34" href="http://www.cnblogs.com/chris-cp/category/632928.html">shell(7)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_35" href="http://www.cnblogs.com/chris-cp/category/597608.html">TCP/IP(7)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_36" href="http://www.cnblogs.com/chris-cp/category/579943.html">面试(6)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_37" href="http://www.cnblogs.com/chris-cp/category/584817.html">人生感悟(9)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_38" href="http://www.cnblogs.com/chris-cp/category/984687.html">微信小程序及公众平台(4)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_39" href="http://www.cnblogs.com/chris-cp/category/629022.html">云计算(9)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_40" href="http://www.cnblogs.com/chris-cp/category/555511.html">正则表达式(2)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_41" href="http://www.cnblogs.com/chris-cp/category/576830.html">字符编码(2)</a></li>
+			
+				</ul>
+			
+	
+		<h3>随笔档案</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/chris-cp/archive/2018/01.html">2018年1月 (4)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/chris-cp/archive/2017/12.html">2017年12月 (8)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/chris-cp/archive/2017/11.html">2017年11月 (2)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/chris-cp/archive/2017/10.html">2017年10月 (11)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/chris-cp/archive/2017/09.html">2017年9月 (8)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/chris-cp/archive/2017/08.html">2017年8月 (4)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/chris-cp/archive/2017/07.html">2017年7月 (3)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/chris-cp/archive/2017/06.html">2017年6月 (5)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/chris-cp/archive/2017/05.html">2017年5月 (7)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/chris-cp/archive/2017/04.html">2017年4月 (12)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/chris-cp/archive/2017/03.html">2017年3月 (2)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/chris-cp/archive/2017/02.html">2017年2月 (5)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/chris-cp/archive/2017/01.html">2017年1月 (6)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/chris-cp/archive/2016/12.html">2016年12月 (6)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/chris-cp/archive/2016/11.html">2016年11月 (9)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/chris-cp/archive/2016/10.html">2016年10月 (4)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/chris-cp/archive/2016/09.html">2016年9月 (13)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/chris-cp/archive/2016/08.html">2016年8月 (5)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/chris-cp/archive/2016/07.html">2016年7月 (6)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/chris-cp/archive/2016/06.html">2016年6月 (4)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/chris-cp/archive/2016/05.html">2016年5月 (3)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/chris-cp/archive/2016/04.html">2016年4月 (5)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/chris-cp/archive/2016/03.html">2016年3月 (8)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/chris-cp/archive/2016/02.html">2016年2月 (7)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/chris-cp/archive/2016/01.html">2016年1月 (9)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/chris-cp/archive/2015/12.html">2015年12月 (10)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/chris-cp/archive/2015/11.html">2015年11月 (11)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_27" href="http://www.cnblogs.com/chris-cp/archive/2015/10.html">2015年10月 (11)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_28" href="http://www.cnblogs.com/chris-cp/archive/2015/09.html">2015年9月 (16)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_29" href="http://www.cnblogs.com/chris-cp/archive/2015/08.html">2015年8月 (12)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_30" href="http://www.cnblogs.com/chris-cp/archive/2015/07.html">2015年7月 (25)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_31" href="http://www.cnblogs.com/chris-cp/archive/2015/06.html">2015年6月 (19)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_32" href="http://www.cnblogs.com/chris-cp/archive/2015/05.html">2015年5月 (17)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_33" href="http://www.cnblogs.com/chris-cp/archive/2015/04.html">2015年4月 (5)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_34" href="http://www.cnblogs.com/chris-cp/archive/2015/03.html">2015年3月 (17)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_35" href="http://www.cnblogs.com/chris-cp/archive/2015/02.html">2015年2月 (7)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_36" href="http://www.cnblogs.com/chris-cp/archive/2015/01.html">2015年1月 (7)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_37" href="http://www.cnblogs.com/chris-cp/archive/2014/12.html">2014年12月 (11)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_38" href="http://www.cnblogs.com/chris-cp/archive/2014/11.html">2014年11月 (11)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_39" href="http://www.cnblogs.com/chris-cp/archive/2014/10.html">2014年10月 (6)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_40" href="http://www.cnblogs.com/chris-cp/archive/2014/09.html">2014年9月 (15)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_41" href="http://www.cnblogs.com/chris-cp/archive/2014/08.html">2014年8月 (37)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_42" href="http://www.cnblogs.com/chris-cp/archive/2014/07.html">2014年7月 (24)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_43" href="http://www.cnblogs.com/chris-cp/archive/2014/06.html">2014年6月 (21)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_44" href="http://www.cnblogs.com/chris-cp/archive/2014/05.html">2014年5月 (24)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_45" href="http://www.cnblogs.com/chris-cp/archive/2014/04.html">2014年4月 (11)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_46" href="http://www.cnblogs.com/chris-cp/archive/2014/03.html">2014年3月 (13)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_47" href="http://www.cnblogs.com/chris-cp/archive/2014/02.html">2014年2月 (4)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_48" href="http://www.cnblogs.com/chris-cp/archive/2014/01.html">2014年1月 (22)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_49" href="http://www.cnblogs.com/chris-cp/archive/2013/12.html">2013年12月 (9)</a></li>
+			
+				</ul>
+			
+	</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/chris-cp/p/4688375.html#3901551">1. Re:linux下TUN/TAP虚拟网卡的使用</a></li>
+        <li class="recent_comment_body">看到文中的图片，网卡驱动程序不应该是在协议栈下方吗？</li>
+        <li class="recent_comment_author">--小鸟大鸟</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/chris-cp/p/4843407.html#3879484">2. Re:linux搭建邮件服务器</a></li>
+        <li class="recent_comment_body">不知道有没有人试过postfix的docker容器</li>
+        <li class="recent_comment_author">--CQ-Coder</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/chris-cp/p/4843407.html#3774641">3. Re:linux搭建邮件服务器</a></li>
+        <li class="recent_comment_body">登录Foxmail，<br>两张图地址不存在</li>
+        <li class="recent_comment_author">--小Ⅱ</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/chris-cp/p/4843407.html#3760394">4. Re:linux搭建邮件服务器</a></li>
+        <li class="recent_comment_body">请问，登陆账号密码是Linux服务器的登陆名和密码吗？</li>
+        <li class="recent_comment_author">--烈日炎炎</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/chris-cp/p/4843407.html#3757939">5. Re:linux搭建邮件服务器</a></li>
+        <li class="recent_comment_body">@阳台 我按照你的方法搭建完了，内网两个用户之间foxmail互发邮件都收不到，是为什么？<br>但我给163邮箱发了一封倒是收到了<br>还有就是没有继续了吗web的管理和web页面邮箱还没有呢</li>
+        <li class="recent_comment_author">--千里草的黎明</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/chris-cp/p/5766153.html">1. k8s 集群基本概念(25533)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/4843407.html">2. linux搭建邮件服务器(13679)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/5082514.html">3. HTTP的报文格式解析(11586)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/3792907.html">4. python下使用protobuf(9165)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/3961508.html">5. stm32之CAN发送、接收详解(7363)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/chris-cp/p/4843407.html">1. linux搭建邮件服务器(17)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/5508140.html">2. openstack之neutron linuxbridge + vlan组网(8)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/5053380.html">3. stl之map 排序(2)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/3900766.html">4. MDK常见错误详解集合(2)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/6952262.html">5. openstack nova 深入(2)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/chris-cp/p/3674768.html">1. linux sar 命令详解(1)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/3806665.html">2. c基础知识复习(1)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/4287690.html">3. 解决screen Cannot open your terminal '/dev/pts/1'问题(1)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/4117156.html">4. C Primer Plus 读书笔记之C基础回顾(1)</a></li><li><a href="http://www.cnblogs.com/chris-cp/p/5827069.html">5. ceph之throttle（io限流）(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+
+<p id="footer">
+	Powered by: 
+	<br>
+	
+	<a id="Footer1_Hyperlink3" name="Hyperlink1" href="http://www.cnblogs.com/" style="font-family:Verdana;font-size:12px;">博客园</a>
+	<br>
+	Copyright © 阳台
+</p>
+</div>
+</div>
+
+
+
+</body></html>

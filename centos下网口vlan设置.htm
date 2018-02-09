@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head id="Head1"><style id="znBdcsStyle" type="text/css">.bdcs-container .bdcs-main,.bdcs-container .bdcs-main *{box-sizing:content-box;margin:0;padding:0;float:none;clear:none;overflow:hidden;white-space:nowrap;word-wrap:normal;border:0;background:0 0;width:auto;height:auto;max-width:none;min-width:none;max-height:none;min-height:none;border-radius:0;box-shadow:none;transition:none;text-align:left}.bdcs-container .bdcs-clearfix:after{content:'';display:block;clear:both;height:0}.bdcs-container .bdcs-clearfix{zoom:1}.bdcs-container .bdcs-main{overflow:visible}.bdcs-container .bdcs-search{display:block;overflow:visible;position:relative;border-style:solid}.bdcs-container .bdcs-search-form-input-wrap{display:inline-block}.bdcs-container .bdcs-search-form-input{border-width:1px;border-style:solid;display:inline-block;vertical-align:top;text-indent:5px;background-color:#fff;float:left}.bdcs-container .bdcs-search-form-input:focus{border-width:1px;border-style:solid;outline:0}.bdcs-container .bdcs-search-form-submit-wrap{display:inline-block}.bdcs-container .bdcs-search-form-submit{display:inline-block;cursor:pointer;border-width:1px;border-style:solid;vertical-align:top;text-align:center;width:50px;//_overflow:hidden}.bdcs-container .bdcs-search-form-submit-magnifier{width:45px;padding:0;text-indent:-999em;overflow:hidden;background:url(http://znsv.baidu.com/static/customer-search/component/search/magnifier-icon.png) no-repeat center center;_background:url(http://znsv.baidu.com/static/customer-search/component/search/magnifier-icon_ie6.png) no-repeat center center}div#default-searchbox .default-channel-meun{position:relative;width:75px;display:inline-block;vertical-align:middle;cursor:pointer;background:#fff;float:left;overflow:visible}div#default-searchbox .default-channel-current{border:1px solid;position:relative;width:100%;border-right:0}div#default-searchbox .default-channel-current span{margin-left:8px}div#default-searchbox .default-channel-current i{overflow:hidden;width:0;height:0;border-width:6px 6px 0;border-color:#9E9E9E #fff;border-style:solid;display:block;position:absolute;right:10px;top:11px}div.cse-default-channel-container{display:block;position:absolute;z-index:30061000000}div.cse-default-channel-container .default-channel-list{display:none;width:99%;list-style:none;background:#fff;border:1px solid #DDD;border-top:0;margin:0;padding:0}div.cse-default-channel-container .default-channel-list li{background:0 0;line-height:24px;list-style:none;display:block;padding-left:7px;cursor:pointer}div.cse-default-channel-container .default-channel-list li:hover{background:#DDD}.bdcs-container .bdcs-search-form-input-wrap{}.bdcs-container .bdcs-search-form-input-notspan{margin-left:0px;font-family:Arial,SimSun,sans-serif;color:#000000;font-size:14px;}.bdcs-container .bdcs-search-form-input .icon-nofocus{left:;right:;top:;height:;width:;}.bdcs-container .bdcs-search{width:299px;height:36px;overflow:hidden;border-color:#1a89ed;border-radius:5px;border-width:2px;box-shadow:none;background-color:none;}.bdcs-container .bdcs-search-form-input{border-color:#ffffff;margin-right:0px;width:246px;height:34px;line-height:34px;font-family:Arial,SimSun,sans-serif;color:#000000;font-size:14px;border-radius:1px;background-color:#FFFFFF;}.bdcs-container .bdcs-search-form-input:focus{border-color:#1a89ed;}.bdcs-container .bdcs-search-form-submit-wrap{}.bdcs-container .bdcs-search-form-submit{border-color:#1c89ea;height:34px;width:50px;background-color:#1c89ea;color:#ffffff;font-family:Arial,SimSun,sans-serif;font-size:14px;border-radius:0px;}.bdcs-container .bdcs-search-form-submit{*height:36px;*margin-top:1px;}.bdcs-container .bdcs-search-form-submit{height:36px;}.bdcs-container .bdcs-search-form-submit{line-height:34px;}.bdcs-container .bdcs-search-form-input{margin-right:-1px;}#bdcs-rec{display:none;}</style><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="keywords" content="码迷,mamicode.com,互联网,软件开发,开源,asp,asp.net,android,apple,jsp,php,Windows,数据库,HTML,JS,CSS,技术文章,游戏,手机相关"><meta name="description" content="如果要使vlan之间进行通信，我们通常会使用三层交换机或者路由器子接口模式来做。Linux上关于VLAN与Cisco交换机中继连接，也是可以实现其互相之间的通信的。环境：RHEL 5.2 最小化安装，物理网卡eth1，作为VLAN交换机连接的Trunk口连接到2960的GigabitEthernet..."><title>
+	centos下网口vlan设置
+</title><link href="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/css.css" type="text/css" rel="stylesheet">
+<script src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/push.js"></script><script type="text/javascript" async="" src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/js"></script><script src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/hm.txt"></script><script src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/mamicode_adload.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?408b7cb341bcbccbc03cf31a305b01dd";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<link rel="stylesheet" type="text/css" href="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/prettify.css">
+    <script type="text/javascript" charset="utf-8" src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/prettify.js"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+<body>
+    <div class="width100bi height23px divbackgroundcolor overflowauto">
+    <div class="width1000px divmargin0auto">
+        <div class="divfloatleft">
+        </div>
+        <div class="divfloatright">
+            <div id="logintopdescription" class="paddingtop3"><a href="http://member.mamicode.com/login.aspx">[登录]</a>&nbsp;&nbsp;<a href="http://member.mamicode.com/reg.aspx">[注册]</a></div>
+        </div>
+    </div>
+</div>
+<div class="width1000px divmargin0auto margintop20bottom20 overflowauto">
+    <div class="width120px divfloatleft">
+        <a href="http://www.mamicode.com/" title="码迷，mamicode.com">
+            <img src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/logo.png" alt="码迷，mamicode.com" width="109" height="60" border="0">
+        </a>
+    </div>
+    <div class="width880px divfloatright">
+        <div class="menuDiv">
+            <ul>
+                <li class="bottomline width10px">&nbsp;</li>
+                <li id="default-aspx" class="title0"><a href="http://www.mamicode.com/" title="码迷，mamicode.com">首页</a></li>
+                <li id="infolist-2" class="title1"><a href="http://www.mamicode.com/info-list-2-1.html" title="Web开发">Web开发</a></li>
+                <li id="infolist-3" class="title1"><a href="http://www.mamicode.com/info-list-3-1.html" title="Windows程序">Windows程序</a></li>
+                <li id="infolist-4" class="title1"><a href="http://www.mamicode.com/info-list-4-1.html" title="编程语言">编程语言</a></li>
+                <li id="infolist-5" class="title1"><a href="http://www.mamicode.com/info-list-5-1.html" title="数据库">数据库</a></li>
+                <li id="infolist-6" class="title1"><a href="http://www.mamicode.com/info-list-6-1.html" title="移动开发">移动开发</a></li>
+                <li id="infolist-8" class="title1"><a href="http://www.mamicode.com/info-list-8-1.html" title="系统相关">系统相关</a></li>
+                <li id="infolist-9" class="title1"><a href="http://www.mamicode.com/info-list-9-1.html" title="微信">微信</a></li>
+                <li id="infolist-11" class="title1"><a href="http://www.mamicode.com/info-list-11-1.html" title="其他好文">其他好文</a></li>
+                <li id="memberhtml" class="title1"><a href="http://www.mamicode.com/member.html" title="会员">会员</a></li>
+                <li class="bottomline width10px">&nbsp;</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">        mamicode_adload('top_menu');</script>
+    <div class="divdaohang">
+        <div class="divtitlefont">
+            <a href="http://www.mamicode.com/" title="码迷首页">首页</a>
+            <span id="lbltitle"> &gt; <a href="http://www.mamicode.com/infolist-11-1.html">其他好文</a> &gt; 详细</span>
+        </div>
+    </div>
+    <div class="divmain">
+        <div class="width70bi divfloatleft" style="min-height: 2000px;">
+            <div class="marginright20">
+                <script type="text/javascript">                    mamicode_adload('title_before');</script>
+                <div class="detailtitle divtextaligncenter divborderbottomdotted">
+                    <h1 id="Htitle" class="detailtitle">centos下网口vlan设置</h1>
+                </div>
+                <div class="detail1 divtextaligncenter">
+                    时间：<span id="Label2" class="colorlv">2015-07-17 17:51:01</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 阅读：<span id="Label1" class="colorCheng">6973</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 评论：<span id="lblcommentcount" class="colorCheng">0</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 收藏：<span id="lblfavorite" class="colorCheng">0</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp; <a id="infofavorite" class="acursorpointer" onclick="infofavorite_click();">[点我收藏+]</a>
+                </div>
+                <script type="text/javascript">                    mamicode_adload('content_before');</script>
+                <div class="detailcontennt">
+                    <span id="Label3"><p>标签：</p><p><span style="font-size: medium;">如果要使vlan之间进行通信，我们通常会使用三层交换机或者路由器子接口模式来做。Linux上关于VLAN与Cisco交换机中继连接，也是可以实现其互相之间的通信的。<br><br>环境：RHEL 5.2 最小化安装，物理网卡eth1，作为VLAN交换机连接的Trunk口连接到2960的GigabitEthernet0/1。而另外一张物理网卡eth0作为上行口，连接其他网络。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cisco 2960，启用VLAN，VLAN的网段规划入下：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VLAN 1：fa0/1 - fa0/6 192.168.1.0/24<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VLAN 2：fa0/7 - fa0/12 192.168.2.0/24<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VLAN 3：fa0/13 - fa0/18 192.168.3.0/24<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VLAN 4：fa0/19 - fa0/24 192.168.4.0/24<br>由于2960支持的802.1q trunk协议对于本征vlan 1 的数据流是不会增加vlan标记的，以及交换机的配置过程，具体可以见本站点其他关于交换机配置介绍<br>可以用 Show interfaces trunk命令查看本征vlan 规划：对于本征vlan我们不增加子接口，直接在物理网卡eth1上绑定IP即可，其他vlan都使用vconfig创建子接口即可。<br><br>一.首先要确认Linux系统内核是否已经支持VLAN功能：<br>当前使用内核以及操作系统版本：<br>[root@happyboy ~]# # lsmod |grep 8021q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //查看系统内核是否支持802.1q协议<br>8021q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 18633 0&nbsp;<br>[root@happyboy ~]# lspci&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //确认网卡驱动是否已经正常加载<br><br>一般来说RH9以后的Linux发行版本，诸如RHEL4、RHEL5、CentOS4、CentOS5都已经默认支持了VLAN的功能。<br></span></p>
+<p><span style="font-size: medium;">二.物理网卡、子网卡、虚拟VLAN网卡的关系：<br>1.物理网卡：物理网卡这里指的是服务器上实际的网络接口设备，这里我服务器上双网卡，在系统中看到的2个物理网卡分别对应是eth0和eth1这两个网络接口。<br><br>2.
+子网卡：子网卡在这里并不是实际上的网络接口设备，但是可以作为网络接口在系统中出现，如eth0:1、eth1:2这种网络接口。它们必须要依赖于物理
+网卡，虽然可以与物理网卡的网络接口同时在系统中存在并使用不同的IP地址，而且也拥有它们自己的网络接口配置文件。但是当所依赖的物理网卡不启用时
+（Down状态）这些子网卡也将一同不能工作。<br><br>3.虚拟VLAN网卡：这些虚拟VLAN网卡也不是实际上的网络接口设备，也可以作为网络
+接口在系统中出现，但是与子网卡不同的是，他们没有自己的配置文件。他们只是通过将物理网加入不同的VLAN而生成的VLAN虚拟网卡。如果将一个物理网
+卡添加到多个VLAN当中去的话，就会有多个VLAN虚拟网卡出现，他们的信息以及相关的VLAN信息都是保存在/proc/net/vlan
+/config这个临时文件中的，而没有独自的配置文件。它们的网络接口名是eth0.1、eth1.2这种名字。</span></p>
+<p><span style="font-size: medium;">注意：当需要启用VLAN虚拟网卡工作的时候，关联的物理网卡网络接口上必须
+没有IP地址的配置信息，并且，这些主物理网卡的子网卡也必须不能被启用和必须不能有IP地址配置信息。这个在网上看到的结论根据我的实际测试结果来看是
+不准确的，物理网卡本身可以绑定IP，并且给本征vlan提供通信网关的功能，但必须是在802.1q下。<br></span></p>
+<p><span style="font-size: medium;">三.规划网络：<br>1.VLAN的划分：<br>Cisco交换机2960上交换机配置不在赘述。<br>RHEL
+ 
+5.2默认内核支持VLAN，并且默认只支持802.1q的中继封装。我们需要对连接Cisco交换机2960的中继接口的eth1进行配置，在上面已经
+说明，对于vlan1本征vlan直接用物理eth1即可。另外，由于网络当中要使用3个VLAN，因此，中继网卡eth1也必须要添加虚拟网卡以及IP
+地址。规划如下：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eth1：192.168.1.1/24<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eth1.2：192.168.2.1/24<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eth1.3：192.168.3.1/24<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eth1.4：192.168.4.1/24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>2.Linux网关转发部分：<br>VLAN
+功能网卡eth1上除其本身外，将被划分成3个VLAN虚拟网卡，通过中继网卡eth1与Cisco交换机2950的VLAN中继端口连接，另外一个物理
+网卡eth0作为上行网络接口。而Linux服务器将在eth1与eth0之间做流量转发，这样VLAN与VLAN之间也实现了数据流的转发，如果不希望
+VLAN之间转发的话，可以通过iptables来进行设定，这里就不再展开iptables了。<br></span></p>
+<p><span style="font-size: medium;">四.在Linux配置VLAN Trunk：<br>由于在Linux上
+eth1要被设定为Trunk与Cisco交换机2960中继连接，因此，网络中有几个VLAN的话，那么中继网卡上也必须要加入多个VLAN才能支持到
+(本征vlan不需要添加，属于本征vlan的端口设置IP同该物理网卡网段，并将网关指向eth1即可，关于eth0和eth1的配置，可以直接编辑配
+置文件 
+/etc/sysconfig/network-scripts/ifcfg-eth0和ifcfg-eth1，或用setup来配置等文本图形工具配
+置)。<br>1.将eth1添加到VLAN 2中：<br>[root@happyboy net]# vconfig add eth1 2<br>WARNING: Could not open /proc/net/vlan/config. Maybe you need to load the 8021q module, or maybe you are not using PROCFS??<br>Added VLAN with VID == 2 to IF -:eth1:-<br>第
+一次添加VLAN虚拟网卡的时候就一定会出现上面的那句提示，原因是因为默认下/proc/net/vlan/config这个专门用来保存VLAN信息
+的文件是没有的。由于第一次添加VLAN网卡，那么这个文件也会被自动建立起来。另外，在/proc/目录下面的文件都是系统的临时文件，因此重新启动后
+必定丢失休息，所以在配置并测试VLAN成功后，可以将一些相关命令添加到rc.local这个启动脚本当中去了。在执行该命令之前可以先到/proc
+/net/目录查看下，并不存在vlan文件夹，执行后会创建一个vlan文件夹，并生成config配置文件，以及对应的虚拟vlan网卡配置文件
+eth1.2等<br>后面的一句<br>Added VLAN with VID == 2 to IF -:eth1:-<br>这里表示已经将eth1网卡添加到了VLAN 2中，并且它在VLAN中的虚拟网卡是eth1.2。</span></p>
+<p><span style="font-size: medium;">2.同样将eth1添加到VLAN 3、4中：<br>[root@happyboy ~]# vconfig add eth1 3<br>Added VLAN with VID == 3 to IF -:eth1:-<br>[root@happyboy ~]# vconfig add eth1 4<br>Added VLAN with VID == 4 to IF -:eth1:-<br><br>4.检查添加的VLAN虚拟网卡信息：<br>[root@happyboy ~]# cat /proc/net/vlan/config&nbsp;<br>--------------------------------------------------<br>VLAN Dev name&nbsp;&nbsp;&nbsp; | VLAN ID<br>Name-Type: VLAN_NAME_TYPE_RAW_PLUS_VID_NO_PAD<br>eth1.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eth1<br>eth1.3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 3 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eth1<br>eth1.4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 4 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eth1<br>虚拟网卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VLANID&nbsp;&nbsp; 归属的主网卡<br>--------------------------------------------------<br>可以看到所有的VLAN虚拟网卡以及它们所归属的主物理网卡。<br></span></p>
+<p><span style="font-size: medium;">五.为VLAN虚拟网卡设定IP地址并且进行启用：<br>[root@happyboy ~]# ifconfig eth1.2 192.168.2.1 up<br>[root@happyboy ~]# ifconfig eth1.3 192.168.3.1 up<br>[root@happyboy ~]# ifconfig eth1.4 192.168.4.1 up<br></span></p>
+<p><span style="font-size: medium;">六.确认Linux系统下的所有网络接口配置：<br>1.重新启动网络服务<br>[root@happyboy ~]# service network restart<br>--------------------------------------------------<br>Shutting
+ down interface 
+eth0:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ [ OK ]<br>Shutting down interface 
+eth1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ [ OK ]<br>Shutting down loopback 
+interface:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ [ OK ]<br>Bringing up loopback 
+interface:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ [ OK ]<br>Bringing up interface 
+eth0:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ [ OK ]<br>Bringing up interface 
+eth1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ [ OK ]<br>--------------------------------------------------<br><br>2.检查Linux系统下的所有网络接口信息：<br>[root@happyboy ~]# ifconfig |more<br>到这里已经基本上将VLAN的主要配置完成了。<br></span></p>
+<p><span style="font-size: medium;">七.简单测试：<br>测试从各个vlan 
+之间的连通性，可以直接在属于各个vlan的交换机端口上连接一台PC，设置其属于对应网段IP，并将网关指向到对应vlan虚拟网卡的IP，会发现与网
+关之间的通信正常，但是vlan之间无法通信，那时因为linux默认不会转发数据，具体介绍可以参考</span><a href="http://www.happyboy.net.cn/article.asp?id=19" target="_blank"><span style="font-size: medium;">http://www.happyboy.net.cn/article.asp?id=19</span></a><span style="font-size: medium;">,直接修改ip_forward值为1即可使vlan之间正常通信<br></span></p>
+<p><span style="font-size: medium;">后续可以：配置iptables进行NAT各个网络接口间转发；配置iptables来限制指定VLAN之间的转发以实现安全性以及优化处理。</span></p>
+<p><span style="font-size: medium;">在上面说过，这些配置信息是写到系统临时文件的，系统重启将会导致配置丢失，我们可以在/etc/rc.local中增加以下语句即可</span></p>
+<p><span style="font-size: medium;">vconfig add eth1 2<br>vconfig add eth1 3<br>vconfig add eth1 4<br>ifconfig eth1.2 192.168.2.1 up<br>ifconfig eth1.3 192.168.3.1 up<br>ifconfig eth1.4 192.168.4.1 up<br>echo ‘1‘ &gt; /proc/sys/net/ipv4/ip_forward<br></span></p>
+<p><span style="font-size: medium;">Vconfig命令的简要说明：<br>vconfig - VLAN 802.1q 配置程序。<br>说明<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+Vconfig程序能够建立VLAN虚拟网卡并且与远程的VLAN设备对接，但是前提是内核首先必须支持VLAN功能。VLAN虚拟网卡是以太网卡上虚拟
+出来的、为了能够在一个物理网络上支持VLAN虚拟网络的虚拟网卡。</span></p>
+<p><span style="font-size: medium;">选项<br>add 物理网卡 VLAN-ID号<br>在指定的物理网卡上虚拟出指定VLAN号的VLAN虚拟网卡。VLAN虚拟网卡名将记录在/proc/net/vlan/config文件中。<br>rem VLAN虚拟网卡<br>删除指定的VLAN虚拟网卡，如果不清楚VLAN虚拟网卡名的话可以到/proc/net/vlan/config文件中查看VLAN虚拟网卡名。<br><br>相关文件<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /proc/net/vlan/config<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /proc/net/vlan/VLAN虚拟网卡</span></p><p><a href="http://www.mamicode.com/info-detail-925100.html" title="centos下网口vlan设置,mamicode.com" style="color:#ffffff" target="_blank">centos下网口vlan设置</a></p><p>标签：</p><p>原文地址：http://www.cnblogs.com/gaohong/p/4655080.html</p></span>
+                </div>
+                <div id="divcomment">
+                    <div>
+                        <div class="divtextaligncenter paddingright2 overflowauto">
+                            <div class="detailcai" id="infono" onclick="infono_click();">
+                                <div class="detailcai1 colorboldlan">
+                                    踩</div>
+                                <div class="detailcai2 colorboldlan">
+                                    (<span id="spanNo">0</span>)</div>
+                            </div>
+                            <div class="detailzan" id="infoyes" onclick="infoyes_click();">
+                                <div class="detailzan1 colorboldHong">
+                                    赞</div>
+                                <div class="detailzan2 colorboldHong">
+                                    (<span id="spanYes">0</span>)</div>
+                            </div>
+                        </div>
+                        <div class="divtextalignright margintop10">
+                            <div class="width100bi paddingleft10right10">
+                                <span id="spanYesContent" class="colorboldHong"></span>&nbsp; <span id="spanNoContent" class="colorboldlan"></span>&nbsp; <span id="spanBadContent" class="colorboldHong">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divtextalignright margintop10">
+                        <span class="detailjubao" id="infobad" onclick="infobad_click();">举报</span>
+                    </div>
+                    <script data-cfasync="false" src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/email-decode.js"></script><script type="text/javascript">                        mamicode_adload('content_after');</script>
+                    <div id="comment" class="divtextalignleft margintop20">
+                        <div class="detailpinglun1">
+                            <span class="detailpinglun2 title6">评论</span> <span class="detailpinglun3">一句话评论（<span id="commentCount" class="colorboldHong">0</span>）</span>
+                        </div>
+                        <div class="paddingtop20">
+                            
+                            <div id="commentlistend" name="commentlistend" class="divtextaligncenter margintop20">
+                                <span id="lblpage">共<span class="pagecolorc">0</span>条&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                        <div class="margintop20">
+                            <form method="post" action="/ajaxjs/info_detail_commentadd.aspx">
+                            <div class="divtextalignleft paddingtop20">
+                                <div id="commenthf" class="divbackgroundcolor1">
+                                </div>
+                                <div>
+                                    <textarea name="tbcommentcontent" id="tbcommentcontent" class="tb" style="width: 680px;
+                                        height: 120px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="divtextalignright paddingtop10 ">
+                                <span id="addCommentTishi" class="colorboldHong">登录后才能评论！</span>
+                                <span id="loginno"><input class="mbtn1" value="登录" onclick="location.href='http://member.mamicode.com/login.aspx?returnUrl='+document.URL.replace(new RegExp('&amp;', 'g'), '(_)')" type="button"></span>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">                    mamicode_adload('content_bottom');</script>
+            </div>
+        </div>
+        <div class="width30bi divfloatright">
+            
+            <div class="paddingbottom20">
+    <script type="text/javascript">        (function () { 
+document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E')); var bdcs = 
+document.createElement('script'); bdcs.type = 'text/javascript'; 
+bdcs.async = true; bdcs.src = 
+'http://znsv.baidu.com/customer_search/api/js?sid=7490613033886828738' +
+ '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + 
+Math.ceil(new Date() / 3600000); var s = 
+document.getElementsByTagName('script')[0]; 
+s.parentNode.insertBefore(bdcs, s); })();</script><div id="bdcs"><div class="bdcs-container"><meta http-equiv="x-ua-compatible" content="IE=9">   <!-- 嵌入式 -->  <div class="bdcs-main bdcs-clearfix" id="default-searchbox">      <div class="bdcs-search bdcs-clearfix" id="bdcs-search-inline">          <form action="http://zhannei.baidu.com/cse/search" method="get" target="_blank" class="bdcs-search-form" autocomplete="off" id="bdcs-search-form">              <input name="s" value="7490613033886828738" type="hidden">              <input name="entry" value="1" type="hidden">                                                                        <input name="q" class="bdcs-search-form-input" id="bdcs-search-form-input" placeholder="请输入关键词" style="height: 36px; line-height: 36px;" type="text">              <input class="bdcs-search-form-submit " id="bdcs-search-form-submit" value="搜索" type="submit">                       </form>      </div>                  </div>                           </div></div>
+</div>
+
+            <script type="text/javascript">                mamicode_adload('right_top');</script>
+            
+<div class="width99bi divborder">
+    <div class="divtitle">
+        <div id="infofile1_div1" class="divfloatleft divtitlefont">
+            分享档案</div>
+        <div class="divfloatright">
+            <a href="http://www.mamicode.com/infotimemore.html" title="分享档案更多" class="colorCheng">更多&gt;</a>
+        </div>
+    </div>
+    <div class="divtextalignleft paddingleft10right10 margintop10bottom10 heightline30px">
+        
+                <a class="taga" href="http://www.mamicode.com/info-time-20180207-1.html" target="_blank" title="2018年02月07日技术分享文章">
+                        2018年02月07日
+                        (1145)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180206-1.html" target="_blank" title="2018年02月06日技术分享文章">
+                        2018年02月06日
+                        (1254)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180205-1.html" target="_blank" title="2018年02月05日技术分享文章">
+                        2018年02月05日
+                        (1353)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180204-1.html" target="_blank" title="2018年02月04日技术分享文章">
+                        2018年02月04日
+                        (1178)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180203-1.html" target="_blank" title="2018年02月03日技术分享文章">
+                        2018年02月03日
+                        (1176)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180202-1.html" target="_blank" title="2018年02月02日技术分享文章">
+                        2018年02月02日
+                        (1264)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180201-1.html" target="_blank" title="2018年02月01日技术分享文章">
+                        2018年02月01日
+                        (1270)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180131-1.html" target="_blank" title="2018年01月31日技术分享文章">
+                        2018年01月31日
+                        (1190)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180130-1.html" target="_blank" title="2018年01月30日技术分享文章">
+                        2018年01月30日
+                        (1417)</a><br>
+            
+                <a class="taga" href="http://www.mamicode.com/info-time-20180129-1.html" target="_blank" title="2018年01月29日技术分享文章">
+                        2018年01月29日
+                        (1147)</a><br>
+            
+    </div>
+</div>
+
+            
+<div class="width99bi margintop20 divborder">
+    <div class="divtitle">
+        <div id="infotop2_divtitle" class="divfloatleft divtitlefont">周排行</div>
+        <div class="divfloatright">
+            <img src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/j01.jpg" alt="mamicode.com排行更多图片" width="14" height="14"></div>
+        <div class="divfloatright">
+            <a href="http://www.mamicode.com/info-toplist-11-2-1.html" id="infotop2_amore" title="周排行更多">更多</a></div>
+    </div>
+    <div>
+        <ul>
+            <li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-611316.html" title="【转】console.log 用法" target="_blank">
+                        【转】console.log 用法
+                        &nbsp;<span class="colorlan">2015-05-05</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-2147137.html" title="Idea 2017.3以后版本的破解" target="_blank">
+                        Idea 2017.3以后版本的破解
+                        &nbsp;<span class="colorlan">2018-01-06</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1464146.html" title="tailf、tail -f、tail -F三者区别" target="_blank">
+                        tailf、tail -f、tail -F三者区别
+                        &nbsp;<span class="colorlan">2016-08-02</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-2094708.html" title="你所不知道的 【ModuleNotFoundError: No module named ''; '' is not a package】" target="_blank">
+                        你所不知道的 【ModuleNotFoundError: No module named ''; '' is not a package】
+                        &nbsp;<span class="colorlan">2017-11-18</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1180317.html" title="numpy数据类型dtype转换" target="_blank">
+                        numpy数据类型dtype转换
+                        &nbsp;<span class="colorlan">2016-01-14</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1008288.html" title="Echarts-axislabel文字过长导致显示不全或重叠" target="_blank">
+                        Echarts-axislabel文字过长导致显示不全或重叠
+                        &nbsp;<span class="colorlan">2015-08-27</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-997853.html" title="汉字拼音对照表" target="_blank">
+                        汉字拼音对照表
+                        &nbsp;<span class="colorlan">2015-08-19</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1610029.html" title="在深圳有娃的家长必须要懂的社保少儿医保，不然亏大了！（收藏）" target="_blank">
+                        在深圳有娃的家长必须要懂的社保少儿医保，不然亏大了！（收藏）
+                        &nbsp;<span class="colorlan">2016-11-16</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-651198.html" title="Sublime Text 常用的16 个 Sublime Text 快捷键" target="_blank">
+                        Sublime Text 常用的16 个 Sublime Text 快捷键
+                        &nbsp;<span class="colorlan">2015-05-25</span> </a></li><li class="divullititle heightline25px divtextalignleft"><a href="http://www.mamicode.com/info-detail-1876054.html" title="nginx提示Job for nginx.service failed because the control的问题" target="_blank">
+                        nginx提示Job for nginx.service failed because the control的问题
+                        &nbsp;<span class="colorlan">2017-06-27</span> </a></li>
+        </ul>
+    </div>
+</div>
+
+            <script type="text/javascript">                mamicode_adload('right_bottom');</script>
+        </div>
+        <div class="divfloatclear">
+        </div>
+    </div>
+    <script type="text/javascript">        mamicode_adload('bottom');</script>
+    <div class="width1000px divmargin0auto paddingtop20bottom20">
+    <div class="width1000px divborder margintop20">
+        <div class="youqingtitle">
+            <a title="友情链接">友情链接</a>
+        </div>
+        <div class="youqingcontent">
+            <a href="http://www.lightinit.com/" target="_blank" title="互联网产品定制开发专家">兰亭集智</a>&nbsp;&nbsp;<a href="http://www.guozhihua.net/" target="_blank">国之画</a>&nbsp;&nbsp;<a href="http://tongji.baidu.com/" target="_blank">百度统计</a>&nbsp;&nbsp; <a href="http://www.cnzz.com/" target="_blank">
+                        站长统计</a>&nbsp;&nbsp;<a href="http://www.aliyun.com/" target="_blank">阿里云</a>&nbsp;&nbsp;<a href="http://www.cnplugins.com/" target="_blank">chrome插件</a>&nbsp;&nbsp;<a href="https://www.trustauth.cn/" target="_blank" title="数安时代,GDCA,SSL证书">数安时代</a>
+        </div>
+    </div>
+</div>
+<div class="bottomdiv">
+    <div class="width1000px divmargin0auto paddingtop20">
+        <div class="height30px divtextalignleft">
+            <a href="http://www.mamicode.com/about.html" title="mamicode.com关于我们">关于我们</a> - <a href="http://www.mamicode.com/contactus.html" title="mamicode.com联系我们">联系我们</a> - <a href="http://www.mamicode.com/guest.html" title="mamicode.com留言反馈">留言反馈</a>
+        </div>
+        <div class="height30px divtextalignleft">
+            © 2014 <a href="http://www.mamicode.com/" target="_blank" title="mamicode.com,技术分享">mamicode.com</a>
+            版权所有 京ICP备13008772号-2
+        </div>
+        <div class="divtextalignleft">
+            <span class="colorlan">迷上了代码！</span>
+        </div>
+        <div class="paddingtop20">
+            <script type="text/javascript">                var 
+cnzz_protocol = (("https:" == document.location.protocol) ? " https://" :
+ " http://"); document.write(unescape("%3Cspan 
+id='cnzz_stat_icon_1254666564'%3E%3C/span%3E%3Cscript src='" + 
+cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1254666564%26show%3Dpic1'
+ type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_1254666564"></span><script src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/z_stat.php" type="text/javascript"></script>
+            <script>
+                (function () {
+                    var bp = document.createElement('script');
+                    var curProtocol = window.location.protocol.split(':')[0];
+                    if (curProtocol === 'https') {
+                        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+                    }
+                    else {
+                        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                    }
+                    var s = document.getElementsByTagName("script")[0];
+                    s.parentNode.insertBefore(bp, s);
+                })();
+            </script>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">        var mid = ''; var id = 
+'925100'; var idm = '42564c'; var commentitemcount = '0'; var memberhost
+ = 'http://member.mamicode.com/'; prettyPrint(); </script>
+    <script src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/infodetail.js" type="text/javascript" charset="utf-8"></script>
+    <script src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/member.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/mamicodejs.js"></script>
+<script type="text/javascript" src="centos%E4%B8%8B%E7%BD%91%E5%8F%A3vlan%E8%AE%BE%E7%BD%AE_files/su.js"></script>
+
+
+</body></html>

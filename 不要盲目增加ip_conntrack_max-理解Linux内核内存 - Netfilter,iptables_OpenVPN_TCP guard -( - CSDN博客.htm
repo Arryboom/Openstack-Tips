@@ -1,0 +1,1599 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script type="text/javascript" async="" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/kcem_003"></script>
+        <link rel="canonical" href="http://blog.csdn.net/dog250/article/details/7107537">
+
+            <meta http-equiv="Cache-Control" content="no-siteapp">
+            <link rel="alternate" media="handheld" href="#">
+
+            <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+
+            <title>不要盲目增加ip_conntrack_max-理解Linux内核内存 - Netfilter,iptables/OpenVPN/TCP  guard:-( - CSDN博客</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta name="description" content="1.由ip_conntrack引出的Linux内存映射有很多文章在讨论关于ip_conntrack表爆满之后丢弃数据包的问题，对此研究深入一些的知道Linux有个内核参数ip_conntrack_max，在拥有较大内存的机器中默认65536，于是疯狂的增加这个参数，比如设置成10000…00，只要不报设置方面的错误，就一定要设置成最大值。这种方式实在是将软件看成大神了，殊不知软件的技术含量还不如锅">
+
+            <meta name="keywords" content="linux内核,loadrunner,linux">
+            <script src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/hm.txt"></script><script type="text/javascript" async="" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pr.js"></script><script type="text/javascript" async="" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/hbfjfdw.js"></script><script src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog_static_head.js" type="text/javascript"></script>
+
+
+        <link rel="Stylesheet" type="text/css" href="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/style.css">
+
+            
+
+            <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/dog250/rss/list">
+            <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+            <link type="text/css" rel="stylesheet" href="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/default.css">
+
+
+
+            <link href="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_public_blog_detail.css" type="text/css" rel="stylesheet">
+
+        <link rel="stylesheet" href="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_blog_detail.css">
+
+            <!-- 请置于所有广告位代码之前 -->
+            <script src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ds.js"></script>
+
+        <style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style></head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0.1 Safari/604.3.5"})</script>
+
+
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="https://pos.baidu.com/wh/o.htm?ltr=" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="icon-xiajiantou" viewBox="0 0 1024 1024"><path d="M328.208 346.062h368.494c20.393 0 36.887 16.366 36.887 36.757 0 9.484-3.637 18.056-9.483 24.55L541.873 650.522c-12.211 16.105-35.2 19.484-51.438 7.275-2.859-2.08-5.324-4.547-7.274-7.275L298.853 404.772c-12.08-16.106-8.83-39.225 7.404-51.306 6.626-5.066 14.289-7.404 21.95-7.404z"></path></symbol><symbol id="icon-shouji" viewBox="0 0 1024 1024"><path d="M537.754 795.889c-26.41 0-47.893 21.478-47.893 47.892s21.484 47.893 47.893 47.893 47.892-21.479 47.892-47.893-21.483-47.892-47.892-47.892z"></path><path d="M774.697 42.071H300.815c-39.864 0-72.3 32.43-72.3 72.3v795.264c0 39.869 32.43 72.3 72.3 72.3h473.872c39.87 0 72.3-32.431 72.3-72.3v-795.27c0.004-39.864-32.426-72.294-72.29-72.294zM300.815 90.266h473.872a24.125 24.125 0 0 1 24.1 24.1v595.809H276.72v-595.81a24.125 24.125 0 0 1 24.094-24.1z m473.882 843.463H300.815a24.125 24.125 0 0 1-24.1-24.1V762.501h522.072V909.63a24.115 24.115 0 0 1-24.09 24.1z"></path></symbol><symbol id="icon-tianxie" viewBox="0 0 1024 1024"><path d="M121.905 780.19h780.19v97.524h-780.19V780.19zM823.296 298.496l-68.974-68.974-344.795 344.796-34.475 103.448 103.424-34.475zM875.008 246.76l17.237-17.238-68.949-68.949-17.262 17.237-17.237 17.238 68.974 68.973z"></path></symbol><symbol id="icon-sousuo" viewBox="0 0 1024 1024"><path d="M1023.972002 964.002812l-59.981188 59.981189-271.443276-271.459276c-166.600191 136.489602-412.812649 126.986048-568.309361-28.494664-165.624236-165.624236-165.624236-434.187647 0-599.859881 165.624236-165.592238 434.187647-165.592238 599.827883 0 155.52871 155.52871 164.984266 401.789166 28.462666 568.389356L1023.972002 964.002812zM663.364906 184.007375c-132.585785-132.585785-347.327719-132.761777-479.705514-0.43198-132.329797 132.345796-132.121807 347.119729 0.463978 479.705514s347.375717 132.793775 479.705514 0.41598c132.329797-132.281799 132.169805-347.10373-0.463978-479.689514z"></path></symbol><symbol id="icon-guanbi" viewBox="0 0 1024 1024"><path d="M1002.211316 933.90818c24.46369 24.46369 29.007633 59.583246 10.159871 78.447007-18.863761 18.863761-53.983317 14.303819-78.447007-10.159871L21.807724 90.09486C-2.655966 65.631169-7.199909 30.495614 11.647853 11.647853c18.863761-18.863761 53.983317-14.303819 78.447007 10.159871L1002.211316 933.90818z"></path><path d="M933.92418 21.807724C958.38787-2.655966 993.507426-7.199909 1012.371187 11.647853c18.863761 18.863761 14.303819 53.983317-10.159871 78.447007L90.09486 1002.211316c-24.46369 24.46369-59.583246 29.007633-78.447007 10.159871-18.847761-18.863761-14.303819-53.983317 10.159871-78.463007L933.92418 21.807724z"></path></symbol><symbol id="icon-caidan" viewBox="0 0 1024 1024"><path d="M0 132.8a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 132.8s0-26.784 0 0zM0 512.016a48.48 48.48 0 0 0 48.48 48.48h927.04a48.48 48.48 0 0 0 0-96.96H48.48A48.48 48.48 0 0 0 0 512.016s0-26.784 0 0zM0 891.2a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 891.2s0-26.784 0 0z"></path></symbol><symbol id="icon-yonghudenglu" viewBox="0 0 1024 1024"><path d="M1022.26704 962.432c-43.888-157.584-162.16-281.216-312.064-340.144 92.8-61.376 153.92-164.496 153.92-281.168C864.12304 153.04 706.04304 0 511.70704 0 317.35504 0 159.19504 153.04 159.19504 341.136c0 116.704 61.152 219.84 154.064 281.184C164.13904 681.024 46.18704 803.792 1.80304 960.16c-7.344 26.016 8.464 52.864 35.36 60.032a52.016 52.016 0 0 0 38.4-4.608 49.072 49.072 0 0 0 23.712-29.568c50.768-178.96 220.352-303.92 412.448-303.92 193.04 0 362.848 125.712 412.944 305.744 7.296 26.048 34.992 41.456 61.952 34.48 26.912-7.04 42.88-33.824 35.648-59.888zM260.25104 341.136c0-134.256 112.816-243.424 251.472-243.424 138.576 0 251.328 109.184 251.328 243.424 0 133.904-112.768 242.864-251.328 242.864-138.672 0-251.472-108.976-251.472-242.864z m0 0"></path></symbol><symbol id="toolbar-csdnlogo" viewBox="0 0 1024 1024"><path d="M533.941333 419.264c14.709333-1.621333 37.290667-3.264 68.352-3.264 51.872 0 93.802667 9.152 119.776 28.416 23.338667 17.952 38.858667 47.008 34.56 89.130667-3.978667 39.189333-24.042667 66.634667-53.312 83.594666C676.544 633.152 642.837333 640 592.106667 640c-29.888 0-58.421333-1.642667-80.106667-4.896l21.941333-215.84z m42.869334 172.938667c4.981333 0.992 11.562667 1.973333 24.533333 1.973333 51.882667 0 88.469333-25.877333 92.16-62.24 5.333333-52.554667-27.125333-70.944-81.802667-70.624-7.072 0-16.917333 0-22.133333 0.970667L576.8 592.213333h0.010667z m223.498666-164.704c210.954667-39.872 229.162667 31.776 222.645334 95.189333L1010.656 640h-66.944l11.210667-106.986667c2.421333-23.562667 17.504-69.653333-55.338667-67.914666-25.184 0.608-37.706667 4.064-37.706667 4.064s-2.186667 28.469333-4.832 49.514666L844.32 640H778.666667l13.024-119.573333" fill="#231916"></path><path d="M226.634667 632.682667c-12.373333 4.341333-38.037333 7.317333-73.909334 7.317333C49.6 640-6.048 590.933333 0.522667 526.090667 8.416 448.810667 90.858667 405.333333 181.141333 405.333333c34.976 0 55.552 2.858667 74.858667 7.637334l-6.208 52.064c-12.821333-4.384-42.890667-8.405333-67.232-8.405334-53.141333 0-98.250667 16.042667-103.424 66.762667-4.608 45.354667 27.061333 67.04 86.816 67.04 20.8 0 51.477333-3.018667 65.653333-7.370667l-4.992 49.6 0.021334 0.021334z" fill="#C92027"></path><path d="M272.714667 580.021333c19.285333 6.762667 59.488 13.504 92 13.504 35.029333 0 54.528-9.333333 56.096-23.797333 1.418667-13.205333-12.928-14.986667-52.490667-24.010667-54.666667-12.896-89.546667-32.842667-86.133333-64.704C286.176 443.989333 337.685333 416 416.725333 416c38.56 0 75.914667 2.613333 95.274667 8.714667l-6.656 46.666666c-12.565333-4.202667-60.672-10.037333-93.205333-10.037333-32.992 0-50.069333 9.973333-51.253334 20.917333-1.493333 13.845333 15.658667 14.485333 58.528 25.450667 58.026667 14.154667 83.402667 34.090667 80.085334 64.992C495.605333 609.109333 449.258667 640 356.714667 640c-38.528 0-71.744-6.762667-90.048-13.525333l6.048-46.453334z" fill="#231916"></path></symbol><symbol id="icon-morentouxiang" viewBox="0 0 1024 1024"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#A0C3FF"></path><path d="M691.2 887.466667c-55.466667-25.6-123.733333-51.2-123.733333-51.2v-38.4c68.266667-25.6 119.466667-89.6 132.266666-166.4 12.8-4.266667 38.4-17.066667 46.933334-55.466667l8.533333-46.933333s4.266667-59.733333-42.666667-46.933334c4.266667-38.4 4.266667-81.066667 4.266667-115.2-4.266667-64-89.6-98.133333-89.6-98.133333l12.8-17.066667s-42.666667-12.8-59.733333-4.266666l12.8-29.866667s-85.333333 0-132.266667 38.4h-4.266667v-17.066667s-145.066667 21.333333-140.8 243.2c-46.933333-12.8-42.666667 46.933333-42.666666 46.933334l8.533333 46.933333c4.266667 38.4 29.866667 51.2 46.933333 55.466667 12.8 81.066667 64 145.066667 132.266667 166.4v38.4s-68.266667 29.866667-123.733333 51.2c-29.866667 12.8-59.733333 34.133333-81.066667 59.733333 68.266667 51.2 157.866667 76.8 256 76.8s187.733333-25.6 264.533333-72.533333c-21.333333-29.866667-51.2-46.933333-85.333333-64z" fill="#4374E0"></path></symbol><symbol id="icon-icon_boke" viewBox="0 0 1024 1024"><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m298.667-256H213.333v42.667h597.334V768z m-21.334-448L704 234.667 341.333 597.333l-42.666 128 128-42.666L789.333 320z"></path></symbol><symbol id="icon-icon_gitchatx" viewBox="0 0 1024 1024"><path d="M810.667 533.333v-64h-384v85.334h298.666v128h85.334V533.333zM256 810.667h426.667v-85.334h-384V298.667h426.666V384h85.334V213.333H213.333v597.334H256zM512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m213.333-298.667v85.334h85.334v-85.334h-85.334z"></path></symbol><symbol id="icon-guanbi1" viewBox="0 0 1024 1024"><path d="M512 1024A512 512 0 1 1 512 0a512 512 0 0 1 0 1024z m160-768L512 416 352 256l-96 96 160 160-160 160 96 96 160-160 160 160 96-96-160-160 160-160-96-96z"></path></symbol></svg><div id="MathJax_Message" style="display: none;"></div><div class="csdn-toolbar csdn-toolbar tb_disnone ">        <div class="container row center-block ">          <ul class="pull-left left-menu clearfix">            <li class="toolbarlogo">              <a href="http://www.csdn.net/" title="CSDN首页" target="_blank">                <img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/yearlogo.png">              </a>            </li>            <li><a href="http://blog.csdn.net/" class="toolbar_to_feed" title="博客" target="_blank">博客</a></li>            <li><a href="http://edu.csdn.net/" title="学院" target="_blank">学院</a></li>            <li><a href="http://download.csdn.net/" title="下载" target="_blank">下载</a></li>            <li><a href="http://gitbook.cn/?ref=csdn" title="GitChat" target="_blank">GitChat</a></li>            <li class="tb_is1090hide"><a href="http://bbs.csdn.net/" title="论坛" target="_blank">论坛</a></li>            <li class="tb_is1150hide"><a href="http://ask.csdn.net/" title="问答" target="_blank">问答</a></li>            <li class="tb_is1210hide"><a href="http://mall.csdn.net/" title="商城" target="_blank">商城</a></li>            <li class="tb_is1270hide"><a href="http://geek.csdn.net/" title="极客头条" target="_blank">头条</a></li>            <li class="tb_is1330hide"><a href="http://huiyi.csdn.net/" title="活动" target="_blank">活动</a></li>            <li class="tb_is1400hide"><a href="http://job.csdn.net/" title="招聘" target="_blank">招聘</a></li>            <li class="tb_is1452hide"><a href="http://www.iteye.com/" title="ITeye" target="_blank">ITeye</a></li>            <li class="tb_is1513hide"><a href="http://www.gitee.com/" title="码云" target="_blank">码云</a></li>            <li class="tb_is1513hide"><a href="http://www.csto.com/" title="CSTO" target="_blank">CSTO</a></li>            <li class="show-more">            <a href="javascript:;" class="show-more-a"><svg width="22" height="4" xmlns="http://www.w3.org/2000/svg"><path d="M2 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#fff" fill-rule="evenodd"></path></svg></a>              <div class="more">                <div class="tb_is1090show"><a href="http://bbs.csdn.net/" target="_blank">论坛</a></div>                <div class="tb_is1150show"><a href="http://ask.csdn.net/" target="_blank">问答</a></div>                <div class="tb_is1210show"><a href="http://mall.csdn.net/" target="_blank">商城</a></div>                <div class="tb_is1270show"><a href="http://geek.csdn.net/" target="_blank">极客头条</a></div>                <div class="tb_is1330show"><a href="http://huiyi.csdn.net/" target="_blank">活动</a></div>                <div class="tb_is1400show"><a href="http://job.csdn.net/" target="_blank">招聘</a></div>                <div class="tb_is1452show"><a href="http://www.iteye.com/" target="_blank">ITeye</a></div>                <div class="tb_is1513show"><a href="http://www.gitee.com/" target="_blank">码云</a></div>                <div class="tb_is1513show"><a href="http://www.csto.com/" target="_blank">CSTO</a></div>              </div>            </li>          </ul>          <div class="pull-right login-wrap unlogin">            <ul class="btns">            <li class="toolbar-tracking csdn-tracking-statistics tracking-click" data-mod="popu_369"><a href="#" style="padding:0" target="_blank"></a></li>              <li>                <div class="search_bar csdn-tracking-statistics tracking-click" data-mod="popu_366">                  <input class="input_search" name="" type="text">                  <a href="http://so.csdn.net/so/" target="_blank" class="btn-nobg-noborder btn-search"><i class="iconfont-toolbar toolbar-sousuo"></i></a>                </div>              </li>              <li class="write-bolg-btn csdn-tracking-statistics tracking-click" data-mod="popu_370"><a class="" href="http://mp.blog.csdn.net/postedit" target="_blank"><i class="iconfont-toolbar toolbar-icon_boke"></i><span>写博客</span></a></li>              <li class="gitChat"><a class="" href="http://gitbook.cn/new/gitchat/activity?utm_source=csdnblog1" target="_blank"><i class="iconfont-toolbar toolbar-icon_gitchatx"></i><span>发Chat</span></a></li>              <li class="userinfo"><a href="https://passport.csdn.net/account/login">登录</a><span></span><a href="https://passport.csdn.net/account/mobileregister?action=mobileRegister">注册</a></li>              <li class="userLogin">                <div class="loginCenter"><a href="http://my.csdn.net/" target="_blank"><img class="login_img" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/100x100.jpg"><div class="toolbar-circle"></div></a></div>                <div class="userControl">                  <div><a href="http://blog.csdn.net/" target="_blank">我的博客</a></div>                  <div><a class="xiaoxi" href="http://msg.csdn.net/" target="_blank">消息<span class="toolbar-newsL">(3)</span></a></div>                  <div><a href="http://my.csdn.net/my/account/changepwd" target="_blank">设置</a></div>                  <div><a href="http://bbs.csdn.net/forums/Service" target="_blank">反馈</a></div>                  <div><a href="http://oldblog.csdn.net/home/help.html" target="_blank">帮助</a></div>                  <div><a href="http://passport.csdn.net/account/logout">退出</a></div>                </div>              </li>            </ul>          </div>        </div>    </div><script class="toolbar-s" type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/iconfont.js"></script>
+        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_72" data-mtp="62" data-order="40" data-con="ad_content_2072">
+            <script id="popuLayer_js_q" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/popuLayer.js" defer="defer" type="text/javascript"></script>
+            <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 -->
+                <div id="cpro_u2895327">
+                    <!-- 投放代码 -->
+                            <div><iframe scrolling="no" src="http://pos.baidu.com/s?hei=250&amp;wid=300&amp;di=u2895327&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Fdog250%2Farticle%2Fdetails%2F7107537&amp;tlm=1518154035&amp;dri=0&amp;cja=false&amp;cfv=28&amp;par=1920x1040&amp;ps=966x1896&amp;pis=-1x-1&amp;ti=%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter%2Ciptables%2FOpen&amp;chi=1&amp;cpl=1&amp;cdo=-1&amp;col=zh-CN&amp;dis=0&amp;psr=1920x1080&amp;pss=1920x966&amp;cce=true&amp;tpr=1518154035848&amp;tcn=1518154036&amp;exps=111000&amp;cmi=2&amp;dtm=HTML_POST&amp;ari=2&amp;ant=0&amp;cec=UTF-8&amp;pcs=1920x966&amp;dc=3&amp;ccd=24&amp;dai=1&amp;drs=1" width="300" height="250" frameborder="0"></iframe></div><script type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ojylrgbyk.js"></script>
+
+
+
+                </div>
+            </div>
+            <script>
+                document.getElementById("popuLayer_js_q").onload = function () {
+                    var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 };
+                    window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 });
+                }</script>
+
+
+        </div>
+
+
+    <!--new top-->
+    <script id="toolbar-tpl-scriptId" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/content_toolbar.js" type="text/javascript" domain="http://blog.csdn.net"></script>
+
+    <link rel="stylesheet" href="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/content_toolbar.css">
+    <!--new top-->
+    <div id="container">
+        
+<div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/dog250">Netfilter,iptables/OpenVPN/TCP  guard:-(</a></h2>
+            <h3>我不会Python，但也不是一点都不会，我稍微会一些 :-)</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+    
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/dog250?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/dog250?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/dog250/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_rss.gif">订阅</span></a></li>                   
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "dog250";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/dog250";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+    var curUserFace = "http://avatar.csdn.net/2_guest.jpg";
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                    <div class="ad_class">
+
+
+
+                    </div>
+
+                    
+
+ <script src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/main-1.js"></script>
+
+<script type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/category.js"></script>
+
+  <script type="text/ecmascript">
+      var title="不要盲目增加ip_conntrack_max-理解Linux内核内存";
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=%e4%b8%8d%e8%a6%81%e7%9b%b2%e7%9b%ae%e5%a2%9e%e5%8a%a0ip_conntrack_max-%e7%90%86%e8%a7%a3Linux%e5%86%85%e6%a0%b8%e5%86%85%e5%ad%98&u=http://blog.csdn.net/dog250/article/details/7107537"
+    </script>
+<style>
+    .texCommend {
+        position: absolute;
+        background-color: #fff;
+        color: #000;
+        padding: 5px;
+        border: 1px solid #ccc;
+        cursor: default;
+        text-align: left;
+        z-index: 201;
+        border-radius: 5px;
+        box-shadow: 0 10px 20px #808080;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+    .MJX_Assistive_MathML {
+        display: none;
+    }
+    span.MathJax {
+        outline: none
+    }
+</style>
+<div id="article_details" class="details">
+    
+<div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="http://blog.csdn.net/dog250/article/details/7107537">
+        不要盲目增加ip_conntrack_max-理解Linux内核内存        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+
+    
+    <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href="http://www.csdn.net/tag/linux%e5%86%85%e6%a0%b8" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">linux内核</a><a href="http://www.csdn.net/tag/loadrunner" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">loadrunner</a><a href="http://www.csdn.net/tag/linux" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">linux</a><a href="http://www.csdn.net/tag/tcp" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">tcp</a><a href="http://www.csdn.net/tag/%e6%b5%8b%e8%af%95" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">测试</a><a href="http://www.csdn.net/tag/%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">数据结构</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2011-12-27 23:58</span>
+            <span class="link_view" title="阅读次数">29462人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(3)</span>
+            <span class="link_collect csdn-tracking-statistics" data-pid="blog" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('不要盲目增加ip_conntrack_max-理解Linux内核内存','7107537');return false;" title="收藏" target="_blank">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(7107537,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+        <div class="bog_copyright">         
+            <p class="copyright_p">版权声明：本文为博主原创，无版权，未经博主允许可以随意转载，无需注明出处，随意修改或保持可作为原创！ <a style="color:#666;" href="http://blog.csdn.net/dog250/article/details/7107537">http://blog.csdn.net/dog250/article/details/7107537</a></p>
+        </div>
+
+
+
+
+
+
+<div style="clear:both"></div><div style="border:solid 1px #ccc; background:#eee; float:left; min-width:200px;padding:4px 10px;"><p style="text-align:right;margin:0;"><span style="float:left;">目录<a href="#" title="系统根据文章中H1到H6标签自动生成文章目录">(?)</a></span><a href="#" onclick="javascript:return openct(this);" title="展开">[+]</a></p><ol style="display:none;margin-left:14px;padding-left:14px;line-height:160%;"><li><a href="#t0">由ip_conntrack引出的Linux内存映射</a></li><li><a href="#t1">在32位架构Linux系统上的实验</a></li><ol><li><a href="#t2">1快速压满ip_conntrack的方法</a></li><li><a href="#t3">2测试前对ip_conntrack内核模块的修改</a></li><li><a href="#t4">3测试过程</a></li><li><a href="#t5">4测试结果</a></li></ol><li><a href="#t6">在64位架构Linux系统上做的实验</a></li><li><a href="#t7">结论</a></li><li><a href="#t8">附</a></li><ol><li><a href="#t9">关于GFP_XXX</a></li><li><a href="#t10">关于ip_conntrack的哈希</a></li></ol></ol></div><div style="clear:both"></div><div id="article_content" class="article_content csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post" style="overflow: hidden;">
+<h1><a name="t0" target="_blank"></a>1.由ip_conntrack引出的Linux内存映射</h1>有很多
+文章在讨论关于ip_conntrack表爆满之后丢弃数据包的问题，对此研究深入一些的知道Linux有个内核参数ip_conntrack_max，
+在拥有较大内存的机器中默认65536，于是疯狂的增加这个参数，比如设置成10000…00，只要不报设置方面的错误，就一定要设置成最大值。这种方式
+实在是将软件看成大神了，殊不知软件的技术含量还不如锅炉呢！<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+如果考虑的再全面一些，比如经验丰富的程序员或者网管，可能会想到内存的问题，他们知道所有的连接跟踪信息都是保存于内存中的，因此会考虑单纯放大这个
+ip_conntrack_max参数会占据多少内存，会权衡内存的占用，如果系统没有太大的内存，就不会将此值设置的太高。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+但是如果你的系统有很大的内存呢？比如有8G的内存，分个1G给连接跟踪也不算什么啊，这是合理的，然而在传统的32位架构Linux中是做不到，为什
+么？因为你可能根本不懂Linux内核的内存管理方式。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+内存越来越便宜的今天，linux的内存映射方式确实有点过时了。然而事实就摆在那里，ip_conntrack处于内核空间，它所需的内存必须映射到内
+核空间，而传统的32位Linux内存映射方式只有1G属于内核，这1G的地址空间中，前896M是和物理内存一一线性映射的，后面的若干空洞之后，有若
+干vmalloc的空间，这些vmalloc空间和一一映射空间相比，很小很小，算上4G封顶下面的很小的映射空间，一共可以让内核使用的地址空间不超过
+1G。对于ip_conntrack来讲，由于其使用slab分配器，因此它还必须使用一一映射的地址空间，这就是说，它最多只能使用不到896M的内
+存！<br><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+为何Linux使用如此“落后”的内存映射机制这么多年还不改进？其实这种对内核空间内存十分苛刻的设计在64位架构下有了很大的改观，然而问题依然存
+在，即使64位架构，内核也无法做到透明访问所有的物理内存，它同样需要把物理内存映射到内核地址空间后才能访问，对于一一映射，这种映射是事先确定的，
+对于大小有限(实际上很小)非一一映射空间，需要动态创建页表，页目录等。另外还有一个解释，那就是“内核本来就不该做ip_conntrack这种
+事”，那是协议栈的事，而不巧的是，Liunx的协议栈完全在内核中实现，可能在skb接收软中断中处理的ip_conntrack不能睡眠，因此也就不
+能将此任务交给进程，也就不能利用进程地址空间(进程地址空间[用户态+内核态]可以访问所有的物理内存)。</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Linux之所以对内核内存要求如此苛刻，目的就是不想让你随意使用，因为它宝贵，你才更要珍惜它们。<br><h1><a name="t1" target="_blank"></a>2.在32位架构Linux系统上的实验</h1>以下是为了证明以上的事实所作的实验，可能实验中使用的一些手段仍然不符合常识，然而我觉得成一家之言即可，毕竟这种方案永远不会也不可能出现在公司的标准文档上，那样会让人学会投机取巧或者称偷懒，但是为了备忘，还得有个地方留着，那就写成博客吧。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+还有一个参数会影响查找连接跟踪的时间复杂度和空间复杂度，那就是ip_conntrack_buckets。该值描述了哈希桶的数量，理论上，这个值越
+大，哈希碰撞就会越小，查找时间就会越快，但是需要为每一个桶预分配一块不是很大的内存，如果桶数量很大，就会占用很大的内存，并且这些内存还都是宝贵的
+“仅有1G空间内的内核内存”，和ip_conntrack结构体的分配策略不同，这个哈希桶可以分配在vmalloc空间而不一定非要在一一线性映射空
+间。<br><h2><a name="t2" target="_blank"></a>2.1.快速压满ip_conntrack的方法</h2>使
+用loadrunner绝对是一种方式，然而术业有专攻，工作之余我又很讨厌windows上的一切，因此需要采用其它方式，下班在家，只身一人，也不想
+使用netcat之类的“瑞士军刀”，我怕端口占满，又怕我的macbook狂热，因此需要再想办法。由于目的只是想测试ip_conntrack最多能
+占用多少内存，其实这个我早就知道了，只是想证实一下子，那么办法也就有了，那就是增加ip_conntrack结构体的大小，而这很容易，只需要在结构
+体后面增加一个很大的字段即可。下面的修改基于Red Hat Enterprise 5的2.6.18内核<br><h2><a name="t3" target="_blank"></a>2.2.测试前对ip_conntrack内核模块的修改</h2>编辑$build/include/linux/netfilter_ipv4/ip_conntrack.h文件，在结构体ip_conntrack的最后加上下面一句：<br><div class="dp-highlighter bg_html"><div class="bar"><div class="tools"><b>[html]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;" target="_blank">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" target="_blank">copy</a><div style="position: absolute; left: 750px; top: 1688px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_1" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_1" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=18&amp;height=18" wmode="transparent" width="18" height="18" align="middle"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;" target="_blank">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;" target="_blank">?</a></div></div><ol start="1" class="dp-xml"><li class="alt"><span><span>char&nbsp;aaa[102400];&nbsp;//
+这个102400是通过二分法得到的，如果设置成2xxxxx则在加载的时候就会使内核crash，因为这个数组是直接分配(类似栈上分配)的而不是动态
+分配的，它载入的时候很可能会冲掉内核的关键数据，因此还是选取一个可行的数值，然后慢慢加连接吧，毕竟扩大了起码100000倍
+呢~~&nbsp;&nbsp;</span></span></li></ol></div><pre name="code" class="html" style="display: none;">char aaa[102400]; //这个102400是通过二分法得到的，如果设置成2xxxxx则在加载的时候就会使内核crash，因为这个数组是直接分配(类似栈上分配)的而不是动态分配的，它载入的时候很可能会冲掉内核的关键数据，因此还是选取一个可行的数值，然后慢慢加连接吧，毕竟扩大了起码100000倍呢~~</pre>进入$src/net/ipv4/netfilter，执行：<br><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;" target="_blank">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" target="_blank">copy</a><div style="position: absolute; left: 744px; top: 1828px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_2" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_2" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=2&amp;width=18&amp;height=18" wmode="transparent" width="18" height="18" align="middle"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;" target="_blank">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;" target="_blank">?</a></div></div><ol start="1" class="dp-cpp"><li class="alt"><span><span>make&nbsp;–C&nbsp;/lib/modules/2.6.18-92.e15/build&nbsp;SUBDIRS=`pwd`&nbsp;modules&nbsp;&nbsp;</span></span></li></ol></div><pre name="code" class="cpp" style="display: none;">make –C /lib/modules/2.6.18-92.e15/build SUBDIRS=`pwd` modules</pre>如此一来加载ip_conntrack.ko之后，内核日志将打印出：<br>ip_conntrack version 2.4 (8192 buckets, 65536 max) - 102628 bytes per conntrack<br>由此看出ip_conntrack结构体已经增大了，这样撑满整个可用内存所需的网络连接压力就大大减小了，也就不用什么loadrunner之类的东西了。为了尽快撑满可以使用的内存，还要将关于ip_conntrack的所有timeout设置的比较长，相当长：<br><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;" target="_blank">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" target="_blank">copy</a><div style="position: absolute; left: 744px; top: 2055px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_3" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_3" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=3&amp;width=18&amp;height=18" wmode="transparent" width="18" height="18" align="middle"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;" target="_blank">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;" target="_blank">?</a></div></div><ol start="1" class="dp-cpp"><li class="alt"><span><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_generic_timeout=600000&nbsp;&nbsp;</span></span></li><li class=""><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_icmp_timeout=300000&nbsp;&nbsp;</span></li><li class="alt"><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=1000000&nbsp;&nbsp;</span></li><li class=""><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=120000&nbsp;&nbsp;</span></li><li class="alt"><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=300000&nbsp;&nbsp;</span></li><li class=""><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=60000&nbsp;&nbsp;</span></li><li class="alt"><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=120000&nbsp;&nbsp;</span></li><li class=""><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=432000&nbsp;&nbsp;</span></li><li class="alt"><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_tcp_timeout_syn_recv=600000&nbsp;&nbsp;</span></li><li class=""><span>sysctl&nbsp;-w&nbsp;net.ipv4.netfilter.ip_conntrack_tcp_timeout_syn_sent=120000&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="cpp" style="display: none;">sysctl -w net.ipv4.netfilter.ip_conntrack_generic_timeout=600000
+sysctl -w net.ipv4.netfilter.ip_conntrack_icmp_timeout=300000
+sysctl -w net.ipv4.netfilter.ip_conntrack_tcp_timeout_close=1000000
+sysctl -w net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=120000
+sysctl -w net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack=300000
+sysctl -w net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=60000
+sysctl -w net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=120000
+sysctl -w net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=432000
+sysctl -w net.ipv4.netfilter.ip_conntrack_tcp_timeout_syn_recv=600000
+sysctl -w net.ipv4.netfilter.ip_conntrack_tcp_timeout_syn_sent=120000</pre>这样既有的一个流就会“永久保持”了，一直占着ip_conntrack结构体不放，直到可用的内存溢出。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在加载了ip_conntrack模块之后，所有过往的数据包就会自动被追踪，下面编写以下脚本：<br><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;" target="_blank">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" target="_blank">copy</a><div style="position: absolute; left: 744px; top: 2374px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_4" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_4" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=4&amp;width=18&amp;height=18" wmode="transparent" width="18" height="18" align="middle"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;" target="_blank">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;" target="_blank">?</a></div></div><ol start="1" class="dp-cpp"><li class="alt"><span><span class="keyword">for</span><span>&nbsp;((&nbsp;i=1;&nbsp;i&lt;255;&nbsp;i++));&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">do</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span><span>&nbsp;((&nbsp;j=1;&nbsp;j&lt;255;&nbsp;j++));&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">do</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ping&nbsp;192.168.$i.$j&nbsp;-c&nbsp;1&nbsp;-W&nbsp;1&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl&nbsp;--connect-timeout&nbsp;1&nbsp;http:<span class="comment">//138.$i.$j.80/</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl&nbsp;--connect-timeout&nbsp;1&nbsp;http:<span class="comment">//38.$i.$j.80/</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl&nbsp;--connect-timeout&nbsp;1&nbsp;http:<span class="comment">//$i.1.$j.80/</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl&nbsp;--connect-timeout&nbsp;1&nbsp;http:<span class="comment">//$j.$i.9.8/</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;done&nbsp;&nbsp;</span></li><li class="alt"><span>done&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="cpp" style="display: none;">for (( i=1; i&lt;255; i++));
+do
+    for (( j=1; j&lt;255; j++));
+    do
+        ping 192.168.$i.$j -c 1 -W 1
+        curl --connect-timeout 1 http://138.$i.$j.80/
+        curl --connect-timeout 1 http://38.$i.$j.80/
+        curl --connect-timeout 1 http://$i.1.$j.80/
+        curl --connect-timeout 1 http://$j.$i.9.8/
+    done
+done</pre><h2><a name="t4" target="_blank"></a>2.3.测试过程</h2>本机配置：<br>内存：3032M，free命令识别3003M<br>执行上述脚本，抽根烟，拉一脬(pao)，得到下列的数据：<br>封顶连接数：6149个<br>使用内存：886M<br>此
+时在本机ping 127.0.0.1也不通了，说明ip_conntrack已经达到了极限，同时由于在alloc 
+ip_conntrack的地方插入了打印语句(肯定是一堆#号)，内核打印了内存分配失败的信息。一共3G的内存，仅仅使用了886M(而且我不断使用
+sysctl –w 
+vm.drop_caches=3清楚cache)，剩余的都无法给ip_conntrack使用。为了使结果更有说服力，我在ip_conntrack
+模块的初始化函数中插入了下列代码：<br><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;" target="_blank">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" target="_blank">copy</a><div style="position: absolute; left: 744px; top: 2956px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_5" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_5" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=5&amp;width=18&amp;height=18" wmode="transparent" width="18" height="18" align="middle"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;" target="_blank">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;" target="_blank">?</a></div></div><ol start="1" class="dp-cpp"><li class="alt"><span><span class="keyword">for</span><span>&nbsp;(j=0;&nbsp;I&nbsp;&lt;&nbsp;400;&nbsp;j++)&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;__get_free_pages(GFP_KERNEL,&nbsp;8);&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="cpp" style="display: none;">for (j=0; I &lt; 400; j++)
+    __get_free_pages(GFP_KERNEL, 8);</pre>意思是我先占去内核空间的400M内存，看看最终总的连接跟踪数量是否也会减少相应的，得到数据如下：<br>封顶连接数：3421个<br>使用内存：879M<br>可见，内核内存被额外占据了，能分给ip_conntrack的就少了。更进一步，保持上述的__get_free_pages不变，再增加下列的代码：<br><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;" target="_blank">view plain</a><span data-mod="popu_168"> <a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" target="_blank">copy</a><div style="position: absolute; left: 744px; top: 3201px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_6" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_6" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=6&amp;width=18&amp;height=18" wmode="transparent" width="18" height="18" align="middle"></div></span><span data-mod="popu_169"> <a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;" target="_blank">print</a></span><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;" target="_blank">?</a></div></div><ol start="1" class="dp-cpp"><li class="alt"><span><span class="keyword">for</span><span>&nbsp;(j=0;&nbsp;I&nbsp;&lt;&nbsp;400;&nbsp;j++)&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;__get_free_pages(GFP_HIGHUSER,&nbsp;8);&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="cpp" style="display: none;">for (j=0; I &lt; 400; j++)
+    __get_free_pages(GFP_HIGHUSER, 8);</pre>最终的结果如下：<br>封顶连接数：3394个<br>使用内存：1203M<br>可见，HIGHUSER内存并不会怎么影响内核内存，要知道用户进程的内存几乎都是使用这个HIGHUSER标识分配的。如果去掉GFP_KERNEL的分配，仅仅保留GFP_HIGHUSER的分配，得到下列结果：<br>封顶连接数：6449个<br>使用内存：1312M<br>可见，HIGHUSER内存的分配尽力在高端进行，不会怎么影响内核的一一映射空间。<br><h2><a name="t5" target="_blank"></a>2.4.测试结果</h2>综
+上所述，32位架构上Linux的ip_conntrack使用的内存只能在内核地址空间的一一映射区，换句话说，它只能使用物理内存的前896M，除掉
+ip_conntrack结构体的添加的char 
+aaa[]，也是这个结果，只不过要想压满所有的可用内存，不是很容易，需要动用几台机器以及loadrunner之类的压力工具。<br><h1><a name="t6" target="_blank"></a>3.在64位架构Linux系统上做的实验</h1>MD！由于我大动了内核数据结构，加载模块没有成功，至今仍在调试，排错，已几个时辰有余…<br><h1><a name="t7" target="_blank"></a>4.结论</h1>最
+后，需要说明的是，ip_conntrack_max的初始值是内核根据你机器的内存计算出来的，包括ip_conntrack_buckets也是这样
+算出来的，内核之所以设置这样的初始值，那是经过精心测试的经验值，因此除了非要改不可，不要去提高这个值。如果你的机器面临大量连接，你提高了
+ip_conntrack_max的值，那么代价就是占用了大量可贵的内核内存，可能会引起其它的内核内存分配失败，并且，一旦内核内存使用超过了内核内
+存空间映射的阀值，那么系统会默默的丢弃你的数据包，而不会报出：<br>table full, dropping packet error and solution<br>之类的错误，这是可悲的一件事。<br><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+操作系统内核影响协议栈行为带来了一种错觉：我有这么多内存，为何不让我使用？！事实上，不是你要使用，而是内核要使用，你可以控制的只是进程，对于内
+核，程序员是没法控制的。当然你可以重新编译，甚至修改内核，甚至修改ip_conntrack的内存分配方式，不再使用伙伴系统的slab内存，而是重
+定向一个userspace，然则，然则这个开发需要成本，一个人日几百块，没有几个公司愿意花这笔钱。因此，最终的结论：不要盲目增加
+ip_conntrack_max。呼应了题目。</p><h1><a name="t8" target="_blank"></a>附：</h1><h2><a name="t9" target="_blank"></a>1.关于GFP_XXX</h2><p>GFP_ATOMIC：设置这个标识，在内核映射区域的紧急池分配，不成功则简单返回NULL，不释放其它内存，也就不kill进程，分配路径不睡眠。ip_conntrack结构体就是使用这个标识分配的(它大多数处于软中断路径)<br>GFP_KERNEL：设置这个标识，在内核映射区域分配，不成功则尝试释放可以释放的内存，尝试调用oom_killer，可以睡眠<br>GFP_HIGHUSER：
+设置这个标识，可以分配到所有的物理内存(排除很小一部分固定内存以及用于总线IO的内存，这个在x86上很明显，具体参见/proc/iomem获得详
+细物理内存映射信息)。一般而言，用户态进程所需的内存都使用这个标识来分配，尽量使用内核“很难”使用的高端内存(1G以后的物理内存，内核还要动态映
+射，这要操作页表)，从而将前896M(32位架构)尽量留给内核使用&nbsp;&nbsp; &nbsp;<br></p><h2><a name="t10" target="_blank"></a>2.关于ip_conntrack的哈希</h2><p>Linux的ip_conntrack使用了 jhash函数来进行哈希计算，关于该函数的实现可以参考下面这个网址：<br>http://burtleburtle.net/bob/hash/doobs.html<br>作者的解释很清晰<br></p><br><br>   
+</div>
+
+
+
+
+
+
+
+
+    <div class="readall_box csdn-tracking-statistics tracking-click readall_box_nobg" data-pid="blog" data-mod="popu_596" style="display: none;">
+        <div class="read_more_mask"></div>
+        <a class="btn btn-large btn-gray-fred read_more_btn" target="_self">阅读全文</a>
+    </div>
+
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_222"><a href="javascript:void(0);" target="_blank">&nbsp;</a>   </div>
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_223"> <a href="javascript:void(0);" target="_blank">&nbsp;</a></div>
+        <div id="digg" articleid="7107537">
+            <dl id="btnDigg" class="digg digg_disable" onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>4</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable" onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".csdn-tracking-statistics[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".csdn-tracking-statistics[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/dog250/article/details/7101111';">上一篇</span><a href="http://blog.csdn.net/dog250/article/details/7101111" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">OpenVPN中TAP-win32d的net30问题</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/dog250/article/details/7107544';">下一篇</span><a href="http://blog.csdn.net/dog250/article/details/7107544" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">宝贝女儿半岁啦</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+   
+      
+</div>
+
+     <div>
+         
+         <!-- 广告位：PC端-博客详情页底部banner-960*90 -->
+            <script>
+                (function() {
+                    var s = "_" + Math.random().toString(36).slice(2);
+                    document.write('<div id="' + s + '"></div>');
+                    (window.slotbydup=window.slotbydup || []).push({
+                        id: '4770928',
+                        container: s,
+                        size: '960,90',
+                        display: 'inlay-fix'
+                    });
+                })();
+            </script><div id="_f8e77q5u9ts"></div><script charset="utf-8" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/kcem"></script>
+    </div>
+
+<div id="suggest">
+
+
+
+</div>
+         <script language="javascript" type="text/javascript">     
+             $(function(){
+                 $.get("/dog250/svc/GetSuggestContent/7107537",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+
+<div class="comment_class" id="comments">
+	<div class="commentform"><!--<div class="panel_head">发表评论</div>--></div>
+    <div id="comment_form"><div class="guest_link">您还没有登录,请<a href="javascript:void(0);" onclick="javascript:loginbox();">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Fdog250%2Farticle%2Fdetails%2F7107537">[注册]</a></div></div>
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list"><dl class="comment_item comment_topic" id="comment_item_4341739"><dt class="comment_head" floor="3">3楼 <span class="user"><a class="username" href="http://blog.csdn.net/sealinger" target="_blank">sealinger</a> <span class="ptime">2014-09-29 14:33发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="4341739" username="sealinger"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/sealinger" target="_blank"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/3_sealinger.jpg" width="40" height="40"></a></dd><dd class="comment_body">拜读了，学习了！</dd></dl><dl class="comment_item comment_topic" id="comment_item_4222173"><dt class="comment_head" floor="2">2楼 <span class="user"><a class="username" href="http://blog.csdn.net/cenziboy" target="_blank">nehc</a> <span class="ptime">2014-08-28 18:01发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="4222173" username="cenziboy"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/cenziboy" target="_blank"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/3_cenziboy.jpg" width="40" height="40"></a></dd><dd class="comment_body">拜读了， 请问64位系统的测试结果出来了没？</dd></dl><dl class="comment_item comment_topic" id="comment_item_2400987"><dt class="comment_head" floor="1">1楼 <span class="user"><a class="username" href="http://blog.csdn.net/hmings" target="_blank">edenhuang</a> <span class="ptime">2012-10-15 13:18发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="2400987" username="hmings"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/hmings" target="_blank"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/3_hmings.jpg" width="40" height="40"></a></dd><dd class="comment_body">作者分析得太清晰了，对于ip_conntrack的调整真的需要谨慎一点。</dd></dl><div class="clear"></div></div>
+    <div id="comment_bar" style="display: none;">
+    </div>
+    <!--<div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>-->
+</div>
+<div class="recommend_list">
+
+    
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/qq_19175749/article/details/51909470" target="_blank" strategy="BlogCommendFromBaidu_0">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">关于linux中的CONNTRACK_MAX和HASHSIZE要注意的地方</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_qq_19175749.jpg" alt="qq_19175749" title="qq_19175749"></li>
+                        <li class="user_name">qq_19175749</li>
+                        <li class="time">2016-07-14 15:05</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3012</span></li>
+                    </ul><div class="summary">
+                        关于linux中的CONNTRACK_MAX和HASHSIZE要注意的地方
+&nbsp;
+如果在压力测试的时候,并发数增大,但无法完成测试,可以尝试调整下参数:&nbsp;
+&nbsp;
+vi /etc/sysctl.conf&nbsp;
+在kernel2.6之前的添加项：&nbsp;
+...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/u010472499/article/details/78292811" target="_blank" strategy="BlogCommendFromBaidu_1">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">nf_conntrack连接跟踪模块</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_u010472499.gif" alt="u010472499" title="u010472499"></li>
+                        <li class="user_name">u010472499</li>
+                        <li class="time">2017-10-20 10:38</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>685</span></li>
+                    </ul><div class="summary">
+                        nf_conntrack连接跟踪模块
+
+在iptables里，包是和被跟踪连接的四种不同状态有关的。它们分别是NEW，ESTABLISHED，RELATED和INVALID。后面我们会
+深入地讨论每一个状态。使用iptables的state模块可以匹配操作这几种状态，我们能很容易地控制“谁或什么能...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            <script>(function() {var s = "_" + Math.random().toString(36).slice(2);document.write('<div id="' + s + '"></div>');(window.slotbydup = window.slotbydup || []).push({id: '4765209',container: s,size: '808,120',display: 'inlay-fix'});})();</script><div id="_qf8hcvih45e"></div><script charset="utf-8" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/kcem_002"></script> 
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/godleading/article/details/19972253" target="_blank" strategy="BlogCommendFromBaidu_2">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux nf_conntrack连接跟踪的实现</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_godleading.jpg" alt="godleading" title="godleading"></li>
+                        <li class="user_name">godleading</li>
+                        <li class="time">2014-02-26 12:07</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>19063</span></li>
+                    </ul><div class="summary">
+                        连接跟踪，顾名思义，就是识别一个连接上双方向的数据包，同时记录状态。下面看一下它的数据结构：
+struct nf_conn&nbsp;{
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;/* Usage count in here is 1 for hash table/des...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/dog250/article/details/7262619" target="_blank" strategy="BlogCommendFromBaidu_3">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">再次深入到ip_conntrack的conntrack full问题</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_dog250.jpg" alt="dog250" title="dog250"></li>
+                        <li class="user_name">dog250</li>
+                        <li class="time">2012-02-15 21:48</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>14109</span></li>
+                    </ul><div class="summary">
+                        
+增加nf_conntrack_max固然可以缓解这个问题，或者说减小conntrack表项占据内核内存的时间也可以缓解之，然而这种补救措施都是治
+标不治本的.注解：不要过度减小NEW以及TCP的establish的CT状态的timeout的原因尽量不要减小NEW状态时间，因为对于某些恶劣的
+网络，一个数...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            <!-- 广告位：PC端-博客详情通栏7（feed流）-808*120 --><iframe style="width: 100%; height: 123px; border: 0px none;" scrolling="no"></iframe>
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/caoshulin1989/article/details/70215399" target="_blank" strategy="BlogCommendFromBaidu_4">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">iptables ip_conntrack_max 调整</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_caoshulin1989.gif" alt="caoshulin1989" title="caoshulin1989"></li>
+                        <li class="user_name">caoshulin1989</li>
+                        <li class="time">2017-04-17 20:00</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>261</span></li>
+                    </ul><div class="summary">
+                        http://c20031776.blog.163.com/blog/static/68471625201352431052163/
+
+
+一、概念
+
+====================
+
+－允许的最大跟踪连接条目：CONNTRACK_MAX（默认值是 2^16=65536 ）
+...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/ku1989/article/details/8559838" target="_blank" strategy="BlogCommendFromBaidu_5">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">ip_conntrack_max问题</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_ku1989.gif" alt="ku1989" title="ku1989"></li>
+                        <li class="user_name">ku1989</li>
+                        <li class="time">2013-01-31 15:11</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>991</span></li>
+                    </ul><div class="summary">
+                        －允许的最大跟踪连接条目，在这篇文档中我们叫作CONNTRACK_MAX 
+－存储跟踪连接条目列表的哈西表的大小，在这篇文档中我们叫做HASHSIZE（下面是这个结构的描述） 
+
+CONNTRACK_MAX是在内核内存中netfilter可以同时处理的“任务”（连接跟踪条目）。 
+
+一个跟...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/romandion/article/details/1707470" target="_blank" strategy="BlogCommendFromBaidu_6">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">sysctl.conf的配置</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_romandion.jpg" alt="romandion" title="romandion"></li>
+                        <li class="user_name">romandion</li>
+                        <li class="time">2007-07-25 16:16</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>7443</span></li>
+                    </ul><div class="summary">
+                        sysctl.conf 
+是由/etc/rc.d/rc.sysinit在系统初始化是调用的参数列表。下面的参数列表可以通过sysctl 
+-a输出abi.fake_utsname = 0abi.trace = 0abi.defhandler_libcso = 
+68157441abi.defhandler...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/liangyuannao/article/details/8622502" target="_blank" strategy="BlogCommendFromBaidu_7">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Iptables之conntrack连接跟踪模块</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_wdt3385.jpg" alt="wdt3385" title="wdt3385"></li>
+                        <li class="user_name">wdt3385</li>
+                        <li class="time">2013-02-28 15:54</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2421</span></li>
+                    </ul><div class="summary">
+                        Iptables是有状态机制的防火墙，通过conntrack模块跟踪记录每个连接的状态，通过它可制定严密的防火墙规则。
+可用状态机制：
+
+
+
+
+
+
+1
+2
+3
+4
+5
+
+
+
+#http://blog.onovps.com
+NEW #新连接数据包
+ESTABLISH...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/lickylin/article/details/35797133" target="_blank" strategy="BlogCommendFromBaidu_8">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux netfilter 学习笔记 之八 ip层netfilter的连接跟踪模块初始化</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_lickylin.jpg" alt="lickylin" title="lickylin"></li>
+                        <li class="user_name">lickylin</li>
+                        <li class="time">2014-06-29 17:20</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>4222</span></li>
+                    </ul><div class="summary">
+                        在上一节中分析了连接跟踪模块相关的数据结构，本节就开始分析连接跟踪模块相关的初始化，下一节理解连接跟踪模块的hook机制。
+&nbsp;
+在分析连接跟踪模块代码之前，先说明几点：
+1.连接跟踪模块的helper结构能够实现期望连接的建立以及相关协议的ALG功能。
+2.连接跟踪为NAT或者状态...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/zmken497300/article/details/51779207" target="_blank" strategy="BlogCommendFromBaidu_9">
+                <dd>
+                    <h2>Linux内核参数配置文件修改(/proc/sys与/etc/sysctl.conf变量对应关系)</h2>
+                    <div class="summary">
+                        转载jadylen 的BLOG
+作品，原始出处：http://linxucn.blog.51cto.com/1360306/740130
+设置Linux内核参数 /etc/sysctl.conf
+&nbsp;
+配置 Linux 内核参数修改后不用重启动更新: /sbin/sysctl -p打开/et...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_zmken497300.jpg" alt="zmken497300" title="zmken497300"></li>
+                        <li class="user_name">zmken497300</li>
+                        <li class="time">2016-06-28 22:09</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3056</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            
+
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/lujianxin1098/article/details/12164587" target="_blank" strategy="BlogCommendFromBaidu_10">
+                <dd>
+                    <h2>linux sysctl -p 报error: "net.bridge.bridge-nf-call-ip6tables" is an unknown key</h2>
+                    <div class="summary">
+                        转载声明信息如下：
+&nbsp; &nbsp; 原创作品，允许转载，转载时请务必以超链接形式标明文章&nbsp;原始出处&nbsp;、作者信息和本声明。否则将追究法律责任。http://michaelkang.blog.51cto.com/1553154/1074307
+
+
+修改 linux...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_lujianxin1098.jpg" alt="lujianxin1098" title="lujianxin1098"></li>
+                        <li class="user_name">lujianxin1098</li>
+                        <li class="time">2013-09-29 15:15</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3103</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/adamska0104/article/details/51536450" target="_blank" strategy="BlogCommendFromBaidu_11">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux nf_conntrack连接跟踪的实现</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_adamska0104.jpg" alt="adamska0104" title="adamska0104"></li>
+                        <li class="user_name">adamska0104</li>
+                        <li class="time">2016-05-30 11:06</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1929</span></li>
+                    </ul><div class="summary">
+                        分类：
+&nbsp;
+
+Linux Kernel/网络协议栈（13）&nbsp;
+
+
+连接跟踪，顾名思义，就是识别一个连接上双方向的数据包，同时记录状态。下面看一下它的数据结构：
+struct nf_conn&nbsp;{
+&nbsp; &nbsp; &nbsp; &nbsp;...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl><div id="yd_a_d_feed_11" class="yd_a_d_feed_cla" style="height:124px;"><div id="BAIDU_SSP__wrapper_u3203594_0"></div><script type="text/javascript">var cpro_id = "u3203594";</script><script type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/c.js"></script></div>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/dog250/article/details/9732185" target="_blank" strategy="BlogCommendFromBaidu_12">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">我和ip_conntrack不得不说的一些事</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_dog250.jpg" alt="dog250" title="dog250"></li>
+                        <li class="user_name">dog250</li>
+                        <li class="time">2013-08-03 14:34</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>17917</span></li>
+                    </ul><div class="summary">
+                        
+面对让人无语的ip_conntrack，我有一种说不出的感觉！自从接触它到现在，已经两年多了，其间我受到过它的恩惠，也被它蹂躏过，被它玩过，但是
+又不忍心舍弃它，因为我找不到更好的替代。工作中，学习中，用到了ip_conntrack的几乎所有特性，然而这些都不能拿来主义得使用，过程中多少有
+些美中不足，...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/dog250/article/details/5695002" target="_blank" strategy="BlogCommendFromBaidu_13">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">linux内核netfilter之ip_conntrack模块的作用--抽象总结</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_dog250.jpg" alt="dog250" title="dog250"></li>
+                        <li class="user_name">dog250</li>
+                        <li class="time">2010-06-25 21:47</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>6374</span></li>
+                    </ul><div class="summary">
+                        &lt;br 
+/&gt;nat规则将数据流的地址信息进行转换，转换了之后需要将转换后的地址信息写入ip_conntrack结构体中，经过nat之后目的地址无非
+两个方向，一个是本机(redirect 
+target)，一个是其它机器(网关上的nat一般都这样)，于是netfilter需要对这两个方向的转...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/eroswang/article/details/3593515" target="_blank" strategy="searchFromBaidu_14">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">ip_conntrack_max和hash表</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_eroswang.jpg" alt="eroswang" title="eroswang"></li>
+                        <li class="user_name">eroswang</li>
+                        <li class="time">2008-12-24 09:07</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1875</span></li>
+                    </ul><div class="summary">
+                        
+http://bbs.chinaunix.net/viewthread.php?tid=596067昨天无意中发现了一篇文档，解决了我很久以来的
+一些问题，于是花了半天的时间把它翻译了一下，可是翻译的却不好，如果您的E文还好的话，建议您直接看原文更好。这是关于使用iptables来调优防火
+墙性能的一篇...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/stonesharp/article/details/45342883" target="_blank" strategy="BlogCommendFromBaidu_15">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">我和ip_conntrack不得不说的一些事</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_stonesharp.gif" alt="stonesharp" title="stonesharp"></li>
+                        <li class="user_name">stonesharp</li>
+                        <li class="time">2015-04-28 21:51</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>607</span></li>
+                    </ul><div class="summary">
+                        
+面对让人无语的ip_conntrack，我有一种说不出的感觉！自从接触它到现在，已经两年多了，其间我受到过它的恩惠，也被它蹂躏过，被它玩过，但是
+又不忍心舍弃它，因为我找不到更好的替代。工作中，学习中，用到了ip_conntrack的几乎所有特性，然而这些都不能拿来主义得使用，过程中多少有
+些美中不足，...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/dog250/article/details/14642755" target="_blank" strategy="BlogCommendFromBaidu_16">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">ip_conntrack的TCP状态机</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_dog250.jpg" alt="dog250" title="dog250"></li>
+                        <li class="user_name">dog250</li>
+                        <li class="time">2013-11-09 08:21</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>5155</span></li>
+                    </ul><div class="summary">
+                        
+深入理解ip_conntrack的都知道，ip-conntrack本身对于TCP维护了一个状态机，值得注意的是，该状态机和TCP协议本身的状态机
+相似但不相同。其区别如下：TCP状态机：为TCP的两端分别维护一个状态机，TCP连接的主动发起/被动发起和主动关闭/被动关闭的状态机转换是不同
+的。ip_co...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl><dl id="yd_a_d_feed_16" class="yd_a_d_feed_cla" style="height:124px;"><iframe style="width: 100%; height: 90px; border: 0px none;" scrolling="no"></iframe></dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/yusiguyuan/article/details/22923943" target="_blank" strategy="BlogCommendFromBaidu_17">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">TCP/IP详解--如何处理TIME_WAIT状态</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_yusiguyuan.jpg" alt="yusiguyuan" title="yusiguyuan"></li>
+                        <li class="user_name">yusiguyuan</li>
+                        <li class="time">2014-04-04 11:42</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3929</span></li>
+                    </ul><div class="summary">
+                        netstat -n | awk '/^tcp/ {++state[$NF]} END {for(key in state) print key,"\t",state[key]}'
+会得到类似下面的结果，具体数字会有所不同：
+
+LAST_ACK 1
+SYN_REC...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/zzhongcy/article/details/45691471" target="_blank" strategy="BlogCommendFromBaidu_18">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">网络服务器-解决服务器大量TIME_WAIT而无法访问的方法</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_yangyangye.jpg" alt="yangyangye" title="yangyangye"></li>
+                        <li class="user_name">yangyangye</li>
+                        <li class="time">2015-05-13 12:06</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1524</span></li>
+                    </ul><div class="summary">
+                        
+前段时间我在进行线上项目压力测试的时候，遇到了一个吞吐量的性能问题，当时我的Server和Client之间的通信协议采用了Json Over 
+HTTP的方式（并且在同一个机器上面，其实应该是出现在Client的那个机器上），而且由于Client的实现原因，没有任何KeepAlive机
+制，同时必须有大...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/dog250/article/details/9318843" target="_blank" strategy="BlogCommendFromBaidu_19">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">无状态TCP的ip_conntrack</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_dog250.jpg" alt="dog250" title="dog250"></li>
+                        <li class="user_name">dog250</li>
+                        <li class="time">2013-07-13 16:03</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>7794</span></li>
+                    </ul><div class="summary">
+                        
+Linux的ip_conntrack实现得过于沉重和精细。而实际上有时候，根本不需要在conntrack中对TCP的状态进行跟踪，只把它当UDP
+好了，我们的需求就是让系统可以将一个数据包和一个五元组标示的流相关联，因为很多的基于流的策略都设置在conntrack结构中，所以当关联好之后，
+就可以直接取...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            </div>
+<script type="text/javascript">
+    var fileName = '7107537';
+    var commentscount = 3;
+    var islock = false
+document.domain = "csdn.net";
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop" style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])">         
+         <img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+    var showTexComDom = $('<div class="texCommend" style="position:absolute;display:none;">显示当前公式源码</div>');
+    $('body').append(showTexComDom);
+    $("#article_content").on('contextmenu', 'span.MathJax', function (ev) {
+        ev.preventDefault ? ev.preventDefault() : (ev.returnValue = false);
+        var scrollleft = document.documentElement.scrollLeft || document.body.scrollLeft;
+        var scrolltop = document.documentElement.scrollTop || document.body.scrollTop;
+        var left = ev.clientX + scrollleft + 10 + "px";
+        var top = ev.clientY + scrolltop + 10 + "px";
+        showTexComDom.css({
+            top: top,
+            left: left
+        }).show();
+        showTexComDom.html('显示当前公式源码');
+        var curSpan = $(this);
+        var commendId = curSpan.attr('id').replace('-Frame', '');
+        console.log(commendId);
+        $("body").bind('click', function (ev) {
+            console.log(ev);
+            var className = ev.originalEvent.target.className;
+            if (className.indexOf('texCommend') === -1) {
+                showTexComDom.hide();
+                $("body").unbind('click');
+            }
+        });
+        showTexComDom.one('click', function () {
+            $(this).text($("#" + commendId).html());
+        });
+    });
+        (function () {
+            var viewImg = function viewImg(dom) {
+                var dom = dom ? dom : 'body';
+                var imgDOM = $(dom + ' img');
+                var ua = navigator.userAgent.toLowerCase();
+
+                if (imgDOM.length === 0) return false
+
+                if ($('.imgViewDom').length === 0) {
+                    $('body').append('<div class="imgViewDom disnone" style="display: none;"><img src=""></div>')
+                    $('body').append('<style>.imgViewDom{display:none;position:fixed;top:0;left:0;height:100%;width:100%;z-index:99999999;background: rgba(255, 255, 255,0.8);overflow: auto;display:-webkit-box;-webkit-box-align:center;-webkit-box-pack:center;display:-moz-box;-moz-box-align:center;-moz-box-pack:center;display:-o-box;-o-box-align:center;-o-box-pack:center;display:-ms-box;-ms-box-align:center;-ms-box-pack:center; display:box;box-align:center;box-pack:center;}.imgViewDom img{cursor: zoom-out;}</style>')
+                    $('.imgViewDom').on('click', function () {
+                        if (ua.indexOf('windows ') > -1) {
+                            $('body').css({ 'overflow': 'auto', 'margin-left': '0' })
+                        } else {
+                            $('body').css({ 'overflow': 'auto' })
+                        }
+                        $('.imgViewDom').fadeOut(500).children('img').attr('src', "");
+                    })
+                }
+                imgDOM.bind('click', function (e) {
+                    if (e.currentTarget.src) {
+                        $('.imgViewDom').fadeIn(500).children('img').css({ 'width': e.currentTarget.naturalWidth, 'height': e.currentTarget.naturalheight }).attr('src', e.currentTarget.src)
+                        if (ua.indexOf('windows ') > -1) {
+                            $('body').css({ 'overflow': 'hidden', 'margin-left': '-17px' })
+                        } else {
+                            $('body').css({ 'overflow': 'hidden' })
+                        }
+
+                    }
+                })
+
+            }
+            window.CSDNviewImg = viewImg;
+
+        })()
+    CSDNviewImg('#article_details')
+    var articletitle='不要盲目增加ip_conntrack_max-理解Linux内核内存';
+
+</script>
+<script src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/appendMark.js" type="text/javascript"></script>
+<script type="text/javascript">
+    appendMark($('.recommend_list').children('a').find('dt'),$('.extension_other'))
+</script>
+
+
+
+
+
+
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="side">
+                
+
+    <div class="side">
+
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/dog250" target="_blank">
+    <img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/1_dog250.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/dog250" class="user_name" target="_blank">Bomb250</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=dog250','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                       <div class="ico_expert" onclick="javascript:location='http://blog.csdn.net/experts/rule.html'" title="CSDN认证专家" style="cursor:pointer;width:60px;height:60px;background:url('http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhuanjiamiddle.png') no-repeat"></div>
+                <div id="bms_box">
+                                            <a target="_blank">
+                                                    <img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="3">
+                                            </a>
+               </div>
+
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>7000580次</span></li>
+    <li>积分：<span>84182</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+                 <a title="9级,点击查看等级说明" href="http://blog.csdn.net/home/help.html#level" target="_blank"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog9.png" alt="" style="vertical-align: middle;" id="leveImg"></a>
+            
+        </span>  </li>
+    <li>排名：<span>第17名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>1434篇</span></li>
+    <li>转载：<span>2篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>3106条</span></li>
+</ul>
+</ul>
+</div>
+
+
+                        <div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" class="form_search csdn-tracking-statistics" data-pid="blog" target="_blank" data-mod="popu_306">
+        <span><input id="inputSearch" class="blogsearch" title="请输入关键字" type="text"></span>
+        <input id="btnSubmit" value="搜索" title="search in blog" type="button">
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + 
+encodeURIComponent($("#inputSearch").val()) + "&u=" + username + 
+"&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + 
+encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            var url = "/" + username + "?q=" + 
+encodeURIComponent($("#inputSearch").val());
+            window.location.href = url;
+        }   
+    });
+</script> 
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/495855" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux内核</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/495857" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux系统</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/510671" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">帖子收藏</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/510669" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">帖子收藏</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/473098" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">思想者</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/495862" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">数学和算法</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/476477" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">杂感</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/495863" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">系统设计</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/dog250/article/category/6217757" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux tcp</a><span>(1)</span>
+                </li>
+</ul>
+</div>
+<div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="http://blog.csdn.net/dog250/article/month/2018/01">2018年01月</a><span>(13)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/12">2017年12月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/11">2017年11月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/10">2017年10月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/09">2017年09月</a><span>(5)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/dog250/article/month/2017/08">2017年08月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/07">2017年07月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/06">2017年06月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/05">2017年05月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/04">2017年04月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/03">2017年03月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/02">2017年02月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2017/01">2017年01月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/12">2016年12月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/11">2016年11月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/10">2016年10月</a><span>(13)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/09">2016年09月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/08">2016年08月</a><span>(17)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/07">2016年07月</a><span>(14)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/06">2016年06月</a><span>(9)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/05">2016年05月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/04">2016年04月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/03">2016年03月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/02">2016年02月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2016/01">2016年01月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/11">2015年11月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/09">2015年09月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/08">2015年08月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/07">2015年07月</a><span>(22)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/06">2015年06月</a><span>(9)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/05">2015年05月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/04">2015年04月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/03">2015年03月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/02">2015年02月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2015/01">2015年01月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/12">2014年12月</a><span>(14)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/11">2014年11月</a><span>(21)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/10">2014年10月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/09">2014年09月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/08">2014年08月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/07">2014年07月</a><span>(9)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/06">2014年06月</a><span>(13)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/05">2014年05月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/04">2014年04月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/03">2014年03月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/02">2014年02月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2014/01">2014年01月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/12">2013年12月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/11">2013年11月</a><span>(14)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/10">2013年10月</a><span>(14)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/09">2013年09月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/08">2013年08月</a><span>(16)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/07">2013年07月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/06">2013年06月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/05">2013年05月</a><span>(15)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/04">2013年04月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/03">2013年03月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/02">2013年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2013/01">2013年01月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/12">2012年12月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/11">2012年11月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/10">2012年10月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/09">2012年09月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/08">2012年08月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/07">2012年07月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/06">2012年06月</a><span>(16)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/05">2012年05月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/04">2012年04月</a><span>(15)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/03">2012年03月</a><span>(15)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/02">2012年02月</a><span>(16)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2012/01">2012年01月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/12">2011年12月</a><span>(22)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/11">2011年11月</a><span>(25)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/10">2011年10月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/09">2011年09月</a><span>(13)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/08">2011年08月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/07">2011年07月</a><span>(13)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/06">2011年06月</a><span>(13)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/05">2011年05月</a><span>(19)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/04">2011年04月</a><span>(19)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/03">2011年03月</a><span>(9)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/02">2011年02月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2011/01">2011年01月</a><span>(29)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/12">2010年12月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/11">2010年11月</a><span>(16)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/10">2010年10月</a><span>(9)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/09">2010年09月</a><span>(19)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/08">2010年08月</a><span>(28)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/07">2010年07月</a><span>(26)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/06">2010年06月</a><span>(28)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/05">2010年05月</a><span>(27)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/04">2010年04月</a><span>(39)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/03">2010年03月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2010/02">2010年02月</a><span>(414)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2009/11">2009年11月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/dog250/article/month/2009/02">2009年02月</a><span>(10)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+
+<div id="hotarticls" class="panel csdn-tracking-statistics" data-pid="blog" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/24552307" title="令人作呕的OpenSSL" target="_blank">令人作呕的OpenSSL</a><span>(108327)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/6612496" title="TCP协议疑难杂症全景解析" target="_blank">TCP协议疑难杂症全景解析</a><span>(68320)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/9529927" title="OpenVPN莫名其妙断线的问题及其解决" target="_blank">OpenVPN莫名其妙断线的问题及其解决</a><span>(59301)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/5303542" title="从ip addr add和ifconfig的区别看linux网卡ip地址的结构" target="_blank">从ip addr add和ifconfig的区别看linux网卡ip地址的结构</a><span>(51081)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/6300347" title="OpenVPN性能-OpenVPN的第一个瓶颈在tun驱动" target="_blank">OpenVPN性能-OpenVPN的第一个瓶颈在tun驱动</a><span>(50706)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/52830576" title="来自Google的TCP BBR拥塞控制算法解析" target="_blank">来自Google的TCP BBR拥塞控制算法解析</a><span>(47388)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/6747140" title="搞IT的到底怎么了" target="_blank">搞IT的到底怎么了</a><span>(44623)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/75735806" title="《三体》读后思考-泰勒展开/维度打击/黑暗森林" target="_blank">《三体》读后思考-泰勒展开/维度打击/黑暗森林</a><span>(44175)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/13760985" title="TCP的TIME_WAIT快速回收与重用" target="_blank">TCP的TIME_WAIT快速回收与重用</a><span>(42785)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/dog250/article/details/7354590" title="Linux实现的IEEE 802.1Q VLAN" target="_blank">Linux实现的IEEE 802.1Q VLAN</a><span>(35375)</span>
+</li>
+</ul>
+</div>
+
+<div id="homepageArticles" class="panel csdn-tracking-statistics" data-pid="blog" data-mod="popu_4" style="height:250px;">
+
+    <div id="cpro_u2734133" style="text-align:center;">
+      
+        <!-- 投放代码 -->
+        <div id="_qrz2toaffp"><abbr style="display:none;"></abbr><iframe scrolling="no" src="http://pos.baidu.com/s?hei=250&amp;wid=250&amp;di=u2734133&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Fdog250%2Farticle%2Fdetails%2F7107537&amp;psr=1920x1080&amp;cpl=1&amp;pcs=1903x966&amp;ant=0&amp;par=1920x1040&amp;cja=false&amp;cmi=2&amp;ps=4023x324&amp;pis=-1x-1&amp;ari=2&amp;dis=0&amp;dtm=HTML_POST&amp;tlm=1518154036&amp;cfv=28&amp;exps=111000&amp;drs=1&amp;dri=0&amp;ccd=24&amp;tpr=1518154035848&amp;cec=UTF-8&amp;dc=3&amp;cdo=-1&amp;dai=4&amp;col=zh-CN&amp;pss=1903x7037&amp;chi=1&amp;cce=true&amp;tcn=1518154037&amp;ti=%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter%2Ciptables%2FOpen" width="250" height="250" frameborder="0"></iframe></div><script type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/bwlxosfoo.js"></script>
+      
+
+    </div>
+
+
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/79184275#comments">永不停驶无需停靠站的超级高速列车</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/fangxin205" class="user_name">繁星逸夜</a>:
+短途距离来说，时间是的消耗没有减少。这样的设计适合长距离，在地铁上的使用，成本和提高效率不划算。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/60312894#comments">令人比较失落的IT圈子-关于华为裁员</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/MaximP" class="user_name">MaximP</a>:
+井底之蛙，不知所谓。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/60312894#comments">令人比较失落的IT圈子-关于华为裁员</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/ke_new" class="user_name">ke_new</a>:
+每个人心中都有定数
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/60312894#comments">令人比较失落的IT圈子-关于华为裁员</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u011333037" class="user_name">MATRIX123321</a>:
+还可以
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/60312894#comments">令人比较失落的IT圈子-关于华为裁员</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/zhe0159" class="user_name">少云</a>:
+想法没毛病，非常赞同最后一段。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/60312894#comments">令人比较失落的IT圈子-关于华为裁员</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/zhilxb" class="user_name">zhilxb</a>:
+读文的过程中就在想，下边评论必然少不了一顿争吵。不过自我理解，中国自古就有985/211这种以偏概全...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/75735806#comments">《三体》读后思考-泰勒展开/维度打击/黑暗森林</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/conquerwave" class="user_name">conquerwave</a>:
+泰勒展开是在用自身证明自身，鸡肋降维，用映射来解释到也新鲜，不失贴切黑暗森林的联想，有点意思感谢作者...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/75735806#comments">令人比较失落的IT圈子-关于华为裁员</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/subicman" class="user_name">大树一株</a>:
+写的挺好的。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/75735806#comments">令人比较失落的IT圈子-关于华为裁员</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/ordinarycc" class="user_name">ordinarycc</a>:
+我向来是与世不争的性格，只做好自己，社会尔虞我诈不适合我，取一勺米饭充饥即可
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/dog250/article/details/75735806#comments">令人比较失落的IT圈子-关于华为裁员</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u014519194" class="user_name">junzibuqi124</a>:
+我觉得大方向没毛病
+    </p>
+    </li>
+</ul>
+</div>
+
+    </div>
+    <div class="clear">
+    </div>
+
+                        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_189" data-mtp="63" data-order="40" data-con="ad_content_1259" style="width: 250px; height: 250px;">
+                            <div id="nav_show_top_stop" style="width: 250px; height: 250px; z-index: 1000; position: fixed; top: 698.767px;">
+
+                                <div id="cpro_u3031286" style="text-align:center;">
+                                    <!-- 投放代码 -->
+                                    <div><iframe scrolling="no" src="//pos.baidu.com/s?hei=250&amp;wid=250&amp;di=u3031286&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Fdog250%2Farticle%2Fdetails%2F7107537&amp;dc=3&amp;cmi=2&amp;par=1920x1040&amp;cpl=1&amp;ari=2&amp;ant=0&amp;tpr=1518154035848&amp;ps=4949x323&amp;dtm=HTML_POST&amp;dis=0&amp;pss=1903x7037&amp;pis=-1x-1&amp;pcs=1903x966&amp;col=zh-CN&amp;dri=0&amp;cdo=-1&amp;dai=5&amp;ti=%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter%2Ciptables%2FOpen&amp;psr=1920x1080&amp;chi=1&amp;cja=false&amp;cfv=28&amp;tcn=1518154037&amp;ccd=24&amp;exps=111000&amp;cec=UTF-8&amp;drs=1&amp;tlm=1518154036&amp;cce=true" width="250" height="250" frameborder="0"></iframe><ins id="cmzhafnszz" class="sbtuluzhi" style="width:0px;height:0px;margin-top:0px;"></ins></div><script type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/bwocoflyv.js"></script>
+                                    
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+
+                            setTimeout(function () {
+                                var naviga_offsetTop = 0; function 
+naviga_stay_top() {
+                                    var scrollTop = 
+jQuery(document).scrollTop();
+                                    if (scrollTop > naviga_offsetTop) {
+                                        
+jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                                        
+jQuery("#nav_show_top_stop").css({ "top": "0px" });
+                                    } else { 
+jQuery("#nav_show_top_stop").css({ "position": "fixed" }); 
+jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop +
+ "px" }); }
+                                }
+                                function onload_function() {
+                                    naviga_offsetTop = 
+jQuery("#nav_show_top_stop").position().top;
+                                    jQuery(window).bind("scroll", 
+naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top);
+                                    jQuery(document).bind("scroll", 
+naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top);
+                                } 
+jQuery(document).ready(onload_function);
+                            }, 200);
+
+                        </script>
+
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='csdn-tracking-statistics' 
+data-pid=\"blog\"  data-mod='popu_167'><a 
+href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  
+style='text-indent:0;'><img 
+src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 
+alt='在CODE上查看代码片' 
+style='position:relative;top:1px;left:2px;'/></a></span>"
+                + "<span class='csdn-tracking-statistics' 
+data-pid=\"blog\"  data-mod='popu_170'><a 
+href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' 
+style='text-indent:0;'><img 
+src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 
+alt='派生到我的代码片' 
+style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && 
+parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div><div class="texCommend" style="position:absolute;display:none;">显示当前公式源码</div>
+
+
+    <script type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/MathJax.js"></script>
+
+
+        <script src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_blog_detail.js" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="javascript:void(0);" target="_blank" class="qq">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2251809102&amp;site=qq&amp;menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-660-0108</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏知之为计算机有限公司</span><span class="interval">|</span><span>江苏乐知网络技术有限公司</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2017, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/notify.js"></script><input id="aa_g_data_ids" type="hidden">
+
+        <script type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_public_blog_detail.js"></script>
+
+        <script type="text/javascript" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/showblogmedal.js"></script>
+
+
+        <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+            <script id="adJs52b5334" src="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/52b5334.js"></script>
+            <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+        </div>
+
+        <div class="pop_CA_cover" style="display:none"></div>
+        <div class="pop pop_CA" style="display:none">
+            <div class="CA_header">
+                收藏助手
+                <span class="cancel_icon" id="fapancle" onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+            </div>
+            <iframe src="" id="fa" scrolling="no" width="100%" height="360" frameborder="0"></iframe>
+        </div>
+
+
+            <script type="text/javascript">
+
+                $(function () {
+                    var fromjs = $("#fromjs");
+                    if (fromjs.length > 0) {
+                        $("#fromjs .markdown_views pre").addClass("prettyprint");
+                        prettyPrint();
+
+                        $('pre.prettyprint code').each(function () {
+                            var lines = $(this).text().split('\n').length;
+                            var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                            $(this).addClass('has-numbering').parent().append($numbering);
+                            for (i = 1; i <= lines; i++) {
+                                $numbering.append($('<li/>').text(i));
+                            };
+                            $numbering.fadeIn(1700);
+                        });
+
+                        $('.pre-numbering li').css("color", "#999");
+                    }
+                });
+
+                $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+                //$(".toc a[target='_blank']").attr("target", "");
+
+                setTimeout(function () {
+                    $(".toc a[target='_blank']").attr("target", "");
+                }, 500);
+
+            </script>
+                <div style="display:none;">
+                    <img src="" onerror='setTimeout(function(){if(top!==self){window.top.location.href=window.location.href}if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+                </div>
+    
+
+<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" id="focus_retriever" readonly="true" type="text"></div><link rel="stylesheet" type="text/css" media="screen" href="%E4%B8%8D%E8%A6%81%E7%9B%B2%E7%9B%AE%E5%A2%9E%E5%8A%A0ip_conntrack_max-%E7%90%86%E8%A7%A3Linux%E5%86%85%E6%A0%B8%E5%86%85%E5%AD%98%20-%20Netfilter,iptables_OpenVPN_TCP%20guard%20-(%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ask_float_fonts_css-6b30a53970eb5c3a2a045e3df585b475.css"><div data-mod="popu_64" class="csdn-tracking-statistics" chg-blk="0"><a id="com-quick-QRcode" class="QRcodebg1" title="扫描二维码" style="top:322px"><span class="closeQR"></span></a><a id="com-quick-reply" title="快速回复" style="top:456px"></a><a id="com-quick-collect" title="我要收藏" style="top:494px"></a><a id="com-d-top-a" style="top: 532px; display: inline;" title="返回顶部" onclick=""></a></div><div class="pop_edit ask_second comm_ask_second"><h3>提问</h3><span class="ask_float_span">您的问题将会被发布在“<a class="ask_float_channel" href="http://ask.csdn.net/" target="_blank" style="cursor:pointer">技术问答</a>”频道</span><a href="#" nodetype="close" class="close">×</a><div class="context"><div class="err_div"><span class="err_ico"></span><span class="err_txt">该问题已存在，请勿重复提问</span></div><div class="input_div"><input id="askInputSecond" style="font-size:14px;" placeholder="问题标题" type="text"></div><div class="cm_box"><div class="cm_dialog"></div> <div class="pop_cm cm_add_link"><input placeholder="链接内容" id="af_cm_link_txt" type="text"><input placeholder="链接地址" id="af_cm_link_url" type="text"><input placeholder="链接提示" id="af_cm_link_tit" type="text"><div class="text-right"><span class="btn btn-default btn-sm" id="add_link_btn">插入链接</span> </div> </div><div class="pop_cm cm_add_img"><div class="nav-tabs"><a class="img_tab active" href="#tab_upload">本地上传</a><a class="img_tab" href="#tab_weburl">网络图片</a></div><div class="tab_panel active" id="tab_upload"><div class="set_img"></div></div><div class="tab_panel" id="tab_weburl"><input placeholder="图片地址" id="af_cm_img_url" type="text"><input placeholder="图片说明" id="af_cm_img_alt" type="text"><div class="text-right"><span class="btn btn-default btn-sm" id="add_img_btn">插入图片</span> </div></div> </div></div> <textarea id="editor_all" rows="8" style="display: none;"></textarea><div class="editor-toolbar"><i class="separator">|</i><a class="icon-headline" title="标题一（Ctrl+Alt+1）"></a><a class="icon-heading" title="标题二（Ctrl+Alt+2）"></a><a class="icon-bold" title="粗体（Ctrl+B）"></a><a class="icon-italic" title="斜体（Ctrl+I）"></a><i class="separator">|</i><a class="icon-quote-left" title="引用（Ctrl+’）"></a><a class="icon-code" title="插入代码片（Ctrl+,）"></a><a class="icon-list-ul" title="无序列表（Ctrl+L）"></a><a class="icon-list-ol" title="有序列表（Ctrl+Alt+L）"></a><i class="separator">|</i><a class="icon-link" title="添加链接（Ctrl+K）"></a><a class="icon-picture" title="添加图片（Ctrl+Alt+I）"></a><i class="separator">|</i><a class="icon-reply" title="撤退（Ctrl+Z）"></a><a class="icon-share-alt" title="前进（Ctrl+Shift+Z）"></a><i class="separator">|</i><a class="icon-info" href="http://ask.csdn.net/pages/markdown" target="_blank" title="markdown语法参考"></a><a class="icon-preview" title="预览"></a><i class="separator">|</i></div><div class="CodeMirror cm-s-paper CodeMirror-focused"><div style="overflow: hidden; position: relative; width: 3px; height: 0px;"><textarea style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: medium none currentcolor; font-size: 4px;" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"></textarea></div><div class="CodeMirror-hscrollbar"><div style="height: 1px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="min-width: 33px;"><div style="position: relative;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none currentcolor;"><div class="CodeMirror-measure"><pre>&nbsp;<span style="display: inline-block; width: 1px; margin-right: -1px;">&nbsp;</span></pre></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code"></div><div class="CodeMirror-cursor" style="visibility: hidden;">&nbsp;</div><div class="CodeMirror-cursor CodeMirror-secondarycursor" style="visibility: hidden;">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px;"></div><div class="CodeMirror-gutters" style="display: none;"></div></div></div><div class="editor-statusbar"><span class="lines">0</span><span class="words">0</span><span class="cursor">0:0</span></div><div class="div_tags clearfix"><div id="divSearchTags" class="tags_con"><input type="text"></div><input name="txtSearchTags" type="hidden"></div><div id="ask2_tagRecomm_div" class="drt_tagRecomm tracking-ad" data-mod="popu_73"><span class="drt_tit">推荐标签：</span></div></div><div class="success"><div class="left_area"><input id="chk_cb" type="checkbox"><span class="wyxs">我要悬赏</span><input id="cb_num" class="cb_num" readonly="true"><span class="phib_rii"><span> 币</span></span></div><a href="#" nodetype="cancel" class="cancel">取消</a><a href="#" nodetype="ok" class="ok">发布</a></div></div><div id="common_ask_div_sc" class="searchContainer"><div class="sTitle">可能存在类似的问题：</div><div class="sFooter"><a class="sFirstNewAsk">我想提一个新问题</a></div></div><div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" id="focus_retriever" readonly="true" type="text"></div></body></html>
