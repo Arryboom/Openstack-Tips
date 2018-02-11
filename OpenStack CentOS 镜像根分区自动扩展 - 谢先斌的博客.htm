@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    
+    <title>OpenStack CentOS 镜像根分区自动扩展 - 谢先斌的博客</title>
+    
+    <!--
+      
+    -->
+    <meta name="author" content="谢先斌">
+    
+    <meta name="description" content="  制作OpenStack CentOS 镜像根分区自动扩展问题解决方式汇总。 谢先斌的博客，致力于以博客的形式，为技术开发人员提供分享和交流的平台，将自己所学、所见、所感和所知以博客的形式分享给大家。推动中国开源技术的发展。推动OpenStack在中国的普及和应用。">
+    
+    <meta name="keywords" content="谢先斌 博客 开源 开发者 技术 OpenStack 云计算 CentOS Linux 安装 架构 教程 nova glance swift keystone 虚拟机">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/bootstrap_002.css" rel="stylesheet">
+    <link href="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/bootstrap.css" rel="stylesheet">
+    <link href="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/blog.css" rel="stylesheet">
+  
+    <script src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/ie-emulation-modes-warning.js"></script>
+  
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cn-cdn.xiexianbin.cn/assets/themes/bootstrap/resources/html5shiv/html5shiv.min.js"></script>
+      <script src="https://cn-cdn.xiexianbin.cn/assets/themes/bootstrap/resources/respond/Respond.min.js"></script>
+    <![endif]-->
+
+    <link href="https://xiexianbin.cn/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="https://xiexianbin.cn/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <link rel="apple-touch-icon" href="https://xiexianbin.cn/img/apple-touch-icon.png">
+    <link rel="icon" href="https://xiexianbin.cn/img/favicon.ico">
+
+  <script src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/share.js"></script></head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063"})</script>
+
+  <body>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://xiexianbin.cn/">谢先斌的博客</a>
+        </div>
+
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+            
+
+
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+        
+        <li><a href="https://xiexianbin.cn/archive/">Archive</a></li>
+        
+      
+    
+  
+    
+      
+    
+  
+    
+      
+        
+        <li><a href="https://xiexianbin.cn/categories/">Categories</a></li>
+        
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+        
+        <li><a href="https://xiexianbin.cn/search/">Search</a></li>
+        
+      
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+        
+        <li><a href="https://xiexianbin.cn/tags/">Tags</a></li>
+        
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+            <li><a href="http://tools.xiexianbin.cn/">Tools</a></li>
+            <li><a href="http://xiexianbin.cn/ci/">CI</a></li>
+            <li><a href="http://docs.xiexianbin.cn/">Docs</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      
+
+<div class="page-header">
+  <h1>OpenStack CentOS 镜像根分区自动扩展 </h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-md-12 clear-padding">
+    <div class="date dis-block">
+      <span class="col-sm-6 dis-block">14 December 2016</span>
+      <span class="col-sm-6 dis-block">
+
+
+  <div class="bdsharebuttonbox">
+  <a href="#" class="bds_more" data-cmd="more"></a>
+  <a href="#" class="bds_bdhome" data-cmd="bdhome" title="分享到百度新首页"></a>
+  <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+  <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+  <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+  <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>
+  window._bd_share_config={
+    "common":{
+      "bdSnsKey":{},
+      "bdText":"来自谢先斌的博客分享",
+      "bdMini":"2",
+      "bdMiniList":false,
+      "bdPic":"https://www.xiexianbin.cn/img/xiexianbin-persion.jpg",
+      "bdStyle":"2",
+      "bdSize":"16"
+    },
+    "share":{},
+    "image":{
+      "viewList":["bdhome","qzone","tsina","fbook","twi","copy"],
+      "viewText":"分享到：",
+      "viewSize":"16"
+    }
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='https://cn-cdn.xiexianbin.cn/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+
+
+
+</span>
+    </div>
+    <div class="content bs-docs-container dis-block">
+      <div class="col-md-9" role="main" id="blog_content">
+        <blockquote>
+  <p>制作OpenStack CentOS 镜像根分区自动扩展问题解决方式汇总。</p>
+</blockquote>
+
+<h2 id="anchor0"><span class="nav-anchor-span">CentOS 5</span><a class="anchorjs-link nav-anchor" href="#anchor0" aria-label="Anchor link for: grid intro"><span class="glyphicon glyphicon-link"></span></a></h2>
+
+<p>CentOS 5 太老了，完全不支持。</p>
+
+<h2 id="anchor1"><span class="nav-anchor-span">CentOS 6</span><a class="anchorjs-link nav-anchor" href="#anchor1" aria-label="Anchor link for: grid intro"><span class="glyphicon glyphicon-link"></span></a></h2>
+
+<p>CentOS 6 要实现分区自动扩展，要安装以下三个包</p>
+
+<div class="highlighter-rouge"><div class="zero-clipboard"><span class="btn-clipboard">复制</span></div><div class="highlight"><div class="zero-clipboard"><span class="btn-clipboard">复制</span></div><pre class="highlight"><code>yum install cloud-init cloud-utils-growpart dracut-modules-growroot
+</code></pre></div></div>
+
+<p>生新生成 initramfs</p>
+
+<div class="highlighter-rouge"><div class="zero-clipboard"><span class="btn-clipboard">复制</span></div><div class="highlight"><div class="zero-clipboard"><span class="btn-clipboard">复制</span></div><pre class="highlight"><code>dracut -f
+</code></pre></div></div>
+
+<p>dracut 把 growroot 的脚本封装到 initramfs 里面。 把系统启动时， initramfs 利用 growpart 命令把根分区进行扩展。然后启动真正的 kernel, 之后 cloud-init 服务会自动把文件系统进行扩展。</p>
+
+<p>之所以使用 initramfs 这种方式，原因：</p>
+
+<p>http://openstack.openstack.narkive.com/opyLuPqC/centos-6-5-cloud-init-growpart-resizefs-does-not-work-on-first-boot</p>
+
+<div class="highlighter-rouge"><div class="zero-clipboard"><span class="btn-clipboard">复制</span></div><div class="highlight"><div class="zero-clipboard"><span class="btn-clipboard">复制</span></div><pre class="highlight"><code>Growpart called by cloud-init only works for kernels &gt;3.8. Only newer kernels support changing the partition size of a mounted partition. When using an older kernel the resizing of the root partition happens in the initrd stage before the root partition is mounted and the subsequent cloud-init growpart run is a no-op.
+</code></pre></div></div>
+
+<h2 id="anchor2"><span class="nav-anchor-span">CentOS 7</span><a class="anchorjs-link nav-anchor" href="#anchor2" aria-label="Anchor link for: grid intro"><span class="glyphicon glyphicon-link"></span></a></h2>
+
+<p>CentOS 7 使用的是 3.10 ( &gt; 3.8 ) 的内核，所以并不需要 dracut-modules-growroot 包 ( 源里面也并没有这个包 )。 只安装以下两个包就可以了。</p>
+
+<div class="highlighter-rouge"><div class="zero-clipboard"><span class="btn-clipboard">复制</span></div><div class="highlight"><div class="zero-clipboard"><span class="btn-clipboard">复制</span></div><pre class="highlight"><code>yum install cloud-init cloud-utils-growpart
+</code></pre></div></div>
+
+<p>完毕。</p>
+
+      </div>
+      <div class="col-md-3" role="complementary">
+        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="blog_nav_menu">
+          <!-- The 
+          <span>Navigation</span>
+          <ul class="nav bs-docs-sidenav">
+            <li>
+              <a href="#overview">目录</a>
+            </li>
+            <li>
+              <a href="#overview">目录</a>
+              <ul class="nav">
+                <li><a href="#overview-title">标题1</a></li>
+                <li><a href="#overview-title">标题2</a></li>
+              </ul>
+            </li>
+          </ul>-->
+      <span class="help-block">Navigation</span><ul class="nav bs-docs-sidenav"><li class="active"><a href="#anchor0">CentOS 5</a></li><li class=""><a href="#anchor1">CentOS 6</a></li><li><a href="#anchor2">CentOS 7</a></li><a class="back-to-top" href="#top">To Top</a></ul></nav></div>
+    </div>
+
+    <div class="post-footer col-sm-9 border-top">
+      
+        <ul class="tag_box inline">
+          <li><i class="icon-folder-open"></i></li>
+          
+          
+
+
+  
+     
+      <li><a href="https://xiexianbin.cn/categories/#openstack-ref">
+        openstack <span>72</span>
+      </a></li>
+    
+  
+
+
+        </ul>
+      
+  
+      
+        <ul class="tag_box inline">
+          <li><i class="icon-tags"></i></li>
+          
+          
+
+
+  
+     
+      <li><a href="https://xiexianbin.cn/tags/#openstack-ref">openstack <span>72</span></a></li>
+     
+      <li><a href="https://xiexianbin.cn/tags/#glance-ref">glance <span>7</span></a></li>
+     
+      <li><a href="https://xiexianbin.cn/tags/#image-ref">image <span>17</span></a></li>
+     
+      <li><a href="https://xiexianbin.cn/tags/#centos-ref">centos <span>25</span></a></li>
+    
+  
+
+
+
+        </ul>
+      
+    
+      <ul class="list-unstyled text-left bs-docs-sidenav">
+        
+          <li class="prev">上一页：<a href="https://xiexianbin.cn/openstack/2016/12/13/openstack-becomes-standard-building-block-nfv">OpenStack Becomes a Standard Building Block for NFV ← </a></li>
+        
+        
+          <li class="next">下一页：<a href="https://xiexianbin.cn/git/2016/12/16/git-multi-server">Git client 设置多个服务器地址 → </a></li>
+        
+      </ul>
+
+      
+      <div class="recommend">
+        <h4 class="text-left"> 推荐文章 </h4>
+        <ul class="list-unstyled text-left">
+          
+          <li><a href="https://xiexianbin.cn/nginx/2018/01/31/nginx-proxy_pass">Nginx proxy_pass 配置转发 / 路径问题</a></li>
+          
+          <li><a href="https://xiexianbin.cn/ruby/2018/01/02/ruby-rpm-2-4-x">Ruby2.4.x rpm安装包制作</a></li>
+          
+          <li><a href="https://xiexianbin.cn/book-list/2018/01/01/book-list-of-2018">2018年书单</a></li>
+          
+          <li><a href="https://xiexianbin.cn/openstack/2017/12/31/rabbitmq-shovel">RabbitMQ Shovel 配置说明 -- 实现消息在不同集群间转发</a></li>
+          
+          <li><a href="https://xiexianbin.cn/python/2017/12/01/python-jinja2">Python jinja2 模版使用</a></li>
+          
+          <li><a href="https://xiexianbin.cn/redis/2017/05/23/redis-commands">Redis 常用命令</a></li>
+          
+          <li><a href="https://xiexianbin.cn/linux/2017/05/22/ubuntu-apt-source-mirrors">Ubuntu apt 源</a></li>
+          
+          <li><a href="https://xiexianbin.cn/docker/2017/05/21/docker-restart-policies">Docker 容器开机启动设置</a></li>
+          
+          <li><a href="https://xiexianbin.cn/security/2017/05/19/hacker-invasion-emergency-analysis-manual-investigation">黑客入侵应急分析手工排查</a></li>
+          
+          <li><a href="https://xiexianbin.cn/openstack/2017/05/18/openstack-client">我常用的 OpenStack Client 命令行</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+    
+    
+  </div>
+</div>
+
+
+      <footer class="footer clear">
+        <div class="col-lg-12 clear">
+          <div class="row footer-top">
+            <div class="col-sm-6 col-lg-6">
+              <h4>
+                <!--<img src="">-->
+                XieXianbin Blog
+                <!--<span class="bs-docs-booticon bs-docs-booticon-lg bs-docs-booticon-outline" style="background-color: #0084b4;">X</span>-->
+              </h4>
+              <p>本网站所有Blog全部由<a href="https://www.xiexianbin.cn/">作者</a>整理总结，并全部遵循 <a href="https://cn-cdn.xiexianbin.cn/assets/themes/bootstrap/LICENSE" target="_blank">CC BY 3.0</a>协议发布。</p>
+            </div>
+            <div class="col-sm-6 col-lg-5 col-lg-offset-1">
+              <div class="row about">
+                <div class="col-xs-3">
+                  <h4>关于</h4>
+                  <ul class="list-unstyled">
+                    <li><a href="https://xiexianbin.cn/about/">关于本人</a></li>
+                    <li><a href="https://xiexianbin.cn/links/">友情链接</a></li>
+                    <li><a href="https://xiexianbin.cn/github/">项目</a></li>
+                  </ul>
+                </div>
+                <div class="col-xs-3">
+                  <h4>联系方式</h4>
+                  <ul class="list-unstyled">
+                    <li><a href="http://weibo.com/hixxb" title="谢先斌的个人微博" target="_blank">新浪微博</a></li>
+                    <li><a href="http://blog.sina.com.cn/hixxb" title="谢先斌的个人博客" target="_blank">新浪博客</a></li>
+                    <li><a href="https://www.facebook.com/xiexianbin" title="xiexianbin's Facebook'" target="_blank">Facebook</a></li>
+                    <li><a href="https://twitter.com/XieXianbin" title="xiexianbin's Twitter" target="_blank">Twitter</a></li>
+                  </ul>
+                </div>
+                <div class="col-xs-3">
+                  <h4>网站</h4>
+                  <ul class="list-unstyled">
+                    <li><a href="http://80.xyz/" target="_blank">80.xyz</a></li>
+                    <li><a href="http://www.yumi.info/" target="_blank">yumi.info</a></li>
+                  </ul>
+                </div>
+                <div class="col-xs-3">
+                  <h4>友情链接</h4>
+                  <ul class="list-unstyled">
+                    <li><a href="http://yaochi.xyz/" target="_blank">yaochi.xyz</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row footer-bottom border-top">
+            <ul class="list-unstyled text-left">
+              <li>Copyright © 2012-2018 xiexianbin.cn All rights reserved. </li>
+              <li>
+                <a href="http://www.miibeian.gov.cn/" target="_blank">豫ICP备14020342号-3</a>
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41142302000111" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                  <img src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/beian_logo.png" style="float:left;" data-bd-imgshare-binded="1"> 豫公网安备 41142302000111号
+                </a>
+              </li>
+              <li>联系邮箱：me@xiexianbin.cn</li>
+              <li>
+                <a href="https://github.com/xiexianbin/xiexianbin.github.io/blob/master/_posts/openstack/glance/2016-12-14-centos-root-partition-auto-grow.md" style="color: white;">Edit this page</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/jquery.js"></script>
+    <script src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/bootstrap.js"></script>
+    <script src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/docs.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/ie10-viewport-bug-workaround.js"></script>
+    <script src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/blog.js"></script>
+
+    
+
+    <!-- 有挂码
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+-->
+
+  
+
+
+<div id="global-zeroclipboard-html-bridge" class="global-zeroclipboard-container" style="position: absolute; left: 0px; top: -9999px; width: 15px; height: 15px; z-index: 999999999;">      <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" id="global-zeroclipboard-flash-bridge" width="100%" height="100%">         <param name="movie" value="/assets/flash/ZeroClipboard.swf?noCache=1518332864577">         <param name="allowScriptAccess" value="sameDomain">         <param name="scale" value="exactfit">         <param name="loop" value="false">         <param name="menu" value="false">         <param name="quality" value="best">         <param name="bgcolor" value="#ffffff">         <param name="wmode" value="transparent">         <param name="flashvars" value="trustedOrigins=xiexianbin.cn%2C%2F%2Fxiexianbin.cn%2Chttps%3A%2F%2Fxiexianbin.cn">         <embed src="OpenStack%20CentOS%20%E9%95%9C%E5%83%8F%E6%A0%B9%E5%88%86%E5%8C%BA%E8%87%AA%E5%8A%A8%E6%89%A9%E5%B1%95%20-%20%E8%B0%A2%E5%85%88%E6%96%8C%E7%9A%84%E5%8D%9A%E5%AE%A2_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="global-zeroclipboard-flash-bridge" allowscriptaccess="sameDomain" allowfullscreen="false" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="trustedOrigins=xiexianbin.cn%2C%2F%2Fxiexianbin.cn%2Chttps%3A%2F%2Fxiexianbin.cn" scale="exactfit" width="100%" height="100%">                </object></div><div id="bdimgshare_1518332870378" class="sr-bdimgshare sr-bdimgshare-list sr-bdimgshare-16 sr-bdimgshare-black" style="height:36px;line-height:26px;font-size:12px;width:autopx;display:none;" data-bd-bind="1518332870378"><div class="bdimgshare-bg"></div><div class="bdimgshare-content bdsharebuttonbox bdshare-button-style0-16"><label class="bdimgshare-lbl">分享到：</label><a href="#" onclick="return false;" class="bds_bdhome" data-cmd="bdhome" hidefocus=""></a><a href="#" onclick="return false;" class="bds_qzone" data-cmd="qzone" hidefocus=""></a><a href="#" onclick="return false;" class="bds_tsina" data-cmd="tsina" hidefocus=""></a><a href="#" onclick="return false;" class="bds_fbook" data-cmd="fbook" hidefocus=""></a><a href="#" onclick="return false;" class="bds_twi" data-cmd="twi" hidefocus=""></a><a href="#" onclick="return false;" class="bds_copy" data-cmd="copy" hidefocus=""></a><a href="#" onclick="return false;" class="bds_more" data-cmd="more" hidefocus=""></a></div></div></body></html>

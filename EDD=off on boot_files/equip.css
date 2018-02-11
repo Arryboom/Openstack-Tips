@@ -1,0 +1,27 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+body, select, input, textarea, button, .menu-sidebar a, .menu-sidebar li > span, h3.title > p { 
+	font-family: "equiplight"; 
+	font-size: 15px;
+	line-height: 28px;
+}
+
+.uk-tab > li > a {
+	font-family: "equiplight"
+}
+
+.mod-fine .module-title{
+	font-family: "equiplight"
+}
+
+#system .item > header .meta,
+.wk-twitter-list .meta{
+ 	font-size: 12px
+ }
+
+small{font-size: 13px;}
+
+/*k2*/
+.k2CalendarBlock table.calendar tr td.calendarDate {
+	font-size: 14px
+}

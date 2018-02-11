@@ -1,0 +1,220 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+@import url(../warp/css/responsive.css);
+
+
+/* Breakpoints
+____________________________________________________________________________________________________*/
+
+
+/* All except large Screens
+____________________________________________________________________________________________________*/
+
+@media (max-width: 1220px) {
+
+}
+
+
+/* Only Phones and Tablets (Landscape)
+____________________________________________________________________________________________________*/
+
+@media (max-width: 1024px) {
+
+	.at-boxed #at-container {
+		margin: 0;
+	}
+}
+
+/* Only Phones and Tablets (Portrait) 
+____________________________________________________________________________________________________*/
+
+@media (max-width: 959px) {
+
+	article hr.divide {
+		margin: 2em -1.5em;
+	}
+
+	#totop-scroller, 
+	#toTop {
+		text-indent: -999px
+	}
+}
+
+/* Only Tablets (Landscape) 
+____________________________________________________________________________________________________*/
+
+@media (min-width: 959px) and (max-width: 1024px) {
+
+	.wk-slideshow img.static {
+		width: 350px;
+	}
+}
+
+/* Only Tablets (Portrait) 
+____________________________________________________________________________________________________*/
+
+@media (min-width: 768px) and (max-width: 959px) {
+
+	.static-content p,
+	.menubar {
+		display: none
+	}
+}
+
+/* Only Tablets (Portrait) and Phones (Landscape) 
+____________________________________________________________________________________________________*/
+
+@media (min-width: 480px) and (max-width: 959px) {
+
+	/*pricing tables*/
+	.four .price-col{
+		width: 48% !important;
+	}
+
+	.five .price-col,
+	.six .price-col{
+		width: 98% !important;
+	}
+
+	.four .price-col,
+	.five .price-col,
+	.six .price-col{
+		padding-right: 0;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		-webkit-border-radius: 5px !important;
+		   -moz-border-radius: 5px !important;
+		        border-radius: 5px !important;
+		 margin-bottom: 15px;
+	}
+
+	.static-content {
+		width: 85%
+	}
+
+}
+
+/* Only Phones 
+____________________________________________________________________________________________________*/
+
+@media (max-width: 767px) {
+
+	.header-right {
+		text-align: center;
+		margin: 0 auto;
+		width: 100%;
+	}
+
+	/*base*/
+	h2 {line-height: 33px;}
+
+	/* Layout */
+	#breadcrumbs,
+	.headerbar{
+		display: none;
+	}
+
+	.static-content h1,
+	.static-content h2,
+	.static-content h3{
+		font-size: 20px;
+	}
+
+	.static-content {
+		width: 75%
+	}
+
+	.static-content p{display: none}
+
+	.toolbar-r{
+	 	margin-right: 20px;
+	 	float: left;
+	}
+
+	#header-responsive .logo{
+	 	margin: 0;
+	 	width: auto
+	}
+
+	.social-icons {
+		margin: 25px 20px 20px;
+		float: right;
+	}
+	
+	/*pricing tables*/
+	.price-col{
+		width: 98% !important;
+		padding-right: 0;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		-webkit-border-radius: 5px !important;
+		   -moz-border-radius: 5px !important;
+		        border-radius: 5px !important;
+		 margin-bottom: 15px;
+	}
+	
+	/*toggles*/
+	.showhide li h4 {
+		font-size: 18px; 
+		padding: 8px 45px 5px;
+	}
+
+	/*modal box*/
+	.uk-modal-dialog {
+		width: auto !important;
+		margin: 20px !important;
+	}
+
+	#system form.submission fieldset > div > input[type='email'], 
+	#system form.submission fieldset > div > input[type='text'], 
+	#system form.submission fieldset > div > input[type='tel'], 
+	#system form.submission fieldset > div > input[type='url'], 
+	#system form.submission fieldset > div > input[type='password'],
+	#system form.submission fieldset > div > textarea{
+		width: 100%;
+		max-width: 97%
+	}
+
+}
+
+/* Only Phones (Landscape) 
+____________________________________________________________________________________________________*/
+
+@media (min-width: 480px) and (max-width: 767px) {
+	
+}
+
+/* Only Phones (Portrait) 
+____________________________________________________________________________________________________*/
+
+@media (max-width: 479px) {
+
+	 #at-navbar{
+		color: #686868
+	}
+
+	/*sections*/
+	h3.module-title{font-size: 20px}
+	h1.module-title{font-size: 32px}
+
+	/* System */
+	#system .items .item,
+	#system .items .item:first-child {
+		margin-top: 12px;
+		padding-top: 18px;
+		border-top-width: 1px;
+	}
+
+	#system .items :first-child .item {
+		margin-top: 0;
+		padding-top: 0;
+		border-width: 0;
+	}
+
+	#system .items .leading .item {
+		margin-bottom: 0;
+		padding-bottom: 0;
+		border-width: 0;
+	}
+
+
+
+}

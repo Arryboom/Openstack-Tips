@@ -1,0 +1,416 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+@import url(../warp/css/tools.css);
+
+
+/* Buttons (Needed for System Markup)
+----------------------------------------------------------------------------------------------------*/
+
+a.button-more {
+	padding: 3px 10px;
+	border: 1px solid #ddd;
+}
+
+/* Horizontal-Rule
+----------------------------------------------------------------------------------------------------*/
+
+hr, 
+hr.divide-no-margin, 
+hr.divide { 
+	display: block; 
+	height: 3px; 
+	border: 0; 
+	padding: 0; 
+	clear: both;}
+
+article hr.divide{ margin: 2em -2.2em 2em -2.2em}
+hr.divide-no-margin{ margin: 0 -2.1% -1px}
+hr{margin: 1em 0 1em 0;}
+
+
+/*transition
+----------------------------------------------------------------------------------------------------*/
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+textarea,
+.searchbox,
+.searchbox .results li.result{
+	-webkit-transition:all 0.3s linear;
+	-moz-transition:all 0.3s linear;
+	transition:all 0.3s linear;
+}
+
+/* Blockquotes
+----------------------------------------------------------------------------------------------------*/
+
+blockquote { margin: 0 0 0; padding: 0 15px 0 0; }
+blockquote img{float: right}
+blockquote .author{float: right; font-size: 18px}
+blockquote .jobtitle{float: right; font-weight: normal; font-size: 14px; line-height: 1.5}
+blockquote cite:before { content: "\2014 \0020"; }
+blockquote, blockquote p{font-size: 21px;  font-style: normal; line-height: 35px; border: 0 none; position: relative;}
+blockquote strong, 
+blockquote p strong {
+	font-weight: normal;
+}
+
+blockquote.big p {font-size: 32px;line-height: 55px;}
+blockquote .quote-icon {color: rgba(0,0,0,0.05); font-size: 102px; position: absolute; bottom: 10px; text-shadow: 0 2px 0 rgba(255,255,255,0.015);}
+
+.uk-round-avatar{
+	border-radius: 100%;
+	border: 1px solid rgba(0,0,0,0.1);
+	padding: 4px 4px 3px;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), -1px 1px 1px rgba(255,255,255,0.1) inset;
+	   -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), -1px 1px 1px rgba(255,255,255,0.1) inset;
+			box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), -1px 1px 1px rgba(255,255,255,0.1) inset;
+
+}
+
+.small-caps {text-transform: uppercase; letter-spacing: 1.5px; font-size: 11px;}
+
+/* Text
+----------------------------------------------------------------------------------------------------*/
+
+/* Inline Text Box */
+em.box { 
+border: 1px dotted #bbb;
+background: #fafafa;
+color: #444;
+}
+
+mark{padding:1px 4px; -moz-border-radius:3px;  -webkit-border-radius:3px;  -ms-border-radius:3px;  -o-border-radius:3px;  border-radius:3px;  }
+mark{background: #A8CAEA; color: #1F5A7A; text-shadow: none; border: 1px solid #559ABD;}
+
+
+/* Boxes
+----------------------------------------------------------------------------------------------------*/
+
+
+#system-message dd{
+	background: #c3d1e1;  color: #3F4F63 !important; border-width: 1px !important; text-shadow: 0 1px #F5F8F9; text-shadow: none;
+	border-left-color: #84A7DB; border-right-color: #84A7DB;
+}
+
+#system-message dd.notice{
+	border-left-color: #F0DC7E; border-right-color: #F0DC7E; color: #855303 !important;
+}
+
+
+
+
+/* Forms (Needed for System Markup)
+----------------------------------------------------------------------------------------------------*/
+
+form.box fieldset { 
+	border: 0 none; 
+	padding: 0;
+	margin-top: 25px;
+}
+
+form.box legend { 
+	bottom: 15px;
+	position: relative;
+	padding: 0;
+}
+
+form.box fieldset > div {
+	margin: 7px 0;
+}
+
+
+
+/*tags
+----------------------------------------------------------------------------------------------------*/
+
+.tagspopular ul {
+	padding: 0;
+}
+
+a.tag-body:active{top: 1px}
+.tag-body, a.tag-body, 
+.tagspopular ul li a {
+	display: inline-block;
+	font-size: 13px !important;  
+	padding: 3px 10px;
+	margin: 10px 10px 0 0; 
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.1) inset;
+	-webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+          	border-radius: 3px;
+    line-height: 1.4;
+ }
+
+.tagspopular ul li a {
+	float: left;
+}
+
+.tagssimilar ul li{
+	line-height: 35px	
+}
+
+p.taxonomy a.tag-body{
+	margin: 10px 0 0 10px;
+}
+
+/*zoo tag fix*/
+li.element-itemtag a{
+	margin: 0 -5px -7px 20px
+}
+
+.zoo-tagcloud{
+	text-align: left;
+}
+
+.zoo-tagcloud a{
+	font-size: 12px !important; 
+	letter-spacing: 0 !important;
+}
+
+.tagssimilar ul li,
+.tagspopular ul li{
+	list-style-type: none
+}
+
+.tagssimilar ul{
+	padding: 0
+}
+
+
+/* Buttons
+----------------------------------------------------------------------------------------------------*/
+
+/*all buttons*/
+
+.btn,
+[class='uk-button'],
+.uk-button-default,
+.uk-button-primary,
+.uk-button-success,
+.uk-button-danger,
+.button-more,
+.button-action, 
+button, 
+input[type="submit"], 
+input[type="reset"], 
+input[type="button"],
+button[type="submit"],
+.uk-button-color, 
+button.uk-button-color, 
+input[type="submit"].uk-button-color,
+input[type="reset"].uk-button-color, 
+input[type="button"].uk-button-color, 
+#content .pagination a, 
+#content .pagination strong,
+#Kunena .kicon-button:link, 
+#Kunena .kicon-button, 
+#kunena .kbutton.kreply-submit,
+.sprocket-mosaic-filter li.active{
+	border: 1px solid rgba(0,0,0,0.15); 
+	padding: 10px 20px; 
+	font-size: 16px; 
+	text-decoration: none; 
+	line-height: 19px; 
+	margin: 0; 
+	display: inline-block;
+	letter-spacing: normal;
+	text-shadow: none;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+	   -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+			box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+	        border-radius: 4px;
+}
+
+
+.btn:hover,
+[class='uk-button']:hover,
+.uk-button:hover,
+.uk-button-default:hover,
+.uk-button-primary:hover,
+.uk-button-success:hover,
+.uk-button-danger:hover,
+.button-more:hover, 
+.uk-button-color:hover, 
+.button-action:hover, 
+button:hover, 
+input[type="submit"]:hover, 
+input[type="reset"]:hover, 
+input[type="button"]:hover,
+button[type="submit"]:hover,
+#content .pagination a:hover, 
+#content .pagination strong:hover,
+a.button_oc:hover,
+.uk-icon-button:hover, .uk-icon-button:focus,
+.tag-body:hover, a.tag-body:hover, .tagspopular ul li a:hover, .k2CategoriesListBlock li a:hover,
+#Kunena .kicon-button:link:hover, 
+#Kunena .kicon-button:hover, 
+#kunena .kbutton.kreply-submit:hover{
+	text-decoration: none;
+	-webkit-box-shadow: 0 10px 100px rgba(255,255,255,0.2) inset, inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.1);
+	   -moz-box-shadow: 0 10px 100px rgba(255,255,255,0.2) inset, inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.1);
+			box-shadow: 0 10px 100px rgba(255,255,255,0.2) inset, inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.btn:active,
+.btn:focus,
+[class='uk-button']:active,
+.uk-button:active,
+.uk-button-default:active,
+.uk-button-primary:active,
+.uk-button-success:active,
+.uk-button-danger:active,
+.button-more:active, 
+.uk-button-color:active, 
+.button-action:active, 
+button:active, 
+input[type="submit"]:active, 
+input[type="reset"]:active, 
+input[type="button"]:active,
+button[type="submit"]:active,
+#content .pagination a:active, 
+#content .pagination strong:active,
+a.button_oc:active,
+[class='uk-button']:focus,
+.uk-button:focus,
+.uk-button-default:focus,
+.uk-button-primary:focus,
+.uk-button-success:focus,
+.uk-button-danger:focus,
+.button-more:focus, 
+.uk-button-color:focus, 
+.button-action:focus, 
+button:focus, 
+input[type="submit"]:focus, 
+input[type="reset"]:focus, 
+input[type="button"]:focus,
+button[type="submit"]:focus,
+#content .pagination a:focus, 
+#content .pagination strong:focus,
+a.button_oc:focus,
+#Kunena .kicon-button:link:focus, 
+#Kunena .kicon-button:focus, 
+#kunena .kbutton.kreply-submit:focus{
+	-webkit-box-shadow: 0 10px 100px rgba(0,0,0,0.1) inset, inset 0 -1px 3px rgba(0,0,0,0.1);
+	   -moz-box-shadow: 0 10px 100px rgba(0,0,0,0.1) inset, inset 0 -1px 3px rgba(0,0,0,0.1);
+			box-shadow: 0 10px 100px rgba(0,0,0,0.1) inset, inset 0 -1px 3px rgba(0,0,0,0.1);
+}
+
+
+.mejs-container button,
+.uk-button.uk-button-link:focus,
+.uk-button.uk-button-link:hover{
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+
+a.button-arrow,
+a.readon{
+	padding-right: 20px; 
+	margin: 10px;
+}
+
+.searchbox button,
+.mejs-container button:hover{
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+}
+
+/*kunena*/
+#Kunena .kicon-button:link, 
+#Kunena .kicon-button, 
+#kunena .kbutton.kreply-submit{
+	padding: 5px 8px;
+	font-size: 13px;
+}
+
+/*toggles
+----------------------------------------------------------------------------------------------------*/
+.showhide{
+	margin: 20px 0 10px !important;  
+	padding: 0;
+}
+
+.showhide > li{
+	border: 1px solid rgba(0,0,0,0.075);
+	margin: 20px 0;
+	border-bottom: 1px solid rgba(0,0,0,0.2);
+	list-style-type: none;
+}
+
+pre	{
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+pre.no-margin{margin-top: -1px;}
+.showhide li.uk-toggle-code div,
+.showhide li.code div,
+pre{
+	background: rgba(0,0,0,0.05);
+}
+
+.showhide li.uk-toggle-code div i, 
+.showhide li.code div i, 
+pre i, 
+code i{
+	font-style: normal
+}
+
+.showhide li h3 {
+	margin: 0;
+	padding: 10px;
+	font-size: 23px;
+	cursor: pointer;
+	background: rgba(255,255,255,0.1);
+	box-shadow: 0 1px 0
+}
+
+.showhide li div, div.note { 
+	background: rgba(0, 0, 0, 0.03);
+	display: none;
+	margin: 0;
+	padding: 21px 45px;
+	border-top: 1px solid rgba(0,0,0,0.1);
+	line-height: 1.65em;
+}
+
+.showhide li div p, 
+div.note p{
+	line-height: 22.9px; 
+	text-shadow: none
+}
+
+.showhide li.uk-toggle-open > div{display: block;}
+.showhide li.uk-toggle-closed > div{
+	display: none;
+}
+
+div.note {
+	display: block; 
+	width: auto; 
+	height: auto; 
+	margin: 10px 0; 
+	padding: 21px 10px 0
+}
+
+.showhide li.uk-toggle-code div,
+.showhide li.code div, pre { 
+	font-family: "Courier New", Courier, monospace;
+	line-height: 1.5em;
+	font-size: 14px;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+.showhide li .toggle-button {
+	font-size: 18px;
+	position: relative;
+	margin: 18px 15px 0;
+	float: left;
+}

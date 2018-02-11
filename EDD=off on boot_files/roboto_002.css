@@ -1,0 +1,23 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+.menu-dropdown a.level1,
+.menu-dropdown span.level1{
+ 	font-family: "robotolight"; 
+}
+
+#offcanvas .canvas-menu a.level1, 
+#offcanvas .canvas-menu span.level1,
+.menu-dropdown li a.level1.active,
+.menu-dropdown span.level1.active{
+	font-family: "robotolight"; 
+}
+
+.menu-dropdown a.level1 > span, 
+.menu-dropdown span.level1 > span{
+ 	font-size: 14px;
+}
+
+.menu-dropdown span.subtitle {
+	font-size: 13px; 
+	padding-top: 4px;
+}

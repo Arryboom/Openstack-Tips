@@ -1,0 +1,1667 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script type="text/javascript" async="" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/icrm_003"></script>
+        <link rel="canonical" href="http://blog.csdn.net/longyinyushi/article/details/50925638">
+
+            <meta http-equiv="Cache-Control" content="no-siteapp">
+            <link rel="alternate" media="handheld" href="#">
+
+            <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+
+            <title>centos安装epel源 - Welcome to Feng.Chang's Blog - CSDN博客</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta name="description" content="首先，标题学了下雷不撕的风格。epel是个好东西，不过国外的速度实在是不能忍受。所以 有了这篇文章。1、 首先卸载以前装的epel 以免影响&nbsp;&nbsp;rpm -e epel-release 2、 下载阿里提供的epel ，PS&nbsp;&nbsp;感谢马云。wget -P /etc/yum.repos.d/ http://mirrors.aliyun.com/repo/epel-6.rep">
+
+            <meta name="keywords" content="">
+            <script src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/hm.txt"></script><script type="text/javascript" async="" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pr.js"></script><script type="text/javascript" async="" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/smquqjy.js"></script><script src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog_static_head.js" type="text/javascript"></script>
+
+
+        <link rel="Stylesheet" type="text/css" href="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/style.css">
+
+            
+
+            <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/longyinyushi/rss/list">
+            <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+            <link type="text/css" rel="stylesheet" href="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/default.css">
+
+
+
+            <link href="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_public_blog_detail.css" type="text/css" rel="stylesheet">
+
+        <link rel="stylesheet" href="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_blog_detail.css">
+
+            <!-- 请置于所有广告位代码之前 -->
+            <script src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ds.js"></script>
+
+        <style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style></head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063"})</script>
+
+
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="https://pos.baidu.com/wh/o.htm?ltr=" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><svg aria-hidden="true" style="position: absolute; width: 0px; height: 0px; overflow: hidden;"><symbol id="icon-xiajiantou" viewBox="0 0 1024 1024"><path d="M328.208 346.062h368.494c20.393 0 36.887 16.366 36.887 36.757 0 9.484-3.637 18.056-9.483 24.55L541.873 650.522c-12.211 16.105-35.2 19.484-51.438 7.275-2.859-2.08-5.324-4.547-7.274-7.275L298.853 404.772c-12.08-16.106-8.83-39.225 7.404-51.306 6.626-5.066 14.289-7.404 21.95-7.404z"></path></symbol><symbol id="icon-shouji" viewBox="0 0 1024 1024"><path d="M537.754 795.889c-26.41 0-47.893 21.478-47.893 47.892s21.484 47.893 47.893 47.893 47.892-21.479 47.892-47.893-21.483-47.892-47.892-47.892z"></path><path d="M774.697 42.071H300.815c-39.864 0-72.3 32.43-72.3 72.3v795.264c0 39.869 32.43 72.3 72.3 72.3h473.872c39.87 0 72.3-32.431 72.3-72.3v-795.27c0.004-39.864-32.426-72.294-72.29-72.294zM300.815 90.266h473.872a24.125 24.125 0 0 1 24.1 24.1v595.809H276.72v-595.81a24.125 24.125 0 0 1 24.094-24.1z m473.882 843.463H300.815a24.125 24.125 0 0 1-24.1-24.1V762.501h522.072V909.63a24.115 24.115 0 0 1-24.09 24.1z"></path></symbol><symbol id="icon-tianxie" viewBox="0 0 1024 1024"><path d="M121.905 780.19h780.19v97.524h-780.19V780.19zM823.296 298.496l-68.974-68.974-344.795 344.796-34.475 103.448 103.424-34.475zM875.008 246.76l17.237-17.238-68.949-68.949-17.262 17.237-17.237 17.238 68.974 68.973z"></path></symbol><symbol id="icon-sousuo" viewBox="0 0 1024 1024"><path d="M1023.972002 964.002812l-59.981188 59.981189-271.443276-271.459276c-166.600191 136.489602-412.812649 126.986048-568.309361-28.494664-165.624236-165.624236-165.624236-434.187647 0-599.859881 165.624236-165.592238 434.187647-165.592238 599.827883 0 155.52871 155.52871 164.984266 401.789166 28.462666 568.389356L1023.972002 964.002812zM663.364906 184.007375c-132.585785-132.585785-347.327719-132.761777-479.705514-0.43198-132.329797 132.345796-132.121807 347.119729 0.463978 479.705514s347.375717 132.793775 479.705514 0.41598c132.329797-132.281799 132.169805-347.10373-0.463978-479.689514z"></path></symbol><symbol id="icon-guanbi" viewBox="0 0 1024 1024"><path d="M1002.211316 933.90818c24.46369 24.46369 29.007633 59.583246 10.159871 78.447007-18.863761 18.863761-53.983317 14.303819-78.447007-10.159871L21.807724 90.09486C-2.655966 65.631169-7.199909 30.495614 11.647853 11.647853c18.863761-18.863761 53.983317-14.303819 78.447007 10.159871L1002.211316 933.90818z"></path><path d="M933.92418 21.807724C958.38787-2.655966 993.507426-7.199909 1012.371187 11.647853c18.863761 18.863761 14.303819 53.983317-10.159871 78.447007L90.09486 1002.211316c-24.46369 24.46369-59.583246 29.007633-78.447007 10.159871-18.847761-18.863761-14.303819-53.983317 10.159871-78.463007L933.92418 21.807724z"></path></symbol><symbol id="icon-caidan" viewBox="0 0 1024 1024"><path d="M0 132.8a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 132.8s0-26.784 0 0zM0 512.016a48.48 48.48 0 0 0 48.48 48.48h927.04a48.48 48.48 0 0 0 0-96.96H48.48A48.48 48.48 0 0 0 0 512.016s0-26.784 0 0zM0 891.2a48.496 48.496 0 0 0 48.496 48.496h927.008a48.496 48.496 0 1 0 0-96.992H48.496A48.496 48.496 0 0 0 0 891.2s0-26.784 0 0z"></path></symbol><symbol id="icon-yonghudenglu" viewBox="0 0 1024 1024"><path d="M1022.26704 962.432c-43.888-157.584-162.16-281.216-312.064-340.144 92.8-61.376 153.92-164.496 153.92-281.168C864.12304 153.04 706.04304 0 511.70704 0 317.35504 0 159.19504 153.04 159.19504 341.136c0 116.704 61.152 219.84 154.064 281.184C164.13904 681.024 46.18704 803.792 1.80304 960.16c-7.344 26.016 8.464 52.864 35.36 60.032a52.016 52.016 0 0 0 38.4-4.608 49.072 49.072 0 0 0 23.712-29.568c50.768-178.96 220.352-303.92 412.448-303.92 193.04 0 362.848 125.712 412.944 305.744 7.296 26.048 34.992 41.456 61.952 34.48 26.912-7.04 42.88-33.824 35.648-59.888zM260.25104 341.136c0-134.256 112.816-243.424 251.472-243.424 138.576 0 251.328 109.184 251.328 243.424 0 133.904-112.768 242.864-251.328 242.864-138.672 0-251.472-108.976-251.472-242.864z m0 0"></path></symbol><symbol id="toolbar-csdnlogo" viewBox="0 0 1024 1024"><path d="M533.941333 419.264c14.709333-1.621333 37.290667-3.264 68.352-3.264 51.872 0 93.802667 9.152 119.776 28.416 23.338667 17.952 38.858667 47.008 34.56 89.130667-3.978667 39.189333-24.042667 66.634667-53.312 83.594666C676.544 633.152 642.837333 640 592.106667 640c-29.888 0-58.421333-1.642667-80.106667-4.896l21.941333-215.84z m42.869334 172.938667c4.981333 0.992 11.562667 1.973333 24.533333 1.973333 51.882667 0 88.469333-25.877333 92.16-62.24 5.333333-52.554667-27.125333-70.944-81.802667-70.624-7.072 0-16.917333 0-22.133333 0.970667L576.8 592.213333h0.010667z m223.498666-164.704c210.954667-39.872 229.162667 31.776 222.645334 95.189333L1010.656 640h-66.944l11.210667-106.986667c2.421333-23.562667 17.504-69.653333-55.338667-67.914666-25.184 0.608-37.706667 4.064-37.706667 4.064s-2.186667 28.469333-4.832 49.514666L844.32 640H778.666667l13.024-119.573333" fill="#231916"></path><path d="M226.634667 632.682667c-12.373333 4.341333-38.037333 7.317333-73.909334 7.317333C49.6 640-6.048 590.933333 0.522667 526.090667 8.416 448.810667 90.858667 405.333333 181.141333 405.333333c34.976 0 55.552 2.858667 74.858667 7.637334l-6.208 52.064c-12.821333-4.384-42.890667-8.405333-67.232-8.405334-53.141333 0-98.250667 16.042667-103.424 66.762667-4.608 45.354667 27.061333 67.04 86.816 67.04 20.8 0 51.477333-3.018667 65.653333-7.370667l-4.992 49.6 0.021334 0.021334z" fill="#C92027"></path><path d="M272.714667 580.021333c19.285333 6.762667 59.488 13.504 92 13.504 35.029333 0 54.528-9.333333 56.096-23.797333 1.418667-13.205333-12.928-14.986667-52.490667-24.010667-54.666667-12.896-89.546667-32.842667-86.133333-64.704C286.176 443.989333 337.685333 416 416.725333 416c38.56 0 75.914667 2.613333 95.274667 8.714667l-6.656 46.666666c-12.565333-4.202667-60.672-10.037333-93.205333-10.037333-32.992 0-50.069333 9.973333-51.253334 20.917333-1.493333 13.845333 15.658667 14.485333 58.528 25.450667 58.026667 14.154667 83.402667 34.090667 80.085334 64.992C495.605333 609.109333 449.258667 640 356.714667 640c-38.528 0-71.744-6.762667-90.048-13.525333l6.048-46.453334z" fill="#231916"></path></symbol><symbol id="icon-morentouxiang" viewBox="0 0 1024 1024"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#A0C3FF"></path><path d="M691.2 887.466667c-55.466667-25.6-123.733333-51.2-123.733333-51.2v-38.4c68.266667-25.6 119.466667-89.6 132.266666-166.4 12.8-4.266667 38.4-17.066667 46.933334-55.466667l8.533333-46.933333s4.266667-59.733333-42.666667-46.933334c4.266667-38.4 4.266667-81.066667 4.266667-115.2-4.266667-64-89.6-98.133333-89.6-98.133333l12.8-17.066667s-42.666667-12.8-59.733333-4.266666l12.8-29.866667s-85.333333 0-132.266667 38.4h-4.266667v-17.066667s-145.066667 21.333333-140.8 243.2c-46.933333-12.8-42.666667 46.933333-42.666666 46.933334l8.533333 46.933333c4.266667 38.4 29.866667 51.2 46.933333 55.466667 12.8 81.066667 64 145.066667 132.266667 166.4v38.4s-68.266667 29.866667-123.733333 51.2c-29.866667 12.8-59.733333 34.133333-81.066667 59.733333 68.266667 51.2 157.866667 76.8 256 76.8s187.733333-25.6 264.533333-72.533333c-21.333333-29.866667-51.2-46.933333-85.333333-64z" fill="#4374E0"></path></symbol><symbol id="icon-icon_boke" viewBox="0 0 1024 1024"><path d="M512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m298.667-256H213.333v42.667h597.334V768z m-21.334-448L704 234.667 341.333 597.333l-42.666 128 128-42.666L789.333 320z"></path></symbol><symbol id="icon-icon_gitchatx" viewBox="0 0 1024 1024"><path d="M810.667 533.333v-64h-384v85.334h298.666v128h85.334V533.333zM256 810.667h426.667v-85.334h-384V298.667h426.666V384h85.334V213.333H213.333v597.334H256zM512 1024C229.248 1024 0 794.752 0 512S229.248 0 512 0s512 229.248 512 512-229.248 512-512 512z m213.333-298.667v85.334h85.334v-85.334h-85.334z"></path></symbol><symbol id="icon-guanbi1" viewBox="0 0 1024 1024"><path d="M512 1024A512 512 0 1 1 512 0a512 512 0 0 1 0 1024z m160-768L512 416 352 256l-96 96 160 160-160 160 96 96 160-160 160 160 96-96-160-160 160-160-96-96z"></path></symbol></svg><div id="MathJax_Message" style="display: none;"></div><div class="csdn-toolbar csdn-toolbar tb_disnone ">        <div class="container row center-block ">          <ul class="pull-left left-menu clearfix">            <li class="toolbarlogo">              <a href="http://www.csdn.net/" title="CSDN首页" target="_blank">                <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/yearlogo.png">              </a>            </li>            <li><a href="http://blog.csdn.net/" class="toolbar_to_feed" title="博客" target="_blank">博客</a></li>            <li><a href="http://edu.csdn.net/" title="学院" target="_blank">学院</a></li>            <li><a href="http://download.csdn.net/" title="下载" target="_blank">下载</a></li>            <li><a href="http://gitbook.cn/?ref=csdn" title="GitChat" target="_blank">GitChat</a></li>            <li class="tb_is1090hide"><a href="http://bbs.csdn.net/" title="论坛" target="_blank">论坛</a></li>            <li class="tb_is1150hide"><a href="http://ask.csdn.net/" title="问答" target="_blank">问答</a></li>            <li class="tb_is1210hide"><a href="http://mall.csdn.net/" title="商城" target="_blank">商城</a></li>            <li class="tb_is1270hide"><a href="http://geek.csdn.net/" title="极客头条" target="_blank">头条</a></li>            <li class="tb_is1330hide"><a href="http://huiyi.csdn.net/" title="活动" target="_blank">活动</a></li>            <li class="tb_is1400hide"><a href="http://job.csdn.net/" title="招聘" target="_blank">招聘</a></li>            <li class="tb_is1452hide"><a href="http://www.iteye.com/" title="ITeye" target="_blank">ITeye</a></li>            <li class="tb_is1513hide"><a href="http://www.gitee.com/" title="码云" target="_blank">码云</a></li>            <li class="tb_is1513hide"><a href="http://www.csto.com/" title="CSTO" target="_blank">CSTO</a></li>            <li class="show-more">            <a href="javascript:;" class="show-more-a"><svg width="22" height="4" xmlns="http://www.w3.org/2000/svg"><path d="M2 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm9 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#fff" fill-rule="evenodd"></path></svg></a>              <div class="more">                <div class="tb_is1090show"><a href="http://bbs.csdn.net/" target="_blank">论坛</a></div>                <div class="tb_is1150show"><a href="http://ask.csdn.net/" target="_blank">问答</a></div>                <div class="tb_is1210show"><a href="http://mall.csdn.net/" target="_blank">商城</a></div>                <div class="tb_is1270show"><a href="http://geek.csdn.net/" target="_blank">极客头条</a></div>                <div class="tb_is1330show"><a href="http://huiyi.csdn.net/" target="_blank">活动</a></div>                <div class="tb_is1400show"><a href="http://job.csdn.net/" target="_blank">招聘</a></div>                <div class="tb_is1452show"><a href="http://www.iteye.com/" target="_blank">ITeye</a></div>                <div class="tb_is1513show"><a href="http://www.gitee.com/" target="_blank">码云</a></div>                <div class="tb_is1513show"><a href="http://www.csto.com/" target="_blank">CSTO</a></div>              </div>            </li>          </ul>          <div class="pull-right login-wrap unlogin">            <ul class="btns">            <li class="toolbar-tracking csdn-tracking-statistics tracking-click" data-mod="popu_369"><a href="#" style="padding:0" target="_blank"></a></li>              <li>                <div class="search_bar csdn-tracking-statistics tracking-click" data-mod="popu_366">                  <input class="input_search" name="" type="text">                  <a href="http://so.csdn.net/so/" target="_blank" class="btn-nobg-noborder btn-search"><i class="iconfont-toolbar toolbar-sousuo"></i></a>                </div>              </li>              <li class="write-bolg-btn csdn-tracking-statistics tracking-click" data-mod="popu_370"><a class="" href="http://mp.blog.csdn.net/postedit" target="_blank"><i class="iconfont-toolbar toolbar-icon_boke"></i><span>写博客</span></a></li>              <li class="gitChat"><a class="" href="http://gitbook.cn/new/gitchat/activity?utm_source=csdnblog1" target="_blank"><i class="iconfont-toolbar toolbar-icon_gitchatx"></i><span>发Chat</span></a></li>              <li class="userinfo"><a href="https://passport.csdn.net/account/login">登录</a><span></span><a href="https://passport.csdn.net/account/mobileregister?action=mobileRegister">注册</a></li>              <li class="userLogin">                <div class="loginCenter"><a href="http://my.csdn.net/" target="_blank"><img class="login_img" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/100x100.jpg"><div class="toolbar-circle"></div></a></div>                <div class="userControl">                  <div><a href="http://blog.csdn.net/" target="_blank">我的博客</a></div>                  <div><a class="xiaoxi" href="http://msg.csdn.net/" target="_blank">消息<span class="toolbar-newsL">(3)</span></a></div>                  <div><a href="http://my.csdn.net/my/account/changepwd" target="_blank">设置</a></div>                  <div><a href="http://bbs.csdn.net/forums/Service" target="_blank">反馈</a></div>                  <div><a href="http://oldblog.csdn.net/home/help.html" target="_blank">帮助</a></div>                  <div><a href="http://passport.csdn.net/account/logout">退出</a></div>                </div>              </li>            </ul>          </div>        </div>    </div><script class="toolbar-s" type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/iconfont.js"></script>
+        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_72" data-mtp="62" data-order="40" data-con="ad_content_2072">
+            <script id="popuLayer_js_q" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/popuLayer.js" defer="defer" type="text/javascript"></script>
+            <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 -->
+                <div id="cpro_u2895327">
+                    <!-- 投放代码 -->
+                            <div style="width: 100%;"><iframe scrolling="no" src="http://pos.baidu.com/s?hei=250&amp;wid=300&amp;di=u2895327&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Flongyinyushi%2Farticle%2Fdetails%2F50925638&amp;ps=966x1896&amp;col=zh-CN&amp;pss=1920x966&amp;cce=true&amp;cec=UTF-8&amp;drs=1&amp;dai=1&amp;ltr=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3D3mnq0hAG4BuWXH4_OpfB76XQWVxE04sTX9_jCcV1SX6ptXtuq2FzxlLurLEMWKEqS4RE0W2m98img8cEee3XxST_Y0MrnAF8A1k_zR4XCPC%26wd%3D%26eqid%3Dbb919d1e0004a9fe000000045a7fec22&amp;tcn=1518333053&amp;cfv=0&amp;cja=false&amp;ccd=24&amp;dtm=HTML_POST&amp;chi=1&amp;ari=2&amp;cdo=-1&amp;tlm=1518333052&amp;dri=0&amp;dc=3&amp;tpr=1518333052737&amp;par=1920x1040&amp;cpl=1&amp;ti=centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Changs%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2&amp;ant=0&amp;dis=0&amp;cmi=2&amp;psr=1920x1080&amp;pcs=1920x966&amp;pis=-1x-1&amp;exps=111000" width="300" height="250" frameborder="0"></iframe></div><script type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ojylrgbyk.js"></script>
+
+
+
+                </div>
+            </div>
+            <script>
+                document.getElementById("popuLayer_js_q").onload = function () {
+                    var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 };
+                    window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 });
+                }</script>
+
+
+        </div>
+
+
+    <!--new top-->
+    <script id="toolbar-tpl-scriptId" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/content_toolbar.js" type="text/javascript" domain="http://blog.csdn.net"></script>
+
+    <link rel="stylesheet" href="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/content_toolbar.css">
+    <!--new top-->
+    <div id="container">
+        
+<div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/longyinyushi">Welcome to Feng.Chang's Blog</a></h2>
+            <h3>Yesterday is history, Tomorrow is a mystery. But today is a gift. That's why it's called the present</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+    
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/longyinyushi?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/longyinyushi?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/longyinyushi/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ico_rss.gif">订阅</span></a></li>                   
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "longyinyushi";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/longyinyushi";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+    var curUserFace = "http://avatar.csdn.net/2_guest.jpg";
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                    <div class="ad_class">
+
+
+
+                    </div>
+
+                    
+
+ <script src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/main-1.js"></script>
+
+<script type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/category.js"></script>
+
+  <script type="text/ecmascript">
+      var title="centos安装epel源";
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=centos%e5%ae%89%e8%a3%85epel%e6%ba%90&u=http://blog.csdn.net/longyinyushi/article/details/50925638"
+    </script>
+<style>
+    .texCommend {
+        position: absolute;
+        background-color: #fff;
+        color: #000;
+        padding: 5px;
+        border: 1px solid #ccc;
+        cursor: default;
+        text-align: left;
+        z-index: 201;
+        border-radius: 5px;
+        box-shadow: 0 10px 20px #808080;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+    .MJX_Assistive_MathML {
+        display: none;
+    }
+    span.MathJax {
+        outline: none
+    }
+</style>
+<div id="article_details" class="details">
+    
+<div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="http://blog.csdn.net/longyinyushi/article/details/50925638">
+        centos安装epel源        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+
+    
+    <div class="article_manage clearfix">
+        <div class="article_r">
+            <span class="link_postdate">2016-03-18 18:05</span>
+            <span class="link_view" title="阅读次数">2795人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(0)</span>
+            <span class="link_collect csdn-tracking-statistics" data-pid="blog" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('centos安装epel源','50925638');return false;" title="收藏" target="_blank">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(50925638,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label>
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">centos<em></em></span>                       
+                    </label>      
+                    <label>
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">epel<em></em></span>                       
+                    </label>      
+        </div>
+    </div>
+        <div class="bog_copyright">         
+            <p class="copyright_p">版权声明：This article original articles 
+for bloggers, Repost please indicate the source. If in doubt, please 
+contact me. I will be appreciated. <a style="color:#666;" href="http://blog.csdn.net/longyinyushi/article/details/50925638">http://blog.csdn.net/longyinyushi/article/details/50925638</a></p>
+        </div>
+
+
+
+
+
+
+<div id="article_content" class="article_content csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post">
+
+首先，标题学了下雷不撕的风格。<br>
+<br>
+<strong><span style="color:#FF0000">epel</span></strong>是个好东西，不过国外的速度实在是不能忍受。所以 有了这篇文章。<br>
+<br>
+1、 首先卸载以前装的epel 以免影响<br>
+&nbsp;&nbsp;rpm -e epel-release <br>
+2、 下载阿里提供的epel ，PS&nbsp;&nbsp;感谢马云。<br>
+wget -P /etc/yum.repos.d/ <a target="_blank" href="http://mirrors.aliyun.com/repo/epel-6.repo">
+http://mirrors.aliyun.com/repo/epel-6.repo</a><br>
+3、<span style="color:#000000"><span style="font-family:Consolas">yum clean all</span></span><br>
+<span style="color:#000000"><span style="font-family:Consolas">4、yum makecache</span></span><br>
+<br>
+<br>
+&nbsp;&nbsp;好了，&nbsp;&nbsp;现在你要装epel源的软件的时候 不再慢吞吞了。<br>
+<br>
+全部改成阿里云的源<br>
+<br>
+1、rm -rf /etc/yum.repos.d/*&nbsp; &nbsp; （执行此操作的时候记得事先装好wget&nbsp; &nbsp; 不然 你就得挂载光盘用rpm装wget了。）<br>
+2、wget -P /etc/yum.repos.d/ <a target="_blank" href="http://mirrors.aliyun.com/repo/epel-6.repo">
+http://mirrors.aliyun.com/repo/epel-6.repo</a> <a target="_blank" href="http://mirrors.aliyun.com/repo/Centos-6.repo">
+http://mirrors.aliyun.com/repo/Centos-6.repo</a><br>
+<br>
+这个时候，执行 yum repolist的结果如下<br>
+[root@di02 ~]# yum repolist<br>
+已加载插件：fastestmirror<br>
+Loading mirror speeds from cached hostfile<br>
+* base: mirrors.aliyun.com<br>
+* epel: mirrors.aliyun.com<br>
+* extras: mirrors.aliyun.com<br>
+* updates: mirrors.aliyun.com
+   
+</div>
+
+
+
+
+
+
+
+
+    <div class="readall_box csdn-tracking-statistics tracking-click readall_box_nobg" data-pid="blog" data-mod="popu_596" style="display: none;">
+        <div class="read_more_mask"></div>
+        <a class="btn btn-large btn-gray-fred read_more_btn" target="_self">阅读全文</a>
+    </div>
+
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_222"><a href="javascript:void(0);" target="_blank">&nbsp;</a>   </div>
+    <div class="csdn-tracking-statistics" data-pid="blog" data-mod="popu_223"> <a href="javascript:void(0);" target="_blank">&nbsp;</a></div>
+        <div id="digg" articleid="50925638">
+            <dl id="btnDigg" class="digg digg_disable" onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>1</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable" onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".csdn-tracking-statistics[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".csdn-tracking-statistics[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/longyinyushi/article/details/50887380';">上一篇</span><a href="http://blog.csdn.net/longyinyushi/article/details/50887380" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">手动编译memcached时遇到memcache.c error: too few arguments to function ‘zend_list_insert’的解决方法</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/longyinyushi/article/details/50935643';">下一篇</span><a href="http://blog.csdn.net/longyinyushi/article/details/50935643" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">安装php出现“/replace/with/path/to/perl/interpreter: bad interpreter: No such file or directory ”的解决方法</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+   
+      
+</div>
+
+     <div>
+         
+         <!-- 广告位：PC端-博客详情页底部banner-960*90 -->
+            <script>
+                (function() {
+                    var s = "_" + Math.random().toString(36).slice(2);
+                    document.write('<div id="' + s + '"></div>');
+                    (window.slotbydup=window.slotbydup || []).push({
+                        id: '4770928',
+                        container: s,
+                        size: '960,90',
+                        display: 'inlay-fix'
+                    });
+                })();
+            </script><div id="_gyqjylx4bl8"></div><script charset="utf-8" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/icrm"></script>
+    </div>
+
+<div id="suggest">
+
+
+
+</div>
+         <script language="javascript" type="text/javascript">     
+             $(function(){
+                 $.get("/longyinyushi/svc/GetSuggestContent/50925638",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+
+<div class="comment_class" id="comments">
+	<div class="commentform"><!--<div class="panel_head">发表评论</div>--></div>
+    <div id="comment_form"><div class="guest_link">您还没有登录,请<a href="javascript:void(0);" onclick="javascript:loginbox();">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Flongyinyushi%2Farticle%2Fdetails%2F50925638">[注册]</a></div></div>
+    <div id="comment_title" class="panel_head" style="display: none;">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list" style="display: none;"><br>&nbsp;&nbsp;暂无评论<br><br><div class="clear"></div></div>
+    <div id="comment_bar">
+    </div>
+    <!--<div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>-->
+</div>
+<div class="recommend_list">
+
+    
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/buyueliuying/article/details/51712356" target="_blank" strategy="BlogCommendFromBaidu_0">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">CentOS使用EPEL YUM源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_buyueliuying.jpg" alt="buyueliuying" title="buyueliuying"></li>
+                        <li class="user_name">buyueliuying</li>
+                        <li class="time">2016-06-19 15:05</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2202</span></li>
+                    </ul><div class="summary">
+                        EPEL&nbsp;(Extra Packages for Enterprise 
+Linux)是基于Fedora的一个项目，为“红帽系”的操作系统提供额外的软件包，适用于RHEL、CentOS和Scientific 
+Linux.
+EPEL会自动配置yum的软件仓库。当然你也可以不安装这个包，自己配...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/junqing124/article/details/51059757" target="_blank" strategy="BlogCommendFromBaidu_1">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Centos7 安装epel</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_junqing124.jpg" alt="junqing124" title="junqing124"></li>
+                        <li class="user_name">junqing124</li>
+                        <li class="time">2016-04-05 00:32</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>457</span></li>
+                    </ul><div class="summary">
+                        rpm -ivh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            <script>(function() {var s = "_" + Math.random().toString(36).slice(2);document.write('<div id="' + s + '"></div>');(window.slotbydup = window.slotbydup || []).push({id: '4765209',container: s,size: '808,120',display: 'inlay-fix'});})();</script><div id="_hlh9qbpdy4h"></div><script charset="utf-8" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/icrm_002"></script> 
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/yasi_xi/article/details/11746255" target="_blank" strategy="BlogCommendFromBaidu_2">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">什么是EPEL 及 Centos上安装EPEL</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_yasi_xi.jpg" alt="yasi_xi" title="yasi_xi"></li>
+                        <li class="user_name">yasi_xi</li>
+                        <li class="time">2013-09-16 19:41</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>34624</span></li>
+                    </ul><div class="summary">
+                        转自：http://www.unxmail.com/read.php?67
+
+
+RHEL以及他的衍生发行版如CentOS、Scientific Linux为了稳定，官方的rpm repository提供的rpm包往往是很滞后的，当然了，这样做这是无可厚非的，毕竟这是服务器版本，安全稳定是重点，官方的...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/apache0554/article/details/47733115" target="_blank" strategy="BlogCommendFromBaidu_3">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">CentOS使用EPEL源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_apache0554.jpg" alt="apache0554" title="apache0554"></li>
+                        <li class="user_name">apache0554</li>
+                        <li class="time">2015-08-17 21:48</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>15675</span></li>
+                    </ul><div class="summary">
+                        个人非常喜欢用Ubuntu，因为Debian强大的在线在线安装包。但某些时候我不得不用CentOS,这就得用著名的EPEL源了。
+下面是使用方法：
+
+
+1. 首先我们需要安装一个叫”epel-release”的软件包，这个软件包会自动配置yum的软件仓库。当然你也可以不安装这个包，自己配置软件仓库也...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            <!-- 广告位：PC端-博客详情通栏7（feed流）-808*120 --><iframe style="width: 100%; height: 123px; border: 0px none;" scrolling="no"></iframe>
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/w670328683/article/details/51673757" target="_blank" strategy="BlogCommendFromBaidu_4">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">CentOS7安装EPEL源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_w670328683.gif" alt="w670328683" title="w670328683"></li>
+                        <li class="user_name">w670328683</li>
+                        <li class="time">2016-06-14 18:36</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>8766</span></li>
+                    </ul><div class="summary">
+                        EPEL 
+是yum的一个软件源,里面包含了许多基本源里没有的软件了，但在我们在使用epel时是需要安装它才可以了，EPEL，即Extra Packages
+ for Enterprise Linux的简称，是为企业级Linux提供的一组高质量的额外软件包，包括但不限于Red Hat 
+Enterpris...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/shanliangliuxing/article/details/8779008" target="_blank" strategy="BlogCommendFromBaidu_5">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">安装epel源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_shanliangliuxing.jpg" alt="shanliangliuxing" title="shanliangliuxing"></li>
+                        <li class="user_name">shanliangliuxing</li>
+                        <li class="time">2013-04-09 18:10</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1873</span></li>
+                    </ul><div class="summary">
+                        转自：http://laibulai.iteye.com/blog/1416536
+
+
+来自余洪春老师《构建高可用linux服务器》
+
+&nbsp;
+
+简单记录一下，加强记忆
+
+&nbsp;
+
+安装epel源的好处就是epel这个项目是由fedora维护的，在维护的这个源中包含...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/baiwz/article/details/37764361" target="_blank" strategy="searchFromBaidu_6">
+                <dd>
+                    <h2>Centos6.0使用第三方YUM源（EPEL，RPMForge，RPMFusion）</h2>
+                    <div class="summary">
+                        yum是centos下很方便的rpm包管理工具，配置第三方软件库使你的软件库更加丰富。以下简单的讲下配置的步骤。
+
+首先，需要安装yum-priorities插件：
+
+
+
+
+
+
+yum install yum-priorities -y
+
+
+
+&nbsp;&nbsp;...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_hm2462964492.gif" alt="hm2462964492" title="hm2462964492"></li>
+                        <li class="user_name">hm2462964492</li>
+                        <li class="time">2014-07-14 16:24</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>569</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/odongyuan1/article/details/60874859" target="_blank" strategy="BlogCommendFromBaidu_7">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">配置EPEL的yum源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_odongyuan1.gif" alt="oDongYuan1" title="oDongYuan1"></li>
+                        <li class="user_name">oDongYuan1</li>
+                        <li class="time">2017-03-08 16:24</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2137</span></li>
+                    </ul><div class="summary">
+                        EPEL (Extra Packages for Enterprise Linux) 是由 
+Fedora Special Interest Group 为企业 Linux 创建、维护和管理的一个高质量附加包集合，适用于但不仅限于 Red
+ Hat Enterprise Linux (RHEL), Ce...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/harbor1981/article/details/51135623" target="_blank" strategy="BlogCommendFromBaidu_8">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux开启安装EPEL YUM源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_harbor1981.gif" alt="harbor1981" title="harbor1981"></li>
+                        <li class="user_name">harbor1981</li>
+                        <li class="time">2016-04-12 17:55</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>8618</span></li>
+                    </ul><div class="summary">
+                        我们用yum安装软件时,经常发现我们的yum源里面没有该软件，需要自己去wget，然后configure,make,make install，太折腾了。
+其实，CentOS还有一个源叫做 EPEL (Extra Packages for Enterprise)，里面有1万多个软件，比163的源还强...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/fengfenfeifei/article/details/71473630" target="_blank" strategy="BlogCommendFromBaidu_9">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">centos6.x系统添加国内epel源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_fengfenfeifei.gif" alt="fengfenfeifei" title="fengfenfeifei"></li>
+                        <li class="user_name">fengfenfeifei</li>
+                        <li class="time">2017-05-09 15:06</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>744</span></li>
+                    </ul><div class="summary">
+                        EPEL&nbsp;(Extra Packages for 
+Enterprise&nbsp;Linux)是基于Fedora的一个项目，为“红帽系”的操作系统提供额外的软件包，适用于RHEL、CentOS和
+Scientific
+ Linux.EPEL会自动配置yum的软件仓库。当然你也可以不安装这个包...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/mshaiting/article/details/53128567" target="_blank" strategy="BlogCommendFromBaidu_10">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Centos6  yum源的安装(163，阿里云，epel)</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_mshaiting.gif" alt="mshaiting" title="mshaiting"></li>
+                        <li class="user_name">mshaiting</li>
+                        <li class="time">2016-11-11 14:36</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>3043</span></li>
+                    </ul><div class="summary">
+                        Centos6  yum源的安装(163，阿里云，epel)
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/w88529593/article/details/49150893" target="_blank" strategy="BlogCommendFromBaidu_11">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">centos 6-7的epel源配置</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_w88529593.jpg" alt="w88529593" title="w88529593"></li>
+                        <li class="user_name">w88529593</li>
+                        <li class="time">2015-10-15 12:20</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1590</span></li>
+                    </ul><div class="summary">
+                        CentOS6的请编辑/etc/yum.repos.d/epel.repo输入以下内容
+
+
+
+
+
+
+
+
+[epel]
+
+name=Extra&nbsp;Packages&nbsp;for&nbsp;Enterprise&nbsp;Linux&nbsp;6&nbsp;-&nbsp;$basearch
+...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl><div id="yd_a_d_feed_11" class="yd_a_d_feed_cla" style="height:124px;"><div id="BAIDU_SSP__wrapper_u3203594_0"></div><script type="text/javascript">var cpro_id = "u3203594";</script><script type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/c.js"></script></div>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/caijunfen/article/details/71192015" target="_blank" strategy="BlogCommendFromBaidu_12">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">在CentOS6和CentOS7安装epel仓库-最简单的方法</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_caijunfen.jpg" alt="caijunfen" title="caijunfen"></li>
+                        <li class="user_name">caijunfen</li>
+                        <li class="time">2017-05-05 10:44</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>619</span></li>
+                    </ul><div class="summary">
+                        1 安装epel仓库：
+
+在CentOS6和CentOS7都可以执行下面的命令安装epel仓库
+
+yum -y install epel-release
+
+这条命令的好处是可以自动安装不同版本的epel，比如在CentOS6上面安装的就是epel6，在CentOS7上面安装的就是epel...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/wtswjtu/article/details/38844415" target="_blank" strategy="BlogCommendFromBaidu_13">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">centos6.5安装epel</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_wtswjtu.gif" alt="wtswjtu" title="wtswjtu"></li>
+                        <li class="user_name">wtswjtu</li>
+                        <li class="time">2014-08-26 10:45</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>529</span></li>
+                    </ul><div class="summary">
+                        CentOS 6.5
+
+&nbsp;&nbsp;&nbsp; wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+
+&nbsp;&nbsp;&nbsp; wget http://rpms...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/zk673820543/article/details/50563127" target="_blank" strategy="BlogCommendFromBaidu_14">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">如何在CentOS 5/6/7上安装EPEL 源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_zk673820543.jpg" alt="zk673820543" title="zk673820543"></li>
+                        <li class="user_name">zk673820543</li>
+                        <li class="time">2016-01-25 10:36</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2114</span></li>
+                    </ul><div class="summary">
+                        groupadd zabbix
+useradd -g zabbix -M -s /sbin/nologin zabbix
+tar zxvf zabbix-2.2.6.tar.gz
+cd zabbix-2.2.6
+&nbsp;./configure --prefix=/usr/local/zabbix...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/github_35960256/article/details/52535155" target="_blank" strategy="BlogCommendFromBaidu_15">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Linux CentOS下EPEL源的安装</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_github_35960256.jpg" alt="github_35960256" title="github_35960256"></li>
+                        <li class="user_name">github_35960256</li>
+                        <li class="time">2016-09-14 09:45</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>856</span></li>
+                    </ul><div class="summary">
+                        
+什么是EPEL源：EPEL是yum的一个软件源,包含许多基本源里没有的软件，安装了EPEL就扩展了yum软件源。实验环境：CentOS 
+6.5安装步骤：step 1：安装yum优先级插件yum install yum-prioritiesstep 2：安装epel源rpm 
+-Uvh http://m...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/e421083458/article/details/46808621" target="_blank" strategy="BlogCommendFromBaidu_16">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">centos下yum安装lamp和lnmp轻松搞定</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_e421083458.jpg" alt="e421083458" title="e421083458"></li>
+                        <li class="user_name">e421083458</li>
+                        <li class="time">2015-07-08 21:17</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>4755</span></li>
+                    </ul><div class="summary">
+                        centos下yum安装lamp和lnmp轻松搞定，到底多轻松你看就知道了，妈妈再也不担心不会装lamp了。
+
+很辛苦整理的安装方法，会持续更新下去。凡无法安装的在评论里贴出问题来，会尽快解决。共同维护一个可用yum可用更新.
+
+软件列表：php5.4 apache2.2 mysql5.5 ngin...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl><dl id="yd_a_d_feed_16" class="yd_a_d_feed_cla" style="height:124px;"><iframe style="width: 100%; height: 90px; border: 0px none;" scrolling="no"></iframe></dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/skykingf/article/details/51953700" target="_blank" strategy="BlogCommendFromBaidu_17">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">CentOS 7 使用阿里云的yum源</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_skykingf.jpg" alt="skykingf" title="skykingf"></li>
+                        <li class="user_name">skykingf</li>
+                        <li class="time">2016-07-19 10:47</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>8450</span></li>
+                    </ul><div class="summary">
+                        1. 备份原来的yum源
+sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+2.设置aliyun的yum源
+wget -O /etc/yum.repos.d/CentOS-Base.repo...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/chenlix/article/details/52300906" target="_blank" strategy="BlogCommendFromBaidu_18">
+                <dd>
+                    <h2>由于CentOS的系统安装了epel-release-latest-7.noarch.rpm 导致在使用yum命令时出现Error: xz compression not available问题。</h2>
+                    <div class="summary">
+                        
+由于CentOS6的系统安装了epel-release-latest-7.noarch.rpm&nbsp;导致在使用yum命令时出现
+Error:&nbsp;xz&nbsp;compression&nbsp;not&nbsp;available问题。
+解决方法：
+1.到http://ftp.rik...
+                    </div>
+                    <ul>
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_chenlix.jpg" alt="chenlix" title="chenlix"></li>
+                        <li class="user_name">chenlix</li>
+                        <li class="time">2016-08-24 15:30</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>2971</span></li>
+                    </ul>
+                </dd>
+</a>
+            </dl>
+            
+            <dl class="clearfix csdn-tracking-statistics recommend_article recommend_article_out" data-mod="popu_614" data-poputype="feed" data-feed-show="false" data-dsm="post">
+<a href="http://blog.csdn.net/turtleo/article/details/50096431" target="_blank" strategy="BlogCommendFromBaidu_19">
+                <dd>
+                    <h2 style="margin-bottom: 0px;">Centos7添加epel源并升级php</h2>
+                    <ul class="floatR">
+                        <li class="avatar_img"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/2_turtleo.jpg" alt="turtleo" title="turtleo"></li>
+                        <li class="user_name">turtleo</li>
+                        <li class="time">2015-11-29 15:04</li>
+                        <li class="visited_num"><svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc"><defs><style></style></defs><path d="M988.16 240.64c0-5.12-2.56-11.52-6.4-15.36-2.56-2.56-51.2-55.04-135.68-81.92-32-10.24-64-15.36-96-15.36-97.28 0-181.76 46.08-235.52 84.48-55.04-39.68-139.52-85.76-236.8-85.76-32 0-65.28 5.12-96 15.36C97.28 168.96 49.92 224 47.36 226.56c-3.84 3.84-5.12 8.96-5.12 15.36v546.56l60.16 71.68c3.84 8.96 12.8 15.36 21.76 15.36 3.84 0 7.68 0 10.24-2.56 19.2-5.12 120.32-29.44 199.68-29.44 37.12 0 64 5.12 79.36 15.36 7.68 5.12 11.52 10.24 12.8 16.64 0 12.8 10.24 23.04 23.04 23.04h21.76c24.32 0 61.44 0 98.56-2.56h5.12c10.24 0 20.48-7.68 23.04-17.92 2.56-10.24 7.68-16.64 17.92-23.04 16.64-8.96 42.24-14.08 76.8-14.08 78.08 0 171.52 24.32 198.4 32 3.84 1.28 7.68 2.56 11.52 2.56 8.96 0 17.92-5.12 21.76-14.08l64-72.96V240.64zM88.32 744.96V250.88c14.08-14.08 52.48-46.08 107.52-64 26.88-8.96 53.76-12.8 81.92-12.8 70.4 0 142.08 26.88 213.76 79.36v477.44c-38.4-23.04-88.32-34.56-149.76-34.56-32 0-66.56 3.84-102.4 10.24-60.16 8.96-115.2 26.88-151.04 38.4zm805.12 79.36c-20.48-5.12-61.44-15.36-106.24-23.04-35.84-5.12-66.56-7.68-94.72-7.68-43.52 0-76.8 6.4-101.12 20.48-15.36 8.96-26.88 20.48-33.28 34.56-33.28 1.28-65.28 2.56-87.04 2.56h-3.84c-6.4-12.8-15.36-24.32-29.44-32-23.04-15.36-58.88-21.76-106.24-21.76-76.8 0-165.12 19.2-200.96 28.16l-29.44-35.84c51.2-17.92 148.48-47.36 240.64-47.36 70.4 0 122.88 17.92 153.6 52.48l2.56 2.56 1.28 1.28 1.28 1.28 1.28 1.28h1.28l2.56 1.28h11.52l2.56-1.28h1.28s1.28 0 1.28-1.28h1.28s1.28 0 1.28-1.28h1.28l2.56-2.56c30.72-37.12 81.92-56.32 152.32-56.32 39.68 0 122.88 6.4 240.64 49.92l-28.16 34.56zm47.36-79.36c-35.84-14.08-90.88-32-152.32-43.52-37.12-6.4-71.68-10.24-103.68-10.24-60.16 0-110.08 12.8-148.48 37.12V253.44c70.4-51.2 142.08-78.08 212.48-78.08 28.16 0 55.04 3.84 81.92 12.8 56.32 17.92 94.72 49.92 110.08 64v492.8z"></path></svg><span>1877</span></li>
+                    </ul><div class="summary">
+                        
+最近在阿里云上入手了一台centos7的服务器，在搭建环境过程中发现php的版本是5.4，且是最新的。可现在php都已经到7了，经查询发现
+centos为保持稳定性并没用太多的更新源，使得一些软件都过于老。因此为了使用到最新的php版本，我们得在centos中添加一些较新的源。目前在
+centos系统中...
+                    </div>
+                    
+                </dd>
+</a>
+            </dl>
+            </div>
+<script type="text/javascript">
+    var fileName = '50925638';
+    var commentscount = 0;
+    var islock = false
+document.domain = "csdn.net";
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop" style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])">         
+         <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+    var showTexComDom = $('<div class="texCommend" style="position:absolute;display:none;">显示当前公式源码</div>');
+    $('body').append(showTexComDom);
+    $("#article_content").on('contextmenu', 'span.MathJax', function (ev) {
+        ev.preventDefault ? ev.preventDefault() : (ev.returnValue = false);
+        var scrollleft = document.documentElement.scrollLeft || document.body.scrollLeft;
+        var scrolltop = document.documentElement.scrollTop || document.body.scrollTop;
+        var left = ev.clientX + scrollleft + 10 + "px";
+        var top = ev.clientY + scrolltop + 10 + "px";
+        showTexComDom.css({
+            top: top,
+            left: left
+        }).show();
+        showTexComDom.html('显示当前公式源码');
+        var curSpan = $(this);
+        var commendId = curSpan.attr('id').replace('-Frame', '');
+        console.log(commendId);
+        $("body").bind('click', function (ev) {
+            console.log(ev);
+            var className = ev.originalEvent.target.className;
+            if (className.indexOf('texCommend') === -1) {
+                showTexComDom.hide();
+                $("body").unbind('click');
+            }
+        });
+        showTexComDom.one('click', function () {
+            $(this).text($("#" + commendId).html());
+        });
+    });
+        (function () {
+            var viewImg = function viewImg(dom) {
+                var dom = dom ? dom : 'body';
+                var imgDOM = $(dom + ' img');
+                var ua = navigator.userAgent.toLowerCase();
+
+                if (imgDOM.length === 0) return false
+
+                if ($('.imgViewDom').length === 0) {
+                    $('body').append('<div class="imgViewDom disnone" style="display: none;"><img src=""></div>')
+                    $('body').append('<style>.imgViewDom{display:none;position:fixed;top:0;left:0;height:100%;width:100%;z-index:99999999;background: rgba(255, 255, 255,0.8);overflow: auto;display:-webkit-box;-webkit-box-align:center;-webkit-box-pack:center;display:-moz-box;-moz-box-align:center;-moz-box-pack:center;display:-o-box;-o-box-align:center;-o-box-pack:center;display:-ms-box;-ms-box-align:center;-ms-box-pack:center; display:box;box-align:center;box-pack:center;}.imgViewDom img{cursor: zoom-out;}</style>')
+                    $('.imgViewDom').on('click', function () {
+                        if (ua.indexOf('windows ') > -1) {
+                            $('body').css({ 'overflow': 'auto', 'margin-left': '0' })
+                        } else {
+                            $('body').css({ 'overflow': 'auto' })
+                        }
+                        $('.imgViewDom').fadeOut(500).children('img').attr('src', "");
+                    })
+                }
+                imgDOM.bind('click', function (e) {
+                    if (e.currentTarget.src) {
+                        $('.imgViewDom').fadeIn(500).children('img').css({ 'width': e.currentTarget.naturalWidth, 'height': e.currentTarget.naturalheight }).attr('src', e.currentTarget.src)
+                        if (ua.indexOf('windows ') > -1) {
+                            $('body').css({ 'overflow': 'hidden', 'margin-left': '-17px' })
+                        } else {
+                            $('body').css({ 'overflow': 'hidden' })
+                        }
+
+                    }
+                })
+
+            }
+            window.CSDNviewImg = viewImg;
+
+        })()
+    CSDNviewImg('#article_details')
+    var articletitle='centos安装epel源';
+
+</script>
+<script src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/appendMark.js" type="text/javascript"></script>
+<script type="text/javascript">
+    appendMark($('.recommend_list').children('a').find('dt'),$('.extension_other'))
+</script>
+
+
+
+
+
+
+
+
+
+                    <div class="clear">
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="side">
+                
+
+    <div class="side">
+
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/longyinyushi" target="_blank">
+    <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/1_longyinyushi.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/longyinyushi" class="user_name" target="_blank">longyinyushi</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=longyinyushi','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+                                            <a target="_blank">
+                                                    <img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="3">
+                                            </a>
+               </div>
+
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>193200次</span></li>
+    <li>积分：<span>2967</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+                 <a title="5级,点击查看等级说明" href="http://blog.csdn.net/home/help.html#level" target="_blank"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/blog5.png" alt="" style="vertical-align: middle;" id="leveImg"></a>
+            
+        </span>  </li>
+    <li>排名：<span>第13987名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>99篇</span></li>
+    <li>转载：<span>42篇</span></li>
+    <li>译文：<span>2篇</span></li>
+    <li>评论：<span>14条</span></li>
+</ul>
+</ul>
+</div>
+
+
+                        <div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" class="form_search csdn-tracking-statistics" data-pid="blog" target="_blank" data-mod="popu_306">
+        <span><input id="inputSearch" class="blogsearch" title="请输入关键字" type="text"></span>
+        <input id="btnSubmit" value="搜索" title="search in blog" type="button">
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + 
+encodeURIComponent($("#inputSearch").val()) + "&u=" + username + 
+"&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + 
+encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            var url = "/" + username + "?q=" + 
+encodeURIComponent($("#inputSearch").val());
+            window.location.href = url;
+        }   
+    });
+</script> 
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/5751673" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Linux</a><span>(63)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/5751675" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">C</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/5751671" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">网络</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/5751677" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">个人</a><span>(26)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6042506" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">FreeBSD</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6087026" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Ubuntu</a><span>(13)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6087681" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">git</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6105162" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">shell</a><span>(11)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6105654" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">bash</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6117049" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">google</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6118751" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Software-Building-HOWTO</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6118767" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Makefile</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6124756" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">iptables</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6125890" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">xargs</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6127885" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">apache</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6127886" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">httpd</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6132302" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">ssh</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6133877" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">php</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6133878" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">memcache</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6141508" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">centos</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6141509" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">epel</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6144990" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">lnmp</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6144991" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">nginx</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6156501" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">mail</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6161493" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">nagios</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6177277" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">sed</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6200509" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">redis</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6249176" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">oracle</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6277210" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">python</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6293664" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">随笔</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6303577" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">django</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6338842" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">kali</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6339331" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">MarkDown</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6389935" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">mysql</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6406702" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">tomcat</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6473065" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">HA</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6550811" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">pxe</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6550812" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">kickstart</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6794825" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">firefox</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6923292" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">zabbix</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6943010" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">git-hook</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/6981750" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">pip</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/longyinyushi/article/category/7108768" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">前端</a><span>(1)</span>
+                </li>
+</ul>
+</div>
+<div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="http://blog.csdn.net/longyinyushi/article/month/2018/01">2018年01月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2017/12">2017年12月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2017/09">2017年09月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2017/08">2017年08月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2017/07">2017年07月</a><span>(2)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/longyinyushi/article/month/2017/06">2017年06月</a><span>(9)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2017/05">2017年05月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2017/01">2017年01月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/12">2016年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/11">2016年11月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/10">2016年10月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/09">2016年09月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/08">2016年08月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/07">2016年07月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/06">2016年06月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/05">2016年05月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/04">2016年04月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/03">2016年03月</a><span>(23)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/02">2016年02月</a><span>(10)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2016/01">2016年01月</a><span>(17)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2015/12">2015年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2015/11">2015年11月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/longyinyushi/article/month/2015/10">2015年10月</a><span>(1)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+
+<div id="hotarticls" class="panel csdn-tracking-statistics" data-pid="blog" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/50728049" title="shell中条件判断if中的-z到-d的意思" target="_blank">shell中条件判断if中的-z到-d的意思</a><span>(13793)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/51851336" title="如何升级到python3版本并且安装pip3及ipython3" target="_blank">如何升级到python3版本并且安装pip3及ipython3</a><span>(12914)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/50955097" title="nginx 301 302跳转配置方法 与 总结" target="_blank">nginx 301 302跳转配置方法 与 总结</a><span>(9683)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/50984445" title="使用ssh-keygen和ssh-copy-id三步实现SSH无密码登录" target="_blank">使用ssh-keygen和ssh-copy-id三步实现SSH无密码登录</a><span>(7533)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/51120156" title="sed指定某行插入、追加、全局替换" target="_blank">sed指定某行插入、追加、全局替换</a><span>(6912)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/52350934" title="sed指定某行插入、追加、全局替换" target="_blank">sed指定某行插入、追加、全局替换</a><span>(6465)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/49871051" title="ubuntu如何降级到之前的版本" target="_blank">ubuntu如何降级到之前的版本</a><span>(6313)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/50612586" title="关于Ubuntu没有声音的解决方法" target="_blank">关于Ubuntu没有声音的解决方法</a><span>(5766)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/50592645" title="关于POS接口配置的几个注意事项" target="_blank">关于POS接口配置的几个注意事项</a><span>(4870)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/longyinyushi/article/details/50471758" title="无法修改linux密码Authentication token manipulation error 问题解决" target="_blank">无法修改linux密码Authentication token manipulation error 问题解决</a><span>(4854)</span>
+</li>
+</ul>
+</div>
+
+<div id="homepageArticles" class="panel csdn-tracking-statistics" data-pid="blog" data-mod="popu_4" style="height:250px;">
+
+    <div id="cpro_u2734133" style="text-align:center;">
+      
+        <!-- 投放代码 -->
+        <div id="_5txknvf8xva"><div><div id="qczwnqepab" style="margin-left:0px;"><iframe scrolling="no" src="http://pos.baidu.com/s?hei=250&amp;wid=250&amp;di=u2734133&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Flongyinyushi%2Farticle%2Fdetails%2F50925638&amp;cfv=0&amp;tpr=1518333052737&amp;dtm=HTML_POST&amp;cpl=1&amp;cdo=-1&amp;cmi=2&amp;ccd=24&amp;col=zh-CN&amp;cce=true&amp;dc=3&amp;pcs=1903x966&amp;ant=0&amp;pss=1903x4356&amp;ltr=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3D3mnq0hAG4BuWXH4_OpfB76XQWVxE04sTX9_jCcV1SX6ptXtuq2FzxlLurLEMWKEqS4RE0W2m98img8cEee3XxST_Y0MrnAF8A1k_zR4XCPC%26wd%3D%26eqid%3Dbb919d1e0004a9fe000000045a7fec22&amp;tlm=1518333053&amp;psr=1920x1080&amp;exps=111000&amp;tcn=1518333053&amp;chi=1&amp;cec=UTF-8&amp;cja=false&amp;ti=centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Changs%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2&amp;pis=-1x-1&amp;dis=0&amp;dai=4&amp;ari=2&amp;dri=0&amp;par=1920x1040&amp;ps=3006x324&amp;drs=1" width="250" height="250" frameborder="0"></iframe></div></div></div><script type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/bwlxosfoo.js"></script>
+      
+
+    </div>
+
+
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/51236986#comments">PHP Startup redis: Unable to initialize module</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/longyinyushi" class="user_name">longyinyushi</a>:
+@cxs812760493:笔记做的不错，:-)
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/51236986#comments">PHP Startup redis: Unable to initialize module</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/cxs812760493" class="user_name">cxs812760493</a>:
+Linux下apache PHP配置redis：http://www.cnblogs.com/cxs...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/51236986#comments">PHP Startup redis: Unable to initialize module</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/cxs812760493" class="user_name">cxs812760493</a>:
+Linux下nginx PHP配置redis：http://www.cnblogs.com/cxsc...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/51000115#comments">Linux 开机提示kernel panic...解决方法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/longyinyushi" class="user_name">longyinyushi</a>:
+@yongchuang0001:你仔细想想之前有什么操作，比如修改过selinux，如果是这样的话，...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/51000115#comments">Linux 开机提示kernel panic...解决方法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/yongchuang0001" class="user_name">yongchuang0001</a>:
+楼主帮忙看下，在最后已经添加了enforcing=0 ，但还是不行，那要什么弄呢
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/51000115#comments">Linux 开机提示kernel panic...解决方法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/longyinyushi" class="user_name">longyinyushi</a>:
+@radraycom:客气喽。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/51000115#comments">Linux 开机提示kernel panic...解决方法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/radraycom" class="user_name">radraycom</a>:
+感谢楼主
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/50802623#comments">Makefile经典教程(掌握这些足够)</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/longyinyushi" class="user_name">longyinyushi</a>:
+@u013610563:我没有听明白你想表达的意思，这个文章是我转载过来的，排版还没有做过调整，如果...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/50802623#comments">Makefile经典教程(掌握这些足够)</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u013610563" class="user_name">亦楠_把一件事做好</a>:
+您好，请问您在1.3节中的前面部分说生成main.o的时候，是不是应该是 也不能  而不是也能  少...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/longyinyushi/article/details/50802623#comments">Makefile经典教程(掌握这些足够)</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u013610563" class="user_name">亦楠_把一件事做好</a>:
+您好，请问您在1.3节中的前面部分说生成main.o的时候，是不是应该是 也不能  而不是也能  少...
+    </p>
+    </li>
+</ul>
+</div>
+
+    </div>
+    <div class="clear">
+    </div>
+
+                        <div class="csdn-tracking-statistics" data-pid="blog" data-view="true" data-mod="ad_popu_189" data-mtp="63" data-order="40" data-con="ad_content_1259" style="width: 250px; height: 250px;">
+                            <div id="nav_show_top_stop" style="width: 250px; height: 250px; z-index: 1000; position: fixed; top: 3171.77px;">
+
+                                <div id="cpro_u3031286" style="text-align:center;">
+                                    <!-- 投放代码 -->
+                                    <div id="_u01dmqmj3s"><div style="margin-bottom:0px;"><div id="oxgegssqng"><div style="cursor:auto;"><iframe scrolling="no" src="http://pos.baidu.com/s?hei=250&amp;wid=250&amp;di=u3031286&amp;ltu=http%3A%2F%2Fblog.csdn.net%2Flongyinyushi%2Farticle%2Fdetails%2F50925638&amp;ltr=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3D3mnq0hAG4BuWXH4_OpfB76XQWVxE04sTX9_jCcV1SX6ptXtuq2FzxlLurLEMWKEqS4RE0W2m98img8cEee3XxST_Y0MrnAF8A1k_zR4XCPC%26wd%3D%26eqid%3Dbb919d1e0004a9fe000000045a7fec22&amp;pss=1903x4397&amp;ps=3983x323&amp;cmi=2&amp;pcs=1903x966&amp;psr=1920x1080&amp;dtm=HTML_POST&amp;dri=0&amp;cec=UTF-8&amp;ti=centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Changs%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2&amp;cfv=0&amp;exps=111000&amp;par=1920x1040&amp;ant=0&amp;cce=true&amp;col=zh-CN&amp;tcn=1518333053&amp;chi=1&amp;dai=5&amp;ccd=24&amp;cdo=-1&amp;ari=2&amp;tlm=1518333053&amp;dc=3&amp;pis=-1x-1&amp;tpr=1518333052737&amp;cja=false&amp;drs=1&amp;cpl=1&amp;dis=0" width="250" height="250" frameborder="0"></iframe></div></div></div></div><script type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/bwocoflyv.js"></script>
+                                    
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+
+                            setTimeout(function () {
+                                var naviga_offsetTop = 0; function 
+naviga_stay_top() {
+                                    var scrollTop = 
+jQuery(document).scrollTop();
+                                    if (scrollTop > naviga_offsetTop) {
+                                        
+jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                                        
+jQuery("#nav_show_top_stop").css({ "top": "0px" });
+                                    } else { 
+jQuery("#nav_show_top_stop").css({ "position": "fixed" }); 
+jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop +
+ "px" }); }
+                                }
+                                function onload_function() {
+                                    naviga_offsetTop = 
+jQuery("#nav_show_top_stop").position().top;
+                                    jQuery(window).bind("scroll", 
+naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top);
+                                    jQuery(document).bind("scroll", 
+naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top);
+                                } 
+jQuery(document).ready(onload_function);
+                            }, 200);
+
+                        </script>
+
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='csdn-tracking-statistics' 
+data-pid=\"blog\"  data-mod='popu_167'><a 
+href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  
+style='text-indent:0;'><img 
+src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 
+alt='在CODE上查看代码片' 
+style='position:relative;top:1px;left:2px;'/></a></span>"
+                + "<span class='csdn-tracking-statistics' 
+data-pid=\"blog\"  data-mod='popu_170'><a 
+href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' 
+style='text-indent:0;'><img 
+src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 
+alt='派生到我的代码片' 
+style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && 
+parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div><div class="texCommend" style="position:absolute;display:none;">显示当前公式源码</div><div class="imgViewDom disnone" style="display: none;"><img src=""></div><style>.imgViewDom{display:none;position:fixed;top:0;left:0;height:100%;width:100%;z-index:99999999;background:
+ rgba(255, 255, 255,0.8);overflow: 
+auto;display:-webkit-box;-webkit-box-align:center;-webkit-box-pack:center;display:-moz-box;-moz-box-align:center;-moz-box-pack:center;display:-o-box;-o-box-align:center;-o-box-pack:center;display:-ms-box;-ms-box-align:center;-ms-box-pack:center;
+ display:box;box-align:center;box-pack:center;}.imgViewDom img{cursor: 
+zoom-out;}</style>
+
+
+    <script type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/MathJax.js"></script>
+
+
+        <script src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_blog_detail.js" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="javascript:void(0);" target="_blank" class="qq">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2251809102&amp;site=qq&amp;menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-660-0108</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏知之为计算机有限公司</span><span class="interval">|</span><span>江苏乐知网络技术有限公司</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2017, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/notify.js"></script><input id="aa_g_data_ids" type="hidden">
+
+        <script type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/csdn_public_blog_detail.js"></script>
+
+        <script type="text/javascript" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/showblogmedal.js"></script>
+
+
+        <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+            <script id="adJs52b5334" src="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/52b5334.js"></script>
+            <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+        </div>
+
+        <div class="pop_CA_cover" style="display:none"></div>
+        <div class="pop pop_CA" style="display:none">
+            <div class="CA_header">
+                收藏助手
+                <span class="cancel_icon" id="fapancle" onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+            </div>
+            <iframe src="" id="fa" scrolling="no" width="100%" height="360" frameborder="0"></iframe>
+        </div>
+
+
+            <script type="text/javascript">
+
+                $(function () {
+                    var fromjs = $("#fromjs");
+                    if (fromjs.length > 0) {
+                        $("#fromjs .markdown_views pre").addClass("prettyprint");
+                        prettyPrint();
+
+                        $('pre.prettyprint code').each(function () {
+                            var lines = $(this).text().split('\n').length;
+                            var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                            $(this).addClass('has-numbering').parent().append($numbering);
+                            for (i = 1; i <= lines; i++) {
+                                $numbering.append($('<li/>').text(i));
+                            };
+                            $numbering.fadeIn(1700);
+                        });
+
+                        $('.pre-numbering li').css("color", "#999");
+                    }
+                });
+
+                $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+                //$(".toc a[target='_blank']").attr("target", "");
+
+                setTimeout(function () {
+                    $(".toc a[target='_blank']").attr("target", "");
+                }, 500);
+
+            </script>
+                <div style="display:none;">
+                    <img src="" onerror='setTimeout(function(){if(top!==self){window.top.location.href=window.location.href}if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+                </div>
+    
+
+<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" id="focus_retriever" readonly="true" type="text"></div><link rel="stylesheet" type="text/css" media="screen" href="centos%E5%AE%89%E8%A3%85epel%E6%BA%90%20-%20Welcome%20to%20Feng.Chang's%20Blog%20-%20CSDN%E5%8D%9A%E5%AE%A2_files/ask_float_fonts_css-6b30a53970eb5c3a2a045e3df585b475.css"><div data-mod="popu_64" class="csdn-tracking-statistics" chg-blk="0"><a id="com-quick-QRcode" class="QRcodebg1" title="扫描二维码" style="top:322px"><span class="closeQR"></span></a><a id="com-quick-reply" title="快速回复" style="top:456px"></a><a id="com-quick-collect" title="我要收藏" style="top:494px"></a><a id="com-d-top-a" style="top: 532px; display: none;" title="返回顶部" onclick=""></a></div><div class="pop_edit ask_second comm_ask_second"><h3>提问</h3><span class="ask_float_span">您的问题将会被发布在“<a class="ask_float_channel" href="http://ask.csdn.net/" target="_blank" style="cursor:pointer">技术问答</a>”频道</span><a href="#" nodetype="close" class="close">×</a><div class="context"><div class="err_div"><span class="err_ico"></span><span class="err_txt">该问题已存在，请勿重复提问</span></div><div class="input_div"><input id="askInputSecond" style="font-size:14px;" placeholder="问题标题" type="text"></div><div class="cm_box"><div class="cm_dialog"></div> <div class="pop_cm cm_add_link"><input placeholder="链接内容" id="af_cm_link_txt" type="text"><input placeholder="链接地址" id="af_cm_link_url" type="text"><input placeholder="链接提示" id="af_cm_link_tit" type="text"><div class="text-right"><span class="btn btn-default btn-sm" id="add_link_btn">插入链接</span> </div> </div><div class="pop_cm cm_add_img"><div class="nav-tabs"><a class="img_tab active" href="#tab_upload">本地上传</a><a class="img_tab" href="#tab_weburl">网络图片</a></div><div class="tab_panel active" id="tab_upload"><div class="set_img"></div></div><div class="tab_panel" id="tab_weburl"><input placeholder="图片地址" id="af_cm_img_url" type="text"><input placeholder="图片说明" id="af_cm_img_alt" type="text"><div class="text-right"><span class="btn btn-default btn-sm" id="add_img_btn">插入图片</span> </div></div> </div></div> <textarea id="editor_all" rows="8" style="display: none;"></textarea><div class="editor-toolbar"><i class="separator">|</i><a class="icon-headline" title="标题一（Ctrl+Alt+1）"></a><a class="icon-heading" title="标题二（Ctrl+Alt+2）"></a><a class="icon-bold" title="粗体（Ctrl+B）"></a><a class="icon-italic" title="斜体（Ctrl+I）"></a><i class="separator">|</i><a class="icon-quote-left" title="引用（Ctrl+’）"></a><a class="icon-code" title="插入代码片（Ctrl+,）"></a><a class="icon-list-ul" title="无序列表（Ctrl+L）"></a><a class="icon-list-ol" title="有序列表（Ctrl+Alt+L）"></a><i class="separator">|</i><a class="icon-link" title="添加链接（Ctrl+K）"></a><a class="icon-picture" title="添加图片（Ctrl+Alt+I）"></a><i class="separator">|</i><a class="icon-reply" title="撤退（Ctrl+Z）"></a><a class="icon-share-alt" title="前进（Ctrl+Shift+Z）"></a><i class="separator">|</i><a class="icon-info" href="http://ask.csdn.net/pages/markdown" target="_blank" title="markdown语法参考"></a><a class="icon-preview" title="预览"></a><i class="separator">|</i></div><div class="CodeMirror cm-s-paper CodeMirror-focused"><div style="overflow: hidden; position: relative; width: 3px; height: 0px;"><textarea style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: medium none currentcolor; font-size: 4px;" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"></textarea></div><div class="CodeMirror-hscrollbar"><div style="height: 1px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="min-width: 33px;"><div style="position: relative;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none currentcolor;"><div class="CodeMirror-measure"><pre>&nbsp;<span style="display: inline-block; width: 1px; margin-right: -1px;">&nbsp;</span></pre></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code"></div><div class="CodeMirror-cursor" style="">&nbsp;</div><div class="CodeMirror-cursor CodeMirror-secondarycursor" style="">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px;"></div><div class="CodeMirror-gutters" style="display: none;"></div></div></div><div class="editor-statusbar"><span class="lines">0</span><span class="words">0</span><span class="cursor">0:0</span></div><div class="div_tags clearfix"><div id="divSearchTags" class="tags_con"><input type="text"></div><input name="txtSearchTags" type="hidden"></div><div id="ask2_tagRecomm_div" class="drt_tagRecomm tracking-ad" data-mod="popu_73"><span class="drt_tit">推荐标签：</span></div></div><div class="success"><div class="left_area"><input id="chk_cb" type="checkbox"><span class="wyxs">我要悬赏</span><input id="cb_num" class="cb_num" readonly="true"><span class="phib_rii"><span> 币</span></span></div><a href="#" nodetype="cancel" class="cancel">取消</a><a href="#" nodetype="ok" class="ok">发布</a></div></div><div id="common_ask_div_sc" class="searchContainer"><div class="sTitle">可能存在类似的问题：</div><div class="sFooter"><a class="sFirstNewAsk">我想提一个新问题</a></div></div><div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" id="focus_retriever" readonly="true" type="text"></div></body></html>

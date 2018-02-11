@@ -1,0 +1,60 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+@import url(../warp/css/print.css);
+
+/*mail window
+----------------------------------------------------------------------------------------------------*/
+
+#mailto-window {
+  background: #ffffff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  line-height: 20px;
+  color: #444444;
+}
+
+#mailto-window h2{
+	padding: 0 20px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	font-size: 20px;
+}
+
+#mailtoForm label{
+	display: inline-block;
+}
+
+#mailtoForm input {
+	float: right;
+	border: 1px solid #DDD;
+	height: 18px;
+	width: 250px
+}
+
+#mailtoForm .formelm{
+	padding: 10px;
+}
+
+#mailtoForm p{
+	text-align: right;
+	padding: 5px 20px;
+	clear: both;
+}
+
+#mailto-window .mailto-close a {
+	padding-right: 20px
+}
+
+#mailto-window .mailto-close {
+	text-align: right;
+}
+
+#mailto-window p{
+	line-height: 1.4
+}
+
+/* print
+----------------------------------------------------------------------------------------------------*/
+
+li.itemResizer {
+	display: none
+}

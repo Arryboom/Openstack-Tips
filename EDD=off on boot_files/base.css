@@ -1,0 +1,29 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+@import url(../warp/css/base.css);
+
+
+/* New style-related Base Values
+----------------------------------------------------------------------------------------------------*/
+h2, .uk-h2{font-size: 30px; line-height: 42px;}
+h3, .uk-h3{font-size: 24px; line-height: 32px;}
+h4{font-size: 20px; line-height: 1.4;}
+h4 i{margin: 2px 5px 0 0}
+h6{font-size: 14px}
+h1, h2, h3, h4, h5, h6{margin: 15px 0 15px 0;}
+h1.extra-large {font-size: 85px; line-height: 1;}
+a { color: #48b; }
+ins, mark { background-color: #ffa;}
+mark { color: #444; }
+hr { border-top-color: #ddd;}
+pre { border: 1px solid #ddd; background: #fafafa;}
+p, blockquote p{ margin: 10px 0;}
+li p {line-height: 25px; }
+label{padding-left: 5px; display: inline-block;}
+::-webkit-selection { background: #B0B0B0;}
+::-moz-selection{ background: #B0B0B0;}
+::selection{ background: #B0B0B0;}
+
+/*browser specific overrides*/
+.ie9 .uk-scrollspy-init-inview {opacity: 1 !important}
+.safari body {-webkit-backface-visibility: hidden;}

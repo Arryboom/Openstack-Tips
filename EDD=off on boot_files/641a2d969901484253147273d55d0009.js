@@ -1,0 +1,1 @@
+FD31.component("EasyDiscuss", {"environment":"static","source":"local","mode":"compressed","baseUrl":"https:\/\/www.clearos.com\/index.php?option=com_easydiscuss&lang=none&Itemid=1346","version":"3.2.9422","scriptVersioning":false,"responsive":false});

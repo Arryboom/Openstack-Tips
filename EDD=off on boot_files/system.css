@@ -1,0 +1,182 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+@import url(../warp/css/system.css);
+@import url(../warp/systems/joomla/css/system.css);
+@import url(system-all.css);
+
+
+/* Items (Addition)
+----------------------------------------------------------------------------------------------------*/
+	 
+	#system .items .leading .item {
+		padding-bottom: 12px;
+		margin-bottom: 18px;
+	}
+
+	#system .items > .width33 .title{
+		font-size: 22px;
+	}
+
+	#system .items > .width50 .title {
+		font-size: 28px;
+	}
+	
+	#system h1.title,
+	#system .item > header .title {
+		margin-bottom: 0;
+		padding: 10px 0;
+	}
+
+	#system .item > header .icon {
+		margin: -6px 0 0 6px;
+		position: relative;
+		top: 10px;
+		z-index: 1;
+	}
+
+	#system #adminForm {
+		margin-top: 20px;
+	}
+
+	#system > .description {
+		margin-top: 20px
+	}
+
+/* Item List
+----------------------------------------------------------------------------------------------------*/
+
+	#system .item-list { border-top: 1px solid #ddd; }
+	#system .item > .links a {
+	margin-right: 9px;
+	}
+
+/* Search
+----------------------------------------------------------------------------------------------------*/
+
+	#system span.highlight { background-color: #ffffaa; }
+	.searchbox .results li.result div {
+		font-size: 13px;
+	}
+
+/* Submission form
+----------------------------------------------------------------------------------------------------*/
+	#system form.submission div.submit{text-align: right; margin-right: 26px;}
+	#system form.submission fieldset > div > label:first-child{width: 200px; margin-bottom: 15px}
+	#system form.submission fieldset > div > textarea{width: 350px; height: 150px;}
+	#system form.submission.small fieldset > div {
+		margin: 10px 0;
+	}
+
+	#system form.submission fieldset > div > input[type='email'], 
+	#system form.submission fieldset > div > input[type='text'], 
+	#system form.submission fieldset > div > input[type='tel'], 
+	#system form.submission fieldset > div > input[type='url'], 
+	#system form.submission fieldset > div > input[type='password'] {
+		width: 350px;
+		max-width: 90%;
+		margin: -4px 0 15px;
+		padding: 6px 13px 5px;
+	}
+
+	#jform_spacer-lbl{display: none;}
+
+	/*filters*/
+	#system .filter > div{
+		margin: 0 10px 10px 0;
+	}
+
+	/*pagination
+	----------------------------------------------------------------------------------------------------*/
+
+	dl.tabs {
+    float: left;
+    margin: 50px 0 0 0;
+    padding: 0 0 0 5px;
+    z-index: 50;
+    clear:both;
+	}
+
+	div.content div.current{
+		background: -moz-linear-gradient(top, #FFFFFF 0%, #F0F1F2 100%);
+		background: -webkit-linear-gradient(top, #FFFFFF 0%, #F0F1F2 100%);
+		background: -o-linear-gradient(top, #FFFFFF 0%, #F0F1F2 100% );
+		padding: 0 20px;
+		-webkit-box-shadow: 0 1px 2px #FFFFFF inset, 0 0 1px rgba(0,0,0,0.1);
+		   -moz-box-shadow: 0 1px 2px #FFFFFF inset, 0 0 1px rgba(0,0,0,0.1);
+		        box-shadow: 0 1px 2px #FFFFFF inset, 0 0 1px rgba(0,0,0,0.1);
+		border-color: #e0e0e0;
+		border-style: solid;
+		border-width: 0 1px 1px;
+		width: auto; height: auto;
+		clear: both;
+		padding: 10px 10px;
+	}
+
+	dl.tabs dt {
+	    float: left;
+	    padding: 4px 10px;
+	    border-left: 1px solid #DBDBDB;
+	    border-right: 1px solid #DBDBDB;
+	    border-top: 1px solid #DBDBDB;
+	    margin-right: 3px;
+	    background: #f0f0f0;
+	    color: #666;
+	}
+
+	#system dt.tabs h3{
+		margin: 0; padding: 10px;
+		font-size: 20px 
+	}
+
+	dl.tabs dt.open {
+	    background: #FFFFFF;
+	    z-index: 100;
+	    color: #000;
+	    border-left: 1px solid #ECECEC;
+	    border-right: 1px solid #ECECEC;
+	    border-top: 1px solid #ECECEC;
+	}
+
+	div.current dd {
+	    padding: 10px;
+	    margin: 0;
+	}
+
+	dl#content-pane.tabs {
+	    margin: 1px 0 0 0;
+	}
+
+	.pagination li{
+		margin-right: 5px
+	}
+
+	.email span,
+	.print span{
+		font-size: 12px;
+		padding: 5px;
+	}
+
+	#article-index, 
+	.article-index{
+		padding: 0 20px 12px;
+		border: 1px solid rgba(0,0,0,0.1);
+		box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.055) inset;
+		margin: 0 0 15px 15px;
+		position: relative;
+		z-index: 1;
+		border-radius: 4px
+	}
+
+	#article-index ul,
+	.article-index ul{
+		padding-left: 0;
+	}
+
+	.admintable {
+		width: 100%;
+	}
+
+
+	#content #article-index h3{
+		font-size: 20px
+	}
