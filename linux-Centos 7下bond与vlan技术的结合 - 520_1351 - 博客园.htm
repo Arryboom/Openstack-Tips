@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>linux-Centos 7下bond与vlan技术的结合 - 520_1351 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-KJC.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-KJC-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/5201351/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/5201351/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/5201351/wlwmanifest.xml">
+<script async="" src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = '5201351', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063"})</script>
+<body>
+<a name="top"></a>
+
+<table class="Framework" width="100%" cellspacing="0" cellpadding="0">
+	<tbody><tr>
+		<td colspan="3">
+			
+<div id="top">
+<table cellspacing="0" cellpadding="10">
+	<tbody><tr>
+		<td nowrap="nowrap">
+			<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/5201351/">1351</a></h1>
+			个人QQ号:5201351
+		</td>
+	</tr>
+</tbody></table>
+</div>
+<div id="sub">
+	<div id="sub-right"><div id="blog_stats">
+<div class="BlogStats">posts - 106, comments - 11, trackbacks - 0, articles - 11</div></div></div>
+	
+&nbsp;
+<a id="blog_nav_sitehome" href="http://www.cnblogs.com/">博客园</a>&nbsp;:: 
+<a id="blog_nav_myhome" href="http://www.cnblogs.com/5201351/">首页</a>&nbsp;::
+
+
+<a id="blog_nav_rss" href="http://www.cnblogs.com/5201351/rss">订阅</a>
+<a id="blog_nav_rss_image" class="XMLLink" href="http://www.cnblogs.com/5201351/rss"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a>&nbsp;::
+<a id="blog_nav_admin" rel="nofollow" href="https://i.cnblogs.com/">管理</a>
+
+</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="LeftCell">
+			<div id="leftmenu">
+            	
+		            <div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+		            
+<div id="cell">
+<img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon-group.jpg" vspace="2" hspace="5" align="left"><h3>公告</h3>
+<div id="news">
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/5201351/">520_1351</a><br>园龄：<a href="https://home.cnblogs.com/u/5201351/" title="入园时间：2014-06-17">3年8个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/5201351/followers/">8</a><br>关注：<a href="https://home.cnblogs.com/u/5201351/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('73578579-c9f5-e311-8d02-90b11c0b17d6')">+加关注</a></div><script>getFollowStatus('73578579-c9f5-e311-8d02-90b11c0b17d6')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+</div>
+
+	            
+	            <div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="cell">
+<img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon-group.jpg" vspace="2" hspace="5" align="left">
+<h3 class="catListTitle">搜索</h3>
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+
+</div></div><div id="sidebar_categories">
+		<div id="cell">
+		<img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon-group.jpg" vspace="2" hspace="5" align="left"><h3>随笔分类</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/5201351/category/645236.html">[1]运维综合知识类(18)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/5201351/category/642192.html">[2]运维环境服务类(18)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/5201351/category/696835.html">[3]Tomcat环境记录类(3)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/5201351/category/644964.html">[4]PG/MySQL数据库(5)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/5201351/category/711444.html">Centos 7.X操作系统(8)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/5201351/category/681910.html">kvm/vmware虚拟化(10)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/5201351/category/616142.html">linux常用基础(24)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/5201351/category/658583.html">VB编程学习之路(6)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/5201351/category/623196.html">windows系统(16)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/5201351/category/724413.html">服务器记录类(4)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/5201351/category/658722.html">工作问题记录类(8)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/5201351/category/669684.html">综合网络记录篇(7)</a>
+				</li>
+			
+				</ul>
+			</div>
+	
+		<div id="cell">
+		<img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon-group.jpg" vspace="2" hspace="5" align="left"><h3>文章分类</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/5201351/category/615048.html">[精]运维必备类(3)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/5201351/category/645031.html">Linux脚本处理(2)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/5201351/category/656008.html">工作运维记录类(2)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/5201351/category/659796.html">综合手机记录类(2)</a>
+				</li>
+			
+				<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/5201351/category/658108.html">综合杂谈记录类(2)</a>
+				</li>
+			
+				</ul>
+			</div>
+	</div><div id="recent_comments_wrap">
+    <div id="cell">
+        <img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon-group.jpg" vspace="2" hspace="5" align="left">
+        <h3>最新评论</h3>
+        <div class="RecentComment">
+            <div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/5201351/p/4754546.html#3858814">1. Re:ssh免密码登录之ssh-keygen的用法</a></li>
+        <li class="recent_comment_body">ssh 用public key登陆</li>
+        <li class="recent_comment_author">--牛顿的小脑</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/5201351/p/4208277.html#3689868">2. Re:关于在linux下清屏的几种技巧</a></li>
+        <li class="recent_comment_body">mac上的</li>
+        <li class="recent_comment_author">--&lt;空&gt;</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/5201351/p/4208277.html#3689867">3. Re:关于在linux下清屏的几种技巧</a></li>
+        <li class="recent_comment_body">刚刚查到cammand+k与printf "\033c"功能相同</li>
+        <li class="recent_comment_author">--&lt;空&gt;</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/5201351/p/4220090.html#3667899">4. Re:linux下如何查看主机的外网ip地址</a></li>
+        <li class="recent_comment_body">谢谢啦</li>
+        <li class="recent_comment_author">--咖飞</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/5201351/p/4912614.html#3634956">5. Re:关于linux-Centos 7下mysql 5.7.9的rpm包的安装方式</a></li>
+        <li class="recent_comment_body">@520_1351找到原因了。我用service mysqld start 可以启动了。谢谢！...</li>
+        <li class="recent_comment_author">--晶晶~姑娘</li>
+</ul>
+</div>
+        </div>
+    </div>
+</div>
+<div id="topview_posts_wrap">
+    <div id="cell">
+        <img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon-group.jpg" vspace="2" hspace="5" align="left">
+        <h3>阅读排行榜</h3>
+        <div class="RecentComment">
+            <div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/5201351/p/4208277.html">1. 关于在linux下清屏的几种技巧(43329)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4912614.html">2. 关于linux-Centos 7下mysql 5.7.9的rpm包的安装方式(15028)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4208509.html">3. linux下修改history命令保存条数(8612)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4290401.html">4. 关于VMware虚拟机磁盘收缩的几种方法(7349)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4934625.html">5. linux-Centos 7下tftp-server服务的安装与配置(5749)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4223987.html">6. linux登陆欢迎提示信息的设置(5279)</a></li><li><a href="http://www.cnblogs.com/5201351/p/5124518.html">7. 关于linux - Centos 7 下DHCP服务的安装与配置(5047)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4206461.html">8. Linux下ps -ef和ps aux的区别及格式详解(4876)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4990187.html">9. linux-Centos 7下bond与vlan技术的结合(4334)</a></li><li><a href="http://www.cnblogs.com/5201351/p/5075596.html">10. 关于vb编程之字符串连接/拼接的方法与技巧(4199)</a></li></ul></div>
+        </div>
+    </div>
+</div><div id="topfeedback_posts_wrap">
+    <div id="cell">
+        <img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon-group.jpg" vspace="2" hspace="5" align="left">
+        <h3>评论排行榜</h3>
+        <div class="RecentComment">
+            <div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/5201351/p/4912614.html">1. 关于linux-Centos 7下mysql 5.7.9的rpm包的安装方式(3)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4208277.html">2. 关于在linux下清屏的几种技巧(2)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4290401.html">3. 关于VMware虚拟机磁盘收缩的几种方法(2)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4220090.html">4. linux下如何查看主机的外网ip地址(1)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4937953.html">5. 关于linux Centos 7一个网卡配置多个IP的方法(1)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4206461.html">6. Linux下ps -ef和ps aux的区别及格式详解(1)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4754546.html">7. ssh免密码登录之ssh-keygen的用法(1)</a></li></ul></div>
+        </div>
+    </div>    
+</div>
+<div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div id="cell">
+<img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon-group.jpg" vspace="2" hspace="5" align="left"><h3>推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/5201351/p/4208277.html">1. 关于在linux下清屏的几种技巧(4)</a></li><li><a href="http://www.cnblogs.com/5201351/p/5128912.html">2. 关于linux - Centos 7 系统下使用PXE网络的方式（pxe+dhcpd+tftp+httpd）安装操作系统(1)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4912614.html">3. 关于linux-Centos 7下mysql 5.7.9的rpm包的安装方式(1)</a></li><li><a href="http://www.cnblogs.com/5201351/p/4213364.html">4. 如何修改Linux系统的TTL值(1)</a></li></ul></div>
+</div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+		</td>
+		<td class="MainCell">
+			<div id="main">
+				
+<div id="post_detail">
+	<div class="post">
+		<div class="posthead">
+			<h2>
+				<a id="cb_post_title_url" class="singleposttitle" href="http://www.cnblogs.com/5201351/p/4990187.html">linux-Centos 7下bond与vlan技术的结合</a>
+			</h2>
+ 			Posted on <span id="post-date">2015-11-24 00:25</span> <a href="http://www.cnblogs.com/5201351/">520_1351</a> 阅读(<span id="post_view_count">4335</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=4990187" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(4990187);return false;">收藏</a>
+			<script type="text/javascript">var 
+allowComments=true,cb_blogId=188971,cb_entryId=4990187,cb_blogApp=currentBlogApp,cb_blogUserGuid='73578579-c9f5-e311-8d02-90b11c0b17d6',cb_entryCreatedDate='2015/11/24
+ 0:25:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+			
+		</div>
+		<div class="postbody"><div id="cnblogs_post_body" class="blogpost-body"><p>&nbsp;</p>
+<p><span style="font-size: 15px;">服务器eno1与eno2作bonding，捆绑成bond0接口，服务器对端交换机端口，同属于301、302号vlan接口</span></p>
+<p><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/643271-20151124000715608-1589520548.jpg" alt=""></p>
+<p><span style="color: #99cc00;"><strong><span style="font-size: 15px;">vlan 301: 10.1.2.65/27</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="font-size: 15px;">vlan:302: 192.168.0.1/24</span></strong></span></p>
+<p><span style="font-size: 15px;">服务器已经使用<span style="color: #ff0000;"><strong>modprobe --first-time bonding</strong></span>命令加载bonding模块</span></p>
+<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</p>
+<p><span style="font-size: 14pt; background-color: #ffcc99;"><strong>情况一、服务器bond0接口只配置一个vlan 302段的IP</strong></span></p>
+<p><span style="font-size: 15px; background-color: #ffffff;">1、创建/etc/modprobe.d/bond.conf文件，加入</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">alias bond0 bonding
+options bond0 miimon</span>=<span style="color: #800080;">100</span> mode=<span style="color: #800080;">1</span></pre>
+</div>
+<p><span style="font-size: 15px;">2、在网卡配置目录中创建ifcfg-bond0文件，内容如下：</span></p>
+<div class="cnblogs_code">
+<pre>DEVICE=<span style="color: #000000;">bond0
+TYPE</span>=<span style="color: #000000;">Ethernet
+ONBOOT</span>=<span style="color: #000000;">yes
+BOOTPROTO</span>=none</pre>
+</div>
+<p><span style="font-size: 15px;">3、创建ifcfg-bond.302文件，加入如下内容，需要特别注意的是<span style="color: #ff0000;"><strong>DEVICE=bond0.302</strong></span>与<strong><span style="color: #ff0000;">VLAN=yes</span></strong>配置项：</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>DEVICE=bond0.<span style="color: #800080;">302</span><span style="color: #000000;">
+TYPE</span>=<span style="color: #000000;">Ethernet
+ONBOOT</span>=<span style="color: #000000;">yes
+BOOTPROTO</span>=<span style="color: #000000;">none
+IPADDR</span>=<span style="color: #800080;">192.168</span>.<span style="color: #800080;">0.2</span><span style="color: #000000;">
+NETMASK</span>=<span style="color: #800080;">255.255</span>.<span style="color: #800080;">255.0</span><span style="color: #000000;">
+VLAN</span>=yes</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p><span style="font-size: 15px;">4、修改ifcfg-eno1与ifcfg-eno2的配置文件，这里仅以eno1的配置文件，eno2配置文件配置类似，且MASTER项的值均为bond0</span></p>
+<div class="cnblogs_code">
+<pre>DEVICE=<span style="color: #000000;">eno1
+TYPE</span>=<span style="color: #000000;">Ethernet
+ONBOOT</span>=<span style="color: #000000;">yes
+BOOTPROTO</span>=<span style="color: #000000;">none
+MASTER</span>=<span style="color: #000000;">bond0
+SLAVE</span>=yes</pre>
+</div>
+<p><span style="font-size: 15px;">5、最后重启网络服务即可，systemctl restart network.service</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt; background-color: #ffcc99;"><strong>情况二、服务器bond0接口配置vlan 301、vlan 302内的两个IP</strong></span></p>
+<p><span style="font-size: 15px;">1、创建/etc/modprobe.d/bond.conf文件，同情况一中的内容一样</span></p>
+<p><span style="font-size: 15px;">2、在网卡配置目录中创建ifcfg-bond0文件，内容如下：</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>DEVICE=<span style="color: #000000;">bond0
+TYPE</span>=<span style="color: #000000;">Ethernet
+ONBOOT</span>=<span style="color: #000000;">yes
+BOOTPROTO</span>=<span style="color: #000000;">none
+IPADDR</span>=<span style="color: #800080;">10.1</span>.<span style="color: #800080;">2.68</span><span style="color: #000000;">
+NETMASK</span>=<span style="color: #800080;">255.255</span>.<span style="color: #800080;">255.224</span><span style="color: #000000;">
+GATEWAY</span>=<span style="color: #800080;">10.1</span>.<span style="color: #800080;">2.65</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p><span style="font-size: 15px;">3、创建ifcfg-bond.302文件，加入如下内容，重点是<span style="color: #ff0000;"><strong>DEVICE=bond0.302</strong></span>与<span style="color: #ff0000;"><strong>VLAN=yes</strong></span>配置项</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>DEVICE=bond0.<span style="color: #800080;">302</span><span style="color: #000000;">
+TYPE</span>=<span style="color: #000000;">Ethernet
+ONBOOT</span>=<span style="color: #000000;">yes
+BOOTPROTO</span>=<span style="color: #000000;">none
+IPADDR</span>=<span style="color: #800080;">192.168</span>.<span style="color: #800080;">0.3</span><span style="color: #000000;">
+NETMASK</span>=<span style="color: #800080;">255.255</span>.<span style="color: #800080;">255.0</span><span style="color: #000000;">
+VLAN</span>=yes</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p><span style="font-size: 15px;">4、关于eno1与eno2网卡的配置文件修改方法如上，其实我们只需要记住在基础的配置上加上如下两条即可</span><br><span style="color: #ff0000;"><strong>&nbsp; &nbsp; &nbsp;MASTER=bond0</strong></span><br><span style="color: #ff0000;"><strong>&nbsp; &nbsp; &nbsp;SLAVE=yes</strong></span></p>
+<p><span style="color: #000000; font-size: 15px;">5、最后使用systemctl restart network.service命令重启网络服务即可</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 15px;">尊重别人的劳动成果 转载请务必注明出处：<a href="http://www.cnblogs.com/5201351/p/4990187.html" target="_blank">http://www.cnblogs.com/5201351/p/4990187.html</a><br></span></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/5201351/category/645236.html" target="_blank">[1]运维综合知识类</a>,<a href="http://www.cnblogs.com/5201351/category/711444.html" target="_blank">Centos 7.X操作系统</a>,<a href="http://www.cnblogs.com/5201351/category/616142.html" target="_blank">linux常用基础</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4990187,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('73578579-c9f5-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/5201351/" target="_blank"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/5201351/">520_1351</a><br>
+            <a href="http://home.cnblogs.com/u/5201351/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/5201351/followers">粉丝 - 8</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('73578579-c9f5-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4990187,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(4990187,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/5201351/p/4937953.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/5201351/p/4937953.html" title="发布于2015-11-05 01:25">关于linux Centos 7一个网卡配置多个IP的方法</a><br><a href="http://www.cnblogs.com/5201351/p/5028575.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/5201351/p/5028575.html" title="发布于2015-12-08 11:29">关于思科C2950交换机清除密码，恢复初始配置的方法</a><br></div>
+</div>
+
+</div>
+	</div></div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://www.cnblogs.com/cmt/p/8462669.html" target="_blank">【活动】杭州云栖·2050大会-追逐早上七八点钟的太阳-源点</a><br><a href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.766790.766790.766790" target="_blank">【推荐】微信小程序一站式部署 多场景模板定制</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.766787.766787.766787" target="_blank"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20180204214532873-867937199.jpg" alt="tencent0205" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/590538/" target="_blank">谷歌将重启失败的谷歌眼镜 植入增强现实</a><br> ·  <a href="https://news.cnblogs.com/n/590537/" target="_blank">游戏+区块链，意义究竟在哪</a><br> ·  <a href="https://news.cnblogs.com/n/590533/" target="_blank">陈伟星：区块链是人类的春天，六个月内有大机会</a><br> ·  <a href="https://news.cnblogs.com/n/590536/" target="_blank">猎豹移动全球首创区块链AI音箱：人人帮助AI进化</a><br> ·  <a href="https://news.cnblogs.com/n/590528/" target="_blank">冰壶比赛为啥要拼命“擦地板”？与摩擦力息息相关</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="linux-Centos%207%E4%B8%8Bbond%E4%B8%8Evlan%E6%8A%80%E6%9C%AF%E7%9A%84%E7%BB%93%E5%90%88%20-%20520_1351%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/578690/" target="_blank">和程序员谈恋爱</a><br> ·  <a href="http://kb.cnblogs.com/page/585734/" target="_blank">学会学习</a><br> ·  <a href="http://kb.cnblogs.com/page/588938/" target="_blank">优秀技术人的管理陷阱</a><br> ·  <a href="http://kb.cnblogs.com/page/590141/" target="_blank">作为一个程序员，数学对你到底有多重要</a><br> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="FooterCell">
+			
+<p id="footer">
+	Powered by: 
+	<br>
+	
+	<a id="Footer1_Hyperlink3" name="Hyperlink1" href="http://www.cnblogs.com/" style="font-family:Verdana;font-size:12px;">博客园</a>
+	<br>
+	Copyright © 520_1351
+</p>
+
+		</td>
+	</tr>
+</tbody></table>
+
+
+
+</body></html>

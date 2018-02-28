@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[原]CentOS 7 网卡子接口的创建 - my_cool2007 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-coffee.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-coffee-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/horizonli/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/horizonli/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/horizonli/wlwmanifest.xml">
+<script async="" src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'horizonli', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063"})</script>
+<body>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+
+
+
+
+
+
+<title>打赏</title>
+
+<script>
+        window.tctipConfig = {
+            staticPrefix: "http://static.tctip.com",
+            buttonImageId: 5,
+            buttonTip:  "zanzhu",
+            list:{
+                alipay: { qrimg: "https://files.cnblogs.com/files/horizonli/zfb.bmp"}, 
+                weixin: { qrimg: "https://files.cnblogs.com/files/horizonli/webchat.bmp"}, 
+            }
+        };
+</script>
+<script src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/tctip.js"></script>
+
+
+
+
+
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/horizonli/"><img id="blogLogo" src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/horizonli/">my_cool2007</a></h1>
+<h2>练习歪门邪道的功夫，很快便能小有成就，但永远成不了高手。<br>而名门正派的武功虽然入门艰辛，进步缓慢，却是成为一代宗师的必由之路<br></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/horizonli/">首页</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/my_cool2007">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/horizonli/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/horizonli/rss"><img src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅"></a></li>
+</ul>
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats">
+<!--done-->
+随笔- 176&nbsp;
+文章- 0&nbsp;
+评论- 9&nbsp;
+</div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/horizonli/p/6093540.html">[原]CentOS 7 网卡子接口的创建</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><div>
+<div>OS:CentOS 7</div>
+<div>在linux上创建vlan需要加载802.1q模块：</div>
+<div><span style="font-size: 18px;"><strong>1</strong></span>.检测OS是否已经加载802.1q模块</div>
+<div>　　
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_483309" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">[root@controller ~]</code><code class="bash comments"># modinfo 8021q</code></div><div class="line number2 index1 alt1"><code class="bash plain">filename:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="bash plain">/lib/modules/3</code><code class="bash plain">.10.0-229.14.1.el7.x86_64</code><code class="bash plain">/kernel/net/8021q/8021q</code><code class="bash plain">.ko</code></div><div class="line number3 index2 alt2"><code class="bash plain">version:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.8</code></div><div class="line number4 index3 alt1"><code class="bash plain">license:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GPL</code></div><div class="line number5 index4 alt2"><code class="bash functions">alias</code><code class="bash plain">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rtnl-link-vlan</code></div><div class="line number6 index5 alt1"><code class="bash plain">rhelversion:&nbsp;&nbsp;&nbsp; 7.1</code></div><div class="line number7 index6 alt2"><code class="bash plain">srcversion:&nbsp;&nbsp;&nbsp;&nbsp; 2C3C3989B54002FAEC13FFD</code></div><div class="line number8 index7 alt1"><code class="bash plain">depends:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mrp,garp</code></div><div class="line number9 index8 alt2"><code class="bash plain">intree:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Y</code></div><div class="line number10 index9 alt1"><code class="bash plain">vermagic:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.10.0-229.14.1.el7.x86_64 SMP mod_unload modversions </code></div><div class="line number11 index10 alt2"><code class="bash plain">signer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CentOS Linux kernel signing key</code></div><div class="line number12 index11 alt1"><code class="bash plain">sig_key:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; E9:9F:C4:37:BD:9C:BF:B4:F1:B1:DA:87:C1:57:FF:66:56:9B:EE:66</code></div><div class="line number13 index12 alt2"><code class="bash plain">sig_hashalgo:&nbsp;&nbsp; sha256或者：[root@controller ~]</code><code class="bash comments"># modinfo -F filename 8021q</code></div></div></td></tr></tbody></table></div></div>
+<p><span style="color: #ff0000;">/lib/modules/3.10.0-229.14.1.el7.x86_64/kernel/net/8021q/8021q.ko</span></p>
+<p>或者：</p>
+<p>　　</p>
+<p>[root@controller ~]# modprobe --first-time 8021q<br>modprobe: ERROR: could not insert '8021q': Module already in kernel</p>
+
+
+
+
+</div>
+<p><span style="font-size: 18px;"><strong>2</strong></span>.如果没有加载802.1q模块怎么加载？　</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_92859" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash comments">##加载8021q模块</code></div><div class="line number2 index1 alt1"><code class="bash plain">[root@controller ~]</code><code class="bash comments"># modprobe&nbsp;8021q&lt;br&gt;##查看是否正常加载</code></div></div></td></tr></tbody></table></div></div>
+<p><span style="font-size: 12px;">　　[root@controller ~]# lsmod |grep 8021q</span><br><span style="font-size: 12px;">　　8021q                  28808  0 </span><br><span style="font-size: 12px;">　　garp                   14384  1 8021q</span><br><span style="font-size: 12px;">　　mrp                    18542  1 8021q</span></p>
+
+
+
+
+</div>
+<p><span style="font-size: 18px;"><strong>3.</strong><span style="font-size: 12px;">在父接口创建vlan子接口</span></span></p>
+<p><span style="font-size: 18px; font-family: 宋体;"><span style="font-size: 12px;"><code><span style="font-size: 13px;">　　3.1在父接口</span></code></span></span><span style="font-size: 18px;"><span style="font-size: 12px;"><span style="font-family: 宋体;"><code>/etc/sysconfig/network-scripts/ifcfg-eth<em>X</em></code></span>&nbsp; </span></span><span style="font-size: 18px; font-family: 宋体;"><span style="font-size: 12px;">中设置</span></span><em style="line-height: 1.5;"><span style="font-size: 18px;"><span style="font-size: 12px;">　</span></span></em></p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_56854" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">DEVICE=ethX </code></div><div class="line number2 index1 alt1"><code class="bash plain">TYPE=Ethernet </code></div><div class="line number3 index2 alt2"><code class="bash plain">BOOTPROTO=none </code></div><div class="line number4 index3 alt1"><code class="bash plain">ONBOOT=</code><code class="bash functions">yes</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>　　<span style="font-size: 12px;">3.2复制父接口并修改接口名称</span><span style="font-size: 12px;">　</span></p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_853068" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">cp</code> <code class="bash plain">/etc/sysconfig/network-scripts/ifcfg-ethX</code>&nbsp;<code class="bash plain">/etc/sysconfig/network-scripts/ifcfg-ethX</code><code class="bash plain">.125&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="bash comments">## X后面的125为vlan号</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>　　3.3配置<em id="__mceDel" style="font-family: 'Courier New'; font-size: 12px; line-height: 1.5;"><code>/etc/sysconfig/network-scripts/ifcfg-eth<em>X.125</em></code></em></p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_303765" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">DEVICE=ethX.192 </code></div><div class="line number2 index1 alt1"><code class="bash plain">BOOTPROTO=none </code></div><div class="line number3 index2 alt2"><code class="bash plain">ONBOOT=</code><code class="bash functions">yes</code></div><div class="line number4 index3 alt1"><code class="bash plain">IPADDR=192.168.1.1 </code></div><div class="line number5 index4 alt2"><code class="bash plain">PREFIX=24 </code></div><div class="line number6 index5 alt1"><code class="bash plain">NETWORK=192.168.1.0 </code></div><div class="line number7 index6 alt2"><code class="bash plain">VLAN=</code><code class="bash functions">yes</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="bash comments">##开启vlan，表明此子接口为vlan接口</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>　4.重启网络</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_84574" class="syntaxhighlighter  bash"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">systemctl restart network</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>　　</p>
+</div>
+<div>================================================</div>
+<div>CONFIGURE 802.1Q VLAN TAGGING USING THE COMMAND LINE</div>
+</div>
+<div>In Red&nbsp;Hat Enterprise&nbsp;Linux&nbsp;7, the&nbsp;<code>8021q</code>&nbsp;module
+ is loaded by default. If necessary, you can make sure that the module 
+is loaded by issuing the following command as&nbsp;<code>root</code>:
+<pre>~]# <code>modprobe --first-time 8021q</code>
+modprobe: ERROR: could not insert '8021q': Module already in kernel
+</pre>
+To display information about the module, issue the following command:
+<pre>~]$ <code>modinfo 8021q</code></pre>
+See the&nbsp;<code>modprobe(8)</code>&nbsp;man page for more command options.</div>
+<div>
+<div>
+<div>
+<div>
+<h3>7.4.1.&nbsp;Setting Up 802.1Q VLAN Tagging Using ifcfg Files</h3>
+</div>
+</div>
+</div>
+<div><ol>
+<li>
+<div>Configure the parent interface in&nbsp;<code>/etc/sysconfig/network-scripts/ifcfg-eth<em>X</em></code>, where<em>X</em>&nbsp;is a unique number corresponding to a specific interface, as follows:</div>
+<pre>DEVICE=ethX
+TYPE=Ethernet
+BOOTPROTO=none
+ONBOOT=yes
+</pre>
+</li>
+<li>
+<div>Configure the VLAN interface configuration in the&nbsp;<code>/etc/sysconfig/network-scripts/</code>directory. The configuration file name should be the parent interface plus a&nbsp;<code>.</code>&nbsp;character plus the VLAN ID number. For example, if the VLAN ID is 192, and the parent interface is&nbsp;<em>eth0</em>, then the configuration file name should be&nbsp;<code>ifcfg-eth0.192</code>:</div>
+<pre>DEVICE=ethX.192
+BOOTPROTO=none
+ONBOOT=yes
+IPADDR=192.168.1.1
+PREFIX=24
+NETWORK=192.168.1.0
+VLAN=yes
+</pre>
+<div>If there is a need to configure a second VLAN, with for example, VLAN ID 193, on the same interface,&nbsp;<em>eth0</em>, add a new file with the name&nbsp;<code>eth0.193</code>&nbsp;with the VLAN configuration details.</div>
+</li>
+<li>
+<div>Restart the networking service in order for the changes to take effect. As&nbsp;<code>root</code>&nbsp;issue the following command:</div>
+<pre>~]# <code>systemctl restart network</code></pre>
+</li>
+</ol></div>
+</div>
+<div>
+<div>
+<div>
+<div>
+<h3>7.4.2.&nbsp;Configure 802.1Q VLAN Tagging Using ip Commands</h3>
+</div>
+</div>
+</div>
+<div>To create an 802.1Q VLAN interface on Ethernet interface&nbsp;<em>eth0</em>, with name&nbsp;<em>VLAN8</em>&nbsp;and ID&nbsp;<code>8</code>, issue a command as&nbsp;<code>root</code>&nbsp;as follows:
+<pre>~]# <code>ip link add link <em>eth0</em> name <em>eth0.8</em> type vlan id 8</code></pre>
+To view the VLAN, issue the following command:
+<pre>~]$ <code>ip -d link show <em>eth0.8</em></code>
+4: eth0.8@eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode DEFAULT
+     link/ether 52:54:00:ce:5f:6c brd ff:ff:ff:ff:ff:ff promiscuity 0
+     vlan protocol 802.1Q id 8 &lt;REORDER_HDR&gt;
+</pre>
+</div>
+<div>Note that the&nbsp;ip&nbsp;utility interprets the VLAN ID as a hexadecimal value if it is preceded by&nbsp;<code>0x</code>&nbsp;and as an octal value if it has a leading&nbsp;<code>0</code>. This means that in order to assign a VLAN ID with a decimal value of&nbsp;<code>22</code>, you must not add any leading zeros.</div>
+<div>To remove the VLAN, issue a command as&nbsp;<code>root</code>&nbsp;as follows:
+<div>~]#&nbsp;<code>ip&nbsp;link&nbsp;delete&nbsp;<em>eth0.8</em></code></div>
+<div><em>================</em></div>
+<div><em>总结：修改父接口的BOOTPROTO=manual</em></div>
+<div><em>复制父接口，</em></div>
+<div><em>清空内容</em></div>
+<div><em>注入下面的内容：</em></div>
+<div>
+<p>DEVICE=${SECONF_ETH}.${EXTERNAL_TENANT_NETWORK_VLAN_ID}<br>BOOTPROTO=none<br>ONBOOT=yes<br>IPADDR=${SECOND_SUB_INTERFACE_IP}<br>PREFIX=24<br>NETWORK=${SECOND_SUB_INTERFACE_NET}<br>VLAN=yes</p>
+
+
+</div>
+
+
+</div>
+
+
+</div></div><div id="MySignature" style="display: block;">常常因为自己不够优秀而感到恐慌<br>
+如果您认为博客中的某篇文章还不错或者有所收获，您可以通过右边的“赞助”功能 打赏我一杯咖啡【物质支持】，也可以点击右下角的【好文要顶】按钮【精神支持】，因为这两种支持都是我继续写作，分享的最大动力！</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/horizonli/category/766039.html" target="_blank">Linux</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/horizonli/tag/%E5%88%9B%E5%BB%BAvlan/">创建vlan</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6093540,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('07a2a45a-de34-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/horizonli/" target="_blank"><img src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20151126234338.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/horizonli/">my_cool2007</a><br>
+            <a href="http://home.cnblogs.com/u/horizonli/followees">关注 - 25</a><br>
+            <a href="http://home.cnblogs.com/u/horizonli/followers">粉丝 - 28</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('07a2a45a-de34-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6093540,'Digg')">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+    <div class="buryit" onclick="votePost(6093540,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/horizonli/p/6043103.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/horizonli/p/6043103.html" title="发布于2016-11-08 14:59">[转]Shell中read的常用方式</a><br><a href="http://www.cnblogs.com/horizonli/p/6101106.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/horizonli/p/6101106.html" title="发布于2016-11-25 12:17">[原]openstack-kilo--issue(七)：虚拟机怎么通外网，外网怎么ping通虚拟机</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-11-23 14:32</span> <a href="http://www.cnblogs.com/horizonli/">my_cool2007</a> 阅读(<span id="post_view_count">3867</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6093540" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6093540);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=235562,cb_entryId=6093540,cb_blogApp=currentBlogApp,cb_blogUserGuid='07a2a45a-de34-e311-8d02-90b11c0b17d6',cb_entryCreatedDate='2016/11/23 14:32:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型工控、组态\仿真、建模CAD源码2018！</a><br><a href="https://www.cnblogs.com/cmt/p/8462669.html" target="_blank">【活动】杭州云栖·2050大会-追逐早上七八点钟的太阳-源点</a><br><a href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.766790.766790.766790" target="_blank">【推荐】微信小程序一站式部署 多场景模板定制</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.766787.766787.766787" target="_blank"><img src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20180204214532873-867937199.jpg" alt="tencent0205" width="300" height="250"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/590538/" target="_blank">谷歌将重启失败的谷歌眼镜 植入增强现实</a><br> ·  <a href="https://news.cnblogs.com/n/590537/" target="_blank">游戏+区块链，意义究竟在哪</a><br> ·  <a href="https://news.cnblogs.com/n/590533/" target="_blank">陈伟星：区块链是人类的春天，六个月内有大机会</a><br> ·  <a href="https://news.cnblogs.com/n/590536/" target="_blank">猎豹移动全球首创区块链AI音箱：人人帮助AI进化</a><br> ·  <a href="https://news.cnblogs.com/n/590528/" target="_blank">冰壶比赛为啥要拼命“擦地板”？与摩擦力息息相关</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/34770/" target="_blank"><img src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20171208101900738-116140477.jpg" alt="阿里云C2-1208" width="468" height="60"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/578690/" target="_blank">和程序员谈恋爱</a><br> ·  <a href="http://kb.cnblogs.com/page/585734/" target="_blank">学会学习</a><br> ·  <a href="http://kb.cnblogs.com/page/588938/" target="_blank">优秀技术人的管理陷阱</a><br> ·  <a href="http://kb.cnblogs.com/page/590141/" target="_blank">作为一个程序员，数学对你到底有多重要</a><br> ·  <a href="http://kb.cnblogs.com/page/586236/" target="_blank">领域驱动设计在互联网业务开发中的实践</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div align="center"><a href="https://www.amazingcounters.com/"><img src="[%E5%8E%9F]CentOS%207%20%E7%BD%91%E5%8D%A1%E5%AD%90%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%9B%E5%BB%BA%20-%20my_cool2007%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/counter.png" alt="AmazingCounters.com" style="display: none !important;" border="0"></a></div><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/horizonli/">my_cool2007</a><br>园龄：<a href="https://home.cnblogs.com/u/horizonli/" title="入园时间：2013-10-14">4年4个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/horizonli/followers/">28</a><br>关注：<a href="https://home.cnblogs.com/u/horizonli/followees/">25</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('07a2a45a-de34-e311-8d02-90b11c0b17d6')">+加关注</a></div><script>getFollowStatus('07a2a45a-de34-e311-8d02-90b11c0b17d6')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/01/01');return false;">&lt;</a></td><td align="center">2018年2月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2018/03/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td class="CalTodayDay" align="center">27</td><td align="center">28</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/horizonli/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/horizonli/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/horizonli/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/horizonli/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/horizonli/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass('itemListLink', 'itemListLin_con');return false;" href="#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/horizonli/tag/jenkins/">jenkins</a>(19)</li><li><a href="http://www.cnblogs.com/horizonli/tag/openstack-install-issue/">openstack-install-issue</a>(18)</li><li><a href="http://www.cnblogs.com/horizonli/tag/linux/">linux</a>(10)</li><li><a href="http://www.cnblogs.com/horizonli/tag/f5/">f5</a>(6)</li><li><a href="http://www.cnblogs.com/horizonli/tag/git%E7%94%A8%E6%B3%95/">git用法</a>(6)</li><li><a href="http://www.cnblogs.com/horizonli/tag/nginx/">nginx</a>(5)</li><li><a href="http://www.cnblogs.com/horizonli/tag/openstack-neutron/">openstack-neutron</a>(4)</li><li><a href="http://www.cnblogs.com/horizonli/tag/shell/">shell</a>(4)</li><li><a href="http://www.cnblogs.com/horizonli/tag/VNC/">VNC</a>(4)</li><li><a href="http://www.cnblogs.com/horizonli/tag/SecureCRT/">SecureCRT</a>(3)</li><li><a href="http://www.cnblogs.com/horizonli/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(204)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/horizonli/category/783815.html">Cloud(24)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/horizonli/category/812521.html">F5负载均衡(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/horizonli/category/805969.html">git(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/horizonli/category/805796.html">gitlab(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/horizonli/category/795479.html">Jenkins(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/horizonli/category/766039.html">Linux(64)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/horizonli/category/782944.html">Load_Balance</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/horizonli/category/809610.html">Moives(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/horizonli/category/784894.html">MySQL(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/horizonli/category/843887.html">Neutron(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/horizonli/category/811328.html">nginx(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/horizonli/category/766040.html">OpenStack(51)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/horizonli/category/763662.html">Oracle(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/horizonli/category/784897.html">Storage(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/horizonli/category/783877.html">Tools(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/horizonli/category/784891.html">VMware(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="http://www.cnblogs.com/horizonli/category/784899.html">Windows(4)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(176)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/horizonli/archive/2018/01.html">2018年1月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/horizonli/archive/2017/10.html">2017年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/horizonli/archive/2017/09.html">2017年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/horizonli/archive/2017/02.html">2017年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/horizonli/archive/2017/01.html">2017年1月 (16)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/horizonli/archive/2016/12.html">2016年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/horizonli/archive/2016/11.html">2016年11月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/horizonli/archive/2016/10.html">2016年10月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/horizonli/archive/2016/09.html">2016年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/horizonli/archive/2016/07.html">2016年7月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/horizonli/archive/2016/06.html">2016年6月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/horizonli/archive/2016/05.html">2016年5月 (16)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/horizonli/archive/2016/04.html">2016年4月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/horizonli/archive/2016/03.html">2016年3月 (28)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/horizonli/archive/2016/02.html">2016年2月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/horizonli/archive/2016/01.html">2016年1月 (51)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/horizonli/archive/2015/12.html">2015年12月 (5)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/horizonli/p/5179224.html#3908367">1. Re:dpkg安装deb缺少依赖包的解决方法</a></li>
+        <li class="recent_comment_body">好文章</li>
+        <li class="recent_comment_author">--lion_zheng</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/horizonli/p/5172115.html#3866480">2. Re:OpenStack 常用命令</a></li>
+        <li class="recent_comment_body">这些命令在哪使用  0.0<br>刚刚学！！！</li>
+        <li class="recent_comment_author">--没有成型的程序员</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/horizonli/p/5538876.html#3772693">3. Re:[原]openstack-kilo--issue(一) httpd汇总</a></li>
+        <li class="recent_comment_body">十分感谢博主的分享。 因为一直是从官网复制下来的wsgi-keystone.conf 让我一直任务是别的原因导致httpd无法启动。 看到你的分享后使用 service httpd configtes......</li>
+        <li class="recent_comment_author">--醉温柔</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/horizonli/p/5538947.html#3750301">4. Re:[原]Failed to load SELinux policy. System Freezing ----redhat7or CentOS7 bug</a></li>
+        <li class="recent_comment_body">加了enforcing=0 还是不行，换成selinux=0才可以！</li>
+        <li class="recent_comment_author">--黑泡泡</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/horizonli/p/5332645.html#3738067">5. Re:[原]Jenkins(七)---jenkins项目编译测试发布由maven构建的web项目</a></li>
+        <li class="recent_comment_body">楼主不错哦<br>可以加一下你的qq吗？<br>我的qq 3553683855</li>
+        <li class="recent_comment_author">--莫林1</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/horizonli/p/5179224.html">1. dpkg安装deb缺少依赖包的解决方法(13930)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/6011660.html">2. [原]ubuntu14.04 网卡逻辑修改没有文件/etc/udev/rules.d/70-persistent-net.rules(5385)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5332551.html">3. [原]jenkins(六)---jenkins远程部署脚本(5285)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/6226263.html">4. [原]openstack-kilo--issue(十)ERROR: openstack Unable to establish connection to http://controller:35357/v3/auth/tokens(4133)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/6093540.html">5. [原]CentOS 7 网卡子接口的创建(3866)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5507112.html">6. [转]redhat7(centos7) not registered to Red Hat Subscription Management(3865)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5244180.html">7. linux中的标准输出和输入(3710)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5591438.html">8. [转]Linux sendmail 详解(3191)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5359861.html">9. nginx(一)----ubuntu14.04下安装nginx(3110)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5481129.html">10. [原]RHEL7/Centos 7将网卡名称改为eth0(2745)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/horizonli/p/5538876.html">1. [原]openstack-kilo--issue(一) httpd汇总(2)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5407551.html">2. [原]Jenkins(十五)---jenkins插件之deploy(2)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5538947.html">3. [原]Failed to load SELinux policy. System Freezing ----redhat7or CentOS7 bug(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5158902.html">4. mint下截图工具shutter的安装和使用设置(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5172115.html">5. OpenStack 常用命令(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/horizonli/p/5179224.html">1. dpkg安装deb缺少依赖包的解决方法(3)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/6039975.html">2. [原]openstack-kilo--issue(六)：Authorization Failed: The resource could not be found. (HTTP 404)(2)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/6011660.html">3. [原]ubuntu14.04 网卡逻辑修改没有文件/etc/udev/rules.d/70-persistent-net.rules(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5640940.html">4. [原]openstack-kilo--issue(五) neutron-agent服务实际是active的-但是显示为XXX(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5538876.html">5. [原]openstack-kilo--issue(一) httpd汇总(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5538947.html">6. [原]Failed to load SELinux policy. System Freezing ----redhat7or CentOS7 bug(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5507112.html">7. [转]redhat7(centos7) not registered to Red Hat Subscription Management(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5407551.html">8. [原]Jenkins(十五)---jenkins插件之deploy(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5359861.html">9. nginx(一)----ubuntu14.04下安装nginx(1)</a></li><li><a href="http://www.cnblogs.com/horizonli/p/5331970.html">10. [原]Jenkins(三)---Jenkins初始配置和插件配置(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 my_cool2007
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
+<!--PageBeginHtml Block End-->
+<!--done-->

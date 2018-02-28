@@ -1,0 +1,121 @@
+/* index banner */
+#mobile_banner {display:none;}
+#index_banner, #mobile_banner {margin-top:18.5px;}
+#index_banner .banner_left {float:left;width:68.455%;}
+#index_banner .banner_left img {height:407px;}
+#index_banner .banner_right {margin-left:66.3%;padding-left:10px;}
+/* 通用 */
+.text-center {text-align:center;}
+.text-left {text-align:left;}
+
+/* 首页 */
+#index_banner .banner_right .banner_wrap {margin-top:20px;overflow:hidden;}
+#index_banner .banner_right .banner_wrap:first-child {margin-top:0;}
+#index_banner .banner_right .banner_wrap .banner_sm{float:left;width:100%;margin-left:2%;}
+#index_banner .banner_right .banner_wrap .banner_sm img {min-height:auto;height:193px;}
+#index_banner .banner_right .banner_wrap .banner_sm .caption-wrap {padding:10px;right:0;width:auto;}
+#index_banner .banner_right .banner_wrap .banner_sm .caption-wrap .caption {padding:0 !important;line-height: 20px !important;font-size: 14px;}
+
+/* 首页课程、动态、公告 */
+.center_content {}
+.center_content .center_module {width:47%;float:left;margin-left:6%;}
+.center_content .center_module:first-child {margin-left:0;}
+.center_content .center_module .single_show {padding:10px;background:#fff;margin-top:15px;height:265px;position:relative;overflow:hidden;}
+.center_content .center_module .single_show.hover {cursor:default;}
+.single_show h4 {font-size:18px;font-weight:normal;word-wrap:break-word;word-break:break-all;height: 50px;overflow: hidden;}
+.single_show h4 a:hover {color:#F9734D}
+.single_show p {line-height:22px;color:#666;margin-top:15px;overflow: hidden;word-wrap:break-word;word-break:break-all;}
+.single_show .module_oper {position:absolute;left:10px;bottom:10px;}
+.single_show .module_oper span i {margin-right:5px;cursor:default;}
+.single_show .module_oper span i.wp:hover {background-position: -91px -2px;}
+.single_show .module_oper .wp-comment {margin-left:15px;color:#999;vertical-align: -webkit-baseline-middle;}
+.single_show .module_oper .wp-comment i {position:relative;top:3px;margin:0 5px 0 0;float:none;}
+.list_show {background:#fff;position:relative;overflow:hidden;}
+.list_show .list {padding-top:15px;padding-bottom:15px;border-bottom:1px dashed #dfdfdf;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.list_show .list a:hover {color:#F9734D}
+/* 课程 */
+.single_show.hover:hover {background:#FFF2EF;}
+/* 公告 */
+.single_show.announcement {margin-top:0;} 
+.mobile_notice {margin-bottom:20px;display:none;}
+.mobile_notice .list_show {height:68px;overflow:hidden;border-bottom:1px dashed #dfdfdf;position:relative;}
+.mobile_notice .list_show .notice_list {position:absolute;top:0;left:0;}
+.mobile_notice .list_show .list {border:none;white-space:normal;overflow:visible;height:38px;overflow:hidden;padding-bottom:0;}
+
+
+/* 二级广告 */
+.sec_banner {margin-top:20px;margin-bottom:20px;}
+.sec_banner img {width:100%;}
+.sec_banner-m {margin-top:20px;margin-bottom:20px;}
+.sec_banner-m img {width:100%;}
+
+/* 快速登录 */
+.account_wrap {overflow:hidden;background:#E2E2E2;padding-bottom:60px;padding-top:10px;padding-bottom:30px;min-height:500px;}
+.account_wrap #container {min-height:auto;padding-bottom:40px;}
+.circle_head {border:1px solid #333;padding:4px;background:#fff;border-radius:50%;display:inline-block;width:110px;}
+#container .circle_head img {display:block;width:108px;height:108px;border-radius:50%;}
+.link_account {width:315px;margin:70px auto 0;text-align:center;}
+.link_account span {display:block;margin:30px 0 0 0;text-align:center;font-weight:bold;font-size:16px;}
+.link_account p.tip {margin-top:50px;margin-bottom:60px;}
+.link_account dl dt {color:#666; text-align:left;}
+.link_account p.tip2 {color:#666;margin-bottom:5px;margin-top:35px;}
+.link_account button.btn-primary-reg {padding:12px 0;}
+a.btn-primary-reg.border_btn {border:1px solid #F9734D;color:#F9734D;background:#fff;padding:11px 0;}
+a.btn-primary-reg.border_btn:hover {background:#eaeaea;}
+.success-icon {width: 35px;height: 37px;background: url(/my_sdnlab/wp-content/uploads/2016/05/css-spriter1.png) -179px -252px no-repeat;display: inline-block;margin-right:15px;vertical-align: middle;position:relative;top:-2px;}
+.fail-icon {width: 35px;height: 37px;background: url(/my_sdnlab/wp-content/uploads/2016/05/css-spriter1.png) -179px -300px no-repeat;display: inline-block;margin-right:15px;vertical-align: middle;position:relative;top:-2px;}
+.success_info {font-size:28px;margin-bottom:15px;}
+.link_account p.tip2 {color:#666;margin-top:30px;margin-bottom:5px;}
+.link_account p.tip3 {color:#666;margin-bottom:40px;margin-top:15px;}
+.account_wrap .forget-password span, .account_wrap .forget-password span a {color:#999;}
+.account_wrap .forget-password span a:hover {color:#F9734D;}
+.head_wrap {display:inline-block;padding-top:70px;}
+.head_wrap .head_l, .head_wrap .head_r {float:left;text-align:center;}
+.head_wrap .head_l span, .head_wrap .head_r span {display:block;font-weight:bold;margin-top:30px;}
+.head_wrap .arrow_img {display:block;float:left;margin-top:44px;margin-left:90px;margin-right:90px;}
+.enter_link {width: 315px;margin: 0 auto;text-align: center;}
+.enter_link .tip {margin-top:60px;margin-bottom:44px;}
+
+ 
+/* 响应式 */
+@media only screen and (max-width: 1350px){#index_banner .banner_right .banner_wrap .banner_sm{width:97%}}
+@media only screen and (max-width: 1280px){ #index_banner .banner_left{width:65%}#index_banner .banner_left img{height:366px;}#index_banner .banner_right .banner_wrap .banner_sm img{height:173px;}}
+
+@media only screen and (max-width: 1188px){
+    /* 首页主banner */
+    #index_banner, #mobile_banner {width: 100%}    
+    #index_banner .banner_left img {height:320px;}
+    #index_banner .banner_right .banner_wrap .banner_sm img {height:150px;}
+    #index_banner .banner_right .banner_wrap .banner_sm{width:98%}
+     #index_banner .banner_left{width:64%}
+}
+@media only screen and (max-width: 955px){
+    /* 首页主banner */
+    #index_banner .banner_left img {height:252px;}
+    #index_banner .banner_right .banner_wrap .banner_sm img {height:116px;}
+     #index_banner .banner_left{width:63%}
+}
+@media only screen and (max-width: 860px){
+    /* 首页主banner */
+    #index_banner .banner_left img {height:253px;}
+    #index_banner .banner_right .banner_wrap .banner_sm img {height:116px;}
+    #index_banner .banner_left{width:64%}
+}
+@media only screen and (max-width: 800px){
+    /* 首页主banner */
+    #index_banner {display:none;}
+    #mobile_banner {display:block;width:90%;}
+    #content .center_content {display:none;}
+    
+    .center_content .center_module {width:49%;margin-left:2%;}
+    
+    .mobile_notice {display:block;}
+}
+@media only screen and (max-width: 620px){
+    /* 快速登录 */
+    .head_wrap .head_l, .head_wrap .head_r {float:none;}
+    .head_wrap .arrow_img {margin-top:40px;margin-bottom:40px;}
+}
+@media only screen and (max-width:450px){ 
+    .center_content .center_module {width:100%;margin-left:0;}
+}

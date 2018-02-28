@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/ -->
+<html id="XenForo" lang="en-US" dir="LTR" class="Public LoggedOut NoSidebar  Responsive pageIsLtr   hasTabLinks  hasSearch   is-sidebarOpen hasRightSidebar is-setWidth navStyle_0 pageStyle_0 hasFlexbox hasJs NoTouch HasDragDrop rgba draganddrop csspositionsticky supports canvas canvastext no-emoji fontface no-touchevents borderradius cssanimations csstransforms csstransforms3d csstransitions flexbox flexboxlegacy no-flexboxtweener uix_toggleWidth--init scrollDirection-up" xmlns:fb="http://www.facebook.com/2008/fbml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	
+		<!--<base href="https://forum.proxmox.com/">--><base href=".">
+		<script type="text/javascript" async="" defer="" src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/piwik.js.下载"></script><script type="text/javascript" async="" src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/analytics.js.下载"></script><script>
+			var _b = document.getElementsByTagName('base')[0], _bH = "https://forum.proxmox.com/";
+			if (_b && _b.href != _bH) _b.href = _bH;
+		</script>
+	
+
+	<title>vmbr0: port 10(tap109i0) entering disabled state | Proxmox Support Forum</title>
+
+	
+	<link rel="stylesheet" href="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/css.php">
+
+	<link rel="stylesheet" href="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/css(1).php">
+
+
+	<link rel="stylesheet" href="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/css(2).php">
+
+	<style>
+	/*** UIX -- PER USER STYLES ***/
+
+	
+
+	
+
+
+	
+
+</style>
+
+	<link rel="stylesheet" href="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/css(3).php">
+
+	
+
+	<style>
+/* Node Styling */
+
+</style>
+
+	
+
+	
+
+	
+	<script async="" src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/js"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+	
+		gtag('config', 'UA-15668530-5');
+	</script>
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/font-awesome.min.css" rel="stylesheet">
+<link href="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/css" rel="stylesheet" type="text/css">
+
+
+<script src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/jquery-1.11.0.min.js.下载"></script>
+
+
+
+<script src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/xenforo.js.下载"></script>
+
+
+
+
+<!--[if lt IE 9]>
+	
+		 
+        	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+	        
+	        <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js"></script>
+	        
+	        <script src="//cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script>
+	
+
+<![endif]-->
+
+
+
+<script>
+	uix = {
+		elm: {},
+		fn:{},
+		init: function(){
+			if (uix.betaMode) {
+				console.group('uix.%cinit()', 'color:#3498DB');
+			}
+			for(var x=0;x<uix.events.init.length;x++){
+				uix.events.init[x]()
+		  	}
+		  	console.groupEnd('uix.%cinit()','color:#3498DB')
+		},
+	  	events: {init:[]},
+	  	on: function(event, fn){
+	  		if(event=='init'){
+	  			uix.events.init.push(fn)
+	  		}
+	  	},
+
+		betaMode				: parseInt('0'),
+		jsPathUsed				: 'uix_style',
+		jsGlobal				: parseInt('0'),
+
+
+	  	version					: '1.5.15.0',
+	  	jsHeadVersion				: '1.5.15.0',
+	  	addonVersion				: '1010173',
+	  	jsCacheBust				: '1',
+	  	contentTemplate				: 'thread_view',
+
+		javascriptInitHide			: parseInt('1'),
+		globalPadding 				: parseInt('16px'),
+		sidebarWidth				: parseInt('250px'),
+		mainContainerMargin  	        	: '266px',
+		maxResponsiveWideWidth   		: parseInt('800px'),
+		maxResponsiveMediumWidth 		: parseInt('610px'),
+		maxResponsiveNarrowWidth 		: parseInt('480px'),
+		sidebarMaxResponsiveWidth		: parseInt('800px'),
+		
+			responsiveMessageBreakpoint		: parseInt('610px'),
+		
+		sidebarMaxResponsiveWidthStr		: '800px',
+
+		
+			offCanvasRightTriggerWidth	: parseInt('800px'),
+		
+
+		
+			offCanvasLeftTriggerWidth	: parseInt('800px'),
+		
+
+		
+			
+				offCanvasNavTriggerWidth	: parseInt('800px'),
+			
+		
+		
+			
+				offCanvasVisitorTriggerWidth	: parseInt('800px'),
+			
+		
+
+		offcanvasTriggerAnimationDuration	: parseInt('300ms'),
+
+
+
+
+		dropdownMenuAnimationSpeed		: parseInt('0ms'),
+		inlineAlertBalloons			: (parseInt('1') && !parseInt('1')) || parseInt('1'),
+
+		jumpToFixedDelayHide			: parseInt('1'),
+
+		stickyNavigationMinWidth 		: parseInt('0'),
+		stickyNavigationMinHeight		: parseInt('600'),
+		stickyNavigationMaxWidth 		: parseInt('0'),
+		stickyNavigationMaxHeight		: parseInt('0'),
+		stickyNavigationPortraitMinWidth 	: parseInt('320'),
+		stickyNavigationPortraitMinHeight	: parseInt('500'),
+		stickyNavigationPortraitMaxWidth 	: parseInt('0'),
+		stickyNavigationPortraitMaxHeight	: parseInt('0'),
+		stickySidebar 				: 1,
+		
+			sidebarInnerFloat		: "right",
+		
+		RTL					: 0,
+		stickyItems 				: {},
+		stickyGlobalMinimumPosition		: parseInt('200px'),
+		stickyGlobalScrollUp			: parseInt('0'),
+		stickyDisableIOSThirdParty		: parseInt('1'),
+		preventAlwaysSticky			: parseInt('0'),
+
+		searchMinimalSize			: parseInt('610px'),
+
+		searchPosition				: parseInt('1'),
+
+		nodeStyle				: parseInt('0'),
+		pageStyle				: parseInt('0'),
+
+		enableBorderCheck			: parseInt('1'),
+		enableULManager				: parseInt('1'),
+
+		threadSlidingAvatar			: parseInt('0'),
+		threadSlidingExtra			: parseInt('0'),
+		threadSlidingHover			: parseInt('0'),
+		threadSlidingStaffShow			: parseInt('0'),
+		threadSlidingGlobalEnable		: parseInt('1'),
+
+		signatureHidingEnabled			: parseInt('1'),
+		signatureHidingEnabledAddon		: parseInt('1'),
+		signatureMaxHeight			: parseInt('100px'),
+		signatureHoverEnabled			: parseInt('0'),
+
+		enableStickyFooter 			: parseInt('1'),
+		stickyFooterBottomOffset 		: parseInt('16px') * 2,
+
+		
+			sidebarStickyBottomOffset	: parseInt(0),
+		
+
+	  	
+			offCanvasSidebar			: 1,
+
+			
+				offCanvasSidebarVisitorTabs		: 1,
+			
+
+		
+
+		offcanvasLeftStatic			: 1 && parseInt('0') && parseInt('1'),
+		offcanvasRightStatic			: 0 && parseInt('0') && parseInt('1'),
+		offcanvasLeftStaticBreakpoint		: parseInt('1300px'),
+		offcanvasRightStaticBreakpoint		: parseInt('1300px'),
+
+		reinsertWelcomeBlock			: parseInt('0'),
+
+		sidebarCookieExpire			: '',
+		canCollapseSidebar			: '',
+
+		cookiePrefix				: 'xf_',
+		sidebarLocation 			: parseInt('0'),
+
+		collapsibleSidebar			: parseInt('1'),
+		collapsedNodesDefault			: '',
+		nodeGridCollapseEnabled			: parseInt('1'),			
+		widthToggleUpper			: '100%',
+		widthToggleLower			: '1170px',
+		
+			toggleWidthEnabled		: parseInt('1'),
+		
+		toggleWidthBreakpoint			: parseInt('1202'),
+		collapsibleNodes			: parseInt('1'),
+		collapsibleSticky			: parseInt('1'),
+		ajaxWidthToggleLink			: 'uix/toggle-width',
+		ajaxStickyThreadToggleLink		: 'uix/toggle-sticky-threads',
+		ajaxStickyThreadExpandLink		: 'uix/expand-sticky-threads',
+		ajaxStickyThreadCollapseLink		: 'uix/collapse-sticky-threads',
+		ajaxSidebarToggleLink			: 'uix/toggle-sidebar',
+
+		stickySidebarDelayInit			: parseInt('1'),
+		stickySidebarLegacy			: parseInt('0'),
+		stickySidebarDisableIOS			: parseInt('1'),
+
+		user					: {
+								'themeName'		: 'Proxmox Support Forum - UI.X',
+								'-themeParents'		: '3,2,0',
+								'-themeModified'	: '1518788902',
+								'-themeSelectable'	: '1',
+								languageName		: 'English (US)',
+								stickyEnableUserbar	: (parseInt('') == parseInt('')) ? parseInt('') : true,
+								stickyEnableNav		: (parseInt('') == parseInt('')) ? parseInt('') : true,
+								stickyEnableSidebar	: (parseInt('') == parseInt('')) ? parseInt('') : true,
+								widthToggleState	: (parseInt('0') == parseInt('0')) ? parseInt('0') : parseInt('0'),
+								stickyThreadsState	: (parseInt('') == parseInt('')) ? (parseInt('') > 0) : 0,
+								
+									sidebarState	: 0,
+								
+								
+									collapseUserInfo : 1,
+								
+								
+									signatureHiding : 1,
+								
+								isAdmin			: parseInt('0"')
+							}
+	};
+
+	if(uix.stickyNavigationMaxWidth == 0){uix.stickyNavigationMaxWidth = 999999}
+	if(uix.stickyNavigationMaxHeight == 0){uix.stickyNavigationMaxHeight = 999999}
+	if(uix.stickyNavigationPortraitMaxWidth == 0){uix.stickyNavigationPortraitMaxWidth = 999999}
+	if(uix.stickyNavigationPortraitMaxHeight == 0){uix.stickyNavigationPortraitMaxHeight = 999999}
+
+	
+		uix.stickyItems['#navigation'] = {normalHeight:parseInt('48'), stickyHeight:parseInt('48')}
+
+		var subElement = null;
+		
+			//if tablinks are visible
+			uix.stickyItems['#navigation'].options = {subElement: '#navigation .tabLinks', subNormalHeight: parseInt('41'), subStickyHeight: parseInt('40'), subStickyHide: 1 == 1 , scrollSticky: uix.stickyGlobalScrollUp }
+		
+
+	
+
+	
+	$(document).ready(function() {
+		if ( $('#userBar').length ) {
+			uix.stickyItems['#userBar']= {normalHeight:parseInt('40'), stickyHeight:parseInt('40')}
+
+			uix.stickyItems['#userBar'].options = {scrollSticky: uix.stickyGlobalScrollUp }
+		}
+	});
+	
+
+	$(document).ready(function(){
+
+	//put jquery code here
+
+
+});
+
+	uix.debug = function() {
+		result = "\n\n############============   Begin Copying Here   ============############\n\n";
+		result += "Error: the functions file was not found.";
+		result += "\n\n############============   End Copying Here   ============############\n\n";
+
+		uix.fixJsVisibility();
+
+		console.log(result);
+	}
+
+</script>
+
+<script src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/functions.min.js.下载"></script>
+
+<script>
+	uix.adminJsError = function(errMsg) {
+		console.error(errMsg);
+
+		
+	}
+
+	uix.fixJsVisibility = function() {
+		var userBar = $('.hasJs #userBar');
+		var nodeList = $('.hasJs #forums, .hasJs .category_view .nodeList, .hasJs .watch_forums .nodeList');
+		var panels = $('.js-uix_panels')
+		if (userBar.length) userBar.css('display', 'block');
+		if (nodeList.length) nodeList.css('visibility', 'visible');
+		if (panels.length) $('.js-uix_panels').removeClass('needsInit');
+		$('html').removeClass('uix_javascriptNeedsInit');
+	}
+
+	uix.catchJsError = function(err) {
+		console.log("\n\n############============   Begin Copying Here   ============############\n\n")
+		var errMsg = "Uh Oh!  It looks like there's an error in your page's javascript.  There will likely be significant issues with the use of the forum until this is corrected.  If you are unable to resolve this and believe it is due to a bug in your Audentio Design theme, contact Audentio support and include a copy of the text between the designated areas from your javascript console.  This is the error: \n\n" + err ;
+		uix.fixJsVisibility();
+		uix.adminJsError(errMsg);
+		console.log("\n\n");
+		console.log(err);
+		console.log("\n\n");
+		try {
+			uix.debug(true);
+		} catch (err) {
+			console.log("Unable to include uix.debug();");
+		}
+
+		console.log("\n\n############============   End Copying Here   ============############\n\n");
+	}
+
+	$(document).ready(function(){
+		if (typeof(audentio) === 'undefined' || typeof(uix.jsVersion) === 'undefined') {
+			var errMsg = 'Uh Oh!  It looks like the javascript for your theme was not found in /js/audentio/uix_style/.\n\n';
+			if (uix.jsGlobal) {
+				errMsg += 'Your forum is set to use the same javascript directory for all your themes.  Consider disabling this or modifying the directory.  Options are located under Options > [UI.X] General.\n\n'
+			} else {
+				errMsg += 'Your theme has set the location of its javascript directory.  You may need to modify the javascript directory location style property located under [UI.X] Global Settings > Javascript Path.\n\n'
+			}
+			errMsg += 'If your files are in the directory specified, ensure that your file permissions allow them to be read.  There will likely be significant issues with the use of the forum until this is corrected.  If you are unable to resolve this, contact Audentio support.  This error has also been logged to the javascript console.';
+
+			uix.fixJsVisibility();
+
+			uix.adminJsError(errMsg);
+		} else if (uix.jsHeadVersion.split('_')[0] != uix.jsVersion.split('_')[0]) {
+			var errMsg = 'Uh Oh! It looks like the version of your javascript functions file does not match the version of your page_container_js_head template.  \n\nYour javascript functions file is version "' + uix.jsVersion + '". \nYour page_container_js_head is version "' + uix.jsHeadVersion + '".  \n\nIf your functions file version number is higher, ensure that you have merged all templates (especially page_container_js_head).  If your page_container_js_head version number is higher, ensure that you have correctly uploaded the latest version of the javascript functions file and that you have cleared anything that could cache an old version of the javascript (CDN / Cloudflare / etc.). \n\nThis issue could cause parts of your forum to not display or function correctly.  If this does not resolve the issue contact Audentio support.  This error has also been logged to the javascript console.';
+			
+			uix.fixJsVisibility();
+			
+			uix.adminJsError(errMsg);
+		}
+	});
+</script>
+
+<script>
+	try {
+		uix.dateHelper.phrase = {
+			now: 'now',
+			second: 's',
+			minute: 'm',
+			hour: 'h',
+			day: 'd',
+			week: 'w',
+			year: 'y',
+			century: 'c',
+			ago: '{time} ago',
+			future: 'in {time}'
+		}
+
+
+		uix.sticky.stickyMinDist = parseInt('50');
+
+		$(document).ready(function(){
+			try {
+				
+				
+					audentio.pagination.enabled = true;
+					
+						audentio.grid.parentEle = 'navigation';
+					
+					audentio.pagination.outOfPhrase = '<span id="audentio_postPaginationCurrent" class="uix_postPagination_x"></span> / <span id="audentio_postPaginationTotal" class="uix_postPagination_y"></span>';
+					audentio.pagination.enterIndexPhrase = 'Enter Index';
+					audentio.pagination.offset = parseInt('0px');
+				
+
+				uix.initFunc();
+			} catch (err) {
+				uix.catchJsError(err);
+			}
+		});
+	} catch (err) {
+		uix.catchJsError(err);
+	}
+</script>
+
+
+
+	<link href="https://forum.proxmox.com/proxmox-favicon.png" rel="icon" type="image/x-icon">
+	<link rel="apple-touch-icon" href="https://forum.proxmox.com/styles/default/xenforo/logo.og.png">
+	<link rel="alternate" type="application/rss+xml" title="RSS feed for Proxmox Support Forum" href="https://forum.proxmox.com/forums/-/index.rss">
+	
+	
+	<link rel="canonical" href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/">
+	<meta name="description" content="This can not be good. I have too many disconnects from ssh clients. Below started happening in kernel log recently ~~ 2weeks. The system was at 3.0....">	<meta property="og:site_name" content="Proxmox Support Forum">
+	<meta property="og:image" content="https://forum.proxmox.com/styles/uix/xenforo/avatars/avatar_m.png">
+	<meta property="og:image" content="https://forum.proxmox.com/styles/default/xenforo/logo.og.png">
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/">
+	<meta property="og:title" content="vmbr0: port 10(tap109i0) entering disabled state">
+	<meta property="og:description" content="This can not be good. I have too many disconnects from ssh clients. Below started happening in kernel log recently ~~ 2weeks. The system was at 3.0....">
+	
+	<meta property="fb:app_id" content="441666409362267">
+	
+
+
+
+
+	
+		<meta name="theme-color" content="rgb(4, 103, 126)">
+		<meta name="msapplication-TileColor" content="rgb(4, 103, 126)">
+	
+
+<script async="" src="https://plus.google.com/js/client:plusone.js"></script><script src="https://connect.facebook.net/en_US/sdk.js" async=""></script><script async="" src="https://platform.twitter.com/widgets.js"></script></head>
+
+<body class="node16 node11 SelectQuotable">
+
+	
+
+	
+		
+
+<div id="loginBar">
+	<div class="pageContent">
+		<span class="helper"></span>
+	<form action="https://forum.proxmox.com/login/login" method="post" class="xenForm eAuth" id="login" style="display:none">
+
+	
+		<ul id="eAuthUnit">
+			
+				
+				
+					
+					<li><a href="https://forum.proxmox.com/register/facebook?reg=1" class="fbLogin" tabindex="110"><span>Log in with Facebook</span></a></li>
+				
+				
+				
+					
+					<li><a href="https://forum.proxmox.com/register/twitter?reg=1" class="twitterLogin" tabindex="110"><span>Log in with Twitter</span></a></li>
+				
+				
+				
+					
+					<li><span class="googleLogin GoogleLogin JsOnly" tabindex="110" data-client-id="544833282558-1k6j22t61b8blf952m2l2332dn5sqoo6.apps.googleusercontent.com" data-redirect-url="register/google?code=__CODE__&amp;csrf=Q7afT7weTl7PYYjh"><span>Log in with Google</span></span></li>
+				
+				
+			
+		</ul>
+	
+
+	<div class="ctrlWrapper">
+		<dl class="ctrlUnit">
+			<dt><label for="LoginControl">Your name or email address:</label></dt>
+			<dd><input type="text" name="login" id="LoginControl" class="textCtrl" tabindex="101"></dd>
+		</dl>
+	
+	
+		<dl class="ctrlUnit">
+			<dt>
+				<label for="ctrl_password">Do you already have an account?</label>
+			</dt>
+			<dd>
+				<ul>
+					<li><label for="ctrl_not_registered"><input type="radio" name="register" value="1" id="ctrl_not_registered" tabindex="105">
+						No, create an account now.</label></li>
+					<li><label for="ctrl_registered"><input type="radio" name="register" value="0" id="ctrl_registered" tabindex="105" checked="checked" class="Disabler">
+						Yes, my password is:</label></li>
+					<li id="ctrl_registered_Disabler">
+						<input type="password" name="password" class="textCtrl" id="ctrl_password" tabindex="102">
+						<div class="lostPassword"><a href="https://forum.proxmox.com/lost-password/" class="OverlayTrigger OverlayCloser" tabindex="106">Forgot your password?</a></div>
+					</li>
+				</ul>
+			</dd>
+		</dl>
+	
+		
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd>
+				<input type="submit" class="button primary" value="Log in" tabindex="104" data-loginphrase="Log in" data-signupphrase="Sign up">
+				<label for="ctrl_remember" class="rememberPassword"><input type="checkbox" name="remember" value="1" id="ctrl_remember" tabindex="103"> Stay logged in</label>
+			</dd>
+		</dl>
+	</div>
+
+	<input type="hidden" name="cookie_check" value="1">
+	<input type="hidden" name="redirect" value="/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/">
+	<input type="hidden" name="_xfToken" value="">
+
+</form></div>
+	<div class="pageWidth">
+
+		
+
+	</div>
+</div>
+	
+
+	
+		
+		<div class="js-uix_panels uix_panels">
+			
+				
+
+<aside class="js-sidePanelWrapper sidePanelWrapper  sidePanelWrapper--left" style="position: fixed;">
+	<a href="https://forum.proxmox.com/#" class="js-panelMask uix_panelMask"></a>
+	
+		<div class="sidePanel sidePanel--nav">
+			<nav>
+<ul class="sidePanel__navTabs">
+	
+							<!-- home -->
+							
+								
+								<li class="navTab home"><a href="https://forum.proxmox.com/" class="navLink">Home</a></li>
+								
+							
+
+
+								<!-- extra tabs: home -->
+								
+
+
+								<!-- forums -->
+								
+									
+										<li class="navTab forums selected is-active">
+											<a href="https://forum.proxmox.com/" class="navLink">Forums</a>
+											<a href="https://forum.proxmox.com/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-collapseDropdown"></i></a>
+								
+											<div class="tabLinks" style="max-height: 98px;">
+									
+													<ul class="secondaryContent blockLinksList">
+													
+														
+														<li><a href="https://forum.proxmox.com/search/?type=post">Search Forums</a></li>
+														
+														<li><a href="https://forum.proxmox.com/find-new/posts" rel="nofollow">Recent Posts</a></li>
+													
+													</ul>
+									
+											</div>
+										</li>
+								
+								
+
+								<!-- extra tabs: middle -->
+								
+
+
+								<!-- members -->
+								
+									
+											<li class="navTab members ">
+
+												<a href="https://forum.proxmox.com/members/" class="navLink">Members</a>
+												<a href="https://forum.proxmox.com/members/" class="SplitCtrl"><i class="uix_icon js-offcanvasIcon uix_icon-expandDropdown"></i></a>
+									
+												<div class="tabLinks">
+									
+													<ul class="secondaryContent blockLinksList">
+													
+														<li><a href="https://forum.proxmox.com/members/">Notable Members</a></li>
+														
+														<li><a href="https://forum.proxmox.com/online/">Current Visitors</a></li>
+														<li><a href="https://forum.proxmox.com/recent-activity/">Recent Activity</a></li>
+														<li><a href="https://forum.proxmox.com/find-new/profile-posts">New Profile Posts</a></li>
+													
+													</ul>
+									
+											</div>
+										</li>
+								
+
+								<!-- extra tabs: end -->
+								
+
+	
+
+</ul>
+</nav>
+		</div>
+	
+</aside>
+			
+			
+				
+
+<aside class="js-sidePanelWrapper sidePanelWrapper  sidePanelWrapper--right" style="position: fixed;">
+	<a href="https://forum.proxmox.com/#" class="js-panelMask uix_panelMask"></a>
+	
+		
+			<div class="sidePanel sidePanel--login">
+				<form action="https://forum.proxmox.com/login/login" method="post" class="xenForm--uixLoginForm xenForm">
+
+	<dl class="ctrlUnit fullWidth">
+		<dt><label for="ctrl_pageLogin_login">Your name or email address:</label></dt>
+		<dd><input type="text" name="login" value="" id="ctrl_pageLogin_login" class="textCtrl uix_fixIOSClickInput" tabindex="21"></dd>
+	</dl>
+
+	<dl class="ctrlUnit fullWidth">
+		<dt><label for="ctrl_pageLogin_password">Password:</label></dt>
+		<dd>
+			<input type="password" name="password" class="textCtrl uix_fixIOSClickInput" id="ctrl_pageLogin_password" tabindex="22">
+			<div><a href="https://forum.proxmox.com/lost-password/" class="OverlayTrigger OverlayCloser" tabindex="26">Forgot your password?</a></div>
+		</dd>
+	</dl>
+
+	
+
+	<dl class="ctrlUnit submitUnit">
+		<dd>
+			<input type="submit" class="button primary" value="Log in" data-loginphrase="Log in" data-signupphrase="Sign up" tabindex="24">
+			<label class="rememberPassword"><input type="checkbox" name="remember" value="1" id="ctrl_pageLogin_remember" tabindex="23"> Stay logged in</label>
+		</dd>
+	</dl>
+
+	
+	<dl class="ctrlUnit fullWidth">
+	
+
+	
+		
+		<dt></dt>
+		<dd><a href="https://forum.proxmox.com/register/facebook?reg=1" class="fbLogin" tabindex="210"><span>Log in with Facebook</span></a></dd>
+	
+
+	
+		
+		<dt></dt>
+		<dd><a href="https://forum.proxmox.com/register/twitter?reg=1" class="twitterLogin" tabindex="210"><span>Log in with Twitter</span></a></dd>
+	
+
+	
+		
+		<dt></dt>
+		<dd><span class="googleLogin GoogleLogin JsOnly" tabindex="210" data-client-id="544833282558-1k6j22t61b8blf952m2l2332dn5sqoo6.apps.googleusercontent.com" data-redirect-url="register/google?code=__CODE__&amp;csrf=Q7afT7weTl7PYYjh"><span>Log in with Google</span></span></dd>
+	
+
+	
+	</dl>
+	
+
+	<input type="hidden" name="cookie_check" value="1">
+	<input type="hidden" name="_xfToken" value="">
+	<input type="hidden" name="redirect" value="/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/">
+	
+
+</form>
+			</div>
+		
+	
+</aside>
+			
+
+			<div class="mainPanelWrapper">
+				<a href="https://forum.proxmox.com/#" class="js-panelMask uix_panelMask"></a>
+
+	
+
+	
+
+<div class="uix_wrapperFix" style="height: 1px; margin-bottom: -1px;"></div>
+
+<div id="uix_wrapper">
+<div class="uix_wrapperFix" style="height: 1px; margin-bottom: -1px;"></div>
+
+<div id="headerMover">
+	<div id="headerProxy"></div>
+<header>
+	
+
+
+<div id="header">
+	
+
+
+
+	
+
+	
+		<div id="logoBlock" class="header__blockItem withSearch">
+
+	
+	<div class="pageWidth">
+	
+
+		<div class="pageContent defaultBorderRadius">
+
+		
+
+		
+		<div id="logo"><a href="https://forum.proxmox.com/">
+			<span></span>
+			<img src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/proxmox-logo.png" alt="Proxmox Support Forum">
+			
+		</a></div>
+		
+
+		
+			
+
+<div id="searchBar" class="hasSearchButton">
+	
+	<i id="QuickSearchPlaceholder" class="uix_icon uix_icon-search" title="Search"></i>
+
+	
+		
+
+	
+
+	<div id="uix_searchMinimal">
+		<form action="https://forum.proxmox.com/search/search" method="post">
+			<i id="uix_searchMinimalClose" class="uix_icon uix_icon-close" title="Close"></i>
+			<i id="uix_searchMinimalOptions" class="uix_icon uix_icon-cog" title="Options"></i>
+			<div id="uix_searchMinimalInput">
+				<input type="search" name="keywords" value="" placeholder="Search..." results="0">
+			</div>
+			<input type="hidden" name="_xfToken" value="">
+		</form>
+	</div>
+
+
+
+
+
+	
+
+
+	<fieldset id="QuickSearch">
+		<form action="https://forum.proxmox.com/search/search" method="post" class="formPopup">
+
+			<div class="primaryControls">
+				<!-- block: primaryControls -->
+				<i class="uix_icon uix_icon-search" onclick="$(&quot;#QuickSearch form&quot;).submit()"></i>
+				<input type="search" name="keywords" value="" class="textCtrl" placeholder="Search..." results="0" title="Enter your search and hit enter" id="QuickSearchQuery">
+				<!-- end block: primaryControls -->
+			</div>
+
+			<div class="secondaryControls">
+				<div class="controlsWrapper">
+
+					<!-- block: secondaryControls -->
+					<dl class="ctrlUnit">
+						<dt></dt>
+						<dd><ul>
+							<li><label><input type="checkbox" name="title_only" value="1" id="search_bar_title_only" class="AutoChecker" data-uncheck="#search_bar_thread"> Search titles only</label></li>
+						</ul></dd>
+					</dl>
+
+					<dl class="ctrlUnit">
+						<dt><label for="searchBar_users">Posted by Member:</label></dt>
+						<dd>
+							<input type="text" name="users" value="" class="textCtrl AutoComplete" id="searchBar_users" autocomplete="off">
+							<p class="explain">Separate names with a comma.</p>
+						</dd>
+					</dl>
+
+					<dl class="ctrlUnit">
+						<dt><label for="searchBar_date">Newer Than:</label></dt>
+						<dd><input type="text" data-orig-type="date" name="date" value="" class="textCtrl date" id="searchBar_date"></dd>
+					</dl>
+
+					
+					<dl class="ctrlUnit">
+						<dt></dt>
+						<dd><ul>
+								
+									<li><label title="Search only vmbr0: port 10(tap109i0) entering disabled state"><input type="checkbox" name="type[post][thread_id]" value="17598" id="search_bar_thread" class="AutoChecker" data-uncheck="#search_bar_title_only, #search_bar_nodes"> Search this thread only</label></li>
+								
+									<li><label title="Search only Proxmox VE: Installation and configuration"><input type="checkbox" name="nodes[]" value="16" id="search_bar_nodes" class="Disabler AutoChecker" checked="checked" data-uncheck="#search_bar_thread"> Search this forum only</label>
+	<ul id="search_bar_nodes_Disabler">
+		<li><label><input type="checkbox" name="type[post][group_discussion]" value="1" id="search_bar_group_discussion" class="AutoChecker" data-uncheck="#search_bar_thread"> Display results as threads</label></li>
+	</ul></li>
+								
+						</ul></dd>
+					</dl>
+					
+				</div>
+				<!-- end block: secondaryControls -->
+
+				<dl class="ctrlUnit submitUnit">
+					<dt></dt>
+					<dd>
+						<input type="submit" value="Search" class="button primary Tooltip">
+						<a href="https://forum.proxmox.com/search/" class="button moreOptions Tooltip">More...</a>
+						<div class="Popup" id="commonSearches">
+							<a rel="Menu" class="button NoPopupGadget Tooltip PopupControl" data-tipclass="flipped"><span class="arrowWidget"></span></a>
+							
+						</div>
+					</dd>
+				</dl>
+
+			</div>
+
+			<input type="hidden" name="_xfToken" value="">
+		</form>
+	</fieldset>
+	
+
+</div>
+		
+
+		<span class="helper"></span>
+		</div>
+	</div>
+</div>
+	
+
+	
+
+
+
+<div id="navigation" class="header__blockItem  stickyTop activePagination inactiveSticky" style="">
+	<div class="sticky_wrapper" style="">
+		<div class="uix_navigationWrapper">
+		
+		<div class="pageWidth">
+		
+			<div class="pageContent noBorderRadiusBottom">
+				<nav>
+					<div class="navTabs">
+						
+							<ul class="publicTabs navLeft">
+
+							
+
+							
+
+
+
+
+
+	
+
+	
+		
+	
+
+
+	
+
+	
+		
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<li class="navTab  navTab--panelTrigger navTab--navPanelTrigger PopupClosed" style="display: list-item;">
+		<a class="navLink js-leftPanelTrigger" href="https://forum.proxmox.com/#">
+			<i class="uix_icon uix_icon-menu"></i><span class="trigger__phrase">Menu</span>
+		</a>
+	</li>
+
+
+
+							<!-- home -->
+							
+								
+								<li class="navTab home PopupClosed uix_leftMost"><a href="https://forum.proxmox.com/" class="navLink"><i class="uix_icon uix_icon-home" title="Home"></i></a></li>
+								
+							
+
+
+								<!-- extra tabs: home -->
+								
+
+
+								<!-- forums -->
+								
+									
+										<li class="navTab forums selected">
+											<a href="https://forum.proxmox.com/" class="navLink">Forums</a>
+											<a href="https://forum.proxmox.com/" class="SplitCtrl" rel="Menu"></a>
+	
+											<div class="tabLinks forumsTabLinks">
+												
+													<div class="primaryContent menuHeader">
+														<h3>Forums</h3>
+														<div class="muted">Quick Links</div>
+													</div>
+									
+													<ul class="secondaryContent blockLinksList">
+													
+														
+														<li><a href="https://forum.proxmox.com/search/?type=post">Search Forums</a></li>
+														
+														<li><a href="https://forum.proxmox.com/find-new/posts" rel="nofollow">Recent Posts</a></li>
+													
+													</ul>
+									
+													
+												
+									
+											</div>
+										</li>
+								
+								
+
+								<!-- extra tabs: middle -->
+								
+
+
+								<!-- members -->
+								
+									
+										<li class="navTab members Popup PopupControl PopupClosed PopupContainerControl uix_rightMost">
+	
+											<a href="https://forum.proxmox.com/members/" class="navLink">Members</a>
+											<a href="https://forum.proxmox.com/members/" class="SplitCtrl" rel="Menu"></a>
+	
+											
+										</li>
+								
+
+								<!-- extra tabs: end -->
+								
+
+								<!-- responsive popup -->
+								<li class="navTab navigationHiddenTabs navTab--justIcon Popup PopupControl PopupClosed PopupContainerControl" style="display: none;">
+
+									<a rel="Menu" class="navLink NoPopupGadget uix_dropdownDesktopMenu"><i class="uix_icon uix_icon-navOverflow"></i><span class="uix_hide menuIcon">Menu</span></a>
+
+									
+								</li>
+
+								
+								<!-- no selection -->
+								
+								
+
+								
+									
+									
+								
+
+							</ul>
+
+
+							
+
+
+								<ul class="navRight visitorTabs">
+
+								
+
+									
+										<li class="navTab audentio_postPagination uix_leftMost" id="audentio_postPagination"><div class="navLink" rel="Menu" style="display: block;"><a href="javascript: void(0)" onclick="audentio.pagination.scrollToPost(0)"><i class="fa fa-angle-double-up pointer fa-fw pagetop"></i></a><a href="javascript: void(0)" onclick="audentio.pagination.prevPost()"><i class="fa fa-angle-up pointer fa-fw pageup"></i></a><a href="javascript:void(0)" class="uix_paginationMenu">	<span><span id="audentio_postPaginationCurrent" class="uix_postPagination_x">1</span> / <span id="audentio_postPaginationTotal" class="uix_postPagination_y">3</span></span></a><a href="javascript: void(0)" onclick="audentio.pagination.nextPost()"><i class="fa fa-angle-down pointer fa-fw pagedown"></i></a><a href="javascript: void(0)" onclick="audentio.pagination.scrollToPost(2)"><i class="fa fa-angle-double-down pointer fa-fw pagebottom"></i></a><div class="progress-container">	<div class="progress-bar" id="audentio_postPaginationBar" style="width: 33.3333%;"></div></div>	<div class="Menu" id="audentio_postPaginationDropdown">		<div class="primaryContent">			<input type="text" id="audentio_postPaginationInput" class="textCtrl" placeholder="Enter Index">		</div>	</div></div></li>
+									
+
+									
+
+									
+
+									
+										
+
+	<li class="navTab login PopupClosed">
+		
+			<a href="https://forum.proxmox.com/login/" class="navLink uix_dropdownDesktopMenu">
+				
+				<strong class="loginText">Log in</strong>
+			</a>
+		
+
+		
+
+	</li>
+
+	
+	<li class="navTab register PopupClosed uix_rightMost">
+		<a href="https://forum.proxmox.com/register/" class="navLink">
+			
+			<strong>Sign up</strong>
+		</a>
+	</li>
+	
+
+
+									
+
+									
+
+									
+
+
+
+
+
+	
+
+	
+		
+	
+
+
+	
+
+	
+		
+	
+
+
+
+
+
+
+
+
+
+
+
+									
+
+								
+
+								</ul>
+
+							
+
+							
+
+
+						
+					</div>
+
+				<span class="helper"></span>
+
+				</nav>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+
+
+
+	
+</div>
+
+	
+	
+</header>
+
+<div id="content" class="thread_view">
+	
+	<div class="pageWidth">
+		<div class="pageContent noBorderRadius">
+	
+			<!-- main content area -->
+
+			
+
+			
+
+			
+			
+			<div class="breadBoxTop  ">
+				
+				
+
+<nav>
+
+	
+
+	
+		
+			
+				
+			
+		
+			
+				
+			
+		
+	
+
+	<fieldset class="breadcrumb" style="">
+		<a href="https://forum.proxmox.com/misc/quick-navigation-menu?selected=node-16" class="OverlayTrigger jumpMenuTrigger" data-cacheoverlay="true" title="Open quick navigation"><i class="uix_icon uix_icon-sitemap"></i><!--Jump to...--></a>
+
+		<div class="boardTitle"><strong>Proxmox Support Forum</strong></div>
+
+		<span class="crumbs">
+			
+				<span class="crust homeCrumb" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+					<a href="https://forum.proxmox.com/" class="crumb" rel="up" itemprop="url"><span itemprop="title"><i class="uix_icon uix_icon-home" title="Home"></i><span class="uix_breadcrumb__home__title">Home</span></span></a>
+					<span class="arrow"><span></span></span>
+				</span>
+			
+
+			
+				<span class="crust selectedTabCrumb" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+					<a href="https://forum.proxmox.com/" class="crumb" rel="up" itemprop="url"><span itemprop="title">Forums</span></a>
+					<span class="arrow"><span>&gt;</span></span>
+				</span>
+			
+
+			
+				
+					<span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+						<a href="https://forum.proxmox.com/#proxmox-virtual-environment.11" class="crumb" rel="up" itemprop="url"><span itemprop="title">Proxmox Virtual Environment</span></a>
+						<span class="arrow"><span>&gt;</span></span>
+					</span>
+				
+					<span class="crust" itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb">
+						<a href="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/" class="crumb" rel="up" itemprop="url"><span itemprop="title">Proxmox VE: Installation and configuration</span></a>
+						<span class="arrow"><span>&gt;</span></span>
+					</span>
+				
+			
+		</span>
+	</fieldset>
+</nav>
+				
+			</div>
+			
+			
+
+			
+
+			
+
+			
+
+			
+
+
+	
+	
+	
+	
+	
+
+	
+
+
+	
+
+			
+				<div class="mainContainer_noSidebar">
+			
+					<div class="mainContent">
+						<!--[if lt IE 8]>
+							<p class="importantMessage">You are using an out of date browser. It  may not display this or other websites correctly.<br />You should upgrade or use an <a href="https://www.google.com/chrome/browser/" target="_blank">alternative browser</a>.</p>
+						<![endif]-->
+
+						
+						
+						
+
+
+
+
+
+<div class="PanelScroller Notices" data-vertical="0" data-speed="400" data-interval="4000" style="display: block;">
+	<div class="scrollContainer">
+		<div class="PanelContainer">
+			<ol class="Panels" style="position: static;">
+				
+					<li class="panel Notice DismissParent notice_notice_cookies " data-notice="notice_cookies">
+	
+	<div class="baseHtml noticeContent">This site uses cookies. By continuing to use this site, you are agreeing to our use of cookies. <a href="https://forum.proxmox.com/help/cookies">Learn More.</a></div>
+	
+	
+</li>
+				
+			</ol>
+		</div>
+	</div>
+	
+	
+</div>
+
+
+
+
+
+						
+						
+
+						
+
+						
+						
+							
+								<!-- h1 title, description -->
+								<div class="titleBar">
+									
+									<h1>vmbr0: port 10(tap109i0) entering disabled state</h1>
+
+									<p id="pageDescription" class="muted ">
+	Discussion in '<a href="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/">Proxmox VE: Installation and configuration</a>' started by <a href="https://forum.proxmox.com/members/fcukinyahoo.23220/" class="username" dir="auto">fcukinyahoo</a>, <a href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/"><span class="DateTime" title="Jan 21, 2014 at 05:33">Jan 21, 2014</span></a>.
+</p>
+								</div>
+							
+						
+						
+
+						
+
+						<!-- main template -->
+						
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+<div class="pageNavLinkGroup">
+	<div class="linkGroup SelectionCountContainer">
+		
+		
+	</div>
+
+	
+</div>
+
+
+
+
+
+<form action="https://forum.proxmox.com/inline-mod/post/switch" method="post" class="InlineModForm section" data-cookiename="posts" data-controls="#InlineModControls" data-imodoptions="#ModerationSelect option">
+
+	<ol class="messageList" id="messageList">
+		
+			
+				
+
+
+<li id="post-89466" class="sectionMain message     uix_threadAuthor uix_discussionAuthor" data-author="fcukinyahoo">
+
+	<div class="uix_message ">
+
+		
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="messageUserInfo" itemscope="itemscope" itemtype="http://data-vocabulary.org/Person">	
+
+<div class="messageUserBlock  is-expanded ">
+
+	
+		<div class="avatarHolder is-expanded">
+			<div class="uix_avatarHolderInner">
+			<span class="helper"></span>
+			<a href="https://forum.proxmox.com/members/fcukinyahoo.23220/" class="avatar Av23220m" data-avatarhtml="true"><img src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/avatar_m.png" width="96" height="96" alt="fcukinyahoo"></a>
+
+			
+			<!-- slot: message_user_info_avatar -->
+			</div>
+		</div>
+	
+
+	
+		<h3 class="userText">
+			<div class="uix_userTextInner">
+
+				
+
+				<a href="https://forum.proxmox.com/members/fcukinyahoo.23220/" class="username" dir="auto" itemprop="name">fcukinyahoo</a>
+				<em class="userTitle" itemprop="title">New Member</em>
+			</div>
+			
+			<!-- slot: message_user_info_text -->
+		</h3>
+	
+	
+		<div class="extraUserInfo is-expanded">
+			
+			
+				
+					<dl class="pairsJustified">
+						<dt>Joined:</dt>
+						<dd>Nov 29, 2012</dd>
+					</dl>
+				
+				
+					<dl class="pairsJustified">
+						<dt>Messages:</dt>
+						<dd><a href="https://forum.proxmox.com/search/member?user_id=23220" class="concealed" rel="nofollow">27</a></dd>
+					</dl>
+				
+				
+					<dl class="pairsJustified">
+						<dt>Likes Received:</dt>
+						<dd>0</dd>
+					</dl>
+				
+				
+				
+				
+				
+				
+
+			
+			
+			
+		</div>
+	
+
+
+	<span class="arrow"><span></span></span>
+</div>
+</div>
+
+		<div class="messageInfo primaryContent">
+			
+
+			
+			<div class="messageContent">
+				<article>
+					<blockquote class="messageText SelectQuoteContainer ugc baseHtml">
+						
+						
+						This can not be good. I have too many disconnects from ssh clients. Below started happening in kernel log recently ~~ 2weeks. The system was at 3.0. when the first time it started happening. Updated to 3.1 no change. It was working beautifully for over a year <img src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/clear.png" class="mceSmilieSprite mceSmilie3" alt=":(" title="Frown    :("> Any idea how to solve this issue?<br>
+<br>
+Thanks in advance...<br>
+<br>
+
+
+<div class="bbCodeBlock bbCodeCode">
+	<div class="type">Code:</div>
+	<pre>root@proxmox:~# pveversion -v
+proxmox-ve-2.6.32: 3.1-114 (running kernel: 2.6.32-26-pve)
+pve-manager: 3.1-24 (running version: 3.1-24/060bd5a6)
+pve-kernel-2.6.32-20-pve: 2.6.32-100
+pve-kernel-2.6.32-19-pve: 2.6.32-96
+pve-kernel-2.6.32-22-pve: 2.6.32-107
+pve-kernel-2.6.32-26-pve: 2.6.32-114
+pve-kernel-2.6.32-11-pve: 2.6.32-66
+lvm2: 2.02.98-pve4
+clvm: 2.02.98-pve4
+corosync-pve: 1.4.5-1
+openais-pve: 1.1.4-3
+libqb0: 0.11.1-2
+redhat-cluster-pve: 3.2.0-2
+resource-agents-pve: 3.9.2-4
+fence-agents-pve: 4.0.0-2
+pve-cluster: 3.0-8
+qemu-server: 3.1-8
+pve-firmware: 1.0-23
+libpve-common-perl: 3.0-9
+libpve-access-control: 3.0-8
+libpve-storage-perl: 3.0-18
+pve-libspice-server1: 0.12.4-2
+vncterm: 1.1-6
+vzctl: 4.0-1pve4
+vzprocps: 2.0.11-2
+vzquota: 3.1-2
+pve-qemu-kvm: 1.4-17
+ksm-control-daemon: 1.1-1
+glusterfs-client: 3.4.1-1
+
+</pre>
+</div>
+
+<div class="bbCodeBlock bbCodeCode">
+	<div class="type">Code:</div>
+	<pre>Jan 19 23:37:35 proxmox kernel: vmbr0: no IPv6 routers present
+Jan 19 23:37:35 proxmox kernel: eth0: no IPv6 routers present
+Jan 19 23:37:36 proxmox kernel: device tap100i0 entered promiscuous mode
+Jan 19 23:37:36 proxmox kernel: vmbr0: port 2(tap100i0) entering forwarding state
+Jan 19 23:37:41 proxmox kernel: venet0: no IPv6 routers present
+Jan 19 23:37:41 proxmox kernel: device tap101i0 entered promiscuous mode
+Jan 19 23:37:41 proxmox kernel: vmbr0: port 3(tap101i0) entering forwarding state
+Jan 19 23:37:45 proxmox kernel: device tap102i0 entered promiscuous mode
+Jan 19 23:37:45 proxmox kernel: vmbr0: port 4(tap102i0) entering forwarding state
+Jan 19 23:37:47 proxmox kernel: tap100i0: no IPv6 routers present
+Jan 19 23:37:49 proxmox kernel: kvm: emulating exchange as write
+Jan 19 23:37:49 proxmox kernel: device tap104i0 entered promiscuous mode
+Jan 19 23:37:49 proxmox kernel: vmbr0: port 5(tap104i0) entering forwarding state
+Jan 19 23:37:51 proxmox kernel: tap101i0: no IPv6 routers present
+Jan 19 23:37:54 proxmox kernel: device tap105i0 entered promiscuous mode
+Jan 19 23:37:54 proxmox kernel: vmbr0: port 6(tap105i0) entering forwarding state
+Jan 19 23:37:56 proxmox kernel: tap102i0: no IPv6 routers present
+Jan 19 23:37:59 proxmox kernel: device tap106i0 entered promiscuous mode
+Jan 19 23:37:59 proxmox kernel: vmbr0: port 7(tap106i0) entering forwarding state
+Jan 19 23:38:00 proxmox kernel: tap104i0: no IPv6 routers present
+Jan 19 23:38:04 proxmox kernel: tap105i0: no IPv6 routers present
+Jan 19 23:38:05 proxmox kernel: device tap107i0 entered promiscuous mode
+Jan 19 23:38:05 proxmox kernel: vmbr0: port 8(tap107i0) entering forwarding state
+Jan 19 23:38:09 proxmox kernel: device tap108i0 entered promiscuous mode
+Jan 19 23:38:09 proxmox kernel: vmbr0: port 9(tap108i0) entering forwarding state
+Jan 19 23:38:10 proxmox kernel: tap106i0: no IPv6 routers present
+Jan 19 23:38:15 proxmox kernel: device tap109i0 entered promiscuous mode
+Jan 19 23:38:15 proxmox kernel: vmbr0: port 10(tap109i0) entering forwarding state
+Jan 19 23:38:15 proxmox kernel: tap107i0: no IPv6 routers present
+Jan 19 23:38:20 proxmox kernel: tap108i0: no IPv6 routers present
+Jan 19 23:38:22 proxmox kernel: device tap110i0 entered promiscuous mode
+Jan 19 23:38:22 proxmox kernel: vmbr0: port 11(tap110i0) entering forwarding state
+Jan 19 23:38:25 proxmox kernel: tap109i0: no IPv6 routers present
+Jan 19 23:38:28 proxmox kernel: device tap111i0 entered promiscuous mode
+Jan 19 23:38:28 proxmox kernel: vmbr0: port 12(tap111i0) entering forwarding state
+Jan 19 23:38:32 proxmox kernel: tap110i0: no IPv6 routers present
+Jan 19 23:38:35 proxmox kernel: device tap113i0 entered promiscuous mode
+Jan 19 23:38:35 proxmox kernel: vmbr0: port 13(tap113i0) entering forwarding state
+Jan 19 23:38:38 proxmox kernel: tap111i0: no IPv6 routers present
+Jan 19 23:38:46 proxmox kernel: tap113i0: no IPv6 routers present
+Jan 20 00:23:40 proxmox kernel: vmbr0: port 10(tap109i0) entering disabled state
+Jan 20 00:23:40 proxmox kernel: vmbr0: port 10(tap109i0) entering disabled state
+Jan 20 00:27:44 proxmox kernel: device tap109i0 entered promiscuous mode
+Jan 20 00:27:44 proxmox kernel: vmbr0: port 10(tap109i0) entering forwarding state
+Jan 20 00:27:55 proxmox kernel: tap109i0: no IPv6 routers present
+Jan 20 00:44:14 proxmox kernel: vmbr0: port 10(tap109i0) entering disabled state
+Jan 20 00:44:14 proxmox kernel: vmbr0: port 10(tap109i0) entering disabled state
+Jan 20 00:52:44 proxmox kernel: vmbr0: port 2(tap100i0) entering disabled state
+Jan 20 00:52:44 proxmox kernel: vmbr0: port 2(tap100i0) entering disabled state
+Jan 20 00:56:46 proxmox kernel: device tap100i0 entered promiscuous mode
+Jan 20 00:56:46 proxmox kernel: vmbr0: port 2(tap100i0) entering forwarding state
+Jan 20 00:56:57 proxmox kernel: tap100i0: no IPv6 routers present
+Jan 20 00:59:31 proxmox kernel: vmbr0: port 2(tap100i0) entering disabled state
+Jan 20 00:59:31 proxmox kernel: vmbr0: port 2(tap100i0) entering disabled state
+Jan 20 00:59:50 proxmox kernel: device tap100i0 entered promiscuous mode
+Jan 20 00:59:50 proxmox kernel: vmbr0: port 2(tap100i0) entering forwarding state
+Jan 20 01:00:00 proxmox kernel: tap100i0: no IPv6 routers present
+Jan 20 03:23:46 proxmox kernel: hrtimer: interrupt took 4373 ns
+Jan 20 20:43:49 proxmox kernel: vmbr0: port 11(tap110i0) entering disabled state
+Jan 20 20:43:49 proxmox kernel: vmbr0: port 11(tap110i0) entering disabled state
+
+</pre>
+</div>I also saw this on front end gui under node's network section. 
+
+<div class="bbCodeBlock bbCodeCode">
+	<div class="type">Code:</div>
+	<pre>"Pending changes (Please reboot to activate changes)"
+--- /etc/network/interfaces	2012-07-31 20:02:17.000000000 -0400
++++ /etc/network/interfaces.new	2014-01-20 00:12:24.000000000 -0500
+@@ -1,6 +1,10 @@
++# network interface settings
+ auto lo
+ iface lo inet loopback
+ 
++auto eth0
++iface eth0 inet manual
++
+ auto vmbr0
+ iface vmbr0 inet static
+ 	address 192.168.1.10
+@@ -9,3 +13,4 @@
+ 	bridge_ports eth0
+ 	bridge_stp off
+ 	bridge_fd 0
++
+</pre>
+</div>
+						<div class="messageTextEndMarker">&nbsp;</div>
+					</blockquote>
+				</article>
+
+				
+			</div>
+			
+
+			
+
+			<div class="messageDetails">
+
+				
+
+		
+
+		<a href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/" title="Permalink" class="item muted postNumber hashPermalink OverlayTrigger" data-href="posts/89466/permalink">#1</a>
+
+		<span class="item muted">
+			<span class="authorEnd"><a href="https://forum.proxmox.com/members/fcukinyahoo.23220/" class="username author" dir="auto">fcukinyahoo</a>,</span>
+			<a href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/" title="Permalink" class="datePermalink">
+			
+				<span class="DateTime" title="Jan 21, 2014 at 05:33">Jan 21, 2014</span>
+			
+			</a>
+		</span>
+
+	
+
+				
+					<div class="editDate item">
+					
+						Last edited: <span class="DateTime" title="Jan 21, 2014 at 07:15">Jan 21, 2014</span>
+					
+					</div>
+				
+
+			</div>
+			
+
+
+			
+
+		 
+
+	
+
+			<div id="likes-post-89466"></div>
+		</div>
+
+	</div> 
+
+	
+
+	
+	
+</li>
+			
+		
+			
+				
+
+
+<li id="post-92546" class="sectionMain message     " data-author="sunghost">
+
+	<div class="uix_message ">
+
+		
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="messageUserInfo" itemscope="itemscope" itemtype="http://data-vocabulary.org/Person">	
+
+<div class="messageUserBlock  is-expanded ">
+
+	
+		<div class="avatarHolder is-expanded">
+			<div class="uix_avatarHolderInner">
+			<span class="helper"></span>
+			<a href="https://forum.proxmox.com/members/sunghost.8784/" class="avatar Av8784m" data-avatarhtml="true"><img src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/avatar_m.png" width="96" height="96" alt="sunghost"></a>
+
+			
+			<!-- slot: message_user_info_avatar -->
+			</div>
+		</div>
+	
+
+	
+		<h3 class="userText">
+			<div class="uix_userTextInner">
+
+				
+
+				<a href="https://forum.proxmox.com/members/sunghost.8784/" class="username" dir="auto" itemprop="name">sunghost</a>
+				<em class="userTitle" itemprop="title">Member</em>
+			</div>
+			
+			<!-- slot: message_user_info_text -->
+		</h3>
+	
+	
+		<div class="extraUserInfo is-expanded">
+			
+			
+				
+					<dl class="pairsJustified">
+						<dt>Joined:</dt>
+						<dd>May 27, 2011</dd>
+					</dl>
+				
+				
+					<dl class="pairsJustified">
+						<dt>Messages:</dt>
+						<dd><a href="https://forum.proxmox.com/search/member?user_id=8784" class="concealed" rel="nofollow">117</a></dd>
+					</dl>
+				
+				
+					<dl class="pairsJustified">
+						<dt>Likes Received:</dt>
+						<dd>1</dd>
+					</dl>
+				
+				
+				
+				
+				
+				
+
+			
+			
+			
+		</div>
+	
+
+
+	<span class="arrow"><span></span></span>
+</div>
+</div>
+
+		<div class="messageInfo primaryContent">
+			
+
+			
+			<div class="messageContent">
+				<article>
+					<blockquote class="messageText SelectQuoteContainer ugc baseHtml">
+						
+						
+						Hello,<br>
+is there any solution? i have the same with usb nic on wan connected. first the kernel.log say entering forwarding state and than entering disabled state and i cant connect through this nic. if i reboot the whole machine all is ok.
+						<div class="messageTextEndMarker">&nbsp;</div>
+					</blockquote>
+				</article>
+
+				
+			</div>
+			
+
+			
+
+			<div class="messageDetails">
+
+				
+
+		
+
+		<a href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/#post-92546" title="Permalink" class="item muted postNumber hashPermalink OverlayTrigger" data-href="posts/92546/permalink">#2</a>
+
+		<span class="item muted">
+			<span class="authorEnd"><a href="https://forum.proxmox.com/members/sunghost.8784/" class="username author" dir="auto">sunghost</a>,</span>
+			<a href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/#post-92546" title="Permalink" class="datePermalink">
+			
+				<span class="DateTime" title="Mar 24, 2014 at 21:51">Mar 24, 2014</span>
+			
+			</a>
+		</span>
+
+	
+
+				
+
+			</div>
+			
+
+
+			
+
+		 
+
+	
+
+			<div id="likes-post-92546"></div>
+		</div>
+
+	</div> 
+
+	
+
+	
+	
+</li>
+			
+		
+			
+				
+
+
+<li id="post-131436" class="sectionMain message     " data-author="unze">
+
+	<div class="uix_message ">
+
+		
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="messageUserInfo" itemscope="itemscope" itemtype="http://data-vocabulary.org/Person">	
+
+<div class="messageUserBlock  is-expanded ">
+
+	
+		<div class="avatarHolder is-expanded">
+			<div class="uix_avatarHolderInner">
+			<span class="helper"></span>
+			<a href="https://forum.proxmox.com/members/unze.36400/" class="avatar Av36400m" data-avatarhtml="true"><img src="./vmbr0_ port 10(tap109i0) entering disabled state _ Proxmox Support Forum_files/avatar_m.png" width="96" height="96" alt="unze"></a>
+
+			
+			<!-- slot: message_user_info_avatar -->
+			</div>
+		</div>
+	
+
+	
+		<h3 class="userText">
+			<div class="uix_userTextInner">
+
+				
+
+				<a href="https://forum.proxmox.com/members/unze.36400/" class="username" dir="auto" itemprop="name">unze</a>
+				<em class="userTitle" itemprop="title">New Member</em>
+			</div>
+			
+			<!-- slot: message_user_info_text -->
+		</h3>
+	
+	
+		<div class="extraUserInfo is-expanded">
+			
+			
+				
+					<dl class="pairsJustified">
+						<dt>Joined:</dt>
+						<dd>Feb 23, 2016</dd>
+					</dl>
+				
+				
+					<dl class="pairsJustified">
+						<dt>Messages:</dt>
+						<dd><a href="https://forum.proxmox.com/search/member?user_id=36400" class="concealed" rel="nofollow">3</a></dd>
+					</dl>
+				
+				
+					<dl class="pairsJustified">
+						<dt>Likes Received:</dt>
+						<dd>0</dd>
+					</dl>
+				
+				
+				
+				
+				
+				
+
+			
+			
+			
+		</div>
+	
+
+
+	<span class="arrow"><span></span></span>
+</div>
+</div>
+
+		<div class="messageInfo primaryContent">
+			
+
+			
+			<div class="messageContent">
+				<article>
+					<blockquote class="messageText SelectQuoteContainer ugc baseHtml">
+						
+						
+						Sorry for digging up an old thread, hope that helps someone.<br>
+<br>
+I got the same problems with HP MicroServer Gen8 (Broadcom BCM5720 network cards) and Proxmox 4.1<br>
+<br>
+I ended up disabling all offload features on all network cards<br>
+
+
+<div class="bbCodeBlock bbCodeCode">
+	<div class="type">Code:</div>
+	<pre>apt-get install ethtool
+ethtool --offload eth0 gso off tso off sg off gro off</pre>
+</div>then reboot your host<br>
+<br>
+now everything is fine
+						<div class="messageTextEndMarker">&nbsp;</div>
+					</blockquote>
+				</article>
+
+				
+			</div>
+			
+
+			
+
+			<div class="messageDetails">
+
+				
+
+		
+
+		<a href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/#post-131436" title="Permalink" class="item muted postNumber hashPermalink OverlayTrigger" data-href="posts/131436/permalink">#3</a>
+
+		<span class="item muted">
+			<span class="authorEnd"><a href="https://forum.proxmox.com/members/unze.36400/" class="username author" dir="auto">unze</a>,</span>
+			<a href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/#post-131436" title="Permalink" class="datePermalink">
+			
+				<span class="DateTime" title="Feb 23, 2016 at 20:53">Feb 23, 2016</span>
+			
+			</a>
+		</span>
+
+	
+
+				
+
+			</div>
+			
+
+
+			
+
+		 
+
+	
+
+			<div id="likes-post-131436"></div>
+		</div>
+
+	</div> 
+
+	
+
+	
+	
+</li>
+			
+		
+		
+	</ol>
+
+	
+
+	<input type="hidden" name="_xfToken" value="">
+
+</form>
+
+	<div class="pageNavLinkGroup">
+			
+				
+					<div class="linkGroup">
+						
+							
+								<a href="https://forum.proxmox.com/login/" class="concealed element">(You must log in or sign up to post here.)</a>
+							
+						
+					</div>
+				
+			
+			<div class="linkGroup" style="display: none"><a href="javascript:" class="muted JsOnly DisplayIgnoredContent Tooltip">Show Ignored Content</a></div>
+
+			
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+	
+
+	<div class="sharePage">
+		<h3 class="textHeading larger">Share This Page</h3>
+		
+			
+			
+				<div class="tweet shareControl">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-lang="en-US" data-url="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/" data-text="vmbr0: port 10(tap109i0) entering disabled state">Tweet</a>
+				</div>
+			
+			
+				<div class="plusone shareControl">
+					<div class="g-plusone" data-size="medium" data-count="true" data-href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/"></div>
+				</div>
+			
+			
+				<div class="facebookLike shareControl">
+					
+					<div class="fb-like" data-href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/" data-width="400" data-layout="standard" data-action="recommend" data-show-faces="true" data-colorscheme="light"></div>
+				</div>
+			
+			
+		
+	</div>
+
+
+						
+
+						
+							<!-- login form, to be moved to the upper drop-down -->
+							
+
+
+
+
+
+
+
+
+						
+					</div>
+			
+				</div>
+			
+
+			
+			
+				<div class="breadBoxBottom">
+
+<nav>
+
+	
+
+	
+
+	<fieldset class="breadcrumb" style="">
+		<a href="https://forum.proxmox.com/misc/quick-navigation-menu?selected=node-16" class="OverlayTrigger jumpMenuTrigger" data-cacheoverlay="true" title="Open quick navigation"><i class="uix_icon uix_icon-sitemap"></i><!--Jump to...--></a>
+
+		<div class="boardTitle"><strong>Proxmox Support Forum</strong></div>
+
+		<span class="crumbs">
+			
+				<span class="crust homeCrumb">
+					<a href="https://forum.proxmox.com/" class="crumb"><span><i class="uix_icon uix_icon-home" title="Home"></i><span class="uix_breadcrumb__home__title">Home</span></span></a>
+					<span class="arrow"><span></span></span>
+				</span>
+			
+
+			
+				<span class="crust selectedTabCrumb">
+					<a href="https://forum.proxmox.com/" class="crumb"><span>Forums</span></a>
+					<span class="arrow"><span>&gt;</span></span>
+				</span>
+			
+
+			
+				
+					<span class="crust">
+						<a href="https://forum.proxmox.com/#proxmox-virtual-environment.11" class="crumb"><span>Proxmox Virtual Environment</span></a>
+						<span class="arrow"><span>&gt;</span></span>
+					</span>
+				
+					<span class="crust">
+						<a href="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/" class="crumb"><span>Proxmox VE: Installation and configuration</span></a>
+						<span class="arrow"><span>&gt;</span></span>
+					</span>
+				
+			
+		</span>
+	</fieldset>
+</nav></div>
+			
+			
+
+			
+
+			</div>
+	
+		</div>
+	</div>
+	
+
+</div>
+
+<footer>
+	
+
+
+
+
+
+
+
+
+
+
+<div class="footer">
+	<div class="pageWidth">
+		<div class="pageContent noBorderRadiusTop">
+			
+
+				
+				
+					<dl class="choosers chooser_widthToggle">
+						<dt>Toggle Width</dt>
+						<dd><a href="javascript: uix.toggleWidth.toggle()" class="Tooltip" rel="nofollow"><span class="uix_icon js-widthIcon uix_icon-expandWidth"></span></a></dd>
+					</dl>
+				
+				
+				
+				
+				<ul class="footerLinks">
+					
+						<li><a href="https://forum.proxmox.com/" class="homeLink">Home</a></li>
+						
+							<li><a href="https://forum.proxmox.com/misc/contact" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}">Contact Us</a></li>
+						
+						<li><a href="https://forum.proxmox.com/help/">Help</a></li>
+					
+					
+						<li><a href="https://forum.proxmox.com/help/terms">Terms and Rules</a></li>
+						
+					
+					<li class="topLink"><a href="https://forum.proxmox.com/threads/vmbr0-port-10-tap109i0-entering-disabled-state.17598/#XenForo"><i class="uix_icon uix_icon-jumpToTop"></i> <span class="uix_hide">Top</span></a></li>
+				</ul>
+				
+
+			
+
+			<span class="helper"></span>
+
+			
+		</div>
+	</div>
+</div>
+
+<div id="uix_stickyFooterSpacer"></div>
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+<div class="bigFooter">
+	<div class="pageWidth">
+		<div class="pageContent defaultBorderRadius">
+			
+
+			
+
+
+			<ul class="bigFooterRow bigFooterRow--mainRow bigFooterRow--has3Columns">
+				<li class="bigFooterCol bigFooterCol--col1">
+					<div class="section">
+
+						
+							<h3 class="bigFooterHeader">
+								<i class="uix_icon fa fa-caret-square-o-right"></i>
+								About
+							</h3>
+
+							The Proxmox community has been around for many years and offers help and support for Proxmox VE and Proxmox Mail Gateway.  We think our community is one of the best thanks to people like you!
+						
+
+					</div>
+				</li>
+				<li class="bigFooterCol bigFooterCol--col2">
+					<div class="section">
+
+						
+							<h3 class="bigFooterHeader">
+								<i class="uix_icon fa fa-caret-square-o-right"></i>
+								Quick Navigation
+							</h3>
+
+							<ul class="footerMenu">
+                <li><a href="http://forum.proxmox.com/">Home</a></li>
+                <li><a href="http://www.proxmox.com/proxmox-ve/pricing" target="_blank">Get Subscription</a></li>
+                <li><a href="http://pve.proxmox.com/wiki" target="_blank">Wiki</a></li>
+                <li><a href="http://www.proxmox.com/downloads" target="_blank">Downloads</a></li>
+                <li><a href="https://my.proxmox.com/" target="_blank">Proxmox Customer Portal</a></li>
+               <li><a href="http://www.proxmox.com/en/about" target="_blank">About</a></li>
+                </ul>
+						
+
+					</div>
+				</li>
+				
+				<li class="bigFooterCol bigFooterCol--col4">
+					<div class="section">
+
+						
+							<h3 class="bigFooterHeader">
+								<i class="uix_icon fa fa-cart-plus"></i>
+								Get your subscription!
+							</h3>
+
+							The Proxmox team works very hard to make sure you are running the best software and getting stable updates and security enhancements, as well as quick support. 9.500+ satisfied customers have Proxmox subscriptions. Get your own in 60 seconds.
+                <br><br>
+                <a class="callToAction" href="http://shop.maurer-it.com/index.php" target="_blank"><span>Buy now!</span></a>
+						
+
+					</div>
+				</li>
+			</ul>
+
+			
+
+		</div>
+	</div>
+</div>
+
+
+
+
+<div class="footerLegal">
+	<div class="pageWidth">
+		<div class="pageContent defaultBorderRadius">
+			
+			
+				<ul class="uix_socialMediaLinks">
+	
+
+        
+
+        <li class="uix_socialLink uix_socialLink--youtube"><a href="https://www.youtube.com/user/ProxmoxVE" target="_blank"><i class="uix_icon uix_icon-youtube"></i></a></li>
+
+        
+
+        
+
+        
+
+        <li class="uix_socialLink uix_socialLink--googleplus"><a href="https://plus.google.com/+proxmox/" target="_blank"><i class="uix_icon uix_icon-googlePlus"></i></a></li>
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        <li class="uix_socialLink uix_socialLink--git"><a href="https://git.proxmox.com/" target="_blank"><i class="uix_icon uix_icon-git"></i></a></li>
+
+        
+
+        <li class="uix_socialLink uix_socialLink--flickr"><a href="https://bugzilla.proxmox.com/" target="_blank"><i class="uix_icon uix_icon-flickr"></i></a></li>
+        
+        
+
+	
+	
+	    <li class="uix_socialLink uix_socialLink--contact"><a href="https://forum.proxmox.com/misc/contact" class="OverlayTrigger" data-overlayoptions="{&quot;fixed&quot;:false}"><i class="uix_icon uix_icon-email"></i></a></li>
+	
+	
+
+        
+
+
+
+<!--ADD LIST ITEMS HERE -->
+
+
+
+        <li class="uix_socialLink uix_socialLink--rss"><a href="https://forum.proxmox.com/forums/-/index.rss" rel="alternate}" target="_blank"><i class="uix_icon uix_icon-rss"></i></a></li>
+</ul>
+			
+			<div id="copyright">
+				<a href="https://xenforo.com/" class="concealed">Forum software by XenForo™ <span>© 2010-2018 XenForo Ltd.</span></a> 
+				
+				
+			</div>
+			
+			<span class="helper"></span>
+			
+		</div>
+	</div>
+</div>
+
+
+
+	<div id="uix_jumpToFixed" style="opacity: 0; display: none;">
+		
+			<a href="https://forum.proxmox.com/#XenForo" title="Top" data-position="top"><i class="uix_icon uix_icon-jumpToTop"></i></a>
+		
+		
+			<a href="https://forum.proxmox.com/#XenForo" title="Bottom" data-position="bottom"><i class="uix_icon uix_icon-jumpToBottom"></i></a>
+		
+	</div>
+
+</footer>
+
+<script>
+
+
+jQuery.extend(true, XenForo,
+{
+	visitor: { user_id: 0 },
+	serverTimeInfo:
+	{
+		now: 1519703873,
+		today: 1519686000,
+		todayDow: 2
+	},
+	_lightBoxUniversal: "0",
+	_enableOverlays: "1",
+	_animationSpeedMultiplier: "0.5",
+	_overlayConfig:
+	{
+		top: "10%",
+		speed: 100,
+		closeSpeed: 50,
+		mask:
+		{
+			color: "rgb(255, 255, 255)",
+			opacity: "0.6",
+			loadSpeed: 100,
+			closeSpeed: 50
+		}
+	},
+	_ignoredUsers: [],
+	_loadedScripts: {"thread_view":true,"message":true,"bb_code":true,"message_user_info":true,"share_page":true,"login_bar":true,"facebook":true,"twitter":true,"google":true,"moderator_bar":true,"notices":true,"panel_scroller":true,"uix_extendedFooter":true},
+	_cookieConfig: { path: "/", domain: "", prefix: "xf_"},
+	_csrfToken: "",
+	_csrfRefreshUrl: "login/csrf-token-refresh",
+	_jsVersion: "10596b39",
+	_noRtnProtect: false,
+	_noSocialLogin: false
+});
+jQuery.extend(XenForo.phrases,
+{
+	cancel: "Cancel",
+
+	a_moment_ago:    "A moment ago",
+	one_minute_ago:  "1 minute ago",
+	x_minutes_ago:   "%minutes% minutes ago",
+	today_at_x:      "Today at %time%",
+	yesterday_at_x:  "Yesterday at %time%",
+	day_x_at_time_y: "%day% at %time%",
+
+	day0: "Sunday",
+	day1: "Monday",
+	day2: "Tuesday",
+	day3: "Wednesday",
+	day4: "Thursday",
+	day5: "Friday",
+	day6: "Saturday",
+
+	_months: "January,February,March,April,May,June,July,August,September,October,November,December",
+	_daysShort: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",
+
+	following_error_occurred: "The following error occurred",
+	server_did_not_respond_in_time_try_again: "The server did not respond in time. Please try again.",
+	logging_in: "Logging in",
+	click_image_show_full_size_version: "Click this image to show the full-size version.",
+	show_hidden_content_by_x: "Show hidden content by {names}"
+});
+
+// Facebook Javascript SDK
+XenForo.Facebook.appId = "441666409362267";
+XenForo.Facebook.forceInit = true;
+
+
+</script>
+
+
+
+
+
+
+
+</div> 
+
+<div class="uix_wrapperFix" style="height: 1px; margin-top: -1px;"></div>
+
+
+		</div> 
+	</div> 
+
+	
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  // tracker methods like "setCustomDimension" should be called before "trackPageView"
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.proxmox.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '6']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+
+
+
+<div class="breadcrumbMeta">
+	
+
+<nav>
+
+	
+
+	
+
+	<fieldset class="breadcrumb" style="">
+		<a href="https://forum.proxmox.com/misc/quick-navigation-menu?selected=node-16" class="OverlayTrigger jumpMenuTrigger" data-cacheoverlay="true" title="Open quick navigation"><i class="uix_icon uix_icon-sitemap"></i><!--Jump to...--></a>
+
+		<div class="boardTitle"><strong>Proxmox Support Forum</strong></div>
+
+		<span class="crumbs">
+			
+				<span class="crust homeCrumb">
+					<a href="https://forum.proxmox.com/" class="crumb"><span><i class="uix_icon uix_icon-home" title="Home"></i><span class="uix_breadcrumb__home__title">Home</span></span></a>
+					<span class="arrow"><span></span></span>
+				</span>
+			
+
+			
+				<span class="crust selectedTabCrumb">
+					<a href="https://forum.proxmox.com/" class="crumb"><span>Forums</span></a>
+					<span class="arrow"><span>&gt;</span></span>
+				</span>
+			
+
+			
+				
+					<span class="crust">
+						<a href="https://forum.proxmox.com/#proxmox-virtual-environment.11" class="crumb"><span>Proxmox Virtual Environment</span></a>
+						<span class="arrow"><span>&gt;</span></span>
+					</span>
+				
+					<span class="crust">
+						<a href="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/" class="crumb"><span>Proxmox VE: Installation and configuration</span></a>
+						<span class="arrow"><span>&gt;</span></span>
+					</span>
+				
+			
+		</span>
+	</fieldset>
+</nav>
+</div>
+
+<!-- UI.X Version: 1.5.15.0 //-->
+
+
+<div id="calroot" style="display: none; position: absolute;"><div id="calhead"><a id="calprev">←</a><div id="caltitle"></div><a id="calnext">→</a></div><div id="calbody"><div id="caldays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div><div id="calweeks"></div></div></div><div class="Menu" id="XenForoUniq0" style="display: none;">
+								<div class="primaryContent menuHeader">
+									<h3>Useful Searches</h3>
+								</div>
+								<ul class="secondaryContent blockLinksList">
+									<!-- block: useful_searches -->
+									<li><a href="https://forum.proxmox.com/find-new/posts?recent=1" rel="nofollow">Recent Posts</a></li>
+									
+									<!-- end block: useful_searches -->
+								</ul>
+							</div><div class="Menu JsOnly tabMenu membersTabLinks" id="XenForoUniq1" style="display: none;">
+												
+													<div class="primaryContent menuHeader">
+														<h3>Members</h3>
+														<div class="muted">Quick Links</div>
+													</div>
+									
+													<ul class="secondaryContent blockLinksList">
+													
+														<li><a href="https://forum.proxmox.com/members/">Notable Members</a></li>
+														
+														<li><a href="https://forum.proxmox.com/online/">Current Visitors</a></li>
+														<li><a href="https://forum.proxmox.com/recent-activity/">Recent Activity</a></li>
+														<li><a href="https://forum.proxmox.com/find-new/profile-posts">New Profile Posts</a></li>
+													
+													</ul>
+									
+													
+												
+									
+											</div><div class="Menu JsOnly blockLinksList primaryContent" id="NavigationHiddenMenu" style="display: none;"></div></body></html>
