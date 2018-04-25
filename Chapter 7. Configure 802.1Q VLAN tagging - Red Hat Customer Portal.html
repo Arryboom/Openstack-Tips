@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<!-- saved from url=(0127)https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging -->
+<html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#" class="supports cssanimations flexbox csstransforms csstransforms3d js"><head profile="http://www.w3.org/1999/xhtml/vocab"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	  
+<meta name="revision" title="d416aded-5982-4f0e-97d5-d61eb08b0e35" product="c32f4e60-db0e-44fd-bca7-9661836d8c1c" revision="07bc02a207c6f784c8f09c07948d035c8243c888:en-us" page="236f9483-55da-4f7a-b874-ef68a372e876">
+<meta name="generator" content="Drupal 7 (http://drupal.org)">
+<link rel="canonical" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging">
+<link rel="shortlink" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging">
+  <title>Chapter&nbsp;7.&nbsp;Configure 802.1Q VLAN tagging - Red Hat Customer Portal</title>
+  
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--[if IEMobile]><meta http-equiv="cleartype" content="on"><![endif]-->
+
+<!-- metaInclude -->
+<meta name="avalon-host-info" content="kcs05.web.prod.ext.phx2.redhat.com">
+<meta name="avalon-version" content="f8eb36d">
+<meta name="cp-chrome-build-date" content="2018-03-20T12:04:20.803Z">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Chrome, Firefox OS and Opera -->
+<meta name="theme-color" content="#000000">
+<!-- Windows Phone -->
+<meta name="msapplication-navbutton-color" content="#000000">
+<!-- iOS Safari -->
+<meta name="apple-mobile-web-app-status-bar-style" content="#000000">
+<link rel="manifest" href="https://access.redhat.com/webassets/avalon/j/manifest.json">
+
+ 
+
+<script type="text/javascript">
+    window.portal = {
+        analytics : {},
+        host      : "https://access.redhat.com",
+        idp_url   : "https://sso.redhat.com",
+        lang      : "en",  
+        version   : "f8eb36d",
+        builddate : "2018-03-20T12:04:20.803Z",
+        nrid      : "14615289",
+        nrlk      : "2a497fa56f"
+    };
+</script>
+<script type="text/javascript">
+    if (!/\/logout.*/.test(location.pathname) && portal.host === location.origin && document.cookie.indexOf('rh_sso_session') >= 0 && !(document.cookie.indexOf('rh_jwt') >= 0)) window.location = '/login?redirectTo=' + encodeURIComponent(window.location.href);
+</script>
+<!-- cssInclude -->
+
+<link rel="shortcut icon" href="https://access.redhat.com/webassets/avalon/g/favicon.ico">
+
+<link media="all" rel="stylesheet" type="text/css" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/bootstrap.css">
+<link media="all" rel="stylesheet" type="text/css" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/main.css">
+<link media="all" rel="stylesheet" type="text/css" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/components.css">
+<link media="all" rel="stylesheet" type="text/css" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/pages.css">
+
+<link href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/chosen.css" rel="stylesheet" type="text/css">
+
+<!--[if lte IE 9]>
+<link media="all" rel="stylesheet" type="text/css" href="https://access.redhat.com/chrome_themes/nimbus/css/ie.css" />
+<![endif]-->
+
+<noscript>
+    &lt;style type="text/css" media="screen"&gt; .primary-nav { display: block; } &lt;/style&gt;
+</noscript>
+
+<!-- /cssInclude -->
+<script type="text/javascript" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/require.js.下载" data-main="/webassets/avalon/j/"></script>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<script src="https://access.redhat.com/chrome_themes/nimbus/js/ie8.js"></script>
+<![endif]-->
+  <link type="text/css" rel="stylesheet" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/css_UaBdVg87aQRN2fn0i_UfLp5kpr7BTshFYajrXzSLxUY.css" media="all">
+<link type="text/css" rel="stylesheet" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/css_1D3M1YDGLyImQRFA3qWL1RYxRTihnYDmCyuvOxQ-TCQ.css" media="all">
+<link type="text/css" rel="stylesheet" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/messages.css" media="all">
+<link type="text/css" rel="stylesheet" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/css_68XqoD9rkU7al4kaXiWqLpm3W9oByOK4DBjmMZP46qg.css" media="all">
+<link type="text/css" rel="stylesheet" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/css_EbIxi8kXycgOJT7BSzSNmquF5Y6pL1WPipqFT9EFF54.css" media="print">
+  <link rel="stylesheet" type="text/css" media="all" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/list.css">
+  <script src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/js_vSmhpx_T-AShyt_WMW5_TcwwxJP1imoVOa8jvwL_mxE.js.下载"></script>
+<script src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/js_2oLIwy8VR9UisQV1b3NasvORkZ8LslOoHXrDv_Z3dsQ.js.下载"></script>
+<script>chrometwo_require(["analytics/attributes"], function(attributes) {
+attributes.set('ResourceID',       'd416aded-5982-4f0e-97d5-d61eb08b0e35');
+attributes.set('ResourceTitle',    'Networking Guide');
+attributes.set('Language',         'en-us');
+attributes.set('RevisionId',       '07bc02a207c6f784c8f09c07948d035c8243c888:en-us');
+attributes.set('PublicationState', ['active','published']);
+attributes.set('Product',          'Red Hat Enterprise Linux');
+attributes.set('ProductVersion',   '7');
+attributes.set('ProductId',        'Red Hat Enterprise Linux 7');
+});</script>
+<script src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/js_-8vf8LkPxRkJ-o_lvpleocQOXhKeAjrWIHbr39eHffo.js.下载"></script>
+<script>breadcrumbs = [ ["Products &amp; Services", "/products/"], ["Product Documentation", "/documentation"], ["Red Hat Enterprise Linux", "/documentation/en/red-hat-enterprise-linux"], ["7", "/documentation/en/red-hat-enterprise-linux?version=7"], ["Networking Guide", "/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/"], ["Chapter\u00a07.\u00a0Configure 802.1Q VLAN tagging", "/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging"] ];</script>
+<script src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/js_2PRksiEo-fFt1MO8Yt4lwkqgcpisuCmSj5pyUkxRawc.js.下载"></script>
+<script src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/js_BAD1FthsXW017bJ_WOR6tFPUhqQsoEdWqspXP6FJXPw.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="https://access.redhat.com/webassets/avalon/j/lib/require-css/require.css.min.js" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/require.css.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="rhn-modal" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/rhn-modal.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="status-widget" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/status-widget.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="avatars" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/avatars.js.下载"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"kcs","theme_token":"2h0fGH120Ax4bagAhz7glf-9hrPNFk15dnN5Ud26uvE","js":{"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/libraries\/chosen\/chosen\/chosen.jquery.min.js":1,"modules\/chosen\/chosen.js":1,"sites\/all\/modules\/custom\/rh_doc_fetcher\/js\/doc_toc_active_anchors.js":1,"0":1,"sites\/all\/themes\/cirrus\/js\/getting_started_toast.js":1,"1":1,"sites\/all\/modules\/custom\/rh_doc_fetcher\/js\/prism.js":1,"sites\/all\/modules\/custom\/rh_doc_fetcher\/js\/underscore.js":1,"sites\/all\/themes\/kcs\/js\/kcs_base.js":1,"sites\/all\/themes\/kcs\/js\/showdown.js":1,"sites\/all\/themes\/kcs\/js\/case_links.js":1,"2":1,"3":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/book\/book.css":1,"modules\/comment\/comment.css":1,"modules\/date\/date_api\/date.css":1,"modules\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"modules\/views\/css\/views.css":1,"sites\/all\/libraries\/chosen\/chosen\/chosen.css":1,"modules\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/contrib\/panels\/css\/panels.css":1,"sites\/all\/modules\/custom\/rate\/rate.css":1,"sites\/all\/modules\/custom\/rh_doc_fetcher\/plugins\/layouts\/docs_page\/docs_page.css":1,"https:\/\/access.redhat.com\/webassets\/avalon\/s\/messages.css":1,"sites\/all\/themes\/zen\/system.base.css":1,"sites\/all\/themes\/zen\/system.menus.css":1,"sites\/all\/themes\/zen\/system.messages.css":1,"sites\/all\/themes\/zen\/system.theme.css":1,"sites\/all\/themes\/zen\/comment.css":1,"sites\/all\/themes\/zen\/node.css":1,"sites\/all\/themes\/kcs\/css\/html-reset.css":1,"sites\/all\/themes\/kcs\/css\/wireframes.css":1,"sites\/all\/themes\/kcs\/css\/layout-fixed.css":1,"sites\/all\/themes\/kcs\/css\/page-backgrounds.css":1,"sites\/all\/themes\/kcs\/css\/tabs.css":1,"sites\/all\/themes\/kcs\/css\/pages.css":1,"sites\/all\/themes\/kcs\/css\/blocks.css":1,"sites\/all\/themes\/kcs\/css\/navigation.css":1,"sites\/all\/themes\/kcs\/css\/views-styles.css":1,"sites\/all\/themes\/kcs\/css\/nodes.css":1,"sites\/all\/themes\/kcs\/css\/comments.css":1,"sites\/all\/themes\/kcs\/css\/forms.css":1,"sites\/all\/themes\/kcs\/css\/fields.css":1,"sites\/all\/themes\/kcs\/css\/kcs.css":1,"sites\/all\/themes\/kcs\/css\/print.css":1}},"chosen":{"selector":"#edit-field-kcs-component-select-und, #edit-field-kcs-sbr-select-und, #edit-field-kcs-product-select-und, #edit-field-kcs-type-select-und, #edit-language, #edit-field-kcs-a-category-select-und, #edit-field-kcs-state-select-und, #edit-field-kcs-tags-select-und, #edit-field-kcs-state-select-value, #edit-field-vid-reference-product-und, #edit-state, #edit-product, #edit-category, #edit-field-kcs-product-select-tid, #edit-field-kcs-type-select-tid, #edit-field-kcs-a-category-select-tid, #edit-sort-bef-combine, #edit-kcs-state, #edit-field-category-tid, #edit-field-product-tid, #edit-field-tags-tid, #edit-field-category-und, #edit-field-product-und, #edit-field-tags-und, #views-exposed-form-questions-list-questions-filter-block #edit-field-category, #edit-field-tags-und, #views-exposed-form-questions-list-questions-filter-block #edit-field-product, #views-exposed-form-questions-list-questions-filter-block #edit-field-tags, #edit-field-mega-menu-tab-und, #edit-field-internal-tags-tid, #edit-tags, #edit-field-kcs-tags-select-tid, #edit-subscriptions-and-choose-field-select, #edit-subscriptions-and-type, #edit-vid-13, #edit-vid-4, #edit-vid-5, #edit-vid-53, #edit-vid-1, #edit-vid-3, #edit-group-blog, #edit-group-group, #edit-subscriptions-and-choose-field-select-two, #edit-subscriptions-and-type-two, #edit-vid-13-two, #edit-vid-4-two, #edit-vid-5-two, #edit-vid-53-two, #edit-vid-1-two, #edit-vid-3-two, #edit-group-blog-two, #edit-group-group-two, #edit-subscriptions-and-edit-choose-field-select, #edit-subscriptions-and-type-edit, #edit-subscriptions-and-edit-type-two, #edit-vid-13-edit-two, #edit-vid-4-edit-two, #edit-vid-5-edit-two, #edit-vid-53-edit-two, #edit-vid-1-edit-two, #edit-vid-3-edit-two, #edit-group-group-edit-two, #edit-subscriptions-and-edit-choose-field-select-two, #edit-vid-13-edit, #edit-vid-4-edit, #edit-vid-5-edit, #edit-vid-53-edit, #edit-vid-1-edit, #edit-vid-3-edit, #edit-group-group-edit, #edit-group-blog-edit, #edit-field-supported-languages-tid, #edit-field-geography-und, #edit-field-supported-products-und, #edit-field-supported-languages-und, #edit-field-vendor-und, #edit-field-errata-type-text-und, #edit-field-errata-severity-text-und, #edit-field-software-partner-level-und, #edit-field-scert-product-category-und, #edit-field-certifications-und-0-field-product-und, #edit-kcs-article-type, #edit-field-eco-industry-tag-select-tid, #edit-field-eco-software-catego-select-tid, #edit-field-ecosystem-tag-select-und, #edit-field-eco-industry-tag-select-und, #edit-field-eco-software-catego-select-und, #edit-field-vendor-tsanet-member-ref-und, #edit-field-og-vendor-ref-und-0-default, #edit-field-eco-products-enabled-col-und-0-field-eco-subscription-model-ref-und, #edit-field-eco-products-enabled-col-und-0-field-eco-support-level-ref-und, #edit-field-eco-products-enabled-col-und-0-field-eco-product-select-und, #edit-field-eco-certifications-select-und-0-field-eco-product-select-und, #edit-field-eco-certifications-select-und-0-field-eco-product-archite-select-und, #edit-field-eco-certifications-select-und-0-field-eco-certificati-lvl-select-und, #edit-field-eco-certifications-select-und-0-field-eco-hypervisor-str-und, #edit-field-eco-supported-language-ref-und, #edit-field-eco-region-ref-und, #edit-field-cs-product-category-str-und, #edit-field-eco-certifications-select-und-0-field-eco-format-ref-und, #edit-field-eco-group-access-ref-und, #edit-field-hw-category-tag-ref-und, #edit-field-profile-industry-und, #edit-field-profile-tech-interests-und, #edit-field-product-page-features-ref-und, #edit-field-eco-product-select-und, #edit-field-base-product-ref-und, #edit-field-eco-product-archite-select-und, #edit-field-eco-format-ref-und, #edit-field-certification-status-ref-und, #edit-field-certification-result-ref-und, #edit-field-og-certified-product-ref-und-0-default, #edit-field-eco-subscription-model-ref-und, #edit-field-eco-support-level-ref-und, #edit-field-eco-certificati-lvl-select-und, #edit-field-eco-hypervisor-str-und, #edit-field-ccp-thirdparty-cert-select-und, .use_, #edit-field-eco-cert-product-tag-und, #edit-field-documentation-location-ref-und, #edit-field-documentation-title-und","minimum":"0"},"rh_doc_fetcher":{"page_type":"multi","scroll_interval":250},"gettingStartedToast":{"currentUser":0},"urlIsAjaxTrusted":{"\/documentation\/en-us\/red_hat_enterprise_linux\/7\/html\/networking_guide\/ch-configure_802_1q_vlan_tagging":true},"section":"","kcs":{"nodeType":null,"nodeId":null}});</script>
+    <!--[if lt IE 9]>
+  <script src="https://access.redhat.com/sites/all/themes/kcs/js/html5shiv.js"></script>
+  <![endif]-->
+  
+      
+
+
+    <!--kcs05-->
+<script type="text/javascript">
+  Drupal.portal = {"version":{"redhat_portal":"package drupal7-redhat_portal is not installed"}};
+  Drupal.portal.currentUser = {};
+  </script>
+
+<script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="data-action" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/data-action.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="moment" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/moment.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="drupal-admin-drawer" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/drupal-admin-drawer.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="prism" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/prism.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="underscore" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/underscore.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="nimbus/tour" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/tour.js.下载"></script><link type="text/css" rel="stylesheet" href="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/jquery-ui-1.8.7.custom.css"><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ieSVGfix" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/ieSVGfix.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="handlebars.runtime" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/handlebars.runtime.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="drupal-admin-drawer-templates" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/templates.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="jquery-ui" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/jquery-ui-1.8.20.custom.min.js.下载"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="introjs" src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/introjs.min.js.下载"></script></head>
+
+<body class="portal-page admin-bar  kcs_external en loggedOut">
+
+  
+  <div id="page-wrap" class="page-wrap">
+    <div class="top-page-wrap">
+
+        <!--googleoff: all-->
+        <header class="masthead" id="masthead">
+
+            <!-- Accessibility Nav & Header -->
+<div class="accessibility-nav sr-only">
+    <a href="https://access.redhat.com/">
+        <h1>Red Hat <span>Customer </span><span>Portal</span></h1>
+    </a>
+    <p><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#cp-main">Skip to main content</a></p>
+    <nav aria-labelledby="accessibility-nav-heading">
+        <h2 id="accessibility-nav-heading">Main Navigation</h2>
+        <ul>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Products &amp; Services</span></a>
+        <ul class="mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li><a href="https://access.redhat.com/products">View All Products</a></li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Infrastructure and Management</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-enterprise-linux/">Red Hat Enterprise Linux</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-virtualization/">Red Hat Virtualization</a></li>
+                    <li><a href="https://access.redhat.com/products/identity-management/">Red Hat Identity Management</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-directory-server/">Red Hat Directory Server</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-certificate-system/">Red Hat Certificate System</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-satellite/">Red Hat Satellite</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-subscription-management/">Red Hat Subscription Management</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-update-infrastructure/">Red Hat Update Infrastructure</a></li>
+                    <li><a href="https://access.redhat.com/insights/info/?intcmp=mm|p|im|rhaijan2016&amp;">Red Hat Insights</a></li>
+                    <li><a href="https://access.redhat.com/products/ansible-tower-red-hat/">Red Hat Ansible Tower</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-ansible-engine/">Red Hat Ansible Engine</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Cloud Computing</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-cloudforms/">Red Hat CloudForms</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-openstack-platform/">Red Hat OpenStack Platform</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-cloud-infrastructure/">Red Hat Cloud Infrastructure</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-cloud-suite/">Red Hat Cloud Suite</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-openshift-container-platform/">Red Hat OpenShift Container Platform</a></li>
+                    <li><a href="https://access.redhat.com/products/openshift-online-red-hat/">Red Hat OpenShift Online</a></li>
+                    <li><a href="https://access.redhat.com/products/openshift-dedicated-red-hat/">Red Hat OpenShift Dedicated</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-openshift-application-runtimes/">Red Hat OpenShift Application Runtimes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Storage</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-storage/">Red Hat Gluster Storage</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-hyperconverged-infrastructure/">Red Hat Hyperconverged Infrastructure</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-ceph-storage/">Red Hat Ceph Storage</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>JBoss Development and Management</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-enterprise-application-platform/">Red Hat JBoss Enterprise Application Platform</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-data-grid/">Red Hat JBoss Data Grid</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-web-server/">Red Hat JBoss Web Server</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-portal/">Red Hat JBoss Portal</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-operations-network/">Red Hat JBoss Operations Network</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-developer-studio/">Red Hat JBoss Developer Studio</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>JBoss Integration and Automation</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-data-virtualization/">Red Hat JBoss Data Virtualization</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-fuse/">Red Hat JBoss Fuse</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-amq/">Red Hat JBoss AMQ</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-bpm-suite/">Red Hat JBoss BPM Suite</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-brms/">Red Hat Decision Manager</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-3scale/">Red Hat 3scale API Management Platform</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Mobile</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-mobile-application-platform/">Red Hat Mobile Application Platform</a></li>
+                </ul>
+            </li>
+            <li class="heading">Enterprise-ready containers</li>
+            <li><a class="cta-link cta-link-white-red" href="https://access.redhat.com/containers">Search the Red Hat Container Catalog</a></li>
+
+            <li class="heading"><a class="cta-link cta-link-darkbg" href="https://access.redhat.com/support/">Support</a></li>
+            <li><a href="https://access.redhat.com/support/offerings/production/">Production Support</a></li>
+            <li><a href="https://access.redhat.com/support/offerings/developer/">Development Support</a></li>
+            <li><a href="https://access.redhat.com/support/policy/update_policies/">Product Life Cycle &amp; Update Policies</a></li>
+
+            <li class="heading"><a class="cta-link cta-link-darkbg" href="https://access.redhat.com/documentation/">Documentation</a></li>
+            <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux">Red Hat Enterprise Linux</a></li>
+            <li><a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform">Red Hat JBoss Enterprise Application Platform</a></li>
+            <li><a href="https://access.redhat.com/documentation/en-us/red_hat_openstack_platform">Red Hat OpenStack Platform</a></li>
+            <li><a href="https://access.redhat.com/documentation/en-us/openshift_container_platform">Red Hat OpenShift Container Platform</a></li>
+
+            <li class="heading">Services</li>
+            <li><a href="https://access.redhat.com/products/Consulting/">Consulting</a></li>
+            <li><a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a></li>
+            <li><a href="https://access.redhat.com/products/training-certifications/">Training &amp; Certifications</a></li>
+
+            <li class="heading"><a class="cta-link cta-link-darkbg" href="https://access.redhat.com/ecosystem/">Ecosystem</a></li>
+            <li><a href="https://access.redhat.com/ecosystem/search/#/ecosystem">Browse Certified Solutions</a></li>
+            <li><a href="https://access.redhat.com/ecosystem/partner-resources">Partner Resources</a></li>
+          </ul>
+    </li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Tools</span></a>
+        <ul class="mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li class="heading">Red Hat Insights</li>
+            <li><a href="https://access.redhat.com/insights/info/?intcmp=mm|t|c1|rhaidec2015&amp;">Learn More</a></li>
+            <li class="heading">Red Hat Customer Portal Labs</li>
+            <li><a href="https://access.redhat.com/labs/">Explore Labs</a></li>
+            <li><a href="https://access.redhat.com/labs/#?type=config">Configuration</a></li>
+            <li><a href="https://access.redhat.com/labs/#?type=deploy">Deployment</a></li>
+            <li><a href="https://access.redhat.com/labs/#?type=troubleshoot">Troubleshooting</a></li>
+            <li><a href="https://access.redhat.com/labs/#?type=security">Security</a></li>
+            <li class="heading">Additional Tools</li>
+            <li><a href="https://access.redhat.com/products/red-hat-access/">Red Hat Access plug-ins</a></li>
+            <li><a href="https://access.redhat.com/tools/satcert/">Red Hat Satellite Certificate Tool</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Security</span></a>
+        <ul class="mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li><a href="https://access.redhat.com/security/">Product Security Center</a></li>
+            <li><a href="https://access.redhat.com/labs/speculativeexecution">Spectre &amp; Meltdown Detector</a></li>
+            <li class="heading">Security Updates</li>
+            <li><a href="https://access.redhat.com/security/security-updates/#/security-advisories">Security Advisories</a></li>
+            <li><a href="https://access.redhat.com/security/security-updates/#/cve">Red Hat CVE Database</a></li>
+            <li><a href="https://access.redhat.com/security/security-updates/#/security-labs">Security Labs</a></li>
+            <li class="heading">Resources</li>
+            <li><a href="https://access.redhat.com/security/overview/">Overview</a></li>
+            <li><a href="https://access.redhat.com/blogs/product-security">Security Blog</a></li>
+            <li><a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a></li>
+            <li><a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a></li>
+            <li><a href="https://access.redhat.com/security/updates/backporting/">Backporting Policies</a></li>
+            <li><a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Community</span></a>
+        <ul class="mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li class="heading">Customer Portal Community</li>
+            <li><a href="https://access.redhat.com/discussions?keyword=&amp;name=&amp;product=All&amp;category=All&amp;tags=All">Discussions</a></li>
+            <li><a href="https://access.redhat.com/blogs/">Blogs</a></li>
+            <li><a href="https://access.redhat.com/groups/">Private Groups</a></li>
+            <li><a href="https://access.redhat.com/community/">Community Activity</a></li>
+            <li class="heading">Customer Events</li>
+            <li><a href="https://access.redhat.com/convergence/">Red Hat Convergence</a></li>
+            <li><a href="http://www.redhat.com/summit/">Red Hat Summit</a></li>
+            <li class="heading">Stories</li>
+            <li><a href="https://access.redhat.com/subscription-value/">Red Hat Subscription Value</a></li>
+            <li><a href="https://access.redhat.com/you-asked-we-acted/">You Asked. We Acted.</a></li>
+            <li><a href="http://www.redhat.com/en/open-source">Open Source Communities</a></li>
+        </ul>
+    </li>
+    <li><a href="https://access.redhat.com/management/">Subscriptions</a></li>
+    <li><a href="https://access.redhat.com/downloads/">Downloads</a></li>
+    <li><a href="https://access.redhat.com/containers/">Containers</a></li>
+    <li><a href="https://access.redhat.com/support/cases/">Support Cases</a></li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Account</span></a>
+        <ul class="utility mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li class="mobile-accountLinksLoggedOut unauthenticated" style="display: block;"><a href="https://access.redhat.com/login?redirectTo=https%3A%2F%2Faccess.redhat.com%2Fdocumentation%2Fen-us%2Fred_hat_enterprise_linux%2F7%2Fhtml%2Fnetworking_guide%2Fch-configure_802_1q_vlan_tagging" id="accessibility-accountLogin">Log In</a></li>
+            <li class="mobile-accountLinksLoggedOut unauthenticated" style="display: block;"><a href="https://www.redhat.com/wapps/ugc/register.html">Register</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated">
+                <div class="account-info" id="accessibility-accountUser">
+                    <div class="account-name"><strong id="accessibility-userFullName"></strong></div>
+                    <div class="account-org"><span id="accessibility-userOrg"></span></div>
+                    <div class="account-number mobile-accountNumber"><span class="property">Red Hat Account Number:</span> <span class="value"></span></div>
+                </div>
+            </li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://www.redhat.com/wapps/ugc/protected/personalInfo.html">Account Details</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://www.redhat.com/wapps/ugc/protected/prefs.html">Newsletter and Contact Preferences</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html" class="user-management-link" hidden="hidden">User Management</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Maintenance</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://access.redhat.com/user">My Profile</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://access.redhat.com/user" id="accessibility-userNotificationsLink">Notifications</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://access.redhat.com/help/">Help</a></li>
+            <li class="logout mobile-accountLinksLoggedIn authenticated"><a href="https://sso.redhat.com/auth/realms/redhat-external/logout?redirectUrl=https%3A%2F%2Faccess.redhat.com%2Flogout">Log Out</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Language</span></a>
+        <ul class="utility mm-hide" id="accessibility-localesMenu">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=en&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-en">English</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=es&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-es">Español</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=de&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-de">Deutsch</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=it&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-it">Italiano</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=ko&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-ko">한국어</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=fr&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-fr">Français</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=ja&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-ja">日本語</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=pt&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-pt">Português</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=zh_CN&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-zh_CN">中文 (中国)</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=ru&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="accessibility-ru">русский</a></li>
+		</ul>
+    </li>
+</ul>
+    </nav>
+</div>
+
+<!-- Mobile Header -->
+<nav class="mobile-nav-bar hidden-sm hidden-md hidden-lg" aria-hidden="true">
+    <button id="menu-btn" class="menu menu-white" type="button" aria-label="Toggle Navigation">
+        <span class="lines"></span>
+    </button>
+    <a class="logo" href="https://access.redhat.com/">
+        <span class="logo-crop"><img src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/l_redhat-lg.png" alt="Red Hat Logo" title="Red Hat"></span>
+        <span class="site-title"><span>Customer </span><span>Portal</span></span>
+    </a>
+    <button class="btn btn-search btn-utility" data-target="#site-search">
+        <span class="web-icon-search"></span>
+        <span class="link-text">Search</span>
+    </button>
+</nav>
+
+<!-- Mobile Menu Drawer -->
+<div class="nav-drawer-backdrop"></div><div class="nav-drawer mobile-nav-drawer hidden-sm hidden-md hidden-lg" aria-hidden="true">
+    <nav class="nav-container">
+        <ul>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Products &amp; Services</span></a>
+        <ul class="mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li><a href="https://access.redhat.com/products">View All Products</a></li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Infrastructure and Management</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-enterprise-linux/">Red Hat Enterprise Linux</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-virtualization/">Red Hat Virtualization</a></li>
+                    <li><a href="https://access.redhat.com/products/identity-management/">Red Hat Identity Management</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-directory-server/">Red Hat Directory Server</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-certificate-system/">Red Hat Certificate System</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-satellite/">Red Hat Satellite</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-subscription-management/">Red Hat Subscription Management</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-update-infrastructure/">Red Hat Update Infrastructure</a></li>
+                    <li><a href="https://access.redhat.com/insights/info/?intcmp=mm|p|im|rhaijan2016&amp;">Red Hat Insights</a></li>
+                    <li><a href="https://access.redhat.com/products/ansible-tower-red-hat/">Red Hat Ansible Tower</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-ansible-engine/">Red Hat Ansible Engine</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Cloud Computing</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-cloudforms/">Red Hat CloudForms</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-openstack-platform/">Red Hat OpenStack Platform</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-cloud-infrastructure/">Red Hat Cloud Infrastructure</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-cloud-suite/">Red Hat Cloud Suite</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-openshift-container-platform/">Red Hat OpenShift Container Platform</a></li>
+                    <li><a href="https://access.redhat.com/products/openshift-online-red-hat/">Red Hat OpenShift Online</a></li>
+                    <li><a href="https://access.redhat.com/products/openshift-dedicated-red-hat/">Red Hat OpenShift Dedicated</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-openshift-application-runtimes/">Red Hat OpenShift Application Runtimes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Storage</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-storage/">Red Hat Gluster Storage</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-hyperconverged-infrastructure/">Red Hat Hyperconverged Infrastructure</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-ceph-storage/">Red Hat Ceph Storage</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>JBoss Development and Management</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-enterprise-application-platform/">Red Hat JBoss Enterprise Application Platform</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-data-grid/">Red Hat JBoss Data Grid</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-web-server/">Red Hat JBoss Web Server</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-portal/">Red Hat JBoss Portal</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-operations-network/">Red Hat JBoss Operations Network</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-developer-studio/">Red Hat JBoss Developer Studio</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>JBoss Integration and Automation</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-data-virtualization/">Red Hat JBoss Data Virtualization</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-fuse/">Red Hat JBoss Fuse</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-amq/">Red Hat JBoss AMQ</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-bpm-suite/">Red Hat JBoss BPM Suite</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-jboss-brms/">Red Hat Decision Manager</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-3scale/">Red Hat 3scale API Management Platform</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Mobile</span></a>
+                <ul class="mm-hide">
+                    <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+                    <li><a href="https://access.redhat.com/products/red-hat-mobile-application-platform/">Red Hat Mobile Application Platform</a></li>
+                </ul>
+            </li>
+            <li class="heading">Enterprise-ready containers</li>
+            <li><a class="cta-link cta-link-white-red" href="https://access.redhat.com/containers">Search the Red Hat Container Catalog</a></li>
+
+            <li class="heading"><a class="cta-link cta-link-darkbg" href="https://access.redhat.com/support/">Support</a></li>
+            <li><a href="https://access.redhat.com/support/offerings/production/">Production Support</a></li>
+            <li><a href="https://access.redhat.com/support/offerings/developer/">Development Support</a></li>
+            <li><a href="https://access.redhat.com/support/policy/update_policies/">Product Life Cycle &amp; Update Policies</a></li>
+
+            <li class="heading"><a class="cta-link cta-link-darkbg" href="https://access.redhat.com/documentation/">Documentation</a></li>
+            <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux">Red Hat Enterprise Linux</a></li>
+            <li><a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform">Red Hat JBoss Enterprise Application Platform</a></li>
+            <li><a href="https://access.redhat.com/documentation/en-us/red_hat_openstack_platform">Red Hat OpenStack Platform</a></li>
+            <li><a href="https://access.redhat.com/documentation/en-us/openshift_container_platform">Red Hat OpenShift Container Platform</a></li>
+
+            <li class="heading">Services</li>
+            <li><a href="https://access.redhat.com/products/Consulting/">Consulting</a></li>
+            <li><a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a></li>
+            <li><a href="https://access.redhat.com/products/training-certifications/">Training &amp; Certifications</a></li>
+
+            <li class="heading"><a class="cta-link cta-link-darkbg" href="https://access.redhat.com/ecosystem/">Ecosystem</a></li>
+            <li><a href="https://access.redhat.com/ecosystem/search/#/ecosystem">Browse Certified Solutions</a></li>
+            <li><a href="https://access.redhat.com/ecosystem/partner-resources">Partner Resources</a></li>
+          </ul>
+    </li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Tools</span></a>
+        <ul class="mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li class="heading">Red Hat Insights</li>
+            <li><a href="https://access.redhat.com/insights/info/?intcmp=mm|t|c1|rhaidec2015&amp;">Learn More</a></li>
+            <li class="heading">Red Hat Customer Portal Labs</li>
+            <li><a href="https://access.redhat.com/labs/">Explore Labs</a></li>
+            <li><a href="https://access.redhat.com/labs/#?type=config">Configuration</a></li>
+            <li><a href="https://access.redhat.com/labs/#?type=deploy">Deployment</a></li>
+            <li><a href="https://access.redhat.com/labs/#?type=troubleshoot">Troubleshooting</a></li>
+            <li><a href="https://access.redhat.com/labs/#?type=security">Security</a></li>
+            <li class="heading">Additional Tools</li>
+            <li><a href="https://access.redhat.com/products/red-hat-access/">Red Hat Access plug-ins</a></li>
+            <li><a href="https://access.redhat.com/tools/satcert/">Red Hat Satellite Certificate Tool</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Security</span></a>
+        <ul class="mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li><a href="https://access.redhat.com/security/">Product Security Center</a></li>
+            <li><a href="https://access.redhat.com/labs/speculativeexecution">Spectre &amp; Meltdown Detector</a></li>
+            <li class="heading">Security Updates</li>
+            <li><a href="https://access.redhat.com/security/security-updates/#/security-advisories">Security Advisories</a></li>
+            <li><a href="https://access.redhat.com/security/security-updates/#/cve">Red Hat CVE Database</a></li>
+            <li><a href="https://access.redhat.com/security/security-updates/#/security-labs">Security Labs</a></li>
+            <li class="heading">Resources</li>
+            <li><a href="https://access.redhat.com/security/overview/">Overview</a></li>
+            <li><a href="https://access.redhat.com/blogs/product-security">Security Blog</a></li>
+            <li><a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a></li>
+            <li><a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a></li>
+            <li><a href="https://access.redhat.com/security/updates/backporting/">Backporting Policies</a></li>
+            <li><a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Community</span></a>
+        <ul class="mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li class="heading">Customer Portal Community</li>
+            <li><a href="https://access.redhat.com/discussions?keyword=&amp;name=&amp;product=All&amp;category=All&amp;tags=All">Discussions</a></li>
+            <li><a href="https://access.redhat.com/blogs/">Blogs</a></li>
+            <li><a href="https://access.redhat.com/groups/">Private Groups</a></li>
+            <li><a href="https://access.redhat.com/community/">Community Activity</a></li>
+            <li class="heading">Customer Events</li>
+            <li><a href="https://access.redhat.com/convergence/">Red Hat Convergence</a></li>
+            <li><a href="http://www.redhat.com/summit/">Red Hat Summit</a></li>
+            <li class="heading">Stories</li>
+            <li><a href="https://access.redhat.com/subscription-value/">Red Hat Subscription Value</a></li>
+            <li><a href="https://access.redhat.com/you-asked-we-acted/">You Asked. We Acted.</a></li>
+            <li><a href="http://www.redhat.com/en/open-source">Open Source Communities</a></li>
+        </ul>
+    </li>
+    <li><a href="https://access.redhat.com/management/">Subscriptions</a></li>
+    <li><a href="https://access.redhat.com/downloads/">Downloads</a></li>
+    <li><a href="https://access.redhat.com/containers/">Containers</a></li>
+    <li><a href="https://access.redhat.com/support/cases/">Support Cases</a></li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Account</span></a>
+        <ul class="utility mm-hide">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li class="mobile-accountLinksLoggedOut unauthenticated" style="display: block;"><a href="https://access.redhat.com/login?redirectTo=https%3A%2F%2Faccess.redhat.com%2Fdocumentation%2Fen-us%2Fred_hat_enterprise_linux%2F7%2Fhtml%2Fnetworking_guide%2Fch-configure_802_1q_vlan_tagging" id="mobile-accountLogin">Log In</a></li>
+            <li class="mobile-accountLinksLoggedOut unauthenticated" style="display: block;"><a href="https://www.redhat.com/wapps/ugc/register.html">Register</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated">
+                <div class="account-info" id="mobile-accountUser">
+                    <div class="account-name"><strong id="mobile-userFullName"></strong></div>
+                    <div class="account-org"><span id="mobile-userOrg"></span></div>
+                    <div class="account-number mobile-accountNumber"><span class="property">Red Hat Account Number:</span> <span class="value"></span></div>
+                </div>
+            </li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://www.redhat.com/wapps/ugc/protected/personalInfo.html">Account Details</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://www.redhat.com/wapps/ugc/protected/prefs.html">Newsletter and Contact Preferences</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html" class="user-management-link" hidden="hidden">User Management</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Maintenance</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://access.redhat.com/user">My Profile</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://access.redhat.com/user" id="mobile-userNotificationsLink">Notifications</a></li>
+            <li class="mobile-accountLinksLoggedIn authenticated"><a href="https://access.redhat.com/help/">Help</a></li>
+            <li class="logout mobile-accountLinksLoggedIn authenticated"><a href="https://sso.redhat.com/auth/realms/redhat-external/logout?redirectUrl=https%3A%2F%2Faccess.redhat.com%2Flogout">Log Out</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="has-subnav"><span>Language</span></a>
+        <ul class="utility mm-hide" id="mobile-localesMenu">
+            <li aria-hidden="true"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#" class="back">Back</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=en&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-en" class="selected">English</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=es&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-es">Español</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=de&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-de">Deutsch</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=it&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-it">Italiano</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=ko&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-ko">한국어</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=fr&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-fr">Français</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=ja&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-ja">日本語</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=pt&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-pt">Português</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=zh_CN&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-zh_CN">中文 (中国)</a></li>
+            <li><a href="https://access.redhat.com/changeLanguage?language=ru&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" id="mobile-ru">русский</a></li>
+		</ul>
+    </li>
+</ul>
+    </nav>
+</div>
+
+<!-- White Utility Menu for large screens -->
+<div class="utility-wrap" aria-hidden="true">
+    <div class="utility-container">
+        <div class="utility-bar visible-sm visible-md visible-lg">
+            <div role="navigation" class="top-nav">
+                <ul>
+                    <li id="nav-subscription" data-portal-tour-1="1"><a class="top-nav-subscriptions" href="https://access.redhat.com/management/">Subscriptions</a></li>
+                    <li id="nav-downloads" data-portal-tour-1="2"><a class="top-nav-downloads" href="https://access.redhat.com/downloads/">Downloads</a></li>
+                    <li id="nav-containers"><a class="top-nav-containers" href="https://access.redhat.com/containers/">Containers</a></li>
+                    <li id="nav-support" data-portal-tour-1="3"><a class="top-nav-support-cases" href="https://access.redhat.com/support/cases/">Support Cases</a></li>
+                </ul>
+            </div>
+
+            <div role="navigation" class="utility-nav">
+                <ul>
+                    <li>
+                        <a class="btn-search" data-target="#site-search" title="Search" data-toggle="tooltip" data-placement="bottom">
+                            <span class="web-icon-search"></span>
+                            <span class="link-text">Search</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn-profile" data-target="#account-info" data-portal-tour-1="4a" title="Account" data-toggle="tooltip" data-placement="bottom">
+                            <span class="web-icon-user"></span>
+                            <span class="link-text">Account</span>
+                            <span class="account-user" id="accountUserName"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn-language" data-target="#language" data-portal-tour-1="6" title="Language" data-toggle="tooltip" data-placement="bottom">
+                            <span class="web-icon-globe"></span>
+                            <span class="link-text">Language</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- Utility Tray -->
+        <div class="utility-tray-container">
+            <div class="utility-tray">
+                <div id="site-search" class="utility-link site-search">
+                    <div class="content">
+                        <form class="ng-pristine ng-valid topSearchForm" id="topSearchForm" name="topSearchForm" action="https://access.redhat.com/search/browse/search/" method="get" enctype="application/x-www-form-urlencoded">
+                            <div class="input-group push-bottom">
+
+                                <input class="form-control searchField" id="topSearchInput" name="keyword" value="" placeholder="Enter Your Search Term" type="text">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </span>
+                            </div>
+                            <div>Troubleshooting an issue? Try <a href="https://access.redhat.com/solution-engine">Solution Engine</a>—our new support tool.</div>
+                        </form>
+                    </div>
+                </div>
+                <div id="account-info" class="utility-link account-info">
+                    <div class="content">
+
+                        <!-- Account Unauthenticated -->
+                        <div id="accountLinksLoggedOut" class="unauthenticated" style="display: block;">
+                            <h2 class="utility-header">Log in to Your Red Hat Account</h2>
+                            <div class="row col-border-row">
+                                <div class="col-sm-6 col-border">
+                                    <p><a href="https://access.redhat.com/login?redirectTo=https%3A%2F%2Faccess.redhat.com%2Fdocumentation%2Fen-us%2Fred_hat_enterprise_linux%2F7%2Fhtml%2Fnetworking_guide%2Fch-configure_802_1q_vlan_tagging" id="accountLogin" class="btn btn-primary">Log In</a></p>
+                                    <p>Your Red Hat account gives you access to your profile, preferences, and services, depending on your status.</p>
+                                </div>
+                                <div class="col-sm-6 col-border col-border-left">
+                                    <p><a href="https://www.redhat.com/wapps/ugc/register.html" class="btn btn-primary">Register</a></p>
+                                    <p>If you are a new customer, register now for access to product evaluations and purchasing capabilities. </p>
+
+                                    <strong>Need access to an account?</strong><p>If your company has an existing Red Hat account, your organization administrator can grant you access.</p>
+
+                                    <p><a href="https://access.redhat.com/support/contact/customerService/">If you have any questions, please contact customer service.</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Authenticated -->
+                        <div id="accountLinksLoggedIn" class="authenticated">
+                            <h2 class="utility-header"><span id="userFirstName"></span></h2>
+                            <div class="row col-border-row">
+                                <div class="col-sm-6 col-border col-border-right">
+                                    <div class="account-info" id="accountUser">
+                                        <div class="avatar"><!-- placeholder--></div>
+                                        <div class="account-name"><strong id="userFullName"></strong></div>
+                                        <div class="account-org"><span id="userOrg"></span></div>
+                                        <div class="account-number accountNumber"><span class="property">Red Hat Account Number:</span> <span class="value"></span></div>
+                                    </div>
+
+                                    <div class="row account-settings">
+                                        <div class="col-md-6" data-portal-tour-1="4">
+                                            <h3>Red Hat Account</h3>
+                                            <ul class="reset">
+                                                <li><a href="https://www.redhat.com/wapps/ugc/protected/personalInfo.html">Account Details</a></li>
+                                                <li><a href="https://www.redhat.com/wapps/ugc/protected/prefs.html">Newsletter and Contact Preferences</a></li>
+                                                <li><a href="https://www.redhat.com/wapps/ugc/protected/usermgt/userList.html" class="user-management-link" hidden="hidden">User Management</a></li>
+                                                <li><a href="https://www.redhat.com/wapps/ugc/protected/account.html">Account Maintenance</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6" data-portal-tour-1="5">
+                                            <h3>Customer Portal</h3>
+                                            <ul class="reset">
+                                                <li><a href="https://access.redhat.com/user">My Profile</a></li>
+                                                <li><a href="https://access.redhat.com/user" id="userNotificationsLink">Notifications</a></li>
+                                                <li><a href="https://access.redhat.com/help/">Help</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6 col-border">
+                                    <p>For your security, if you’re on a public computer and have finished using your Red Hat services, please be sure to log out.</p>
+                                    <p><a href="https://sso.redhat.com/auth/realms/redhat-external/logout?redirectUrl=https%3A%2F%2Faccess.redhat.com%2Flogout" id="accountLogout" class="btn btn-primary">Log Out</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="language" class="utility-link language">
+                    <div class="content">
+                        <h2 class="utility-header">Select Your Language</h2>
+                        <div class="row" id="localesMenu">
+                            <div class="col-sm-3">
+                                <ul class="reset">
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=en&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="en" id="en" class="selected">English</a></li>
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=es&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="es" id="es">Español</a></li>
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=de&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="de" id="de">Deutsch</a></li>
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=it&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="it" id="it">Italiano</a></li>
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=ko&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="ko" id="ko">한국어</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-3">
+                                <ul class="reset">
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=fr&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="fr" id="fr">Français</a></li>
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=ja&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="ja" id="ja">日本語</a></li>
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=pt&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="pt" id="pt">Português</a></li>
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=zh_CN&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="zh_CN" id="zh_CN">中文 (中国)</a></li>
+                                    <li><a href="https://access.redhat.com/changeLanguage?language=ru&amp;redirectTo=https%3A//access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging" data-lang="ru" id="ru">русский</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="scroll-anchor"></div>
+
+<!-- Main Menu for large screens -->
+<div class="header-nav visible-sm visible-md visible-lg" aria-hidden="true">
+    <div id="header-nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <a href="https://access.redhat.com/" class="logo">
+                        <span class="logo-crop"><img src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/l_redhat-lg.png" alt="Red Hat"></span>
+                        <span class="site-title"><span>Customer </span><span>Portal</span></span>
+                    </a>
+
+                    <nav class="primary-nav" style="display: block;">
+                        <ul>
+                            <li id="nav-products"><a class="products" data-link="mega" data-target="products-menu" href="https://access.redhat.com/products/" id="products-menu">Products &amp; Services</a></li>
+                            <li id="nav-tools"><a class="tools" data-link="mega" data-target="tools-menu" href="https://access.redhat.com/labs/" id="tools-menu">Tools</a></li>
+                            <li id="nav-security"><a class="security" data-link="mega" data-target="security-menu" href="https://access.redhat.com/security/" id="security-menu">Security</a></li>
+                            <li id="nav-community"><a class="community" data-link="mega" data-target="community-menu" href="https://access.redhat.com/community/" id="community-menu">Community</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Mega Menu for large screens -->
+<div class="mega-wrap visible-sm visible-md visible-lg" aria-hidden="true">
+    <nav class="mega">
+        <div class="container">
+            <div class="mega-menu-wrap">
+
+                <!-- Products Menu -->
+                <div aria-labelledby="products-menu" class="products-menu mega-menu" role="navigation">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-8">
+                            <div class="root clearfix" data-portal-tour-1="7">
+                                <ul class="subnav subnav-root">
+                                    <li data-target="infrastructure-menu" class="active">
+                                        <a href="https://access.redhat.com/products/">Infrastructure and Management</a>
+                                    </li>
+                                    <li data-target="cloud-menu">
+                                        <a href="https://access.redhat.com/products/">Cloud Computing</a>
+                                    </li>
+                                    <li data-target="storage-menu">
+                                        <a href="https://access.redhat.com/products/">Storage</a>
+                                    </li>
+                                    <li data-target="jboss-dev-menu">
+                                        <a href="https://access.redhat.com/products/">JBoss Development and Management</a>
+                                    </li>
+                                    <li data-target="jboss-int-menu">
+                                        <a href="https://access.redhat.com/products/">JBoss Integration and Automation</a>
+                                    </li>
+                                    <li data-target="mobile-products-menu">
+                                        <a href="https://access.redhat.com/products/">Mobile</a>
+                                    </li>
+                                </ul>
+                                <div class="subnav subnav-child" data-eh="subnav-child" data-menu-local="infrastructure-menu" style="display: block; height: 498px;">
+                                    <ul>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-enterprise-linux/">Red Hat Enterprise Linux</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-virtualization/">Red Hat Virtualization</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/identity-management/">Red Hat Identity Management</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-directory-server/">Red Hat Directory Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-certificate-system/">Red Hat Certificate System</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-satellite/">Red Hat Satellite</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-subscription-management/">Red Hat Subscription Management</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-update-infrastructure/">Red Hat Update Infrastructure</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-insights/">Red Hat Insights</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/ansible-tower-red-hat/">Red Hat Ansible Tower</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-ansible-engine/">Red Hat Ansible Engine</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="subnav subnav-child" data-eh="subnav-child" data-menu-local="cloud-menu" style="height: 498px;">
+                                    <ul>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-cloudforms/">Red Hat CloudForms</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-openstack-platform/">Red Hat OpenStack Platform</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-cloud-infrastructure/">Red Hat Cloud Infrastructure</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-cloud-suite/">Red Hat Cloud Suite</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-openshift-container-platform/">Red Hat OpenShift Container Platform</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/openshift-online-red-hat/">Red Hat OpenShift Online</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/openshift-dedicated-red-hat/">Red Hat OpenShift Dedicated</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-openshift-application-runtimes/">Red Hat OpenShift Application Runtimes</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="subnav subnav-child" data-eh="subnav-child" data-menu-local="storage-menu" style="height: 498px;">
+                                    <ul>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-storage/">Red Hat Gluster Storage</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-hyperconverged-infrastructure/">Red Hat Hyperconverged Infrastructure</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-ceph-storage/">Red Hat Ceph Storage</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="subnav subnav-child" data-eh="subnav-child" data-menu-local="jboss-dev-menu" style="height: 498px;">
+                                    <ul>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-enterprise-application-platform/">Red Hat JBoss Enterprise Application Platform</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-data-grid/">Red Hat JBoss Data Grid</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-web-server/">Red Hat JBoss Web Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-portal/">Red Hat JBoss Portal</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-operations-network/">Red Hat JBoss Operations Network</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-developer-studio/">Red Hat JBoss Developer Studio</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="subnav subnav-child" data-eh="subnav-child" data-menu-local="jboss-int-menu" style="height: 498px;">
+                                    <ul>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-data-virtualization/">Red Hat JBoss Data Virtualization</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-fuse/">Red Hat JBoss Fuse</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-amq/">Red Hat JBoss AMQ</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-bpm-suite/">Red Hat JBoss BPM Suite</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-jboss-brms/">Red Hat Decision Manager</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-3scale/">Red Hat 3scale API Management Platform</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="subnav subnav-child" data-eh="subnav-child" data-menu-local="mobile-products-menu" style="height: 498px;">
+                                    <ul>
+                                        <li>
+                                            <a href="https://access.redhat.com/products/red-hat-mobile-application-platform/">Red Hat Mobile Application Platform</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <a href="https://access.redhat.com/products" class="btn btn-primary">View All Products</a>
+                        </div>
+
+                        <div class="col-md-6 col-sm-4 pull-right" data-portal-tour-1="8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/support" class="cta-link cta-link-darkbg">Support</a></li>
+                                        <li><a href="https://access.redhat.com/support/offerings/production/">Production Support</a></li>
+                                        <li><a href="https://access.redhat.com/support/offerings/developer/">Development Support</a></li>
+                                        <li><a href="https://access.redhat.com/support/policy/update_policies/">Product Life Cycle &amp; Update Policies</a></li>
+                                    </ul>
+                                    <h3 class="nav-title">Services</h3>
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/products/Consulting/">Consulting</a></li>
+                                        <li><a href="https://access.redhat.com/support/offerings/tam/">Technical Account Management</a></li>
+                                        <li><a href="https://access.redhat.com/products/training-certifications/">Training &amp; Certifications</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/documentation" class="cta-link cta-link-darkbg">Documentation</a></li>
+                                        <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux">Red Hat Enterprise Linux</a></li>
+                                        <li><a href="https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform">Red Hat JBoss Enterprise Application Platform</a></li>
+                                        <li><a href="https://access.redhat.com/documentation/en-us/red_hat_openstack_platform">Red Hat OpenStack Platform</a></li>
+                                        <li><a href="https://access.redhat.com/documentation/en-us/openshift_container_platform">Red Hat OpenShift Container Platform</a></li>
+                                    </ul>
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/ecosystem" class="cta-link cta-link-darkbg">Ecosystem</a></li>
+                                        <li><a href="https://access.redhat.com/ecosystem/search/#/ecosystem">Browse Certified Solutions</a></li>
+                                        <li><a href="https://access.redhat.com/ecosystem/partner-resources">Partner Resources</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <a href="https://access.redhat.com/containers" class="containers-promo card card-sm card-tagged-left card-tagged-accent card-w-cta card-w-icon">
+                              <section class="promo-left">
+                                <h3 class="card-heading">Enterprise-ready containers</h3>
+                                <p class="promo-desc">Secure, certified, and up-to-date container images.</p>
+                                <span class="cta-link cta-link-white-red">Search the Red Hat Container Catalog</span>
+                              </section>
+                              <div class="promo-right hidden-xs hidden-sm">
+                                <span aria-hidden="true" class="rh-icon-container-library lg-icon"></span>
+                              </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools Menu -->
+                <div aria-labelledby="tools-menu" class="tools-menu mega-menu" data-eh="mega-menu" role="navigation" style="height: 421px;">
+                    <div class="row" data-portal-tour-1="9">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h2 class="nav-title">Red Hat Customer Portal Labs</h2>
+                                    <p class="text-white">To help you use Red Hat products to their full potential, our engineers have developed a powerful set of tools to support your ongoing success.</p>
+                                    <p class="push-top"><a href="https://access.redhat.com/labs/" class="btn btn-primary">Explore Labs</a></p>
+
+                                    <ul class="list-flat">
+                                        <li class="more-link"><a href="https://access.redhat.com/labs/#?type=config">Configuration</a></li>
+                                        <li class="more-link"><a href="https://access.redhat.com/labs/#?type=deploy">Deployment</a></li>
+                                        <li class="more-link"><a href="https://access.redhat.com/labs/#?type=troubleshoot">Troubleshooting</a></li>
+                                        <li class="more-link"><a href="https://access.redhat.com/labs/#?type=security">Security</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3 class="nav-title">Additional Tools</h3>
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/products/red-hat-access/">Red Hat Access plug-ins</a></li>
+                                        <li><a href="https://access.redhat.com/tools/satcert/">Red Hat Satellite Certificate Tool</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="card card-dark-grey">
+                                        <h2 class="nav-title text-white">Red Hat Insights</h2>
+                                        <p class="text-white">Increase visibility into IT operations to detect and resolve technical issues before they impact your business.</p>
+                                        <ul class="list-flat">
+                                            <li class="more-link"><a href="https://access.redhat.com/insights/?intcmp=mm|t|c1|rhaidec2015&amp;">Learn More</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Security Menu -->
+                <div aria-labelledby="security-menu" class="security-menu mega-menu" data-eh="mega-menu" role="navigation" style="height: 421px;">
+                    <div class="row">
+                        <div class="col-sm-12 basic" data-portal-tour-1="10">
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h3 class="nav-title">Red Hat Product Security Center</h3>
+                                    <p class="text-white">Engage with our Red Hat Product Security team, access security updates, and ensure your environments are not exposed to any known security vulnerabilities.</p>
+                                    <p><a href="https://access.redhat.com/security/" class="btn btn-primary">Product Security Center</a></p>
+
+
+                                    <!-- Spectre and Meltdown -->
+                                    <a href="https://access.redhat.com/labs/speculativeexecution" class="card card-dark-grey push-top card-w-icon card-w-icon-md">
+                                        <span class="rh-icon-protected card-icon push-bottom-narrow"></span>
+                                        <h2 class="card-heading">Spectre &amp; Meltdown Detector</h2>
+                                        <span class="cta-link text-white cta-link-red">Go to App</span>
+                                    </a>
+                                    <!-- /Spectre and Meltdown -->
+
+
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <h3 class="nav-title">Security Updates</h3>
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/security/security-updates/#/security-advisories">Security Advisories</a></li>
+                                        <li><a href="https://access.redhat.com/security/security-updates/#/cve">Red Hat CVE Database</a></li>
+                                        <li><a href="https://access.redhat.com/security/security-updates/#/security-labs">Security Labs</a></li>
+                                    </ul>
+                                    <p class="text-white">Keep your systems secure with Red Hat's specialized responses for high-priority security vulnerabilities.</p>
+                                    <ul>
+                                        <li class="more-link"><a href="https://access.redhat.com/security/vulnerability">View Responses</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <h3 class="nav-title">Resources</h3>
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/security/overview/">Overview</a></li>
+                                        <li><a href="https://access.redhat.com/blogs/product-security">Security Blog</a></li>
+                                        <li><a href="https://www.redhat.com/security/data/metrics/">Security Measurement</a></li>
+                                        <li><a href="https://access.redhat.com/security/updates/classification/">Severity Ratings</a></li>
+                                        <li><a href="https://access.redhat.com/security/updates/backporting/">Backporting Policies</a></li>
+                                        <li><a href="https://access.redhat.com/security/team/key/">Product Signing (GPG) Keys</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Menu -->
+                <div aria-labelledby="community-menu" class="community-menu mega-menu" data-eh="mega-menu" role="navigation" style="height: 421px;">
+                    <div class="row">
+                        <div class="col-sm-12 basic" data-portal-tour-1="11">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h3 class="nav-title">Customer Portal Community</h3>
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/discussions?keyword=&amp;name=&amp;product=All&amp;category=All&amp;tags=All">Discussions</a></li>
+                                        <li><a href="https://access.redhat.com/blogs/">Blogs</a></li>
+                                        <li><a href="https://access.redhat.com/groups/">Private Groups</a></li>
+                                        <p class="push-top"><a href="https://access.redhat.com/community/" class="btn btn-primary">Community Activity</a></p>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3 class="nav-title">Customer Events</h3>
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/convergence/">Red Hat Convergence</a></li>
+                                        <li><a href="http://www.redhat.com/summit/">Red Hat Summit</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-4">
+                                    <h3 class="nav-title">Stories</h3>
+                                    <ul>
+                                        <li><a href="https://access.redhat.com/subscription-value/">Red Hat Subscription Value</a></li>
+                                        <li><a href="https://access.redhat.com/you-asked-we-acted/">You Asked. We Acted.</a></li>
+                                        <li><a href="http://www.redhat.com/en/open-source">Open Source Communities</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<a href="https://access.redhat.com/community/" class="btn btn-primary">Explore Community</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+            <!--[if IE 8]>
+            <div class="portal-messages">
+                <div class="alert alert-warning alert-portal alert-w-icon">
+                    <span class="icon-warning alert-icon" aria-hidden="true"></span>
+                    You are using an unsupported web browser. Update to a supported browser for the best experience. <a href="/announcements/2120951">Read the announcement</a>.
+                </div>
+            </div>
+            <![endif]-->
+            <!--[if IE 9]>
+            <div class="portal-messages">
+                <div class="alert alert-warning alert-portal alert-w-icon">
+                    <span class="icon-warning alert-icon" aria-hidden="true"></span>
+                    As of March 1, 2016, the Red Hat Customer Portal will no longer support Internet Explorer 9. See our new <a href="/help/browsers">browser support policy</a> for more information.
+                </div>
+            </div>
+            <![endif]-->
+            <div id="site-section"></div>
+        <div class="breadcrumbs"><div id="breadcrumbs" class="container"><a href="https://access.redhat.com/products/">Products &amp; Services</a><a href="https://access.redhat.com/documentation">Product Documentation</a><a href="https://access.redhat.com/documentation/en/red-hat-enterprise-linux">Red Hat Enterprise Linux</a><a href="https://access.redhat.com/documentation/en/red-hat-enterprise-linux?version=7">7</a><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/">Networking Guide</a>Chapter&nbsp;7.&nbsp;Configure 802.1Q VLAN tagging</div></div></header>
+        <!--googleon: all-->
+
+        <main id="cp-main" class="portal-content-area">
+            <div id="cp-content" class="main-content">
+  <script type="text/javascript">
+    chrometwo_require(['jquery-ui']);
+  </script>
+
+
+      <article class="rh_docs">
+  <div class="container">
+        <!-- Display: Book Page Content -->
+    
+  
+
+<div class="row">
+  <div itemscope="" itemtype="https://schema.org/TechArticle" itemref="techArticle-md1 techArticle-md2 techArticle-md3"></div>
+  <div itemscope="" itemtype="https://schema.org/SoftwareApplication" itemref="softwareApplication-md1 softwareApplication-md2 softwareApplication-md3 softwareApplication-md4"></div>
+  
+
+
+<a class="toc-toggle toc-show affix-bottom" data-toggle="collapse" data-target="#toc-main" aria-expanded="false" aria-controls="toc-main" style="top: 965px;">
+  <span class="sr-only">Show Table of Contents</span>
+  <span class="web-icon-mobile-menu" aria-hidden="true"></span>
+</a>
+<nav id="toc-main" class="toc-main collapse in">
+  <div class="toc-menu affix-bottom" style="height: 920px; top: 965px;">
+    <a class="toc-toggle toc-hide" data-toggle="collapse" data-target="#toc-main" aria-expanded="false" aria-controls="toc-main">
+      <span class="sr-only">Hide Table of Contents</span>
+      <span class="icon-remove" aria-hidden="true"></span>
+    </a>
+    <div class="doc-options">
+      <div class="doc-language btn-group">
+        <button type="button" class="btn btn-app dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          English <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+                      <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging">English</a></li>
+                      <li><a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/networking_guide/">简体中文</a></li>
+                      <li><a href="https://access.redhat.com/documentation/fr-fr/red_hat_enterprise_linux/7/html/networking_guide/">Français</a></li>
+                      <li><a href="https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/7/html/networking_guide/">日本語</a></li>
+                  </ul>
+      </div>
+      <div class="doc-format btn-group">
+        <button type="button" class="btn btn-app dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Multi-page HTML <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+                      <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/networking_guide/">Single-page HTML</a></li>
+                                <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/pdf/networking_guide/Red_Hat_Enterprise_Linux-7-Networking_Guide-en-US.pdf">PDF</a></li>
+                      <li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/epub/networking_guide/Red_Hat_Enterprise_Linux-7-Networking_Guide-en-US.epub">ePub</a></li>
+                  </ul>
+      </div>
+    </div>
+    <ol class="menu" style="height: 805px;"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/">Networking Guide</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/part-ip_networking">I. IP Networking</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-introduction_to_rhel_networking">1. Introduction to Red Hat Enterprise Linux Networking</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-introduction_to_rhel_networking#sec-How_this_Book_is_Structured">1.1. How this Book is Structured</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-ip_networks_versus_non-ip_networks">1.2. IP Networks versus non-IP Networks</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-introduction_to_networkmanager">1.3. Introduction to NetworkManager</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-installing_networkmanager">1.4. Installing NetworkManager</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-installing_networkmanager#sec-The_NetworkManager_Daemon">1.4.1. The NetworkManager Daemon</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-installing_networkmanager#sec-Interacting_with_NetworkManager">1.4.2. Interacting with NetworkManager</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-networking_config_using_nmtui">1.5. Network Configuration Using a Text User Interface (nmtui)</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_config_using_nmcli">1.6. Network Configuration Using NetworkManager's CLI (nmcli)</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_config_using_cli">1.7. Network Configuration Using the Command-Line Interface (CLI)</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-networkmanager_and_the_network_scripts">1.8. NetworkManager and the Network Scripts</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_configuration_using_sysconfig_files">1.9. Network Configuration Using sysconfig Files</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-setting_wireless_regulatory_domain">1.10. Setting the Wireless Regulatory Domain</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_netconsole">1.11. Configuring netconsole</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-introduction_to_rhel_networking-additional_resources">1.12. Additional Resources</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking">2. Configure IP Networking</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-Static_and_Dynamic_Interface_Settings">2.1. Static and Dynamic Interface Settings</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-When_to_Use_Static_Network_Interface_Settings">2.1.1. When to Use Static Network Interface Settings</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-When_to_Use_Dynamic_Interface_Settings">2.1.2. When to Use Dynamic Interface Settings</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-Selecting_Network_Configuration_Methods">2.1.3. Selecting Network Configuration Methods</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-Using_the_Text_User_Interface_nmtui">2.1.4. Using the Text User Interface, nmtui</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-Using_the_NetworkManager_Command_Line_Tool_nmcli">2.1.5. Using the NetworkManager Command Line Tool, nmcli</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-Understanding_the_nmcli_Options">2.1.6. Understanding the nmcli Options</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-Connecting_to_a_Network_Using_nmcli">2.1.7. Connecting to a Network Using nmcli</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_ip_networking#sec-Configuring_Static_Routes_Using_nmcli">2.1.8. Configuring Static Routes Using nmcli</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-editing_network_configuration_files">2.2. Editing Network Configuration Files</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-editing_network_configuration_files#sec-Configuring_a_Network_Interface_Using_ifcg_Files">2.2.1. Configuring a Network Interface Using ifcfg Files</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-editing_network_configuration_files#sec-Configuring_the_Network_Settings_from_the_Kernel_Command-line">2.2.2. Configuring the Network Settings from the Kernel Command-line</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-editing_network_configuration_files#sec-Configuring_a_Network_Interface_Using_ip_commands">2.2.3. Configuring a Network Interface Using ip Commands</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-editing_network_configuration_files#sec-Static-Routes_and_the_Default_Gateway">2.2.4. Static Routes and the Default Gateway</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-editing_network_configuration_files#sec-Configuring_Static_Routes_in_ifcfg_files">2.2.5. Configuring Static Routes in ifcfg files</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-editing_network_configuration_files#sec-Configuring_a_VPN">2.2.6. Configuring a VPN</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_networkmanager_with_the_gnome_graphical_user_interface">2.3. Using NetworkManager with the GNOME Graphical User Interface</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_networkmanager_with_the_gnome_graphical_user_interface#sec-Connecting_to_a_Network_Using_a_GUI">2.3.1. Connecting to a Network Using a GUI</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_networkmanager_with_the_gnome_graphical_user_interface#sec-Configuring_New_and_Editing_Existing_Connections">2.3.2. Configuring New and Editing Existing Connections</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_networkmanager_with_the_gnome_graphical_user_interface#sec-Connecting_to_a_Network_Automatically">2.3.3. Connecting to a Network Automatically</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_networkmanager_with_the_gnome_graphical_user_interface#sec-Common_Configuration_Options_in_nm-connection-editor">2.3.4. Common Configuration Options in nm-connection-editor</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_networkmanager_with_the_gnome_graphical_user_interface#sec-System-wide_and_Private_Connection_Profiles">2.3.5. System-wide and Private Connection Profiles</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_networkmanager_with_the_gnome_graphical_user_interface#sec-Configuring_a_Wired_Ethernet_Connection_Using_control-_center">2.3.6. Configuring a Wired (Ethernet) Connection Using control-center</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_networkmanager_with_the_gnome_graphical_user_interface#sec-Configuring_a_Wi-Fi_Connection_Using_control-_center">2.3.7. Configuring a Wi-Fi Connection Using control-center</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-establishing_a_vpn_connection">2.4. Establishing a VPN Connection</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-establishing_a_mobile_broadband_connection">2.5. Establishing a Mobile Broadband Connection</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-establishing_a_dsl_connection">2.6. Establishing a DSL Connection</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings">2.7. Configuring Connection Settings</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings#sec-Configuring_802.3_Link_Settings">2.7.1. Configuring 802.3 Link Settings</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings#sec-Configuring_802.1X_Security">2.7.2. Configuring 802.1X Security</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings#sec-Configuring_Wi-Fi_Security">2.7.3. Configuring Wi-Fi Security</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings#sec-Using-MACsec">2.7.4. Using MACsec with wpa_supplicant and NetworkManager</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings#sec-Configuring_PPP_Point-to-Point_Settings">2.7.5. Configuring PPP (Point-to-Point) Settings</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings#sec-Configuring_IPv4_Settings">2.7.6. Configuring IPv4 Settings</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings#sec-Configuring_IPv6_Settings">2.7.7. Configuring IPv6 Settings</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_connection_settings#sec-Configuring_Routes">2.7.8. Configuring Routes</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_networking-additional_resources">2.8. Additional Resources</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_host_names">3. Configure Host Names</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_host_names#sec_Understanding_Host_Names">3.1. Understanding Host Names</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_host_names#sec-Recommended_Naming_Practices">3.1.1. Recommended Naming Practices</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_host_names_using_the_text_user_interface_nmtui">3.2. Configuring Host Names Using Text User Interface, nmtui</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec_configuring_host_names_using_hostnamectl">3.3. Configuring Host Names Using hostnamectl</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec_configuring_host_names_using_hostnamectl#sec_View_All_the_Host_Names">3.3.1. View All the Host Names</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec_configuring_host_names_using_hostnamectl#sec_Set_All_the_Host_Names">3.3.2. Set All the Host Names</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec_configuring_host_names_using_hostnamectl#sec_Set_a_Particular_Host_Name">3.3.3. Set a Particular Host Name</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec_configuring_host_names_using_hostnamectl#sec_Clear_a_Particular_Host_Name">3.3.4. Clear a Particular Host Name</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec_configuring_host_names_using_hostnamectl#sec_Changing_Host_Names_Remotely">3.3.5. Changing Host Names Remotely</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_host_names_using_nmcli">3.4. Configuring Host Names Using nmcli</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-additional_resources">3.5. Additional Resources</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_network_bonding">4. Configure Network Bonding</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_network_bonding#sec-Bond-Understanding_the_Default_Behavior_of_Master_and_Slave_Interfaces">4.1. Understanding the Default Behavior of Master and Slave Interfaces</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_bonding_using_the_text_user_interface_nmtui">4.2. Configure Bonding Using the Text User Interface, nmtui</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bonding_using_the_networkmanager_command_line_tool_nmcli">4.3. Network Bonding Using the NetworkManager Command Line Tool, nmcli</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bonding_using_the_command_line_interface">4.4. Using the Command Line Interface (CLI)</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bonding_using_the_command_line_interface#sec-Check_if_Bonding_Kernel_Module_is_Installed">4.4.1. Check if Bonding Kernel Module is Installed</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bonding_using_the_command_line_interface#sec-Create_a_Channel_Bonding_Interface">4.4.2. Create a Channel Bonding Interface</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bonding_using_the_command_line_interface#sec-Creating_SLAVE_Interfaces">4.4.3. Creating SLAVE Interfaces</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bonding_using_the_command_line_interface#sec-Activating_a_Channel_Bond">4.4.4. Activating a Channel Bond</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bonding_using_the_command_line_interface#sec-Creating_Multiple_Bonds">4.4.5. Creating Multiple Bonds</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_channel_bonding">4.5. Using Channel Bonding</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-using_channel_bonding#s3-modules-bonding-directives">4.5.1. Bonding Module Directives</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-creating_a_bond_connection_using_a_gui">4.6. Creating a Bond Connection Using a GUI</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-creating_a_bond_connection_using_a_gui#sec-Establishing_a_Bond_Connection">4.6.1. Establishing a Bond Connection</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_network_bonding-additional_resources">4.7. Additional Resources</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_network_teaming">5. Configure Network Teaming</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_network_teaming#sec-Understanding_Network_Teaming">5.1. Understanding Network Teaming</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-team-understanding_the_default_behavior_of_master_and_slave_interfaces">5.2. Understanding the Default Behavior of Master and Slave Interfaces</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-comparison_of_network_teaming_to_bonding">5.3. Comparison of Network Teaming to Bonding</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-understanding_the_network_teaming_daemon_and_the_runners">5.4. Understanding the Network Teaming Daemon and the "Runners"</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-install_the_network_teaming_daemon">5.5. Install the Network Teaming Daemon</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-converting_a_bond_to_a_team">5.6. Converting a Bond to a Team</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-selecting_interfaces_to_use_as_port_for_a_network_team">5.7. Selecting Interfaces to Use as Ports for a Network Team</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-selecting_network_team_configuration_methods">5.8. Selecting Network Team Configuration Methods</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using_the_text_user_interface_nmtui">5.9. Configure a Network Team Using the Text User Interface, nmtui</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line">5.10. Configure a Network Team Using the Command Line</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Configure_Network_Teaming_Using_nmcli">5.10.1. Configure Network Teaming Using nmcli</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Creating_a_Network_Team_Using_teamd">5.10.2. Creating a Network Team Using teamd</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Creating_a_Network_Team_Using_ifcfg_Files">5.10.3. Creating a Network Team Using ifcfg Files</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Add_a_port_to_a_Network_Team_Using_iputils">5.10.4. Add a Port to a Network Team Using iputils</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Listing_the_ports_of_a_Team_Using_teamnl">5.10.5. Listing the ports of a Team Using teamnl</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Configuring_Options_of_a_Team_Using_teamnl">5.10.6. Configuring Options of a Team Using teamnl</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Add_an_address_to_a_Network_Team_Using_iputils">5.10.7. Add an Address to a Network Team Using iputils</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Bring_Up_an_interface_to_a_Network_Team_Using_iputils">5.10.8. open an Interface to a Network Team Using iputils</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Viewing_the_Active_Ports_of_a_Team_Using_teamnl">5.10.9. Viewing the Active Port Options of a Team Using teamnl</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_a_network_team_using-the_command_line#sec-Setting_the_Active_Ports_of_a_Team_Using_teamnl">5.10.10. Setting the Active Port Options of a Team Using teamnl</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-controlling_teamd_with_teamdctl">5.11. Controlling teamd with teamdctl</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-controlling_teamd_with_teamdctl#sec-Add_a_port_to_a_Network_Team">5.11.1. Add a Port to a Network Team</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-controlling_teamd_with_teamdctl#sec-Remove_a_Port_From_a_Network_Team">5.11.2. Remove a Port From a Network Team</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-controlling_teamd_with_teamdctl#sec-Apply_a_Configuration_to_a_Port_in_a_Network_Team">5.11.3. Apply a Configuration to a Port in a Network Team</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-controlling_teamd_with_teamdctl#sec-View_the_Configuration_of_a_Port_in_a_Network_Team">5.11.4. View the Configuration of a Port in a Network Team</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners">5.12. Configure teamd Runners</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_the_broadcast_Runner">5.12.1. Configure the broadcast Runner</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_the_random_Runner">5.12.2. Configure the random Runner</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_the_roundrobin_Runner">5.12.3. Configure the Round-robin Runner</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_the_activebackup_Runner">5.12.4. Configure the activebackup Runner</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_the_loadbalance_Runner">5.12.5. Configure the loadbalance Runner</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_the_LACP_Runner">5.12.6. Configure the LACP (802.3ad) Runner</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_Monitoring_of_the_Link_State">5.12.7. Configure Monitoring of the Link State</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_Port_Selection_Override">5.12.8. Configure Port Selection Override</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners#sec-Configure_BPF-based_Tx_Port_Selectors_for_Hash_Computation_Algorithm">5.12.9. Configure BPF-based Tx Port Selectors</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-creating_a_network_team_using_a_gui">5.13. Creating a Network Team Using a GUI</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-creating_a_network_team_using_a_gui#sec-Establishing_a_Team_Connection">5.13.1. Establishing a Team Connection</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_teaming-additional_resources">5.14. Additional Resources</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_network_bridging">6. Configure Network Bridging</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_network_bridging#sec-Configure_Bridging_Using_the_Text_User_Interface_nmtui">6.1. Configure Bridging Using the Text User Interface, nmtui</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bridging_using_the_networkmanager_command_line_tool_nmcli">6.2. Using the NetworkManager Command Line Tool, nmcli</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bridging_using_the_command_line_interface">6.3. Using the Command Line Interface (CLI)</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bridging_using_the_command_line_interface#sec-Check_if_Bridging_Kernel_Module_is_Installed">6.3.1. Check if Bridging Kernel Module is Installed</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bridging_using_the_command_line_interface#sec-Create_a_Network_Bridge">6.3.2. Create a Network Bridge</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bridging_using_the_command_line_interface#sec-Network_Bridge_with_Bond">6.3.3. Network Bridge with Bond</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_network_bridging_using_a_gui">6.4. Configure Network Bridging Using a GUI</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_network_bridging_using_a_gui#sec-Establishing_a_Bridge_Connection">6.4.1. Establishing a Bridge Connection</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bridging-additional_resources">6.5. Additional Resources</a></li></ol></li><li class="active leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging">7. Configure 802.1Q VLAN tagging</a><ol class="menu"><li class="leaf active active-scroll"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#sec-Selecting_VLAN_Interface_Configuration_Methods">7.1. Selecting VLAN Interface Configuration Methods</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_text_user_interface_nmtui">7.2. Configure 802.1Q VLAN tagging Using the Text User Interface, nmtui</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_command_line_tool_nmcli">7.3. Configure 802.1Q VLAN Tagging Using the Command Line Tool, nmcli</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_command_line">7.4. Configure 802.1Q VLAN Tagging Using the Command Line</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_command_line#sec-Setting_Up_802.1Q_VLAN_Tagging_Using_ifcfg_Files">7.4.1. Setting Up 802.1Q VLAN Tagging Using ifcfg Files</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_command_line#sec-Configure_802_1Q_VLAN_Tagging_ip_Commands">7.4.2. Configure 802.1Q VLAN Tagging Using ip Commands</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_a_gui">7.5. Configure 802.1Q VLAN Tagging Using a GUI</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_a_gui#sec-Establishing_a_VLAN_Connection">7.5.1. Establishing a VLAN Connection</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-vlan_on_bond_and_bridge_using_ip_commands">7.6. VLAN on Bond and Bridge Using ip Commands</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging-additional_resources">7.7. Additional Resources</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-consistent_network_device_naming">8. Consistent Network Device Naming</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-consistent_network_device_naming#sec-Naming_Schemes_Hierarchy">8.1. Naming Schemes Hierarchy</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-understanding_the_device_renaming_procedure">8.2. Understanding the Device Renaming Procedure</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-understanding_the_predictable_network_interface_device_names">8.3. Understanding the Predictable Network Interface Device Names</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-naming_scheme_for_network_devices_available_for_linux_on_system_z">8.4. Naming Scheme for Network Devices Available for Linux on System z</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-naming_scheme_for_vlan_interfaces">8.5. Naming Scheme for VLAN Interfaces</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-consistent_network_device_naming_using_biosdevname">8.6. Consistent Network Device Naming Using biosdevname</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-consistent_network_device_naming_using_biosdevname#sec-Consistent_Network_Device_Naming-System_Requirements">8.6.1. System Requirements</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-consistent_network_device_naming_using_biosdevname#sec-Consistent_Network_Device_Naming-Enabling_and_Disabling">8.6.2. Enabling and Disabling the Feature</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-consistent_network_device_naming-notes">8.7. Notes for Administrators</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-controlling_the_selection_of_network_device_names">8.8. Controlling the Selection of Network Device Names</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-disabling_consistent_network_device_naming">8.9. Disabling Consistent Network Device Naming</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-troubleshooting_network_device_naming">8.10. Troubleshooting Network Device Naming</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-consistent_network_device_naming-additional_resources">8.11. Additional Resources</a></li></ol></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/part-infiniband_and_rdma_networking">II. InfiniBand and RDMA Networking</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_infiniband_and_rdma_networks">9. Configure InfiniBand and RDMA Networks</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_infiniband_and_rdma_networks#sec-Understanding_InfiniBand_and_RDMA_technologies">9.1. Understanding InfiniBand and RDMA technologies</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-infiniband_and_rdma_related_software_packages">9.2. InfiniBand and RDMA related software packages</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_base_rdma_subsystem">9.3. Configuring the Base RDMA Subsystem</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_base_rdma_subsystem#sec-Configuration_of_the_rdma.conf_file">9.3.1. Configuration of the rdma.conf file</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_base_rdma_subsystem#sec-Usage_of_70-persistent-ipoib.rules">9.3.2. Usage of 70-persistent-ipoib.rules</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_base_rdma_subsystem#sec-Relaxing_memlock_restrictions_for_users">9.3.3. Relaxing memlock restrictions for users</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_base_rdma_subsystem#sec-Configuring_Mellanox_cards_for_Ethernet_operation">9.3.4. Configuring Mellanox cards for Ethernet operation</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_subnet_manager">9.4. Configuring the Subnet Manager</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_subnet_manager#sec-Determining_Necessity">9.4.1. Determining Necessity</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_subnet_manager#sec-Configuring_the_opensm_master_configuration_file">9.4.2. Configuring the opensm master configuration file</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_subnet_manager#sec-Configuring_the_opensm_startup_options">9.4.3. Configuring the opensm startup options</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_subnet_manager#sec-Creating_a_P_Key_definition">9.4.4. Creating a P_Key definition</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_subnet_manager#sec-Enabling_opensm">9.4.5. Enabling opensm</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-testing_early_infiniband_rdma_operation">9.5. Testing Early InfiniBand RDMA operation</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_ipoib">9.6. Configuring IPoIB</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_ipoib#sec-Understanding_the_role_of_IPoIB">9.6.1. Understanding the role of IPoIB</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_ipoib#sec-Understanding_IPoIB_communication_modes">9.6.2. Understanding IPoIB communication modes</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_ipoib#sec-Understanding_IPoIB_hardware_addresses">9.6.3. Understanding IPoIB hardware addresses</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_ipoib#sec-Understanding_InfiniBand_P_Key_subnets">9.6.4. Understanding InfiniBand P_Key subnets</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_infiniband_using_the_text_user_interface_nmtui">9.7. Configure InfiniBand Using the Text User Interface, nmtui</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_ipoib_using_the_networkmanager_command_line_tool_nmcli">9.8. Configure IPoIB using the command-line tool, nmcli</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_ipoib_using_the_command_line">9.9. Configure IPoIB Using the command line</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-testing_an_rdma_network_after_ipoib_is_configured">9.10. Testing an RDMA network after IPoIB is configured</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_ipoib_using_a_gui">9.11. Configure IPoIB Using a GUI</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_ipoib_using_a_gui#sec-Configuring_the_InfiniBand_Tab">9.11.1. Configuring the InfiniBand Tab</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_infiniband_and_rdma_networks-additional_resources">9.12. Additional Resources</a></li></ol></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/part-servers">III. Servers</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-dhcp_servers">10. DHCP Servers</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-dhcp_servers#sec-dhcp-why">10.1. Why Use DHCP?</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-dhcp-configuring-server">10.2. Configuring a DHCP Server</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-dhcp-configuring-server#config-file">10.2.1. Configuration File</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-dhcp-configuring-server#lease-database">10.2.2. Lease Database</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-dhcp-configuring-server#starting-stopping-server">10.2.3. Starting and Stopping the Server</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/dhcp-relay-agent">10.3. DHCP Relay Agent</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/dhcp-relay-agent#sec-Configure_dhcrelay_as_a_DHCPv4_and_BOOTP_relay_agent">10.3.1. Configure dhcrelay as a DHCPv4 and BOOTP relay agent</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/dhcp-relay-agent#sec-Configure_dhcrelay_as_a_DHCPv6_relay_agent">10.3.2. Configure dhcrelay as a DHCPv6 relay agent</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_a_multihomed_dhcp_server">10.4. Configuring a Multihomed DHCP Server</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_a_multihomed_dhcp_server#sec-dns_Host_Configuration">10.4.1. Host Configuration</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-dhcp_for_ipv6_dhcpv6">10.5. DHCP for IPv6 (DHCPv6)</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_radvd_daemon_for_ipv6_routers">10.6. Configuring the radvd daemon for IPv6 routers</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-dhcp-additional-resources">10.7. Additional Resources</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-dns_servers">11. DNS Servers</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-dns_servers#sec-Introduction_to_DNS">11.1. Introduction to DNS</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-dns_servers#sec-dns-introduction-zones">11.1.1. Nameserver Zones</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-dns_servers#sec-dns-introduction-nameservers">11.1.2. Nameserver Types</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-dns_servers#sec-dns-introduction-bind">11.1.3. BIND as a Nameserver</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind">11.2. BIND</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind#sec-bind-empty-zones">11.2.1. Empty Zones</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind#sec-bind-namedconf">11.2.2. Configuring the named Service</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind#sec-bind-zone">11.2.3. Editing Zone Files</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind#sec-bind-rndc">11.2.4. Using the rndc Utility</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind#sec-bind-dig">11.2.5. Using the dig Utility</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind#sec-bind-features">11.2.6. Advanced Features of BIND</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind#sec-bind-mistakes">11.2.7. Common Mistakes to Avoid</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-bind#sec-bind-additional-resources">11.2.8. Additional Resources</a></li></ol></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-squid_server">12. Squid</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-squid_server#sec-squid-intro">12.1. Introduction to Squid</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-squid-install-run">12.2. Installing and Running Squid</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-squid-configuration">12.3. Squid configuration</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-squid-configuration#sec-basic-config">12.3.1. Basic Configuration and /etc/squid/squid.conf</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-squid-configuration#sec-squid-proxy-config">12.3.2. Configuring Squid as an HTTP proxy server</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-squid-authentication">12.4. Squid Authentication</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-squid-authentication#sec-authentication-ldap">12.4.1. Authentication with LDAP</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-squid-authentication#sec-authentication-kerberos">12.4.2. Authentication with Kerberos</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-use-squid">12.5. Using Squid for Restricting Access</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-use-squid#sec-block-port-number">12.5.1. Restricting Access by Blocking a Port</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-use-squid#sec-restricting-access-specific-sites">12.5.2. Restricting Access by Blocking Specific Sites or Addresses</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/s-squid-additional-resources">12.6. Additional Resources</a></li></ol></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/appe-customer-portal-labs">A. Red Hat Customer Portal Labs Relevant to Networking</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/app-revision_history">B. Revision History</a><ol class="menu"><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/app-revision_history#pref-Acknowledgments">B.1. Acknowledgments</a></li></ol></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ix01">Index</a></li><li class=" leaf"><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/legal-notice">Legal Notice</a></li></ol>  </div>
+</nav>
+
+
+  <div class="doc-wrapper">
+    <div class="panel-pane pane-page-title">
+  
+      
+  
+  <h1 class="title" itemprop="name">Chapter&nbsp;7.&nbsp;Configure 802.1Q VLAN tagging</h1>
+  
+  </div>
+<div class="panel-pane pane-page-body">
+  
+      
+  
+  <div class="body toc-scroll-processed"><div xml:lang="en-US" class="chapter" id="ch-Configure_802_1Q_VLAN_Tagging" lang="en-US"><div class="para">
+		To create a VLAN, an interface is created on top of another interface referred to as the <em class="firstterm">parent interface</em>. The VLAN interface will tag packets with the VLAN ID as they pass through the interface, and returning packets will be untagged. VLAN interface can be configured similarly to any other interface. The parent interface does not need to be an Ethernet interface. An 802.1Q VLAN tagging interface can be created on top of bridge, bond, and team interfaces, however there are some things to note:
+	</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+				In the case of VLANs over bonds, it is important that the bond has slaves and that they are <span class="quote">“<span class="quote">up</span>”</span> before opening the VLAN interface. Adding a VLAN interface to a bond without slaves does not work.
+			</div></li><li class="listitem"><div class="para">
+				A VLAN slave cannot be configured on a bond with the <code class="option">fail_over_mac=follow</code> option, because the VLAN virtual device cannot change its MAC address to match the parent's new MAC address. In such a case, traffic would still be sent with the now incorrect source MAC address.
+			</div></li><li class="listitem"><div class="para">
+				Sending VLAN tagged packets through a network switch requires the switch to be properly configured. For example, ports on Cisco switches must be assigned to one VLAN or be configured as trunk ports to accept tagged packets from multiple VLANs. Some vendor switches allow untagged frames of the <em class="firstterm">native VLAN</em> to be processed by a trunk port. Some devices allow you to enable or disable the <em class="firstterm">native VLAN</em>, other devices have it disabled by default. Consequence of this disparity may result in <em class="firstterm">native VLAN</em> misconfiguration between two different switches, posing a security risk. For example:
+			</div><div class="para">
+				One switch uses <em class="replaceable">native VLAN 1</em> while the other uses <em class="replaceable">native VLAN 10</em>. If the frames are allowed to pass without the tag being inserted, an attacker is able to jump VLANs - this common network penetration technique is also known as <em class="firstterm">VLAN hopping</em>. 
+			</div><div class="para">
+				To minimize security risks, configure your interface as follows:
+			</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">Switches</span></dt><dd><div class="para">
+							<div class="itemizedlist"><ul><li class="listitem"><div class="para">
+										Unless you need them, disable trunk ports.
+									</div></li><li class="listitem"><div class="para">
+										If you need trunk ports, disable <em class="firstterm">native VLAN</em>, so that untagged frames are not allowed.
+									</div></li></ul></div>
+
+						</div></dd><dt><span class="term">Red&nbsp;Hat Enterprise&nbsp;Linux server</span></dt><dd><div class="para">
+							<div class="itemizedlist"><ul><li class="listitem"><div class="para">
+										Use the <span class="application"><strong>nftables</strong></span> or <span class="application"><strong>ebtables</strong></span> utilities to drop untagged frames in ingress filtering.
+									</div></li></ul></div>
+
+						</div></dd></dl></div></li><li class="listitem"><div class="para">
+				Some older network interface cards, loopback interfaces, Wimax cards, and some InfiniBand devices, are said to be <em class="firstterm">VLAN challenged</em>, meaning they cannot support VLANs. This is usually because the devices cannot cope with VLAN headers and the larger MTU size associated with tagged packets.
+			</div></li></ul></div><div class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
+			Bonding on top of VLAN is not supported by Red Hat. See the Red&nbsp;Hat Knowledgebase article <a href="https://access.redhat.com/solutions/483803"><em class="citetitle">Whether configuring bond on top of VLAN as slave interfaces is a valid configuration?</em></a> for more information.
+		</div></div></div><div class="section" id="sec-Selecting_VLAN_Interface_Configuration_Methods"><div class="titlepage"><div><div><h2 class="title">7.1.&nbsp;Selecting VLAN Interface Configuration Methods</h2></div></div></div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+					<span class="bold bold"><strong>To configure a VLAN interface using</strong></span> <span class="application"><strong>NetworkManager</strong></span>'s text user interface tool, <span class="application"><strong>nmtui</strong></span>, proceed to <a class="xref" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-Configure_802_1Q_VLAN_Tagging_Using_the_Text_User_Interface_nmtui">Section&nbsp;7.2, “Configure 802.1Q VLAN tagging Using the Text User Interface, nmtui”</a>
+				</div></li><li class="listitem"><div class="para">
+					<span class="bold bold"><strong>To configure a VLAN interface using</strong></span> <span class="application"><strong>NetworkManager</strong></span>'s command-line tool, <span class="application"><strong>nmcli</strong></span>, proceed to <a class="xref" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-Configure_802_1Q_VLAN_Tagging_Using_the_Command_Line_Tool_nmcli">Section&nbsp;7.3, “Configure 802.1Q VLAN Tagging Using the Command Line Tool, nmcli”</a>
+				</div></li><li class="listitem"><div class="para">
+					<span class="bold bold"><strong>To configure a network interface manually</strong></span>, see <a class="xref" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-Configure_802_1Q_VLAN_Tagging_Using_the_Command_Line">Section&nbsp;7.4, “Configure 802.1Q VLAN Tagging Using the Command Line”</a>.
+				</div></li><li class="listitem"><div class="para">
+					<span class="bold bold"><strong>To configure a network using graphical user interface tools</strong></span>, proceed to <a class="xref" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-Configure_802_1Q_VLAN_Tagging_Using_a_GUI">Section&nbsp;7.5, “Configure 802.1Q VLAN Tagging Using a GUI”</a>
+				</div></li></ul></div></div></div></div>
+  
+  </div>
+  </div>
+</div>
+<div class="panel-pane pane-page-nav">
+  
+      
+  
+  <nav class="book-nav col-sm-11 col-sm-offset-1">
+  <ul class="reset clearfix">
+    <li class="prev">
+              <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-network_bridging-additional_resources" class="page-previous" title="Go to previous page">6.5. Additional Resources</a>
+          </li>
+    <li class="up-toc"></li>
+    <li class="next">
+              <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_802_1q_vlan_tagging_using_the_text_user_interface_nmtui" class="page-next" title="Go to next page">7.2. Configure 802.1Q VLAN tagging Using the Text User Interface, nmtui</a>
+          </li>
+  </ul>
+</nav>
+
+  
+  </div>
+<div id="comments-footer" class="book-comments">
+  <div class="panel-pane pane-custom pane-1">
+  
+      
+  
+  <div class="alert alert-info" role="alert"><h2 class="subheading subheading-flush subheading-sm">Where did the comment section go?</h2><p>Red Hat's documentation publication system recently went through an upgrade to enable speedier, more mobile-friendly content. We decided to re-evaluate our commenting platform to ensure that it meets your expectations and serves as an optimal feedback mechanism. During this redesign, we invite your input on providing feedback on Red Hat documentation via the <a href="https://access.redhat.com/node/add/discussion?field_tags[]=docs-feedback&amp;field_product[]=red_hat_enterprise_linux">discussion platform</a>.</p></div>
+  
+  </div>
+</div>
+<meta itemscope="" itemref="md1">
+
+    <!-- Display: Next/Previous Nav -->
+          
+      </div>
+</article>
+
+
+  
+
+            </div>
+        </main>
+    </div>
+    <!--googleoff: all-->
+    <div id="to-top"><a class="btn_slideto affix" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_802_1q_vlan_tagging#masthead" aria-label="Back to Top"><span class="web-icon-upload"></span></a></div>
+    <footer class="footer-main">
+        <div class="container footer-top">
+            <div class="row">
+
+                <div class="col-sm-2 brand">
+                    <img src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/l_redhat-reverse.png" alt="Red Hat">
+
+                </div>
+
+            <div role="navigation" class="col-sm-2">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a class="download-software" href="https://access.redhat.com/downloads/">Downloads</a></li>
+                    <li><a class="manage-subscriptions" href="https://access.redhat.com/management/subscriptions/#active">Subscriptions</a></li>
+                    <li><a class="support-cases" href="https://access.redhat.com/support">Support Cases</a></li>
+                    <li><a class="customer-service" href="https://access.redhat.com/support/customer-service">Customer Service</a></li>
+                    <li><a class="quick-docs" href="https://access.redhat.com/documentation">Product Documentation</a></li>
+                </ul>
+            </div>
+
+            <div role="navigation" class="col-sm-2">
+                <h3>Help</h3>
+                <ul>
+                    <li><a class="contact-us" href="https://access.redhat.com/support/contact/">Contact Us</a></li>
+                    <li><a class="cp-faqs" href="https://access.redhat.com/articles/33844">Customer Portal FAQ</a></li>
+                    <li><a class="login-problems" href="https://access.redhat.com/help/login_assistance">Log-in Assistance</a></li>
+                </ul>
+            </div>
+
+            <div role="navigation" class="col-sm-2">
+                <h3>Site Info</h3>
+                <ul>
+                  <li><a class="trust-red-hat" href="https://access.redhat.com/trust">Trust Red Hat</a></li>
+                  <li><a class="browser-support-policy" href="https://access.redhat.com/help/browsers/">Browser Support Policy</a></li>
+                  <li><a class="accessibility" href="https://access.redhat.com/help/accessibility/">Accessibility</a></li>
+                  <li><a class="recognition" href="https://access.redhat.com/recognition/">Awards and Recognition</a></li>
+                  <li><a class="colophon" href="https://access.redhat.com/help/colophon/">Colophon</a></li>
+                </ul>
+            </div>
+
+            <div role="navigation" class="col-sm-2">
+                <h3>About</h3>
+                <ul>
+                    <li><a href="https://access.redhat.com/subscription-value" class="subscription-value">Red Hat Subscription Value</a></li>
+                    <li><a href="https://www.redhat.com/about/" class="about-red-hat">About Red Hat</a></li>
+                    <li><a href="http://jobs.redhat.com/" class="about-jobs">Red Hat Jobs</a></li>
+                </ul>
+            </div>
+
+            <div role="navigation" class="col-sm-2">
+                <h3>Related Sites</h3>
+                <ul>
+                    <li><a href="https://www.redhat.com/" class="red-hat-com">RedHat.com</a></li>
+                    <li><a href="https://www.jboss.org/" class="jboss-org">JBoss.org</a></li>
+                    <li><a href="https://www.openshift.com/" class="openshift-com">OpenShift.com</a></li>
+                    <li><a href="http://developers.redhat.com/" class="red-hat-developers">Developers.RedHat.com</a></li>
+                    <li><a href="https://partnercenter.force.com/" class="partner-connect">Red Hat Partner Connect</a></li>
+                </ul>
+            </div>
+
+            </div>
+        </div>
+
+        <div class="anchor">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4 col-lg-3 social">
+                        <a href="http://www.redhat.com/summit/" class="summit"><img src="./Chapter 7. Configure 802.1Q VLAN tagging - Red Hat Customer Portal_files/l_summit.png" alt="Red Hat Summit"></a>
+                        <a href="https://twitter.com/RedHatSupport" class="sm-icon twitter"><span class="nicon-twitter"></span><span class="offscreen">Twitter</span></a>
+                        <a href="https://www.facebook.com/RedHatSupport" class="sm-icon facebook"><span class="nicon-facebook"></span><span class="offscreen">Facebook</span></a>
+                        <a href="https://plus.google.com/100456039940694908045/posts" class="sm-icon googleplus"><span class="nicon-googleplus"></span><span class="offscreen">Google+</span></a>
+                    </div>
+                    <div class="col-sm-8 col-lg-9 legal">
+                      <a href="https://status.redhat.com/" class="status-page-widget">
+                          <span class="status-dot shape-circle shape-dash-lime"></span>
+                          <span class="status-description">All Systems Operational</span>
+                      </a>
+                        <div role="navigation" class="legal-nav">
+                            <ul>
+                                <li><a href="http://www.redhat.com/en/about/privacy-policy" class="privacy-policy">Privacy Policy</a></li>
+                                <li><a href="https://access.redhat.com/help/terms/" class="terms-of-use">Customer Portal Terms of Use</a></li>
+                                <li><a href="http://www.redhat.com/en/about/all-policies-guidelines" class="all-policies">All Policies and Guidelines</a></li>
+                            </ul>
+                        </div>
+                        <small class="copyright">Copyright © 2018 Red Hat, Inc.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--googleon: all-->
+</div>
+  
+  <div id="formatHelp" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="formatTitle" aria-hidden="true"><div class="modal-dialog"><div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="formatTitle">Formatting Tips</h3>
+    </div>
+    <div class="modal-body">
+      <p>Here are the common uses of Markdown.</p><dl class="formatting-help">
+        <dt class="codeblock">Code blocks</dt><dd class="codeblock"><pre><code>~~~
+Code surrounded in tildes is easier to read
+~~~</code></pre></dd>
+        <dt class="urls">Links/URLs</dt><dd class="urls"><code>[Red Hat Customer Portal](https://access.redhat.com)</code></dd>
+       </dl>
+    </div>
+    <div class="modal-footer">
+      <a target="_blank" href="https://access.redhat.com/help/markdown" class="btn btn-primary" rel=" noopener noreferrer">Learn more</a>
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  </div></div></div>
+
+</body></html>

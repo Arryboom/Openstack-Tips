@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg contentScriptType="text/ecmascript" zoomAndPan="magnify" contentStyleType="text/css"
+ height="20" width="93" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+ version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title id="os:gov:badges:title">
+    This is a container for a set of OpenStack badges indicating the status and
+    features of this project and its repository
+  </title>
+<svg id="project:official" width="93" height="20" x="0" y="0">
+<title>project:official</title>
+<a target="_blank" xlink:href="">
+  <linearGradient id="smooth:project:official" x2="0" y2="100%">
+    <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+
+  <mask id="round:project:official">
+    <rect width="93" height="20" rx="3" fill="#fff"/>
+  </mask>
+
+  <g mask="url(#round:project:official)">
+    <rect width="48" height="20" fill="#555"/>
+    <rect x="48" width="45" height="20" fill="#4c1"/>
+    <rect width="93" height="20" fill="url(#smooth:project:official)"/>
+  </g>
+
+  <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+    <text x="24.0" y="15" fill="#010101" fill-opacity=".3">project</text>
+    <text x="24.0" y="14">project</text>
+    <text x="69.5" y="15" fill="#010101" fill-opacity=".3">official</text>
+    <text x="69.5" y="14">official</text>
+  </g>
+</a>
+</svg>
+
+</svg>

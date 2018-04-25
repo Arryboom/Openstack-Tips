@@ -1,0 +1,44 @@
+.aal_general_settings { margin: 25px 0; }
+form span.aal_label { width: 100px; display: block; float: left; }
+.aal_general_settings form span.aal_label { width: 200px; display: block; float: left; height: 20px; }
+.aal_general_settings input[text], .aal_general_settings select, .aal_general_settings input[file] { width: 200px; }
+.aal_general_settings .aal_right_options { float: left; } 
+.aal_clear { clear: both; }
+#aal_extended { display: none; }
+.aal_sugbox { width: 180px; float: left; }
+ul.aal_admin_list { list-style-type: disc; margin-left: 30px; }
+.aal_link_item { clear: both;  }
+.aal_post_link { width: 300px; float: left; border-bottom: 1px solid #000000; border-left: 1px solid #000000; height: 40px; padding: 3px;  }
+.aal_key_link { width: 400px; float: left; border: 1px solid #000000; border-top: none;  height: 40px; padding: 3px; }
+.aal_exclude_link { width: 300px; float: left; border-bottom: 1px solid #000000; border-right: 1px solid #000000; height: 40px; padding: 3px;  }
+.aal_excludedcol { float: left; width: 100px; border: 1px solid #cccccc; background-color: #fff; padding: 15px; height: 15px; }
+.aal_excludedtitle { width: 60%; }
+.aal_excludedidcol { width: 45px; }
+.aal_excludeditem, .aal_excludeditemheader { width: 100%; }
+
+.aal_biginput { width: 300px; }
+.aal_biginput_title { width: 180px; }
+
+.aalcustomlink_item { padding: 7px; border: 1px solid; }
+span.aalcustomlink_url { margin-right: 20px; width: 200px; }
+span.aalcustomlink_title { margin-right: 20px; width: 400px; }
+span.aalcustomlink_merchant { float: right; }
+.aalcustomlinkdeleteall { padding: 10px; font-size: 14px; }
+.aal_leftadmin { width: 70%; font-size: 16px; }
+.aal_leftadmin p { font-size: 15px;  }
+
+.yellowhighlight { border: 2px solid #ffff00 !important; }
+
+table.aalpromodules tr td, table.aalpromodules tr th { font-weight: bold; } 
+
+table.aal_table tr th { font-weight: bold; }
+
+.aal_form_advanced_options { display: none; }
+
+/* styles for amazon widget */
+.aal-amazon-widget { width: 100%; }
+.aal-amazon-widget ul { list-style-type: none; }
+.aal-amazon-widget li { float: left; width: 31%;  border: 1px solid #6666aa; margin-right: 2%; margin-bottom: 2%; padding: 3px;}
+.aal-amazon-widget li img { margin: 0 auto; }
+.aal-amazon-widget li a { font-size: 11px; }
+.aal-amazon-widget li a span {  }

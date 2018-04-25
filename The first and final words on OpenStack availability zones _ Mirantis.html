@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/ -->
+<html lang="en-US" prefix="og: http://ogp.me/ns#" class=""><script type="text/javascript" async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/_Incapsula_Resource"></script><script type="text/javascript" async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/munchkin.js.下载"></script><script async="" id="demandbase_js_lib" src="https://scripts.demandbase.com/8i57hAAX.min.js"></script><script src="./The first and final words on OpenStack availability zones _ Mirantis_files/bat.js.下载" async=""></script><script async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/fbevents.js.下载"></script><script id="twitter-wjs" src="./The first and final words on OpenStack availability zones _ Mirantis_files/widgets.js.下载"></script><script async="" type="text/javascript" src="./The first and final words on OpenStack availability zones _ Mirantis_files/rtp.js.下载"></script><script type="text/javascript" async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/linkid.js.下载"></script><script type="text/javascript" async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/js"></script><script type="text/javascript" async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/analytics.js.下载"></script><script type="text/javascript" async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/conversion_async.js.下载"></script><script type="text/javascript" async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/conversion_async.js.下载"></script><script type="text/javascript">Object.defineProperty(window.navigator, 'userAgent', { get: function(){ return 'whoami'; } });Object.defineProperty(window.navigator, 'vendor', { get: function(){ return ''; } });</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="google-site-verification" content="83jPrS1FBNJWtyJuXXp8gLKu9g09QusPUlKiFnoX_Qg">
+  <meta name="msvalidate.01" content="41DBAB266363549F743A1F3E3C14C4FA">
+  <!--[if IE]><link rel="shortcut icon" href="/favicon.ico"><![endif]-->
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.mirantis.com/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="https://www.mirantis.com/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="https://www.mirantis.com/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="https://www.mirantis.com/manifest.json">
+  <link rel="mask-icon" href="https://www.mirantis.com/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="Mirantis">
+  <meta name="application-name" content="Mirantis">
+  <meta name="theme-color" content="#ffffff">
+    <script async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/gtm.js.下载"></script><script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-K2J65K');
+    </script>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+            h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+            (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+        })(window,document.documentElement,'async-hide','dataLayer',4000,
+            {'GTM-WC5H5D7':true});</script>
+  <title>The first and final words on OpenStack availability zones | Mirantis</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v6.1.1 - https://yoa.st/1yg?utm_content=6.1.1 -->
+<meta name="description" content="Availability zones are one of the most frequently misunderstood and misused constructs in OpenStack.">
+<link rel="canonical" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The first and final words on OpenStack availability zones | Mirantis">
+<meta property="og:description" content="Availability zones are one of the most frequently misunderstood and misused constructs in OpenStack.">
+<meta property="og:url" content="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/">
+<meta property="og:site_name" content="Mirantis | Pure Play Open Cloud">
+<meta property="article:publisher" content="https://www.facebook.com/MirantisUS">
+<meta property="article:tag" content="availability zones">
+<meta property="article:tag" content="openstack">
+<meta property="article:section" content="Blog">
+<meta property="article:published_time" content="2017-01-28T10:45:51-07:00">
+<meta property="article:modified_time" content="2017-07-16T22:24:52-07:00">
+<meta property="og:updated_time" content="2017-07-16T22:24:52-07:00">
+<meta property="og:image" content="https://www.mirantis.com/wp-content/uploads/2017/01/Screen-Shot-2017-01-26-at-2.46.12-PM.png">
+<meta property="og:image:secure_url" content="https://www.mirantis.com/wp-content/uploads/2017/01/Screen-Shot-2017-01-26-at-2.46.12-PM.png">
+<meta property="og:image:width" content="315">
+<meta property="og:image:height" content="238">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Availability zones are one of the most frequently misunderstood and misused constructs in OpenStack.">
+<meta name="twitter:title" content="The first and final words on OpenStack availability zones | Mirantis">
+<meta name="twitter:site" content="@MirantisIT">
+<meta name="twitter:image" content="https://www.mirantis.com/wp-content/uploads/2017/01/Screen-Shot-2017-01-26-at-2.46.12-PM.png">
+<meta name="twitter:creator" content="@MirantisIT">
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/www.mirantis.com\/","name":"Mirantis | Managed Open Cloud","potentialAction":{"@type":"SearchAction","target":"https:\/\/www.mirantis.com\/search\/{search_term_string}","query-input":"required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"Organization","url":"https:\/\/www.mirantis.com\/blog\/the-first-and-final-word-on-openstack-availability-zones\/","sameAs":["https:\/\/www.facebook.com\/MirantisUS","https:\/\/www.linkedin.com\/company\/mirantis","https:\/\/www.youtube.com\/user\/mirantisus","https:\/\/twitter.com\/MirantisIT"],"@id":"#organization","name":"Mirantis","logo":"https:\/\/cdn.mirantis.com\/wp-content\/uploads\/2017\/04\/mirantis-logo-277x180.png"}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel="dns-prefetch" href="https://www.mirantis.com/">
+<link rel="dns-prefetch" href="https://cdn.mirantis.com/">
+<link rel="preconnect" href="https://cdn.mirantis.com/">
+<link rel="stylesheet" href="./The first and final words on OpenStack availability zones _ Mirantis_files/pagenavi-css.css">
+<link rel="stylesheet" href="./The first and final words on OpenStack availability zones _ Mirantis_files/main_a68beeb4705a3b5eb974.css">
+<script src="./The first and final words on OpenStack availability zones _ Mirantis_files/library.js.下载"></script>
+
+<!-- Dynamic Widgets by QURL - http://www.qurl.nl //-->
+
+    <style type="text/css">
+    html {margin-top: 0 !important;}
+    body.admin-bar {
+    /* margin-top: -32px; */
+    padding-bottom: 32px;
+    }
+    body.admin-bar #wphead {
+       padding-top: 0;
+    }
+    body.admin-bar #footer {
+       padding-bottom: 32px;
+    }
+    #wpadminbar {
+        top: auto !important;
+        bottom: 0;
+    }
+    #wpadminbar .quicklinks .menupop ul {
+        bottom: 160px;
+    }
+    .admin-bar #nb-popoutmenu {
+    	margin-top: 0 !important;
+    }
+    @media screen and (max-width: 600px) {
+        #wpadminbar {
+            position: fixed;
+        }
+    }
+    @media screen and (max-width: 782px) {
+        html {
+            margin-top: 0 !important;
+        }
+    }
+    </style>  <script type="text/javascript">
+    (function(c,h,a,f,i,e){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      c[a].a=i;c[a].e=e;var g=h.createElement("script");g.async=true;g.type="text/javascript";
+      g.src=f+'?aid='+i;var b=h.getElementsByTagName("script")[0];b.parentNode.insertBefore(g,b);
+    })(window,document,"rtp","//sjrtp7-cdn.marketo.com/rtp-api/v1/rtp.js","mirantis");
+
+    rtp('send','view');
+    rtp('get', 'campaign',true);
+    rtp('get','rcmd', 'richmedia');
+  </script>
+  <script type="text/javascript" src="./The first and final words on OpenStack availability zones _ Mirantis_files/cookies.js.下载"></script>
+<script type="text/javascript" async="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/munchkin.js(1).下载"></script><link type="text/css" href="./The first and final words on OpenStack availability zones _ Mirantis_files/jquery-ui-insightera-custom-1.9.6.css" rel="stylesheet"></head><script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/978124450/?random=1522750959487&amp;cv=9&amp;fst=1522750959487&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_his=1&amp;u_tz=480&amp;u_java=false&amp;u_nplug=4&amp;u_nmime=5&amp;gtm=G3r&amp;sendb=1&amp;frm=0&amp;url=https%3A%2F%2Fwww.mirantis.com%2Fblog%2Fthe-first-and-final-word-on-openstack-availability-zones%2F&amp;ref=http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3Ddefault_availability_zone%2520cinder%2520nova%26qs%3Dn%26form%3DQBRE%26sp%3D-1%26pq%3Dundefined%26sc%3D0-26%26sk%3D%26cvid%3DD4B43724B46947F1A0A4289C61EFDC2B&amp;tiba=The%20first%20and%20final%20words%20on%20OpenStack%20availability%20zones%20%7C%20Mirantis&amp;async=1&amp;rfmt=3&amp;fmt=4"></script><script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1033881664/?random=1522750959493&amp;cv=9&amp;fst=1522750959493&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;u_h=1080&amp;u_w=1920&amp;u_ah=1040&amp;u_aw=1920&amp;u_cd=24&amp;u_his=1&amp;u_tz=480&amp;u_java=false&amp;u_nplug=4&amp;u_nmime=5&amp;gtm=G3r&amp;sendb=1&amp;frm=0&amp;url=https%3A%2F%2Fwww.mirantis.com%2Fblog%2Fthe-first-and-final-word-on-openstack-availability-zones%2F&amp;ref=http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3Ddefault_availability_zone%2520cinder%2520nova%26qs%3Dn%26form%3DQBRE%26sp%3D-1%26pq%3Dundefined%26sc%3D0-26%26sk%3D%26cvid%3DD4B43724B46947F1A0A4289C61EFDC2B&amp;tiba=The%20first%20and%20final%20words%20on%20OpenStack%20availability%20zones%20%7C%20Mirantis&amp;async=1&amp;rfmt=3&amp;fmt=4"></script>
+  <body class="single single-post postid-660617 single-format-standard blog the-first-and-final-word-on-openstack-availability-zones sidebar-primary" data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0" style="overflow-x: hidden;"><div class="tw-slide-panel dark nb-menu-level tw-right" id="nb-popoutmenu" style="width: 260px; display: none;">
+	<div class="above-nav">
+		<div id="search-2" class="widget widget_search">
+			<!--Searchbox-->
+			<div class="search-form search">
+				<form method="get" name="SearchForm" action="https://www.mirantis.com/">
+					<fieldset>
+						<input type="search" class="search-field" placeholder="Search..." name="s" id="s">
+					</fieldset>
+				</form>
+				<i class="fa fa-search searchbutton"></i>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<nav id="">
+			<ul id="menu-primary" class="nb-menu-items-container"><li class="nav-item dropdown nav-item dropdown menu-item nav-item menu-item-has-children dropdown menu-cloud-platform nb-with-ul"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Cloud Platform</a><span class="arrow"></span></span>
+<div class="nb-menu-level" style="display: none;"><ul class="sub-menu"><span class="nb-back">Cloud Platform</span>
+	<li class="nav-item dropdown nav-item dropdown menu-item nav-item menu-item-has-children dropdown menu-multi-cloud nb-with-ul"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Multi-Cloud</a><span class="arrow"></span></span>
+	<div class="nb-menu-level" style="display: none;"><ul class="sub-menu"><span class="nb-back">Multi-Cloud</span>
+		<li class="nav-item nav-item menu-item nav-item menu-application-delivery"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/software/application-delivery/">Application Delivery</a></span></li>
+		<li class="nav-item nav-item menu-item nav-item menu-container-platform"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/software/mcp/caas/">Container Platform</a></span></li>
+	</ul></div>
+</li>
+	<li class="nav-item dropdown nav-item dropdown menu-item nav-item menu-item-has-children dropdown menu-on-premises nb-with-ul"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">On-Premises</a><span class="arrow"></span></span>
+	<div class="nb-menu-level" style="display: none;"><ul class="sub-menu"><span class="nb-back">On-Premises</span>
+		<li class="nav-item nav-item menu-item nav-item menu-openstack"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/software/openstack/">OpenStack</a></span></li>
+		<li class="nav-item nav-item menu-item nav-item menu-ceph-storage"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/software/ceph/">Ceph Storage</a></span></li>
+		<li class="nav-item nav-item menu-item nav-item menu-sdn"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/software/mcp/sdn/">SDN</a></span></li>
+	</ul></div>
+</li>
+	<li class="nav-item nav-item menu-item nav-item menu-mirantis-community"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/software/community/">Mirantis Community</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-get-started"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/get-started/">Get Started</a></span></li>
+</ul></div>
+</li>
+<li class="nav-item dropdown nav-item dropdown menu-item nav-item menu-item-has-children dropdown menu-delivery-approach nb-with-ul"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Delivery Approach</a><span class="arrow"></span></span>
+<div class="nb-menu-level" style="display: none;"><ul class="sub-menu"><span class="nb-back">Delivery Approach</span>
+	<li class="nav-item nav-item menu-item nav-item menu-build"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/services/build/">Build</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-operate"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/services/operate/">Operate</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-transfer"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/services/transfer/">Transfer</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-support"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/support/enterprise-support-services/">Support</a></span></li>
+</ul></div>
+</li>
+<li class="nav-item dropdown nav-item dropdown menu-item nav-item menu-item-has-children dropdown menu-training nb-with-ul"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Training</a><span class="arrow"></span></span>
+<div class="nb-menu-level" style="display: none;"><ul class="sub-menu"><span class="nb-back">Training</span>
+	<li class="nav-item nav-item menu-item nav-item menu-overview"><span class="nb-menu-item-container"><a href="https://training.mirantis.com/">Overview</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-instructor-led-training"><span class="nb-menu-item-container"><a href="https://training.mirantis.com/course-catalog/">Instructor-Led Training</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-ondemand-training"><span class="nb-menu-item-container"><a href="https://training.mirantis.com/ondemand-training/">Ondemand Training</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-certification"><span class="nb-menu-item-container"><a href="https://training.mirantis.com/certification/">Certification</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-private-training"><span class="nb-menu-item-container"><a href="https://training.mirantis.com/onsite-training/">Private Training</a></span></li>
+</ul></div>
+</li>
+<li class="nav-item dropdown nav-item dropdown menu-item nav-item menu-item-has-children dropdown menu-resources nb-with-ul"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Resources</a><span class="arrow"></span></span>
+<div class="nb-menu-level" style="display: none;"><ul class="sub-menu"><span class="nb-back">Resources</span>
+	<li class="nav-item nav-item menu-item nav-item menu-customers"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/cloud-case-studies/">Customers</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-blog"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/">Blog</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-webinars"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/cloud-webinars/">Webinars</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-events"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/cloud-events/">Events</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-documents"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/cloud-resources/">Documents</a></span></li>
+</ul></div>
+</li>
+<li class="nav-item dropdown nav-item dropdown menu-item nav-item menu-item-has-children dropdown menu-solutions nb-with-ul"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Solutions</a><span class="arrow"></span></span>
+<div class="nb-menu-level" style="display: none;"><ul class="sub-menu"><span class="nb-back">Solutions</span>
+	<li class="nav-item nav-item menu-item nav-item menu-agile-it"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/solutions/agile-enterprise/">Agile IT</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-nfv"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/solutions/network-functions-virtualization-nfv/">NFV</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-big-data"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/solutions/big-data-analytics/">Big Data</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-containers"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/solutions/container-technologies/">Containers</a></span></li>
+</ul></div>
+</li>
+<li class="nav-item nav-item menu-item nav-item menu-partners"><a href="https://www.mirantis.com/partners/">Partners</a></li>
+<li class="nav-item dropdown nav-item dropdown menu-item nav-item menu-item-has-children dropdown menu-about nb-with-ul"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">About</a><span class="arrow"></span></span>
+<div class="nb-menu-level" style="display: none;"><ul class="sub-menu"><span class="nb-back">About</span>
+	<li class="nav-item nav-item menu-item nav-item menu-contact"><span class="nb-menu-item-container"><a href="https://content.mirantis.com/contact-us-landing-page.html">Contact</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-company"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/company/about/">Company</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-locations"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/company/locations/">Locations</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-careers"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/careers/">Careers</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-leadership"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/company/leadership/">Leadership</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-board-of-directors"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/company/leadership/board-of-directors/">Board of Directors</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-investors"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/company/investors/">Investors</a></span></li>
+	<li class="nav-item nav-item menu-item nav-item menu-press-center"><span class="nb-menu-item-container"><a href="https://www.mirantis.com/company/press-center/info/">Press Center</a></span></li>
+</ul></div>
+</li>
+</ul>	</nav>
+	<div class="below-nav">
+		
+        
+        <div class="mobile-nav-callout">
+            <div class="callout-header">LIVE DEMO</div>
+            <div class="callout-content">
+                <div class="callout-title">Cloud-Native Continuous Delivery with Spinnaker</div>
+                <div class="callout-date"> </div>
+                <div class="callout-button"><a href="https://content.mirantis.com/Mirantis-Live-Demo_Landing-Page.html" class="btn btn-primary">SIGN UP</a></div>
+            </div>
+        </div>
+
+    
+        
+        <div class="mobile-nav-callout">
+            <div class="callout-header">WEBINAR</div>
+            <div class="callout-content">
+                <div class="callout-title">What's New in Kubernetes 1.10</div>
+                <div class="callout-date"> </div>
+                <div class="callout-button"><a href="https://content.mirantis.com/Webinar-Kubernetes-1-10_Landing-Page.html" class="btn btn-primary">REGISTER</a></div>
+            </div>
+        </div>
+
+    	</div>
+</div>
+  <!-- Google Tag Manager -->
+  <noscript>
+    &lt;iframe src="//www.googletagmanager.com/ns.html?id=GTM-K2J65K"
+        height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;
+  </noscript>
+  <!-- End Google Tag Manager -->
+    <!--[if IE]>
+      <div class="alert alert-warning">
+        You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.      </div>
+    <![endif]-->
+    <header class="page-head top-nav nb-fixed">
+  <div class="banner navbar navbar-default navbar-static-top solid" role="banner">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="https://www.mirantis.com/">Mirantis | Pure Play Open Cloud</a>
+          <div class="pull-right" id="mira-menu-int">
+            <ul id="menu-top-menu" class="list-inline sf-menu hidden-md-down sf-js-enabled sf-arrows"><li class="menu-item nav-item menu-item-has-children dropdown menu-cloud-platform"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Cloud Platform</a>
+<ul class="sub-menu">
+	<li class="no-link menu-item nav-item menu-item-has-children dropdown menu-multi-cloud"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Multi-Cloud</a>
+	<ul class="sub-menu">
+		<li class="menu-item nav-item menu-application-delivery"><a href="https://www.mirantis.com/software/application-delivery/">Application Delivery</a></li>
+		<li class="menu-item nav-item menu-container-platform"><a href="https://www.mirantis.com/software/mcp/caas/">Container Platform</a></li>
+	</ul>
+</li>
+	<li class="no-link menu-item nav-item menu-item-has-children dropdown menu-on-premises"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">On-Premises</a>
+	<ul class="sub-menu">
+		<li class="menu-item nav-item menu-openstack"><a href="https://www.mirantis.com/software/openstack/">OpenStack</a></li>
+		<li class="menu-item nav-item menu-ceph-storage"><a href="https://www.mirantis.com/software/ceph/">Ceph Storage</a></li>
+		<li class="menu-item nav-item menu-sdn"><a href="https://www.mirantis.com/software/mcp/sdn/">SDN</a></li>
+	</ul>
+</li>
+	<li class="menu-item nav-item menu-mirantis-community"><a href="https://www.mirantis.com/software/community/">Mirantis Community</a></li>
+	<li class="menu-item nav-item menu-get-started"><a href="https://www.mirantis.com/get-started/">Get Started</a></li>
+</ul>
+</li>
+<li class="menu-item nav-item menu-item-has-children dropdown menu-delivery-approach"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Delivery Approach</a>
+<ul class="sub-menu">
+	<li class="menu-item nav-item menu-build"><a href="https://www.mirantis.com/services/build/">Build</a></li>
+	<li class="menu-item nav-item menu-operate"><a href="https://www.mirantis.com/services/operate/">Operate</a></li>
+	<li class="menu-item nav-item menu-transfer"><a href="https://www.mirantis.com/services/transfer/">Transfer</a></li>
+	<li class="menu-item nav-item menu-support"><a href="https://www.mirantis.com/support/enterprise-support-services/">Support</a></li>
+</ul>
+</li>
+<li class="menu-item nav-item menu-item-has-children dropdown menu-training"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Training</a>
+<ul class="sub-menu">
+	<li class="menu-item nav-item menu-overview"><a href="https://training.mirantis.com/">Overview</a></li>
+	<li class="menu-item nav-item menu-instructor-led-training"><a href="https://training.mirantis.com/course-catalog/">Instructor-led Training</a></li>
+	<li class="menu-item nav-item menu-ondemand-training"><a href="https://training.mirantis.com/ondemand-training/">Ondemand Training</a></li>
+	<li class="menu-item nav-item menu-certification"><a href="https://training.mirantis.com/certification/">Certification</a></li>
+	<li class="menu-item nav-item menu-private-training"><a href="https://training.mirantis.com/onsite-training/">Private Training</a></li>
+</ul>
+</li>
+<li class="menu-item nav-item menu-item-has-children dropdown menu-resources"><a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#">Resources</a>
+<ul class="sub-menu">
+	<li class="menu-item nav-item menu-customers"><a href="https://www.mirantis.com/cloud-case-studies/">Customers</a></li>
+	<li class="menu-item nav-item menu-blog"><a href="https://www.mirantis.com/blog/">Blog</a></li>
+	<li class="menu-item nav-item menu-webinars"><a href="https://www.mirantis.com/cloud-webinars/">Webinars</a></li>
+	<li class="menu-item nav-item menu-events"><a href="https://www.mirantis.com/cloud-events/">Events</a></li>
+	<li class="menu-item nav-item menu-documents"><a href="https://www.mirantis.com/cloud-resources/">Documents</a></li>
+</ul>
+</li>
+</ul>            <!-- Side Panel Link -->
+            <button class="tw-menu-icon nb-menu-link" id="nb-menu-link">
+              <span>Menu</span>
+            </button>
+            <!-- END Side Panel Link -->
+          </div>
+      </div>
+    </div>
+  </div>
+    <div class="status" style="width: 43.97%;"></div>
+</header>
+    <div class="wrap" role="document" id="nb-menu-page">
+      <div class="content">
+        <main class="main">
+              <div class="page-header">
+	<div class="masthead">
+		<div class="container">
+			<div id="osunlocked_logo">
+				<img src="./The first and final words on OpenStack availability zones _ Mirantis_files/mira-blog-logo.svg" class="openstack-unlocked-logo">
+			</div>
+		</div>
+	</div>
+	</div>
+<div class="container">
+    <div class="row">
+                    <div class="col-lg-9">
+                                    <div id="share_box"><a href="https://twitter.com/share" target="_blank"><span class="icon-twitter"></span></a><script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script><a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/&amp;title=The%20first%20and%20final%20words%20on%20OpenStack%20availability%20zones" target="_blank"><span class="icon-linkedin"></span></a><a href="http://www.facebook.com/sharer.php?u=https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/" target="_new"><span class="icon-facebook"></span></a><a target="_blank" class="pngfix" title="PlusOne" href="https://plus.google.com/share?url=https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/"><span class="icon-google-plus"></span></a><a href="http://www.reddit.com/submit" onclick="window.location = &#39;http://www.reddit.com/submit?url=&#39; + encodeURIComponent(window.location); return false" target="_blank"><span class="icon-reddit"></span></a><a href="https://www.mirantis.com/blog/feed/"><span class="icon-feed3"></span></a></div>                                                    <article class="post-660617 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-availability-zones tag-openstack">
+  <header>
+    <h1 class="entry-title">The first and final words on OpenStack availability zones</h1>
+    			<span class="author fn" itemprop="author" style="color:#3D4447;">Craig Anderson</span>		<span itemprop="datePublished" datetime="" class="mnews_date date updated published">- January 28, 2017 - <a href="https://www.mirantis.com/tag/availability-zones/" rel="tag">availability zones</a> | <a href="https://www.mirantis.com/tag/openstack/" rel="tag">openstack</a></span>
+  </header>
+  <div class="entry-content">
+          <img class="featured-image pull-left hidden-md-down" style="margin-top: 10px; margin-bottom: 5px; margin-right: 25px; max-width: 50%; max-height: 250px;" src="./The first and final words on OpenStack availability zones _ Mirantis_files/Screen-Shot-2017-01-26-at-2.46.12-PM.png">
+        <p><span style="font-weight: 400;">Availability zones are one of the most frequently misunderstood and misused constructs in OpenStack. Each cloud operator has a different idea about what they are and how to use them. What’s more, each OpenStack service implements availability zones differently — if it even implements them at all.</span></p>
+<p><span style="font-weight: 400;">Often, there isn’t even agreement over the basic meaning or purpose of availability zones. </span></p>
+<p><span style="font-weight: 400;">On the one hand, you have the literal interpretation of the words “availability zone”, which would lead us to think of some logical subdivision of resources into failure domains, allowing cloud applications to intelligently deploy in ways to maximize their availability. (We’ll be running with this definition for the purposes of this article.)</span></p>
+<p><span style="font-weight: 400;">On the other hand, the different ways that projects implement availability zones lend themselves to certain ways of using the feature as a result. In other words, because this feature has been implemented in a flexible manner that does not tie us down to one specific concept of an availability zone, there’s a lot of confusion over how to use them.</span></p>
+<p><span style="font-weight: 400;">In this article, we’ll look at the traditional definition of availability zones, insights into and best practices for planning and using them, and even a little bit about non-traditional uses. Finally, we hope to address the question: Are availability zones right for you?</span></p>
+<h2><b>OpenStack availability zone Implementations</b></h2>
+<p><span style="font-weight: 400;">One of the things that complicates use of availability zones is that each OpenStack project implements them in their own way (if at all). If you do plan to use availability zones, you should evaluate which OpenStack projects you’re going to use support them, and how that affects your design and deployment of those services.</span></p>
+<p><span style="font-weight: 400;">For the purposes of this article, we will look at three core services with respect to availability zones: Nova, Cinder, and Neutron. We won’t go into the steps to set up availability zones, but but instead we’ll focus on a few of the key decision points, limitations, and trouble areas with them.</span></p>
+<h3><b>Nova availability zones</b></h3>
+<p><span style="font-weight: 400;">Since host aggregates were first introduced in OpenStack Grizzly, I have seen a lot of confusion about availability zones in Nova. Nova tied their availability zone implementation to host aggregates, and because the latter is a feature unique to the Nova project, its implementation of availability zones is also unique.</span></p>
+<p><span style="font-weight: 400;">I have had many people tell me they use availability zones in Nova, convinced they are not using host aggregates. Well, I have news for these people — </span><b>all</b><span style="font-weight: 400;">* availability zones in Nova are host aggregates (though not all host aggregates are availability zones):</span></p>
+<p><a href="./The first and final words on OpenStack availability zones _ Mirantis_files/hostaggregates.png"><img class="aligncenter size-full wp-image-662191" src="./The first and final words on OpenStack availability zones _ Mirantis_files/hostaggregates.png" alt="hostaggregates" width="194" height="189" srcset="https://cdn.mirantis.com/wp-content/uploads/2017/01/hostaggregates.png?resize=194x189 194w, https://cdn.mirantis.com/wp-content/uploads/2017/01/hostaggregates.png?resize=100x97 100w, https://cdn.mirantis.com/wp-content/uploads/2017/01/hostaggregates.png?resize=60x58 60w, https://cdn.mirantis.com/wp-content/uploads/2017/01/hostaggregates.png?resize=50x48 50w" sizes="(max-width: 194px) 100vw, 194px"></a></p>
+<p><span style="font-weight: 400;">* Exceptions being the </span><b>default_availability_zone</b><span style="font-weight: 400;"> that compute nodes are placed into when not in another user-defined availability zone, and the </span><b>internal_service_availability_zone</b><span style="font-weight: 400;"> where other nova services live</span></p>
+<p><span style="font-weight: 400;">Some of this confusion may come from the nova CLI. People may do a quick search online, see they can create an availability zone with one command, and may not realize that they’re actually creating a host aggregate. Ex:</span></p>
+<pre><span style="font-weight: 400;">$ #nova aggregate-create &lt;aggregate name&gt; &lt;AZ name&gt;</span>
+<span style="font-weight: 400;">$ nova aggregate-create HA1 AZ1</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span>
+<span style="font-weight: 400;">| Id | Name &nbsp;&nbsp;&nbsp;| Availability Zone | Hosts | Metadata &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span>
+<span style="font-weight: 400;">| 4 &nbsp;| &nbsp;&nbsp;HA1 &nbsp;&nbsp;| AZ1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'availability_zone=AZ1'|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span></pre>
+<p><span style="font-weight: 400;">I have seen people get confused with the second argument (the AZ name). This is just a shortcut for setting the </span><span style="font-weight: 400;">availability_zone</span><span style="font-weight: 400;"> metadata for a new host aggregate you want to create. </span></p>
+<p><span style="font-weight: 400;">This command is equivalent to creating a host aggregate, and then setting the metadata:</span></p>
+<pre><span style="font-weight: 400;">$ nova aggregate-create HA1</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span>
+<span style="font-weight: 400;">| Id | Name &nbsp;&nbsp;&nbsp;| Availability Zone | Hosts | Metadata |</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span>
+<span style="font-weight: 400;">| 7 &nbsp;| &nbsp;&nbsp;HA1 &nbsp;&nbsp;| - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span></pre>
+<pre><span style="font-weight: 400;">$ nova aggregate-set-metadata HA1 availability_zone=AZ1
+</span><span style="font-weight: 400;">Metadata has been successfully updated for aggregate 7.</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span>
+<span style="font-weight: 400;">| Id | Name &nbsp;&nbsp;&nbsp;| Availability Zone | Hosts | Metadata &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span>
+<span style="font-weight: 400;">| 7 &nbsp;| &nbsp;&nbsp;HA1 &nbsp;&nbsp;| AZ1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'availability_zone=AZ1'|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span></pre>
+<p><span style="font-weight: 400;">Doing it this way, it’s more apparent that the workflow is the same as any other host aggregate, the only difference is the “magic” metadata key </span><span style="font-weight: 400;">availability_zone</span><span style="font-weight: 400;"> which we set to </span><span style="font-weight: 400;">AZ1</span><span style="font-weight: 400;"> (notice we also see </span><span style="font-weight: 400;">AZ1</span><span style="font-weight: 400;"> show up under the </span><span style="font-weight: 400;">Availability Zone</span><span style="font-weight: 400;"> column). And now when we add compute nodes to this aggregate, they will be automatically transferred out of the </span><span style="font-weight: 400;">default_availability_zone</span><span style="font-weight: 400;"> and into the one we have defined. For example:</span></p>
+<p><span style="font-weight: 400;">Before:</span></p>
+<pre><span style="font-weight: 400;">$ nova availability-zone-list</span>
+<span style="font-weight: 400;">| </span><b>nova</b><span style="font-weight: 400;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| available &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">| |- node-27 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">| | |- nova-compute | enabled :-) 2016-11-06T05:13:48.000000 |</span>
+<span style="font-weight: 400;">+-------------------+----------------------------------------+</span></pre>
+<p><span style="font-weight: 400;">After:</span></p>
+<pre><span style="font-weight: 400;">$ nova availability-zone-list</span>
+<span style="font-weight: 400;">| </span><b>AZ1</b><span style="font-weight: 400;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| available &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">| |- node-27 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">| | |- nova-compute | enabled :-) 2016-11-06T05:13:48.000000 |</span>
+<span style="font-weight: 400;">+-------------------+----------------------------------------+</span></pre>
+<p><span style="font-weight: 400;">Note that there is one behavior that sets apart the availability zone host aggregates apart from others. Namely, nova does not allow you to assign the same compute host to multiple aggregates with conflicting availability zone assignments. For example, we can first add compute a node to the previously created host aggregate with availability zone </span><span style="font-weight: 400;">AZ1</span><span style="font-weight: 400;">:</span></p>
+<pre><span style="font-weight: 400;">$ nova aggregate-add-host HA1 node-27</span>
+<span style="font-weight: 400;">Host node-27 has been successfully added for aggregate 7</span>
+<span style="font-weight: 400;">+----+------+-------------------+----------+------------------------+</span>
+<span style="font-weight: 400;">| Id | Name | Availability Zone | Hosts &nbsp;&nbsp;&nbsp;| Metadata &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+----+------+-------------------+----------+------------------------+</span>
+<span style="font-weight: 400;">| 7 &nbsp;| HA1 &nbsp;| AZ1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'node-27'| 'availability_zone=AZ1'|</span>
+<span style="font-weight: 400;">+----+------+-------------------+----------+------------------------+</span></pre>
+<p><span style="font-weight: 400;">Next, we create a new host aggregate for availability zone </span><span style="font-weight: 400;">AZ2</span><span style="font-weight: 400;">:</span></p>
+<pre>$ nova aggregate-create HA2
+
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span>
+<span style="font-weight: 400;">| Id | Name &nbsp;&nbsp;&nbsp;| Availability Zone | Hosts | Metadata |</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span>
+<span style="font-weight: 400;">| 13 | &nbsp;&nbsp;HA2 &nbsp;&nbsp;| - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span>
+
+<span style="font-weight: 400;">$ nova aggregate-set-metadata HA2 availability_zone=AZ2</span>
+<span style="font-weight: 400;">Metadata has been successfully updated for aggregate 13.</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span>
+<span style="font-weight: 400;">| Id | Name &nbsp;&nbsp;&nbsp;| Availability Zone | Hosts | Metadata &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span>
+<span style="font-weight: 400;">| 13 | &nbsp;&nbsp;HA2 &nbsp;&nbsp;| AZ2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'availability_zone=AZ2'|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+------------------------+</span></pre>
+<p>Now if we try to add the original compute node to this aggregate, we get an error because this aggregate has a conflicting availability zone:</p>
+<pre>$ nova aggregate-add-host HA2 node-27
+<span style="font-weight: 400;">ERROR (Conflict): Cannot add host node-27 in aggregate 13: host exists (HTTP 409)</span>
+<span style="font-weight: 400;">+----+------+-------------------+----------+------------------------+</span>
+<span style="font-weight: 400;">| Id | Name | Availability Zone | Hosts &nbsp;&nbsp;&nbsp;| Metadata &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+----+------+-------------------+----------+------------------------+</span>
+<span style="font-weight: 400;">| 13 | HA2 &nbsp;| AZ2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'availability_zone=AZ2'|</span>
+<span style="font-weight: 400;">+----+------+-------------------+----------+------------------------+</span></pre>
+<p><span style="font-weight: 400;">(Incidentally, it is possible to have multiple host aggregates with the same </span><span style="font-weight: 400;">availability_zone</span><span style="font-weight: 400;"> metadata, and add the same compute host to both. However, there are few, if any, good reasons for doing this.)</span></p>
+<p><span style="font-weight: 400;">In contrast, Nova allows you to assign this compute node to another host aggregate with other metadata fields, as long as the </span><span style="font-weight: 400;">availability_zone</span><span style="font-weight: 400;"> doesn’t conflict:</span></p>
+<p><span style="font-weight: 400;">You can see this if you first create a third host aggregate:</span></p>
+<pre><span style="font-weight: 400;">$ nova aggregate-create HA3</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span>
+<span style="font-weight: 400;">| Id | Name &nbsp;&nbsp;&nbsp;| Availability Zone | Hosts | Metadata |</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span>
+<span style="font-weight: 400;">| 16 | &nbsp;&nbsp;HA3 &nbsp;&nbsp;| - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+----------+</span></pre>
+<p><span style="font-weight: 400;">Next, tag &nbsp;the host aggregate for some purpose not related to availability zones (for example, an aggregate to track compute nodes with SSDs):</span></p>
+<pre><span style="font-weight: 400;">$ nova aggregate-set-metadata HA3 ssd=True</span>
+<span style="font-weight: 400;">Metadata has been successfully updated for aggregate 16.</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+-----------+</span>
+<span style="font-weight: 400;">| Id | Name &nbsp;&nbsp;&nbsp;| Availability Zone | Hosts | &nbsp;Metadata |</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+-----------+</span>
+<span style="font-weight: 400;">| 16 | &nbsp;&nbsp;HA3 &nbsp;&nbsp;| - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'ssd=True'|</span>
+<span style="font-weight: 400;">+----+---------+-------------------+-------+-----------+</span></pre>
+<p>Adding original node to another aggregate without conflicting availability zone metadata works:</p>
+<pre><span style="font-weight: 400;">$ nova aggregate-add-host HA3 node-27</span>
+<span style="font-weight: 400;">Host node-27 has been successfully added for aggregate 16</span>
+<span style="font-weight: 400;">+----+-------+-------------------+-----------+------------+</span>
+<span style="font-weight: 400;">| Id | Name &nbsp;| Availability Zone | Hosts &nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;Metadata &nbsp;|</span>
+<span style="font-weight: 400;">+----+-------+-------------------+-----------+------------+</span>
+<span style="font-weight: 400;">| 16 | HA3 &nbsp;&nbsp;| - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 'node-27' | 'ssd=True' |</span>
+<span style="font-weight: 400;">+----+-------+-------------------+-----------+------------+</span></pre>
+<p><span style="font-weight: 400;">(Incidentally, Nova will also happily let you assign the same compute node to another aggregate with </span><b>ssd=False</b><span style="font-weight: 400;"> for metadata, even though that clearly doesn’t make sense. Conflicts are only checked/enforced in the case of the </span><span style="font-weight: 400;">availability_zone</span><span style="font-weight: 400;"> metadata.)</span></p>
+<p><span style="font-weight: 400;">Nova configuration also holds parameters relevant to availability zone behavior. In the </span><b>nova.conf</b><span style="font-weight: 400;"> read by your </span><b>nova-api</b><span style="font-weight: 400;"> service, you can set a default availability zone for scheduling, which is used if users do not specify an availability zone in the API call:</span></p>
+<pre><span style="font-weight: 400;">[DEFAULT]</span>
+<span style="font-weight: 400;">default_schedule_zone=AZ1</span></pre>
+<p><span style="font-weight: 400;">However, most operators leave this at its default setting (</span><span style="font-weight: 400;">None</span><span style="font-weight: 400;">), because it allows users who don’t care about availability zones to omit it from their API call, and the workload will be scheduled to any availability zone where there is available capacity.</span></p>
+<p><span style="font-weight: 400;">If a user requests an invalid or undefined availability zone, the Nova API will report back with an HTTP 400 error. There is no availability zone fallback option.</span></p>
+<h3><b>Cinder</b></h3>
+<p><span style="font-weight: 400;">Creating availability zones in Cinder is accomplished by setting the following configuration parameter in </span><b>cinder.conf</b><span style="font-weight: 400;">, on the nodes where your </span><b>cinder-volume</b><span style="font-weight: 400;"> service runs:</span></p>
+<pre><span style="font-weight: 400;">[DEFAULT]</span>
+<span style="font-weight: 400;">storage_availability_zone=AZ1</span></pre>
+<p><span style="font-weight: 400;">Note that you can only set the availability zone to one value. This is consistent with availability zones in other OpenStack projects that do not allow for the notion of overlapping failure domains or multiple failure domain levels or tiers.</span></p>
+<p><span style="font-weight: 400;">The change takes effect when you restart your cinder-volume services. You can confirm your availability zone assignments as follows:</span></p>
+<pre><span style="font-weight: 400;">cinder service-list</span>
+<span style="font-weight: 400;">+---------------+-------------------+------+---------+-------+</span>
+<span style="font-weight: 400;">| &nbsp;&nbsp;&nbsp;&nbsp;Binary &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Host &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Zone | Status &nbsp;| State |</span>
+<span style="font-weight: 400;">+---------------+-------------------+------+---------+-------+</span>
+<span style="font-weight: 400;">| cinder-volume | hostname1@LVM &nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;AZ1 | enabled | &nbsp;&nbsp;up &nbsp;|</span>
+<span style="font-weight: 400;">| cinder-volume | hostname2@LVM &nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;AZ2 | enabled | &nbsp;&nbsp;up &nbsp;|</span></pre>
+<p><span style="font-weight: 400;">If you would like to establish a default availability zone, you can set the this parameter in </span><b>cinder.conf</b><span style="font-weight: 400;"> on the </span><b>cinder-api</b><span style="font-weight: 400;"> nodes:</span></p>
+<pre><span style="font-weight: 400;">[DEFAULT]</span>
+<span style="font-weight: 400;">default_availability_zone=AZ1</span></pre>
+<p><span style="font-weight: 400;">This instructs Cinder which availability zone to use if the API call did not specify one. If you don’t, it will use a hardcoded default, </span><span style="font-weight: 400;">nova</span><span style="font-weight: 400;">. In the case of our example, where we’ve set the default availability zone in Nova to </span><span style="font-weight: 400;">AZ1</span><span style="font-weight: 400;">, this would result in a&nbsp;</span><span style="font-weight: 400;">successful provision</span><span style="font-weight: 400;">.<br>
+</span><span style="font-weight: 400;"><br>
+But had we omitted the storage_availability_zone, the call would have failed (Cinder falls back to the hard coded default “nova” AZ in this case, which does not exist in our example). </span></p>
+<p><span style="font-weight: 400;">This also means that unlike Nova, users do not have the flexibility of omitting availability zone information and expecting that Cinder will select any available backend with spare capacity in any availability zone.</span></p>
+<p><span style="font-weight: 400;">Therefore, you have a choice with this parameter. You can set it to one of your availability zones so API calls without availability zone information don’t fail, but causing a potential situation of uneven storage allocation across your availability zones. Or, you can not set this parameter, and accept that user API calls that forget or omit availability zone info will fail.</span></p>
+<p><span style="font-weight: 400;">Another option is to set the default to a non-existent availability zone </span><span style="font-weight: 400;">you-must-specify-an-AZ</span><span style="font-weight: 400;"> or something similar, so when the call fails due to the non-existant availability zone, this information will be included in the error message sent back to the client.</span></p>
+<p><span style="font-weight: 400;">Your storage backends, storage drivers, and storage architecture may also affect how you set up your availability zones. If we are using the reference Cinder LVM ISCSI Driver deployed on commodity hardware, and that hardware fits the same availability zone criteria of our computes, then we could setup availability zones to match what we have defined in Nova. We could also do the same if we had a third party storage appliance in each availability zone, e.g.:</span></p>
+<pre><span style="font-weight: 400;">| &nbsp;&nbsp;&nbsp;&nbsp;Binary &nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Host &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Zone | Status &nbsp;| State |</span>
+<span style="font-weight: 400;">| cinder-volume | hostname1@StorageArray1 | &nbsp;AZ1 | enabled | &nbsp;&nbsp;up &nbsp;|</span>
+<span style="font-weight: 400;">| cinder-volume | hostname2@StorageArray2 | &nbsp;AZ2 | enabled | &nbsp;&nbsp;up &nbsp;|</span></pre>
+<p><span style="font-weight: 400;">(Note: Notice that the hostnames (</span><span style="font-weight: 400;">hostname1</span><span style="font-weight: 400;"> and </span><span style="font-weight: 400;">hostname2</span><span style="font-weight: 400;">) are still different in this example. The cinder multi-backend feature allows us to configure multiple storage backends in the same </span><b>cinder.conf</b><span style="font-weight: 400;"> (for the same </span><b>cinder-volume</b><span style="font-weight: 400;"> service), but Cinder availability zones can only be defined per </span><b>cinder-volume</b><span style="font-weight: 400;"> service, and not per-backend per-cinder-volume service. In other words, if you define multiple backends in one cinder.conf, they will all inherit the same availability zone.)</span></p>
+<p><span style="font-weight: 400;">However, in many cases if you’re using a third party storage appliance, then these systems usually have their own built-in redundancy that exist outside of OpenStack notions of availability zones. Similarly if you use a distributed storage solution like Ceph, then availability zones have little or no meaning in this context. In this case, you can forgo Cinder availability zones.</span></p>
+<p><span style="font-weight: 400;">The one issue in doing this, however, is that any availability zones you defined for Nova won’t match. This can cause problems when Nova makes API calls to Cinder – for example, when performing a Boot from Volume API call through Nova. If Nova decided to provision your VM in </span><span style="font-weight: 400;">AZ1</span><span style="font-weight: 400;">, it will tell Cinder to provision a boot volume in </span><span style="font-weight: 400;">AZ1</span><span style="font-weight: 400;">, but Cinder doesn’t know anything about </span><span style="font-weight: 400;">AZ1</span><span style="font-weight: 400;">, so this API call will fail. To prevent this from happening, we need to set the following parameter in </span><b>cinder.conf</b><span style="font-weight: 400;"> on your nodes running </span><b>cinder-api</b><span style="font-weight: 400;">:</span></p>
+<pre><span style="font-weight: 400;">[DEFAULT]</span>
+<span style="font-weight: 400;">allow_availability_zone_fallback=True</span></pre>
+<p><span style="font-weight: 400;">This parameter prevents the API call from failing, because if the requested availability zone does not exist, Cinder will fallback to another availability zone (whichever you defined in </span><span style="font-weight: 400;">default_availability_zone</span><span style="font-weight: 400;"> parameter, or in </span><span style="font-weight: 400;">storage_availability_zone</span><span style="font-weight: 400;"> if the default is not set). The hardcoded default </span><span style="font-weight: 400;">storage_availability_zone</span><span style="font-weight: 400;"> is </span><span style="font-weight: 400;">nova</span><span style="font-weight: 400;">, so the fallback availability zone should match the default availability zone for your cinder-volume services, and everything should work.</span></p>
+<p><span style="font-weight: 400;">The easiest way to solve the problem, however is to remove the </span><span style="font-weight: 400;">AvailabilityZoneFilter</span><span style="font-weight: 400;"> from your filter list in </span><b>cinder.conf </b><span style="font-weight: 400;">on nodes running </span><b>cinder-scheduler</b><span style="font-weight: 400;">. This makes the scheduler ignore any availability zone information passed to it altogether, which may also be helpful in case of any availability zone configuration mismatch.</span></p>
+<h3><b>Neutron</b></h3>
+<p><span style="font-weight: 400;">Availability zone support was added to Neutron in the Mitaka release. Availability zones can be set for DHCP and L3 agents in their respective configuration files:</span></p>
+<pre><span style="font-weight: 400;">[AGENT]</span>
+<span style="font-weight: 400;">Availability_zone = AZ1</span></pre>
+<p><span style="font-weight: 400;">Restart the agents, and confirm availability zone settings as follows:</span></p>
+<p><span style="font-weight: 400;">neutron agent-show &lt;agent-id&gt;</span></p>
+<pre><span style="font-weight: 400;">+---------------------+------------+</span>
+<span style="font-weight: 400;">| Field &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Value &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">+---------------------+------------+</span>
+<span style="font-weight: 400;">| availability_zone &nbsp;&nbsp;| AZ1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</span>
+<span style="font-weight: 400;">...</span></pre>
+<p><span style="font-weight: 400;">If you would like to establish a default availability zone, you can set the this parameter in </span><b>neutron.conf</b><span style="font-weight: 400;"> on </span><b>neutron-server</b><span style="font-weight: 400;"> nodes:</span></p>
+<pre><span style="font-weight: 400;">[DEFAULT]</span>
+<span style="font-weight: 400;">default_availability_zones=AZ1,AZ2</span></pre>
+<p><span style="font-weight: 400;">This parameters tells Neutron which availability zones to use if the API call did not specify any. Unlike Cinder, you can specify multiple availability zones, and leaving it undefined places no constraints in scheduling, as there are no hard coded defaults. If you have users making API calls that do not care about the availability zone, then you can enumerate all your availability zones for this parameter, or simply leave it undefined – both would yield the same result.</span></p>
+<p><span style="font-weight: 400;">Additionally, when users do specify an availability zone, such requests are fulfilled as a “best effort” in Neutron. In other words, there is no need for an availability zone fallback parameter, because your API call still execute even if your availability zone hint can’t be satisfied.</span></p>
+<p><span style="font-weight: 400;">Another important distinction that sets Neutron aside from Nova and Cinder is that it implements availability zones as scheduler hints, meaning that on the client side you can repeat this option to chain together multiple availability zone specifications in the event that more than one availability zone would satisfy your availability criteria. For example:</span></p>
+<pre><span style="font-weight: 400;">$ neutron net-create --availability-zone-hint AZ1 \ --availability-zone-hint AZ2 new_network</span></pre>
+<p><span style="font-weight: 400;">As with Cinder, the Neutron plugins and backends you’re using deserve attention, as the support or need for availability zones may be different depending on their implementation. For example, if you’re using a reference Neutron deployment with the ML2 plugin and with DHCP and L3 agents deployed to commodity hardware, you can likely place these agents consistently according to the same availability zone criteria used for your computes.</span></p>
+<p><span style="font-weight: 400;">Whereas in contrast, other alternatives such as the Contrail plugin for Neutron do not support availability zones. Or if you are using Neutron DVR for example, then availability zones have limited significance for Layer 3 Neutron.</span></p>
+<h2><b>OpenStack Project availability zone Comparison Summary</b></h2>
+<p><span style="font-weight: 400;">Before we move on, it’s helpful to review how each project handles availability zones.</span></p>
+<table>
+<tbody>
+<tr>
+<td></td>
+<td><b>Nova</b></td>
+<td><b>Cinder</b></td>
+<td><b>Neutron</b></td>
+</tr>
+<tr>
+<td><b>Default availability zone scheduling</b></td>
+<td><span style="font-weight: 400;">Can set to one availability zone or None</span></td>
+<td><span style="font-weight: 400;">Can set one availability zone; cannot set None</span></td>
+<td><span style="font-weight: 400;">Can set to any list of availability zones or none</span></td>
+</tr>
+<tr>
+<td><b>Availability zone fallback</b></td>
+<td><span style="font-weight: 400;">None supported</span></td>
+<td><span style="font-weight: 400;">Supported through configuration</span></td>
+<td><span style="font-weight: 400;">N/A; scheduling to availability zones done on a best effort basis</span></td>
+</tr>
+<tr>
+<td><b>Availability zone definition restrictions</b></td>
+<td><span style="font-weight: 400;">No more than 1 availability zone per nova-compute</span></td>
+<td><span style="font-weight: 400;">No more than 1 availability zone per cinder-volume</span></td>
+<td><span style="font-weight: 400;">No more than 1 availability zone per neutron agent</span></td>
+</tr>
+<tr>
+<td><b>Availability zone client restrictions</b></td>
+<td><span style="font-weight: 400;">Can specify one availability zone or none</span></td>
+<td><span style="font-weight: 400;">Can specify one availability zone or none</span></td>
+<td><span style="font-weight: 400;">Can specify an arbitrary number of availability zones</span></td>
+</tr>
+<tr>
+<td><b>Availability zones typically used when you have …</b></td>
+<td><span style="font-weight: 400;">Commodity HW for computes, libvirt driver</span></td>
+<td><span style="font-weight: 400;">Commodity HW for storage, LVM iSCSI driver</span></td>
+<td><span style="font-weight: 400;">Commodity HW for neutron agents, ML2 plugin</span></td>
+</tr>
+<tr>
+<td><b>Availability zones not typically used when you have…</b></td>
+<td><span style="font-weight: 400;">Third party hypervisor drivers that manage their own HA for VMs (DRS for VCenter)</span></td>
+<td><span style="font-weight: 400;">Third party drivers, backends, etc. that manage their own HA</span></td>
+<td><span style="font-weight: 400;">Third party plugins, backends, etc. that manage their own HA</span></td>
+</tr>
+</tbody>
+</table>
+<h2><b>Best Practices for availability zones</b></h2>
+<p><span style="font-weight: 400;">Now let’s talk about how to best make use of availability zones.</span></p>
+<h3><b>What should my availability zones represent?</b></h3>
+<p><span style="font-weight: 400;">The first thing you should do as a cloud operator is to nail down your own accepted definition of an availability zone and how you will use them, and remain consistent. You don’t want to end up in a situation where availability zones are taking on more than one meaning in the same cloud. For example:</span></p>
+<pre><b>Fred’s AZ</b><span style="font-weight: 400;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Example of AZ used to perform tenant workload isolation</span>
+<b>VMWare cluster #1 AZ</b><span style="font-weight: 400;"> | Example of AZ used to select a specific hypervisor type</span>
+<b>Power source #1 AZ</b><span style="font-weight: 400;"> &nbsp;&nbsp;| Example of AZ used to select a specific failure domain</span>
+<b>Rack #1 AZ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><span style="font-weight: 400;">&nbsp;| Example of AZ used to select a specific failure domain</span></pre>
+<p><span style="font-weight: 400;">Such a set of definitions would be a source of inconsistency and confusion in your cloud. It’s usually better to keep things simple with one availability zone definition, and use OpenStack features such as Nova Flavors or Nova/Cinder boot hints to achieve other requirements for multi-tenancy isolation, ability to select between different hypervisor options and other features, and so on.</span></p>
+<p><span style="font-weight: 400;">Note that OpenStack currently does not support the concept of multiple failure domain levels/tiers. Even though we may have multiple ways to define failure domains (e.g., by power circuit, rack, room, etc), we must pick a single convention.</span></p>
+<p><span style="font-weight: 400;">For the purposes of this article, we will discuss availability zones in the context of failure domains. However, we will cover one other use for availability zones in the third section.</span></p>
+<h2><b>How many availability zones do I need?</b></h2>
+<p><span style="font-weight: 400;">One question that customers frequently get hung up on is how many availability zones they should create. This can be tricky because the setup and management of availability zones involves stakeholders at every layer of the solution stack, from tenant applications to cloud operators, down to data center design and planning.</span><span style="font-weight: 400;"><br>
+</span></p>
+<p><span style="font-weight: 400;">A good place to start is your cloud application requirements: How many failure domains are they designed to work with (i.e. redundancy factor)? The likely answer is two (primary + backup), three (for example, for a database or other quorum-based system), or one (for example, a legacy app with single points of failure). Therefore, the vast majority of clouds will have either 2, 3, or 1 availability zone.</span></p>
+<p><span style="font-weight: 400;">Also keep in mind that as a general design principle, you want to minimize the number of availability zones in your environment, because the side effect of availability zone proliferation is that you are dividing your capacity into more resource islands. The resource utilization in each island may not be equal, and now you have an operational burden to track and maintain capacity in each island/availability zone. Also, if you have a lot of availability zones (more than the redundancy factor of tenant applications), tenants are left to guess which availability zones to use and which have available capacity.</span></p>
+<h2><b>How do I organize my availability zones?</b></h2>
+<p><span style="font-weight: 400;">The value proposition of availability zones is that tenants are able to achieve a higher level of availability in their applications. In order to make good on that proposition, we need to design our availability zones in ways that mitigate single points of failure. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span></p>
+<p><span style="font-weight: 400;">For example, if our resources are split between two power sources in the data center, then we may decide to define two resource pools (availability zones) according to their connected power source:</span></p>
+<p><a href="./The first and final words on OpenStack availability zones _ Mirantis_files/powerdiversity.png"><img class="aligncenter size-full wp-image-662192" src="./The first and final words on OpenStack availability zones _ Mirantis_files/powerdiversity.png" alt="powerdiversity" width="352" height="253" srcset="https://cdn.mirantis.com/wp-content/uploads/2017/01/powerdiversity.png?resize=352x253 352w, https://cdn.mirantis.com/wp-content/uploads/2017/01/powerdiversity.png?resize=180x129 180w, https://cdn.mirantis.com/wp-content/uploads/2017/01/powerdiversity.png?resize=120x86 120w, https://cdn.mirantis.com/wp-content/uploads/2017/01/powerdiversity.png?resize=90x64 90w, https://cdn.mirantis.com/wp-content/uploads/2017/01/powerdiversity.png?resize=70x50 70w" sizes="(max-width: 352px) 100vw, 352px"></a></p>
+<p><span style="font-weight: 400;">Or, if we only have one TOR switch in our racks, then we may decide to define availability zones by rack. However, here we can run into problems if we make each rack its own availability zone, as this will not scale from a capacity management perspective for more than 2-3 racks/availability zones (because of the “resource island” problem). In this case, you might consider dividing/arranging your total rack count into into 2 or 3 logical groupings that correlate to your defined availability zones:</span></p>
+<p><a href="./The first and final words on OpenStack availability zones _ Mirantis_files/1azperrack.png"><img class="aligncenter size-full wp-image-662193" src="./The first and final words on OpenStack availability zones _ Mirantis_files/1azperrack.png" alt="1azperrack" width="396" height="448" srcset="https://cdn.mirantis.com/wp-content/uploads/2017/01/1azperrack.png?resize=396x448 396w, https://cdn.mirantis.com/wp-content/uploads/2017/01/1azperrack.png?resize=200x226 200w, https://cdn.mirantis.com/wp-content/uploads/2017/01/1azperrack.png?resize=130x147 130w, https://cdn.mirantis.com/wp-content/uploads/2017/01/1azperrack.png?resize=100x113 100w, https://cdn.mirantis.com/wp-content/uploads/2017/01/1azperrack.png?resize=80x90 80w" sizes="(max-width: 396px) 100vw, 396px"></a></p>
+<p><span style="font-weight: 400;">We may also find situations where we have redundant TOR switch pairs in our racks, power source diversity to each rack, and lack a single point of failure. You could still place racks into availability zones as in the previous example, but the value of availability zones is marginalized, since you need to have a double failure (e.g., both TORs in the rack failing) to take down a rack.</span></p>
+<p><span style="font-weight: 400;">Ultimately with any of the above scenarios, the value added by your availability zones will depend on the likelihood and expression of failure modes – both the ones you have designed for, and the ones you have not. But getting accurate and complete information on such failure modes may not be easy, so the value of availability zones from this kind of unplanned failure can be difficult to pin down.</span></p>
+<p><span style="font-weight: 400;">There is however another area where availability zones have the potential to provide value — planned maintenance. Have you ever needed to move, recable, upgrade, or rebuild a rack? Ever needed to shut off power to part of the data center to do electrical work? Ever needed to apply disruptive updates to your hypervisors, like kernel or QEMU security updates? How about upgrades of OpenStack or the hypervisor operating system?</span></p>
+<p><span style="font-weight: 400;">Chances are good that these kinds of planned maintenance are a higher source of downtime than unplanned hardware failures that happen out of the blue. Therefore, this type of planned maintenance can also impact how you define your availability zones. In general the grouping of racks into availability zones (described previously) still works well, and is the most common availability zone paradigm we see for our customers.</span></p>
+<p><span style="font-weight: 400;">However, it could affect the </span><i><span style="font-weight: 400;">way</span></i><span style="font-weight: 400;"> in which you group your racks into availability zones. For example, you may choose to create availability zones based on physical parameters like which floor, room or building the equipment is located in, or other practical considerations that would help in the event you need to vacate or rebuild certain space in your DC(s). Ex:</span></p>
+<p><a href="./The first and final words on OpenStack availability zones _ Mirantis_files/azbyroom.png"><img class="aligncenter size-full wp-image-662194" src="./The first and final words on OpenStack availability zones _ Mirantis_files/azbyroom.png" alt="azbyroom" width="672" height="288" srcset="https://cdn.mirantis.com/wp-content/uploads/2017/01/azbyroom.png?resize=672x288 672w, https://cdn.mirantis.com/wp-content/uploads/2017/01/azbyroom.png?resize=340x145 340w, https://cdn.mirantis.com/wp-content/uploads/2017/01/azbyroom.png?resize=220x94 220w, https://cdn.mirantis.com/wp-content/uploads/2017/01/azbyroom.png?resize=170x72 170w, https://cdn.mirantis.com/wp-content/uploads/2017/01/azbyroom.png?resize=130x55 130w" sizes="(max-width: 672px) 100vw, 672px"></a></p>
+<p><span style="font-weight: 400;">One of the limitations of the OpenStack implementation of availability zones made apparent in this example is that you are forced to choose one definition. Applications can request a specific availability zone, but are not offered the flexibility of requesting building level isolation, vs floor, room, or rack level isolation. This will be a fixed, inherited property of the availability zones you create. If you need more, then you start to enter the realm of other OpenStack abstractions like Regions and Cells.</span></p>
+<h2><b>Other uses for availability zones?</b></h2>
+<p><span style="font-weight: 400;">Another way in which people have found to use availability zones is in multi-hypervisor environments. In the ideal world of the “implementation-agnostic” cloud, we would abstract such underlying details from users of our platform. However there are some key differences between hypervisors that make this aspiration difficult. Take the example of KVM &amp; VMWare. </span></p>
+<p><span style="font-weight: 400;">When an iSCSI target is provisioned through with the LVM iSCSI Cinder driver, it cannot be attached to or consumed by ESXi nodes. The provision request must go through VMWare’s VMDK Cinder driver, which proxies the creation and attachment requests to vCenter. This incompatibility can cause errors and thus a negative user experience issues if the user tries to attach a volume to their hypervisor provisioned from the wrong backend.</span></p>
+<p><span style="font-weight: 400;">To solve this problem, some operators use availability zones as a way for users to select hypervisor types (for example, AZ_KVM1, AZ_VMWARE1), and set the following configuration in their </span><b>nova.conf</b><span style="font-weight: 400;">:</span></p>
+<pre><span style="font-weight: 400;">[cinder]</span>
+<span style="font-weight: 400;">cross_az_attach = False</span></pre>
+<p><span style="font-weight: 400;">This presents users with an error if they attempt to attach a volume from one availability zone (e.g., AZ_VMWARE1) to another availability zone (e.g., AZ_KVM1). The call would have certainly failed regardless, but with a different error from farther downstream from one of the nova-compute agents, instead of from nova-api. This way, it’s easier for the user to see where they went wrong and correct the problem.</span></p>
+<p><span style="font-weight: 400;">In this case, the availability zone also acts as a tag to remind users which hypervisor their VM resides on.</span></p>
+<p><span style="font-weight: 400;">In my opinion, this is stretching the definition of availability zones as failure domains. VMWare may be considered its own failure domain separate from KVM, but that’s not the primary purpose of creating availability zones this way. The primary purpose is to differentiate hypervisor types. Different hypervisor types have a different set of features and capabilities. If we think about the problem in these terms, there are a number of other solutions that come to mind:</span></p>
+<ul>
+<li style="font-weight: 400;"><b>Nova Flavors</b><span style="font-weight: 400;">: Define a “VMWare” set of flavors that map to your VCenter cluster(s). If your tenants that use VMWare are different than your tenants who use KVM, you can make them private flavors, ensuring that tenants only ever see or interact with the hypervisor type they expect.</span></li>
+<li style="font-weight: 400;"><b>Cinder</b><span style="font-weight: 400;">: Similarly for Cinder, you can make the VMWare backend private to specific tenants, and/or set quotas differently for that backend, to ensure that tenants will only allocate from the correct storage pools for their hypervisor type.</span></li>
+<li style="font-weight: 400;"><b>Image metadata</b><span style="font-weight: 400;">: You can tag your images according to the hypervisor they run on. Set image property </span><b>hypervisor_type</b><span style="font-weight: 400;"> to </span><b>vmware</b><span style="font-weight: 400;"> for VMDK images, and to </span><b>qemu</b><span style="font-weight: 400;"> for other images. The </span><span style="font-weight: 400;">ComputeCapabilitiesFilter</span><span style="font-weight: 400;"> in Nova will honor the hypervisor placement request.</span></li>
+</ul>
+<h2><span style="font-weight: 400;">Soo… Are availability zones right for me?</span></h2>
+<p><span style="font-weight: 400;">So wrapping up, think of availability zones in terms of:</span></p>
+<ul>
+<li style="font-weight: 400;"><b>Unplanned failures:</b><span style="font-weight: 400;"> If you have a good history of failure data, well understood failure modes, or some known single point of failure that availability zones can help mitigate, then availability zones may be a good fit for your environment.</span></li>
+<li style="font-weight: 400;"><b>Planned maintenance:</b><span style="font-weight: 400;"> If you have well understood maintenance processes that have awareness of your availability zone definitions and can take advantage of them, then availability zones may be a good fit for your environment. This is where availability zones can provide some of the creates value, but is also the most difficult to achieve, as it requires intelligent availability zone-aware rolling updates and upgrades, and affects how data center personnel perform maintenance activities.</span></li>
+<li style="font-weight: 400;"><b>Tenant application design/support:</b><span style="font-weight: 400;"> If your tenants are running legacy apps, apps with single points of failure, or do not support use of availability zones in their provisioning process, then availability zones will be of no use for these workloads.</span></li>
+<li style="font-weight: 400;"><b>Other alternatives for achieving app availability:</b><span style="font-weight: 400;"> Workloads built for geo-redundancy can achieve the same level of HA (or better) in a multi-region cloud. If this were the case for your cloud and your cloud workloads, availability zones would be unnecessary.</span></li>
+<li><b>OpenStack projects</b><span style="font-weight: 400;">: You should factor into your decision the limitations and differences in availability zone implementations between different OpenStack projects, and perform this analysis for all OpenStack projects in your scope of deployment.</span></li>
+</ul>  </div>
+  <div class="post-nav">
+      </div>
+</article>
+                            </div>
+            <div class="col-lg-3 hidden-md-down">
+                                    <div class="blog-sidebar">
+                        <h2 class="widgettitle">Subscribe to Our Newsletter</h2>
+			<div class="textwidget"><a href="http://online.mirantis.com/openstack-now-newsletter/" class="redaction">Subscribe Now</a></div>
+		<div class="textwidget widget-text"><div style="margin: 25px 0;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;padding: 25px 0;">
+<h2 class="widgettitle">Latest Tweets</h2>
+<a class="twitter-timeline" href="https://twitter.com/MirantisIT" data-widget-id="626798189656559618" data-tweet-limit="3" header="Recent Tweets">@MirantisIT</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div></div><div id="tr_cta">
+    <div id="tr_cta_top">
+        <h2 class="rchead">Upcoming Training Courses</h2>
+    </div><div class="tr_ctas">
+            <a onclick="dataLayer.push({&#39;event&#39;: &#39;blog-right-training-ctas&#39;});" target="_blank" class="traintabblog os_tab" style="width: 250px;" href="https://training.mirantis.com/course-catalog/1-os100-openstack-bootcamp-i/">
+                <h3 style="line-height: 10px;">Sunnyvale, CA<span class="cta_title">OpenStack Bootcamp I (OS100)</span><br><span style="color: #e02d3a;margin-top:0;">March 27  - 30</span>
+                </h3>
+            </a>
+        </div><div class="tr_ctas">
+            <a onclick="dataLayer.push({&#39;event&#39;: &#39;blog-right-training-ctas&#39;});" target="_blank" class="traintabblog os_tab" style="width: 250px;" href="https://training.mirantis.com/course-catalog/13-kd100-kubernetes-and-docker-bootcamp/">
+                <h3 style="line-height: 10px;">Virtual, PST<span class="cta_title">Kubernetes &amp; Docker Bootcamp I (KD100)</span><br><span style="color: #e02d3a;margin-top:0;">March 20 - 22</span>
+                </h3>
+            </a>
+        </div><div class="tr_ctas">
+            <a onclick="dataLayer.push({&#39;event&#39;: &#39;blog-right-training-ctas&#39;});" target="_blank" class="traintabblog os_tab" style="width: 250px;" href="https://training.mirantis.com/course-catalog/30-kd250-accelerated-kubernetes-and-docker-bootcamp/">
+                <h3 style="line-height: 10px;">Sunnyvale, CA <img src="./The first and final words on OpenStack availability zones _ Mirantis_files/gtr.png" alt="gtr" style="margin-top: -2px;"><span class="cta_title">Accelerated Kubernetes &amp; Docker Bootcamp (KD250)</span><br><span style="color: #e02d3a;margin-top:0;">April 3 - 6</span>
+                </h3>
+            </a>
+        </div><div class="tr_ctas">
+        <a onclick="dataLayer.push({&#39;event&#39;: &#39;blog-right-training-ctas&#39;});" target="_blank" class="traintabblog os_tab" style="width: 250px;" href="https://training.mirantis.com/openstack-courses">
+            <h3 style="color:#e02d3a;">COMPLETE SCHEDULE <span class="cta_title"></span></h3>
+        </a>
+    </div><div id="tr_cta_bottom"><img src="./The first and final words on OpenStack availability zones _ Mirantis_files/gtr.png" alt="gtr" style="margin-top: -2px;"> <span style="font-size: 14px;color: #000;font-weight: 700;">= Guaranteed to Run</span></div></div><div class="textwidget widget-text"></div><style>
+.rtp_rcmd2_title {display: none;}
+.RTP_RCMD2 [data-rtp-id="rtp_rcmd2_tpl_2"] .rtp_rcmd2_link_container a {
+background-color: #e02d3a !important;
+}
+.RTP_RCMD2 [data-rtp-id="rtp_rcmd2_tpl_2"] .rtp_rcmd2_label a {
+color: #e02d3a !important;
+}
+.rtp_rcmd2_img_container {
+    display: none !important;
+}
+.RTP_RCMD2 [data-rtp-id="rtp_rcmd2_tpl_2"] .rtp_rcmd2_description_container {
+max-height: 65px !important;
+}
+</style>
+<div style="margin: 25px 0;border-top: 1px solid #ccc;padding: 25px 0;">
+<h2 class="rchead">Suggested Content</h2>
+<div class="RTP_RCMD2" data-rtp-template-id="template2" id="rtp-widget-container-c8e94a40"></div></div>                    </div>
+                            </div>
+                            <div class="col-lg-12 hidden-md-down">
+                                <div id="featured-posts"><h3 style="font-weight: bold;">Featured Posts</h3><div class="row"><div class="col-md"><div class="featured-blog-post-item"><div class="featured-blog-post-url"><a href="https://www.mirantis.com/blog/hope-is-not-a-strategy-continuous-delivery-and-real-world-business/"><div style="border: 1px solid #ccc; padding: 5px;"><div style="background-image: url(https://www.mirantis.com/wp-content/uploads/2018/03/hope-is-not-a-strategy-continuous-delivery-and-real-world-business-300x225.jpg); background-size: contain; background-position: center;height: 150px;width:100%;margin: 15px auto;background-repeat: no-repeat;"></div></div><h6 style="margin-top: 5px;">Hope is not a strategy: Continuous delivery and real world business</h6></a></div></div></div><div class="col-md"><div class="featured-blog-post-item"><div class="featured-blog-post-url"><a href="https://www.mirantis.com/blog/how-to-deploy-spinnaker-on-kubernetes-a-quick-and-dirty-guide/"><div style="border: 1px solid #ccc; padding: 5px;"><div style="background-image: url(https://www.mirantis.com/wp-content/uploads/2018/03/how-to-deploy-spinnaker-on-kubernetes-a-quick-and-dirty-guide-300x225.jpg); background-size: contain; background-position: center;height: 150px;width:100%;margin: 15px auto;background-repeat: no-repeat;"></div></div><h6 style="margin-top: 5px;">How to deploy Spinnaker on Kubernetes: a quick and dirty guide</h6></a></div></div></div><div class="col-md"><div class="featured-blog-post-item"><div class="featured-blog-post-url"><a href="https://www.mirantis.com/blog/openstack-embraces-the-future-with-gpu-edge-computing-support/"><div style="border: 1px solid #ccc; padding: 5px;"><div style="background-image: url(https://www.mirantis.com/wp-content/uploads/2018/03/openstack-embraces-the-future-with-gpu-edge-computing-support-300x225.jpg); background-size: contain; background-position: center;height: 150px;width:100%;margin: 15px auto;background-repeat: no-repeat;"></div></div><h6 style="margin-top: 5px;">OpenStack embraces the future with GPU, edge computing support</h6></a></div></div></div></div></div>            </div>
+            <div class="col-lg-9">
+                <div class="blog-footer">
+                    
+<section id="comments" class="comments">
+      <h3>11 responses to “<span>The first and final words on OpenStack availability zones</span>”</h3>
+
+    <ol class="comment-list">
+      		<li id="comment-272006" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-272006" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/c360c8e05db5f5c4fd3eb70339374a88" srcset="https://secure.gravatar.com/avatar/c360c8e05db5f5c4fd3eb70339374a88?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn"><a href="http://netapp.io/" rel="external nofollow" class="url">Daniel</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272006">
+							<time datetime="2017-02-08T05:44:05+00:00">
+								February 8, 2017 at 05:44							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>This was an *excellent* post! And very timely for a project I’m working on. 🙂<br>
+Thanks for taking the time to write and share.</p>
+<p>Regards,<br>
+Daniel</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272006#respond" onclick="return addComment.moveForm( &quot;div-comment-272006&quot;, &quot;272006&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Daniel">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-272034" class="comment odd alt depth-2">
+			<article id="div-comment-272034" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/21750fe405907fe635eb5bb37d3e8d0e" srcset="https://secure.gravatar.com/avatar/21750fe405907fe635eb5bb37d3e8d0e?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Craig Anderson</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272034">
+							<time datetime="2017-03-14T13:36:18+00:00">
+								March 14, 2017 at 13:36							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Awesome! I’m glad you found it useful.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272034#respond" onclick="return addComment.moveForm( &quot;div-comment-272034&quot;, &quot;272034&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Craig Anderson">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-272008" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-272008" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/1113265e96a6c41ae3dd59aab1b7db21" srcset="https://secure.gravatar.com/avatar/1113265e96a6c41ae3dd59aab1b7db21?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Agent Smith</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272008">
+							<time datetime="2017-02-13T06:57:27+00:00">
+								February 13, 2017 at 06:57							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>One of the things I’ve always found interesting is that Openstack never addresses maintenance/failure of the Openstack control plane in its AZ definition.  So maybe a proper architecture would be to have multiple Openstack clouds in each data center, with each cloud being considered a separate AZ.  This definitely has some drawbacks, such as not being able to extend tenant networks or load-balancers across AZ’s, plus the extra burden of having separate API endpoints for each AZ.  But those drawbacks may be solvable through DNS-based global load-balancing  plus a cloud management platform that can abstract multiple Openstack clouds behind a single API endpoint.  I would be curious to hear perspectives on this approach.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272008#respond" onclick="return addComment.moveForm( &quot;div-comment-272008&quot;, &quot;272008&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Agent Smith">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-272035" class="comment odd alt depth-2">
+			<article id="div-comment-272035" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/21750fe405907fe635eb5bb37d3e8d0e" srcset="https://secure.gravatar.com/avatar/21750fe405907fe635eb5bb37d3e8d0e?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Craig Anderson</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272035">
+							<time datetime="2017-03-14T14:42:45+00:00">
+								March 14, 2017 at 14:42							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>That’s a great point which I didn’t get to in the article.<br>
+On the one hand, it does place an extra burden on the cloud operator (i.e. to provide HA for control plane services outside of OpenStack AZ constructs). On the other hand, decoupling control plane availability from data plane availability schemes offer some additional flexibility in how you design and setup those services.<br>
+As you rightly point out, there are pros and cons to scaling out the API this way. What you are describing is effectively multi-region or multi-cloud. (In fact if your tenants can deploy their application over multiple regions/clouds, you may have no need to use availability zones.) But it does raise a new set of problems like multi-cloud orchestration for tenants, multi-cloud management for administrators, etc.<br>
+I wrote another article relevant to this discussion here: <a href="https://www.mirantis.com/blog/scaling-openstack-shared-nothing-architecture/" rel="nofollow">https://www.mirantis.com/blog/scaling-openstack-shared-nothing-architecture/</a><br>
+There are a couple of complementary upstream projects which can help address some of these issues: Tricircle, which aims to provide basic L2/L3 networking across clouds, and Kingbird, which aims to provide a centralized view of distributed virtual resources, quota management, flavors, images, etc.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272035#respond" onclick="return addComment.moveForm( &quot;div-comment-272035&quot;, &quot;272035&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Craig Anderson">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-272059" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-272059" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/e763dbc4286ddcb5ae8699c3b1f692fb" srcset="https://secure.gravatar.com/avatar/e763dbc4286ddcb5ae8699c3b1f692fb?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Y.G</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272059">
+							<time datetime="2017-04-25T02:44:47+00:00">
+								April 25, 2017 at 02:44							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi,</p>
+<p>I didn’t understand the following section:</p>
+<p>“This instructs Cinder which availability zone to use if the API call did not specify one. If you don’t, it will use a hardcoded default, nova. In the case of our example, where we’ve set the default availability zone in Nova to AZ1, this would result in a failure.”</p>
+<p>In the above section, you are saying that if we dont specify a default availability zone in conder.conf file,<br>
+it will use a hard coded default “nova” AZ.  So why will it result in failure ? I didn’t understand the reason for failure. What will fail in this case ?  Please elaborate on this failure. What is the connection between  Nova and Cinder in this failure you are talking about.</p>
+<p>Appreciate your time.</p>
+<p>Thanks<br>
+Y.G</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272059#respond" onclick="return addComment.moveForm( &quot;div-comment-272059&quot;, &quot;272059&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Y.G">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-272060" class="comment odd alt depth-2 parent">
+			<article id="div-comment-272060" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/7b5efa85ce9dac03677613cf4c125f84" srcset="https://secure.gravatar.com/avatar/7b5efa85ce9dac03677613cf4c125f84?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Craig Anderson</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272060">
+							<time datetime="2017-04-27T23:21:10+00:00">
+								April 27, 2017 at 23:21							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks for your question! I agree this section needs clarification. Let me try to clarify and correct this part.</p>
+<p>First yes, you are correct that omitting default_availability_zone in cinder.conf will cause cinder-api to pass the hard-coded “nova” AZ to the cinder scheduler.</p>
+<p>Second, the connection between Nova and Cinder which I didn’t explain. One way this would come into play when provisioning a VM with Nova “boot from image (creates a new volume)” option. In this case, Nova is making the API call to Cinder to create a new Cinder volume for instance storage. Furthermore, if Nova is provisioning other OpenStack resources for a VM, I believe it will try to create them in the same AZ as that VM.</p>
+<p>Third, in the context of the example, we would expect a successful volume provision, not a failure as I stated in the article. The assumption being that Nova explicitly asks Cinder for volumes in “AZ1”, which we have in our example on “hostname1”.</p>
+<p>Whereas, it would fail* in the case of any Cinder API call that did not specify any AZ (from Nova, the user, or other client), because then we have no cinder-volume assigned to the “nova” AZ in the example. The two cinder-volumes we have are assigned to AZ1 and AZ2, but none assigned to a “nova” AZ.<br>
+* This assumes you have the AvailabilityZoneFilter listed in your scheduler_default_filters in cinder.conf</p>
+<p>Do that clear things up? Let me know if you find anything else!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272060#respond" onclick="return addComment.moveForm( &quot;div-comment-272060&quot;, &quot;272060&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Craig Anderson">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-272064" class="comment even depth-3 parent">
+			<article id="div-comment-272064" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/e763dbc4286ddcb5ae8699c3b1f692fb" srcset="https://secure.gravatar.com/avatar/e763dbc4286ddcb5ae8699c3b1f692fb?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Y.G</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272064">
+							<time datetime="2017-05-04T05:49:14+00:00">
+								May 4, 2017 at 05:49							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi Craig,</p>
+<p>Thanks for your response. The above explanation has cleared things in that area. But I have one more question.  This has to do with the following section:</p>
+<p>————————–</p>
+<p>“For example, if our resources are split between two power sources in the data center, then we may decide to define two resource pools (availability zones) according to their connected power source:</p>
+<p>Or, if we only have one TOR switch in our racks, then we may decide to define availability zones by rack. However, here we can run into problems if we make each rack its own availability zone, as this will not scale from a capacity management perspective for more than 2-3 racks/availability zones (because of the “resource island” problem). In this case, you might consider dividing/arranging your total rack count into into 2 or 3 logical groupings that correlate to your defined availability zones:</p>
+<p>We may also find situations where we have redundant TOR switch pairs in our racks, power source diversity to each rack, and lack a single point of failure. You could still place racks into availability zones as in the previous example, but the value of availability zones is marginalized, since you need to have a double failure (e.g., both TORs in the rack failing) to take down a rack. ”</p>
+<p>In the above paragraph, you are talking about availability zones from the context of “failure domains”.<br>
+My questions  are :</p>
+<p>1.)     Can you elaborate as to what exactly is the meaning of AZ in the context of TOR switches on racks,<br>
+          and also what is the meaning of AZ in the context of power sources ?  Are you assuming that each<br>
+          rack has its own TOR switch in these cases ?</p>
+<p>2.)   How can you achieve high availability by using availability zone definitions based on power sources<br>
+       and TOR switches ?</p>
+<p>Appreciate your time.</p>
+<p>Thanks<br>
+Y.G</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272064#respond" onclick="return addComment.moveForm( &quot;div-comment-272064&quot;, &quot;272064&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Y.G">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-272068" class="comment odd alt depth-4">
+			<article id="div-comment-272068" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/21750fe405907fe635eb5bb37d3e8d0e" srcset="https://secure.gravatar.com/avatar/21750fe405907fe635eb5bb37d3e8d0e?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Craig Anderson</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272068">
+							<time datetime="2017-05-15T11:31:28+00:00">
+								May 15, 2017 at 11:31							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Let me start by addressing your second question first.</p>
+<p>For the availability benefits of AZs to be fully realized, tenant applications need to properly take advantage of them. For example if the tenant application consists of a webserver component, then they would want to ensure that instances of that webserver are running in multiple availability zones, so that in the event that one availability zone dies or disappears completely, then the application as a whole continues to run because it’s still up and running in the other AZs. So, that is how an end-user can get higher availability for their application than they would otherwise have.</p>
+<p>Going back to your first question. The way in which AZs are defined should be influenced by your common modes of failure. In other words, what might go wrong in your data center to cause a whole group of servers to fail? Power is a common example. If a group of servers are connected to the same power source, and the power fails, then all those servers go offline. But if you have a second power source that feeds a different set of servers, then those other servers would continue to run while the first set are down. So, AZs are a way for cloud operators to mitigate impact of common modes of failure in their cloud, as long as tenants take advantage of this (as explained in the previous paragraph).</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272068#respond" onclick="return addComment.moveForm( &quot;div-comment-272068&quot;, &quot;272068&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Craig Anderson">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-272083" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-272083" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/0e66d165c14731370e14336c275ac6d0" srcset="https://secure.gravatar.com/avatar/0e66d165c14731370e14336c275ac6d0?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Greg Zavertnik</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272083">
+							<time datetime="2017-06-27T07:44:00+00:00">
+								June 27, 2017 at 07:44							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Great article.  I am still digging trying to find the holy grail, “how to run multiple hypervisors on the same compute node”.  I need a single node environment where I can run both docker containers and a single Windows VM.  I still have not found and answer to how to do this but I am hoping AZ’s might allow me to do this.  I am not worried about over committing resources as the Windows VM is simply an instance where all the Windows thick clients need to be installed to access the services running in the containers.  I certainly want to avoid installing OpenStack just for containers and a separate bare-metal KVM install as I want OpenStack to manage all the host services, resources, and security through its web clients.  I also need a single server implementation as this is required for distribution of this “demo” environment.</p>
+<p>Is it possible to use AZ’s to have a VM and separate Docker flavor on the same compute node?  If not, can I use AZ’s to create two compute nodes, one Docker and the other KVM, in the same cluster?  If so, is it possible to multi-home a server and fool OpenStack into thinking there are two separate compute node servers, while actually running on the same physical server.  Again over commit is not a big issue as the Windows VM will use a fixed memory, cpu, and storage.  I however need to spin up multiple combinations of docker-ized server containers to support various demo’s, tests, and presentations.</p>
+<p>I believe that OpenStack is a bit of overkill for my needs but the web administrative capabilities are needed to ease the usability of the environment for the average consumer.  I hope this make sense to everyone so that we don’t go down any rabbit holes.  </p>
+<p>A single node, multi-hypervisor environment for running mixed hybrid work loads is what I need.  Nothing else will work.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272083#respond" onclick="return addComment.moveForm( &quot;div-comment-272083&quot;, &quot;272083&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Greg Zavertnik">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-272088" class="comment odd alt depth-2">
+			<article id="div-comment-272088" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/7b5efa85ce9dac03677613cf4c125f84" srcset="https://secure.gravatar.com/avatar/7b5efa85ce9dac03677613cf4c125f84?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Craig Anderson</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272088">
+							<time datetime="2017-07-06T02:35:28+00:00">
+								July 6, 2017 at 02:35							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks! I’m glad you found it informative.</p>
+<p>In your situation, there’s not a compelling need for availability zones. Think of them as failure domains. If you’re not trying to solve a problem of service availability (which does not seem to be the case, as you say this is for a demo), then AZs are not the right tool for the job.</p>
+<p>As you mentioned in your comment, you could use Nova Flavors to facilitate the separation from the user side, which would be more appropriate. (There’s nothing stopping you from using both flavors and AZs, but the AZs aren’t going to be adding any additional benefits in your scenario.)</p>
+<p>Each nova-compute daemon can only be configured with one hypervisor backend. Meaning in your case you either need 2 compute nodes, or you need another layer of abstraction on a single node to permit you running two nova-compute agents.</p>
+<p>For example, you could manually create (outside of openstack) one VM that runs nova-compute and docker, and the second VM that runs another nova-compute plus KVM. This would be one way of doing what you are trying to achieve.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272088#respond" onclick="return addComment.moveForm( &quot;div-comment-272088&quot;, &quot;272088&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Craig Anderson">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-272096" class="comment even thread-even depth-1">
+			<article id="div-comment-272096" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/1b39e1b73480671970134f4cfe27fcbf" srcset="https://secure.gravatar.com/avatar/1b39e1b73480671970134f4cfe27fcbf?s=64&amp;d=retro&amp;r=g 2x" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Nitesh Sharma</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#comment-272096">
+							<time datetime="2017-07-21T03:14:58+00:00">
+								July 21, 2017 at 03:14							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks, its great article.</p>
+<p>We need Availability Zone for nova and cinder. For nova it is straight forward.</p>
+<p>For cinder if we go with LVM  it works.<br>
+But when we select Ceph as cinder backend it does not allow. Is this limited by architecture or is there any other way to do so.</p>
+<p>What we want is : ceph as cinder backend and also able to define Availability zone on compute or different cinder nodes. But when we select ceph, cinder and cinder-block-storage is grayed out in Fuel.</p>
+<p>What way can we set AZ on any node other than controller for ceph.</p>
+<p>Thanks.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/?replytocom=272096#respond" onclick="return addComment.moveForm( &quot;div-comment-272096&quot;, &quot;272096&quot;, &quot;respond&quot;, &quot;660617&quot; )" aria-label="Reply to Nitesh Sharma">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+    </ol>
+
+      
+  
+  				<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://www.mirantis.com/blog/the-first-and-final-word-on-openstack-availability-zones/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://www.mirantis.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+					<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p>
+<div class="anr_captcha_field"><div id="anr_captcha_field_1"></div></div><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="660617" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>				</form>
+					</div><!-- #respond -->
+		</section>
+                </div>
+            </div>
+            </div>
+</div>                      <!-- <aside class="sidebar"> -->
+                          <!-- </aside> -->
+                    <footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="footer-follow-us">
+					<div class="footer-social hidden-xs hidden-sm">
+						<span class="follow-us">FOLLOW US</span>
+						<a href="https://www.linkedin.com/company/mirantis" target="_blank" id="top-linkedin">
+									<span class="fa-stack fa-lg">
+									  <i class="fa fa-circle-thin fa-stack-2x"></i>
+									  <i class="fa fa-linkedin fa-stack-1x"></i>
+									</span> </a>
+						<a href="https://www.facebook.com/MirantisUS" target="_blank" id="top-facebook">
+									<span class="fa-stack fa-lg">
+									  <i class="fa fa-circle-thin fa-stack-2x"></i>
+									  <i class="fa fa-facebook fa-stack-1x"></i>
+									</span> </a>
+						<a href="https://www.youtube.com/user/mirantisus" target="_blank" id="top-facebook">
+									<span class="fa-stack fa-lg">
+									  <i class="fa fa-circle-thin fa-stack-2x"></i>
+									  <i class="fa fa-youtube fa-stack-1x"></i>
+									</span> </a>
+						<a href="https://twitter.com/MirantisIT" target="_blank" id="top-twitter">
+									<span class="fa-stack fa-lg">
+									  <i class="fa fa-circle-thin fa-stack-2x"></i>
+									  <i class="fa fa-twitter fa-stack-1x"></i>
+									</span> </a>
+						<a href="https://plus.google.com/+MirantisOpenStackNow" target="_blank" id="top-google-plus">
+									<span class="fa-stack fa-lg">
+									  <i class="fa fa-circle-thin fa-stack-2x"></i>
+									  <i class="fa fa-google-plus fa-stack-1x"></i>
+									</span> </a>
+					</div>
+				</div>
+				<div class="footer-address">
+					<p><strong>Mirantis Inc.</strong><br>525 Almanor Ave Suite 100, Sunnyvale, CA 94085<br>+1-650-963-9828</p>
+				</div>
+				<div class="footer-copy">
+					© 2005 - 2018 Mirantis, Inc. All rights reserved. "Mirantis" and "FUEL" are are registered trademarks of Mirantis, Inc. All other trademarks are the property of their respective owners.
+				</div>
+			</div>
+			<div class="col-md-2 col-xs-6">
+				<h6>Software</h6>
+				<ul id="menu-footer-one" class="menu"><li class="nav-item menu-item nav-item menu-mirantis-cloud-platform"><a href="https://www.mirantis.com/software/mcp/">Mirantis Cloud Platform</a></li>
+<li class="nav-item menu-item nav-item menu-openstack"><a href="https://www.mirantis.com/software/openstack/">OpenStack</a></li>
+<li class="nav-item menu-item nav-item menu-kubernetes"><a href="https://www.mirantis.com/software/kubernetes/">Kubernetes</a></li>
+<li class="nav-item menu-item nav-item menu-drivetrain"><a href="https://www.mirantis.com/software/mcp/drivetrain/">DriveTrain</a></li>
+<li class="nav-item menu-item nav-item menu-stacklight"><a href="https://www.mirantis.com/software/mcp/stacklight/">StackLight</a></li>
+<li class="nav-item menu-item nav-item menu-ceph"><a href="https://www.mirantis.com/software/ceph/">Ceph</a></li>
+<li class="nav-item menu-item nav-item menu-sdn"><a href="https://www.mirantis.com/software/mcp/sdn/">SDN</a></li>
+</ul>			</div>
+			<div class="col-md-2 col-xs-6">
+				<h6>Services</h6>
+				<ul id="menu-footer-two" class="menu"><li class="nav-item nav-item menu-item nav-item menu-build-services"><a href="https://www.mirantis.com/services/build/">Build Services</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-managed-services"><a href="https://www.mirantis.com/services/operate/">Managed Services</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-software-support"><a href="https://www.mirantis.com/support/enterprise-support-services/">Software Support</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-openstack-training"><a href="https://training.mirantis.com/openstack-courses-exams/">OpenStack Training</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-kubernetes-training"><a href="https://training.mirantis.com/kubernetes-docker-courses-exams/">Kubernetes Training</a></li>
+</ul>			</div>
+			<div class="col-md-2 col-xs-6">
+				<h6>Resources</h6>
+				<ul id="menu-footer-four" class="menu"><li class="nav-item nav-item menu-item nav-item menu-customers"><a href="https://www.mirantis.com/cloud-case-studies/">Customers</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-blog"><a href="https://www.mirantis.com/blog/">Blog</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-webinars"><a href="https://www.mirantis.com/cloud-webinars/">Webinars</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-events"><a href="https://www.mirantis.com/cloud-events/">Events</a></li>
+</ul>			</div>
+			<div class="col-md-2 col-xs-6">
+				<h6>About</h6>
+				<ul id="menu-footer-three" class="menu"><li class="nav-item nav-item menu-item nav-item menu-contact"><a href="https://content.mirantis.com/contact-us-landing-page.html">Contact</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-locations"><a href="https://www.mirantis.com/company/locations/">Locations</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-careers"><a href="https://www.mirantis.com/careers/">Careers</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-leadership"><a href="https://www.mirantis.com/company/leadership/">Leadership</a></li>
+<li class="nav-item nav-item menu-item nav-item menu-press-center"><a href="https://www.mirantis.com/company/press-center/info/">Press Center</a></li>
+</ul>			</div>
+		</div>
+	</div>
+</footer>
+        </main>
+      </div>
+    </div>
+    <!-- Slide Out Panel -->
+
+<!-- End slide out panel -->    	<script type="text/javascript">
+      var anr_onloadCallback = function() {
+	  				var anr_captcha_1;
+				anr_captcha_1 = grecaptcha.render('anr_captcha_field_1', {
+				  'sitekey' : '6Ld2O_8SAAAAABmdXkIV9tIZtfu73aYIyD7dghkf',
+				  'theme' : 'light',
+				  'size' : 'normal'
+				});
+		      };
+    </script>
+	<script src="https://www.google.com/recaptcha/api.js?onload=anr_onloadCallback&amp;render=explicit" async="" defer="">
+    </script>
+
+		<script src="./The first and final words on OpenStack availability zones _ Mirantis_files/jquery-1.12.4.min.js.下载"></script><script type="text/javascript" id="">(function(){function b(){!1===c&&(c=!0,Munchkin.init("451-RBY-185"))}var c=!1,a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="//munchkin.marketo.net/munchkin.js";a.onreadystatechange=function(){"complete"!=this.readyState&&"loaded"!=this.readyState||b()};a.onload=b;document.getElementsByTagName("head")[0].appendChild(a)})();</script><script type="text/javascript" id="" src="https://platform.twitter.com/oct.js"></script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.mirantis.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.mirantis.com/?s={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","//connect.facebook.net/en_US/fbevents.js");fbq("init","165779650448932");fbq("track","PageView");</script>
+<noscript>&lt;img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=165779650448932&amp;amp;ev=PageView&amp;amp;noscript=1"&gt;</noscript>
+<script type="text/javascript" id="">(function(b,c,e,f,d){b[d]=b[d]||[];var g=function(){var a={ti:"5116578"};a.q=b[d];b[d]=new UET(a);b[d].push("pageLoad")};var a=c.createElement(e);a.src=f;a.async=1;a.onload=a.onreadystatechange=function(){var b=this.readyState;b&&"loaded"!==b&&"complete"!==b||(g(),a.onload=a.onreadystatechange=null)};c=c.getElementsByTagName(e)[0];c.parentNode.insertBefore(a,c)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script><noscript>&lt;img src="//bat.bing.com/action/0?ti=5116578&amp;amp;Ver=2" height="0" width="0" style="display:none; visibility: hidden;"&gt;</noscript>
+<script type="text/javascript" id="" src="https://platform.twitter.com/oct.js"></script><script type="text/javascript" id="">(function(a,b,c,d,e){a=b.createElement(c);b=b.getElementsByTagName(c)[0];a.async=1;a.id=e;a.src=("https:"==document.location.protocol?"https://":"http://")+d;b.parentNode.insertBefore(a,b)})(window,document,"script","scripts.demandbase.com/8i57hAAX.min.js","demandbase_js_lib");</script>
+<script>(window.jQuery && jQuery.noConflict()) || document.write('<script src="/wp-includes/js/jquery/jquery.js"><\/script>')</script>
+<script src="./The first and final words on OpenStack availability zones _ Mirantis_files/main_a68beeb4705a3b5eb974.js.下载"></script><div style="width:0px; height:0px; display:none; visibility:hidden;" id="batBeacon0.4241796345789526"><img style="width:0px; height:0px; display:none; visibility:hidden;" id="batBeacon0.02259403229721957" width="0" height="0" alt="" src="./The first and final words on OpenStack availability zones _ Mirantis_files/0"></div>
+      <script type="text/javascript">
+//<![CDATA[
+(function() {
+var _analytics_scr = document.createElement('script');
+_analytics_scr.type = 'text/javascript'; _analytics_scr.async = true; _analytics_scr.src = '/_Incapsula_Resource?SWJIYLWA=719d34d31c8e3a6e6fffd425f7e032f3&ns=1&cb=255679802';
+var _analytics_elem = document.getElementsByTagName('script')[0]; _analytics_elem.parentNode.insertBefore(_analytics_scr, _analytics_elem);
+})();
+// ]]>
+</script>
+
+<div id="nb-menu-blocker" class="nb-fixed"></div></body></html>

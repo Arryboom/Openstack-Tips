@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://www.cnblogs.com/yuyafei/p/6889541.html -->
+<html lang="zh-cn"><script async="" src="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/analytics.js.下载"></script><script type="text/javascript">Object.defineProperty(window.navigator, 'userAgent', { get: function(){ return 'whoami'; } });Object.defineProperty(window.navigator, 'vendor', { get: function(){ return ''; } });</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/bundle-summerGarden.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/bundle-summerGarden-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/yuyafei/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/yuyafei/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/yuyafei/wlwmanifest.xml">
+<script src="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'yuyafei', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/yuyafei/"><img id="blogLogo" src="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/yuyafei/">yuyafei</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/yuyafei/">首页</a></li>
+	<li><a href="http://news.cnblogs.com/">新闻</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/yuyafei">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/yuyafei/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/yuyafei/rss"><img src="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/xml.gif" alt="订阅"></a></li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<!--done-->
+随笔- 7&nbsp;
+文章- 0&nbsp;
+评论- 0&nbsp;
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/yuyafei/p/6889541.html">Cinder新特性之镜像盘缓存介绍</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><h4><strong>Openstack cinder有一个可选的功能：镜像盘缓存，可以明显提升从镜像创建云盘的性能。这个改进依赖很多因素，主要看存储后端克隆云盘的速度有多快。</strong></h4>
+<p>一 简介</p>
+<p>对于Cinder来说，保存镜像显然并不是它该做的事情，但是保存了镜像的云盘管理起来就游刃有余了。而且由于云盘大小是可以任意扩展的，只要缓存一份刚好满足镜像virtual size的云盘，然后在需要时扩展成所需的大小。当第一次从镜像创建云盘时，cinder的内部租户会创建一个镜像盘缓存(image-volume-cache)。如果再从这个镜像创建云盘，就直接克隆这个镜像盘缓存，不需要再走下载镜像内容进行格式转换后拷贝数据到云盘这个流程了。在新创建镜像盘时，要想知道当前镜像是否被缓存过，需要借助数据库记录：只需要在创建镜像盘缓存时，将镜像与缓存的关联保存到表中。当请求再次来到时，查询当前镜像是不是存在表中即可（数据库中增加表image_volume_cache_entries用来记录image-volume-cache&nbsp;的host, image_id, volume_id, size等信息）。</p>
+<p>&nbsp;</p>
+<p>二 配置</p>
+<p>Mitaka版本默认不启用镜像盘缓存功能，需要另外配置。</p>
+<p>1 设置内部租户：</p>
+<p>镜像盘缓存需要配置cinder的内部租户。这个租户拥有这些缓存并且可以进行管理。这可以保护用户不必看到这些缓存，但是也没有全局隐藏。为内部租户配置的用户和项目不需要特殊的额权限。可以使用cinder服务的租户或者是其他任何的项目和用户。</p>
+<p>cinder.conf配置：</p>
+<p>cinder_internal_tenant_project_id = PROJECT_ID</p>
+<p>cinder_internal_tenant_user_id = USER_ID</p>
+<p>2 配置image-volume cache</p>
+<p>每个存储后端可以独立定义或者在默认项里定义。</p>
+<p>image_volume_cache_enabled = True</p>
+<p>image_volume_cache_max_size_gb = SIZE_GB</p>
+<p>image_volume_cache_max_count = MAX_COUNT</p>
+<p>&nbsp;</p>
+<p>三 过程</p>
+<p>1 通知：</p>
+<p>缓存操作会触发Telemetry消息，这几种消息会被发送：</p>
+<p>image_volume_cache.miss - 创建云盘时，没有从缓存中找到相应的镜像，这意味着一个新的缓存会被创建 ；</p>
+<p>image_volume_cache.hit - 从镜像创建云盘时，在缓存中找到了相应的镜像并将被使用；</p>
+<p>image_volume_cache.evict - 一个镜像盘缓存被删除。</p>
+<p>&nbsp;</p>
+<p>2 数据库中新建image_volume_cache_entries表，用以保存云盘和镜像的关联</p>
+<p>&nbsp;当由镜像创建云盘时，根据数据库记录判断是否由该镜像创建过镜像盘：</p>
+<p>若未创建过(或之前的云盘不在当前主机上)则向glance请求下载镜像，将镜像数据格式转换后拷贝到云盘中，然后由该云盘克隆一个缓存盘(归属于所配置的Service项目)；同时更新数据库表中的缓存记录；</p>
+<p>若创建过(并且云盘在当前主机上)，则由缓存盘克隆出新的云盘(该克隆功能直接由存储后端提供)，若新云盘与请求的云盘大小不一致，则扩展(Extend)该云盘。</p>
+<p>&nbsp;</p>
+<p>3 管理image-volume缓存</p>
+<p>通常来说，缓存都是自动管理的，不需要手动干预。如果需要，可以手动删除缓存。通过标准的云盘删除API，cinder服务会执行删除云盘的操作。若缓存盘被删除，再由该镜像创建云盘会回到“下载镜像-&gt;创建云盘-&gt;创建镜像盘缓存”的过程。</p>
+<p>&nbsp;</p>
+<p>4 关于缓存的总容量：</p>
+<p>若当前镜像的大小超过总容量大小，则不缓存镜像；</p>
+<p>若当前镜像大小未超过总容量大小，但是超过当前可用的缓存容量大小，则按照“最久未使用”的方式删除已经缓存的镜像盘，直至可用容量满足当前镜像大小；</p>
+<p>若当前镜像大小未超过总容量大小，并且当前可用的缓存容量大小能够满足当前镜像，则直接创建镜像缓存。</p>
+<p>&nbsp;</p>
+<p>5 除了配置缓存容量和个数，镜像盘缓存的创建还会受到service项目volume配额的限制。</p>
+<p>&nbsp;</p>
+<p>总结：</p>
+<p>缓存机制将创建镜像盘的流程从glance下载镜像拷贝数据到云盘的操作改为在后端存储上克隆。如果后端存储的克隆性能比较好，将极大的提升创建镜像盘的速度。</p>
+<p>&nbsp;</p>
+<p>参考：</p>
+<p>https://docs.openstack.org/admin-guide/blockstorage-image-volume-cache.html</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/yuyafei/category/982647.html" target="_blank">openstack</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6889541,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;86bb08ff-951e-e711-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/yuyafei/" target="_blank"><img src="./Cinder新特性之镜像盘缓存介绍 - yuyafei - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/yuyafei/">yuyafei</a><br>
+            <a href="http://home.cnblogs.com/u/yuyafei/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/yuyafei/followers">粉丝 - 0</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;86bb08ff-951e-e711-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6889541,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6889541,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/yuyafei/p/6769395.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/yuyafei/p/6769395.html" title="发布于2017-04-26 16:44">分享</a><br><a href="http://www.cnblogs.com/yuyafei/p/6889551.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/yuyafei/p/6889551.html" title="发布于2017-05-22 15:06">Cinder新特性之镜像盘缓存功能测试</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-05-22 15:05</span> <a href="http://www.cnblogs.com/yuyafei/">yuyafei</a> 阅读(<span id="post_view_count">141</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6889541" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/yuyafei/p/6889541.html#" onclick="AddToWz(6889541);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=347781,cb_entryId=6889541,cb_blogApp=currentBlogApp,cb_blogUserGuid='86bb08ff-951e-e711-9fc1-ac853d9f53cc',cb_entryCreatedDate='2017/5/22 15:05:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/yuyafei/p/6889541.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/yuyafei/p/6889541.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/593684/" target="_blank">癌症是演化副产品</a><br> ·  <a href="https://news.cnblogs.com/n/593681/" target="_blank">共享单车质量专项抽查结果公布 摩拜永威等有产品不合格</a><br> ·  <a href="https://news.cnblogs.com/n/593678/" target="_blank">Intel正研发Big.Little大小核x86新架构：代号Lakefield</a><br> ·  <a href="https://news.cnblogs.com/n/593680/" target="_blank">身份证新规明日施行，无需担心身份证丢后被人冒用</a><br> ·  <a href="https://news.cnblogs.com/n/593679/" target="_blank">阮一峰：彩票的数学知识</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/575255/" target="_blank">写给自学者的入门指南</a><br> ·  <a href="http://kb.cnblogs.com/page/578690/" target="_blank">和程序员谈恋爱</a><br> ·  <a href="http://kb.cnblogs.com/page/585734/" target="_blank">学会学习</a><br> ·  <a href="http://kb.cnblogs.com/page/588938/" target="_blank">优秀技术人的管理陷阱</a><br> ·  <a href="http://kb.cnblogs.com/page/590141/" target="_blank">作为一个程序员，数学对你到底有多重要</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/yuyafei/">yuyafei</a><br>园龄：<a href="https://home.cnblogs.com/u/yuyafei/" title="入园时间：2017-04-11">11个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/yuyafei/followers/">0</a><br>关注：<a href="https://home.cnblogs.com/u/yuyafei/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;86bb08ff-951e-e711-9fc1-ac853d9f53cc&#39;)">+加关注</a></div><script>getFollowStatus('86bb08ff-951e-e711-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/03/01&#39;);return false;">&lt;</a></td><td align="center">2018年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/05/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">25</td><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td></tr><tr><td class="CalWeekendDay" align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td class="CalWeekendDay" align="center">7</td></tr><tr><td class="CalTodayDay" align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalWeekendDay" align="center">14</td></tr><tr><td class="CalWeekendDay" align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td class="CalWeekendDay" align="center">21</td></tr><tr><td class="CalWeekendDay" align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td class="CalWeekendDay" align="center">28</td></tr><tr><td class="CalWeekendDay" align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/yuyafei/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/yuyafei/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/yuyafei/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/yuyafei/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/yuyafei/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass(&#39;itemListLink&#39;, &#39;itemListLin_con&#39;);return false;" href="https://www.cnblogs.com/yuyafei/p/6889541.html#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/yuyafei/tag/aki/">aki</a>(1)</li><li><a href="http://www.cnblogs.com/yuyafei/tag/ami/">ami</a>(1)</li><li><a href="http://www.cnblogs.com/yuyafei/tag/ari/">ari</a>(1)</li><li><a href="http://www.cnblogs.com/yuyafei/tag/openstack/">openstack</a>(1)</li><li><a href="http://www.cnblogs.com/yuyafei/tag/%E4%BA%9A%E9%A9%AC%E9%80%8A%E9%95%9C%E5%83%8F/">亚马逊镜像</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/yuyafei/category/982647.html">openstack(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/yuyafei/category/991794.html">个人转载(1)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/yuyafei/archive/2017/05.html">2017年5月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/yuyafei/archive/2017/04.html">2017年4月 (2)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap" style="display: none;">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"></div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/yuyafei/p/6889575.html">1. 使用命令cinder-manage service remove删除不用的cinder service服务(297)</a></li><li><a href="http://www.cnblogs.com/yuyafei/p/6889557.html">2. Cinder新特性之Volume-backed image介绍(164)</a></li><li><a href="http://www.cnblogs.com/yuyafei/p/6889541.html">3. Cinder新特性之镜像盘缓存介绍(141)</a></li><li><a href="http://www.cnblogs.com/yuyafei/p/6889551.html">4. Cinder新特性之镜像盘缓存功能测试(84)</a></li><li><a href="http://www.cnblogs.com/yuyafei/p/6889568.html">5. 使用cinder-manage volume update_host修改云盘的host名字(69)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap" style="display: none;">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap" style="display: none;">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 yuyafei
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

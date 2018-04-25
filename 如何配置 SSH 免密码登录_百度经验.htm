@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html><!--STATUS OK--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta charset="utf-8"><meta name="referrer" content="always"><title>如何配置 SSH 免密码登录_百度经验</title><link rel="shortcut icon" href="https://jingyan.baidu.com/favicon.ico?v=20171030" type="image/x-icon"><link rel="icon" sizes="any" mask="" href="https://exp.bdstatic.com/static/common-jquery/widget/img-baidu-com/baidu_icon_85beaf5.svg"><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/hm.js"></script><script>
+    window.alogObjectConfig = {
+        sample: '0.04', 
+ 
+        product: '132',  
+        page: '132_1509',  
+ 
+        speed: {
+            sample: '0.04'   
+        },
+ 
+        monkey: {
+            sample: '0.04'   
+        },
+ 
+        exception: { 
+            sample: '0.04'   
+        },
+ 
+        feature: {
+            sample: '0.04'   
+        },
+ 
+        cus: {
+            sample: '0'   
+        },
+ 
+        csp: {
+            sample: '0.04',  
+            'default-src': [
+                {match: '*bae.baidu.com', target: 'Accept,Warn'},
+                {match: '*.baidu.com,*.bdstatic.com,*.baidustatic.com,*.baiduimg.com,*.bdimg.com,localhost,*.hao123.com,*.hao123img.com,*.baidubce.com', target: 'Accept'},
+                {match: /^(127|172|192|10)(\.\d+){3}$/, target: 'Accept'},
+                {match: '*', target: 'Accept,Warn'}
+            ]
+        }
+    };
+ 
+     void function(a,b,c,d,e,f,g){a.alogObjectName=e,a[e]=a[e]||function(){(a[e].q=a[e].q||[]).push(arguments)},a[e].l=a[e].l||+new Date,d="https:"===a.location.protocol?"https://fex.bdstatic.com"+d:"http://fex.bdstatic.com"+d;var h=!0;if(a.alogObjectConfig&&a.alogObjectConfig.sample){var i=Math.random();a.alogObjectConfig.rand=i,i>a.alogObjectConfig.sample&&(h=!1)}h&&(f=b.createElement(c),f.async=!0,f.src=d+"?v="+~(new Date/864e5)+~(new Date/864e5),g=b.getElementsByTagName(c)[0],g.parentNode.insertBefore(f,g))}(window,document,"script","/hunter/alog/alog.min.js","alog"),void function(){function a(){}window.PDC={mark:function(a,b){alog("speed.set",a,b||+new Date),alog.fire&&alog.fire("mark")},init:function(a){alog("speed.set","options",a)},view_start:a,tti:a,page_ready:a}}();
+    void function(n){var o=!1;n.onerror=function(n,e,t,c){var i=!0;return!e&&/^script error/i.test(n)&&(o?i=!1:o=!0),i&&alog("exception.send","exception",{msg:n,js:e,ln:t,col:c}),!1},alog("exception.on","catch",function(n){alog("exception.send","exception",{msg:n.msg,js:n.path,ln:n.ln,method:n.method,flag:"catch"})})}(window);
+</script>
+<meta itemprop="dateUpdate" content="2017-03-23 13:16:56"><meta name="keywords" content="如何配置 SSH 免密码登录,ssh登录,互联网,游戏/数码"><meta name="description" content="如何配置 SSH 免密码登录,SSH是用于管理与服务器通信的加密协议。当你使用Liux服务器时，你的大部分时间有可能都花费在通过SSH连接到服务器的终端会话中。尽管有许多不同的通过SSH登录服务器的方法，但在这篇文章中，我们将重点介绍SSH密钥方式。SSH密钥提供了一种简单，但极其安全的登录服务器的方法，这是我们向所有用户..."><script type="text/javascript">!function(){var n={},e={};n.context=function(n,r){var t=arguments.length;if(t>1)e[n]=r;else if(1==t){if("object"!=typeof n)return e[n];for(var i in n)n.hasOwnProperty(i)&&(e[i]=n[i])}else if(0==t)return e},"F"in window||(window.F=n)}();;</script><!--[if lt IE 9]><script type="text/javascript" src="/static/common/tool/html5.js"></script><![endif]--><script type="text/javascript">var arrBaiduAds = [],bdAdsPrefix = '___bd_ads__',effBaiduAds = []; function BaiduAdsDisplay(index, wrapId) { if(typeof(arrBaiduAds[index])!="undefined" && arrBaiduAds[index]!=""){ effBaiduAds.push(index); document.write('<div id="'+ bdAdsPrefix + index + '">' + arrBaiduAds[index] + '</div>'); } }</script><script>var _hmt = _hmt || []; (function() { var hm = document.createElement("script"); hm.src = "//hm.baidu.com/hm.js?46c8852ae89f7d9526f0082fafa15edd"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })();</script><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/common_sync_css_0_2b91394.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/common_async_css_0_c8d78e9.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/article_sync_css_0_2172cd2.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/audio_8b17de9.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/custom-style_7852bbf.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/accuse_a9338e9.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/article_async_css_0_f358e82.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/redbox_9454f10.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/userbar_54af88e.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/special-msg_d02dba8.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/go-and-see_d818767.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/douniwan_6ec14e6.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/school2016_b4c6cb1.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/badge_2385538.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/super-2016_46f8488.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/marathon_d00c0a0.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/redbox-video_68a545b.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/prize2017_99af780.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/msg_8ee3316.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/amazing-2016_b458231.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/jquery-ui_d16d3c5.css"><link rel="stylesheet" type="text/css" href="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/footer_5f6eb7a.css"><script> 
+	if(typeof(alog) !== 'undefined') {
+		alog('speed.set', 'ht', +new Date); 
+	}
+</script><script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/nstip.js" id="nstip"></script><script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/common_async_js_1_27a4959.js"></script><script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/article_async_js_0_f818712.js"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/zh-cn.js" type="text/javascript" defer="defer"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/logger_6fca90e.js"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/link.js" type="text/javascript" defer="defer"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/image.js" type="text/javascript" defer="defer"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/video.js" type="text/javascript" defer="defer"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/map.js" type="text/javascript" defer="defer"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/formula.js" type="text/javascript" defer="defer"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/emotion.js" type="text/javascript" defer="defer"></script><link rel="stylesheet" type="text/css"></head><script type="text/javascript" id="useragent-switcher">navigator.__defineGetter__("userAgent", function() {return "Mozilla/5.0 (X11; CrOS armv7l 9592.96.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.114 Safari/537.36"})</script>
+<body spellcheck="false"><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="https://pos.baidu.com/wh/o.htm?ltr=" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><iframe style="display: none;" frameborder="0"></iframe><div id="bdshare_s" style="display: block;"><iframe id="bdsIfr" style="position:absolute;display:none;z-index:9999;" frameborder="0"></iframe><div id="bdshare_l" style="display: none;"><div id="bdshare_l_c"><h6>分享到</h6><ul><li><a href="#" class="bds_mshare mshare">一键分享</a></li><li><a href="#" class="bds_qzone qqkj">QQ空间</a></li><li><a href="#" class="bds_tsina xlwb">新浪微博</a></li><li><a href="#" class="bds_bdysc bdysc">百度云收藏</a></li><li><a href="#" class="bds_renren rrw">人人网</a></li><li><a href="#" class="bds_tqq txwb">腾讯微博</a></li><li><a href="#" class="bds_bdxc bdxc">百度相册</a></li><li><a href="#" class="bds_kaixin001 kxw">开心网</a></li><li><a href="#" class="bds_tqf txpy">腾讯朋友</a></li><li><a href="#" class="bds_tieba bdtb">百度贴吧</a></li><li><a href="#" class="bds_douban db">豆瓣网</a></li><li><a href="#" class="bds_tsohu shwb">搜狐微博</a></li><li><a href="#" class="bds_bdhome bdhome">百度新首页</a></li><li><a href="#" class="bds_sqq sqq">QQ好友</a></li><li><a href="#" class="bds_thx thx">和讯微博</a></li><li><a href="#" class="bds_more">更多...</a></li></ul><p><a href="#" class="goWebsite">百度分享</a></p></div></div></div><script type="text/javascript">var screen_width = parseInt(window.screen.width); if(screen_width < 1200){ document.write('<div class="small-screen">'); }else{ document.write('<div class="wide-screen">'); }</script><div class="wide-screen"><header class="header"><div id="usrbar" class="userbar"><a href="https://jingyan.baidu.com/">百度经验</a>&nbsp;|&nbsp;<a href="https://zhidao.baidu.com/" target="_blank">百度知道</a>&nbsp;|&nbsp;<a href="https://www.baidu.com/" target="_blank" rel="nofollow">百度首页</a>&nbsp;|&nbsp;<a href="https://passport.baidu.com/v2/?login" id="usrbar-login" rel="nofollow">登录</a>&nbsp;|&nbsp;<a id="top-reg-link" target="_blank" href="https://passport.baidu.com/v2/?reg&amp;tpl=exp&amp;u=https%3A%2F%2Fjingyan.baidu.com%2Farticle%2F4b07be3ca0c57f48b380f3d2.html" rel="nofollow">注册</a></div><div id="top-search-box" class="top-search-box"><div class="inner-warp"><div class="s-nav"><a class="logo" href="https://jingyan.baidu.com/"><img src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/logo_1e63520.png" alt="百度经验" width="137" height="46"></a><ul class="channel"><li><a href="http://news.baidu.com/" log="type:3100,menu:1" rel="nofollow" index="0">新闻</a></li><li><a href="http://www.baidu.com/" log="type:3100,menu:2" rel="nofollow" index="1">网页</a></li><li><a href="http://tieba.baidu.com/" log="type:3100,menu:3" rel="nofollow" index="2">贴吧</a></li><li><a href="http://zhidao.baidu.com/" log="type:3100,menu:4" index="3">知道</a></li><li><strong>经验</strong></li><li><a href="http://music.baidu.com/" log="type:3100,menu:5" rel="nofollow" index="4">音乐</a></li><li><a href="http://image.baidu.com/" log="type:3100,menu:6" rel="nofollow" index="5">图片</a></li><li><a href="http://video.baidu.com/" log="type:3100,menu:7" rel="nofollow" index="6">视频</a></li><li><a href="http://map.baidu.com/" log="type:3100,menu:8" rel="nofollow" index="7">地图</a></li><li><a href="http://baike.baidu.com/" log="type:3100,menu:9" rel="nofollow" index="8">百科</a></li><li><a href="http://wenku.baidu.com/" log="type:3100,menu:10" rel="nofollow" index="9">文库</a></li></ul></div><form action="/search" name="top-search-form" method="get" id="top-search-form" class="top-search-form"><div class="box"><span class="s-ipt-wr"><input x-webkit-speech="" x-webkit-grammar="bUIltin:search" class="hdi" id="kw" autocomplete="off" maxlength="256" tabindex="1" size="46" name="word" value="wumiyao ssh"></span><span class="s-btn-wr"><input class="s-btn" id="sb" value="搜索经验" type="submit"></span><span class="s-tools"><a href="http://www.baidu.com/search/jingyan_help.html" target="_blank" rel="nofollow">帮助</a></span><div class="clearfix"></div></div></form></div></div></header><nav class="wgt-common-nav"><div id="nav-wrap" class="nav-wrap clearfix"><a href="http://jingyan.baidu.com/edit/content" target="_blank" class="share-exp-e" id="share-exp-e" rel="nofollow"><i class="share-exp-e-icon"></i>发布经验</a><ul class="main-menu clearfix" alog-group="main-menu"><li class="main-menu-item"><a href="https://jingyan.baidu.com/" log="type:2000,pos:common_menu,menu:1" target="_self">首页</a></li><li class="main-menu-item"><a href="javascript:void(0)" log="type:2000,pos:common_menu,menu:7">分类</a><span id="dir-icon-e1" class="dir-icon"></span><div class="sub-menu sub-menu-category" style="display:none"><ul class="sub-menu-items clearfix"><li class="sub-menu-item-box"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/1" log="type:2000,pos:common_menu,menu:7" target="_blank">美食/营养</a></li><li class="sub-menu-item-box even"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/10" log="type:2000,pos:common_menu,menu:7" target="_blank">游戏/数码</a></li><li class="sub-menu-item-box"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/37" log="type:2000,pos:common_menu,menu:7" target="_blank">手工/爱好</a></li><li class="sub-menu-item-box even"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/50" log="type:2000,pos:common_menu,menu:7" target="_blank">生活/家居</a></li><li class="sub-menu-item-box"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/73" log="type:2000,pos:common_menu,menu:7" target="_blank">健康/养生</a></li><li class="sub-menu-item-box even"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/86" log="type:2000,pos:common_menu,menu:7" target="_blank">运动/户外</a></li><li class="sub-menu-item-box"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/93" log="type:2000,pos:common_menu,menu:7" target="_blank">职场/理财</a></li><li class="sub-menu-item-box even"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/101" log="type:2000,pos:common_menu,menu:7" target="_blank">情感/交际</a></li><li class="sub-menu-item-box"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/108" log="type:2000,pos:common_menu,menu:7" target="_blank">母婴/教育</a></li><li class="sub-menu-item-box even"><a class="sub-menu-item" href="https://jingyan.baidu.com/list/123" log="type:2000,pos:common_menu,menu:7" target="_blank">时尚/美容</a></li></ul></div></li><li class="main-menu-item"><a href="https://jingyan.baidu.com/task" target="_blank" log="type:2000,pos:common_menu,menu:3" rel="nofollow" id="all-task-a-e">任务</a><span id="dir-icon-e2" class="dir-icon"></span><div class="sub-menu" style="display:none"><ul class="sub-menu-items clearfix"><li class="sub-menu-item-box"><a class="sub-menu-item" href="https://jingyan.baidu.com/patch" target="_blank">悬赏令</a></li><li class="sub-menu-item-box"><a class="sub-menu-item" href="https://jingyan.baidu.com/task" target="_blank">任务书</a></li><li class="sub-menu-item-box"><a class="sub-menu-item" href="https://jingyan.baidu.com/usersign" target="_blank" log="type:2000,pos:common_menu,menu:8">签到</a></li></ul></div></li><li class="main-menu-item"><a href="https://jingyan.baidu.com/user/income" target="_blank" log="type:2000,pos:common_menu,menu:6" rel="nofollow">回享</a><i class="new-icon"></i></li><li class="main-menu-item"><a href="https://jingyan.baidu.com/shop" log="type:2000,pos:common_menu,menu:9" target="_blank">商城</a></li><li class="main-menu-item"><a href="http://jingyan.baidu.com/videoexp/list/0" target="_blank" log="type:2000,pos:common_menu,menu:11" rel="nofollow">特色</a><span id="dir-icon-e3" class="dir-icon"></span><div class="sub-menu" style="display:none"><ul class="sub-menu-items clearfix"><li class="sub-menu-item-box"><a class="sub-menu-item" log="type:2000,pos:common_menu,menu:11" href="http://jingyan.baidu.com/videoexp/list/0" target="_blank">视频经验</a></li><li class="sub-menu-item-box"><a class="sub-menu-item" log="type:2000,pos:common_menu,menu:10" href="https://jingyan.baidu.com/fancier/list/0" target="_blank">发烧友</a></li><li class="sub-menu-item-box"><a class="sub-menu-item" log="type:2000,pos:common_menu,menu:2" href="https://jingyan.baidu.com/magazine/home" target="_blank">杂志</a></li></ul></div></li><li class="main-menu-item last"><a class="last" href="http://zhidao.baidu.com/" log="type:2000,pos:common_menu,menu:10" target="_blank">知道</a></li></ul></div></nav><section class="body-wrapper"><div class="breadcrumb" id="breadcrumb"><div class="bread-wrap" id="bread-wrap"><a href="https://jingyan.baidu.com/">百度经验</a>&nbsp;&gt;&nbsp;<a href="https://jingyan.baidu.com/list/10">游戏/数码</a>&nbsp;&gt;&nbsp;互联网</div></div><div class="content-container clearfix"><div class="main-content" id="main-content"><article id="exp-article" class="exp-article"><div class="exp-title clearfix"><h1 title="如何配置 SSH 免密码登录">如何配置 SSH 免密码登录<div class="audio-wp audio-wp-1" data-text="如何配置 SSH 免密码登录SSH 是用于管理与服务器通信的加密协议。当你使用 Linux 服务器时，你的大部分时间有可能都花费在通过 SSH 连接到服务器的终端会话中。尽管有许多不同的通过 SSH 登录服务器的方法，但在这篇文章中，我们将重点介绍 SSH 密钥方式。 SSH 密钥提供了一种简单，但极其安全的登录服务器的方法，这是我们向所有用户推荐的方法。" data-for="" data-index="0" style="display: inline-block;"><span class="audio-inner"><span class="audio-icon"></span><span class="audio-icon-2"></span><span class="audio-icon-3"></span></span><span class="desc">听语音</span></div></h1><ul class="exp-info"><li>浏览：<span class="views">228</span></li><li class="blank">|</li><li>更新：<time>2017-03-23 13:16</time></li><li class="blank">|</li><li>标签：<span class="exp-tag-top"><a href="https://jingyan.baidu.com/tag?tagName=%E4%BA%92%E8%81%94%E7%BD%91" target="_blank">互联网</a>&nbsp;</span></li></ul></div><script>
+    void function(e,t){for(var n=t.getElementsByTagName("img"),a=+new 
+Date,i=[],o=function(){this.removeEventListener&&this.removeEventListener("load",o,!1),i.push({img:this,time:+new
+ Date})},s=0;s< n.length;s++)!function(){var 
+e=n[s];e.addEventListener?!e.complete&&e.addEventListener("load",o,!1):e.attachEvent&&e.attachEvent("onreadystatechange",function(){"complete"==e.readyState&&o.call(e,o)})}();alog("speed.set",{fsItems:i,fs:a})}(window,document);
+</script>
+<div alog-group="exp-content" class="exp-content format-exp" id="format-exp"><span class="_copr">百度经验:jingyan.baidu.com</span><div class="exp-content-block"><div class="exp-content-body exp-brief-step"><div class="exp-content-listblock"><div class="content-listblock-text"><p>SSH 是用于管理与服务器通信的加密协议。当你使用 Linux 服务器时，你的大部分时间有可能都花费在通过 SSH 连接到服务器的终端会话中。</p><p>尽管有许多不同的通过 SSH 登录服务器的方法，但在这篇文章中，我们将重点介绍 SSH 密钥方式。 SSH 密钥提供了一种简单，但极其安全的登录服务器的方法，这是我们向所有用户推荐的方法。</p></div><div class="content-listblock-media"><div class="content-listblock-image"><img class="exp-image-default" alt="如何配置 SSH 免密码登录" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/ae51f3deb48f8c54b5d899c733292df5e1fe7fca.png" style=""></div><div class="exp-brief-clear"></div></div></div></div></div><span class="_copr">百度经验:jingyan.baidu.com</span><div class="exp-content-block"><h2 class="exp-content-head"><a href="javascript:;" name="section-2"></a>方法/步骤<div class="audio-wp audio-wp-2" data-text="" data-for="" data-index="1" style="display: inline-block;"><span class="audio-inner"><span class="audio-icon"></span><span class="audio-icon-2"></span><span class="audio-icon-3"></span></span><span class="desc"></span></div></h2><div class="exp-content-body"><ol class="exp-conent-orderlist"><li class="exp-content-list list-item-1"><div class="list-icon" style="visibility: hidden;">1</div><div class="content-list-text"><p>SSH 密钥如何工作？</p><p></p><p>SSH 服务器可以使用许多不同的方法来验证客户端。其中最基本的是密码认证，这易于使用，但不是最安全的。</p><p>尽管密码是以安全的方式发送到服务器，但是它们通常不够复杂或者不够长，难以抵抗重复的，持久的攻击者。尽管有其他方法可以给密码认证额外添加一些安全性（fail2ban 等），但是 SSH 密钥的方式已经是一个可靠和安全的替代方法。</p><p>SSH 密钥对是两个加密的安全密码，可用于给 SSH 服务器验证客户端，每个密钥对由公钥和私钥组成。</p><p>私钥由客户端保留，应该保持绝对隐私。私钥一旦泄漏，攻击者就可以直接登录到相关联的公钥配置的服务器，而不需要额外的认证。而作为一个额外的保护措施，私钥可以用密码再次加密。</p><p>相关的公钥可以自由共享，没有任何负面后果。公钥可以用于加密只有私钥可以解密的消息。可以根据这个特性进行认证。</p><p>公钥被上传到你希望能够使用 SSH 登录的远程服务器。该密钥将添加到你用于登录的用户帐户目录下&nbsp;~/.ssh/authorized_keys&nbsp;文件中</p><p>当客户端尝试使用 SSH 密钥进行身份验证时，服务器可以测试客户端是否拥有私钥。如果客户端可以证明它拥有私钥，则生成一个终端会话或执行请求的命令。</p><p>基本流程如图所示：</p><p></p><p></p><p>图中表示的是笔记本电脑连接到服务器，但它也可以认为一个服务器连接到另一个服务器。</p></div><div class="content-list-media"><div class="content-list-image "><img class="exp-image-default" alt="如何配置 SSH 免密码登录" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/b219ebc4b74543a90ef3a62417178a82b8011469.png" style=""></div></div></li><li class="exp-content-list list-item-2"><div class="list-icon" style="visibility: hidden;">2</div><div class="content-list-text"><p>如何生成 SSH 密钥</p><p></p><p>要为服务器配置基于 SSH 密钥的身份验证，第一步是在本地计算机上生成 SSH 密钥对。</p><p>为此，我们可以使用&nbsp;ssh-keygen&nbsp;命令，它就包含在标准的 OpenSSH 工具套件中。默认情况下，它会创建一个 2048 位的 RSA 密钥对，大多数情况这就足够了。</p><p>在本地计算机上，通过输入以下命令生成 SSH 密钥对：</p><p>ssh-keygen</p><p>Generating public/private rsa key pair.
+Enter file in which to save the key (/home/username/.ssh/id_rsa):</p><p>这是提示你输入密钥对要放置的位置。默认情况下，密钥会存储在&nbsp;~/.ssh&nbsp;目录下，id_rsa&nbsp;是私钥，公钥是&nbsp;id_rsa.pub。</p><p>通常情况，使用默认位置即可，这样可以让 SSH 客户端在尝试进行身份验证时自动查找 SSH 密钥。如果不想使用默认路径，可以现在输入。</p><p>如果你先前已经生成过 SSH 密钥对，可能会看到类似如下的提示：</p><p>/home/username/.ssh/id_rsa already exists.
+Overwrite (y/n)?</p><p>如果你选择覆盖，你就无法使用之前的密钥进行身份验证。所以选择 “y” 时要非常小心，因为这是一个不可逆转的过程。</p><p>Created directory '/home/username/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:</p><p>接下来，系统会提示你输入密钥的密码，这可用于加密硬盘上的私钥文件。</p><p>这时候你可能想知道如果你还是需要输入密码，那 SSH 密钥到底有什么优势。下面列出了一些：</p><p></p><p>SSH 私钥（可以密码保护的部分）永远不会暴露在网络上。密码仅用于解密本地机器上的密钥。这意味着无法针对私钥密码使用基于网络的暴力破解。</p><p></p><p></p><p>私钥保存在受限目录中，SSH 客户端不会识别未保存在受限目录中的私钥。密钥本身也必须具有受限权限（只能所有者读写），这表示系统上的其他用户无法窥探。</p><p></p><p></p><p>任何希望破解 SSH 私钥密码的攻击者都必须已经可以访问系统，这意味着他们已经可以访问您的用户帐户或 root 帐户。如果您处于这种状况下，密码可以防止攻击者立即登录到其他服务器，这样你就有时间创建和部署一个新的 SSH 密钥对，并移除受攻击的密钥的访问。</p><p></p><p>因为私钥永远不会暴露在网络中并且通过文件权限来保护，因此除了你（和 root用户）之外的任何人都不能够访问此文件。私钥密码则在这些条件都被破坏的情况下作为额外的保护。</p><p>私钥密码是可选的，如果设置了，你就必须在每次使用此密钥时提供（除非您使用了存储解密密钥的 SSH 代理软件）。我们建议使用私钥密码，但如果您不想设置，只需按确认键跳过此提示。</p><p></p><p>您现在有了一个公钥和一个私钥，您可以使用它来进行身份验证。下一步则是将公钥放到服务器上，以便可以使用 SSH 密钥身份验证登录。</p></div></li><li class="exp-content-list list-item-3"><div class="list-icon" style="visibility: hidden;">3</div><div class="content-list-text"><p>如何把公钥拷贝到服务器上</p><p></p><p>如果你已经有一个可用服务器，你可以上传你的公钥，并使用它来验证。</p><p>你可以使用的方法取决于你可用的工具和当前配置。以下方法都会得到相同的结果，第一个是最简单，最自动化的方法，如果你无法使用前面的方法，那么之后的方法都需要额外的手动步骤。</p></div></li><li class="exp-content-list list-item-4"><div class="list-icon" style="visibility: hidden;">4</div><div class="content-list-text"><p>使用 SSH-Copy-ID 复制公钥</p><p></p><p>将公钥复制到服务器上的最简单方法是使用&nbsp;ssh-copy-id&nbsp;命令。由于它足够简单，如果可用，建议使用此方法。</p><p>ssh-copy-id&nbsp;命令包含在许多发行版本的 OpenSSH 软件包中。要让此方法起效，你必须已经可以通过 SSH 访问你的服务器。</p><p>要使用该命令，你只需要指定要连接到的远程主机和你有 SSH 访问权限的用户帐户。你的 SSH 公钥会被复制到该帐户目录下。</p><p>语法如下：</p><p></p><p>ssh-copy-id username@remote_host</p><p></p><p>您可能会看到这样的消息：</p><p></p><p>The authenticity of host '111.111.11.111 (111.111.11.111)' can't be established.
+ECDSA key fingerprint is fd:fd:d4:f9:77:fe:73:84:e1:55:00:ad:d6:6d:22:fe.
+Are you sure you want to continue connecting (yes/no)? yes</p><p></p><p>这只是表示你的本地计算机不能识别远程主机，它只会在你第一次连接到新主机时出现。键入 “yes”，然后按确认键继续。</p><p>接下来，程序将扫描你本地帐户下的&nbsp;id_rsa.pub&nbsp;文件。如果找到，它会提示输入远程用户帐户的密码：</p><p></p><p>/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+username@111.111.11.111's password:</p><p></p><p>输入密码（出于安全考虑，你的输入内容不会显示出
+来），然后按确认键。该程序将使用你提供的密码连接到远程主机上的帐户，然后把&nbsp;~/.ssh/id_rsa.pub&nbsp;的内容，加入
+到远程帐户的&nbsp;~/.ssh/authorized_keys&nbsp;文件中。</p><p>你会看到如下的输出：</p><p></p><p>Number
+ of key(s) added: 1
+
+Now try logging into the machine, with: &nbsp; "ssh 
+'username@111.111.11.111'"and check to make sure that only the key(s) 
+you wanted were added.</p><p></p><p>此时，你的&nbsp;id_rsa.pub&nbsp;内容已上传到远程帐户。</p></div></li><li class="exp-content-list list-item-5"><div class="list-icon" style="visibility: visible;">5</div><div class="content-list-text"><p>使用 SSH 复制公钥</p><p></p><p>如果你不能使用&nbsp;ssh-copy-id&nbsp;方法，但是你可以用密码访问服务器上的帐户，那可以使用传统的 SSH 方法上传密钥。</p><p>我
+们可以在本地输出 SSH 公钥的内容，然后通过 SSH 
+连接到远程服务器来处理。同时，确保我们正在使用的账户下有&nbsp;~/.ssh&nbsp;目录，然后将本地的 SSH 
+公钥通过管道输出到此目录中名为&nbsp;authorized_keys&nbsp;的文件中。</p><p>我们会使用&nbsp;&gt;&gt;&nbsp;符号来附加内容，而不是覆盖。这样，我们可以添加公钥而不破坏以前添加的公钥。</p><p>完整命令如下所示：</p><p></p><p>cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys"</p><p></p><p>您可能会看到这样的消息：</p><p></p><p>The authenticity of host '111.111.11.111 (111.111.11.111)' can't be established.
+ECDSA key fingerprint is fd:fd:d4:f9:77:fe:73:84:e1:55:00:ad:d6:6d:22:fe.
+Are you sure you want to continue connecting (yes/no)? yes</p><p></p><p>这只是说明你的本地计算机不能识别远程主机，它只会在你第一次连接到新主机时出现。键入 “yes”，然后按确认键继续。</p><p>之后，系统会提示你输入尝试连接到的帐户的密码：</p><p></p><p>username@111.111.11.111's password:</p><p></p><p>输入密码后，你的&nbsp;id_rsa.pub&nbsp;的内容就被复制到远程用户帐户的&nbsp;authorized_keys&nbsp;文件的末尾。</p></div></li><li class="exp-content-list list-item-6"><div class="list-icon" style="visibility: visible;">6</div><div class="content-list-text"><p>手动复制公钥</p><p></p><p>如果你不能通过基于密码的 SSH 访问服务器，那你必须手动完成上述操作。</p><p>你本地&nbsp;~/.ssh/id_rsa.pub&nbsp;的内容必须添加到服务器上的&nbsp;~/.ssh/authorized_keys&nbsp;文件中。</p><p>显示你本地的&nbsp;~/.ssh/id_rsa.pub&nbsp;内容:</p><p></p><p>cat ~/.ssh/id_rsa.pub</p><p></p><p>你会看到类似下面的密钥内容：</p><p></p><p>ssh-rsa
+ 
+AAAAB3NzaC1yc2EAAAADAQABAAACAQCqql6MzstZYh1TmWWv11q5O3pISj2ZFl9HgH1JLknLLx44+tXfJ7mIrKNxOOwxIxvcBF8PXSYvobFYEZjGIVCEAjrUzLiIxbyCoxVyle7Q+bqgZ8SeeM8wzytsY+dVGcBxF6N4JS+zVk5eMcV385gG3Y6ON3EG112n6d+SMXY0OEBIcO6x+PnUSGHrSgpBgX7Ks1r7xqFa7heJLLt2wWwkARptX7udSq05paBhcpB0pHtA1Rfz3K2B+ZVIpSDfki9UVKzT8JUmwW6NNzSgxUfQHGwnW7kj4jp4AT0VZk3ADw497M2G/12N0PPB5CnhHf7ovgy6nL1ikrygTKRFmNZISvAcywB9GVqNAVE+ZHDSCuURNsAInVzgYo9xgJDW8wUw2o8U77+xiFxgI5QSZX3Iq7YLMgeksaO4rBJEa54k8m5wEiEE1nUhLuJ0X/vh2xPff6SQ1BL/zkOhvJCACK6Vb15mDOeCSq54Cr7kvS46itMosi/uS66+PujOO+xt/2FWYepz6ZlN70bRly57Q06J+ZJoc9FfBCbCyYH7U/ASsmY095ywPsBo1XQ9PqhnN1/YOorJ068foQDNVpm146mUpILVxmq41Cj55YKHEazXGsdBIbXWhcrRf4G2fJLRcGUr9q8/lERo9oxRm5JFX6TCmj6kmiFqv+Ow9gI0x8GvaQ==
+ demo@test</p><p></p><p>然后使用你任何可用的方法访问远程主机。</p><p>一旦在远程服务器上访问了你的帐户后，你首先要确保已经创建了&nbsp;~/.ssh&nbsp;目录。如果还没有，可以用如下命令创建：</p><p></p><p>mkdir -p ~/.ssh</p><p></p><p>现在，你可以在此目录下创建或修改 authorized_keys 文件。您可以把&nbsp;id_rsa.pub&nbsp;的内容添加到 authorized_keys 文件的末尾，命令如下：</p><p></p><p>echo public_key_string &gt;&gt; ~/.ssh/authorized_keys</p><p></p><p>在上面的命令中，使用之前显示出的公钥内容替换 public_key_string。合法的公钥应该以&nbsp;ssh-rsa AAAA&nbsp;开头。</p><p></p><p>如果这步成功了，你可以退出然后尝试使用不需要密码的 SSH 登录服务器。</p></div></li><li class="exp-content-list list-item-7"><div class="list-icon" style="visibility: visible;">7</div><div class="content-list-text"><p>基于SSH密钥对您的服务器进行身份验证</p><p></p><p>如果你已经完成了上述其中一个过程，你应该能够无需密码就登录到远程主机。</p><p>基本过程是一样的:</p><p></p><p>ssh username@remote_host</p><p></p><p>如果这是你第一次连接到这个主机（前面一段的最后一个方法），你可能会看到这样的提示：</p><p></p><p>The authenticity of host '111.111.11.111 (111.111.11.111)' can't be established.
+ECDSA key fingerprint is fd:fd:d4:f9:77:fe:73:84:e1:55:00:ad:d6:6d:22:fe.
+Are you sure you want to continue connecting (yes/no)? yes</p><p></p><p>这只是表示你的本地计算机不能识别远程主机，它只会在你第一次连接到新主机时出现。键入 “yes”，然后按确认键继续。</p><p></p><p>如果你没有为你的私钥设置密码，你就能立即登录。如果你在创建密钥时为私钥设置了密码，那现在需要输入私钥密码。这时候，就会创建新的终端会话。</p><p></p><p>成功之后，继续看如何禁用服务器密码验证。</p></div></li><li class="exp-content-list list-item-8"><div class="list-icon" style="visibility: visible;">8</div><div class="content-list-text"><p>在服务器上禁用密码验证</p><p></p><p>如果你可以直接使用 SSH 而不是账户密码登录服务器，这表示你已成功配置了基于 SSH 密钥的身份验证。但是，这时基于密码的身份验证机制依然可用，这表示你的服务器仍然暴露在暴力攻击之下。</p><p>在完成本节中的步骤之前，请确保你的服务器上的 root 帐户或者最好是具有 sudo 访问权的的帐户配置了基于 SSH 密钥的身份验证。此步骤将禁止基于密码的登录，因此确保你依然能够获得管理访问权限是非常重要的。</p><p>一旦上述条件都满足了，以 root 身份或使用具有 sudo 权限的帐户使用 SSH 密钥登录到远程服务器，打开 SSH 后台程序的配置文件：</p><p></p><p>sudo nano /etc/ssh/sshd_config</p><p></p><p>在文件中，搜索一个名为 PasswordAuthentication 的指令，它可能是被注释掉的，取消注释并将值设置为 “no”。这样就可以禁止使用帐户密码通过 SSH 登录：</p><p></p><p>PasswordAuthentication no</p><p></p><p>完成以后保存并关闭文件。要让刚才的修改起效，你必须重新启动服务。</p><p>在 Ubuntu 或者 Debian 机器上，你可以用如下命令:</p><p></p><p>sudo service ssh restart</p><p></p><p>在 CentOS/Fedora 机器上，后台进程叫 sshd:</p><p></p><p>sudo service sshd restart</p><p></p><p>完成这一步之后，你就成功将 SSH 后台进程切换为仅响应 SSH 密钥验证。</p></div></li><li class="exp-content-list list-item-9"><div class="list-icon" style="visibility: visible;">9</div><div class="content-list-text"><p>总结</p><p></p><p>你现在应该已经在服务器上配置并运行了基于 SSH 密钥的身份验证，所以你可以直接登录服务器而不需要提供帐户密码了。</p></div><div class="last-item"><span class="last-item-end">END</span></div></li></ol></div></div><span class="_copr">百度经验:jingyan.baidu.com</span><div class="exp-content-block"><h2 class="exp-content-head"><a href="javascript:;" name="section-3"></a>注意事项<div class="audio-wp audio-wp-2" data-text="" data-for="" data-index="2" style="display: inline-block;"><span class="audio-inner"><span class="audio-icon"></span><span class="audio-icon-2"></span><span class="audio-icon-3"></span></span><span class="desc"></span></div></h2><div class="exp-content-body"><ul class="exp-content-unorderlist "><li class="exp-content-list list-item-1"><div class="content-list-text">相关命令均在 Ubuntu 系统上验证</div></li><li class="exp-content-list list-item-2"><div class="content-list-text">如果需要更多信息，欢迎留言</div></li></ul></div></div><div id="auto-app-placehold"></div><div class="origin-author f12">原作者：<span title="点探索">点探索</span></div><div class="prompt"><span class="prompt-ico"></span>经验内容仅供参考，如果您需解决具体问题(尤其法律、医学等领域)，建议您详细咨询相关领域专业人士。<div class="pro-meta"><a href="javascript:void(0)" id="report-t-exp" class="jubao" target="_blank" rel="nofollow">举报</a></div></div></div></article><div id="wgt-comments" class="wgt-comments"><div class="cmt-btn-w clearfix"><div class="vote-btn-wrp"><div id="cmt-btn-vote" class="cmt-btn cmt-btn-vote"><div class="btn-bg btn-l-bg"></div><div class="btn-bg btn-m-bg"><span class="a-t">投票<span class="a-num">(0)</span></span><span class="a-h">已投票(<span id="v-a-num" class="a-num">0</span>)</span></div><div class="btn-r-bg"></div></div><span id="a-a" class="a-a" style="display:none;">+1</span></div><div class="hads-btn-wrp"><div id="cmt-btn-hads" class="cmt-btn cmt-btn-hads"><div class="btn-bg btn-l-bg"></div><div class="btn-bg btn-m-bg"><span class="a-t">有得<span class="a-num">(0)</span></span></div><div class="btn-r-bg"></div></div></div><div class="ques-btn-wrp"><div id="cmt-btn-ques" class="cmt-btn cmt-btn-ques"><div class="btn-bg btn-l-bg"></div><div class="btn-bg btn-m-bg"><span class="a-t">我有疑问<span class="a-num">(0)</span></span></div><div class="btn-bg btn-r-bg"></div></div></div></div><div id="vote-box-e" class="reply-box vote-box" style="display: none;"><div class="reply-arrow"><em>◆</em><span>◆</span></div><div class="reply-outter"><p class="v-tit">说说为什么给这篇经验投票吧！</p><ul class="v-extra clearfix"><li><a class="intr-txt" href="">写的太赞</a></li><li><a class="intr-txt" href="">帮到了我</a></li><li><a class="intr-txt" href="">作者很棒</a></li><li><a class="intr-txt" href="">因为任性</a></li></ul><p class="v-ipt"><textarea id="v-ipt-txt" type="text" class="v-ipt-txt"></textarea><label class="placeholder" for="v-ipt-txt">我为什么投票...</label></p><p class="vote-spt"><input id="v-sub-btn" class="v-sub-btn" value="发布" type="submit"><span id="vote-tip-span" class="vote-tip-span">你还可以输入500字</span></p></div></div><div id="hads-box-e" class="reply-box hads-box" style="display: none;"><div class="reply-arrow"><em>◆</em><span>◆</span></div><div class="reply-outter"><div class="ipt-hads-box"><div class="hads-ipt"><div class="edui-container" style="width: 646px; z-index: 999;"><div class="edui-toolbar"><div class="edui-btn-toolbar" unselectable="on" onmousedown="return false"><div class="edui-btn edui-btn-emotion " unselectable="on" onmousedown="return false" data-original-title="表情"> <div unselectable="on" class="edui-icon-emotion edui-icon"></div><div class="edui-tooltip" unselectable="on" onmousedown="return false"><div class="edui-tooltip-arrow" unselectable="on" onmousedown="return false"></div><div class="edui-tooltip-inner" unselectable="on" onmousedown="return false"></div></div></div><div class="edui-btn edui-btn-image " unselectable="on" onmousedown="return false" data-original-title="图片"> <div unselectable="on" class="edui-icon-image edui-icon"></div><div class="edui-tooltip" unselectable="on" onmousedown="return false" style="z-index: 1000;"><div class="edui-tooltip-arrow" unselectable="on" onmousedown="return false"></div><div class="edui-tooltip-inner" unselectable="on" onmousedown="return false"></div></div></div></div><div class="edui-dialog-container"></div></div><div class="edui-editor-body"><div style="width: 626px; min-height: 90px; z-index: 999;" id="feel-editor" class=" edui-body-container" contenteditable="true"><p><br></p></div></div><label class="placeholder">看了这篇经验，你有一些独到的心得要分享给大家?<br>或是，你按照作者的指导，做出了一模一样，甚至更棒的结果？<br>不管是“有心得”，还是“有所得”，都快分享给经验的小伙伴们看看吧！</label></div><div id="feel-editor-cp"></div></div><p class="hads-spt"><input id="hads-sub-btn" disabled="true" class="hads-sub-btn hads-dis-btn" value="发布" type="submit"><span class="had-dis-tip">只有签约作者及以上等级才可发有得&nbsp;<a target="_blank" href="https://jingyan.baidu.com/user/income">如何加入回享？</a></span><span id="had-tip-span" class="had-tip-span">你还可以输入1000字</span></p></div><div id="hads-list" class="hads-list"></div></div></div><div id="ques-box-e" class="reply-box ques-box" style="display: none;"><div class="reply-arrow"><em>◆</em><span>◆</span></div><div class="reply-outter"><div class="ipt-ques-box"><p class="ques-ipt"><textarea id="ques-ipt-txt" type="text" class="ques-ipt-txt"></textarea><label class="placeholder" for="ques-ipt-txt">如对这篇经验有疑问，可反馈给作者，经验作者会尽力为您解决！</label></p><p class="ques-spt"><input id="ques-sub-btn" class="ques-sub-btn" value="提交疑问" type="submit"><span id="que-tip-span" class="que-tip-span">你还可以输入500字</span></p></div><div id="ques-list" class="ques-list"></div></div></div></div><div class="main-content-bottom"><div id="relate-explist" class="exp-item-list"><h3 class="clearfix"><a href="" id="change-relate-exp" class="right change-relate-exp" log="type:2019, pos:relate_change, page:article">换一批</a>相关经验</h3><ul alog-group="relate-explist" id="relate-explist-container"><li class="related-exp-link"><a href="https://jingyan.baidu.com/article/ed15cb1bb8ed5c1be36981b7.html" target="_blank" log="type:2019,module:article,page:article,intention:autoPlay-log,pos:relate_title,action:click,videoGroup:, index:0">如何解决ssh登录慢</a><span class="exp-vote-num"><span class="vote-ico"></span>0</span><span class="exp-date">2017.08.17</span></li><li class="related-exp-link"><a href="https://jingyan.baidu.com/article/148a1921ce2af54d70c3b16e.html" target="_blank" log="type:2019,module:article,page:article,intention:autoPlay-log,pos:relate_title,action:click,videoGroup:, index:1">linux的ssh免密码登录</a><em class="has-img"></em><span class="exp-vote-num"><span class="vote-ico"></span>0</span><span class="exp-date">2017.09.29</span></li><li class="related-exp-link"><a href="https://jingyan.baidu.com/article/6d704a134ef65328db51caa3.html" target="_blank" log="type:2019,module:article,page:article,intention:autoPlay-log,pos:relate_title,action:click,videoGroup:, index:2">SSH无密码执行rsync</a><em class="has-img"></em><span class="exp-vote-num"><span class="vote-ico"></span>0</span><span class="exp-date">2017.07.27</span></li><li class="related-exp-link"><a href="https://jingyan.baidu.com/article/09ea3ede7026ddc0afde3942.html" target="_blank" log="type:2019,module:article,page:article,intention:autoPlay-log,pos:relate_title,action:click,videoGroup:, index:3">Git如何配置SSH Key</a><em class="has-img"></em><span class="exp-vote-num"><span class="vote-ico"></span>0</span><span class="exp-date">2018.01.16</span></li><li class="related-exp-link"><a href="https://jingyan.baidu.com/article/bea41d43b558ffb4c51be6db.html" target="_blank" log="type:2019,module:article,page:article,intention:autoPlay-log,pos:relate_title,action:click,videoGroup:, index:4">在CentOS/RHEL上设置SSH免密码登录</a><em class="has-img"></em><span class="exp-vote-num"><span class="vote-ico"></span>0</span><span class="exp-date">2017.07.27</span></li></ul></div><div class="tag-explist"><strong>相关标签</strong><span class="exp-tag"><a href="https://jingyan.baidu.com/tag?tagName=%E4%BA%92%E8%81%94%E7%BD%91" target="_blank">互联网</a></span></div><div class="bottom-ads-container" id="bottom-ads-container"><div class="bottom-text-ads" id="bottom-text-ads-wrap"><span style="display:none"></span><style type="text/css">#EC_l{line-height:
+ 20px;white-space:nowrap;overflow:hidden;padding:8px 
+11px;line-height:20px;font-size:12px;}#EC_l a:link,#EC_l 
+a:visited{color:#261CDC;font-family:Arial;font-size:12px;text-decoration:underline;}#EC_l
+ a:hover{color:#261CDC;}#EC_l .EC_tit{font-size:14px;}#EC_l .EC_tit 
+font[color="#c60a00"]{text-decoration:underline;}.ecl-ui-tip 
+{z-index:1000 !important;}</style><div id="EC_l" class="EC_result"><a href="http://e.baidu.com/?id=1" style="color:#666 !important; text-decoration:none;float:right;_margin-top:-3px; font-size: 13px;">广告</a><a target="_blank" href="http://www.baidu.com/baidu.php?url=0s0000jZsa9Nc-BYn_RwLm6XC7kzAm-TCRHNJdJ7DmD65qvA6BoAMGi3YbRD3Ja8uPixLjtYgkXcQu9uciRsjJpWcM5jOzqLHZpt1SWkpKsyt_0yqZ_rhWk4_kQcQ1JE3xn1yHp3LyGn8F8Bz7QFBZKY2cf6mE4QZHW-DgsRj__IhS_FJs.7D_jlZTagC69C8sgfwGuh9JeSkWtxkOxRojPak8zXre_R0.U1Yk0ZDqTLPCVTxaE0KY5gP1p0KGUHYzPHn0u1d3XjD0Iybq0ZKGujYz0APGujY1rHm0UgfqnH0kPsKopHYs0ZFY5HR1rfK-pyfqn1Rz0AFG5H00UynqP1c1njc3nWbk0Z7spyfqn0Kkmv-b5H00ThIYmyTqn0KEIhsqnHfzPHRVuZGxnH6YnHRVuZC0Uy-b5H00pg7Y5H00mycqn7ts0ANzu1Ys0ZKs5H00UMus5H08nj0snj0snj00Ugws5H00uAwETjYs0ZFJ5H00uMfqn0KspjYs0Aq15H00mMTqn0K8IjYs0ZPl5fKzug7Y5HDdnW0znHbzrH6sPjn0Tv-b5Hczrj-9mhc1PWbdrycYuH60mynqnfKlIjYs0AdWgvuzUvYqn0KWThnqnHf1n1R"><span class="EC_tit"><font color="#C60A00">ssh</font> 就选 <font color="#C60A00">上海</font>知平信息技术有限公司</span></a><a style="cursor:pointer;text-decoration:none;" href="https://www.baidu.com/s?wd=%E4%B8%8A%E6%B5%B7%E7%9F%A5%E5%B9%B3%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8@v&amp;vmp_ec=1518410564&amp;vmp_ectm=fea777416b227f667c7feNzzfa10z0X0d64d763904EkA0MkcfMalXa2amcla0f764afc31e&amp;from=fc&amp;url=0s0000jZsa9Nc-BYn_RwLm6XC7kzAm-TCRHNJdJ7DmD65qvA6BoAMGi3YbRD3Ja8uPixLjtYgkXcQu9uciRsjJpWcM5jOzqLHZpt1SWkpKsyt_0yqZ_rhWk4_kQcQ1JE3xn1yHp3LyGn8F8Bz7QFBZKY2cf6mE4QZHW-DgsRj__IhS_FJs.7D_jlZTagC69C8sgfwGuh9JeSkWtxkOxRojPak8zXre_R0.U1Yk0ZDqTLPCVTxaE0KY5gP1p0KGUHYzPHn0u1d3XjD0Iybq0ZKGujYz0APGujY1rHm0UgfqnH0kPsKopHYs0ZFY5HR1rfK-pyfqn1Rz0AFG5H00UynqP1c1njc3nWbk0Z7spyfqn0Kkmv-b5H00ThIYmyTqn0KEIhsqnHfzPHRVuZGxnH6YnHRVuZC0Uy-b5H00pg7Y5H00mycqn7ts0ANzu1Ys0ZKs5H00UMus5H08nj0snj0snj00Ugws5H00uAwETjYs0ZFJ5H00uMfqn0KspjYs0Aq15H00mMTqn0K8IjYs0ZPl5fKzug7Y5HDdnW0znHbzrH6sPjn0Tv-b5Hczrj-9mhc1PWbdrycYuH60mynqnfKlIjYs0AdWgvuzUvYqn0KWThnqnHf1n1R&amp;dataTime=127" target="_blank"><i data-renzheng="{title: '上海知平信息技术有限公司：',favorite: {fm: '',rsvMt: '',p1: '',url: 'http://i.baidu.com/myfavorite/set?url=0s0000jZsa9Nc-BYn_RwLm6XC7kzAm-TCRHNJdJ7DmD65qvA6BoAMGi3YbRD3Ja8uPixLjtYgkXcQu9uciRsjJpWcM5jOzqLHZpt1SWkpKsyt_0yqZ_rhWk4_kQcQ1JE3xn1yHp3LyGn8F8Bz7QFBZKY2cf6mE4QZHW-DgsRj__IhS_FJs.7D_jlZTagC69C8sgfwGuh9JeSkWtxkOxRojPak8zXre_R0.U1Yk0ZDqTLPCVTxaE0KY5gP1p0KGUHYzPHn0u1d3XjD0Iybq0ZKGujYz0APGujY1rHm0UgfqnH0kPsKopHYs0ZFY5HR1rfK-pyfqn1Rz0AFG5H00UynqP1c1njc3nWbk0Z7spyfqn0Kkmv-b5H00ThIYmyTqn0KEIhsqnHfzPHRVuZGxnH6YnHRVuZC0Uy-b5H00pg7Y5H00mycqn7ts0ANzu1Ys0ZKs5H00UMus5H08nj0snj0snj00Ugws5H00uAwETjYs0ZFJ5H00uMfqn0KspjYs0Aq15H00mMTqn0K8IjYs0ZPl5fKzug7Y5HDdnW0znHbzrH6sPjn0Tv-b5Hczrj-9mhc1PWbdrycYuH60mynqnfKlIjYs0AdWgvuzUvYqn0KWThnqnHf1n1R'},appraise: {fm: '',rsvMt: '',p1: '',url: 'http://trust.baidu.com/womc/comt/?url=0s0000jZsa9Nc-BYn_RwLm6XC7kzAm-TCRHNJdJ7DmD65qvA6BoAMGi3YbRD3Ja8uPixLjtYgkXcQu9uciRsjJpWcM5jOzqLHZpt1SWkpKsyt_0yqZ_rhWk4_kQcQ1JE3xn1yHp3LyGn8F8Bz7QFBZKY2cf6mE4QZHW-DgsRj__IhS_FJs.7D_jlZTagC69C8sgfwGuh9JeSkWtxkOxRojPak8zXre_R0.U1Yk0ZDqTLPCVTxaE0KY5gP1p0KGUHYzPHn0u1d3XjD0Iybq0ZKGujYz0APGujY1rHm0UgfqnH0kPsKopHYs0ZFY5HR1rfK-pyfqn1Rz0AFG5H00UynqP1c1njc3nWbk0Z7spyfqn0Kkmv-b5H00ThIYmyTqn0KEIhsqnHfzPHRVuZGxnH6YnHRVuZC0Uy-b5H00pg7Y5H00mycqn7ts0ANzu1Ys0ZKs5H00UMus5H08nj0snj0snj00Ugws5H00uAwETjYs0ZFJ5H00uMfqn0KspjYs0Aq15H00mMTqn0K8IjYs0ZPl5fKzug7Y5HDdnW0znHbzrH6sPjn0Tv-b5Hczrj-9mhc1PWbdrycYuH60mynqnfKlIjYs0AdWgvuzUvYqn0KWThnqnHf1n1R'},report: {fm: '',rsvMt: '',p1: '',url: 'http://baozhang.baidu.com/guarantee/accu/?url=0s0000jZsa9Nc-BYn_RwLm6XC7kzAm-TCRHNJdJ7DmD65qvA6BoAMGi3YbRD3Ja8uPixLjtYgkXcQu9uciRsjJpWcM5jOzqLHZpt1SWkpKsyt_0yqZ_rhWk4_kQcQ1JE3xn1yHp3LyGn8F8Bz7QFBZKY2cf6mE4QZHW-DgsRj__IhS_FJs.7D_jlZTagC69C8sgfwGuh9JeSkWtxkOxRojPak8zXre_R0.U1Yk0ZDqTLPCVTxaE0KY5gP1p0KGUHYzPHn0u1d3XjD0Iybq0ZKGujYz0APGujY1rHm0UgfqnH0kPsKopHYs0ZFY5HR1rfK-pyfqn1Rz0AFG5H00UynqP1c1njc3nWbk0Z7spyfqn0Kkmv-b5H00ThIYmyTqn0KEIhsqnHfzPHRVuZGxnH6YnHRVuZC0Uy-b5H00pg7Y5H00mycqn7ts0ANzu1Ys0ZKs5H00UMus5H08nj0snj0snj00Ugws5H00uAwETjYs0ZFJ5H00uMfqn0KspjYs0Aq15H00mMTqn0K8IjYs0ZPl5fKzug7Y5HDdnW0znHbzrH6sPjn0Tv-b5Hczrj-9mhc1PWbdrycYuH60mynqnfKlIjYs0AdWgvuzUvYqn0KWThnqnHf1n1R'},identity: {a: {fm: '',rsvMt: '1017',p1:'',url: 'https://www.baidu.com/s?wd=%E4%B8%8A%E6%B5%B7%E7%9F%A5%E5%B9%B3%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8@v&amp;vmp_ec=1518410564&amp;vmp_ectm=fea777416b227f667c7feNzzfa10z0X0d64d763904EkA0MkcfMalXa2amcla0f764afc31e&amp;from=fc&amp;url=0s0000jZsa9Nc-BYn_RwLm6XC7kzAm-TCRHNJdJ7DmD65qvA6BoAMGi3YbRD3Ja8uPixLjtYgkXcQu9uciRsjJpWcM5jOzqLHZpt1SWkpKsyt_0yqZ_rhWk4_kQcQ1JE3xn1yHp3LyGn8F8Bz7QFBZKY2cf6mE4QZHW-DgsRj__IhS_FJs.7D_jlZTagC69C8sgfwGuh9JeSkWtxkOxRojPak8zXre_R0.U1Yk0ZDqTLPCVTxaE0KY5gP1p0KGUHYzPHn0u1d3XjD0Iybq0ZKGujYz0APGujY1rHm0UgfqnH0kPsKopHYs0ZFY5HR1rfK-pyfqn1Rz0AFG5H00UynqP1c1njc3nWbk0Z7spyfqn0Kkmv-b5H00ThIYmyTqn0KEIhsqnHfzPHRVuZGxnH6YnHRVuZC0Uy-b5H00pg7Y5H00mycqn7ts0ANzu1Ys0ZKs5H00UMus5H08nj0snj0snj00Ugws5H00uAwETjYs0ZFJ5H00uMfqn0KspjYs0Aq15H00mMTqn0K8IjYs0ZPl5fKzug7Y5HDdnW0znHbzrH6sPjn0Tv-b5Hczrj-9mhc1PWbdrycYuH60mynqnfKlIjYs0AdWgvuzUvYqn0KWThnqnHf1n1R&amp;dataTime=127'}, img: '', text: '',credit: '5',process: '67',process_level: '1'}}" class="c-icon icon-certify c-icon-v1 c-icon-v efc-cert vtip-inited"></i>
+</a><br><a href="http://www.baidu.com/baidu.php?url=0s0000jZsa9Nc-BYn_RwLm6XC7kzAm-TCRHNJdJ7DmD65qvA6BoAMGi3YbRD3Ja8uPixLjtYgkXcQu9uciRsjJpWcM5jOzqLHZpt1SWkpKsyt_0yqZ_rhWk4_kQcQ1JE3xn1yHp3LyGn8F8Bz7QFBZKY2cf6mE4QZHW-DgsRj__IhS_FJs.7D_jlZTagC69C8sgfwGuh9JeSkWtxkOxRojPak8zXre_R0.U1Yk0ZDqTLPCVTxaE0KY5gP1p0KGUHYzPHn0u1d3XjD0Iybq0ZKGujYz0APGujY1rHm0UgfqnH0kPsKopHYs0ZFY5HR1rfK-pyfqn1Rz0AFG5H00UynqP1c1njc3nWbk0Z7spyfqn0Kkmv-b5H00ThIYmyTqn0KEIhsqnHfzPHRVuZGxnH6YnHRVuZC0Uy-b5H00pg7Y5H00mycqn7ts0ANzu1Ys0ZKs5H00UMus5H08nj0snj0snj00Ugws5H00uAwETjYs0ZFJ5H00uMfqn0KspjYs0Aq15H00mMTqn0K8IjYs0ZPl5fKzug7Y5HDdnW0znHbzrH6sPjn0Tv-b5Hczrj-9mhc1PWbdrycYuH60mynqnfKlIjYs0AdWgvuzUvYqn0KWThnqnHf1n1R" id="bdfs0" target="_blank" style="text-decoration:none;"><font color="#000000"><font color="#C60A00">上海</font>知平信息技术有限公司专业从事 <font color="#C60A00">ssh</font> ,iOS开发 ,大数据工程师等课程培训.专业课程..</font><span style="color:#008000">www.vowei.com</span></a></div><script>!function(e){e.ecom=e.ecom||{},e.ecom.pl=e.ecom.pl||{},e.ecom.pl.imTimesign=parseInt("127",10),e.ecom.pl.searchId="2289abb36959b4e8"}(window);!function(e){function
+ n(n){var 
+t=location.href.match("debug=1"),r=window.jQuery||{};if(t)n(e.pl,r);else
+ 
+try{n(e.pl,r)}catch(c){}}e.pl.run=function(e,t){t||1===arguments.length?bds.ready(function(){n(e)}):n(e)},e.pl.q=function(e,n){if(n=n||document,n.getElementsByClassName)return
+ n.getElementsByClassName(e);var 
+t=[],r=n.all||n.getElementsByTagName("*"),c=r.length;e=e.replace(/\-/g,"\\-");for(var
+ i=new 
+RegExp("(^|\\s)"+e+"(\\s|$)");--c>=0;)i.test(r[c].className)&&t.push(r[c]);return
+ t}}(window.ecom),function(e){function n(){var 
+e=k.href,n=y.exec(e)||x.exec(e)||T.exec(e)||B.exec(e);
+return n?n[1]:!1}function t(e){var t=n();if(t!==!1){var 
+i=c(t,e);r(i)}}function r(e){var 
+n="&ck="+[e,d,E,v,s,f,m,p].join(".");if(k.href){var 
+t=k.href;if(-1===t.indexOf("&ck="))k.href+=n;else{var 
+r=/&ck=([\\d.]*)/.exec(t);k.href=r&&r[1]?t.replace(/&ck=[\\d.]*/,n):t.replace(/&ck=[\d.]*/,n)}}}function
+ c(e,n){for(var 
+t=0,r=0;d*n%99+9>r;r++){{e.length<20?e.length:20}t+=e.charCodeAt(E*r%e.length)}return
+ t}function i(e){e=e||window.event,d++,void 0===f&&(f=e.clientX),void 
+0===m&&(m=e.clientY),g=(new Date).getTime()
+}function 
+o(e,n){for(e=e||window.event,k=e.target||e.srcElement;k&&"A"!==k.tagName;)k=k.parentNode;h=(new
+ 
+Date).getTime(),E=9999,v=e.clientX,s=e.clientY,p=0===g?0:h-g,t(n)}function
+ a(e,n){w=(new Date).getTime(),E=w-h,t(n)}function l(e,n,t){var 
+r,c,i;for(i in 
+n)r=n[i],c=t[i],window.attachEvent?e.attachEvent("on"+r,c):e.addEventListener(r,c,!1)}function
+ 
+u(e){return[function(e){i(e)},function(n){o(n,e)},function(n){a(n,e)}]}var
+ f,m,v=0,s=0,d=0,g=0,h=0,w=0,p=0,E=0,k=0,y=/link\?url=([^\&]+)/;try{var 
+x=/\?url=([^\.]+)\./
+}catch(N){x=/\\?url=([^\\.]+)\\./}var 
+T=/link\\?url=([^\\&]+)/,B=/\\?url=([^\\.]+)\\./;e.ck=function(e,n){void
+ 0===e.length&&(e=[e]);for(var 
+t=e.length,r=0,c=u(n);t>r;r++)l(e[r],["mouseover","mousedown","mouseup"],c)}}(window.ecom.pl),window.ecom.pl.run(function(e){for(var
+ n=e.q("EC_result"),t=0;t<n.length;t++){var 
+r=n[t],c=r.getElementsByTagName("A");e.ck(c,window.ecom.pl.imTimesign)}},!1);!function(){function
+ t(){var 
+t={statistics:{identity:{url:"https://sp1.baidu.com/6KYTfyq72xB3otqbppnN2DJv/v.php",query:{tag:"vshenfenhover"}}}};window.__nsTip__.init(t)}function
+ e(t){for(var 
+e=!1,n=document.getElementsByTagName("script"),i=0,a=n.length;a>i;i++)if(n[i].getAttribute("id")===t){e=!0;break}return
+ e}function n(t,n,i){if(!e(t)){var 
+a=document.getElementsByTagName("head")[0]||document.body,r=document.createElement("script");r.setAttribute("type","text/javascript"),r.setAttribute("src",n),r.setAttribute("id",t),null!=i&&(r.onload=r.onreadystatechange=function(){return
+ 
+r.ready?!1:void(r.readyState&&"loaded"!=r.readyState&&"complete"!=r.readyState||(r.ready=!0,i()))
+}),a.appendChild(r)}}if(window.__nsTip__)t();else{var
+ 
+i="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/biz/ecom/common/api/v-nstip/20151117/nstip.js";n("nstip",i,t)}}();</script><style type="text/css">
+                    
+.ec-ui-tip{margin-left:5px}.c-icon{background:url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/biz/ecom/common/api/img/ns-credit/icons.png)
+ no-repeat 0 
+0;_background-image:url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/biz/ecom/common/api/img/ns-credit/icons.gif)}.c-frame{margin-bottom:18px}.c-offset{padding-left:10px}.c-gray{color:#666}.c-gap-top-small{margin-top:5px}.c-gap-top{margin-top:10px}.c-gap-bottom-small{margin-bottom:5px}.c-gap-bottom{margin-bottom:10px}.c-gap-left{margin-left:12px}.c-gap-left-small{margin-left:6px}.c-gap-right{margin-right:12px}.c-gap-right-small{margin-right:6px}.c-gap-icon-right-small{margin-right:5px}.c-gap-icon-right{margin-right:10px}.c-gap-icon-left-small{margin-left:5px}.c-gap-icon-left{margin-left:10px}.c-container{width:538px;font-size:13px;line-height:1.54;word-wrap:break-word;word-break:break-all}.c-container
+ .c-container{width:auto}.c-container 
+table{border-collapse:collapse;border-spacing:0}.c-container 
+td{font-size:13px;line-height:1.54}.c-default{font-size:13px;line-height:1.54;word-wrap:break-word;word-break:break-all}.c-container
+ .t,.c-default .t{line-height:1.54}.c-default 
+.t{margin-bottom:0}.cr-content{width:259px;font-size:13px;line-height:1.54;color:#333}.cr-content
+ table{border-collapse:collapse;border-spacing:0}.cr-content 
+td{font-size:13px;line-height:1.54;vertical-align:top}.cr-offset{padding-left:17px}.container_l
+ .cr-content{width:351px}.container_l 
+.cr-content-narrow{width:259px}.cr-title{font-size:14px;line-height:1.29;font-weight:700}.cr-title-sub{float:right;font-size:13px;font-weight:400}.c-row{*zoom:1}.c-row:after{display:block;height:0;content:"";clear:both;visibility:hidden}.c-span2{width:29px}.c-span3{width:52px}.c-span4{width:75px}.c-span5{width:98px}.c-span6{width:121px}.c-span7{width:144px}.c-span8{width:167px}.c-span9{width:190px}.c-span10{width:213px}.c-span11{width:236px}.c-span12{width:259px}.c-span13{width:282px}.c-span14{width:305px}.c-span15{width:328px}.c-span16{width:351px}.c-span17{width:374px}.c-span18{width:397px}.c-span19{width:420px}.c-span20{width:443px}.c-span21{width:466px}.c-span22{width:489px}.c-span23{width:512px}.c-span24{width:535px}.c-span2,.c-span3,.c-span4,.c-span5,.c-span6,.c-span7,.c-span8,.c-span9,.c-span10,.c-span11,.c-span12,.c-span13,.c-span14,.c-span15,.c-span16,.c-span17,.c-span18,.c-span19,.c-span20,.c-span21,.c-span22,.c-span23,.c-span24{float:left;_display:inline;margin-right:17px;list-style:none}.c-span-last{margin-right:0}.c-span-last-s{margin-right:0}.container_l
+ .c-span-last-s{margin-right:17px}.cr-content-narrow 
+.c-span-last-s{margin-right:0}.c-border{width:518px;padding:9px;border:1px
+ solid 
+#e3e3e3;border-bottom-color:#e0e0e0;border-right-color:#ececec;box-shadow:1px
+ 2px 1px rgba(0,0,0,.072);-webkit-box-shadow:1px 2px 1px 
+rgba(0,0,0,.072);-moz-box-shadow:1px 2px 1px 
+rgba(0,0,0,.072);-o-box-shadow:1px 2px 1px rgba(0,0,0,.072)}.c-border 
+.c-gap-left{margin-left:10px}.c-border 
+.c-gap-left-small{margin-left:5px}.c-border 
+.c-gap-right{margin-right:10px}.c-border 
+.c-gap-right-small{margin-right:5px}.c-border 
+.c-border{width:auto;padding:0;border:0;box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;-o-box-shadow:none}.c-border
+ .c-span2{width:34px}.c-border .c-span3{width:56px}.c-border 
+.c-span4{width:78px}.c-border .c-span5{width:100px}.c-border 
+.c-span6{width:122px}.c-border .c-span7{width:144px}.c-border 
+.c-span8{width:166px}.c-border .c-span9{width:188px}.c-border 
+.c-span10{width:210px}.c-border .c-span11{width:232px}.c-border 
+.c-span12{width:254px}.c-border .c-span13{width:276px}.c-border 
+.c-span14{width:298px}.c-border .c-span15{width:320px}.c-border 
+.c-span16{width:342px}.c-border .c-span17{width:364px}.c-border 
+.c-span18{width:386px}.c-border .c-span19{width:408px}.c-border 
+.c-span20{width:430px}.c-border .c-span21{width:452px}.c-border 
+.c-span22{width:474px}.c-border .c-span23{width:496px}.c-border 
+.c-span24{width:518px}.c-border .c-span2,.c-border .c-span3,.c-border 
+.c-span4,.c-border .c-span5,.c-border .c-span6,.c-border 
+.c-span7,.c-border .c-span8,.c-border .c-span9,.c-border 
+.c-span10,.c-border .c-span11,.c-border .c-span12,.c-border 
+.c-span13,.c-border .c-span14,.c-border .c-span15,.c-border 
+.c-span16,.c-border .c-span17,.c-border .c-span18,.c-border 
+.c-span19,.c-border .c-span20,.c-border .c-span21,.c-border 
+.c-span22,.c-border .c-span23,.c-border 
+.c-span24{margin-right:10px}.c-border 
+.c-span-last{margin-right:0}.c-border 
+.c-span-last-s{margin-right:0}.c-border .container_l 
+.c-span-last-s{margin-right:10px}.c-loading{display:block;width:50px;height:50px;background:url(http://www.baidu.com/aladdin/img/tools/loading.gif)
+ no-repeat 0 0}.c-vline{display:inline-block;margin:0 
+3px;border-left:1px solid 
+#ddd;width:0;height:12px;_vertical-align:middle;_overflow:hidden}.c-icon{display:inline-block;width:14px;height:14px;vertical-align:text-bottom;font-style:normal;overflow:hidden}.c-icon-unfold,.c-icon-fold,.c-icon-chevron-unfold,.c-icon-chevron-fold{width:12px;height:12px}.c-icon-star,.c-icon-star-gray{width:60px}.c-icon-qa-empty,.c-icon-safeguard,.c-icon-register-empty,.c-icon-zan,.c-icon-location,.c-icon-warning,.c-icon-doc,.c-icon-xls,.c-icon-ppt,.c-icon-pdf,.c-icon-txt,.c-icon-play-black,.c-icon-gift,.c-icon-baidu-share,.c-icon-bear,.c-icon-sfda,.c-icon-bear-border,.c-icon-location-blue,.c-icon-hotAirBall,.c-icon-moon,.c-icon-streetMap,.c-icon-mv{width:16px;height:16px}.c-icon-bear-circle,.c-icon-warning-circle,.c-icon-warning-triangle{width:18px;height:18px}.c-icon-tieba,.c-icon-zhidao,.c-icon-bear-p,.c-icon-bear-pn{width:24px;height:24px}.c-icon-ball-blue,.c-icon-ball-red{width:38px;height:38px}.c-icon-unfold:hover,.c-icon-fold:hover,.c-icon-chevron-unfold:hover,.c-icon-chevron-fold:hover,.c-icon-download:hover,.c-icon-lyric:hover,.c-icon-v:hover,.c-icon-hui:hover,.c-icon-bao:hover,.c-icon-person:hover,.c-icon-high-v:hover,.c-icon-phone:hover,.c-icon-nuo:hover,.c-icon-med:hover,.c-icon-air:hover,.c-icon-share2:hover,.c-icon-v1:hover,.c-icon-v2:hover,.c-icon-v3:hover{border-color:#388bff}.c-icon-unfold:active,.c-icon-fold:active,.c-icon-chevron-unfold:active,.c-icon-chevron-fold:active,.c-icon-download:active,.c-icon-lyric:active,.c-icon-v:active,.c-icon-hui:active,.c-icon-bao:active,.c-icon-person:active,.c-icon-high-v:active,.c-icon-phone:active,.c-icon-nuo:active,.c-icon-med:active,.c-icon-air:active,.c-icon-share2:active,.c-icon-v1:active,.c-icon-v2:active,.c-icon-v3:active{border-color:#a2a6ab;background-color:#f0f0f0;box-shadow:inset
+ 1px 1px 1px #c7c7c7;-webkit-box-shadow:inset 1px 1px 1px 
+#c7c7c7;-moz-box-shadow:inset 1px 1px 1px #c7c7c7;-o-box-shadow:inset 
+1px 1px 1px 
+#c7c7c7}.c-icon-unfold,.c-icon-fold,.c-icon-chevron-unfold,.c-icon-chevron-fold,.c-icon-download,.c-icon-lyric{border:1px
+ solid 
+#d8d8d8;cursor:pointer}.c-icon-v,.c-icon-hui,.c-icon-bao,.c-icon-person,.c-icon-high-v,.c-icon-phone,.c-icon-nuo,.c-icon-med,.c-icon-air,.c-icon-share2,.c-icon-v1,.c-icon-v2,.c-icon-v3{border:1px
+ solid 
+#d8d8d8;cursor:pointer;border-color:transparent;_border-color:tomato;_filter:chroma(color=#ff6347)}.c-icon-v1,.c-icon-v2,.c-icon-v3,.c-icon-v1-noborder,.c-icon-v2-noborder,.c-icon-v3-noborder,.c-icon-v1-noborder-disable,.c-icon-v2-noborder-disable,.c-icon-v3-noborder-disable{width:19px}.c-icon-download,.c-icon-lyric{width:16px;height:16px}.c-icon-play-circle,.c-icon-stop-circle{width:18px;height:18px}.c-icon-play-circle-middle,.c-icon-stop-circle-middle{width:24px;height:24px}.c-icon-play-black-large,.c-icon-stop-black-large{width:38px;height:38px}.c-icon-flag{background-position:0
+ -144px}.c-icon-bus{background-position:-24px 
+-144px}.c-icon-calendar{background-position:-48px 
+-144px}.c-icon-street{background-position:-72px 
+-144px}.c-icon-map{background-position:-96px 
+-144px}.c-icon-bag{background-position:-120px 
+-144px}.c-icon-money{background-position:-144px 
+-144px}.c-icon-game{background-position:-168px 
+-144px}.c-icon-user{background-position:-192px 
+-144px}.c-icon-globe{background-position:-216px 
+-144px}.c-icon-lock{background-position:-240px 
+-144px}.c-icon-plane{background-position:-264px 
+-144px}.c-icon-list{background-position:-288px 
+-144px}.c-icon-star-gray{background-position:-312px 
+-144px}.c-icon-circle-gray{background-position:-384px 
+-144px}.c-icon-triangle-down{background-position:-408px 
+-144px}.c-icon-triangle-up{background-position:-432px 
+-144px}.c-icon-triangle-up-empty{background-position:-456px 
+-144px}.c-icon-sort-gray{background-position:-480px 
+-144px}.c-icon-sort-up{background-position:-504px 
+-144px}.c-icon-sort-down{background-position:-528px 
+-144px}.c-icon-down-gray{background-position:-552px 
+-144px}.c-icon-up-gray{background-position:-576px 
+-144px}.c-icon-download-noborder{background-position:-600px 
+-144px}.c-icon-lyric-noborder{background-position:-624px 
+-144px}.c-icon-download-white{background-position:-648px 
+-144px}.c-icon-close{background-position:-672px 
+-144px}.c-icon-fail{background-position:-696px 
+-144px}.c-icon-success{background-position:-720px 
+-144px}.c-icon-triangle-down-g{background-position:-744px 
+-144px}.c-icon-fullscreen{background-position:0 
+-168px}.c-icon-safe{background-position:-24px 
+-168px}.c-icon-exchange{background-position:-48px 
+-168px}.c-icon-chevron-bottom{background-position:-72px 
+-168px}.c-icon-chevron-top{background-position:-96px 
+-168px}.c-icon-unfold{background-position:-120px 
+-168px}.c-icon-fold{background-position:-144px 
+-168px}.c-icon-chevron-unfold{background-position:-168px 
+-168px}.c-icon-qa{background-position:-192px 
+-168px}.c-icon-register{background-position:-216px 
+-168px}.c-icon-star{background-position:-240px 
+-168px}.c-icon-star-gray{position:relative}.c-icon-star-gray 
+.c-icon-star{position:absolute;top:0;left:0}.c-icon-play-blue{background-position:-312px
+ -168px}.c-icon-pic{width:16px;background-position:-336px 
+-168px}.c-icon-chevron-fold{background-position:-360px 
+-168px}.c-icon-video{width:18px;background-position:-384px 
+-168px}.c-icon-circle-blue{background-position:-408px 
+-168px}.c-icon-circle-yellow{background-position:-432px 
+-168px}.c-icon-play-white{background-position:-456px 
+-168px}.c-icon-triangle-down-blue{background-position:-480px 
+-168px}.c-icon-chevron-unfold2{background-position:-504px 
+-168px}.c-icon-right{background-position:-528px 
+-168px}.c-icon-right-empty{background-position:-552px 
+-168px}.c-icon-new-corner{width:15px;background-position:-576px 
+-168px}.c-icon-horn{background-position:-600px 
+-168px}.c-icon-right-large{width:18px;background-position:-624px 
+-168px}.c-icon-wrong-large{background-position:-648px 
+-168px}.c-icon-circle-blue-s{background-position:-672px 
+-168px}.c-icon-play-gray{background-position:-696px 
+-168px}.c-icon-up{background-position:-720px 
+-168px}.c-icon-down{background-position:-744px 
+-168px}.c-icon-stable{background-position:-768px 
+-168px}.c-icon-calendar-blue{background-position:-792px 
+-168px}.c-icon-triangle-down-blue2{background-position:-816px 
+-168px}.c-icon-triangle-up-blue2{background-position:-840px 
+-168px}.c-icon-down-blue{background-position:-864px 
+-168px}.c-icon-up-blue{background-position:-888px 
+-168px}.c-icon-ting{background-position:-912px 
+-168px}.c-icon-v,.c-icon-v-noborder{background-position:0 
+-192px}.c-icon-hui{background-position:-24px 
+-192px}.c-icon-bao{background-position:-48px 
+-192px}.c-icon-phone{background-position:-72px 
+-192px}.c-icon-qa-empty{background-position:-96px 
+-192px}.c-icon-safeguard{background-position:-120px 
+-192px}.c-icon-register-empty{background-position:-144px 
+-192px}.c-icon-zan{background-position:-168px 
+-192px}.c-icon-location{background-position:-240px 
+-192px}.c-icon-warning{background-position:-264px 
+-192px}.c-icon-doc{background-position:-288px 
+-192px}.c-icon-xls{background-position:-312px 
+-192px}.c-icon-ppt{background-position:-336px 
+-192px}.c-icon-pdf{background-position:-360px 
+-192px}.c-icon-txt{background-position:-384px 
+-192px}.c-icon-play-black{background-position:-408px 
+-192px}.c-icon-play-black:hover{background-position:-432px 
+-192px}.c-icon-gift{background-position:-456px 
+-192px}.c-icon-baidu-share{background-position:-480px 
+-192px}.c-icon-bear{background-position:-504px 
+-192px}.c-icon-sfda{width:31px;background-position:-528px 
+-192px}.c-icon-bear-border{background-position:-576px 
+-192px}.c-icon-person,.c-icon-person-noborder{background-position:-600px
+ -192px}.c-icon-location-blue{background-position:-624px 
+-192px}.c-icon-hotAirBall{background-position:-648px 
+-192px}.c-icon-moon{background-position:-672px 
+-192px}.c-icon-streetMap{background-position:-696px 
+-192px}.c-icon-high-v,.c-icon-high-v-noborder{background-position:-720px
+ -192px}.c-icon-nuo{background-position:-744px 
+-192px}.c-icon-mv{background-position:-768px 
+-192px}.c-icon-med{background-position:-816px 
+-192px}.c-icon-air{background-position:-840px 
+-192px}.c-icon-share2{background-position:-864px 
+-192px}.c-icon-v1,.c-icon-v1-noborder{background-position:-888px 
+-192px}.c-icon-v2,.c-icon-v2-noborder{background-position:-912px 
+-192px}.c-icon-v3,.c-icon-v3-noborder{background-position:-936px 
+-192px}.c-icon-v1-noborder-disable{background-position:-960px 
+-192px}.c-icon-v2-noborder-disable{background-position:-984px 
+-192px}.c-icon-v3-noborder-disable{background-position:-1008px 
+-192px}.c-icon-bear-circle{background-position:0 
+-216px}.c-icon-warning-circle{background-position:-24px 
+-216px}.c-icon-warning-triangle{width:24px;background-position:-48px 
+-216px}.c-icon-ball-red{background-position:0 
+-240px}.c-icon-ball-blue{background-position:-48px 
+-240px}.c-icon-tieba{background-position:0 
+-288px}.c-icon-zhidao{background-position:-48px 
+-288px}.c-icon-bear-p{background-position:-96px 
+-288px}.c-icon-bear-pn{background-position:-144px 
+-288px}.c-icon-download{background-position:0 
+-336px}.c-icon-lyric{background-position:-24px 
+-336px}.c-icon-play-circle{background-position:-48px 
+-336px}.c-icon-play-circle:hover{background-position:-72px 
+-336px}.c-icon-stop-circle{background-position:-96px 
+-336px}.c-icon-stop-circle:hover{background-position:-120px 
+-336px}.c-icon-play-circle-middle{background-position:0 
+-360px}.c-icon-play-circle-middle:hover{background-position:-48px 
+-360px}.c-icon-stop-circle-middle{background-position:-96px 
+-360px}.c-icon-stop-circle-middle:hover{background-position:-144px 
+-360px}.c-icon-play-black-large{background-position:0 
+-408px}.c-icon-play-black-large:hover{background-position:-48px 
+-408px}.c-icon-stop-black-large{background-position:-96px 
+-408px}.c-icon-stop-black-large:hover{background-position:-144px 
+-408px}.c-text{display:inline-block;padding:2px;text-align:center;vertical-align:text-bottom;font-size:12px;line-height:100%;font-style:normal;color:#fff;overflow:hidden}a.c-text{text-decoration:none}.c-text-new{background-color:#f13f40}.c-text-info{padding-left:0;padding-right:0;font-weight:700;color:#2b99ff;*vertical-align:baseline;_position:relative;_top:2px}.c-text-info
+ b{_position:relative;_top:-1px}.c-text-info span{padding:0 
+2px;font-weight:400}.c-text-important{background-color:#1cb7fd}.c-text-public{background-color:#2b99ff}.c-text-warning{background-color:#ff830f}.c-text-prompt{background-color:#f5c537}.c-text-danger{background-color:#f13f40}.c-text-safe{background-color:#52c277}.c-text-empty{padding-top:1px;padding-bottom:1px;border:1px
+ solid 
+#d8d8d8;cursor:pointer;color:#23b9fd;background-color:#fff}.c-text-empty:hover{border-color:#388bff}.c-text-empty:active{border-color:#a2a6ab;background-color:#f0f0f0;box-shadow:inset
+ 1px 1px 1px #c7c7c7;-webkit-box-shadow:inset 1px 1px 1px 
+#c7c7c7;-moz-box-shadow:inset 1px 1px 1px #c7c7c7;-o-box-shadow:inset 
+1px 1px 1px 
+#c7c7c7}.c-text-mult{padding-left:5px;padding-right:5px}.c-container 
+.vd_newest_main{width:auto}.c-customicon{display:inline-block;width:16px;height:16px;vertical-align:text-bottom;font-style:normal;overflow:hidden}.c-tip-icon
+ 
+i{display:inline-block;cursor:pointer}.c-tip-con{position:absolute;z-index:1;top:22px;left:-35px;background:#fff;border:1px
+ solid #dcdcdc;border:1px solid 
+rgba(0,0,0,.2);-webkit-transition:opacity .218s;transition:opacity 
+.218s;-webkit-box-shadow:0 2px 4px rgba(0,0,0,.2);box-shadow:0 2px 4px 
+rgba(0,0,0,.2);padding:5px 
+0;display:none;font-size:12px;line-height:20px}.c-tip-arrow{width:0;height:0;font-size:0;line-height:0;display:block;position:absolute;top:-16px}.c-tip-arrow
+ em,.c-tip-arrow 
+ins{width:0;height:0;font-size:0;line-height:0;display:block;position:absolute;border:8px
+ solid #000;border-style:dashed dashed solid}.c-tip-arrow 
+em{border-color:transparent transparent #d8d8d8}.c-tip-arrow 
+ins{border-color:transparent transparent #fff;top:2px}.c-tip-con 
+h3{font-size:12px}.c-tip-con .c-tip-title{margin:0 
+10px;display:inline-block;width:239px}.c-tip-con 
+.c-tip-info{color:#666;margin:0 10px 1px;width:239px}.c-tip-con 
+.c-tip-cer{width:354px;color:#666;margin:0 10px 1px}.c-tip-con 
+.c-tip-cer ul{margin:0;padding:0;list-style:none}.c-tip-con 
+.c-tip-title{width:auto;_width:354px}.c-tip-con 
+.c-tip-item-i{padding:3px 0 3px 20px;line-height:14px}.c-tip-con 
+.c-tip-item-i .c-tip-item-icon{margin-left:-20px}.c-tip-con .c-tip-menu 
+ul{width:74px}.c-tip-con .c-tip-menu ul{text-align:center}.c-tip-con 
+.c-tip-menu li 
+a{display:block;text-decoration:none;cursor:pointer;background-color:#fff;padding:3px
+ 0;color:#0000d0}.c-tip-con .c-tip-menu li 
+a:hover{display:block;background-color:#ebebeb}.c-tip-con 
+.c-tip-notice{width:239px;padding:0 10px}.c-tip-con .c-tip-notice 
+.c-tip-notice-succ{color:#4cbd37}.c-tip-con .c-tip-notice 
+.c-tip-notice-fail{color:#f13f40}.c-tip-con .c-tip-notice 
+.c-tip-item-succ{color:#444}.c-tip-con .c-tip-notice 
+.c-tip-item-fail{color:#aaa}.c-tip-con .c-tip-notice 
+.c-tip-item-faila{color:#aaa}.c-tip-close{right:10px;position:absolute;cursor:pointer}.c-tools{display:inline}.c-tools-share{width:239px;padding:0
+ 
+10px}.icp_info{color:#666;margin-top:2px;font-size:13px}.icon-gw,.icon-unsafe-icon{background:#2c99ff;vertical-align:text-bottom;*vertical-align:baseline;height:16px;padding-top:0;padding-bottom:0;padding-left:6px;padding-right:6px;line-height:16px;_padding-top:2px;_height:14px;_line-height:14px;font-size:12px;font-family:simsun;margin-left:10px;overflow:hidden;display:inline-block;-moz-border-radius:1px;-webkit-border-radius:1px;border-radius:1px;color:#fff}a.icon-gw{color:#fff;background:#2196ff;text-decoration:none;cursor:pointer}a.icon-gw:hover{background:#1e87ef}a.icon-gw:active{height:15px;_height:13px;line-height:15px;_line-height:13px;padding-left:5px;background:#1c80d9;border-left:1px
+ solid #145997;border-top:1px solid 
+#145997}.icon-unsafe-icon{background:#e54d4b}#con-at{margin-bottom:15px}#con-ar{margin-bottom:40px}#con-at
+ .result-op{margin-bottom:15px;font-size:13px;line-height:1.52em}#con-ar
+ 
+.result-op{margin-bottom:28px;font-size:13px;line-height:1.52em}#content_left
+ .result-op,#content_left 
+.result{margin-bottom:14px;border-collapse:collapse}#content_left 
+.c-border .result-op,#content_left .c-border 
+.result{margin-bottom:25px}#content_left .c-border 
+.result-op:last-child,#content_left .c-border 
+.result:last-child{margin-bottom:12px}#content_left .result 
+.f,#content_left .result-op 
+.f{padding:0}.subLink_factory{border-collapse:collapse}.subLink_factory 
+td{padding:0}.subLink_factory td.middle,.subLink_factory 
+td.last{color:#666}.subLink_factory td 
+a{text-decoration:underline}.subLink_factory 
+td.rightTd{text-align:right}.subLink_factory_right{width:100%}.subLink_factory_left
+ td{padding-right:26px}.subLink_factory_left 
+td.last{padding:0}.subLink_factory_left 
+td.first{padding-right:75px}.subLink_factory_right 
+td{width:90px}.subLink_factory_right 
+td.first{width:auto}.general_image_pic{margin-top:2px}.general_image_pic
+ a{background:#fff no-repeat center 
+center;text-decoration:none;display:block;overflow:hidden;text-align:center}.c-icon-v1,.c-icon-v2,.c-icon-v3{border:1px
+ solid 
+#d8d8d8;cursor:pointer;border-color:transparent;_border-color:tomato;_filter:chroma(color=#ff6347)}.c-icon-v1:active,.c-icon-v2:active,.c-icon-v3:active{border-color:#a2a6ab;background-color:#f0f0f0;box-shadow:inset
+ 1px 1px 1px #c7c7c7;-webkit-box-shadow:inset 1px 1px 1px 
+#c7c7c7;-moz-box-shadow:inset 1px 1px 1px #c7c7c7;-o-box-shadow:inset 
+1px 1px 1px 
+#c7c7c7}.c-icon-v1:hover,.c-icon-v2:hover,.c-icon-v3:hover{border-color:#388bff}@-moz-document
+ 
+url-prefix(){.result,.f{width:538px}}.opui-honourCard{font-size:12px;color:#666;line-height:1.5em;width:354px}.opui-honourCard-score{width:60px;padding:4px
+ 2px;text-align:center;float:left}.opui-honourCard-score 
+em{width:63px;display:block;font-size:37px;line-height:37px;color:#8e8d8d;font-family:arial;font-style:normal}.opui-honourCard-info{background:#f5f5f5;overflow:hidden;zoom:1}.opui-honourCard-title
+ a{*font-family:Microsoft YaHei}.opui-honourCard-title a 
+i{position:relative;left:-65px;*left:-68px}.opui-honourCard 
+ol{list-style:none;margin:0;padding:0;float:left;_padding-top:5px}.opui-honourCard
+ 
+li{height:20px;line-height:20px;padding-left:20px;_vertical-align:bottom}.opui-honourCard
+ li 
+i{vertical-align:middle;_vertical-align:bottom}.opui-honourCard-selected{color:#2b2a2a;font-weight:700;background:url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/biz/ecom/common/api/img/ns-credit/honourCard.png)
+ no-repeat 3px 5px;*background-position:3px 2px}
+                </style></div><div class="bottom-pic-ads" id="BAIDU_AD_706067"><script>(function()
+ { var s = "_" + Math.random().toString(36).slice(2); 
+document.write('<div id="' + s + '"></div>'); 
+(window.slotbydup=window.slotbydup || []).push({ id: '3317661', 
+container: s, size: '580,90', display: 'inlay-fix' }); })();</script><div id="_z2cv2z4lhnn"></div><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/os.js"></script><script charset="utf-8" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/mcym_002"></script></div></div></div></div><aside class="main-aside" id="aside"><div class="wgt-income-money"><div class="income-title"></div><div class="income-money"><span>今日支出</span><div id="income-money-num" class="income-money-num"><div class="digital-container clearfix"><span class="num0" style="background-position: 0px -319px;"></span><span class="num0" style="background-position: 0px -493px;"></span><span class="num0" style="background-position: 0px -493px;"></span></div></div><span>元</span></div><a href="https://jingyan.baidu.com/user/income" target="_blank" class="link" log="type:2019,module:article,page:article,pos:income-money,action:click">写经验 有钱赚 &gt;&gt;</a></div><div class="aside-wrap"><div id="wgt-author" class="wgt-author"><div class="author-wrap"><div class="author-simple"><div class="base-info clearfix"><div class="author-portrait left"><a href="https://jingyan.baidu.com/user/npublic?uid=5e557925910cd12c3ab85e4211e8ee8dabd95c1d" log="type:20150831,pos:uinfo,intention:autoPlay-log,videoGroup:" target="_blank" rel="nofollow"><div class="portrait-cover"></div><img src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/90f57975616f383230373938323108ad.jpg"></a></div><div class="author-info left"><h2><a id="auth-name" log="type:20150831,pos:uinfo,intention:autoPlay-log,videoGroup:" href="https://jingyan.baidu.com/user/npublic?uid=5e557925910cd12c3ab85e4211e8ee8dabd95c1d" target="_blank" rel="nofollow">yuao82079821</a></h2><a id="follow-user-e" log="type:20150831,pos:uinfo,intention:autoPlay-log,videoGroup:" class="u-follow-btn follow-btn" href="javascript:;"></a></div></div></div></div></div><div class="aside-pro-container"><div class="wgt-cms-banner"><div class="cms-slide-wrap" id="cms-slide-wrap"><div class="cms-slide-img" id="cms-slide-img"><a target="_blank" log="type:cmsbanner,location:qb,menu:1,type:20151014,pos:expand" href="https://baike.baidu.com/wikisecond/videoflow?lemmaId=20473559&amp;secondId=423534" rel="nofollow" style="display: none;"><img alt="父母心-吴莫愁" class="" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/wummochoupc.jpg" style=""></a><a target="_blank" log="type:cmsbanner,location:qb,menu:2,type:20151014,pos:expand" href="http://jingyan.baidu.com/activity/welfare" rel="nofollow" style="display: block;"><img alt="回享福利社" class="" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/hxfls252162.jpg" style=""></a></div><div class="cms-slide-btn" id="cms-slide-btn"><a href="javascript:;" hidefocus="true" class="sli-btn" index="0" rel="nofollow">•</a><a href="javascript:;" hidefocus="true" class="sli-btn on" index="1" rel="nofollow">•</a></div></div></div><div class="aside-ads-container" id="aside-ads-container"><script>(function()
+ { var s = "_" + Math.random().toString(36).slice(2); 
+document.write('<div id="' + s + '"></div>'); 
+(window.slotbydup=window.slotbydup || []).push({ id: '3267889', 
+container: s, size: '250,250', display: 'inlay-fix' }); })();</script><div id="_7pug9ctid1c"></div><script charset="utf-8" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/mcym"></script><script src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/os.js"></script></div></div><span class="tousu">如要投诉，请到<a href="http://tousu.baidu.com/jingyan/add#2" class="tousu-address" target="_blank" rel="nofollow">百度经验投诉中心</a>，如要提出意见、建议，    请到<a href="http://tieba.baidu.com/f?kw=%B0%D9%B6%C8%BE%AD%D1%E9%B9%DC%C0%ED" target="_blank" rel="nofollow">百度经验管理吧</a>反馈。</span></div></aside></div><div class="line mt40"></div><div class="magzine-list"><h2 class="page-column">热门杂志</h2><div class="page-column"><ul class="clearfix" alog-group="magzine-list"><li class="first-li"><div class="m-cv"><img class="lazy-load-img" data-src="https://imgsa.baidu.com/exp/whcrop=160,120/sign=fcc1aee4e4cd7b89e9396cc160547f96/f9dcd100baa1cd115a4ddc0ebb12c8fcc3ce2d20.jpg"><span class="m-bg"></span><span>第1期</span></div><strong>你不知道的iPad技巧</strong><div class="m-sn"><span></span>3722次分享</div><a target="_blank" log="type:2019,module:article,page:index,pos:magzine-list,action:click,intention:autoPlay-log,videoGroup:" href="https://jingyan.baidu.com/magazine/6872"></a></li><li><div class="m-cv"><img class="lazy-load-img" data-src="https://imgsa.baidu.com/exp/whcrop=160,120/sign=88fb042399504fc2a20ae6478aadda20/faf2b2119313b07e6d55d8230ed7912397dd8c35.jpg"><span class="m-bg"></span><span>第1期</span></div><strong>win7电脑那些事</strong><div class="m-sn"><span></span>6551次分享</div><a target="_blank" log="type:2019,module:article,page:index,pos:magzine-list,action:click,intention:autoPlay-log,videoGroup:" href="https://jingyan.baidu.com/magazine/6454"></a></li><li><div class="m-cv"><img class="lazy-load-img" data-src="https://imgsa.baidu.com/exp/whcrop=160,120/sign=274a35929045d688a357e4e6cbb2402f/18d8bc3eb13533fa663c6f8faad3fd1f40345b8d.jpg"><span class="m-bg"></span><span>第2期</span></div><strong>新人玩转百度经验</strong><div class="m-sn"><span></span>1375次分享</div><a target="_blank" log="type:2019,module:article,page:index,pos:magzine-list,action:click,intention:autoPlay-log,videoGroup:" href="https://jingyan.baidu.com/magazine/17909"></a></li><li><div class="m-cv"><img class="lazy-load-img" data-src="https://imgsa.baidu.com/exp/whcrop=160,120/sign=5d1c2ce157fbb2fb347e0e50203a1d95/a08b87d6277f9e2f03fa39b41d30e924b999f3ba.jpg"><span class="m-bg"></span><span>第1期</span></div><strong>Win8.1实用小技巧</strong><div class="m-sn"><span></span>2631次分享</div><a target="_blank" log="type:2019,module:article,page:index,pos:magzine-list,action:click,intention:autoPlay-log,videoGroup:" href="https://jingyan.baidu.com/magazine/17761"></a></li><li><div class="m-cv"><img class="lazy-load-img" data-src="https://imgsa.baidu.com/exp/whcrop=160,120/sign=c8aa99ae13dfa9ecfd7b00550da0ca32/a8773912b31bb051c260489a347adab44aede038.jpg"><span class="m-bg"></span><span>第1期</span></div><strong>小白装大神</strong><div class="m-sn"><span></span>1874次分享</div><a target="_blank" log="type:2019,module:article,page:index,pos:magzine-list,action:click,intention:autoPlay-log,videoGroup:" href="https://jingyan.baidu.com/magazine/17450"></a></li></ul></div></div><div class="wgt-like" id="wgt-like" style="top: 644.1px; display: block; left: 363.5px;"><div class="help-tip"></div><div class="btn-wrapper"><a class="like-btn" href="" id="like-btn" log="type:2019,module:article,page:article,pos:like-btn,action:click"><i></i><span class="like-num" id="like-num">0</span><span class="add-one" id="add-one" style="display:none;">+1</span></a><a class="dislike-btn" href="" id="dislike-btn" log="type:2019,module:article,page:article,pos:dislike-btn,action:click"><i></i></a></div><div class="like-feedback hide" id="like-feedback"><div class="feedback-content" id="feedback-content"></div><a href="" id="close-like-tip" class="close-like-tip"></a></div></div><script type="text/template" id="tpl-like"><div
+ class="like-content"> <h1>非常高兴<br/>这篇经验帮到了你</h1> 
+<p>您也可以分享自己的经验，<br/>帮助更多的人</p> <a href="/user/income" 
+target="_blank">帮助更多的人 >></a> </div></script></section><footer class="footer"><div class="feedback"><a class="has-border-right" href="https://jingyan.baidu.com/article/09ea3eded6febbc0aede391a.html" target="_blank" id="freshhelp">新手帮助</a><a class="has-border-right" href="http://jingyan.baidu.com/feedback?fr=pc" target="_blank" id="feeback">意见反馈</a><a href="https://help.baidu.com/newadd?prod_id=13&amp;category=1" target="_blank" id="complaint">投诉举报</a></div>©2018Baidu&nbsp;&nbsp;<a href="https://www.baidu.com/duty/" target="_blank" rel="nofollow">使用百度前必读</a>&nbsp;&nbsp;<a href="https://help.baidu.com/question?prod_en=jingyan&amp;class=448" target="_blank" rel="nofollow">百度经验协议</a>&nbsp;&nbsp;<a href="https://help.baidu.com/question?prod_id=13&amp;class=448&amp;id=3146" target="_blank" rel="nofollow">作者创作作品协议</a>&nbsp;&nbsp;京ICP证030173号-1 京网文【2013】0934-983号<script type="text/javascript">if(window.console){
+ var cons = console; if(cons){ cons.log("这位看代码的童鞋，不如来和我们一起为百度经验添砖加瓦吧！");
+ cons.log("有意求职者，请将简历发送至：%cexp-jobs@baidu.com 
+%c(邮件请注明来自:console)","color:red;font-weight:bold;","color:#666"); } }</script></footer><script type="text/javascript">if(typeof
+ PDC != 'undefined'){ PDC.init({ is_login : 0, sample : 0.2, product_id :
+ 132, page_id : 4 }); } F.context({ "common":'/common', "uoper": 
+'/uoperation', "edit": '/edit/', "isVersionExist" : 
+'/common/isVersionExist', "videoGroup": '', "isUserVideo": 0, "isLogin" :
+ 0,  "isAdmin": 0, "isOriginal":0, "username": '', "uidEnc": '', 
+"writerId": 'yuao82079821', "followedNum": 0, "votedNum": 0, 
+"totalVotedNum": 0, "maxFollowVote": 9999999, "ucFollowing": 
+'/user/nuc/following', "ucFavorexp": '/user/nuc/favorexp', "eid": 
+'4b07be3ca0c57f48b380f3d2', "comment": '/comment/', "hi": 
+'http://hiphotos.baidu.com/exp/abpic/item/', "authorUname": 
+'yuao82079821', "COMMENT_MAX_LEN" : "600", "REPLY_MAX_LEN": 200, 
+"isFavor":0, "expFavorNum": 1, "ucFavorexp": '/user/nuc/favorexp', 
+"title": '如何配置 SSH 免密码登录', 'push-tag-title': '如何配置 SSH 免密码登录', "logo": 
+'http://img.baidu.com/img/iknow/exp/logo_uui.jpg', "feedbackSuc": 0, 
+"feedbackFail": 0, "MAX_SUC_FAIL_TIMES": 999999, "relateExpCount": 10, 
+"relateTagPicCount": 0, "introduction":'', "resume": "", "isManual": "",
+ "hasDownUrl": "", "downUrl": "", "nextSeries": "", "BdStoken" : 
+"dd8ea8989483c3fbf4398344e90f68a1", "bdstt" : "1520219298", "videoType":
+ '1', "encVid": '', "izhishiType": '', "top1State": '' });</script><script type="text/javascript">BAIDU_CLB_preloadSlots("706066","706067");</script><div id="wgt-exp-share" class="wgt-exp-share" style="position: fixed; bottom: 44px; right: 356.5px; display: block;"><div class="wrp-exp-share"><a id="w-share" class="w-share" href="javascript:void(0)"><span class="w-txt">分享</span></a><a id="w-favor" class="w-favor " href="javascript:void(0)" log="type:2019,module:article,page:index,pos:exp-share_favor,action:click"><span class="w-txt">收藏</span></a><a id="w-jmags" class="w-jmags" href="javascript:void(0)" log="type:2019,module:article,page:index,pos:exp-share_jmags,action:click"><span class="w-txt">加入<br>杂志</span></a><a id="w-gotop" class="w-gotop" href="javascript:void(0)" log="type:2019,module:article,page:index,pos:exp-share_gotop,action:click" style="visibility: visible;"><span class="w-txt">返回<br>顶部</span></a></div><div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare exp-share-wgt" style="display:none;"><a class="bds_tsina" id="bds_tsina_btn" log="type:2019,module:article,page:index,pos:exp-share_weibo,action:click" title="分享到新浪微博" href="#"><span class="w-txt">新浪<br>微博</span></a><a class="bds_qzone" log="type:2019,module:article,page:index,pos:exp-share_qzone,action:click" title="分享到QQ空间" href="#"><span class="w-txt">QQ<br>空间</span></a><a id="bds-weixin-btn" class="bds-weixin" log="type:2019,module:article,page:index,pos:exp-share_weixin,action:click" href="#"></a><a class="bds_tqq" log="type:2019,module:article,page:index,pos:exp-share_qweibo,action:click" title="分享到腾讯微博" href="#"><span class="w-txt">腾讯<br>微博</span></a><a class="bds_renren" log="type:2019,module:article,page:index,pos:exp-share_renren,action:click" title="分享到人人网" href="#"><span class="w-txt">人人</span></a><a class="bds_mshare" log="type:2019,module:article,page:index,pos:exp-share_all,action:click" title="分享到一键分享" href="#"><span class="w-txt">一键<br>分享</span></a></div><div id="weixin-wrap-wgt" class="wx-wrp-wgt"><div class="wx-arrow"><span>◆</span></div><div id="qrcode-wrp" class="qrcode-wrp" title="https://jingyan.baidu.com/article/4b07be3ca0c57f48b380f3d2.html"><canvas width="104" height="104" style="display: none;"></canvas><img style="display: block;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGgAAABoCAYAAAAdHLWhAAAE60lEQVR4nO2UQZIjQQgD5/+f3r3sHsbToBTQdnkMEX2wTQmhLPfX19fXn8rzvyq90eesh2pmWpEmKTq3mlHyLCBSLwdEKxtOA5iGqjwS79FFueNiqlpAwOexgKqBVUFEwVA/jg8YiBUm0ahmvIBAuLSOBUSCcMJ1w7z6Xu1C+mgelVwWkNjlYwFRQ5mWCrXyuGFnO3XOUq0F9M6ApoZVA1IQnYDoxXB26PigtYDeEZD7XImpAEhAv1mj+CygowH9ada0IXcu9ZaFmvmmmlkenVpASf+RgFRwFRhquQq4DnwnQOrjtl1o84ShBbSAfj8gZYCIU7NXfSoYZ5YKMdvRgajKBfbtLBV3hrvGFlBytivu/IXVZ/ciRP2uT0fL8UMhpz5bhxfQ/YA65puDL/voWUdDfZ6EfXW28/0CeldAVMQ5Q5ZSc9SSmZYDmfZUcjC1FhDpi3oqOZhatVCzgKjBq1lEP1suC0Lt5kJTfskcoLGAjgZEFs6WJzVxxgky0lI7Oj1K29031Ip+VCKVwZ0zHwuImlVGo+8czSsN9/XgQHV2cXdzLkJWCwju8jJA1NDU3/hKu3JGgXMCq/hwAdKeHzOiwwso97GAxJmPA9Q16oRX0VfamQbVJmdd32R+6sN2AIwsoCcCcsKnZ8gy7iukchEql2hiF7Xjt4cu4Sy1gAYBuWGShVUARNMNm/iqaFEgV99HvQrYAho4+zRAjz9Gn1VfdtYxVvXjBGPeYEvTgYnyqgZSCXcBNQApA6TcM05o1GcVAPV+Rx7Z7wvodECO6W4g0NB42NTH9JmhZwEdDUiFloX5aJCezcJ3g8mqulNFg1yqqDebtYBEvRyQEnX+4u5y5FWinsxH+bVieM76SGZKcwEtoAXUAlQ1khmKtOgsZ7msSI/yQ7UqmSEtMmgBvRCQMjTxWlCaxHzFDw25o9HxRfwtoNMBdcKM+qLfnGCiXuesG242T/lx8nBqAZ0OyDUyuVTWnwHIQJIiZ925lYtKtBeQ6Hk5oOpSk68FMqcCt6pNygHl+vnWUzW0gJ4EiJp0/qZ3lFpmen43l6vfqL+H/gWUzTsOkPMqiUyoXqLhvurI4/jqapIiGgso8HUsIFe0EsTEwpmPqMcpdZmi78lO5iVbQESffr+AgI+ox6ljAEVNE4Ymz3aAUh/ZGRr6+EVRBhaQ7o38qfnIu1qmGlxmlGiEhkEfDZOUuy/x4eSwgES9HBA1oEJwwu0EQvo681WvcwndGQHkBeT0Ph1QNFiJOGGrZUnRi+TskGm5Xm/zEw2gy2S1gG4ApAY6huhDgFBfjneiTaviI+r79ls0YAEdDoiKkGU6cJUG8eEGlPWo6l6IHw81sIAOAeT+xZ1QO+UAcgO60qBnsx07GS4goUHP3g7IBVNZqgKQAJh+jNBGfQlgC2gBLaA6oJAErC5UN4BIU3nLgiAaynsnj3Q+6soEFtC9gKb+lsS8s7RajgTjeFceaZHLRC/jv2cBZXPcug2Qa8DpcUMnIVd8kLmdS+VeMuhnAb0VIDWM9KuaCJkE5Poi8ytz3Uwf5i8gZ/6vAtQJyp2baVB/Tt0J/aF3AX0MoKoR8hqgS1NdOuuOi2J+v4DeChANomPEgaB6JuBeaan5FTDU1wICWmr+0wFNvg7cv3RnuSoMqtHZicIVzwJaQGAZV4uES+tkQH8BnzVkREGIUAUAAAAASUVORK5CYII="></div><span>请扫描分享到朋友圈</span></div></div><script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=5827690" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/bds_s_v2_005827c.js"></script><script type="text/javascript">function
+ getImgsByClassName (className) { var all = 
+document.getElementsByTagName('img'); var elements = new Array(); for 
+(var e = 0; e < all.length; e++) { if 
+(all[e].className.indexOf(className) > -1) { elements[elements.length] =
+ all[e]; break; } } return elements; } var sharePicture,bds_config; var 
+context = '';  var imgs = getImgsByClassName('exp-image-default'); 
+if(imgs != null && imgs.length > 0){ sharePicture = 
+imgs[0].getAttribute('data-src') || imgs[0].src; } sharePicture = 
+sharePicture || 
+'//exp.bdstatic.com/static/article/widget/img-baidu-com/logo_beta_normal_97f4ce9.jpg';
+ var shareText = document.title.replace(/_百度经验$/,'')+'_分享自@百度经验'; 
+bds_config = { bdMiniWindow : 1, 'snsKey':{ 'tsina':'1214333208' }, 
+'bdText':shareText, 'bdPic':sharePicture, 'searchPic' : 0, 
+'weiboText':context }; document.getElementById('bdshell_js').src = 
+'//exp.bdstatic.com/static/article/lib/share/shell_v2_a1de90e.js';</script><div id="top-nav-bar" class="top-nav-bar" style="display: block;"><div class="container"><a id="top-login" class="top-login" href="javascript:;">登录</a><div class="container2"><a class="toplogo" href="https://jingyan.baidu.com/" title="百度经验"></a><div class="topsearch"><div id="topsubmit" class="topsubmit" title="搜索经验"></div><form action="/search" method="get" target="_self" id="ftop"><input id="topword" class="toptextinput" name="word" value="wumiyao ssh" autocomplete="off" type="text"></form></div><div class="topbtns"><a class="topbtn votebtn" href=""><span id="top-vote-num">0</span></a><a id="top-favo-btn" class="topbtn favobtn"></a></div></div></div></div></div><script>
+	if(typeof(alog) !== 'undefined'){
+    	alog('speed.set', 'drt', +new Date); 
+    }//请利用js框架在domreday时调用该代码，或在body的尾部
+</script>
+<script>
+    void function(a,b,c,d,e,f){function 
+g(b){a.attachEvent?a.attachEvent("onload",b,!1):a.addEventListener&&a.addEventListener("load",b)}function
+ h(a,c,d){d=d||15;var e=new Date;e.setTime((new 
+Date).getTime()+1e3*d),b.cookie=a+"="+escape(c)+";path=/;expires="+e.toGMTString()}function
+ i(a){var c=b.cookie.match(new RegExp("(^| )"+a+"=([^;]*)(;|$)"));return
+ null!=c?unescape(c[2]):null}function j(){var 
+a=i("PMS_JT");if(a){h("PMS_JT","",-1);try{a=a.match(/{["']s["']:(\d+),["']r["']:["']([\s\S]+)["']}/),a=a&&a[1]&&a[2]?{s:parseInt(a[1]),r:a[2]}:{}}catch(c){a={}}a.r&&b.referrer.replace(/#.*/,"")!=a.r||alog("speed.set","wt",a.s)}}if(a.alogObjectConfig){var
+ 
+k=a.alogObjectConfig.sample,l=a.alogObjectConfig.rand;d="https:"===a.location.protocol?"https://fex.bdstatic.com"+d:"http://fex.bdstatic.com"+d,k&&l&&l>k||(g(function(){alog("speed.set","lt",+new
+ Date),e=b.createElement(c),e.async=!0,e.src=d+"?v="+~(new 
+Date/864e5)+~(new 
+Date/864e5),f=b.getElementsByTagName(c)[0],f.parentNode.insertBefore(e,f)}),j())}}(window,document,"script","/hunter/alog/dp.min.js");
+</script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/common_sync_js_0_1e118af.js"></script>
+<script type="text/javascript">require.resourceMap({"res":{"common-jquery:widget/lib/jquery/jquery.js":{"url":"//exp.bdstatic.com/static/common-jquery/widget/lib/jquery/jquery_250bf24.js","pkg":"common-jquery:p1"},"common:widget/lib/tangram/fx/move/move.js":{"url":"//exp.bdstatic.com/static/common/widget/lib/tangram/fx/move/move_4f6a3cf.js","pkg":"common:p1","deps":["common:widget/lib/tangram/base/base.js","common:widget/lib/tangram/fx/create/create.js"]},"common:widget/ui/red-bao/red-bao.js":{"url":"//exp.bdstatic.com/static/common/widget/ui/red-bao/red-bao_d2adb02.js","pkg":"common:p11","deps":["common:widget/lib/tangram/base/base.js","common:widget/ui/dialog/dialog.js"]},"common:widget/lib/tangram/ui/Carousel/Carousel.js":{"url":"//exp.bdstatic.com/static/common/widget/lib/tangram/ui/Carousel/Carousel_9ed0987.js","pkg":"common:p2","deps":["common:widget/lib/tangram/base/base.js","common:widget/lib/tangram/uiBase/uiBase.js"]},"activity:widget/ui/redbox/redbox.js":{"url":"//exp.bdstatic.com/static/activity/widget/ui/redbox/redbox_58a8c80.js","pkg":"activity:p2","deps":["common:widget/lib/tangram/base/base.js","common:widget/ui/dialog/dialog.js"]},"common-jquery:widget/lib/baidutemplate/baidutemplate.min.js":{"url":"//exp.bdstatic.com/static/common-jquery/widget/lib/baidutemplate/baidutemplate.min_d875663.js","pkg":"common-jquery:p3"},"common-jquery:widget/js/ui/base/base.js":{"url":"//exp.bdstatic.com/static/common-jquery/widget/js/ui/base/base_366a7b8.js","pkg":"common-jquery:p2","deps":["common-jquery:widget/lib/jquery/jquery.js","common-jquery:widget/js/util/event/event.js"]},"common:widget/lib/tangram/base/base.js":{"url":"//exp.bdstatic.com/static/common/widget/lib/tangram/base/base_e37cc01.js","pkg":"common:p0"},"common:widget/ui/image-lazy-loader/image-lazy-loader.js":{"url":"//exp.bdstatic.com/static/common/widget/ui/image-lazy-loader/image-lazy-loader_97a5ef9.js","pkg":"common:p12","deps":["common:widget/lib/tangram/base/base.js","common:widget/ui/image-lazy-loader/base.js","common:widget/lib/tangram/fx/fadeIn/fadeIn.js"]},"common:widget/ui/sug/sug.js":{"url":"//exp.bdstatic.com/static/common/widget/ui/sug/sug_680d5bf.js","pkg":"common:p12","deps":["common:widget/lib/tangram/base/base.js","common:widget/ui/cookie/cookie.js","common:widget/lib/tangram/ui/Suggestion/Suggestion.js","common:widget/ui/log/log.js","common:widget/lib/tangram/ui/Suggestion/coverable/coverable.js","common:widget/lib/tangram/ui/Suggestion/data/data.js","common:widget/lib/tangram/ui/Suggestion/fixWidth/fixWidth.js","common:widget/lib/tangram/ui/Suggestion/input/input.js"]},"article:widget/exp-title/exp-title.js":{"url":"//exp.bdstatic.com/static/article/widget/exp-title/exp-title_7cca0d5.js","pkg":"article:p0","deps":["common-jquery:widget/lib/jquery/jquery.js","common-jquery:widget/js/logic/https/https.es"]},"article:widget/ui/article-log/article-log.js":{"url":"//exp.bdstatic.com/static/article/widget/ui/article-log/article-log_55081c0.js","pkg":"article:p4","deps":["common-jquery:widget/lib/jquery/jquery.js","common-jquery:widget/js/logic/log/log.js"]},"article:widget/ui/auto-app/auto-app.js":{"url":"//exp.bdstatic.com/static/article/widget/ui/auto-app/auto-app_d405e82.js","pkg":"article:p4","deps":["common-jquery:widget/lib/jquery/jquery.js","common-jquery:widget/js/logic/log/log.js"]},"article:widget/ui/auto-locate-pic/auto-locate-pic.js":{"url":"//exp.bdstatic.com/static/article/widget/ui/auto-locate-pic/auto-locate-pic_bd81efb.js","pkg":"article:p4","deps":["common:widget/lib/tangram/base/base.js","common:widget/ui/dialog/dialog.js","common:widget/lib/fis/event/event.js"]},"article:widget/ui/image-lazy-loader/base.js":{"url":"//exp.bdstatic.com/static/article/widget/ui/image-lazy-loader/base_25dddb6.js","pkg":"article:p4","deps":["common:widget/lib/tangram/base/base.js"]},"article:widget/ui/image-lazy-loader/image-lazy-loader.js":{"url":"//exp.bdstatic.com/static/article/widget/ui/image-lazy-loader/image-lazy-loader_ed63f16.js","pkg":"article:p4","deps":["common:widget/lib/tangram/base/base.js","article:widget/ui/image-lazy-loader/base.js","common:widget/lib/tangram/fx/fadeIn/fadeIn.js"]},"article:widget/ui/lazyload/lazyload.js":{"url":"//exp.bdstatic.com/static/article/widget/ui/lazyload/lazyload_2daf7eb.js","pkg":"article:p4","deps":["common:widget/lib/tangram/base/base.js","common:widget/lib/tangram/fx/fadeIn/fadeIn.js","common:widget/lib/fis/event/event.js"]},"article:widget/ui/step-num/step-num.js":{"url":"//exp.bdstatic.com/static/article/widget/ui/step-num/step-num_8c5a5a0.js","pkg":"article:p4","deps":["common:widget/lib/tangram/base/base.js","common:widget/lib/fis/event/event.js"]},"article:widget/cms-banner-ads/cms-banner-ads.js":{"url":"//exp.bdstatic.com/static/article/widget/cms-banner-ads/cms-banner-ads_b319715.js","pkg":"article:p1","deps":["common-jquery:widget/lib/jquery/jquery.js","common:widget/ui/log/log.js"]}},"pkg":{"common:p12":{"url":"//exp.bdstatic.com/static/common/pkg/common_async_js_1_27a4959.js"},"article:p4":{"url":"//exp.bdstatic.com/static/article/pkg/article_async_js_0_f818712.js"}}});</script><script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/common_async_js_0_28055ad.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/common_sync_js_1_b781a69.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/common_sync_js_2_fa2e9a7.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/comment_abec2cc.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/framework_3837307.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/shimingzhi_4f92ad8.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/more_ee48533.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/base_72330c5.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/type_1800090.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/querystring_5a8a26f.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/url_01e4bf7.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/https_47e4f73.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/log_c6b7001.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/uri_40ddff7.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/audio-list_c5345f0.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/text2audio_56668f7.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/return_60f55cc.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/article_sync_js_0_0c2b19b.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/custom-style_b3ebf8e.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/accuse_eb35d35.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/article_sync_js_1_b319715.js"></script>
+<script type="text/javascript" src="%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%20SSH%20%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95_%E7%99%BE%E5%BA%A6%E7%BB%8F%E9%AA%8C_files/dom-ready_b9bc403.js"></script>
+<script type="text/javascript">!function(){require.async('common:widget/baidu-tongji/baidu-tongji.js',
+ function(b){ b.init('37098523484321487352'); });}();
+!function(){ require.async(['common:widget/lib/tangram/base/base.js', 
+'common:widget/ui/login/login.js', 
+'common:widget/lib/fis/event/event.js'], function(T,login,et){ 
+T.dom.ready(function(){ if (T.g("usrbar-login")){ 
+T.on('usrbar-login','click',function(ev){ var ec = et.eventCenter; 
+ec.fire('login.check', {}); T.event.preventDefault(ev); }); } 
+if(T.g("top-reg-link")){ var reg = T.g("top-reg-link"); 
+reg.setAttribute("href",reg.getAttribute("href")+encodeURIComponent(location.href));
+ } }) }); }();
+!function(){require.async(["common:widget/ui/sug/sug.js", 
+"common:widget/lib/tangram/base/base.js", 
+"common:widget/ui/cookie/cookie.js"],function(sug,T,cookie){ 
+T.dom.ready(function(){ if(cookie.get("EXP_HIDESUG")!="1"){ 
+sug.init("kw"); } }); }); 
+require.async(["common:widget/lib/tangram/base/base.js", 
+"common:widget/ui/log/log.js"], function(T,log){ window.T = T; 
+T.dom.ready(function(){ var channelEls = T.dom.query(".channel a"); 
+T.each(channelEls, function(item, key) { var logParams = 
+T.dom.getAttr(item, 'log'); if (logParams) { T.on(item, 'mousedown', 
+function(ev) { var logJson = T.json.parse("({"+logParams+"})"); 
+log.imageReq("http://jingyan.baidu.com/static/article/ui/log/log.gif?type=top_tab_click&menu="+
+ logJson['menu'] +"&t=" + (new Date()).getTime()); }); } }); }); });}();
+!function(){require.async(['common:widget/lib/tangram/base/base.js', 
+'common:widget/nav/nav.js'], function(T, nav){ T.dom.ready(function(){ 
+nav.init(); }); });}();
+!function(){require.async(['common-jquery:widget/lib/jquery/jquery.js', 
+'article:widget/exp-title/exp-title.js'], function ($, title) { 
+$(function () { var verEdt = $('#ver-edt'); if (verEdt.length) { 
+verEdt.on('click', function (e) { e.preventDefault(); 
+e.stopPropagation(); title.editNewVersion(F.context("eid")); }); } }); 
+});}();
+!function(){require.async('article:widget/ui/auto-app/auto-app.js', 
+function(app){ app.init('如何配置 SSH 免密码登录','ssh登录'); })}();
+!function(){require.async(["common:widget/lib/tangram/base/base.js", 
+"article:widget/content/detail/detail.js", 
+"article:widget/ui/lazyload/lazyload.js", 
+"common-jquery:widget/js/logic/log/log.js", 
+"common-jquery:widget/lib/jquery/jquery.js"],function(T, detail, 
+lazyloader, nslog, $){ T.dom.ready(function(){ detail.init(); 
+lazyloader({ imgCls : "lazy-load-img", container : "exp-detail" }); }); 
+$('.exp-content .exp-image-wraper').on('click', function() { 
+nslog.send(location.href, 2019, { module: 'article', page: 'index', pos:
+ 'exp-image-wraper', action: 'click', videoGroup: '' }); }); });}();
+!function(){require.async('article:widget/content/impeach/impeach.js', 
+function (T) { });}();
+!function(){require.async('article:widget/comments/exp-hads/exp-hads.js',
+ function(comments){});}();
+!function(){F.context({ 'portrait': 
+'https:\/\/himg.bdimg.com\/sys\/portrait\/item\/00000000', 'feel_num': 
+0, 'ques_done_num': 0, 'noCommentCode': 0 }); 
+require.async(['common:widget/lib/tangram/base/base.js', 
+'article:widget/comments/comments.js'], function(T, comments){ });}();
+!function(){require.async('article:widget/relate-explist/relate-explist.js',
+ function(r){ 
+r.init([{"eidEnc":"ed15cb1bb8ed5c1be36981b7","title":"\u5982\u4f55\u89e3\u51b3ssh\u767b\u5f55\u6162","createTime":"2017.08.17","firstimg":"","voteNum":0,"releaseTime":1502940518},{"eidEnc":"148a1921ce2af54d70c3b16e","title":"linux\u7684ssh\u514d\u5bc6\u7801\u767b\u5f55","createTime":"2017.09.29","firstimg":"d5462bfae6cd7b8985b0af86042442a7d8330e93","voteNum":0,"releaseTime":1506642718},{"eidEnc":"6d704a134ef65328db51caa3","title":"SSH\u65e0\u5bc6\u7801\u6267\u884crsync","createTime":"2017.07.26","firstimg":"29752a9b033b5bb5303d20723cd3d539b700bc11","voteNum":0,"releaseTime":1501123950},{"eidEnc":"09ea3ede7026ddc0afde3942","title":"Git\u5982\u4f55\u914d\u7f6eSSH
+ 
+Key","createTime":"2018.01.16","firstimg":"00a82701213fb80eb41ad2003dd12f2ebb3894db","voteNum":0,"releaseTime":1516106515},{"eidEnc":"bea41d43b558ffb4c51be6db","title":"\u5728CentOS\/RHEL\u4e0a\u8bbe\u7f6eSSH\u514d\u5bc6\u7801\u767b\u5f55","createTime":"2017.07.26","firstimg":"6f4703950a7b0208bcc9396d68d9f2d3562cc8ff","voteNum":0,"releaseTime":1501123932},{"eidEnc":"1e5468f95b0f59484961b7e2","title":"kali\u7cfb\u7edf\u5982\u4f55\u914d\u7f6essh\u670d","createTime":"2017.12.14","firstimg":"f677b1c379310a55dfff8e7fbc4543a983261026","voteNum":0,"releaseTime":1513263241},{"eidEnc":"c74d6000b499160f6a595de6","title":"\u5982\u4f55\u914d\u7f6essh\u514d\u5bc6\u767b\u5f55","createTime":"2017.10.25","firstimg":"964b2e4e251f95ca680071e3c2177f3e660952ab","voteNum":0,"releaseTime":1508899482},{"eidEnc":"c275f6ba08267ae33c756758","title":"linux\u5b9e\u73b0ssh\u514d\u5bc6\u7801\u767b\u5f55\u7684\u6b63\u786e\u65b9\u6cd5","createTime":"2017.08.28","firstimg":"9319cf09b3de9c8241a523476681800a1bd843f3","voteNum":0,"releaseTime":1503907654},{"eidEnc":"f71d6037a540291ab741d161","title":"ssh\u514d\u5bc6\u7801\u767b\u5f55","createTime":"2016.11.12","firstimg":"8640bf8b87d6277f5b9d2d0921381f30e924fc31","voteNum":1,"releaseTime":1478914698},{"eidEnc":"6c67b1d6b592952786bb1e45","title":"Linux\u4e0bssh\u514d\u5bc6\u767b\u5f55","createTime":"2017.06.24","firstimg":"d0526df082025aaf1f12467ef1edab64034f1a27","voteNum":0,"releaseTime":1498316215}]);
+ });}();
+!function(){require.async('article:widget/ad/bottom-ads/bottom-ads.js', 
+function(dd){ dd.init(); });}();
+!function(){require.async(['common:widget/lib/tangram/base/base.js', 
+'article:widget/income-money/digital/digital.js'], function(T, digital){
+ window.digital = digital; T.dom.ready(function(){ var d = new digital({
+ containerId: "income-money-num", num: 175.16, realtimeUpdate: 1, 
+addInterval: 2000 }); }); });}();
+!function(){require.async('common-jquery:widget/lib/jquery/jquery.js', 
+function ($) { var authName = $('#auth-name'); if (authName.length) { if
+ (authName[0].offsetWidth > 130) { 
+$('#follow-user-e').addClass('position-hack'); } } });}();
+!function(){require.async(['common-jquery:widget/lib/jquery/jquery.js', 
+'article:widget/author/author.js', 
+'article:widget/ui/image-lazy-loader/image-lazy-loader.js'], function 
+($, author) { $(function () { author.initFollow("follow-user-e"); }); 
+});}();
+!function(){require.async(['common-jquery:widget/lib/jquery/jquery.js', 
+'article:widget/cms-banner-ads/cms-banner-ads.js'], function($, 
+cmsbanner){ $(function(){ cmsbanner.init(); }); });}();
+!function(){require.async(["common:widget/lib/tangram/base/base.js", 
+"common:widget/ui/log/log.js"], function(T, Log){ 
+T.dom.ready(function(){ Log.send(location.href, 2021, { 'ads': 'qb_pv' 
+}); if(T.dom.query('div', T.g('BAIDU_AD_706066')).length == 0){ 
+Log.send(location.href, 2021, { ads: 'wm_block' }); } }); });}();
+!function(){require.async(["common:widget/lib/tangram/base/base.js"],function(T){
+ T.dom.ready(function(){ 
+T.event.on(T.dom.q('tousu-address')[0],'click',function(e){ 
+T.event.getTarget(e).href = "http://tousu.baidu.com/jingyan/add?link=" +
+ window.top.location.href + "#2"; }) }); });}();
+!function(){ F.context('relateExp', { count: 10, list: 
+[{"eidEnc":"ed15cb1bb8ed5c1be36981b7","title":"\u5982\u4f55\u89e3\u51b3ssh\u767b\u5f55\u6162","createTime":"2017.08.17","firstimg":"","voteNum":0,"releaseTime":1502940518},{"eidEnc":"148a1921ce2af54d70c3b16e","title":"linux\u7684ssh\u514d\u5bc6\u7801\u767b\u5f55","createTime":"2017.09.29","firstimg":"d5462bfae6cd7b8985b0af86042442a7d8330e93","voteNum":0,"releaseTime":1506642718},{"eidEnc":"6d704a134ef65328db51caa3","title":"SSH\u65e0\u5bc6\u7801\u6267\u884crsync","createTime":"2017.07.26","firstimg":"29752a9b033b5bb5303d20723cd3d539b700bc11","voteNum":0,"releaseTime":1501123950},{"eidEnc":"09ea3ede7026ddc0afde3942","title":"Git\u5982\u4f55\u914d\u7f6eSSH
+ 
+Key","createTime":"2018.01.16","firstimg":"00a82701213fb80eb41ad2003dd12f2ebb3894db","voteNum":0,"releaseTime":1516106515},{"eidEnc":"bea41d43b558ffb4c51be6db","title":"\u5728CentOS\/RHEL\u4e0a\u8bbe\u7f6eSSH\u514d\u5bc6\u7801\u767b\u5f55","createTime":"2017.07.26","firstimg":"6f4703950a7b0208bcc9396d68d9f2d3562cc8ff","voteNum":0,"releaseTime":1501123932},{"eidEnc":"1e5468f95b0f59484961b7e2","title":"kali\u7cfb\u7edf\u5982\u4f55\u914d\u7f6essh\u670d","createTime":"2017.12.14","firstimg":"f677b1c379310a55dfff8e7fbc4543a983261026","voteNum":0,"releaseTime":1513263241},{"eidEnc":"c74d6000b499160f6a595de6","title":"\u5982\u4f55\u914d\u7f6essh\u514d\u5bc6\u767b\u5f55","createTime":"2017.10.25","firstimg":"964b2e4e251f95ca680071e3c2177f3e660952ab","voteNum":0,"releaseTime":1508899482},{"eidEnc":"c275f6ba08267ae33c756758","title":"linux\u5b9e\u73b0ssh\u514d\u5bc6\u7801\u767b\u5f55\u7684\u6b63\u786e\u65b9\u6cd5","createTime":"2017.08.28","firstimg":"9319cf09b3de9c8241a523476681800a1bd843f3","voteNum":0,"releaseTime":1503907654},{"eidEnc":"f71d6037a540291ab741d161","title":"ssh\u514d\u5bc6\u7801\u767b\u5f55","createTime":"2016.11.12","firstimg":"8640bf8b87d6277f5b9d2d0921381f30e924fc31","voteNum":1,"releaseTime":1478914698},{"eidEnc":"6c67b1d6b592952786bb1e45","title":"Linux\u4e0bssh\u514d\u5bc6\u767b\u5f55","createTime":"2017.06.24","firstimg":"d0526df082025aaf1f12467ef1edab64034f1a27","voteNum":0,"releaseTime":1498316215}]
+ });  require.async('article:widget/like/like.js');}();
+!function(){(function() { try { 
+document.execCommand("BackgroundImageCache", false, true); } catch(err) 
+{} require.async(['common:widget/lib/tangram/base/base.js', 
+'common:widget/ui/login/login.js', 'common:widget/ui/msg/msg.js', 
+'common:widget/ui/top-search-box/top-search-box.js', 
+'common:widget/ui/log/log.js', 'common:widget/footer/footer.js'], 
+function(T,login,msg,search,log, footer) { T.dom.ready( function() { 
+msg.init(); search.init(); log.init({ query : 'a', evtType : 'mousedown'
+ }); footer.init(); }); });  F.context({ "isLogin" : 0, "hi": 
+"http://hiphotos.baidu.com/exp/abpic/item/" });  F.context({ 
+'submit_follow' : '/submit/follow', 'submit_vote' : '/submit/vote', 
+'submit_author' : '/submit/author', 'submit_user' : '/submit/user', 
+'submit_favor' : '/submit/favor', 'submit_notice' : '/submit/notice', 
+'common_isLogin' : '/common/isLogin', 'common_isVersionExist' : 
+'/common/isVersionExist', 'common_isTitleValid' : 
+'/common/isTitleValid', 'common_needToTitle' : '/common/needToTitle', 
+'asyncreq' : '/asyncreq', 'submit_comment' : '/submit/comment', 
+'submit_feedback' : '/submit/exp' }); })();}();
+!function(){require.async('article:widget/dom-ready/dom-ready.js', 
+function (dr) { dr.init(); });}();
+!function(){ require.async(["common:widget/lib/tangram/base/base.js", 
+'common:widget/lib/fis/event/event.js'], function(T, ec){ 
+T.dom.ready(function(){                    
+T.on(window,'scroll',function(){ ec.eventCenter.fire('like.show'); });  
+}); }); 
+require.async(['article:widget/ui/article-log/article-log.js'],function(articleLog){
+ articleLog.init(); });  
+require.async('article:widget/ui/step-num/step-num.js',function(stepNum){
+ stepNum.init(); }); }();
+!function(){require.async(['common:widget/lib/tangram/base/base.js', 
+'article:widget/exp-share/exp-share.js'], function(T, expShare){ 
+T.dom.ready(function(){ expShare.init(); }); });}();
+!function(){require.async(['article:widget/top-nav-bar/top-nav-bar.js'],
+ function(navbar){ navbar.init(); });}();
+!function(){  require.async('common:widget/ui/log/log.js', 
+function(log){ log.send(location.href, 2019, { module: 'article', page: 
+'index', pos: 'all', action: 'pv', videoGroup: '' }); });}();
+!function(){        
+require.async('common-jquery:widget/js/logic/https/https.es', function 
+(https) {
+            // 自动修复https里的超链接
+            https.autoFixAnchor();
+        });
+    }();
+!function(){    function monitorHTTPWarning(ignore) {
+        var cache = {};
+
+        var selector = ['link', 'script', 'img', 'embed', 'iframe'];
+        var knownHost = ['jingyan.baidu.com', 'hm.baidu.com', 
+'exp.bdstatic.com', 'himg.bdimg.com', 'img.baidu.com', 'kstj.baidu.com',
+ 'hiphotos.baidu.com'];
+
+        function monitor() {
+            selector.reduce(function (partial, v) {
+                var arr = document.getElementsByTagName(v);
+                for (var i = 0, len = arr.length; i < len; i++) {
+                    partial.push(arr[i]);
+                }
+                return partial;
+            }, [])
+            .forEach(function (v) {
+                var url = v.href || v.src || '';
+                // 只统计http开头
+                if (url.indexOf('http:') !== 0) {
+                    return 1;
+                }
+
+                // 避免重复发请求
+                if (cache[url]) {
+                    cache[url] += 1;
+                    return 2;
+                }
+                
+                // 忽略已知域名
+                if (ignore && knownHost.some(function (v) {return 
+~url.indexOf(v)})) {
+                    return 3;
+                }
+                cache[url] = 1;
+                var img = new Image();
+                img.src = '//kstj.baidu.com/v.gif?'
+                    + 
+'pid=180&type=2000&module=common&page=https&action=warning&t=' + 
+Date.now()
+                    + '&curl=' + encodeURIComponent(location.href)
+                    + '&rurl=' + encodeURIComponent(url)
+            });
+        }
+
+        // 1 8 27 64 125
+        for(var i = 1; i < 6; i++) {
+            (function (i){
+                setTimeout(function(){
+                    monitor();
+                }, i*i*i*1000);
+            })(i);
+        }
+    }
+
+    if (Math.floor(Math.random() * 100) < 100) {
+        monitorHTTPWarning(0);
+    }
+}();</script><div style="position: absolute; display: none; left: 1px; top: 3px; width: 362px;" class="tangram-topwordsug-main" id="tangram-topWordSug--TANGRAM$3-main" data-guid="TANGRAM$3"><div id="tangram-topWordSug--TANGRAM$3" class="tangram-topwordsug" style="position:relative; top:0px; left:0px"></div></div>
+<script> var _trace_page_logid = 0497890974; </script><div id="c-tips-container" class="c-tips-container"></div><div style="position: absolute; display: none; left: 569px; top: 76px; width: 510px;" class="tangram-suggestion-main" id="tangram-suggestion--TANGRAM$5-main" data-guid="TANGRAM$5"><div id="tangram-suggestion--TANGRAM$5" class="tangram-suggestion" style="position:relative; top:0px; left:0px"></div></div><div id="exp-step-nav" style="width: 32px; visibility: visible; position: fixed; top: 44px; left: 417px;"><div class="order-ico-group" id="ico-group-0" style="display: block;"><a class="list-icon-link" style="" title="点击返回第1步">1</a><a class="list-icon-link" style="" title="点击返回第2步">2</a><a class="list-icon-link" style="" title="点击返回第3步">3</a><a class="list-icon-link list-icon-current" style="" title="点击返回第4步">4</a><a class="list-icon-link" style="display: none;" title="点击返回第5步">5</a><a class="list-icon-link" style="display: none;" title="点击返回第6步">6</a><a class="list-icon-link" style="display: none;" title="点击返回第7步">7</a><a class="list-icon-link" style="display: none;" title="点击返回第8步">8</a><a class="list-icon-link" style="display: none;" title="点击返回第9步">9</a></div></div></body></html>
+<!--04978909740814492170030511-->

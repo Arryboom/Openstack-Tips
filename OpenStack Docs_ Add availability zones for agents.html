@@ -1,0 +1,941 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0087)https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html -->
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><script async="" src="./OpenStack Docs_ Add availability zones for agents_files/st.js.下载"></script><script async="" src="./OpenStack Docs_ Add availability zones for agents_files/analytics.js.下载"></script><script type="text/javascript">Object.defineProperty(window.navigator, 'userAgent', { get: function(){ return 'whoami'; } });Object.defineProperty(window.navigator, 'vendor', { get: function(){ return ''; } });</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+    <title>OpenStack Docs: Add availability zones for agents</title>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="./OpenStack Docs_ Add availability zones for agents_files/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="./OpenStack Docs_ Add availability zones for agents_files/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="./OpenStack Docs_ Add availability zones for agents_files/font-awesome.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="./OpenStack Docs_ Add availability zones for agents_files/combined.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  <link rel="stylesheet" type="text/css" href="./OpenStack Docs_ Add availability zones for agents_files/new_embed-bee561032092eaa907cef89871bd8feb.css"><style type="text/css">.st-install-aDn5L_vgZ2yzRcE893kK .st-ui-result .st-ui-type-heading { color:#0089d7 !important }
+.st-install-aDn5L_vgZ2yzRcE893kK .st-ui-result em {font-style:normal; font-weight:bold; background-color:#f6fcfe !important}</style></head>
+  <body>
+
+<!-- SOURCE_FILE: https://git.openstack.org/cgit/openstack/neutron-specs/tree/doc/source/specs/mitaka/availability-zone.rst -->
+
+ <script type="text/javascript">
+    (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+        e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+    })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+    _st('install','aDn5L_vgZ2yzRcE893kK','2.0.0');
+</script>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="https://www.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+         <form class="docs-main-search-form">
+    <input type="text" class="st-default-search-input custom-search-box" placeholder="Search OpenStack" autocomplete="off" autocorrect="off" autocapitalize="off">
+</form>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+           </li><li>
+    <input type="text" class="st-default-search-input custom-search-box-mobile" placeholder="Search OpenStack" autocomplete="off" autocorrect="off" autocapitalize="off">
+</li>
+        
+        <li>
+          <a href="https://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/security/">Security</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/telecoms-and-nfv/">Telecoms and NFV</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/appdev/">Application Developers &amp; ISVs</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/community/events/openstackdays">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/coa/">Get Certified</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/videos/">Summit Videos</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/analysts/">Analyst Reports</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/blog/">Blog</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://docs.openstack.org/">Docs</a>
+        </li>
+        <li>
+
+</li>
+
+
+            <li>
+
+                </li><li class="join-nav-section">
+                    <a href="https://www.openstack.org/join/" id="dropdownMenuJoin">Join <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuJoin" style="display: none;">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/register/?membership-type=foundation">Sign up for Foundation Membership</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/join/#sponsor">Sponsor the Foundation</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/foundation">More about the Foundation</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://www.openstack.org/Security/login/?BackURL=/home/" class="sign-in-btn">Log In</a>
+                </li>
+
+            
+      </ul>
+    </div>
+  </div>
+  <!-- /.container -->
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+      <h2>Add availability zones for agents</h2>
+    
+  </div>
+  <div class="docs-actions">
+    
+    <a href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/adopt-oslo-guru-reports.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Previous: Adopt Oslo Guru reports"></i></a>
+    
+    
+    <a href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/bgp-dynamic-routing.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Next: Dynamic Advertising Routes for Public Ranges"></i></a>
+    
+    <a id="logABugLink1" href="https://bugs.launchpad.net/neutron/+filebug?field.title=Add%20availability%20zones%20for%20agents%20in%20Neutron%20Specifications&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%20%20on%20%27Fri%20Mar%209%2017:24:36%202018,%20commit%201aca235%27%0ASHA:%201aca235131ec1c6d4c7d3a2752e05029598f4c69%0ASource:%20https://git.openstack.org/cgit/openstack/neutron-specs/tree/doc/source/specs/mitaka/availability-zone.rst%0AURL:%20https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html&amp;field.tags=" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="" data-original-title="Report a Bug"></i></a>
+    
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 'Fri Mar 9 17:24:36 2018, commit 1aca235'</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-body">
+
+  <div class="section" id="add-availability-zones-for-agents">
+<h1>Add availability zones for agents<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#add-availability-zones-for-agents" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://blueprints.launchpad.net/neutron/+spec/add-availability-zone">https://blueprints.launchpad.net/neutron/+spec/add-availability-zone</a></p>
+<p>Implement availability zones for the DHCP and L3 agents.  Just like
+Nova and Cinder, this allows users to specify where the network
+services run, giving better fault isolation.</p>
+<div class="section" id="problem-description">
+<h2>Problem Description<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#problem-description" title="Permalink to this headline">¶</a></h2>
+<p>Nova and Cinder have availability zones today.  Cloud administrators can assign
+availability zones to physical nodes. Each of the nodes generally is equipped
+different power sockets, network switches, cooling devices and others.  By
+properly choosing from the provided availability zones, users can minimize
+their chance of service failures.</p>
+<p>But, as Neutron doesn’t have availability zones, there’s no way to put network
+services under distinct availability zones as a VM instance or a VM volume.
+What happens with Neutron is completely by chance today. A user has risk of
+higher probability of network failure because the user cannot allocate network
+resources to availability zones for high availability.  Also, network traffic
+can go through long paths between availability zones.  DVR and L3 HA can
+mitigate these issues somewhat, but they don’t entirely solve the problem since
+DVR still need central SNAT router, which need to be HA capable, and L3 HA
+is not aware of underlying hardware configuration to be HA as a system
+(i.e. not only assigning routers to “other node” but to the “appropriate node
+(or group of nodes)”).</p>
+<p>Note: This spec focuses on high availability of network resources. This spec
+does NOT address the scalability issue of process communications related to
+cell discussion nor underlying network topology related to network segment
+discussion.</p>
+</div>
+<div class="section" id="proposed-change">
+<h2>Proposed Change<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#proposed-change" title="Permalink to this headline">¶</a></h2>
+<p>This change introduces the concept of an “Availability Zone” into Neutron. In
+particular, an availability zone is an optional attribute for Network and
+Router resources.  These attributes in no way affect the behavior of Neutron in
+terms of allowed logical network connectivity.  These attributes are simply
+used as hints to the backend about the location of other resources (compute and
+storage) that will be using these network resources.  The Neutron backend may
+be able to use this to optimize its dynamic placement of resources to improve
+performance and/or ensure resources are placed in the same defined failure
+domain.</p>
+<p>Create a new extension called availability_zone.</p>
+<ul class="simple">
+<li>The extension adds a new API that lists availability zones.</li>
+</ul>
+<p>The rest of this information applies to the implementation of availability
+zones for the built-in reference backend.</p>
+<p>The extension adds the availability_zone attribute to Agent DB models. It also
+adds availability_zones and availability_zone_hints arrtibute for Network and
+Router DB models.  The corresponding API resources will see the availability_zone
+attribute, too.</p>
+<p>The new config options availability_zone and default_availability_zones are
+added. Availability zone of each agent is set by the availability_zone config
+parameter in each configuration file. If availability_zone parameter is not
+given in agent config, the agent is assigned to the default availability zone
+named “nova”. The name “nova” is referred to availability zone of Nova and
+Cinder. When a user executes resource create API without availability zone
+attribute, neutron set default_availability_zones value to the resource. The
+default_availability_zones value can be blank. If that’s the case, the
+scheduler selects any agent from any availability zone without any preference
+of specific availability zone. This helps to avoid the unbalance of resource
+assignment.</p>
+<p>API and config are arranged to the following.</p>
+<ul class="simple">
+<li>Using config, deployer specifies which availability_zone an agent
+belongs to, and they can also define default availability zones for
+user resources.</li>
+<li>Using GET API of availability zone, users can get all the
+availability zones which neutron manages. API of availability zone
+is “GET” only.</li>
+<li>Using GET API of network resources, users can get which availability
+zones their network resources is assigned.</li>
+<li>Using POST API of network resources, users can create a network resource with
+availability zone hints as candidate for availability zone which the
+resource belongs to.</li>
+</ul>
+<p>This spec enables each resource to belong to multiple availability zones. A
+user is able to specify the list of multiple AZs as a parameter when a resource
+is created. The list of multiple AZs defines the candidates of availability
+zone where the resource may be deployed. If the parameter at the creation is
+not given and the default_availability_zones config is not specified, the
+resource can be deployed at any availability zone. In other words, the list of
+multiple AZs for a resource restricts the scope of the deployment. Therefore,
+we can get redundancy by scheduling a network or a router to two agents in two
+distinct availability zones. Scheduler is also improved so that routers and
+networks are properly allocated with availability zone.</p>
+<p>Limitations: With the reference L3 implementation without HA, we apparently
+cannot assign a router to multiple L3 agents and as a result we cannot achieve
+pure high availability from availability zone. A user just has an expectation
+of failure domain by setting availability zone to non-HA router. With L3-HA
+enabled router in the reference L3 implementation, all L3 agents across
+availability zones still need to have the connectivity to an external network
+uniformly to achieve high availability deployment.</p>
+<p>Future work: It is definitely expected that all other services in neutron such
+as lbaas, fwaas, vpnaas and so on are able to handle the availability zone as
+its attributes. As these haven’t supported HA capability in the reference
+implementation yet, I suggest to implement them separately in another spec by
+step-by-step approach, hopefully almost concurrently with this spec.</p>
+<div class="section" id="data-model-impact">
+<h3>Data Model Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#data-model-impact" title="Permalink to this headline">¶</a></h3>
+<p>As noted above, the spec adds availability_zone attribute to DB. A migration
+script will be provided.  When operators update config, neutron checks
+different availability zone between resources and agents, then outputs some
+logs.</p>
+<p>Attribute will be added:</p>
+<p>Availability_zone attribute to RouterExtraAttributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>availability_zone_hints</td>
+<td>String</td>
+<td>availability zone candidate for the router</td>
+</tr>
+<tr class="row-odd"><td>availability_zones</td>
+<td>String</td>
+<td>availability zone for the router</td>
+</tr>
+</tbody>
+</table>
+<p>Availability_zone attribute to NETWORKS as extend</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>availability_zone_hints</td>
+<td>String</td>
+<td>availability zone candidate for the network</td>
+</tr>
+<tr class="row-odd"><td>availability_zones</td>
+<td>String</td>
+<td>availability zone for the network</td>
+</tr>
+</tbody>
+</table>
+<p>Availability_zone attribute to Agent</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>availability_zone</td>
+<td>String</td>
+<td>availability zone for the agent</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rest-api-impact">
+<h3>REST API Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#rest-api-impact" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>/agents</li>
+</ul>
+<p>‘availability_zone’ key is added to ‘configurations’ attribute(dict). Note that
+‘configurations’ attribute is read only.</p>
+<ul class="simple">
+<li>/networks and /routers</li>
+</ul>
+<p>The following attribute is added.</p>
+<table border="1" class="docutils" id="id1">
+<caption><span class="caption-text">New attribute</span><a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="17%">
+<col width="17%">
+<col width="17%">
+<col width="17%">
+<col width="17%">
+<col width="17%">
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute Name</th>
+<th class="head">Type</th>
+<th class="head">Access</th>
+<th class="head">Default Value</th>
+<th class="head">Validation Conversion</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>availability_zone_hints</td>
+<td>list of string</td>
+<td>RW(POST only), all</td>
+<td>[]</td>
+<td>list of string</td>
+<td>list of human-readable name</td>
+</tr>
+<tr class="row-odd"><td>availability_zones</td>
+<td>list of string</td>
+<td>RO, all</td>
+<td>[]</td>
+<td>list of string</td>
+<td>list of human-readable name</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>/availability_zones</li>
+</ul>
+<p>The extension introduces a new availability_zone API resource. Only GET is available.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%">
+<col width="17%">
+<col width="17%">
+<col width="17%">
+<col width="17%">
+<col width="17%">
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute Name</th>
+<th class="head">Type</th>
+<th class="head">Access</th>
+<th class="head">Default Value</th>
+<th class="head">Validation Conversion</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>availability_zones</td>
+<td>list of dict</td>
+<td>RO, all</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>see example below</td>
+</tr>
+</tbody>
+</table>
+<p>An example of a JSON response:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"availability_zones"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"nova"</span><span class="p">,</span>
+            <span class="s2">"state"</span><span class="p">:</span> <span class="s2">"available"</span>
+        <span class="p">}]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="security-impact">
+<h3>Security Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#security-impact" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+<div class="section" id="notifications-impact">
+<h3>Notifications Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#notifications-impact" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+<div class="section" id="other-end-user-impact">
+<h3>Other End User Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#other-end-user-impact" title="Permalink to this headline">¶</a></h3>
+<p>python-neutronclient and horizon will support new availability_zone value.</p>
+</div>
+<div class="section" id="performance-impact">
+<h3>Performance Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#performance-impact" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+<div class="section" id="ipv6-impact">
+<h3>IPv6 Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#ipv6-impact" title="Permalink to this headline">¶</a></h3>
+<p>None.  This proposal is protocol agnostic.</p>
+</div>
+<div class="section" id="other-deployer-impact">
+<h3>Other Deployer Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#other-deployer-impact" title="Permalink to this headline">¶</a></h3>
+<p>To make use of this feature, deployers need to set availability_zone in the
+each configuration file(e.g. l3_agent.ini and dhcp_agent.ini), specifying each
+network node’s availability zone.</p>
+<p>The spec expects deployer to set an availability zone to an agent by config file
+since availability zone is related to a place of power socket and fixed
+equipment. However it doesn’t block new feature connected with availability zone
+from providing API, which enables deployer to specify availability zone without
+the config. It includes feature managing physical resources like
+Host_aggregation, Cell and others.</p>
+</div>
+<div class="section" id="upgrade-impact">
+<h3>Upgrade Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#upgrade-impact" title="Permalink to this headline">¶</a></h3>
+<p>Agent side: Before the upgrade, all agents are considered to be in the default
+availability zone named “nova.” Once an operator configures availability zone
+config parameter ‘availability_zone‘ in its agent config file and the agent
+is restarted, the agent belongs to the availability zone set in the config
+file. If an operator sets “nova” to the parameter, it means same as the
+default availability zone.</p>
+<p>Resource side: Before the upgrade, all resources are considered to be at any
+availability zone.  Even though an operator changes the availability zone of
+agents, it doesn’t break the matching to existing resources on the agent.</p>
+</div>
+<div class="section" id="developer-impact">
+<h3>Developer Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#developer-impact" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+<div class="section" id="community-impact">
+<h3>Community Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#community-impact" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+<div class="section" id="alternatives">
+<h3>Alternatives<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#alternatives" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="assignee-s">
+<h3>Assignee(s)<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#assignee-s" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Primary assignee:</dt>
+<dd>Hirofumi Ichihara &lt;ichihara-hirofumi&gt;</dd>
+<dt>Secondary assignee:</dt>
+<dd>Iwamoto Toshihiro &lt;iwamoto&gt;</dd>
+</dl>
+</div>
+<div class="section" id="work-items">
+<h3>Work Items<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#work-items" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Add availability_zone to the DB models</li>
+<li>Make agents report their availability_zone settings</li>
+<li>Add the availability_zone extension</li>
+<li>(Validate REST API availability_zone parameters)</li>
+<li>Add AvailabilityZoneFilter based on existing neutron scheduler implementations</li>
+<li>Modify the L3(non-DVR and dvr_snat router) and DHCP agent schedulers to be AZ aware</li>
+<li>Modify the L3(HA router) agent schedulers to be AZ aware</li>
+<li>Add availability zone to python-neutronclient(Volunteers needed)</li>
+<li>Add availability zone to horizon(assignee: amotoki)</li>
+</ul>
+</div>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>None.</p>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#testing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tempest-tests">
+<h3>Tempest Tests<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#tempest-tests" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+<div class="section" id="functional-tests">
+<h3>Functional Tests<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#functional-tests" title="Permalink to this headline">¶</a></h3>
+<p>Add tests, which ensure resources are allocated for proper availability
+zone. Two new tests will be added for the following resources:</p>
+<ul class="simple">
+<li>Network availability zone</li>
+<li>Router availability zone</li>
+</ul>
+</div>
+<div class="section" id="api-tests">
+<h3>API Tests<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#api-tests" title="Permalink to this headline">¶</a></h3>
+<p>Tests for the new attribute and the new API resource will be added.</p>
+</div>
+</div>
+<div class="section" id="documentation-impact">
+<h2>Documentation Impact<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#documentation-impact" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="user-documentation">
+<h3>User Documentation<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#user-documentation" title="Permalink to this headline">¶</a></h3>
+<p>The new config options will be documented. Availability zone use cases and the
+usage will be documented in the devref.</p>
+</div>
+<div class="section" id="developer-documentation">
+<h3>Developer Documentation<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#developer-documentation" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Nova availability zone</li>
+<li>Cinder availability zone</li>
+<li>An implementation of this blueprint
+<a class="reference external" href="https://review.openstack.org/#/c/183369/">https://review.openstack.org/#/c/183369/</a></li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/adopt-oslo-guru-reports.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Previous: Adopt Oslo Guru reports"></i></a>
+          
+          
+            <a href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/bgp-dynamic-routing.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Next: Dynamic Advertising Routes for Public Ranges"></i></a>
+          
+            <a id="logABugLink3" href="https://bugs.launchpad.net/neutron/+filebug?field.title=Add%20availability%20zones%20for%20agents%20in%20Neutron%20Specifications&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%20%20on%20%27Fri%20Mar%209%2017:24:36%202018,%20commit%201aca235%27%0ASHA:%201aca235131ec1c6d4c7d3a2752e05029598f4c69%0ASource:%20https://git.openstack.org/cgit/openstack/neutron-specs/tree/doc/source/specs/mitaka/availability-zone.rst%0AURL:%20https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html&amp;field.tags=" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="" data-original-title="Report a Bug"></i></a>
+          
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 'Fri Mar 9 17:24:36 2018, commit 1aca235'</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="./OpenStack Docs_ Add availability zones for agents_files/license.png" alt="Creative Commons Attribution 3.0 License">
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the
+                 document -->
+              <a href="https://bugs.launchpad.net/neutron/+filebug?field.title=Add%20availability%20zones%20for%20agents%20in%20Neutron%20Specifications&amp;field.comment=%0A%0A%0AThis%20bug%20tracker%20is%20for%20errors%20with%20the%20documentation,%20use%20the%20following%20as%20a%20template%20and%20remove%20or%20add%20fields%20as%20you%20see%20fit.%20Convert%20[%20]%20into%20[x]%20to%20check%20boxes:%0A%0A-%20[%20]%20This%20doc%20is%20inaccurate%20in%20this%20way:%20______%0A-%20[%20]%20This%20is%20a%20doc%20addition%20request.%0A-%20[%20]%20I%20have%20a%20fix%20to%20the%20document%20that%20I%20can%20paste%20below%20including%20example:%20input%20and%20output.%20%0A%0AIf%20you%20have%20a%20troubleshooting%20or%20support%20issue,%20use%20the%20following%20%20resources:%0A%0A%20-%20Ask%20OpenStack:%20http://ask.openstack.org%0A%20-%20The%20mailing%20list:%20http://lists.openstack.org%0A%20-%20IRC:%20%27openstack%27%20channel%20on%20Freenode%0A%0A-----------------------------------%0ARelease:%20%20on%20%27Fri%20Mar%209%2017:24:36%202018,%20commit%201aca235%27%0ASHA:%201aca235131ec1c6d4c7d3a2752e05029598f4c69%0ASource:%20https://git.openstack.org/cgit/openstack/neutron-specs/tree/doc/source/specs/mitaka/availability-zone.rst%0AURL:%20https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html&amp;field.tags=" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href=&#39;/&#39;" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="" data-original-title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/id/">Bahasa Indonesia (Indonesian)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/it/">Italiano (Italian)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/tr_TR/">Türkçe (Türkiye)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="https://specs.openstack.org/openstack/neutron-specs/index.html" class="docs-sidebar-section-title"><h4>Neutron Specifications </h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/rocky/index.html">Rocky</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/queens/index.html">Queens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/pike/index.html">Pike</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/ocata/index.html">Ocata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/newton/index.html">Newton</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/index.html">Mitaka</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/postmortem/postmortem.html">[Postmortem]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/add-port-timestamp.html">add-resource-timestamp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/add-tags-to-core-resources.html">Add Tags to Neutron Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/address-scopes.html">Address Scopes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/adopt-oslo-guru-reports.html">Adopt Oslo Guru reports</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#">Add availability zones for agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/bgp-dynamic-routing.html">Dynamic Advertising Routes for Public Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/external-dns-resolution.html">External DNS Resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/get-me-a-network.html">Get Me A Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/improve-dvr-l3-agent-binding.html">Improve DVR L3 Agent Binding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/l2-agent-extensions-agent-api.html">Allow Open vSwitch agent extensions to own their flows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/lbaas-driver-vip-delegation.html">LBaaS plugin can delegate VIP allocation to drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/lbaas-l7-rules.html">LBaaS Layer 7 rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/network-ip-availability-api.html">Network IP Availability Extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/neutron-flavor-framework-templates.html">Flavor framework - Templates and meta-data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/neutron-lib.html">Neutron-Lib Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/rbac-qos-policies.html">Role-based Access Control for QoS policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/restructure-l2-agent.html">Restructure OVS L2 agent</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/liberty/index.html">Liberty</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/kilo/index.html">Kilo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/juno/index.html">Juno</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/backlog/index.html">Backlog</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/stadium/index.html">Stadium Health</a></li>
+</ul>
+
+    </div>
+
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="local-table-of-contents">
+      <h4 class="docs-sidebar-section-title">Page Contents</h4>
+      <ul>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#">Add availability zones for agents</a><ul>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#problem-description">Problem Description</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#proposed-change">Proposed Change</a><ul>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#data-model-impact">Data Model Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#rest-api-impact">REST API Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#security-impact">Security Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#notifications-impact">Notifications Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#other-end-user-impact">Other End User Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#performance-impact">Performance Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#ipv6-impact">IPv6 Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#other-deployer-impact">Other Deployer Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#upgrade-impact">Upgrade Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#developer-impact">Developer Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#community-impact">Community Impact</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#alternatives">Alternatives</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#implementation">Implementation</a><ul>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#assignee-s">Assignee(s)</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#work-items">Work Items</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#dependencies">Dependencies</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#testing">Testing</a><ul>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#tempest-tests">Tempest Tests</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#functional-tests">Functional Tests</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#api-tests">API Tests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#documentation-impact">Documentation Impact</a><ul>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#user-documentation">User Documentation</a></li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#developer-documentation">Developer Documentation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="https://specs.openstack.org/openstack/neutron-specs/specs/mitaka/availability-zone.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding &amp; Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos &amp; Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="./OpenStack Docs_ Add availability zones for agents_files/jquery-3.2.1.min.js.下载"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="./OpenStack Docs_ Add availability zones for agents_files/bootstrap.min.js.下载"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="./OpenStack Docs_ Add availability zones for agents_files/navigation.js.下载"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="./OpenStack Docs_ Add availability zones for agents_files/docs.js.下载"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="./OpenStack Docs_ Add availability zones for agents_files/webui-popover.js.下载"></script>
+
+<!-- standard sphinx include libraries, which allow search highlighting -->
+<script type="text/javascript" src="./OpenStack Docs_ Add availability zones for agents_files/underscore.js.下载"></script>
+<script type="text/javascript" src="./OpenStack Docs_ Add availability zones for agents_files/doctools.js.下载"></script>
+<script type="text/javascript" src="./OpenStack Docs_ Add availability zones for agents_files/searchtools.js.下载"></script>
+
+<script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+</script>
+
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* "giturl" is the URL of the source file on Git and is auto-generated by
+           openstackdocstheme.
+
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "specs/mitaka/availability-zone" + ".rst";
+        gitURL = "Source: https://git.openstack.org/cgit/openstack/neutron-specs/tree/doc/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 1aca235131ec1c6d4c7d3a2752e05029598f4c69";
+        var bugProject = "neutron";
+        var bugTitle = "Add availability zones for agents in Neutron Specifications";
+    var fieldTags = "";
+        var useStoryboard = "";
+
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release:  on 'Fri Mar 9 17:24:36 2018, commit 1aca235'";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+  
+<div class="st-injected-content-generated st-install-aDn5L_vgZ2yzRcE893kK" data-st-install-key="aDn5L_vgZ2yzRcE893kK" id="st-injected-content">
+<div class="st-ui-embed st-search-chrome-overlay-output st-search-escape-hide-outputs st-search-zoom-on-mobile" style="display: none;">
+    <div class="st-ui-overlay st-search-hide-outputs"></div>
+  <!-- Swiftype input and results overlay -->
+  <div class="st-ui-container st-ui-container-overlay  st-ui-injected-overlay-container ">
+    <!-- HEADER -->
+    <div class="st-ui-container-header_bar st-position-container">
+        <section class="st-ui-header">
+          <form>
+            <input class="st-default-search-input st-search-set-focus" type="text" value="" placeholder="Search this site" id="st-overlay-search-input" autocomplete="off" autocorrect="off" autocapitalize="off">
+          </form>
+          <span class="st-ui-search-icon"></span>
+
+            <a class="st-ui-close-button st-search-hide-outputs">Close</a>
+
+        </section>
+    </div>
+
+    <!-- LEFT SIDEBAR -->
+    <div class="st-ui-container-left_sidebar st-position-container">
+      <div class="st-ui-injected-search-controls">
+      </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="st-ui-container-right_sidebar st-position-container">
+      <div class="st-ui-injected-container-right_sidebar">
+        <div class="st-ui-injected-search-controls">
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIMARY CONTENT -->
+    <div class="st-ui-container-primary_content st-position-container">
+        <section class="st-ui-slide-autocomplete st-autocomplete-keyboard-navigable st-autocomplete-transient-on-select-and-results" data-st-target-element="#st-overlay-search-input" data-st-active-query-class="active">
+          <span class="st-ui-type-heading-small">suggested results</span>
+          <div class="st-autocomplete-results"><div class="st-query-present" style="display: none;"></div></div>
+        </section>
+
+        <section class="st-ui-content st-search-results"><div class="st-query-not-present">
+          <span class="st-ui-fallback"></span>
+        </div><div class="st-query-present" style="display: none;"></div></section>
+
+      <section class="st-ui-no-results st-search-suggestions"><div class="st-query-not-present">
+      </div></section>
+    </div>
+
+
+
+    <!-- FOOTER -->
+    <div class="st-ui-container-footer_bar st-position-container">
+      <section class="st-ui-footer">
+          <span class="st-ui-search-summary st-search-summary"></span>
+        <span class="st-ui-pagination st-search-pagination"></span>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="st-default-autocomplete" data-st-target-element=".st-default-search-input" style="display: none;">
+  <div class="st-autocomplete-results st-ui-autocomplete"><div class="st-query-present" style="display: none;"></div></div>
+</div>
+</div></body></html>

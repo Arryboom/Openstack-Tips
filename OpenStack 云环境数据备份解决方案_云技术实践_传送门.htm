@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="sogou_site_verification" content="hhvxQaTyZg">
+<meta name="baidu-site-verification" content="zFBlTrLmns">
+<link href="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/inspector.css" rel="stylesheet" type="text/css">
+<link href="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/main.css" rel="stylesheet" type="text/css">
+<link href="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/base.css" rel="stylesheet" type="text/css">
+<!--[if IE]>
+<link href="/static/css/ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+<!-- Le fav and touch icons -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://chuansong.me/static/img/ico/apple-touch-icon-ipad3.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://chuansong.me/static/img/ico/apple-touch-icon-iphone4.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://chuansong.me/static/img/ico/apple-touch-icon-ipad.png">
+<link rel="apple-touch-icon-precomposed" href="http://chuansong.me/static/img/ico/apple-touch-icon-iphone.png">
+<link rel="shortcut icon" type="image/x-icon" href="http://chuansong.me/static/favicon.ico">
+<style>
+.daohang{margin-left: -60px;clear: both;padding-top: 16px;overflow: hidden;padding-bottom: 7px;font-size: 13px;}
+.daohang ul li{float: left;margin-right: 30px;}
+.daohang ul li a{color: #197fc6;}
+</style>
+
+<title>OpenStack 云环境数据备份解决方案_云技术实践_传送门</title>
+<meta name="keywords" content="OpenStack 云环境数据备份解决方案,云技术实践,传送门">
+<meta name="description" content="OpenStack 数据备份过程中的存在很多不足：\n（1）Nova Cinder备份方式的不统一、不方便管理；\n（2）无法进行有效的周期性任务数据备份；\n（3）没有好的备份链管理；\n（4）对旧备份的删除不智能等。">
+<meta name="applicable-device" content="pc">
+<meta name="mobile-agent" content="format=xhtml;url=http://m.chuansong.me/n/861341147243">
+
+<link rel="stylesheet" type="text/css" href="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/article_improve.css">
+
+<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="/static/css/article_pc.css"/> <![endif]-->
+<link media="screen and (min-width:1023px)" rel="stylesheet" type="text/css" href="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/article_pc.css">
+<style>ol,ul{list-style-position:inside;}</style>
+
+
+<script src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/hm.txt"></script><script type="text/javascript">
+var url = window.location.pathname;
+if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+window.location.href = "http://m.chuansong.me"+url;
+}
+</script><script src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/share.js"></script></head>
+
+<body>
+<div>
+<div>
+<div>
+<div class="header wrapper" id="layout_header">
+<div class="contents">
+<div class="row relative">
+<div class="logo " style="padding: 5px 10px 5px;font-size: 15px;left: -60px;margin-left: -70px;">
+<a href="http://chuansong.me/" alt="传送门"><img src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/logo-blue.png" style="margin-top: 7px" width="110" height="60"></a>
+</div>
+<div>
+<div class=" search full_search instant_results" style="float: right;width: 320px;">
+<div class="search_contents navigator">
+<form class="search_form" action="/search" method="get" name="search_form">
+<div class="search_input">
+<div class="input_wrapper ">
+<input class="question_box light" name="q" maxlength="250" placeholder="搜索账号" tabindex="1" style="width: 300px;" type="text">
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!--<div style="float: right;"><a href='http://werank.cn' target="_blank" style="color: #666;padding: 0 8px;">排行榜</a></div>-->
+<!--<div style="float: right;"><a href='/app' style="color: #666;padding: 0 8px;">客户端</a></div>-->
+</div>
+<div class="daohang">
+<ul>
+<li><a href="http://chuansong.me/">最新</a></li>
+<li><a href="http://chuansong.me/select">精选</a></li>
+<li><a href="http://chuansong.me/blockchain">区块链</a></li>
+<li><a href="http://chuansong.me/auto">汽车</a></li>
+<li><a href="http://chuansong.me/ideatech">创意科技</a></li>
+<li><a href="http://chuansong.me/newsmedia">媒体达人</a></li>
+<li><a href="http://chuansong.me/moviemusic">电影音乐</a></li>
+<li><a href="http://chuansong.me/fun">娱乐休闲</a></li>
+<li><a href="http://chuansong.me/lifejourney">生活旅行</a></li>
+<li><a href="http://chuansong.me/utility">学习工具</a></li>
+<li><a href="http://chuansong.me/hisbook">历史读书</a></li>
+<li><a href="http://chuansong.me/finance">金融理财</a></li>
+<li><a href="http://chuansong.me/food">美食菜谱</a></li>
+
+
+
+
+
+
+
+
+
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="home_page contents content">
+<div class="row">
+<div class="main e_col main_col" style="width: 700px; margin-left: -70px;">
+<div class="rich_media" id="js_article">
+
+<div class="rich_media_inner">
+<div id="page-content">
+<div class="rich_media_area_primary" id="img-content">
+<h2 class="rich_media_title" id="activity-name">
+                        OpenStack 云环境数据备份解决方案 
+                    </h2>
+<div class="rich_media_meta_list">
+<em class="rich_media_meta rich_media_meta_text" id="post-date">2016-09-26</em>
+<em class="rich_media_meta rich_media_meta_text">刘丹</em>
+<a class="rich_media_meta rich_media_meta_link rich_media_meta_nickname" href="http://chuansong.me/account/kvm_virt" id="post-user">云技术实践</a>
+<span class="rich_media_meta rich_media_meta_text rich_media_meta_nickname">云技术实践</span>
+
+</div>
+<div class="rich_media_content " id="js_content">
+<h2><strong style="white-space: pre-wrap; line-height: 1.6; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.75" data-s="300,640" data-type="jpeg" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_009.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></span></strong><br></h2><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">嘉宾介绍：</span></strong><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">刘丹，目前是上海大学计算机学院软件工程专业研究生，2014年9月开始入学，2017年4月毕业。课题组主要研究方向是桌面虚拟化，以及VDI的GPU使用策略。今年5月开始至今，开始加入开源项目freezer的研究及开发。</span><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">分享摘要：</strong>众所周知，OpenStack 数据备份过程中的存在很多不足：</p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">（1）Nova Cinder备份方式的不统一、不方便管理；</p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">（2）无法进行有效的周期性任务数据备份；</p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">（3）没有好的备份链管理；</p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">（4）对旧备份的删除不智能等。</p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">所以对以上问题，freezer正是为了解决这些问题引入openstack，从事数据备份工作，归属于openstack社区一个官方项目，旨在为openstack提供数据备份环境的解决方案</p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">分享实录：</strong></p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; line-height: 1.5em; box-sizing: border-box !important; word-wrap: break-word !important;">大家好！我今天主讲的题目是：<strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">OpenStack 云环境数据备份解决方案。</strong></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; line-height: 1.5em; box-sizing: border-box !important; word-wrap: break-word !important;">先自我介绍下，本人是一名在校研三的学生。来自上海大学，计算机工程与科学学院。今年也是找工作的应届生大军一员，明年4月毕业，<strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">我的邮箱是：wooddandan@163.com，欢迎大家找我交流技术，也欢迎HR联系我^_^!</strong></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; line-height: 1.5em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; line-height: 1.5em; box-sizing: border-box !important; word-wrap: break-word !important;">课
+题组主要是做vdi，即openstack+kvm+spice这一套,后面研究过GPU的相关使用策略问题。这个方面有兴趣可以相互交流，本人学生还没
+深入下去。进入今天的主题《云环境数据备份解决方案》。自今年5月开始接触项目freezer。这里之所以要提出这个项目，我在从事开源项目
+freezer开发，团队中于今年9月初，一起做openstack 
+freezer项目的99cloud工程师杨亚鹏被正式任命为freezer项目的core，成为了该项目的第一个中国core。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: center; line-height: 1.5em; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.6078125" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_004.jpg" style="line-height: 1.5em; text-indent: 2em; width: 670px; box-sizing: border-box !important; word-wrap: break-word !important; visibility: visible !important;" width="100%"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; line-height: 1.5em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important; background-color: white;">OpenStack的架构我就不解释了，做这个的都应该很了解了。且你们理解肯定比我好。</span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; line-height: 1.5em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important; background-color: white;">这里我先讲下几个backup，一个是openstack虚拟机数据备份。</span></p><p style="max-width: 100%; min-height: 1em; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important; background-color: white;"><img data-ratio="0.12955465587044535" data-s="300,640" data-type="png" data-w="494" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_002.png" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;" width="auto"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p><blockquote style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><ol class=" list-paddingleft-2" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; line-height: 1.5em; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">调用nova api 对虚拟机制作快照</span></p></li><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; line-height: 1.5em; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">快照文件即是虚拟机的全量备份</span></p></li><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; line-height: 1.5em; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">将生成的快照文件上传进Glance 中并更新数据库</span></p></li><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; line-height: 1.5em; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">使用该快照文件即可以直接创建与原vm相同数据的vm</span></p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p></li></ol></blockquote><p style="margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">OpenStack 云硬盘数据备份--cinder snapshot 方式</span><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; line-height: 1.5em; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.2359375" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640.png" style="float: right; box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;" width="auto"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p><p style="max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">使用 cinder snapshot方式对volume备份</p><p style="max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">Usage:cinder snapshot-create <volume></volume></span></p><p style="max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">还原方式：</span></p><p style="max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">Usage:cinder create&nbsp; --snapshot-id <snapshot-id></snapshot-id></span></p><p style="margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">OpenStack 云硬盘数据备份--cinder backup 方式</p><p style="max-width: 100%; min-height: 1em; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.228125" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_003.png" style="width: 670px; box-sizing: border-box !important; word-wrap: break-word !important; visibility: visible !important;" width="100%"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;"></span><span style="max-width: 100%; line-height: 1.6; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">使用cinder backup 方式对volume 备份：</span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; text-indent: 2em; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">Usage:&nbsp;&nbsp; cinder backup-create <volume>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</volume></span><span style="max-width: 100%; line-height: 1.6; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">&nbsp;</span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">还原方式：</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">Usage: cinder backup-restore <backup-id></backup-id></span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;">通过这些操作可以实现某些b<span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">ackup，但是很容易发现，这</span></span><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">些操作存在不足，对于开发人员还好。但是，这些基本不能面向用户。那么怎么办。</span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">我们先提出存在的问题：</span></p><blockquote style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><ol class=" list-paddingleft-2" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">Nova Cinder备份方式的不统一、不方便管理；</span></p></li><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;">无法进 行有效的周期性任务数据备份；</p></li><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;">没有好的备份链管理；</p></li><li><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-align: justify; text-indent: 0em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">对旧备份的删除不智能等</span></p></li></ol></blockquote><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">对于这一系列问题，官方引入了一个项目：freezer</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">首先介绍下freezer项目：</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">freezer是一套开源的备份软件，它能帮助你自动的进行数据备份和还原动作。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">目前freezer已正式引入openstack，从事数据备份，是openstack社区中一个官方项目，旨在为openstack提供数据备环境的解决方案。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">freezer从openstack liberty版本开始引入支持，以前的版本支持需要做微量的修改。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">freezer是一套开源自动备份以及还原的服务（backup and restore as a service），它不仅可以自动备份以及还原数据，而且可以对 备份的数据进行加密处理。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">同时，freezer作为openstack社区承认的第一官方容灾项目。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">用我们扬core的理解就是：数据无价，备份万岁。我给大家截个图：</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="1.3140096618357489" data-s="300,640" data-type="png" data-w="207" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_005.png" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">freezer支持的备份类型有很多：</p><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">FS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></p></pre><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">Mysql<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></p></pre><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">MongoDB<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></p></pre><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">SQL Server<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></p></pre><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">Openstack Nova instance<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></p></pre><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">Openstack Cinder volume<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></p></pre><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">Freezer编排cinder备份机制&nbsp; (cinder)<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></p></pre><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">Freezer调用cinder-backup 备份机制(cindernative)<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></pre><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">当然这里很多功能需要自己开发，像cindernative。简单的介绍就是通过在freezer中编写相关函数接口，通过调用cinderclient来实现其功能。</span><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.40625" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_012.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; line-height: 1.5em; box-sizing: border-box !important; word-wrap: break-word !important;">上图介绍了freezer相关的特性，接下来介绍下freezer的主要组件：</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; line-height: 1.5em; box-sizing: border-box !important; word-wrap: break-word !important;">freezer-web-ui：集成在Horizon中，主要用于向freezer-api发送请求；</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; line-height: 1.5em; box-sizing: border-box !important; word-wrap: break-word !important;">freezer-api: 主要用于向freezer-scheduler存储和提供metadata，也会存储一些freezer的session信息，直接连接数据库服务。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;">freezer-scheduler: freezer-scheduler主要运行在需要备份的节点上，选择freezer-job创建需要执行的动作，并发送给freezer-agent 执行，将job的状态以及metadata信息汇报freezer-api。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;">freezer-agent: 主要用于用户的备份，还原，执行命令等需求，接受freezer-scheduler的任务调度执行。</p><p style="max-width: 100%; min-height: 1em; text-align: justify; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.603125" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_003.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;">上图为freezer的总体架构</p><p style="max-width: 100%; min-height: 1em; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.6046875" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_013.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;">create job</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;">这里我给下截图：</p><p style="max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.897196261682243" data-s="300,640" data-type="png" data-w="428" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_006.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.5515625" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_007.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.5515625" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_005.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">建立job前要设定action，即backup的相关信息</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: center; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.503125" data-s="300,640" data-type="png" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;">backup做好后可以再backups中看到。有时间间隔，图上应该可以看到时间。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.8226164079822617" data-s="300,640" data-type="jpeg" data-w="451" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_010.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.4828125" data-s="300,640" data-type="jpeg" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_011.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">后台可以看到success，然后list出来。</span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;">如果想采用社区的版本，这个我要指出来一下，ui上还是有很多的bug需要修复。还有很多坑要爬的。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">后台的部分很多需要自己写，这也是freezer目前存在的一个弊端。也算是一个优势，可以根据自己需求来设计。</span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-indent: 2em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;"><img data-ratio="0.5014409221902018" data-s="300,640" data-type="png" data-w="347" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_004.png" style="box-sizing: border-box !important; word-wrap: break-word !important; width: auto !important; visibility: visible !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: center; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;">这些算是不足地方，有兴趣的可以加入这个大家庭。我算是跟着中国第一个core一起做这个项目的，当然还是希望这个项目能做的很好很完美。<span style="max-width: 100%; line-height: 22pt; text-indent: 24pt; box-sizing: border-box !important; word-wrap: break-word !important; background-color: white;">一些未来的期待吧</span></p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;">一些未来的期待吧！</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;">目标：作为一个最终用户需要将云中的所有数据和metadate信息全部备份，在数据丢失后需要将备份在原来的云平台或新的云平台中进行全部还原。</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;">备份项</p><ul class=" list-paddingleft-2" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;">Keystone : 该租户下所有用户存储于OpenStack keystone的所有数据</p></li><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;">Nova: 该租户下所有用户在OpenStack平台上的所有虚拟机</p></li><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;">Glance: 该租户下所有用户在OpenStack 平台上的所有镜像</p></li><li><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; text-align: justify; text-indent: 0em; box-sizing: border-box !important; word-wrap: break-word !important;">Swift: 该租户下所有用户在OpenStack平台对象存储上的所有数据</p></li><li><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; text-align: justify; text-indent: 0em; line-height: 1.6; box-sizing: border-box !important; word-wrap: break-word !important;">Neutron: 该租户下所有用户在OpenStack 平台上所利用的所有网络资源网络拓扑等</span></p></li></ul><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="max-width: 100%; min-height: 1em; box-sizing: border-box !important; word-wrap: break-word !important;">参考链接：</p><p style="margin-top: 5px; margin-bottom: 5px; max-width: 100%; min-height: 1em; line-height: 25.6px; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">OpenStack 租户级别备份</span></p><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;">https://blueprints.launchpad.net/freezer/+spec/tenant-backup</pre><p style="max-width: 100%; min-height: 1em; line-height: 25.6px; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">Ceph 存储的支持</span></p><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;">https://blueprints.launchpad.net/freezer/+spec/ceph-support<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></pre><p style="max-width: 100%; min-height: 1em; line-height: 25.6px; text-indent: 2em; text-align: justify; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">Freezer-DR OpenStack Compute Node HA</span></p><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;">https://github.com/openstack/freezer-dr.git<o p="" style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></o></pre><p style="max-width: 100%; min-height: 1em; line-height: 25.6px; text-indent: 2em; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">Python-freezerclient client 从freezer中独立</span><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><pre style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;">https://github.com/openstack/python-freezerclient.git</pre><p><br></p><p><br></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">KVM云社区微信群加入，联系北极熊：</strong></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><img data-ratio="1.18" data-s="300,640" data-type="jpeg" data-w="300" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_002.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; visibility: visible !important; width: auto !important;" width="auto"></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; font-family: 微软雅黑; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; font-family: 微软雅黑; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">KVM社区QQ群，99.99%纯技术交流气氛 </strong></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><span style="max-width: 100%; color: rgb(227, 108, 9); box-sizing: border-box !important; word-wrap: break-word !important;">QQ 1群：</span><span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;">434720759（</span><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 176, 80); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">已满</strong></span><span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;">） </span></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><span style="max-width: 100%; color: rgb(227, 108, 9); box-sizing: border-box !important; word-wrap: break-word !important;">QQ 2群：</span><span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;">131961942，加入密码<strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 176, 80); box-sizing: border-box !important; word-wrap: break-word !important;">大写<span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;">KVM </span></span></strong></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">1000人</span></strong><span style="max-width: 100%; color: rgb(227, 108, 9); box-sizing: border-box !important; word-wrap: break-word !important;">VMWare技术交流群</span><span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">：</span></strong><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">494084329，加入密码</span><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 176, 80); box-sizing: border-box !important; word-wrap: break-word !important;">小写</span><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;">vm <br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></strong></span></strong></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;">OpenNebula QQ群：<span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;">495571573 加入密码</span><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">Nebula</span></strong></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">2000人</span></strong><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;">OpenStack开发纯技术群：<span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;"> 334605713 <span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">加入密码</span><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">nova</span></strong></span></span></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">Cloudstack纯技术交流群：</span><span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;">515249455</span><span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;">密码</span><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;"></span>cs</span></strong></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">2000人</strong></span><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;">桌面云行业讨论：<span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;"> 484979056<span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"> 加入密码</span><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 176, 240); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 176, 80); box-sizing: border-box !important; word-wrap: break-word !important;">大写<span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;"></span></span></strong></span>VDI</span></strong></span></span></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 25.6px; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">2000</strong></span></strong><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">人</span></strong><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">超融合行业讨论群：<span style="max-width: 100%; color: rgb(61, 170, 214); box-sizing: border-box !important; word-wrap: break-word !important;">65779632 加入密码</span></span><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">大写</span><span style="max-width: 100%; color: rgb(217, 33, 66); box-sizing: border-box !important; word-wrap: break-word !important;">HC</span></strong></span></strong></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(217, 33, 66); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; color: rgb(255, 0, 0); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 25.6px; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;">2000</strong></span></strong><strong style="max-width: 100%; color: rgb(255, 0, 0); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; color: rgb(0, 209, 0); box-sizing: border-box !important; word-wrap: break-word !important;">人</span></strong>云技术招聘求职群:<span style="max-width: 100%; color: rgb(0, 82, 255); box-sizing: border-box !important; word-wrap: break-word !important;"> 279875515</span> <span style="max-width: 100%; line-height: 25.6px; color: rgb(61, 170, 214); box-sizing: border-box !important; word-wrap: break-word !important;">加入密码hr</span></span></strong></span></strong></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><span style="max-width: 100%; color: rgb(255, 0, 0); box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"><strong style="max-width: 100%; line-height: 25.6px; box-sizing: border-box !important; word-wrap: break-word !important;"><span style="max-width: 100%; line-height: 25.6px; color: rgb(61, 170, 214); box-sizing: border-box !important; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"></span></strong></span></strong></span></p><p style="max-width: 100%; min-height: 1em; color: rgb(62, 62, 62); line-height: 25.6px; font-family: 微软雅黑; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);"><img data-ratio="0.59375" data-s="300,640" data-type="jpeg" data-w="640" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/640_008.jpg" style="box-sizing: border-box !important; word-wrap: break-word !important; visibility: visible !important; width: auto !important;" width="auto"></p>
+</div>
+<div class="ct_mpda_wrp" id="js_sponsor_ad_area" style="display:none;">
+</div>
+<div class="rich_media_tool" id="js_toobar3">
+<a class="media_tool_meta meta_primary" csmlink="gbOxJc" href="http://chuansong.me/r/gbOxJc" id="js_view_source" rel="nofollow" target="_blank">阅读原文</a>
+
+
+
+</div>
+</div>
+
+
+</div>
+
+</div>
+</div>
+<script type="text/javascript" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/zfdpwv1y77.js"></script>
+<div style="padding:5px 5px 0px 5px;border-bottom:1px dotted #C8D8F2; height:30px;margin:5px 0px 0px 0px;border-top:1px dotted #C8D8F2;">
+<div class="bdsharebuttonbox" data-tag="share_bottom" style="font-size:13px; line-height:16px; float:right;"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人</a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter">Twitter</a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网">豆瓣</a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧">百度贴吧</a><a href="#" class="bds_more" data-cmd="more"></a></div>
+<div style="float:right;line-height:28px; color:#6c6c6c; font-size:12px;padding-right:15px;">觉得不错，分享给更多人看到</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="RecentPosts">
+<div><a href="http://chuansong.me/account/kvm_virt" style="color: #19558d;">云技术实践</a> 热门文章:</div>
+<div class="feed_body">
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/922582147433">技术报国，肖掌门进京！</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 4501/46</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/1287541147167">云计算十年，2016中国OpenStack十大用户案例票选开始</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 3928/95</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/565294147248">阅读量2000+的云技术干货@云技术实践</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 3912/32</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/426003147237">送书5本：OpenStack设计与实现</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 3126/75</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/483722147247">送书10本|Ceph Cookbook国内首本Ceph书籍</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 2734/100</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/408844447562">送书5本：白话大数据与机器学习|附前三章内容</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 2650/101</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/996980047202">运维第二重要的技能是沟通能力--《凤凰项目--一个IT运维的传奇故事》读后感</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 2132/47</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/1159756647985">送书5本|《&nbsp;Ansible权威指南》Web方式管理Ansible的Inventory（摘）</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 1927/81</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/1429803047481">元旦福利：《Ceph分布式存储实战》前三章免费读+送纸质书5本</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 1332/39</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w6" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/375949347828">Y3大神专访@CSTS成都站</a>
+&nbsp;&nbsp;&nbsp;<span class="timestamp" style="color: #999">阅读/点赞 : 1307/29</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="margin: 10px auto 10px 18px;clear: both;font-size: 14px;line-height: 28px;">
+<script type="text/javascript">
+var sogou_ad_id=848702;
+var sogou_ad_height=180;
+var sogou_ad_width=700;
+</script>
+<script type="text/javascript" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/c.js"></script>
+</div>
+<div style="margin: 10px auto 10px 18px;clear: both;font-size: 14px;line-height: 28px;">
+<script async="" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:inline-block;width:700px;height:250px" data-ad-client="ca-pub-6856158851051357" data-ad-slot="9804737210"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<script async="" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed" data-ad-client="ca-pub-6856158851051357" data-ad-slot="3571874813"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div class="side e_col side_col w2_5" style="margin-top: 10px;width: 300px;">
+<div class="row section section_top" style="margin-bottom: 5px">
+<a style="padding: 6px" class="download-ios" href="https://itunes.apple.com/cn/app/chuan-song-men-wei-xin-gong/id969898148?ls=1&amp;mt=8" target="_blank">传送门 for iOS 下载</a>
+</div>
+<div class="section">
+<div>
+<h3>云技术实践 微信二维码</h3>
+<div class="inline_editor_content">
+<span class="inline_editor_value">
+<div class="inline">
+<img src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/kvm_virt.jpg" alt="云技术实践 微信二维码" width="210px" height="210px">
+</div>
+</span>
+</div>
+</div>
+</div>
+<div class="section share_question ">
+<h3>分享这篇文章</h3>
+<div class="row share_icons_row">
+<div class="bdsharebuttonbox" data-tag="share_right"><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享百度贴吧"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享Twitter"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+</div>
+</div>
+
+<div class="section">
+<h3>数据</h3>
+<div class="inline_editor_content">
+<span class="inline_editor_value">
+<div class="StatsRow">
+<span>阅读</span>
+<span><strong>1911</strong></span>
+</div>
+<div class="StatsRow">
+<span>点赞</span>
+<span><strong>3</strong></span>
+</div>
+<div class="StatsRow">
+<span>更新</span>
+<span><strong>9月28日 5:48</strong></span>
+</div>
+</span>
+</div>
+</div>
+
+<div class="section">
+<script async="" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6856158851051357" data-ad-slot="2281470411"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section">
+<div>
+<h3>云技术实践 最新文章</h3>
+<div class="inline_editor_content">
+<span class="inline_editor_value">
+<div class="inline">
+<div class="feed_body">
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2284354447347">全球200000台交换机受影响，中国有14000台；黑客利用思科漏洞攻击俄罗斯和伊朗的基础设施</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-08</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2284354547315">软件开发者是否应该有道德准则？</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-08</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2282579647020">震惊！网上被公开&nbsp;15亿个敏感文件。。。</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-07</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2282579747027">苹果公司任命新任软件副总裁，这位高管原来是亚马逊CTO</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-07</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2282579847025">微软&nbsp;Office&nbsp;365&nbsp;故障：部分用户无法登录</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-07</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2280486147031">公安部拟规定：互联网服务提供者窃取个人信息&nbsp;不构成犯罪也将受罚</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-06</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2280486247032">西部数据推出为&nbsp;4K&nbsp;而生的&nbsp;Black&nbsp;3D&nbsp;NVMe&nbsp;SSD</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-06</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2280486347031">分析师称：比特币是“毫无价值”的，在未来几个月的表现会比股票差</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-06</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2280486447019">职场“35岁现象”，是时候说出真相了！</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-05</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pagedlist_item" tabindex="-1">
+<div class="feed_item" style="border-bottom: none;">
+<div class="e_col p1 w2_5" style="padding: 6px 0;">
+<div class="row">
+<div>
+<div class="feed_item_question">
+<h2>
+<span>
+<a class="question_link" href="http://chuansong.me/n/2280486547030">2017年全球&nbsp;DDoS&nbsp;威胁趋势「附全球基础设施安全报告」</a>
+&nbsp;<span class="timestamp" style="color: #999">2018-04-04</span>
+</span>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div class="section">
+<script async="" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6856158851051357" data-ad-slot="3758203615"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div class="section">
+<script async="" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6856158851051357" data-ad-slot="5234936812" data-ad-format="auto"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<div class="section">
+<script type="text/javascript" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/xedyfsx3lt.js"></script>
+</div>
+<div class="section">
+<script type="text/javascript" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/pfdpwwzy37.js"></script>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+/*自适应 创建于 2017/5/13PC图+*/
+var cpro_id = "u2978723";
+</script>
+<script type="text/javascript" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/i.js"></script>
+
+
+<div>
+<div class=" footer wrapper">
+<div class="contents">
+<div class="footer_nav row">
+<div class="e_col footer_links w8_5" style="margin-left: -70px">
+<ul class="nav_list">
+<li class="about"><a rel="nofollow" href="http://chuansong.me/about">关于</a></li>
+<li><span class="bullet"> • </span></li>
+<li class="about"><a rel="nofollow" href="http://chuansong.me/submit/account">提交</a></li>
+
+
+<li class="about" style="float: right"><a href="http://werank.cn/" target="_blank">热榜</a></li>
+
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<script language="javascript" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/jquery-1.js"></script>
+<script language="javascript" src="OpenStack%20%E4%BA%91%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88_%E4%BA%91%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5_%E4%BC%A0%E9%80%81%E9%97%A8_files/common.js"></script>
+<script>window._bd_share_config={"common":{"bdSnsKey":{"tsina":"2919864620"},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":[{"tag":"share_bottom","bdSize":16},{"tag":"share_right","bdSize":24,"bdStyle":"2"}]};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new
+ Date()/36e5)];</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?a60dba8cb25e746640878eb1b20f67eb";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+</script>
+
+
+</body><!--
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-40292976-1']);
+_gaq.push(['_setDomainName', '.chuansong.me']);
+_gaq.push(['_setAllowLinker', true]);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script');
+ga.type = 'text/javascript';
+ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(ga, s);
+})();
+</script>
+--></html>
